@@ -1,3 +1,4 @@
+import {useMissionContract} from './useMissionContract.ts';
 import type {WorkspaceState} from './useWorkspace.ts';
 import type {Project} from '../../../packages/shared/projects.ts';
 import type {Mission} from '../../../packages/shared/missions.ts';
@@ -6,8 +7,8 @@ import {useMissionAnalysis} from './useMissionAnalysis.ts';
 import {Journey} from './Journey.tsx';
 import {useProjectContext} from './useProjectContext.ts';
 function RecentMission({mission,kind,project,onOpen,revision}:{mission:Mission;kind:'viewed'|'recorded';project:Project;onOpen:()=>void;revision:number}){
- const context=useProjectContext(mission.id);const analysis=useMissionAnalysis(mission.id,undefined,revision);
- return <section className="recent-mission bench"><div className="bench-heading"><p className="eyebrow">{kind==='viewed'?'LAST VIEWED MISSION':'RECENTLY RECORDED MISSION'}</p><span className="draft-badge">{analysis.state.kind==='loaded'?analysis.state.data.phase:mission.phase}</span></div><p className="recent-project">{project.displayName}</p><h3 className="intent-preview">{intentPreview(mission.originalIntent)}</h3><Journey compact mission={mission} context={context.fact} clarification={analysis.state.kind==='loaded'?analysis.state.data:null}/><button className="primary-button" onClick={onOpen}>Open Mission <span aria-hidden="true">↗</span></button></section>;
+ const context=useProjectContext(mission.id);const analysis=useMissionAnalysis(mission.id,undefined,revision);const contract=useMissionContract(mission.id,undefined,revision);
+ return <section className="recent-mission bench"><div className="bench-heading"><p className="eyebrow">{kind==='viewed'?'LAST VIEWED MISSION':'RECENTLY RECORDED MISSION'}</p><span className="draft-badge">{contract.state.kind==='loaded'?contract.state.data.phase:analysis.state.kind==='loaded'?analysis.state.data.phase:mission.phase}</span></div><p className="recent-project">{project.displayName}</p><h3 className="intent-preview">{intentPreview(mission.originalIntent)}</h3><Journey compact mission={mission} context={context.fact} clarification={analysis.state.kind==='loaded'?analysis.state.data:null} contract={contract.state.kind==='loaded'?contract.state.data:null}/><button className="primary-button" onClick={onOpen}>Open Mission <span aria-hidden="true">↗</span></button></section>;
 }
 export function Home({state,viewedId,onProject,onMission,onProjects,onRetry,revision=0}:{state:WorkspaceState;viewedId:string|null;onProject:(p:Project)=>void;onMission:(p:Project,m:Mission)=>void;onProjects:()=>void;onRetry:()=>void;revision?:number}){
  const data=state.kind==='loaded'?state.data:null;

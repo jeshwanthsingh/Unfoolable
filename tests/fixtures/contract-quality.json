@@ -1,0 +1,1177 @@
+[
+  {
+    "name": "dangerous-approval",
+    "input": {
+      "version": "contract-input-v1",
+      "bindings": {
+        "missionId": "dangerous-approval",
+        "originalIntent": "Add approval support for dangerous execution.",
+        "snapshotId": "snapshot-dangerous-approval",
+        "analysisId": "analysis-dangerous-approval",
+        "packetHash": "bd08f589fce86d81700f6c4255177ac40d1bdc4d325691c9a89d9b98fc27744f",
+        "answers": [
+          {
+            "questionId": "q1",
+            "text": "Only the designated operator; single-use for the exact proposed action.",
+            "updatedAt": "2026-10-06T01:00:00Z"
+          },
+          {
+            "questionId": "q2",
+            "text": "Restart invalidates pending and unused approvals. No mobile or Slack approval interfaces.",
+            "updatedAt": "2026-10-06T01:00:00Z"
+          }
+        ]
+      },
+      "understanding": {
+        "relevantAreas": [
+          {
+            "text": "Existing evidence supplies the relevant behavior.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "currentBehavior": [
+          {
+            "text": "Dangerous actions currently execute without an approval decision.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "constraints": [],
+        "uncertainties": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Add approval support for dangerous execution."
+        },
+        {
+          "id": "evidence:e1",
+          "type": "PROJECT_EVIDENCE",
+          "text": "Dangerous actions currently execute without an approval decision.",
+          "path": "README.md",
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "id": "answer:q1",
+          "type": "CLARIFICATION_ANSWER",
+          "text": "Only the designated operator; single-use for the exact proposed action.",
+          "questionId": "q1",
+          "question": "Who approves and for how long?",
+          "updatedAt": "2026-10-06T01:00:00Z"
+        },
+        {
+          "id": "answer:q2",
+          "type": "CLARIFICATION_ANSWER",
+          "text": "Restart invalidates pending and unused approvals. No mobile or Slack approval interfaces.",
+          "questionId": "q2",
+          "question": "What happens after restart and what is excluded?",
+          "updatedAt": "2026-10-06T01:00:00Z"
+        },
+        {
+          "id": "default:errors",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Handle relevant errors."
+        },
+        {
+          "id": "default:preserve",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Preserve existing behavior outside declared scope."
+        },
+        {
+          "id": "default:tests",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Include appropriate automated tests for new behavior."
+        },
+        {
+          "id": "default:refactoring",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Avoid unrelated refactoring."
+        },
+        {
+          "id": "default:conventions",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Maintain existing repository conventions."
+        }
+      ],
+      "defaultsVersion": "engineering-defaults-v1",
+      "promptVersion": "mission-contract-v1",
+      "limits": {
+        "requirements": 20,
+        "scope": 12,
+        "nonGoals": 15,
+        "constraints": 15,
+        "assumptions": 12,
+        "risks": 12,
+        "text": 700,
+        "sources": 6,
+        "inputBytes": 393216,
+        "payloadBytes": 49152,
+        "canonicalBytes": 131072
+      },
+      "evidenceTruncated": false
+    },
+    "payload": {
+      "goal": {
+        "id": "G1",
+        "text": "Add approval support for dangerous execution.",
+        "sourceIds": [
+          "intent"
+        ]
+      },
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Dangerous execution requires a decision by the designated operator.",
+          "sourceIds": [
+            "intent",
+            "answer:q1"
+          ]
+        },
+        {
+          "id": "R2",
+          "text": "Approval is single-use for the exact proposed action.",
+          "sourceIds": [
+            "answer:q1"
+          ]
+        },
+        {
+          "id": "R3",
+          "text": "Restart invalidates pending and unused approvals.",
+          "sourceIds": [
+            "answer:q2"
+          ]
+        }
+      ],
+      "scope": [
+        {
+          "id": "S1",
+          "text": "Approval decisions and lifecycle for dangerous execution.",
+          "sourceIds": [
+            "intent",
+            "answer:q1"
+          ]
+        }
+      ],
+      "nonGoals": [
+        {
+          "id": "NG1",
+          "text": "Mobile and Slack approval interfaces are excluded.",
+          "sourceIds": [
+            "answer:q2"
+          ]
+        }
+      ],
+      "constraints": [],
+      "assumptions": [],
+      "risks": []
+    },
+    "expected": {
+      "requirementsContain": [
+        "single-use",
+        "Restart invalidates"
+      ],
+      "nonGoalsContain": [
+        "excluded"
+      ]
+    },
+    "analysis": {
+      "id": "analysis-dangerous-approval",
+      "missionId": "dangerous-approval",
+      "snapshotId": "snapshot-dangerous-approval",
+      "status": "SUCCEEDED",
+      "packetHash": "bd08f589fce86d81700f6c4255177ac40d1bdc4d325691c9a89d9b98fc27744f",
+      "packet": {
+        "version": "analysis-packet-v1",
+        "missionId": "dangerous-approval",
+        "snapshotId": "snapshot-dangerous-approval",
+        "originalIntent": "Add approval support for dangerous execution.",
+        "project": {
+          "baseHead": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "branch": "fixture",
+          "dirty": false,
+          "structure": [
+            {
+              "path": "README.md",
+              "kind": "file",
+              "count": 1
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "id": "e1",
+            "path": "README.md",
+            "kind": "guidance",
+            "startLine": 1,
+            "endLine": 1,
+            "content": "Dangerous actions currently execute without an approval decision.",
+            "contentHash": "82994ed3352e44386ea7bfdfab3b802587791c8f23802f5fef30765c80bbd0fd"
+          }
+        ],
+        "limits": {
+          "files": 12,
+          "guidanceFiles": 3,
+          "manifestFiles": 2,
+          "blocks": 40,
+          "blockBytes": 8192,
+          "evidenceBytes": 131072,
+          "packetBytes": 262144,
+          "fileBytes": 1048576,
+          "searchFiles": 200,
+          "searchMatches": 160,
+          "gitBytes": 33554432,
+          "searchMs": 4000
+        },
+        "evidenceTruncated": false,
+        "sourcePolicy": "committed-head-only"
+      },
+      "result": {
+        "understanding": {
+          "relevantAreas": [
+            {
+              "text": "Existing evidence supplies the relevant behavior.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "currentBehavior": [
+            {
+              "text": "Dangerous actions currently execute without an approval decision.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "constraints": [],
+          "uncertainties": []
+        },
+        "questions": [
+          {
+            "question": "Who approves and for how long?",
+            "whyItMatters": "This decision changes the required behavior.",
+            "decisionArea": "behavior",
+            "options": [],
+            "evidenceIds": [
+              "e1"
+            ]
+          },
+          {
+            "question": "What happens after restart and what is excluded?",
+            "whyItMatters": "This decision changes the required behavior.",
+            "decisionArea": "behavior",
+            "options": [],
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "clarified-performance",
+    "input": {
+      "version": "contract-input-v1",
+      "bindings": {
+        "missionId": "clarified-performance",
+        "originalIntent": "Make this endpoint faster.",
+        "snapshotId": "snapshot-clarified-performance",
+        "analysisId": "analysis-clarified-performance",
+        "packetHash": "80266744710778c9f760613726f4d17d7296c655b69d222b9a137a532f64a544",
+        "answers": [
+          {
+            "questionId": "q1",
+            "text": "At 100rps, endpoint p95 must be under 200ms, from a 500ms baseline.",
+            "updatedAt": "2026-10-06T01:00:00Z"
+          }
+        ]
+      },
+      "understanding": {
+        "relevantAreas": [
+          {
+            "text": "Existing evidence supplies the relevant behavior.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "currentBehavior": [
+          {
+            "text": "Endpoint p95 baseline is 500ms at 100rps.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "constraints": [],
+        "uncertainties": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Make this endpoint faster."
+        },
+        {
+          "id": "evidence:e1",
+          "type": "PROJECT_EVIDENCE",
+          "text": "Endpoint p95 baseline is 500ms at 100rps.",
+          "path": "README.md",
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "id": "answer:q1",
+          "type": "CLARIFICATION_ANSWER",
+          "text": "At 100rps, endpoint p95 must be under 200ms, from a 500ms baseline.",
+          "questionId": "q1",
+          "question": "What workload and target matter?",
+          "updatedAt": "2026-10-06T01:00:00Z"
+        },
+        {
+          "id": "default:errors",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Handle relevant errors."
+        },
+        {
+          "id": "default:preserve",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Preserve existing behavior outside declared scope."
+        },
+        {
+          "id": "default:tests",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Include appropriate automated tests for new behavior."
+        },
+        {
+          "id": "default:refactoring",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Avoid unrelated refactoring."
+        },
+        {
+          "id": "default:conventions",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Maintain existing repository conventions."
+        }
+      ],
+      "defaultsVersion": "engineering-defaults-v1",
+      "promptVersion": "mission-contract-v1",
+      "limits": {
+        "requirements": 20,
+        "scope": 12,
+        "nonGoals": 15,
+        "constraints": 15,
+        "assumptions": 12,
+        "risks": 12,
+        "text": 700,
+        "sources": 6,
+        "inputBytes": 393216,
+        "payloadBytes": 49152,
+        "canonicalBytes": 131072
+      },
+      "evidenceTruncated": false
+    },
+    "payload": {
+      "goal": {
+        "id": "G1",
+        "text": "Make this endpoint faster.",
+        "sourceIds": [
+          "intent"
+        ]
+      },
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "At 100rps, endpoint p95 must be under 200ms.",
+          "sourceIds": [
+            "answer:q1"
+          ]
+        }
+      ],
+      "scope": [
+        {
+          "id": "S1",
+          "text": "Latency behavior of the existing endpoint under the specified workload.",
+          "sourceIds": [
+            "intent",
+            "answer:q1"
+          ]
+        }
+      ],
+      "nonGoals": [],
+      "constraints": [],
+      "assumptions": [],
+      "risks": []
+    },
+    "expected": {
+      "requirementsContain": [
+        "100rps",
+        "200ms"
+      ]
+    },
+    "analysis": {
+      "id": "analysis-clarified-performance",
+      "missionId": "clarified-performance",
+      "snapshotId": "snapshot-clarified-performance",
+      "status": "SUCCEEDED",
+      "packetHash": "80266744710778c9f760613726f4d17d7296c655b69d222b9a137a532f64a544",
+      "packet": {
+        "version": "analysis-packet-v1",
+        "missionId": "clarified-performance",
+        "snapshotId": "snapshot-clarified-performance",
+        "originalIntent": "Make this endpoint faster.",
+        "project": {
+          "baseHead": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "branch": "fixture",
+          "dirty": false,
+          "structure": [
+            {
+              "path": "README.md",
+              "kind": "file",
+              "count": 1
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "id": "e1",
+            "path": "README.md",
+            "kind": "guidance",
+            "startLine": 1,
+            "endLine": 1,
+            "content": "Endpoint p95 baseline is 500ms at 100rps.",
+            "contentHash": "ba1ac308714a1bcbda38424f1adf350e8fd3b2328ea7e340479b4873da411fff"
+          }
+        ],
+        "limits": {
+          "files": 12,
+          "guidanceFiles": 3,
+          "manifestFiles": 2,
+          "blocks": 40,
+          "blockBytes": 8192,
+          "evidenceBytes": 131072,
+          "packetBytes": 262144,
+          "fileBytes": 1048576,
+          "searchFiles": 200,
+          "searchMatches": 160,
+          "gitBytes": 33554432,
+          "searchMs": 4000
+        },
+        "evidenceTruncated": false,
+        "sourcePolicy": "committed-head-only"
+      },
+      "result": {
+        "understanding": {
+          "relevantAreas": [
+            {
+              "text": "Existing evidence supplies the relevant behavior.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "currentBehavior": [
+            {
+              "text": "Endpoint p95 baseline is 500ms at 100rps.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "constraints": [],
+          "uncertainties": []
+        },
+        "questions": [
+          {
+            "question": "What workload and target matter?",
+            "whyItMatters": "This decision changes the required behavior.",
+            "decisionArea": "behavior",
+            "options": [],
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "compatibility-known",
+    "input": {
+      "version": "contract-input-v1",
+      "bindings": {
+        "missionId": "compatibility-known",
+        "originalIntent": "Add approval support.",
+        "snapshotId": "snapshot-compatibility-known",
+        "analysisId": "analysis-compatibility-known",
+        "packetHash": "4119169338f928eb05847e6c4f2bd266dc8067ccf78c182fe635d3427106b108",
+        "answers": []
+      },
+      "understanding": {
+        "relevantAreas": [
+          {
+            "text": "Existing evidence supplies the relevant behavior.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "currentBehavior": [
+          {
+            "text": "The public protocol response shape is stable and backward compatibility must be preserved.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "constraints": [],
+        "uncertainties": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Add approval support."
+        },
+        {
+          "id": "evidence:e1",
+          "type": "PROJECT_EVIDENCE",
+          "text": "The public protocol response shape is stable and backward compatibility must be preserved.",
+          "path": "README.md",
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "id": "default:errors",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Handle relevant errors."
+        },
+        {
+          "id": "default:preserve",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Preserve existing behavior outside declared scope."
+        },
+        {
+          "id": "default:tests",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Include appropriate automated tests for new behavior."
+        },
+        {
+          "id": "default:refactoring",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Avoid unrelated refactoring."
+        },
+        {
+          "id": "default:conventions",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Maintain existing repository conventions."
+        }
+      ],
+      "defaultsVersion": "engineering-defaults-v1",
+      "promptVersion": "mission-contract-v1",
+      "limits": {
+        "requirements": 20,
+        "scope": 12,
+        "nonGoals": 15,
+        "constraints": 15,
+        "assumptions": 12,
+        "risks": 12,
+        "text": 700,
+        "sources": 6,
+        "inputBytes": 393216,
+        "payloadBytes": 49152,
+        "canonicalBytes": 131072
+      },
+      "evidenceTruncated": false
+    },
+    "payload": {
+      "goal": {
+        "id": "G1",
+        "text": "Add approval support.",
+        "sourceIds": [
+          "intent"
+        ]
+      },
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Approval support is available within the existing public protocol.",
+          "sourceIds": [
+            "intent",
+            "evidence:e1"
+          ]
+        }
+      ],
+      "scope": [
+        {
+          "id": "S1",
+          "text": "Approval support within the existing protocol.",
+          "sourceIds": [
+            "intent",
+            "evidence:e1"
+          ]
+        }
+      ],
+      "nonGoals": [],
+      "constraints": [
+        {
+          "id": "C1",
+          "text": "Preserve backward compatibility of the public protocol response shape.",
+          "sourceIds": [
+            "evidence:e1"
+          ]
+        }
+      ],
+      "assumptions": [],
+      "risks": []
+    },
+    "expected": {
+      "requirementsContain": [
+        "Approval"
+      ],
+      "constraintsContain": [
+        "backward compatibility"
+      ]
+    },
+    "analysis": {
+      "id": "analysis-compatibility-known",
+      "missionId": "compatibility-known",
+      "snapshotId": "snapshot-compatibility-known",
+      "status": "SUCCEEDED",
+      "packetHash": "4119169338f928eb05847e6c4f2bd266dc8067ccf78c182fe635d3427106b108",
+      "packet": {
+        "version": "analysis-packet-v1",
+        "missionId": "compatibility-known",
+        "snapshotId": "snapshot-compatibility-known",
+        "originalIntent": "Add approval support.",
+        "project": {
+          "baseHead": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "branch": "fixture",
+          "dirty": false,
+          "structure": [
+            {
+              "path": "README.md",
+              "kind": "file",
+              "count": 1
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "id": "e1",
+            "path": "README.md",
+            "kind": "guidance",
+            "startLine": 1,
+            "endLine": 1,
+            "content": "The public protocol response shape is stable and backward compatibility must be preserved.",
+            "contentHash": "6ac07305414e50215dfb763b54351e9d01e3d47a2f0d28dced6939317aee9b2b"
+          }
+        ],
+        "limits": {
+          "files": 12,
+          "guidanceFiles": 3,
+          "manifestFiles": 2,
+          "blocks": 40,
+          "blockBytes": 8192,
+          "evidenceBytes": 131072,
+          "packetBytes": 262144,
+          "fileBytes": 1048576,
+          "searchFiles": 200,
+          "searchMatches": 160,
+          "gitBytes": 33554432,
+          "searchMs": 4000
+        },
+        "evidenceTruncated": false,
+        "sourcePolicy": "committed-head-only"
+      },
+      "result": {
+        "understanding": {
+          "relevantAreas": [
+            {
+              "text": "Existing evidence supplies the relevant behavior.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "currentBehavior": [
+            {
+              "text": "The public protocol response shape is stable and backward compatibility must be preserved.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "constraints": [],
+          "uncertainties": []
+        },
+        "questions": []
+      }
+    }
+  },
+  {
+    "name": "clear-bug",
+    "input": {
+      "version": "contract-input-v1",
+      "bindings": {
+        "missionId": "clear-bug",
+        "originalIntent": "Fix duplicate event insertion.",
+        "snapshotId": "snapshot-clear-bug",
+        "analysisId": "analysis-clear-bug",
+        "packetHash": "25b8185447b09c10a65fb2bbc9090cc716991decf10205750ff45a1d5215c484",
+        "answers": []
+      },
+      "understanding": {
+        "relevantAreas": [
+          {
+            "text": "Existing evidence supplies the relevant behavior.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "currentBehavior": [
+          {
+            "text": "One logical event should persist once; repeated delivery currently inserts duplicates.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "constraints": [],
+        "uncertainties": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Fix duplicate event insertion."
+        },
+        {
+          "id": "evidence:e1",
+          "type": "PROJECT_EVIDENCE",
+          "text": "One logical event should persist once; repeated delivery currently inserts duplicates.",
+          "path": "README.md",
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "id": "default:errors",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Handle relevant errors."
+        },
+        {
+          "id": "default:preserve",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Preserve existing behavior outside declared scope."
+        },
+        {
+          "id": "default:tests",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Include appropriate automated tests for new behavior."
+        },
+        {
+          "id": "default:refactoring",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Avoid unrelated refactoring."
+        },
+        {
+          "id": "default:conventions",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Maintain existing repository conventions."
+        }
+      ],
+      "defaultsVersion": "engineering-defaults-v1",
+      "promptVersion": "mission-contract-v1",
+      "limits": {
+        "requirements": 20,
+        "scope": 12,
+        "nonGoals": 15,
+        "constraints": 15,
+        "assumptions": 12,
+        "risks": 12,
+        "text": 700,
+        "sources": 6,
+        "inputBytes": 393216,
+        "payloadBytes": 49152,
+        "canonicalBytes": 131072
+      },
+      "evidenceTruncated": false
+    },
+    "payload": {
+      "goal": {
+        "id": "G1",
+        "text": "Fix duplicate event insertion.",
+        "sourceIds": [
+          "intent"
+        ]
+      },
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "One logical event persists once even when delivered repeatedly.",
+          "sourceIds": [
+            "intent",
+            "evidence:e1"
+          ]
+        }
+      ],
+      "scope": [
+        {
+          "id": "S1",
+          "text": "Duplicate event insertion behavior.",
+          "sourceIds": [
+            "intent",
+            "evidence:e1"
+          ]
+        }
+      ],
+      "nonGoals": [],
+      "constraints": [],
+      "assumptions": [],
+      "risks": []
+    },
+    "expected": {
+      "requirementsContain": [
+        "once"
+      ]
+    },
+    "analysis": {
+      "id": "analysis-clear-bug",
+      "missionId": "clear-bug",
+      "snapshotId": "snapshot-clear-bug",
+      "status": "SUCCEEDED",
+      "packetHash": "25b8185447b09c10a65fb2bbc9090cc716991decf10205750ff45a1d5215c484",
+      "packet": {
+        "version": "analysis-packet-v1",
+        "missionId": "clear-bug",
+        "snapshotId": "snapshot-clear-bug",
+        "originalIntent": "Fix duplicate event insertion.",
+        "project": {
+          "baseHead": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "branch": "fixture",
+          "dirty": false,
+          "structure": [
+            {
+              "path": "README.md",
+              "kind": "file",
+              "count": 1
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "id": "e1",
+            "path": "README.md",
+            "kind": "guidance",
+            "startLine": 1,
+            "endLine": 1,
+            "content": "One logical event should persist once; repeated delivery currently inserts duplicates.",
+            "contentHash": "1a009ceae6eddf5a67d40f0825bc0b6960f27d646a36b8912b802322388b6d73"
+          }
+        ],
+        "limits": {
+          "files": 12,
+          "guidanceFiles": 3,
+          "manifestFiles": 2,
+          "blocks": 40,
+          "blockBytes": 8192,
+          "evidenceBytes": 131072,
+          "packetBytes": 262144,
+          "fileBytes": 1048576,
+          "searchFiles": 200,
+          "searchMatches": 160,
+          "gitBytes": 33554432,
+          "searchMs": 4000
+        },
+        "evidenceTruncated": false,
+        "sourcePolicy": "committed-head-only"
+      },
+      "result": {
+        "understanding": {
+          "relevantAreas": [
+            {
+              "text": "Existing evidence supplies the relevant behavior.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "currentBehavior": [
+            {
+              "text": "One logical event should persist once; repeated delivery currently inserts duplicates.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "constraints": [],
+          "uncertainties": []
+        },
+        "questions": []
+      }
+    }
+  },
+  {
+    "name": "migration",
+    "input": {
+      "version": "contract-input-v1",
+      "bindings": {
+        "missionId": "migration",
+        "originalIntent": "Normalize existing user email records.",
+        "snapshotId": "snapshot-migration",
+        "analysisId": "analysis-migration",
+        "packetHash": "b72466fae86d65e8e570acb50cf0446739df9c4e579f22bc86cf16354cb2c1f8",
+        "answers": [
+          {
+            "questionId": "q1",
+            "text": "Existing rows are normalized to lowercase; duplicates are retained and flagged for user review.",
+            "updatedAt": "2026-10-06T01:00:00Z"
+          }
+        ]
+      },
+      "understanding": {
+        "relevantAreas": [
+          {
+            "text": "Existing evidence supplies the relevant behavior.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "currentBehavior": [
+          {
+            "text": "Existing records may contain mixed-case email values.",
+            "kind": "observation",
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ],
+        "constraints": [],
+        "uncertainties": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Normalize existing user email records."
+        },
+        {
+          "id": "evidence:e1",
+          "type": "PROJECT_EVIDENCE",
+          "text": "Existing records may contain mixed-case email values.",
+          "path": "README.md",
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "id": "answer:q1",
+          "type": "CLARIFICATION_ANSWER",
+          "text": "Existing rows are normalized to lowercase; duplicates are retained and flagged for user review.",
+          "questionId": "q1",
+          "question": "How should existing rows be handled?",
+          "updatedAt": "2026-10-06T01:00:00Z"
+        },
+        {
+          "id": "default:errors",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Handle relevant errors."
+        },
+        {
+          "id": "default:preserve",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Preserve existing behavior outside declared scope."
+        },
+        {
+          "id": "default:tests",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Include appropriate automated tests for new behavior."
+        },
+        {
+          "id": "default:refactoring",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Avoid unrelated refactoring."
+        },
+        {
+          "id": "default:conventions",
+          "type": "ENGINEERING_DEFAULT",
+          "text": "Maintain existing repository conventions."
+        }
+      ],
+      "defaultsVersion": "engineering-defaults-v1",
+      "promptVersion": "mission-contract-v1",
+      "limits": {
+        "requirements": 20,
+        "scope": 12,
+        "nonGoals": 15,
+        "constraints": 15,
+        "assumptions": 12,
+        "risks": 12,
+        "text": 700,
+        "sources": 6,
+        "inputBytes": 393216,
+        "payloadBytes": 49152,
+        "canonicalBytes": 131072
+      },
+      "evidenceTruncated": false
+    },
+    "payload": {
+      "goal": {
+        "id": "G1",
+        "text": "Normalize existing user email records.",
+        "sourceIds": [
+          "intent"
+        ]
+      },
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Existing email records are normalized to lowercase.",
+          "sourceIds": [
+            "intent",
+            "answer:q1"
+          ]
+        },
+        {
+          "id": "R2",
+          "text": "Existing duplicate rows are retained and flagged for user review.",
+          "sourceIds": [
+            "answer:q1"
+          ]
+        }
+      ],
+      "scope": [
+        {
+          "id": "S1",
+          "text": "Normalization and duplicate handling for existing email records.",
+          "sourceIds": [
+            "intent",
+            "answer:q1"
+          ]
+        }
+      ],
+      "nonGoals": [],
+      "constraints": [],
+      "assumptions": [],
+      "risks": []
+    },
+    "expected": {
+      "requirementsContain": [
+        "lowercase",
+        "retained",
+        "review"
+      ]
+    },
+    "analysis": {
+      "id": "analysis-migration",
+      "missionId": "migration",
+      "snapshotId": "snapshot-migration",
+      "status": "SUCCEEDED",
+      "packetHash": "b72466fae86d65e8e570acb50cf0446739df9c4e579f22bc86cf16354cb2c1f8",
+      "packet": {
+        "version": "analysis-packet-v1",
+        "missionId": "migration",
+        "snapshotId": "snapshot-migration",
+        "originalIntent": "Normalize existing user email records.",
+        "project": {
+          "baseHead": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "branch": "fixture",
+          "dirty": false,
+          "structure": [
+            {
+              "path": "README.md",
+              "kind": "file",
+              "count": 1
+            }
+          ]
+        },
+        "evidence": [
+          {
+            "id": "e1",
+            "path": "README.md",
+            "kind": "guidance",
+            "startLine": 1,
+            "endLine": 1,
+            "content": "Existing records may contain mixed-case email values.",
+            "contentHash": "82088123e742440f747b35f8e0102463c8eb8bbbfabf00c49d08e6c9b7932de8"
+          }
+        ],
+        "limits": {
+          "files": 12,
+          "guidanceFiles": 3,
+          "manifestFiles": 2,
+          "blocks": 40,
+          "blockBytes": 8192,
+          "evidenceBytes": 131072,
+          "packetBytes": 262144,
+          "fileBytes": 1048576,
+          "searchFiles": 200,
+          "searchMatches": 160,
+          "gitBytes": 33554432,
+          "searchMs": 4000
+        },
+        "evidenceTruncated": false,
+        "sourcePolicy": "committed-head-only"
+      },
+      "result": {
+        "understanding": {
+          "relevantAreas": [
+            {
+              "text": "Existing evidence supplies the relevant behavior.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "currentBehavior": [
+            {
+              "text": "Existing records may contain mixed-case email values.",
+              "kind": "observation",
+              "evidenceIds": [
+                "e1"
+              ]
+            }
+          ],
+          "constraints": [],
+          "uncertainties": []
+        },
+        "questions": [
+          {
+            "question": "How should existing rows be handled?",
+            "whyItMatters": "This decision changes the required behavior.",
+            "decisionArea": "behavior",
+            "options": [],
+            "evidenceIds": [
+              "e1"
+            ]
+          }
+        ]
+      }
+    }
+  }
+]

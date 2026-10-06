@@ -3,7 +3,7 @@ export type Mission = Readonly<{
   id: string;
   projectId: string;
   originalIntent: string;
-  phase: 'DRAFT' | 'NEEDS_CLARIFICATION' | 'CLARIFIED';
+  phase: 'DRAFT' | 'NEEDS_CLARIFICATION' | 'CLARIFIED' | 'CONTRACT_REVIEW' | 'CONTRACT_READY';
   createdAt: string;
 }>;
 export type MissionsResponse = {missions: Mission[]};
@@ -15,7 +15,7 @@ export function isMission(value: unknown): value is Mission {
   if (!value || typeof value !== 'object') return false;
   const v = value as Record<string, unknown>;
   return ['id', 'projectId', 'createdAt'].every(key => typeof v[key] === 'string' && v[key].length > 0) &&
-    validMissionIntent(v.originalIntent) && ['DRAFT','NEEDS_CLARIFICATION','CLARIFIED'].includes(v.phase as string) && typeof v.createdAt === 'string' && Number.isFinite(Date.parse(v.createdAt));
+    validMissionIntent(v.originalIntent) && ['DRAFT','NEEDS_CLARIFICATION','CLARIFIED','CONTRACT_REVIEW','CONTRACT_READY'].includes(v.phase as string) && typeof v.createdAt === 'string' && Number.isFinite(Date.parse(v.createdAt));
 }
 export function isMissionsResponse(value: unknown): value is MissionsResponse {
   if (!value || typeof value !== 'object') return false;

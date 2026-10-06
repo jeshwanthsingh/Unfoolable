@@ -1,9 +1,8 @@
 import type {IncomingMessage} from 'node:http';
 import {ProjectError} from './project-errors.ts';
-export function projectBody(req: IncomingMessage, subject = 'registration'): Promise<Record<string, unknown>> {
+export function projectBody(req: IncomingMessage, subject = 'registration', limit = 16384): Promise<Record<string, unknown>> {
   if (req.headers['content-type']?.split(';')[0]?.trim() !== 'application/json')
     return Promise.reject(new ProjectError('INVALID_REQUEST', `The ${subject} request requires JSON.`, 415));
-  const limit = 16384;
   if (Number(req.headers['content-length']) > limit) {req.resume();return Promise.reject(new ProjectError('PAYLOAD_TOO_LARGE', `The ${subject} request is too large.`, 413));}
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = []; let size = 0; let failed = false;

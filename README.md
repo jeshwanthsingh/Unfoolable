@@ -2,7 +2,7 @@
 
 A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. Those capabilities do not exist in this foundation.
 
-Breakouts 1–4 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, and bounded evidence-backed analysis with clarification decisions. A new Mission begins as exact durable user intent; analysis happens only when requested. Builder agents, execution adapters and execution approvals are absent.
+Breakouts 1–5 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions. A new Mission begins as exact durable user intent; analysis happens only when requested. Builder agents, execution adapters and execution approvals are absent.
 
 ## Setup and development
 
@@ -104,7 +104,7 @@ Do not run this verifier against your personal registry. Evidence is saved under
 
 The Workbench shows registered workspaces, API-derived Mission counts and a bounded literal preview of the last viewed Mission (or recently recorded fallback). The optional browser preference stores only a Mission ID and is checked against current records. It is not an execution state. Existing APIs and SQLite models are unchanged.
 
-Engineering stations derive Intent from an actual Mission and Context from its actual latest snapshot. Loading/unavailable context stays distinct from no context. Breakout 4 activates Clarify through explicit analysis and saved decisions. Define, Build, Verify and Proof remain noninteractive and unavailable. Needs You derives its real count from unanswered required questions.
+Engineering stations derive Intent from an actual Mission and Context from its actual latest snapshot. Loading/unavailable context stays distinct from no context. Clarify uses explicit analysis and saved decisions; Define now uses draft review and accepted revisions. Build, Verify and Proof remain noninteractive and unavailable. Needs You derives its real count from unanswered required questions.
 
 Mission detail keeps the exact Original Request, changes, inventory, complete hashes, UUID, limits and fingerprint in native keyboard-accessible disclosures. Motion respects reduced-motion preferences. See docs/VISUAL_LANGUAGE.md for design constraints. Development visual verification uses scripts/shell-ui-smoke.mjs with an isolated registry and disposable repositories; artifacts and visual review live under artifacts/breakout-3.5.
 
@@ -116,6 +116,20 @@ The packet contains exact Mission intent, snapshot identity/HEAD and selected ev
 
 The current installed codex-cli 0.160.0 uses the existing ChatGPT entitlement. The adapter is intentionally pinned to its verified capability boundary, uses no LLM SDK or API keys and fails safely if login/version changes. No billing is configured. Analysis has a 90-second process limit; failures do not mean no clarification is needed. Interrupted work is marked on restart and requires explicit retry.
 
-Needs You now shows real required questions. Choose an option or supply free text; saving updates the durable count and phase. Answers never trigger AI, requirements or execution. DRAFT means no successful current analysis; NEEDS_CLARIFICATION means required decisions remain; CLARIFIED means only that none remain. Requirements, contracts and construction are still absent. A newer context displays an earlier-context warning; old analyses and answers remain intact.
+Needs You now shows real required questions. Choose an option or supply free text; saving updates the durable count and phase. Answers never trigger AI, requirements or execution. DRAFT means no successful current analysis; NEEDS_CLARIFICATION means required decisions remain; CLARIFIED means only that none remain. Contract drafting and explicit acceptance are described below; construction remains absent. A newer context displays an earlier-context warning; old analyses and answers remain intact.
 
 Development-only verification: tests use fake analyzers; scripts/analysis-ui-smoke.mjs runs one real disposable UI analysis; scripts/analysis-quality-smoke.mjs runs exactly five explicit small quality fixtures. Both require existing ChatGPT authentication and should be used only with disposable data. Evidence lives under artifacts/breakout-4. No new application dependencies were added.
+
+## Mission Contract review
+
+A current clarified Mission can draft a bounded contract from its already-persisted analysis evidence and exact answers. The compiler does not reopen the repository. Codex produces a candidate, never an accepted contract. Prompt `mission-contract-v1` and defaults `engineering-defaults-v1` are recorded with the bound input.
+
+Goal, required behavior, scope, non-goals, constraints, assumptions and risks carry source references. The validator rejects unknown sources, malformed fields, excessive content and common unsupported prescriptions; this finite detector does not prove semantic correctness. Inspect provenance before acceptance. Five defaults cover relevant errors, preserving unrelated behavior, appropriate tests, avoiding unrelated refactors and repository conventions.
+
+Choose Edit Draft to change item text. Save creates an immutable child candidate, marks changed items USER_EDIT and retains the original AI draft. IDs/order and source references are controlled by the server; add/remove/reordering and rich-text editing are not implemented. Only the separate Accept Contract action validates current inputs and creates an immutable accepted revision. Revise Contract explicitly forks the latest accepted revision; it does not overwrite it.
+
+CONTRACT_REVIEW means a current candidate needs review. CONTRACT_READY means the agreed WHAT exists and is still bound to the current context, successful analysis and exact answer state. It does not mean execution, planning, evaluation or verification is available. Answer edits, newer analysis/context and active analysis invalidate currentness; historical revisions remain intact. A stale draft cannot be accepted. Startup interrupts unfinished drafting without resumption.
+
+Input is limited to 384 KiB, statement text to 700 characters, required behavior to 20 items and canonical payload to 48 KiB. Accepted canonical documents are bounded to 128 KiB, sort object keys and preserve array order. SHA-256 identifies the accepted document (payload, bound input hash and user-edit sources); it does not prove correctness. Known risks and assumptions are disclosed, not silently resolved.
+
+Development verifiers: scripts/contract-quality-smoke.mjs runs five small real Codex fixtures; --recheck revalidates recorded outputs without another AI call. scripts/contract-ui-smoke.mjs exercises a disposable clarified registry. Evidence, screenshots, exact live contract and visual critique are in artifacts/breakout-5. No new dependencies, providers, API keys or billing were added.

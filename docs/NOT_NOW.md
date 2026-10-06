@@ -1,7 +1,7 @@
-# Not implemented after Breakout 4
+# Not implemented after Breakout 5
 
-Requirements, Mission Contract, scope compilation, vertical-slice planning, Evaluation Contract, Codex builder/runtime, project code execution, worktrees, execution approvals, protected evaluator, reviewers, receipts, Aegis, Jev, multiple product agents, autonomous loops, generic memory, full-text/AST indexing, embeddings, vector databases, embedded terminal, personal Chrome, deployment and SSE.
+Vertical-slice planning, Evaluation Contract, protected acceptance tests/evaluator, test planning, Codex builder runtime, project code execution, worktrees, execution attempts/permissions/approvals, Playwright Mission execution, debugging loop, reviewer, receipts, Aegis, Jev, multi-agent orchestration, autonomous loops, deployment, project memory, embeddings/vector search, full-tree indexing, rich-text editing, contract diffs, embedded terminal, personal Chrome and SSE.
 
-Project Context remains observed facts. Mission Analysis is evidence-bound AI interpretation, not authoritative repository truth. Clarification answers record product decisions and grant no execution authority. CLARIFIED means no required questions remain for the current successful analysis; it does not mean ready to build or verified. No automatic AI/requirements cascade follows answers.
+Accepted Mission Contracts record agreed WHAT only. They grant no execution authority and do not mean planned, evaluated or verified. Questions, drafts and accepted revisions retain their distinct roles. Model source checks are finite validation, not semantic proof.
 
-Breakout 5 — Mission Contract: Requirements + Scope + Non-Goals requires a separate task.
+Breakout 6 — Vertical Slices + Evaluation Contract requires a separate task.
