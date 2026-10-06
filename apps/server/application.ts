@@ -11,12 +11,18 @@ import {listProjects,registerProject} from './projects.ts';
 import {projectBody} from './project-body.ts';
 import {ProjectError} from './project-errors.ts';
 import {MissionError} from './mission-errors.ts';
+import {createPlanningStore} from './planning-store.ts';
+import {draftMissionPlan} from './planning-drafter.ts';
+import type {PlanningDrafter} from './planning-drafter.ts';
+import {planningRoute} from './planning-routes.ts';
+import {PlanningError} from './planning-errors.ts';
+import type {PlanningView,PlanningPair,AttentionResponse as CombinedAttention} from '../../packages/shared/planning.ts';
 import {createContractStore} from './contract-store.ts';
 import {draftMissionContract} from './contract-drafter.ts';
 import type {ContractDrafter} from './contract-drafter.ts';
 import {contractRoute} from './contract-routes.ts';
 import {ContractError} from './contract-errors.ts';
-import type {ContractView,AttentionResponse as CombinedAttention} from '../../packages/shared/contracts.ts';
+import type {ContractView} from '../../packages/shared/contracts.ts';
 import {createAnalysisStore} from './analysis-store.ts';
 import {analyzeMission} from './mission-analyzer.ts';
 import type {MissionAnalyzer} from './mission-analyzer.ts';
@@ -29,12 +35,13 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan){
  const database=openDatabase(config.dataDir,logger);
  const context=createContextStore(database.connection,config.projectRoots,logger);
  const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,analyzer);
  const contracts=createContractStore(database.connection,logger,drafter);
- const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
+ const planning=createPlanningStore(database.connection,logger,planner);
+ const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
  const server=createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
@@ -59,7 +66,8 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    const projectMissions=/^\/api\/projects\/([^/]+)\/missions$/.exec(pathname);
    if(projectMissions && req.method==='GET'){json(res,200,{missions:listMissions(database.connection,projectMissions[1]!,logger)});return;}
    if(projectMissions && req.method==='POST'){json(res,201,createMission(database.connection,projectMissions[1]!,await projectBody(req,'mission'),logger));return;}
-   if(pathname==='/api/attention'&&req.method==='GET'){const items=[...analyses.attention().items.map(item=>({...item,kind:'clarification' as const})),...contracts.attention()];json(res,200,{items,count:items.length});return;}
+   if(pathname==='/api/attention'&&req.method==='GET'){const items=[...analyses.attention().items.map(item=>({...item,kind:'clarification' as const})),...contracts.attention(),...planning.attention()];json(res,200,{items,count:items.length});return;}
+   const planningResponse=await planningRoute(req,pathname,planning);if(planningResponse){json(res,planningResponse.status,planningResponse.body);return;}
    const contractResponse=await contractRoute(req,pathname,contracts);if(contractResponse){json(res,contractResponse.status,contractResponse.body);return;}
    if(pathname==='/api/clarifications'&&req.method==='GET'){json(res,200,analyses.attention());return;}
    const answerRoute=/^\/api\/clarifications\/([^/]+)\/answer$/.exec(pathname);
@@ -79,13 +87,13 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    if(mission && req.method==='GET'){json(res,200,getMission(database.connection,mission[1]!,logger));return;}
    if(req.method==='GET'&&serveWeb(pathname,config.webRoot,res))return;
    error(res,404,'NOT_FOUND','Route not found');
-  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
+  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError||problem instanceof PlanningError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
  });
  server.requestTimeout=5000;server.headersTimeout=5000;server.keepAliveTimeout=1000;
  let closing:Promise<void>|undefined;
  const close=()=>{
   if(closing)return closing;
-  logger({event:'shutdown.started'});analyses.close();contracts.close();
+  logger({event:'shutdown.started'});analyses.close();contracts.close();planning.close();
   closing=new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}

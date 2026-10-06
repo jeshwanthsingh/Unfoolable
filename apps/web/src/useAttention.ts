@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react';
-import {isAttentionResponse} from '../../../packages/shared/contracts.ts';
-import type {AttentionResponse} from '../../../packages/shared/contracts.ts';
+import {isAttentionResponse} from '../../../packages/shared/planning.ts';
+import type {AttentionResponse} from '../../../packages/shared/planning.ts';
 export type AttentionState={kind:'loading'}|{kind:'failed'}|{kind:'loaded';data:AttentionResponse};
 export function useAttention(revision:number){
  const [state,setState]=useState<AttentionState>({kind:'loading'});

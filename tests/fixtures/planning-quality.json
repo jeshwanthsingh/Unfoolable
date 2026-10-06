@@ -1,0 +1,944 @@
+[
+  {
+    "name": "dangerous approval",
+    "input": {
+      "version": "planning-input-v1",
+      "missionId": "m",
+      "contractRevisionId": "contract-rev-1",
+      "contractHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contractInputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sourceBindings": {
+        "missionId": "m",
+        "originalIntent": "Restricted actions require approval. Denial produces no execution effect. Approval is single-use. Restart invalidates old approval.",
+        "snapshotId": "snapshot1",
+        "analysisId": "analysis1",
+        "packetHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "answers": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Restricted actions require approval. Denial produces no execution effect. Approval is single-use. Restart invalidates old approval."
+        }
+      ],
+      "promptVersion": "mission-planning-v2",
+      "defaultsVersion": "planning-defaults-v1",
+      "defaults": [
+        "Prefer the smallest end-to-end observable increments.",
+        "Define evidence before implementation; prefer deterministic automated verification.",
+        "Preserve accepted scope, constraints and non-goals.",
+        "Classify risks without promoting them to requirements."
+      ],
+      "limits": {
+        "slices": 8,
+        "claims": 30,
+        "text": 700,
+        "flowSteps": 8,
+        "references": 20,
+        "inputBytes": 524288,
+        "payloadBytes": 65536,
+        "canonicalBytes": 131072
+      },
+      "contract": {
+        "goal": {
+          "id": "G1",
+          "text": "Restricted actions require approval. Denial produces no execution effect. Approval is single-use. Restart invalidates old approval.",
+          "sourceIds": [
+            "intent"
+          ]
+        },
+        "requirements": [
+          {
+            "id": "R1",
+            "text": "Restricted actions require approval.",
+            "sourceIds": [
+              "intent"
+            ]
+          },
+          {
+            "id": "R2",
+            "text": "Denial produces no execution effect.",
+            "sourceIds": [
+              "intent"
+            ]
+          },
+          {
+            "id": "R3",
+            "text": "Approval is single-use.",
+            "sourceIds": [
+              "intent"
+            ]
+          },
+          {
+            "id": "R4",
+            "text": "Restart invalidates old approval.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "scope": [
+          {
+            "id": "S1",
+            "text": "Restricted actions require approval. Denial produces no execution effect. Approval is single-use. Restart invalidates old approval.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "nonGoals": [
+          {
+            "id": "NG1",
+            "text": "No session-wide permissions.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "constraints": [],
+        "assumptions": [],
+        "risks": []
+      }
+    },
+    "payload": {
+      "plan": {
+        "verticalSlices": [
+          {
+            "id": "S1",
+            "title": "Denial path",
+            "outcome": "Denied actions produce no effect.",
+            "requirementIds": [
+              "R1",
+              "R2"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Request restricted action.",
+              "Show approval request.",
+              "Operator denies action.",
+              "Observe no target effect."
+            ],
+            "evaluationClaimIds": [
+              "E1"
+            ],
+            "order": 1
+          },
+          {
+            "id": "S2",
+            "title": "Single-use approval",
+            "outcome": "Exact approved action executes once and its approval is consumed.",
+            "requirementIds": [
+              "R1",
+              "R3"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Request restricted action.",
+              "Operator approves exact action.",
+              "Observe one execution.",
+              "Reject attempted approval reuse."
+            ],
+            "evaluationClaimIds": [
+              "E2"
+            ],
+            "order": 2
+          },
+          {
+            "id": "S3",
+            "title": "Restart safety",
+            "outcome": "Old approvals cannot authorize post-restart actions.",
+            "requirementIds": [
+              "R4"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Create an unused approval.",
+              "Restart the coordinator.",
+              "Attempt to use the old approval.",
+              "Observe rejection and fresh decision required."
+            ],
+            "evaluationClaimIds": [
+              "E3"
+            ],
+            "order": 3
+          }
+        ],
+        "crossCuttingRequirements": [],
+        "riskHandling": []
+      },
+      "evaluationContract": {
+        "claims": [
+          {
+            "id": "E1",
+            "claim": "Denial prevents execution of a restricted action.",
+            "requirementIds": [
+              "R1",
+              "R2"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "integration",
+            "requiredEvidence": [
+              "Record the denied decision and absence of target effect."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          },
+          {
+            "id": "E2",
+            "claim": "Approval permits exactly one action and cannot be reused.",
+            "requirementIds": [
+              "R1",
+              "R3"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "integration",
+            "requiredEvidence": [
+              "Observe one execution followed by rejection of the consumed approval."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          },
+          {
+            "id": "E3",
+            "claim": "A pre-restart approval cannot authorize a post-restart action.",
+            "requirementIds": [
+              "R4"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "recovery",
+            "requiredEvidence": [
+              "Observe the old approval rejected after restart with no target effect."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          }
+        ]
+      }
+    },
+    "expected": "valid"
+  },
+  {
+    "name": "clear small bug",
+    "input": {
+      "version": "planning-input-v1",
+      "missionId": "m",
+      "contractRevisionId": "contract-rev-1",
+      "contractHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contractInputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sourceBindings": {
+        "missionId": "m",
+        "originalIntent": "Duplicate delivery persists only one logical event.",
+        "snapshotId": "snapshot1",
+        "analysisId": "analysis1",
+        "packetHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "answers": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Duplicate delivery persists only one logical event."
+        }
+      ],
+      "promptVersion": "mission-planning-v2",
+      "defaultsVersion": "planning-defaults-v1",
+      "defaults": [
+        "Prefer the smallest end-to-end observable increments.",
+        "Define evidence before implementation; prefer deterministic automated verification.",
+        "Preserve accepted scope, constraints and non-goals.",
+        "Classify risks without promoting them to requirements."
+      ],
+      "limits": {
+        "slices": 8,
+        "claims": 30,
+        "text": 700,
+        "flowSteps": 8,
+        "references": 20,
+        "inputBytes": 524288,
+        "payloadBytes": 65536,
+        "canonicalBytes": 131072
+      },
+      "contract": {
+        "goal": {
+          "id": "G1",
+          "text": "Duplicate delivery persists only one logical event.",
+          "sourceIds": [
+            "intent"
+          ]
+        },
+        "requirements": [
+          {
+            "id": "R1",
+            "text": "Duplicate delivery persists only one logical event.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "scope": [
+          {
+            "id": "S1",
+            "text": "Duplicate delivery persists only one logical event.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "nonGoals": [],
+        "constraints": [],
+        "assumptions": [],
+        "risks": []
+      }
+    },
+    "payload": {
+      "plan": {
+        "verticalSlices": [
+          {
+            "id": "S1",
+            "title": "Duplicate delivery",
+            "outcome": "Repeated delivery leaves exactly one logical event.",
+            "requirementIds": [
+              "R1"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Deliver an event.",
+              "Deliver its duplicate.",
+              "Read the persisted logical events."
+            ],
+            "evaluationClaimIds": [
+              "E1"
+            ],
+            "order": 1
+          }
+        ],
+        "crossCuttingRequirements": [],
+        "riskHandling": []
+      },
+      "evaluationContract": {
+        "claims": [
+          {
+            "id": "E1",
+            "claim": "Duplicate delivery persists one logical event.",
+            "requirementIds": [
+              "R1"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "integration",
+            "requiredEvidence": [
+              "Observe exactly one logical event after both deliveries."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          }
+        ]
+      }
+    },
+    "expected": "valid"
+  },
+  {
+    "name": "browser confirmation",
+    "input": {
+      "version": "planning-input-v1",
+      "missionId": "m",
+      "contractRevisionId": "contract-rev-1",
+      "contractHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contractInputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sourceBindings": {
+        "missionId": "m",
+        "originalIntent": "Browser UI destructive action requires confirmation; cancel preserves the item and confirm deletes it.",
+        "snapshotId": "snapshot1",
+        "analysisId": "analysis1",
+        "packetHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "answers": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Browser UI destructive action requires confirmation; cancel preserves the item and confirm deletes it."
+        },
+        {
+          "id": "evidence:browser",
+          "type": "PROJECT_EVIDENCE",
+          "text": "The existing product exposes browser UI confirmation.",
+          "path": "README.md",
+          "startLine": 1,
+          "endLine": 1
+        }
+      ],
+      "promptVersion": "mission-planning-v2",
+      "defaultsVersion": "planning-defaults-v1",
+      "defaults": [
+        "Prefer the smallest end-to-end observable increments.",
+        "Define evidence before implementation; prefer deterministic automated verification.",
+        "Preserve accepted scope, constraints and non-goals.",
+        "Classify risks without promoting them to requirements."
+      ],
+      "limits": {
+        "slices": 8,
+        "claims": 30,
+        "text": 700,
+        "flowSteps": 8,
+        "references": 20,
+        "inputBytes": 524288,
+        "payloadBytes": 65536,
+        "canonicalBytes": 131072
+      },
+      "contract": {
+        "goal": {
+          "id": "G1",
+          "text": "Browser UI destructive action requires confirmation; cancel preserves the item and confirm deletes it.",
+          "sourceIds": [
+            "intent"
+          ]
+        },
+        "requirements": [
+          {
+            "id": "R1",
+            "text": "Browser UI destructive action requires confirmation; cancel preserves the item and confirm deletes it.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "scope": [
+          {
+            "id": "S1",
+            "text": "Browser UI destructive action requires confirmation; cancel preserves the item and confirm deletes it.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "nonGoals": [],
+        "constraints": [],
+        "assumptions": [],
+        "risks": []
+      }
+    },
+    "payload": {
+      "plan": {
+        "verticalSlices": [
+          {
+            "id": "S1",
+            "title": "Destructive confirmation",
+            "outcome": "Browser confirmation preserves the item on cancel and deletes it on confirm.",
+            "requirementIds": [
+              "R1"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Select the destructive action in the browser UI.",
+              "Cancel the confirmation and observe the item.",
+              "Select the action again and confirm.",
+              "Observe the item removed."
+            ],
+            "evaluationClaimIds": [
+              "E1"
+            ],
+            "order": 1
+          }
+        ],
+        "crossCuttingRequirements": [],
+        "riskHandling": []
+      },
+      "evaluationContract": {
+        "claims": [
+          {
+            "id": "E1",
+            "claim": "Browser cancellation preserves the item; confirmation deletes it.",
+            "requirementIds": [
+              "R1"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "browser",
+            "requiredEvidence": [
+              "Capture confirmation visible, item remaining on cancel, and item absent after confirm."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          }
+        ]
+      }
+    },
+    "expected": "valid"
+  },
+  {
+    "name": "explicit performance",
+    "input": {
+      "version": "planning-input-v1",
+      "missionId": "m",
+      "contractRevisionId": "contract-rev-1",
+      "contractHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contractInputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sourceBindings": {
+        "missionId": "m",
+        "originalIntent": "At 100 rps, p95 latency must be <= 200ms.",
+        "snapshotId": "snapshot1",
+        "analysisId": "analysis1",
+        "packetHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "answers": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "At 100 rps, p95 latency must be <= 200ms."
+        }
+      ],
+      "promptVersion": "mission-planning-v2",
+      "defaultsVersion": "planning-defaults-v1",
+      "defaults": [
+        "Prefer the smallest end-to-end observable increments.",
+        "Define evidence before implementation; prefer deterministic automated verification.",
+        "Preserve accepted scope, constraints and non-goals.",
+        "Classify risks without promoting them to requirements."
+      ],
+      "limits": {
+        "slices": 8,
+        "claims": 30,
+        "text": 700,
+        "flowSteps": 8,
+        "references": 20,
+        "inputBytes": 524288,
+        "payloadBytes": 65536,
+        "canonicalBytes": 131072
+      },
+      "contract": {
+        "goal": {
+          "id": "G1",
+          "text": "At 100 rps, p95 latency must be <= 200ms.",
+          "sourceIds": [
+            "intent"
+          ]
+        },
+        "requirements": [
+          {
+            "id": "R1",
+            "text": "At 100 rps, p95 latency must be <= 200ms.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "scope": [
+          {
+            "id": "S1",
+            "text": "At 100 rps, p95 latency must be <= 200ms.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "nonGoals": [],
+        "constraints": [],
+        "assumptions": [],
+        "risks": []
+      }
+    },
+    "payload": {
+      "plan": {
+        "verticalSlices": [
+          {
+            "id": "S1",
+            "title": "Bounded workload behavior",
+            "outcome": "Requests remain within the accepted p95 latency target under the agreed workload.",
+            "requirementIds": [
+              "R1"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Prepare the agreed request workload.",
+              "Submit requests at 100 rps.",
+              "Observe the p95 latency distribution."
+            ],
+            "evaluationClaimIds": [
+              "E1"
+            ],
+            "order": 1
+          }
+        ],
+        "crossCuttingRequirements": [],
+        "riskHandling": []
+      },
+      "evaluationContract": {
+        "claims": [
+          {
+            "id": "E1",
+            "claim": "At 100 rps p95 latency is <= 200ms.",
+            "requirementIds": [
+              "R1"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "performance",
+            "requiredEvidence": [
+              "Record a workload of 100 rps and observed p95 latency <= 200ms."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          }
+        ]
+      }
+    },
+    "expected": "valid"
+  },
+  {
+    "name": "existing and new record migration",
+    "input": {
+      "version": "planning-input-v1",
+      "missionId": "m",
+      "contractRevisionId": "contract-rev-1",
+      "contractHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contractInputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sourceBindings": {
+        "missionId": "m",
+        "originalIntent": "Existing records retain their values after transition. New records follow the new agreed format.",
+        "snapshotId": "snapshot1",
+        "analysisId": "analysis1",
+        "packetHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "answers": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Existing records retain their values after transition. New records follow the new agreed format."
+        }
+      ],
+      "promptVersion": "mission-planning-v2",
+      "defaultsVersion": "planning-defaults-v1",
+      "defaults": [
+        "Prefer the smallest end-to-end observable increments.",
+        "Define evidence before implementation; prefer deterministic automated verification.",
+        "Preserve accepted scope, constraints and non-goals.",
+        "Classify risks without promoting them to requirements."
+      ],
+      "limits": {
+        "slices": 8,
+        "claims": 30,
+        "text": 700,
+        "flowSteps": 8,
+        "references": 20,
+        "inputBytes": 524288,
+        "payloadBytes": 65536,
+        "canonicalBytes": 131072
+      },
+      "contract": {
+        "goal": {
+          "id": "G1",
+          "text": "Existing records retain their values after transition. New records follow the new agreed format.",
+          "sourceIds": [
+            "intent"
+          ]
+        },
+        "requirements": [
+          {
+            "id": "R1",
+            "text": "Existing records retain their values after transition.",
+            "sourceIds": [
+              "intent"
+            ]
+          },
+          {
+            "id": "R2",
+            "text": "New records follow the new agreed format.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "scope": [
+          {
+            "id": "S1",
+            "text": "Existing records retain their values after transition. New records follow the new agreed format.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "nonGoals": [],
+        "constraints": [],
+        "assumptions": [],
+        "risks": []
+      }
+    },
+    "payload": {
+      "plan": {
+        "verticalSlices": [
+          {
+            "id": "S1",
+            "title": "Existing record transition",
+            "outcome": "Existing records keep their agreed values during transition.",
+            "requirementIds": [
+              "R1"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Read existing records before transition.",
+              "Apply the agreed transition.",
+              "Read the same records and compare their values."
+            ],
+            "evaluationClaimIds": [
+              "E1"
+            ],
+            "order": 1
+          },
+          {
+            "id": "S2",
+            "title": "New record behavior",
+            "outcome": "New records use the new agreed format after transition.",
+            "requirementIds": [
+              "R2"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Complete the agreed transition.",
+              "Create a new record.",
+              "Read the new record and observe its format."
+            ],
+            "evaluationClaimIds": [
+              "E2"
+            ],
+            "order": 2
+          }
+        ],
+        "crossCuttingRequirements": [],
+        "riskHandling": []
+      },
+      "evaluationContract": {
+        "claims": [
+          {
+            "id": "E1",
+            "claim": "Existing record values survive the transition.",
+            "requirementIds": [
+              "R1"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "integration",
+            "requiredEvidence": [
+              "Compare existing record values before and after transition."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          },
+          {
+            "id": "E2",
+            "claim": "New records use the agreed format.",
+            "requirementIds": [
+              "R2"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "integration",
+            "requiredEvidence": [
+              "Observe the new record follows the accepted format."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          }
+        ]
+      }
+    },
+    "expected": "valid"
+  },
+  {
+    "name": "cross-cutting compatibility",
+    "input": {
+      "version": "planning-input-v1",
+      "missionId": "m",
+      "contractRevisionId": "contract-rev-1",
+      "contractHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contractInputHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "sourceBindings": {
+        "missionId": "m",
+        "originalIntent": "Duplicate delivery persists only one logical event. Preserve public API compatibility.",
+        "snapshotId": "snapshot1",
+        "analysisId": "analysis1",
+        "packetHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "answers": []
+      },
+      "sources": [
+        {
+          "id": "intent",
+          "type": "ORIGINAL_INTENT",
+          "text": "Duplicate delivery persists only one logical event. Preserve public API compatibility."
+        }
+      ],
+      "promptVersion": "mission-planning-v2",
+      "defaultsVersion": "planning-defaults-v1",
+      "defaults": [
+        "Prefer the smallest end-to-end observable increments.",
+        "Define evidence before implementation; prefer deterministic automated verification.",
+        "Preserve accepted scope, constraints and non-goals.",
+        "Classify risks without promoting them to requirements."
+      ],
+      "limits": {
+        "slices": 8,
+        "claims": 30,
+        "text": 700,
+        "flowSteps": 8,
+        "references": 20,
+        "inputBytes": 524288,
+        "payloadBytes": 65536,
+        "canonicalBytes": 131072
+      },
+      "contract": {
+        "goal": {
+          "id": "G1",
+          "text": "Duplicate delivery persists only one logical event. Preserve public API compatibility.",
+          "sourceIds": [
+            "intent"
+          ]
+        },
+        "requirements": [
+          {
+            "id": "R1",
+            "text": "Duplicate delivery persists only one logical event.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "scope": [
+          {
+            "id": "S1",
+            "text": "Duplicate delivery persists only one logical event. Preserve public API compatibility.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "nonGoals": [],
+        "constraints": [
+          {
+            "id": "C1",
+            "text": "Preserve public API compatibility.",
+            "sourceIds": [
+              "intent"
+            ]
+          }
+        ],
+        "assumptions": [],
+        "risks": []
+      }
+    },
+    "payload": {
+      "plan": {
+        "verticalSlices": [
+          {
+            "id": "S1",
+            "title": "Duplicate delivery",
+            "outcome": "Repeated delivery leaves exactly one logical event.",
+            "requirementIds": [
+              "R1"
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "userVisibleFlow": [
+              "Deliver an event.",
+              "Deliver its duplicate.",
+              "Read the persisted logical events."
+            ],
+            "evaluationClaimIds": [
+              "E1"
+            ],
+            "order": 1
+          }
+        ],
+        "crossCuttingRequirements": [],
+        "riskHandling": []
+      },
+      "evaluationContract": {
+        "claims": [
+          {
+            "id": "E1",
+            "claim": "Duplicate delivery persists one logical event.",
+            "requirementIds": [
+              "R1"
+            ],
+            "constraintIds": [],
+            "riskIds": [],
+            "verificationType": "integration",
+            "requiredEvidence": [
+              "Observe exactly one logical event after both deliveries."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          },
+          {
+            "id": "E2",
+            "claim": "Public API responses remain backward-compatible.",
+            "requirementIds": [],
+            "constraintIds": [
+              "C1"
+            ],
+            "riskIds": [],
+            "verificationType": "integration",
+            "requiredEvidence": [
+              "Compare public API response behavior against the existing compatibility baseline."
+            ],
+            "preconditions": [
+              "The agreed operation is available."
+            ],
+            "manualRationale": null,
+            "notes": ""
+          }
+        ]
+      }
+    },
+    "expected": "valid"
+  }
+]

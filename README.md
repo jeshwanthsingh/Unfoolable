@@ -2,7 +2,7 @@
 
 A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. Those capabilities do not exist in this foundation.
 
-Breakouts 1–5 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions. A new Mission begins as exact durable user intent; analysis happens only when requested. Builder agents, execution adapters and execution approvals are absent.
+Breakouts 1–6 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. Builder agents, execution adapters and execution approvals are absent.
 
 ## Setup and development
 
@@ -133,3 +133,19 @@ CONTRACT_REVIEW means a current candidate needs review. CONTRACT_READY means the
 Input is limited to 384 KiB, statement text to 700 characters, required behavior to 20 items and canonical payload to 48 KiB. Accepted canonical documents are bounded to 128 KiB, sort object keys and preserve array order. SHA-256 identifies the accepted document (payload, bound input hash and user-edit sources); it does not prove correctness. Known risks and assumptions are disclosed, not silently resolved.
 
 Development verifiers: scripts/contract-quality-smoke.mjs runs five small real Codex fixtures; --recheck revalidates recorded outputs without another AI call. scripts/contract-ui-smoke.mjs exercises a disposable clarified registry. Evidence, screenshots, exact live contract and visual critique are in artifacts/breakout-5. No new dependencies, providers, API keys or billing were added.
+
+## Vertical slices and Evaluation Contract
+
+Only a current accepted Contract can be planned. Choose Draft Plan + Evaluation Contract for one bounded Codex drafting operation (`mission-planning-v2`, `planning-defaults-v1`). Input is built entirely from stored accepted artifacts, current analysis/answer/context bindings and original sources; no repository is reopened.
+
+Slices describe observable end-to-end increments, not database/backend/frontend/tests phases. Evaluation claims define future evidence, never collected evidence or passing tests. Every required behavior needs slice coverage or explicit cross-cutting classification plus evaluation coverage; every constraint needs evaluation coverage. Risk classifications retain their distinction from requirements. The server derives the matrix and validates references, links, bounds, browser basis, measurable accepted targets and manual rationale. Finite semantic guards and six fixtures do not establish general semantic correctness: review the actual outcomes and obligations.
+
+The first prompt bundled independent approval/recovery outcomes into one large slice. Its results remain in artifacts/breakout-6/quality-results-v1.json; the versioned v2 prompt separates independently demonstrable outcomes without forcing a fixed slice count. Installed strict output rejects uniqueItems; duplicate ID references are enforced by server validation instead.
+
+Edit titles, outcomes, flows, requirement bindings, evaluation wording/types/evidence and related bindings through structured fields. Invalid edits remain unsaved and cannot be accepted; saving valid edits forks an immutable candidate with USER_EDIT field attribution. Accept Plan + Evaluation Contract is a separate action: both revisions commit in one transaction or neither does. Explicit revision workflows retain old pairs, available through Accepted history.
+
+PLAN_REVIEW means a current candidate requires human review. PLAN_READY means a current immutable pair is agreed. PLAN_READY does not start a builder, make a worktree, run tests/browser verification, or execute project code. Changed Contract revision identity, decisions, analysis or context makes older artifacts historical; stale acceptance fails closed. Unfinished drafting is interrupted on restart, never resumed.
+
+Bounds: 1–8 slices, 1–30 claims, 700 characters per text field, at most eight flow/evidence steps, 512 KiB input, 64 KiB draft payload and 128 KiB per accepted canonical document. Hashes sort object keys and preserve array order; they identify documents, not correctness. Required evidence lives in native disclosures, and planning coverage uses accent/neutral colors. Build shows preparation only; Verify/Proof execution remain unavailable.
+
+Development verifiers: scripts/planning-quality-smoke.mjs runs six explicit subscription-backed fixtures (--recheck makes no AI calls); scripts/planning-ui-smoke.mjs and planning-followup-ui-smoke.mjs exercise disposable registries. Exact outputs, runtime/browser evidence, screenshots, refinement and reproducible smoke helpers are under artifacts/breakout-6. No dependencies, providers, API keys or paid billing were added.

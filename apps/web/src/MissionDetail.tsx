@@ -1,3 +1,5 @@
+import {PlanningPanel} from './PlanningPanel.tsx';
+import {useMissionPlanning} from './useMissionPlanning.ts';
 import {useMissionContract} from './useMissionContract.ts';
 import {ContractPanel} from './ContractPanel.tsx';
 import {useEffect,useState} from 'react';
@@ -10,12 +12,13 @@ import {ProjectContextPanel} from './ProjectContextPanel.tsx';
 import {isMission} from '../../../packages/shared/missions.ts';
 import type {Mission} from '../../../packages/shared/missions.ts';
 type State={kind:'loading'}|{kind:'loaded';mission:Mission}|{kind:'failed';message:string};
-export function MissionDetail({id,projectId,onBack,onChanged,questionId,contractReview=false}:{id:string;projectId:string;onBack:()=>void;onChanged?:()=>void;questionId?:string|undefined;contractReview?:boolean}){
+export function MissionDetail({id,projectId,onBack,onChanged,questionId,contractReview=false,planReview=false}:{id:string;projectId:string;onBack:()=>void;onChanged?:()=>void;questionId?:string|undefined;contractReview?:boolean;planReview?:boolean}){
  const [contractRevision,setContractRevision]=useState(0);
  function changed(){setContractRevision(value=>value+1);onChanged?.();}
  const context=useProjectContext(id);
  const analysis=useMissionAnalysis(id,changed,context.state.kind==='loaded'?context.state.data.latest?.id??'no-context':'loading-context');
- const contract=useMissionContract(id,onChanged,String(contractRevision)+':'+(context.state.kind==='loaded'?context.state.data.latest?.id??'no-context':'loading-context')+':'+(analysis.state.kind==='loaded'?analysis.state.data.analysis?.id??'no-analysis':'loading-analysis'));
+ const contract=useMissionContract(id,changed,String(contractRevision)+':'+(context.state.kind==='loaded'?context.state.data.latest?.id??'no-context':'loading-context')+':'+(analysis.state.kind==='loaded'?analysis.state.data.analysis?.id??'no-analysis':'loading-analysis'));
+ const planning=useMissionPlanning(id,onChanged,String(contractRevision)+':'+(context.state.kind==='loaded'?context.state.data.latest?.id??'no-context':'loading-context')+':'+(contract.state.kind==='loaded'?contract.state.data.accepted?.id??'no-contract':'loading-contract'));
  const [state,setState]=useState<State>({kind:'loading'});
  useEffect(()=>{
   const controller=new AbortController();let active=true;
@@ -33,10 +36,10 @@ export function MissionDetail({id,projectId,onBack,onChanged,questionId,contract
   {state.kind==='loading'&&<p role="status">Loading the original request…</p>}
   {state.kind==='failed'&&<p className="form-error" role="alert">{state.message}</p>}
   {state.kind==='loaded'&&<>
-   <header className="mission-header" data-mission-id={state.mission.id}><div className="mission-meta"><span className="draft-badge">{contract.state.kind==='loaded'?contract.state.data.phase:analysis.state.kind==='loaded'?analysis.state.data.phase:state.mission.phase}</span><time dateTime={state.mission.createdAt}>{new Date(state.mission.createdAt).toLocaleString()}</time></div><p className="mission-intent-summary">{intentPreview(state.mission.originalIntent)}</p><p className="draft-note">Intent, evidence, decisions, and agreed scope. Execution stations remain unavailable.</p></header>
-   <Journey mission={state.mission} context={context.fact} clarification={analysis.state.kind==='loaded'?analysis.state.data:null} contract={contract.state.kind==='loaded'?contract.state.data:null}/>
+   <header className="mission-header" data-mission-id={state.mission.id}><div className="mission-meta"><span className="draft-badge">{planning.state.kind==='loaded'?planning.state.data.phase:contract.state.kind==='loaded'?contract.state.data.phase:analysis.state.kind==='loaded'?analysis.state.data.phase:state.mission.phase}</span><time dateTime={state.mission.createdAt}>{new Date(state.mission.createdAt).toLocaleString()}</time></div><p className="mission-intent-summary">{intentPreview(state.mission.originalIntent)}</p><p className="draft-note">Intent, evidence, decisions, and agreed scope. Execution stations remain unavailable.</p></header>
+   <Journey mission={state.mission} context={context.fact} clarification={analysis.state.kind==='loaded'?analysis.state.data:null} contract={contract.state.kind==='loaded'?contract.state.data:null} planning={planning.state.kind==='loaded'?planning.state.data:null}/>
    <ProjectContextPanel control={context}/><AnalysisPanel control={analysis} contextCaptured={context.fact==='captured'} questionId={questionId}/>
-   <ContractPanel control={contract} focusReview={contractReview}/><details className="original-disclosure"><summary>Original Request · exact submitted text</summary><p className="mission-intent original-request">{state.mission.originalIntent}</p></details>
+   <ContractPanel control={contract} focusReview={contractReview}/><PlanningPanel control={planning} focusReview={planReview}/><details className="original-disclosure"><summary>Original Request · exact submitted text</summary><p className="mission-intent original-request">{state.mission.originalIntent}</p></details>
   </>}
  </div>;
 }

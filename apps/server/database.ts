@@ -26,7 +26,7 @@ export function openDatabase(dataDir:string,logger:Logger){
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>6)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current>7)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
    if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
    if(current<2){
     connection.exec(`CREATE TABLE projects(
@@ -159,10 +159,81 @@ export function openDatabase(dataDir:string,logger:Logger){
     CREATE TRIGGER revision_no_delete BEFORE DELETE ON mission_contract_revisions BEGIN SELECT RAISE(ABORT,'Accepted contract revisions are immutable'); END`);
     connection.prepare('INSERT INTO schema_migrations VALUES(6,?)').run(new Date().toISOString());applied.push(6);
    }
-   connection.exec('PRAGMA user_version=6; COMMIT');
+   if(current<7){
+    connection.exec(`CREATE UNIQUE INDEX contract_revision_mission_binding ON mission_contract_revisions(id,mission_id);
+    CREATE TABLE planning_drafts(
+     id TEXT PRIMARY KEY NOT NULL,
+     mission_id TEXT NOT NULL REFERENCES missions(id) ON DELETE RESTRICT,
+     contract_revision_id TEXT NOT NULL,
+     parent_draft_id TEXT REFERENCES planning_drafts(id) ON DELETE RESTRICT,
+     origin TEXT NOT NULL CHECK(origin IN('CODEX','USER_EDIT','REVISION')),
+     status TEXT NOT NULL CHECK(status IN('PREPARING','RUNNING','SUCCEEDED','FAILED','INTERRUPTED')),
+     input_json TEXT NOT NULL CHECK(json_valid(input_json) AND length(CAST(input_json AS BLOB))<=524288),
+     input_hash TEXT NOT NULL CHECK(length(input_hash)=64 AND input_hash NOT GLOB '*[^0-9a-f]*'),
+     payload_json TEXT CHECK(payload_json IS NULL OR (json_valid(payload_json) AND length(CAST(payload_json AS BLOB))<=65536)),
+     coverage_json TEXT CHECK(coverage_json IS NULL OR (json_valid(coverage_json) AND length(CAST(coverage_json AS BLOB))<=131072)),
+     user_edits_json TEXT NOT NULL CHECK(json_valid(user_edits_json) AND length(CAST(user_edits_json AS BLOB))<=131072),
+     prompt_version TEXT NOT NULL,
+     tool_version TEXT,
+     elapsed_ms REAL,
+     created_at TEXT NOT NULL,
+     completed_at TEXT,
+     error TEXT,
+     CHECK(status!='SUCCEEDED' OR (payload_json IS NOT NULL AND coverage_json IS NOT NULL AND completed_at IS NOT NULL)),
+     FOREIGN KEY(contract_revision_id,mission_id) REFERENCES mission_contract_revisions(id,mission_id) ON DELETE RESTRICT,
+     UNIQUE(id,mission_id,contract_revision_id,input_hash)
+    ) STRICT;
+    CREATE UNIQUE INDEX planning_pending ON planning_drafts(mission_id,input_hash) WHERE status IN('PREPARING','RUNNING');
+    CREATE INDEX planning_mission_created ON planning_drafts(mission_id,created_at DESC);
+    CREATE TRIGGER planning_no_replace BEFORE INSERT ON planning_drafts WHEN EXISTS(SELECT 1 FROM planning_drafts WHERE id=NEW.id) BEGIN SELECT RAISE(ABORT,'Planning drafts are immutable'); END;
+    CREATE TRIGGER planning_no_terminal_update BEFORE UPDATE ON planning_drafts WHEN OLD.status NOT IN('PREPARING','RUNNING') BEGIN SELECT RAISE(ABORT,'Completed planning drafts are immutable'); END;
+    CREATE TRIGGER planning_fixed_binding BEFORE UPDATE ON planning_drafts WHEN NEW.id!=OLD.id OR NEW.mission_id!=OLD.mission_id OR NEW.contract_revision_id!=OLD.contract_revision_id OR NEW.parent_draft_id IS NOT OLD.parent_draft_id OR NEW.origin!=OLD.origin OR NEW.input_json!=OLD.input_json OR NEW.input_hash!=OLD.input_hash OR NEW.user_edits_json!=OLD.user_edits_json OR NEW.prompt_version!=OLD.prompt_version OR NEW.created_at!=OLD.created_at BEGIN SELECT RAISE(ABORT,'Planning input binding is immutable'); END;
+    CREATE TRIGGER planning_no_delete BEFORE DELETE ON planning_drafts BEGIN SELECT RAISE(ABORT,'Planning drafts are immutable'); END;
+    CREATE TABLE plan_revisions(
+     id TEXT PRIMARY KEY NOT NULL,
+     pair_id TEXT NOT NULL UNIQUE,
+     mission_id TEXT NOT NULL REFERENCES missions(id) ON DELETE RESTRICT,
+     revision INTEGER NOT NULL CHECK(revision>=1),
+     draft_id TEXT NOT NULL UNIQUE,
+     contract_revision_id TEXT NOT NULL,
+     input_hash TEXT NOT NULL CHECK(length(input_hash)=64 AND input_hash NOT GLOB '*[^0-9a-f]*'),
+     payload_json TEXT NOT NULL CHECK(json_valid(payload_json) AND length(CAST(payload_json AS BLOB))<=65536),
+     coverage_json TEXT NOT NULL CHECK(json_valid(coverage_json) AND length(CAST(coverage_json AS BLOB))<=131072),
+     user_edits_json TEXT NOT NULL CHECK(json_valid(user_edits_json) AND length(CAST(user_edits_json AS BLOB))<=131072),
+     plan_hash TEXT NOT NULL CHECK(length(plan_hash)=64 AND plan_hash NOT GLOB '*[^0-9a-f]*'),
+     canonical TEXT NOT NULL CHECK(json_valid(canonical) AND length(CAST(canonical AS BLOB))<=131072),
+     accepted_at TEXT NOT NULL,
+     FOREIGN KEY(draft_id,mission_id,contract_revision_id,input_hash) REFERENCES planning_drafts(id,mission_id,contract_revision_id,input_hash) ON DELETE RESTRICT,
+     UNIQUE(mission_id,revision),
+     UNIQUE(pair_id,mission_id,revision,draft_id,contract_revision_id,input_hash)
+    ) STRICT;
+    CREATE TABLE evaluation_contract_revisions(
+     id TEXT PRIMARY KEY NOT NULL,
+     pair_id TEXT NOT NULL UNIQUE,
+     mission_id TEXT NOT NULL REFERENCES missions(id) ON DELETE RESTRICT,
+     revision INTEGER NOT NULL CHECK(revision>=1),
+     draft_id TEXT NOT NULL UNIQUE,
+     contract_revision_id TEXT NOT NULL,
+     input_hash TEXT NOT NULL CHECK(length(input_hash)=64 AND input_hash NOT GLOB '*[^0-9a-f]*'),
+     payload_json TEXT NOT NULL CHECK(json_valid(payload_json) AND length(CAST(payload_json AS BLOB))<=65536),
+     evaluation_hash TEXT NOT NULL CHECK(length(evaluation_hash)=64 AND evaluation_hash NOT GLOB '*[^0-9a-f]*'),
+     canonical TEXT NOT NULL CHECK(json_valid(canonical) AND length(CAST(canonical AS BLOB))<=131072),
+     accepted_at TEXT NOT NULL,
+     FOREIGN KEY(pair_id,mission_id,revision,draft_id,contract_revision_id,input_hash) REFERENCES plan_revisions(pair_id,mission_id,revision,draft_id,contract_revision_id,input_hash) ON DELETE RESTRICT,
+     UNIQUE(mission_id,revision)
+    ) STRICT;
+    CREATE TRIGGER plan_no_replace BEFORE INSERT ON plan_revisions WHEN EXISTS(SELECT 1 FROM plan_revisions WHERE id=NEW.id OR pair_id=NEW.pair_id OR draft_id=NEW.draft_id OR (mission_id=NEW.mission_id AND revision=NEW.revision)) BEGIN SELECT RAISE(ABORT,'Accepted plans are immutable'); END;
+    CREATE TRIGGER plan_no_update BEFORE UPDATE ON plan_revisions BEGIN SELECT RAISE(ABORT,'Accepted plans are immutable'); END;
+    CREATE TRIGGER plan_no_delete BEFORE DELETE ON plan_revisions BEGIN SELECT RAISE(ABORT,'Accepted plans are immutable'); END;
+    CREATE TRIGGER evaluation_no_replace BEFORE INSERT ON evaluation_contract_revisions WHEN EXISTS(SELECT 1 FROM evaluation_contract_revisions WHERE id=NEW.id OR pair_id=NEW.pair_id OR draft_id=NEW.draft_id OR (mission_id=NEW.mission_id AND revision=NEW.revision)) BEGIN SELECT RAISE(ABORT,'Accepted evaluation contracts are immutable'); END;
+    CREATE TRIGGER evaluation_no_update BEFORE UPDATE ON evaluation_contract_revisions BEGIN SELECT RAISE(ABORT,'Accepted evaluation contracts are immutable'); END;
+    CREATE TRIGGER evaluation_no_delete BEFORE DELETE ON evaluation_contract_revisions BEGIN SELECT RAISE(ABORT,'Accepted evaluation contracts are immutable'); END`);
+    connection.prepare('INSERT INTO schema_migrations VALUES(7,?)').run(new Date().toISOString());applied.push(7);
+   }
+   connection.exec('PRAGMA user_version=7; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==6)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==7)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }
