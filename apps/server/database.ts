@@ -21,17 +21,28 @@ export function openDatabase(dataDir:string,logger:Logger){
  const close=()=>{if(closed)return;closed=true;try{if(connection.isOpen)connection.close();}finally{release();}};
  try{
   connection.exec('PRAGMA foreign_keys=ON; PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000;');
-  let applied=false;
+  const applied:number[]=[];
   connection.exec('BEGIN IMMEDIATE');
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>1)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
-   if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied=true;}
-   connection.exec('PRAGMA user_version=1; COMMIT');
+   if(current>2)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
+   if(current<2){
+    connection.exec(`CREATE TABLE projects(
+      id TEXT PRIMARY KEY NOT NULL,
+      display_name TEXT NOT NULL CHECK(length(trim(display_name)) BETWEEN 1 AND 120),
+      repo_root TEXT NOT NULL UNIQUE CHECK(length(repo_root)>0),
+      registered_head TEXT NOT NULL CHECK(length(registered_head) IN(40,64) AND registered_head NOT GLOB '*[^0-9a-f]*'),
+      registered_branch TEXT,
+      created_at TEXT NOT NULL CHECK(length(created_at)>0)
+    ) STRICT`);
+    connection.prepare('INSERT INTO schema_migrations VALUES(2,?)').run(new Date().toISOString());applied.push(2);
+   }
+   connection.exec('PRAGMA user_version=2; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
-  if(applied)logger({event:'migration.applied',schemaVersion:1});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==1)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==2)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }

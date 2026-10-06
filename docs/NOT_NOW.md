@@ -1,5 +1,7 @@
-# Not implemented in Breakout 0
+# Not implemented after Breakout 1
 
-Projects, missions, Codex runtime, clarification, requirements, approvals, evaluation, Playwright mission execution, reviewer, Antigravity, Aegis, Jev, memory, multiple agents, embedded terminal, personal Chrome, deployment, remote Git publishing and SSE.
+Missions, project understanding/analysis, README or AGENTS parsing, language detection, repository maps, file indexing, vector search, AI/Codex execution, clarification, requirements, evaluation, approvals, reviewers, receipts, project memory, Antigravity, Aegis, Jev, multiple agents, embedded terminal, personal Chrome, deployment, remote Git publishing, worktree management and SSE.
 
-The empty-state wording is a placeholder, not a project model or workflow. Playwright is used only to verify development output. No speculative adapter interfaces or product tables exist. Breakout 1 — Project Registration requires a separate task.
+Project registration records Git identity only. It grants no permission to change or analyze repository files. registered_head and registered_branch are registration-time observations, not freshness status. Update/delete and automatic repository reinspection are absent. Playwright remains a development verifier.
+
+Breakout 2 — Rough Mission Creation requires a separate task.
