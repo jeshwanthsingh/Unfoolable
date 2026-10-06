@@ -1,0 +1,5 @@
+{
+ "extends":"./tsconfig.json",
+ "compilerOptions":{"noEmit":false,"outDir":"dist/server","rootDir":".","types":["node"],"lib":["ES2023"]},
+ "include":["apps/server/**/*.ts","packages/shared/**/*.ts"]
+}

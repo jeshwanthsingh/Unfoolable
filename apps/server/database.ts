@@ -1,0 +1,37 @@
+import {DatabaseSync} from 'node:sqlite';
+import {mkdirSync,openSync,closeSync,writeFileSync,readFileSync,unlinkSync} from 'node:fs';
+import {join} from 'node:path';
+import {randomUUID} from 'node:crypto';
+import type {Logger} from './log.ts';
+import {failure} from './errors.ts';
+
+export function openDatabase(dataDir:string,logger:Logger){
+ mkdirSync(dataDir,{recursive:true,mode:0o700});
+ const lock=join(dataDir,'.coordinator.lock');const ownership=JSON.stringify({pid:process.pid,id:randomUUID()});
+ let fd:number;
+ try{fd=openSync(lock,'wx',0o600);}catch(error){
+  if(error instanceof Error&&'code'in error&&error.code==='EEXIST')throw failure('DATABASE_IN_USE','Data directory already owned; stop its coordinator or confirm a stale lock before removing it');
+  throw error;
+ }
+ try{writeFileSync(fd,ownership);}finally{closeSync(fd);}
+ const release=()=>{if(readFileSync(lock,'utf8')===ownership)unlinkSync(lock);};
+ let connection:DatabaseSync;
+ try{connection=new DatabaseSync(join(dataDir,'command-center.sqlite'));}catch(error){release();throw error;}
+ let closed=false;
+ const close=()=>{if(closed)return;closed=true;try{if(connection.isOpen)connection.close();}finally{release();}};
+ try{
+  connection.exec('PRAGMA foreign_keys=ON; PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000;');
+  let applied=false;
+  connection.exec('BEGIN IMMEDIATE');
+  try{
+   connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
+   const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
+   if(current>1)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied=true;}
+   connection.exec('PRAGMA user_version=1; COMMIT');
+  }catch(error){connection.exec('ROLLBACK');throw error;}
+  if(applied)logger({event:'migration.applied',schemaVersion:1});
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==1)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
+ }catch(error){close();throw error;}
+}
