@@ -1,0 +1,2 @@
+import {NEEDS_YOU_EMPTY} from './presentation.ts';
+export function NeedsYou(){return <section id="needs-you" className="needs-you" tabIndex={-1} aria-labelledby="needs-you-title"><div className="attention-mark" aria-hidden="true">!</div><p className="eyebrow">HUMAN STATION</p><h2 id="needs-you-title">Needs You</h2><p>{NEEDS_YOU_EMPTY}</p><span>No attention-producing features yet.</span></section>;}

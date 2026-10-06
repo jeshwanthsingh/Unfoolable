@@ -6,7 +6,7 @@ type Props={projectId:string;onClose:()=>void;onCreated:(mission:Mission)=>void}
 export function MissionComposer({projectId,onClose,onCreated}:Props){
  const dialog=useRef<HTMLDialogElement>(null);const [intent,setIntent]=useState('');
  const [pending,setPending]=useState(false);const [error,setError]=useState<string|null>(null);
- useEffect(()=>{const current=dialog.current;current?.showModal();return ()=>current?.close();},[]);
+ useEffect(()=>{const current=dialog.current;current?.showModal(); current?.querySelector<HTMLElement>('#mission-intent')?.focus();return ()=>current?.close();},[]);
  async function submit(event:FormEvent<HTMLFormElement>){
   event.preventDefault();setError(null);
   if(!validMissionIntent(intent)){setError('Describe what you want to work on before creating a mission.');return;}

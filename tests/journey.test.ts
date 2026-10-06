@@ -1,0 +1,12 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {journey,intentPreview,recentMission,NEEDS_YOU_EMPTY} from '../apps/web/src/presentation.ts';
+const mission={id:'m1',projectId:'p1',originalIntent:'  Fix login.\nKeep exact intent.  ',phase:'DRAFT' as const,createdAt:'2026-01-01T00:00:00Z'};
+test('real Mission records intake, absent context stays not captured and futures are unavailable',()=>{const stages=journey('absent',mission);assert.equal(stages[0]?.status,'Intent recorded');assert.equal(stages[1]?.status,'Not captured');assert.ok(stages.slice(2).every(s=>s.state==='locked'&&s.status==='Not available yet'));assert.deepEqual(stages.map(s=>s.label),['Intent','Context','Clarify','Define','Build','Verify','Proof']);});
+test('context capture changes only the observed context station; unknown never claims absence',()=>{assert.equal(journey('captured',mission)[1]?.status,'Context captured');assert.equal(journey('loading',mission)[1]?.status,'Loading context');assert.equal(journey('failed',mission)[1]?.status,'Context unavailable');assert.ok(journey('captured',mission).slice(2).every(s=>s.state==='locked'));});
+test('bounded previews never alter original user intent',()=>{const before=mission.originalIntent;assert.equal(intentPreview(before),'Fix login. Keep exact intent.');assert.equal(mission.originalIntent,before);assert.ok(intentPreview('x'.repeat(400)).length<=180);});
+test('recent Mission uses verified last-viewed identity or truthful recorded fallback',()=>{const other={...mission,id:'m2',createdAt:'2026-01-02T00:00:00Z'};assert.equal(recentMission([mission,other],'m1')?.kind,'viewed');assert.equal(recentMission([mission,other],'m1')?.mission.id,'m1');assert.equal(recentMission([mission,other],'deleted')?.kind,'recorded');assert.equal(recentMission([mission,other],null)?.mission.id,'m2');assert.equal(recentMission([],null),null);assert.equal(NEEDS_YOU_EMPTY,'Nothing needs your attention.');});
+
+test('multiline preview uses the literal first paragraph without inventing a title',()=>{assert.equal(intentPreview('  Fix race.\n\nObserved: duplicates.\n\nKeep API.'),'Fix race.');});
+
+test('no Mission cannot claim recorded intent or captured context',()=>{const stages=journey('captured',null);assert.equal(stages[0]?.status,'No intent recorded');assert.equal(stages[1]?.status,'Mission required');assert.ok(stages.slice(0,2).every(s=>s.state==='unknown'));});

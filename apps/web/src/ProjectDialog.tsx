@@ -7,7 +7,7 @@ export function ProjectDialog({allowedRoots, onClose, onRegistered}: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [name, setName] = useState(''); const [path, setPath] = useState('');
   const [pending, setPending] = useState(false); const [error, setError] = useState<string | null>(null);
-  useEffect(() => {const current = dialog.current; current?.showModal(); return () => current?.close();}, []);
+  useEffect(() => {const current = dialog.current; current?.showModal(); current?.querySelector<HTMLElement>('#project-name')?.focus(); return () => current?.close();}, []);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setPending(true); setError(null);
     try {

@@ -1,9 +1,13 @@
 import {useEffect,useState} from 'react';
+import {Journey} from './Journey.tsx';
+import {useProjectContext} from './useProjectContext.ts';
+import {intentPreview} from './presentation.ts';
 import {ProjectContextPanel} from './ProjectContextPanel.tsx';
 import {isMission} from '../../../packages/shared/missions.ts';
 import type {Mission} from '../../../packages/shared/missions.ts';
 type State={kind:'loading'}|{kind:'loaded';mission:Mission}|{kind:'failed';message:string};
 export function MissionDetail({id,projectId,onBack}:{id:string;projectId:string;onBack:()=>void}){
+ const context=useProjectContext(id);
  const [state,setState]=useState<State>({kind:'loading'});
  useEffect(()=>{
   const controller=new AbortController();let active=true;
@@ -20,11 +24,11 @@ export function MissionDetail({id,projectId,onBack}:{id:string;projectId:string;
   <h3>Mission</h3>
   {state.kind==='loading'&&<p role="status">Loading the original request…</p>}
   {state.kind==='failed'&&<p className="form-error" role="alert">{state.message}</p>}
-  {state.kind==='loaded'&&<article className="mission-card" data-mission-id={state.mission.id}>
-   <div className="mission-meta"><span className="draft-badge">DRAFT</span><time dateTime={state.mission.createdAt}>{new Date(state.mission.createdAt).toLocaleString()}</time></div>
-   <h4>Original request</h4><p className="mission-intent original-request">{state.mission.originalIntent}</p>
-   <p className="draft-note">Your request has been recorded. It has not been analyzed or clarified.</p>
-  </article>}
-  {state.kind==='loaded'&&<ProjectContextPanel missionId={state.mission.id}/>}
+  {state.kind==='loaded'&&<>
+   <header className="mission-header" data-mission-id={state.mission.id}><div className="mission-meta"><span className="draft-badge">DRAFT</span><time dateTime={state.mission.createdAt}>{new Date(state.mission.createdAt).toLocaleString()}</time></div><p className="mission-intent-summary">{intentPreview(state.mission.originalIntent)}</p><p className="draft-note">Intent recorded. No analysis or execution.</p></header>
+   <Journey mission={state.mission} context={context.fact}/>
+   <ProjectContextPanel control={context}/>
+   <details className="original-disclosure"><summary>Original Request · exact submitted text</summary><p className="mission-intent original-request">{state.mission.originalIntent}</p></details>
+  </>}
  </div>;
 }

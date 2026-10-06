@@ -16,7 +16,7 @@ try{
  run('open',url.href,'--browser=chrome','--idle-timeout=600000');
  run('resize','1440','1000');run('snapshot');
  run('run-code',`async (page) => { await page.getByRole('heading',{name:'Command Center',exact:true}).waitFor(); await page.getByText('Online',{exact:true}).waitFor(); await page.getByText('Ready',{exact:true}).waitFor(); const health=await page.request.get(new URL('/api/health',page.url()).href); const data=await health.json(); if(data.status!=='ok'||data.database.status!=='ready')throw new Error('Actual server health failed'); if(await page.title()!=='Command Center')throw new Error('Wrong title'); if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw new Error('Desktop overflow'); return {viewport:'desktop',coordinator:data.coordinator,database:data.database.status}; }`);
- run('run-code',`async (page) => { await page.getByRole('heading',{name:'Projects',exact:true}).waitFor(); }`);
+ run('run-code',`async (page) => { await page.getByRole('button',{name:'Projects',exact:true}).click(); await page.getByRole('heading',{name:'Projects',exact:true}).waitFor(); }`);
  if(repoPath&&mode==='register'){
   run('run-code',`async(page)=>{await page.getByRole('heading',{name:'No projects yet.',exact:true}).waitFor();}`);
   run('screenshot','--filename=empty-desktop.png');

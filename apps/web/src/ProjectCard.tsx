@@ -1,14 +1,5 @@
 import type {Project} from '../../../packages/shared/projects.ts';
-export function shortPath(path: string): string {
-  const pieces = path.split('/').filter(Boolean);
-  return pieces.length > 2 ? '…/' + pieces.slice(-2).join('/') : path;
-}
-export function ProjectCard({project,onOpen}: {project: Project;onOpen:()=>void}) {
-  return <article className="project-card" data-project-id={project.id}>
-    <div className="project-card-heading"><span className="project-symbol" aria-hidden="true">⌁</span><h3>{project.displayName}</h3></div>
-    <div className="registration-meta"><span className="branch" title={project.registeredBranch ?? 'Detached HEAD'}>{project.registeredBranch ?? 'Detached HEAD'}</span><code title={project.registeredHead}>{project.registeredHead.slice(0, 7)}</code></div>
-    <details className="path-details"><summary title={project.repoRoot}>{shortPath(project.repoRoot)}</summary><code>{project.repoRoot}</code></details>
-    <p className="card-note">HEAD recorded at registration</p>
-    <button className="secondary-button" onClick={onOpen}>Open project</button>
-  </article>;
+export function shortPath(path:string):string {const parts=path.split('/').filter(Boolean);return parts.length>2?'…/'+parts.slice(-2).join('/'):path;}
+export function ProjectCard({project,onOpen,index,missionCount}:{project:Project;onOpen:()=>void;index:number;missionCount:number|null}){
+ return <article className="project-card" data-project-id={project.id}><div className="workspace-tag"><span>WORKSPACE {String(index).padStart(2,'0')}</span><span>{project.id.slice(0,8)}</span></div><div className="project-card-heading"><h3>{project.displayName}</h3><span className="project-symbol" aria-hidden="true">⌁</span></div><div className="registration-meta"><span>{project.registeredBranch??'Detached HEAD'}</span><code title={project.registeredHead}>{project.registeredHead.slice(0,7)}</code><span>{missionCount===null?'Missions unavailable':`${missionCount} missions`}</span></div><details className="path-details"><summary>{shortPath(project.repoRoot)}</summary><p>Canonical repository path</p><code>{project.repoRoot}</code><p>HEAD recorded at registration</p><code>{project.registeredHead}</code></details><button className="secondary-button" onClick={onOpen}>Open project <span aria-hidden="true">↗</span></button></article>;
 }

@@ -2,7 +2,7 @@
 
 A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. Those capabilities do not exist in this foundation.
 
-Breakouts 1–3 support persistent local Git Project registration and recording rough engineering Missions, with explicit bounded Project Context capture. A Mission in Breakout 2 is only durable user intent. It has not yet been analyzed. Agents, execution adapters and approval flows are absent.
+Breakouts 1–3.5 support persistent local Git Project registration and recording rough engineering Missions, with explicit bounded Project Context capture. A Mission in Breakout 2 is only durable user intent. It has not yet been analyzed. Agents, execution adapters and approval flows are absent.
 
 ## Setup and development
 
@@ -99,3 +99,11 @@ node scripts/context-ui-smoke.mjs http://127.0.0.1:3210 persisted
 ```
 
 Do not run this verifier against your personal registry. Evidence is saved under artifacts/breakout-3. No dependencies, AI providers or paid services were added.
+
+## Command Center shell
+
+The Workbench shows registered workspaces, API-derived Mission counts and a bounded literal preview of the last viewed Mission (or recently recorded fallback). The optional browser preference stores only a Mission ID and is checked against current records. It is not an execution state. Existing APIs and SQLite models are unchanged.
+
+Engineering stations derive Intent from an actual Mission and Context from its actual latest snapshot. Loading/unavailable context stays distinct from no context. Clarify, Define, Build, Verify and Proof are noninteractive and explicitly unavailable. Needs You is empty because no attention-producing features exist yet.
+
+Mission detail keeps the exact Original Request, changes, inventory, complete hashes, UUID, limits and fingerprint in native keyboard-accessible disclosures. Motion respects reduced-motion preferences. See docs/VISUAL_LANGUAGE.md for design constraints. Development visual verification uses scripts/shell-ui-smoke.mjs with an isolated registry and disposable repositories; artifacts and visual review live under artifacts/breakout-3.5.

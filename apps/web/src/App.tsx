@@ -1,10 +1,32 @@
+import {useEffect,useRef,useState} from 'react';
 import {APP_VERSION} from '../../../packages/shared/health.ts';
+import type {Project} from '../../../packages/shared/projects.ts';
+import type {Mission} from '../../../packages/shared/missions.ts';
 import {SystemStatus} from './SystemStatus.tsx';
 import {ProjectsPanel} from './ProjectsPanel.tsx';
+import {ProjectMissions} from './ProjectMissions.tsx';
+import {MissionDetail} from './MissionDetail.tsx';
+import {Home} from './Home.tsx';
+import {NeedsYou} from './NeedsYou.tsx';
+import {useWorkspace} from './useWorkspace.ts';
 import './projects.css';
-export function App(){return <div className="shell">
- <header className="masthead"><div className="brand"><img src="/mark.svg" alt="" width="40" height="40"/><span>YOUR LOCAL WORKSHOP</span></div><span className="local-label">Local first <span aria-hidden="true">✳</span></span></header>
- <main><div className="intro-grid"><section className="intro" aria-labelledby="title"><p className="eyebrow">A CLEAR SPACE TO BUILD</p><h1 id="title"><span>Command</span> <span className="accent">Center</span><span className="title-period" aria-hidden="true">.</span></h1><p className="lead">Your local projects. One clear starting point.</p><p className="subcopy">Less noise. More room for the work that matters.</p></section><SystemStatus/></div>
- <ProjectsPanel/></main>
- <footer><span>A little structure. A lot of possibility.</span><span>Breakout 3 <span className="separator">/</span> v{APP_VERSION}</span></footer>
- </div>;}
+import './missions.css';
+type View={kind:'home'}|{kind:'projects'}|{kind:'project';project:Project}|{kind:'mission';project:Project;mission:Mission};
+const preference='command-center.last-viewed-mission';
+function readViewed(){try{return localStorage.getItem(preference);}catch{return null;}}
+export function App(){
+ const {state,reload}=useWorkspace();const [view,setView]=useState<View>({kind:'home'});const [viewedId,setViewedId]=useState<string|null>(readViewed);const main=useRef<HTMLElement>(null);
+ useEffect(()=>{main.current?.focus();},[view]);
+ const projects=state.kind==='loaded'?state.data.projects:[];
+ const last=state.kind==='loaded'?Object.values(state.data.missions).flatMap(m=>m??[]).find(m=>m.id===viewedId):undefined;
+ function openMission(project:Project,mission:Mission){setViewedId(mission.id);try{localStorage.setItem(preference,mission.id);}catch{/* Browser preferences are optional, never domain persistence. */}setView({kind:'mission',project,mission});}
+ return <div className="command-shell"><a className="skip-link" href="#workspace">Skip to workspace</a><aside className="control-rail"><div className="brand"><img src="/mark.svg" alt="" width="36" height="36"/><div><h1>Command Center</h1><span>LOCAL ENGINEERING WORKSHOP</span></div></div>
+  <nav aria-label="Workspace navigation"><button aria-current={view.kind==='home'?'page':undefined} onClick={()=>setView({kind:'home'})}><span aria-hidden="true">⌘</span>Workbench</button><button aria-current={view.kind==='projects'||view.kind==='project'?'page':undefined} onClick={()=>setView({kind:'projects'})}><span aria-hidden="true">▱</span>Projects</button><button aria-current={view.kind==='mission'?'page':undefined} disabled={!last} onClick={()=>{const p=projects.find(p=>p.id===last?.projectId);if(p&&last)openMission(p,last);}}><span aria-hidden="true">◇</span>Current Mission</button><a href="#needs-you"><span aria-hidden="true">!</span>Needs You</a></nav>
+  <div className="rail-system"><SystemStatus/></div><p className="rail-foot">ON THIS MACHINE<br/>v{APP_VERSION} · Breakout 3.5</p>
+ </aside><main id="workspace" className="workspace-main" ref={main} tabIndex={-1} aria-label="Workspace"><div className="workspace-topline"><span>CC / {view.kind==='home'?'WORKBENCH':view.kind==='projects'?'PROJECTS':view.project.displayName}</span><span>LOCAL FIRST <i aria-hidden="true"/></span></div><div className="view-entry" key={view.kind+('project'in view?view.project.id:'')+('mission'in view?view.mission.id:'')}>
+  {view.kind==='home'&&<Home state={state} viewedId={viewedId} onProject={project=>setView({kind:'project',project})} onMission={openMission} onProjects={()=>setView({kind:'projects'})} onRetry={reload}/>}
+  {view.kind==='projects'&&<ProjectsPanel state={state} onProject={project=>setView({kind:'project',project})} onReload={reload}/>}
+  {view.kind==='project'&&<ProjectMissions project={view.project} onBack={()=>setView({kind:'projects'})} onMission={mission=>openMission(view.project,mission)} onChanged={reload}/>}
+  {view.kind==='mission'&&<><p className="mission-project-label">{view.project.displayName} / MISSION</p><MissionDetail id={view.mission.id} projectId={view.project.id} onBack={()=>setView({kind:'project',project:view.project})}/></>}
+ </div></main><aside className="human-rail"><NeedsYou/><div className="operation-note"><span className="eyebrow">CURRENT CAPABILITIES</span><p>Record intent.<br/>Capture repository facts.</p><span>Execution stations are not available.</span></div></aside></div>;
+}
