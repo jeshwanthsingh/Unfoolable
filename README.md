@@ -2,7 +2,7 @@
 
 A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. Those capabilities do not exist in this foundation.
 
-Breakouts 1–2 support persistent local Git Project registration and recording rough engineering Missions. A Mission in Breakout 2 is only durable user intent. It has not yet been analyzed. Agents, execution adapters and approval flows are absent.
+Breakouts 1–3 support persistent local Git Project registration and recording rough engineering Missions, with explicit bounded Project Context capture. A Mission in Breakout 2 is only durable user intent. It has not yet been analyzed. Agents, execution adapters and approval flows are absent.
 
 ## Setup and development
 
@@ -73,3 +73,29 @@ node scripts/mission-ui-smoke.mjs http://127.0.0.1:3210 persisted
 ```
 
 It creates two disposable drafts via the UI. Do not run it against your personal registry. Evidence is saved under artifacts/breakout-2; no Playwright runtime dependency is added.
+
+## Read-Only Project Context
+
+Open a Mission and choose Understand Project. This captures observed Git facts and paths, not semantic understanding. The Mission remains DRAFT. The registered Project path is resolved server-side; the browser cannot supply a replacement path. GET/POST /api/missions/:missionId/context-snapshots returns the latest persisted snapshot/count or appends a new snapshot. Earlier snapshots remain immutable.
+
+Project → Mission → 0..N Project Context Snapshots. A snapshot contains an application UUID, Mission ID, typed observed payload, SHA-256 payload hash and timestamp. Migration 4 adds one snapshot table/index and database triggers rejecting update/delete. The foreign key restricts Mission deletion.
+
+Observed facts: current HEAD/branch, Git porcelain working-tree changes, unique tracked-path count/fingerprint, top-level tracked structure, conventional important/manifest paths and heuristic test-like paths. Ignored files and submodule contents are not inventoried. No README, AGENTS, manifests, test/source contents or credential values are collected. Git itself reads its metadata and examines tracked files as needed to calculate status; external clean/process filters, hooks, fsmonitor, prompts and lazy network fetching are disabled. Filter configuration queries retrieve names only, never values. Filter-disabled status can differ from a project's filter-aware status. Repository symlinks are inventoried as paths and not followed by the application.
+
+Capture compares before/after HEAD, branch, full observed status records and tracked-path set fingerprint, revalidating the canonical allowed repository root each time. Differences reject capture before insertion. This checks Git-observable endpoint state, not every intervening change. It does not prove bytes in an already-dirty file remained unchanged when its status stayed equivalent; it does not identify a repository replaced in place with identical observable metadata.
+
+Canonical serialization sorts object keys and unordered arrays; SHA-256 identifies only that observed payload. The tracked-path fingerprint identifies the unique path set, not contents. Neither is a security/correctness proof or full filesystem/dirty-content snapshot. Capture is explicit, never automatic on Mission creation or retrieval.
+
+Bounds: one capture at a time, 4-second timeout and 32 MiB stdout/stderr buffer bound per Git command, 250,000 tracked/changed entries, 4,096-character relative paths, 2 MiB stored payload. Summaries retain up to 40 structural groups, 40 important paths, 40 manifests, 40 test-like paths and 60 changed paths. Counts and truncation are explicit. Unsafe/resource failures create no snapshot.
+
+Development-only context verification uses an isolated database with one registered disposable Project and one Mission:
+
+```bash
+node scripts/context-ui-smoke.mjs http://127.0.0.1:3210 capture
+# Change the disposable repository, then:
+node scripts/context-ui-smoke.mjs http://127.0.0.1:3210 recapture
+# Restart with the same data directory, then:
+node scripts/context-ui-smoke.mjs http://127.0.0.1:3210 persisted
+```
+
+Do not run this verifier against your personal registry. Evidence is saved under artifacts/breakout-3. No dependencies, AI providers or paid services were added.

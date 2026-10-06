@@ -11,13 +11,17 @@ import {listProjects,registerProject} from './projects.ts';
 import {projectBody} from './project-body.ts';
 import {ProjectError} from './project-errors.ts';
 import {MissionError} from './mission-errors.ts';
+import {createContextStore} from './context-store.ts';
+import {ContextError} from './context-errors.ts';
+import type {ContextResponse,ProjectContextSnapshot} from '../../packages/shared/context.ts';
 import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
 export function createApplication(config:AppConfig,logger:Logger=log){
  const database=openDatabase(config.dataDir,logger);
- const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
+ const context=createContextStore(database.connection,config.projectRoots,logger);
+ const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
  const server=createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
@@ -42,11 +46,18 @@ export function createApplication(config:AppConfig,logger:Logger=log){
    const projectMissions=/^\/api\/projects\/([^/]+)\/missions$/.exec(pathname);
    if(projectMissions && req.method==='GET'){json(res,200,{missions:listMissions(database.connection,projectMissions[1]!,logger)});return;}
    if(projectMissions && req.method==='POST'){json(res,201,createMission(database.connection,projectMissions[1]!,await projectBody(req,'mission'),logger));return;}
+   const contextRoute=/^\/api\/missions\/([^/]+)\/context-snapshots$/.exec(pathname);
+   if(contextRoute&&req.method==='GET'){json(res,200,context.list(contextRoute[1]!));return;}
+   if(contextRoute&&req.method==='POST'){
+    const body=await projectBody(req,'context capture');
+    if(Object.keys(body).length)throw new ProjectError('INVALID_REQUEST','Context capture accepts only the Mission identity in its URL.',400);
+    json(res,201,await context.capture(contextRoute[1]!));return;
+   }
    const mission=/^\/api\/missions\/([^/]+)$/.exec(pathname);
    if(mission && req.method==='GET'){json(res,200,getMission(database.connection,mission[1]!,logger));return;}
    if(req.method==='GET'&&serveWeb(pathname,config.webRoot,res))return;
    error(res,404,'NOT_FOUND','Route not found');
-  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectError||problem instanceof MissionError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
+  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
  });
  server.requestTimeout=5000;server.headersTimeout=5000;server.keepAliveTimeout=1000;
  let closing:Promise<void>|undefined;

@@ -10,7 +10,7 @@ import {loadConfig} from '../apps/server/config.ts';
 async function fixture(){const dir=mkdtempSync(join(tmpdir(),'cc-http-'));const events:unknown[]=[];const app=createApplication({...loadConfig({COMMAND_CENTER_DATA_DIR:dir},'/tmp/example'),port:0},event=>events.push(event));await app.start();const a=app.server.address();assert.ok(a&&typeof a!=='string');return {app,dir,events,url:`http://127.0.0.1:${a.port}`,port:a.port};}
 async function cleanup(f:Awaited<ReturnType<typeof fixture>>){await f.app.close();rmSync(f.dir,{recursive:true});}
 test('health reflects a ready database and listener binds to IPv4 loopback',async()=>{
- const f=await fixture();try{const response=await fetch(f.url+'/api/health');assert.equal(response.status,200);assert.deepEqual(await response.json(),{status:'ok',version:'0.0.1',coordinator:'online',database:{status:'ready',schemaVersion:3}});assert.equal((f.app.server.address() as {address:string}).address,'127.0.0.1');}finally{await cleanup(f);}
+ const f=await fixture();try{const response=await fetch(f.url+'/api/health');assert.equal(response.status,200);assert.deepEqual(await response.json(),{status:'ok',version:'0.0.1',coordinator:'online',database:{status:'ready',schemaVersion:4}});assert.equal((f.app.server.address() as {address:string}).address,'127.0.0.1');}finally{await cleanup(f);}
 });
 test('unknown route returns a structured error',async()=>{
  const f=await fixture();try{const r=await fetch(f.url+'/api/nope');assert.equal(r.status,404);assert.deepEqual(await r.json(),{error:{code:'NOT_FOUND',message:'Route not found'}});}finally{await cleanup(f);}

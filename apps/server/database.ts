@@ -26,7 +26,7 @@ export function openDatabase(dataDir:string,logger:Logger){
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>3)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current>4)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
    if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
    if(current<2){
     connection.exec(`CREATE TABLE projects(
@@ -50,10 +50,24 @@ export function openDatabase(dataDir:string,logger:Logger){
     CREATE INDEX missions_project_created ON missions(project_id,created_at DESC,id ASC)`);
     connection.prepare('INSERT INTO schema_migrations VALUES(3,?)').run(new Date().toISOString());applied.push(3);
    }
-   connection.exec('PRAGMA user_version=3; COMMIT');
+   if(current<4){
+    connection.exec(`CREATE TABLE project_context_snapshots(
+     id TEXT PRIMARY KEY NOT NULL,
+     mission_id TEXT NOT NULL REFERENCES missions(id) ON DELETE RESTRICT,
+     snapshot_payload TEXT NOT NULL CHECK(json_valid(snapshot_payload) AND length(CAST(snapshot_payload AS BLOB))<=2097152),
+     snapshot_hash TEXT NOT NULL CHECK(length(snapshot_hash)=64 AND snapshot_hash NOT GLOB '*[^0-9a-f]*'),
+     created_at TEXT NOT NULL CHECK(length(created_at)>0)
+    ) STRICT;
+    CREATE INDEX context_mission_created ON project_context_snapshots(mission_id,created_at DESC);
+    CREATE TRIGGER context_no_replace BEFORE INSERT ON project_context_snapshots WHEN EXISTS(SELECT 1 FROM project_context_snapshots WHERE id=NEW.id) BEGIN SELECT RAISE(ABORT,'Context snapshots are immutable'); END;
+    CREATE TRIGGER context_no_update BEFORE UPDATE ON project_context_snapshots BEGIN SELECT RAISE(ABORT,'Context snapshots are immutable'); END;
+    CREATE TRIGGER context_no_delete BEFORE DELETE ON project_context_snapshots BEGIN SELECT RAISE(ABORT,'Context snapshots are immutable'); END`);
+    connection.prepare('INSERT INTO schema_migrations VALUES(4,?)').run(new Date().toISOString());applied.push(4);
+   }
+   connection.exec('PRAGMA user_version=4; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==3)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==4)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }

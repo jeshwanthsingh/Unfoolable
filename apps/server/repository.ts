@@ -19,15 +19,18 @@ function within(path: string, roots: readonly string[]): boolean {
 }
 const outside = () => new ProjectError('OUTSIDE_ALLOWED_ROOT', 'That folder is outside the allowed project locations.', 403);
 type GitFailure = Error & {code?: string | number; signal?: string | null; stderr?: string};
-async function gitRead(cwd: string, args: string[]): Promise<string> {
+export async function gitBytes(cwd: string, args: string[], maxBuffer=16384, config:readonly string[]=[]): Promise<Buffer> {
   const env: NodeJS.ProcessEnv = {
     PATH: process.env.PATH ?? '/usr/bin:/bin', HOME: homedir(), LANG: 'C', LC_ALL: 'C',
     GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0'
   };
   const result = await execute('git', ['--no-pager', '--no-optional-locks', '--no-lazy-fetch',
     '-c', 'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null', '-c', 'protocol.allow=never',
-    '-C', cwd, ...args], {env, timeout: 4000, maxBuffer: 16384, encoding: 'utf8'});
-  return result.stdout.trim();
+    ...config.flatMap(value=>['-c',value]), '-C', cwd, ...args], {env, timeout: 4000, maxBuffer, encoding: 'buffer'});
+  return result.stdout;
+}
+async function gitRead(cwd:string,args:string[]):Promise<string>{
+ return (await gitBytes(cwd,args)).toString('utf8').trim();
 }
 function unexpected(error: unknown, operation: string, logger: Logger): never {
   const e = error as GitFailure;

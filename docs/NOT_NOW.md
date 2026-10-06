@@ -1,9 +1,7 @@
-# Not implemented after Breakout 2
+# Not implemented after Breakout 3
 
-Project understanding/analysis, repository scanning, README or AGENTS parsing, language detection, repo maps, file indexing, vector search, AI calls, clarification, requirements, scope generation, vertical slices, evaluation contracts, mission compilation, Codex runtime, execution, attempts, agents, approvals, product verification, receipts, reviewers, memory, Antigravity, Aegis, Jev, multiple agents, embedded terminal, personal Chrome, deployment, remote Git publishing, worktree management and SSE.
+Targeted source reading, AI project analysis, semantic understanding, clarification questions, requirements, scope, Mission Contract, evaluation contract, vertical slices, mission compilation, Codex builder/runtime, execution, attempts, agents, approvals, product verification, receipts, reviewers, memory, repo indexing, full-text indexing, embeddings, vector search, AST indexing, ranked repo maps, Antigravity, Aegis, Jev, embedded terminal, personal Chrome, deployment, remote Git publishing, worktree management and SSE.
 
-Project registration records Git identity only. It grants no permission to change or analyze repository files. registered_head and registered_branch are registration-time observations, not freshness status. Update/delete and automatic repository reinspection are absent. Playwright remains a development verifier.
+Project registration records Git identity. Missions preserve raw user intent and remain DRAFT. Project Context captures bounded observed Git facts and paths, without reading or analyzing source contents. Capturing context does not make a Mission ready or authorize execution. Update/delete, relocation and automatic reinspection remain absent. Playwright is only a development verifier.
 
-A Mission is durable original user intent, with only the DRAFT phase. It is not an execution process. No understanding, clarification or execution happens after creation.
-
-Breakout 3 — Read-Only Project Understanding requires a separate task.
+Breakout 4 — Targeted Project Analysis + High-Value Clarification Questions requires a separate task.

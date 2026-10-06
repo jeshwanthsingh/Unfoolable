@@ -1,4 +1,5 @@
 import {useEffect,useState} from 'react';
+import {ProjectContextPanel} from './ProjectContextPanel.tsx';
 import {isMission} from '../../../packages/shared/missions.ts';
 import type {Mission} from '../../../packages/shared/missions.ts';
 type State={kind:'loading'}|{kind:'loaded';mission:Mission}|{kind:'failed';message:string};
@@ -24,5 +25,6 @@ export function MissionDetail({id,projectId,onBack}:{id:string;projectId:string;
    <h4>Original request</h4><p className="mission-intent original-request">{state.mission.originalIntent}</p>
    <p className="draft-note">Your request has been recorded. It has not been analyzed or clarified.</p>
   </article>}
+  {state.kind==='loaded'&&<ProjectContextPanel missionId={state.mission.id}/>}
  </div>;
 }

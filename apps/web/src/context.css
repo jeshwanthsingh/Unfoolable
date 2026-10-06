@@ -1,0 +1,21 @@
+.context-panel { margin-top: var(--space-8); }
+.context-panel .projects-heading h3 { margin: var(--space-2) 0; font-size: 1.3rem; }
+.context-empty, .context-snapshot { margin-top: var(--space-5); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-6); background: var(--surface); }
+.context-empty h4 { margin: 0 0 var(--space-3); }
+.context-empty p, .context-note { font-size: .78rem; color: var(--muted); line-height: 1.75; }
+.context-facts { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: var(--space-5); padding-bottom: var(--space-6); border-bottom: 1px solid var(--border); }
+.context-facts dt { color: var(--muted); font-size: .7rem; margin-bottom: var(--space-3); }
+.context-facts dd { margin: 0; font-size: .95rem; overflow-wrap: anywhere; }
+.context-panel h4 { font-size: .86rem; margin: var(--space-6) 0 var(--space-3); }
+.context-panel h5 { font-size: .75rem; font-weight: 500; text-transform: capitalize; color: var(--accent); margin-bottom: var(--space-2); }
+.context-panel ul { list-style: none; margin: 0; padding: 0; }
+.context-panel li { font-size: .75rem; line-height: 1.8; overflow-wrap: anywhere; white-space: pre-wrap; }
+.context-path-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--space-6); }
+.context-paths p, .context-identity { font-size: .7rem; color: var(--muted); line-height: 1.8; }
+.context-structure li { display: flex; justify-content: space-between; gap: var(--space-4); }
+.context-structure li span { color: var(--muted); white-space: nowrap; }
+.context-notice { color: var(--accent); font-size: .72rem; }
+.context-identity { border-top: 1px solid var(--border); padding-top: var(--space-4); }
+.context-identity summary { cursor: pointer; }
+.context-identity code { display: block; overflow-wrap: anywhere; }
+@media(max-width:760px) { .context-panel > .projects-heading { align-items: flex-start; flex-direction: column; } .context-facts { grid-template-columns: repeat(2,minmax(0,1fr)); } .context-path-grid { grid-template-columns: 1fr; gap: 0; } .context-empty,.context-snapshot { padding: var(--space-5); } }
