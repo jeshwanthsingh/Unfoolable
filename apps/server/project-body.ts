@@ -1,15 +1,15 @@
 import type {IncomingMessage} from 'node:http';
 import {ProjectError} from './project-errors.ts';
-export function projectBody(req: IncomingMessage): Promise<Record<string, unknown>> {
+export function projectBody(req: IncomingMessage, subject = 'registration'): Promise<Record<string, unknown>> {
   if (req.headers['content-type']?.split(';')[0]?.trim() !== 'application/json')
-    return Promise.reject(new ProjectError('INVALID_REQUEST', 'Registration requires a JSON request.', 415));
+    return Promise.reject(new ProjectError('INVALID_REQUEST', `The ${subject} request requires JSON.`, 415));
   const limit = 16384;
-  if (Number(req.headers['content-length']) > limit) {req.resume();return Promise.reject(new ProjectError('PAYLOAD_TOO_LARGE', 'The registration request is too large.', 413));}
+  if (Number(req.headers['content-length']) > limit) {req.resume();return Promise.reject(new ProjectError('PAYLOAD_TOO_LARGE', `The ${subject} request is too large.`, 413));}
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = []; let size = 0; let failed = false;
     req.on('data', (chunk: Buffer) => {
       if (failed) return; size += chunk.length;
-      if (size > limit) {failed = true;chunks.length = 0;reject(new ProjectError('PAYLOAD_TOO_LARGE', 'The registration request is too large.', 413));}
+      if (size > limit) {failed = true;chunks.length = 0;reject(new ProjectError('PAYLOAD_TOO_LARGE', `The ${subject} request is too large.`, 413));}
       else chunks.push(chunk);
     });
     req.on('end', () => {
@@ -18,9 +18,9 @@ export function projectBody(req: IncomingMessage): Promise<Record<string, unknow
         const body: unknown = JSON.parse(Buffer.concat(chunks).toString('utf8'));
         if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error('Invalid object');
         resolve(body as Record<string, unknown>);
-      } catch {reject(new ProjectError('INVALID_REQUEST', 'Enter a valid registration request.', 400));}
+      } catch {reject(new ProjectError('INVALID_REQUEST', `Enter a valid ${subject} request.`, 400));}
     });
-    req.on('error', () => reject(new ProjectError('INVALID_REQUEST', 'The registration request was interrupted.', 400)));
-    req.on('aborted', () => reject(new ProjectError('INVALID_REQUEST', 'The registration request was interrupted.', 400)));
+    req.on('error', () => reject(new ProjectError('INVALID_REQUEST', `The ${subject} request was interrupted.`, 400)));
+    req.on('aborted', () => reject(new ProjectError('INVALID_REQUEST', `The ${subject} request was interrupted.`, 400)));
   });
 }
