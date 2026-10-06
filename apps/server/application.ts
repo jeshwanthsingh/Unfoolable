@@ -1,3 +1,8 @@
+import {createBuildStore} from "./build-store.ts";
+import {createCodexBuilderDriver} from "./build-runtime.ts";
+import {buildRoute} from "./build-routes.ts";
+import {BuildError} from "./build-errors.ts";
+import type {BuilderDriver,BuildView} from "../../packages/shared/build.ts";
 import {createServer} from 'node:http';
 import type {ServerResponse} from 'node:http';
 import type {AppConfig} from './config.ts';
@@ -35,13 +40,14 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver()){
  const database=openDatabase(config.dataDir,logger);
  const context=createContextStore(database.connection,config.projectRoots,logger);
  const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,analyzer);
  const contracts=createContractStore(database.connection,logger,drafter);
  const planning=createPlanningStore(database.connection,logger,planner);
- const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
+ const builds=createBuildStore(database.connection,config,logger,builder);
+ const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
  const server=createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
@@ -55,7 +61,8 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if((mutating&&!req.headers.origin)||(req.headers.origin&&!origins.has(req.headers.origin))){error(res,403,'INVALID_ORIGIN','Unexpected or missing request origin');return;}
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
-   const pathname=new URL(req.url,'http://127.0.0.1').pathname;
+   const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   const buildResponse=await buildRoute(req,url,builds);if(buildResponse){json(res,buildResponse.status,buildResponse.body);return;}
    if(req.method==='GET'&&pathname==='/api/health'){
     try{json(res,200,{status:'ok',version:APP_VERSION,coordinator:'online',database:{status:'ready',schemaVersion:database.version()}});}
     catch{json(res,503,{status:'error',version:APP_VERSION,coordinator:'online',database:{status:'unavailable'},error:{code:'DATABASE_UNAVAILABLE',message:'Database is not ready'}});}
@@ -87,23 +94,23 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    if(mission && req.method==='GET'){json(res,200,getMission(database.connection,mission[1]!,logger));return;}
    if(req.method==='GET'&&serveWeb(pathname,config.webRoot,res))return;
    error(res,404,'NOT_FOUND','Route not found');
-  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError||problem instanceof PlanningError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
+  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError||problem instanceof PlanningError||problem instanceof BuildError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
  });
  server.requestTimeout=5000;server.headersTimeout=5000;server.keepAliveTimeout=1000;
  let closing:Promise<void>|undefined;
  const close=()=>{
   if(closing)return closing;
   logger({event:'shutdown.started'});analyses.close();contracts.close();planning.close();
-  closing=new Promise<void>((resolve,reject)=>{
+  closing=builds.close().then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}
    const timer=setTimeout(()=>server.closeAllConnections(),2000);timer.unref();
    server.close(error=>{clearTimeout(timer);finish(error);});server.closeIdleConnections();
-  });return closing;
+  }));return closing;
  };
- const start=()=>new Promise<void>((resolve,reject)=>{
+ const start=async()=>{await builds.recover();return new Promise<void>((resolve,reject)=>{
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
- });
+ });};
  return {server,database,start,close};
 }

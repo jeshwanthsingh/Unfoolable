@@ -61,5 +61,5 @@ test('accepted Unicode and NUL round-trip exactly; malformed Unicode is rejected
  const f=await fixture();try{const text='Fix café retry. 🛠️\nLiteral: <script>not executed</script>\u0000End';const r=await post(f,text);assert.equal(r.status,201);assert.equal((await list(f))[0]?.originalIntent,text);for(const bad of ['\ud800','\udfff']){const rejected=await post(f,bad);assert.equal(rejected.status,400);assert.equal(rejected.body.error.code,'INVALID_MISSION_INTENT');}assert.equal((await list(f)).length,1);}finally{await finish(f);}
 });
 test('shared boundaries reject invalid phase, intent and malformed list',()=>{
- const valid={id:'id',projectId:'project',originalIntent:'Fix login.',phase:'DRAFT',createdAt:new Date().toISOString()};assert.ok(isMission(valid));assert.ok(!isMission({...valid,phase:'BUILDING'}));assert.ok(!isMission({...valid,originalIntent:' '}));assert.ok(!isMissionsResponse({missions:[{}]}));
+ const valid={id:'id',projectId:'project',originalIntent:'Fix login.',phase:'DRAFT',createdAt:new Date().toISOString()};assert.ok(isMission(valid));assert.ok(isMission({...valid,phase:'BUILDING'}));assert.ok(isMission({...valid,phase:'CANDIDATE_READY'}));assert.ok(!isMission({...valid,phase:'VERIFIED'}));assert.ok(!isMission({...valid,originalIntent:' '}));assert.ok(!isMissionsResponse({missions:[{}]}));
 });

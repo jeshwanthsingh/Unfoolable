@@ -18,3 +18,6 @@ auth*
 cookies*
 browser-profiles/
 .DS_Store
+
+.playwright-cli/
+.coordinator-recovery.lock

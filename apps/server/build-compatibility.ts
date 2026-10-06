@@ -1,0 +1,9 @@
+import {BuildError} from './build-errors.ts';
+import {CERTIFIED_CODEX_VERSION,BUILD_LIMITS} from '../../packages/shared/build.ts';
+export {BUILDER_PROMPT_VERSION} from '../../packages/shared/build.ts';
+export const CERTIFIED_BUILDER_VERSION=CERTIFIED_CODEX_VERSION;
+export const BUILDER_TIMEOUT_MS=BUILD_LIMITS.timeoutMs;
+export function certifyBuilderVersion(version:string){if(version!==CERTIFIED_BUILDER_VERSION)throw new BuildError('CODEX_VERSION_UNCERTIFIED','Builder requires the certified codex-cli 0.160.0.',503);}
+export function requireChatGPTAuthentication(status:string){if(!/^Logged in using ChatGPT\s*$/m.test(status))throw new BuildError('CHATGPT_ENTITLEMENT_REQUIRED','Builder requires the existing ChatGPT login; API-key authentication is disabled.',503);}
+export const BUILDER_PROMPT=`mission-builder-v1
+Implement exactly the selected accepted Vertical Slice. Inspect relevant implementation and tests first. Make the smallest production-quality change respecting the accepted Contract, declared scope and constraints. Do not implement later slices or broaden non-goals. Do not modify accepted Mission/Plan/Evaluation artifacts. Do not commit, push, fetch, pull, merge, rebase, deploy, change repository history, use network or install packages. Use only local execution and apply_patch inside this workspace. No browser, plugins, MCP, personal memory, host skills, agents or hooks. Project-local AGENTS.md instructions may be observed. Development checks are builder evidence only; do not claim verification or Evaluation success. If dependencies are absent, stop and explain. On completion summarize changes, actual local checks, and known concerns; then stop.`;

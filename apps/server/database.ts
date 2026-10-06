@@ -1,20 +1,13 @@
 import {DatabaseSync} from 'node:sqlite';
-import {mkdirSync,openSync,closeSync,writeFileSync,readFileSync,unlinkSync} from 'node:fs';
+import {mkdirSync} from 'node:fs';
 import {join} from 'node:path';
-import {randomUUID} from 'node:crypto';
+import {acquireDatabaseLock} from './database-lock.ts';
 import type {Logger} from './log.ts';
 import {failure} from './errors.ts';
 
 export function openDatabase(dataDir:string,logger:Logger){
  mkdirSync(dataDir,{recursive:true,mode:0o700});
- const lock=join(dataDir,'.coordinator.lock');const ownership=JSON.stringify({pid:process.pid,id:randomUUID()});
- let fd:number;
- try{fd=openSync(lock,'wx',0o600);}catch(error){
-  if(error instanceof Error&&'code'in error&&error.code==='EEXIST')throw failure('DATABASE_IN_USE','Data directory already owned; stop its coordinator or confirm a stale lock before removing it');
-  throw error;
- }
- try{writeFileSync(fd,ownership);}finally{closeSync(fd);}
- const release=()=>{if(readFileSync(lock,'utf8')===ownership)unlinkSync(lock);};
+ const release=acquireDatabaseLock(dataDir);
  let connection:DatabaseSync;
  try{connection=new DatabaseSync(join(dataDir,'command-center.sqlite'));}catch(error){release();throw error;}
  let closed=false;
@@ -26,7 +19,7 @@ export function openDatabase(dataDir:string,logger:Logger){
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>7)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current>8)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
    if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
    if(current<2){
     connection.exec(`CREATE TABLE projects(
@@ -230,10 +223,38 @@ export function openDatabase(dataDir:string,logger:Logger){
     CREATE TRIGGER evaluation_no_delete BEFORE DELETE ON evaluation_contract_revisions BEGIN SELECT RAISE(ABORT,'Accepted evaluation contracts are immutable'); END`);
     connection.prepare('INSERT INTO schema_migrations VALUES(7,?)').run(new Date().toISOString());applied.push(7);
    }
-   connection.exec('PRAGMA user_version=7; COMMIT');
+   if(current<8){
+    connection.exec(`CREATE UNIQUE INDEX plan_build_binding ON plan_revisions(id,mission_id);
+    CREATE UNIQUE INDEX evaluation_build_binding ON evaluation_contract_revisions(id,mission_id);
+    CREATE TABLE build_attempts(
+     id TEXT PRIMARY KEY NOT NULL,mission_id TEXT NOT NULL REFERENCES missions(id),
+     plan_revision_id TEXT NOT NULL,evaluation_revision_id TEXT NOT NULL,slice_id TEXT NOT NULL,
+     generation INTEGER NOT NULL CHECK(generation>0),status TEXT NOT NULL CHECK(status IN('CREATED','STARTING','RUNNING','FINALIZING','CANDIDATE','FAILED','INTERRUPTED','RECONCILE_REQUIRED')),
+     workspace_path TEXT NOT NULL UNIQUE,base_head TEXT NOT NULL,source_root TEXT NOT NULL,source_index_hash TEXT NOT NULL,git_common_dir TEXT NOT NULL,
+     input_json TEXT NOT NULL CHECK(json_valid(input_json)),provider_version TEXT NOT NULL,transport_id TEXT NOT NULL UNIQUE,transport_valid INTEGER NOT NULL CHECK(transport_valid IN(0,1)),
+     provider_thread_id TEXT,provider_turn_id TEXT,processes_json TEXT NOT NULL DEFAULT '[]' CHECK(json_valid(processes_json)),cleanup_json TEXT CHECK(cleanup_json IS NULL OR json_valid(cleanup_json)),
+     checks_json TEXT NOT NULL DEFAULT '[]' CHECK(json_valid(checks_json)),summary TEXT CHECK(summary IS NULL OR length(summary)<=6000),logs_truncated INTEGER NOT NULL DEFAULT 0 CHECK(logs_truncated IN(0,1)),
+     started_at TEXT NOT NULL,ended_at TEXT,failure_code TEXT,failure_message TEXT,timings_json TEXT NOT NULL CHECK(json_valid(timings_json)),
+     FOREIGN KEY(plan_revision_id,mission_id) REFERENCES plan_revisions(id,mission_id),FOREIGN KEY(evaluation_revision_id,mission_id) REFERENCES evaluation_contract_revisions(id,mission_id),UNIQUE(mission_id,generation),UNIQUE(id,mission_id)
+    ) STRICT;
+    CREATE UNIQUE INDEX build_global_active ON build_attempts((1)) WHERE status IN('CREATED','STARTING','RUNNING','FINALIZING','RECONCILE_REQUIRED');
+    CREATE TRIGGER build_no_replace BEFORE INSERT ON build_attempts WHEN EXISTS(SELECT 1 FROM build_attempts WHERE id=NEW.id) BEGIN SELECT RAISE(ABORT,'Build attempts cannot be replaced'); END;
+    CREATE TRIGGER build_fixed_binding BEFORE UPDATE ON build_attempts WHEN NEW.id!=OLD.id OR NEW.mission_id!=OLD.mission_id OR NEW.generation!=OLD.generation OR NEW.plan_revision_id!=OLD.plan_revision_id OR NEW.evaluation_revision_id!=OLD.evaluation_revision_id OR NEW.slice_id!=OLD.slice_id OR NEW.input_json!=OLD.input_json OR NEW.base_head!=OLD.base_head OR NEW.workspace_path!=OLD.workspace_path OR NEW.transport_id!=OLD.transport_id OR NEW.source_root!=OLD.source_root OR NEW.source_index_hash!=OLD.source_index_hash OR NEW.git_common_dir!=OLD.git_common_dir OR NEW.provider_version!=OLD.provider_version OR NEW.started_at!=OLD.started_at OR (OLD.provider_thread_id IS NOT NULL AND NEW.provider_thread_id IS NOT OLD.provider_thread_id) OR (OLD.provider_turn_id IS NOT NULL AND NEW.provider_turn_id IS NOT OLD.provider_turn_id) BEGIN SELECT RAISE(ABORT,'Build binding is immutable'); END;
+    CREATE TRIGGER build_terminal BEFORE UPDATE ON build_attempts WHEN OLD.status IN('CANDIDATE','FAILED','INTERRUPTED') BEGIN SELECT RAISE(ABORT,'Terminal builds are immutable'); END;
+    CREATE TRIGGER build_no_delete BEFORE DELETE ON build_attempts BEGIN SELECT RAISE(ABORT,'Build attempts cannot be deleted'); END;
+    CREATE TABLE build_events(sequence INTEGER PRIMARY KEY AUTOINCREMENT,attempt_id TEXT NOT NULL REFERENCES build_attempts(id),generation INTEGER NOT NULL,transport_id TEXT NOT NULL,thread_id TEXT,turn_id TEXT,kind TEXT NOT NULL,data_json TEXT NOT NULL CHECK(json_valid(data_json) AND length(CAST(data_json AS BLOB))<=4096),created_at TEXT NOT NULL) STRICT;
+    CREATE TRIGGER build_event_update BEFORE UPDATE ON build_events BEGIN SELECT RAISE(ABORT,'Build events are immutable'); END;
+    CREATE TRIGGER build_event_delete BEFORE DELETE ON build_events BEGIN SELECT RAISE(ABORT,'Build events are immutable'); END;
+    CREATE TABLE build_candidates(id TEXT PRIMARY KEY NOT NULL,attempt_id TEXT NOT NULL UNIQUE REFERENCES build_attempts(id),candidate_json TEXT NOT NULL CHECK(json_valid(candidate_json)),created_at TEXT NOT NULL) STRICT;
+    CREATE TRIGGER candidate_no_replace BEFORE INSERT ON build_candidates WHEN EXISTS(SELECT 1 FROM build_candidates WHERE id=NEW.id OR attempt_id=NEW.attempt_id) BEGIN SELECT RAISE(ABORT,'Candidates are immutable'); END;
+    CREATE TRIGGER candidate_no_update BEFORE UPDATE ON build_candidates BEGIN SELECT RAISE(ABORT,'Candidates are immutable'); END;
+    CREATE TRIGGER candidate_no_delete BEFORE DELETE ON build_candidates BEGIN SELECT RAISE(ABORT,'Candidates are immutable'); END;`);
+    connection.prepare('INSERT INTO schema_migrations VALUES(8,?)').run(new Date().toISOString());applied.push(8);
+   }
+   connection.exec('PRAGMA user_version=8; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==7)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==8)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }

@@ -1,0 +1,37 @@
+import {useEffect,useState} from 'react';
+import type {PlanningView} from '../../../packages/shared/planning.ts';
+import type {BuildControl} from './useMissionBuild.ts';
+import {activityLabel,buildActive,executionStation} from './presentation.ts';
+import './build.css';
+export function BuildPanel({control,planning}:{control:BuildControl;planning:PlanningView|null}){
+ const {state,pending,error}=control,[sliceId,setSliceId]=useState('');
+ const view=state.kind==='loaded'?state.data:null,attempt=view?.attempt,candidate=view?.candidate;
+ const slices=planning?.current?planning.accepted?.plan.payload.verticalSlices??[]:[];
+ const pairId=planning?.accepted?.plan.pairId;
+ useEffect(()=>setSliceId(''),[pairId]);
+ const selected=slices.find(slice=>slice.id===sliceId);
+ const eligible=!!(view?.eligible&&view.phase==='PLAN_READY'&&planning?.current&&planning.phase==='PLAN_READY'&&selected&&!pending&&!buildActive(view));
+ const status=view?executionStation(view).status:state.kind==='failed'?'UNAVAILABLE':'LOADING';
+ return <section id="mission-build" className="build-panel bench" aria-labelledby="build-title" aria-busy={pending}>
+  <header className="bench-heading"><div><p className="eyebrow">BUILD / WORKBENCH</p><h3 id="build-title">Build one Slice</h3></div><span className="build-status">{status}</span></header>
+  <p>Choose one accepted end-to-end increment. Start Build creates an isolated attempt; a candidate still awaits verification.</p>
+  {state.kind==='loading'&&<p role="status">Loading build records…</p>}
+  {state.kind==='failed'&&<p className="form-error" role="alert">Build records unavailable. Refresh to confirm the current attempt.</p>}
+  {error&&<p className="form-error" role="alert">{error}</p>}
+  {(error||state.kind==='failed')&&<button className="secondary-button" onClick={control.refresh}>Refresh Build</button>}
+  {view?.eligible&&view.phase==='PLAN_READY'&&<div className="build-start"><label htmlFor="build-slice">Accepted Slice<select id="build-slice" value={sliceId} disabled={pending} onChange={event=>setSliceId(event.target.value)}><option value="">Select one Slice</option>{slices.map(slice=><option key={slice.id} value={slice.id}>{slice.id} — {slice.title}</option>)}</select></label>{selected&&<p>{selected.outcome}</p>}<button className="primary-button" disabled={!eligible} onClick={()=>void control.start(sliceId)}>{pending?'Starting Build…':'Start Build'}</button><p className="build-note">Admission rechecks the current artifacts, source repository, and runtime before launch. No next Slice starts automatically.</p></div>}
+  {view&&!view.eligible&&!attempt&&<p className="build-note">A current accepted Plan is required before a Build can start.</p>}
+  {attempt&&<>
+   <div className="build-workbench" data-build-status={attempt.status} data-worker-present={view!.workerPresent}>
+    <div className="build-worker">{view!.workerPresent&&<svg viewBox="0 0 44 32" aria-hidden="true"><path d="M8 2H36L42 8V24L36 30H8L2 24V8Z M13 16H31M22 7V25"/></svg>}<div><strong>{attempt.input.slice.id} — {attempt.input.slice.title}</strong><p>Attempt generation {attempt.generation} · {attempt.status.replaceAll('_',' ')}</p></div>{view!.workerPresent&&<span className="build-worker-marker" role="status">Codex worker present</span>}</div>
+    {attempt.failureMessage&&<p className="form-error" role="alert">{attempt.failureCode&&<strong>{attempt.failureCode} · </strong>}{attempt.failureMessage}</p>}
+    {attempt.status==='RECONCILE_REQUIRED'&&<p className="build-note">Process ownership requires reconciliation. A new Build is unavailable until the coordinator can confirm safe cleanup.</p>}
+    {candidate&&<div className="build-candidate-summary"><strong>{view!.current?'Candidate ready':'Historical candidate'}</strong><span>{candidate.changedPaths.length} changed paths{candidate.inventoryTruncated?' · bounded inventory':''}</span><span>{attempt.checks.length} builder checks</span><p>VERIFY · AWAITING — no Evaluation Claim has been executed by the authoritative verifier.</p></div>}
+   </div>
+   {candidate&&<details className="build-disclosure"><summary>View Candidate · changed files and bounded diff</summary><p>Captured changes are a candidate for future verification.</p>{candidate.changedPaths.length?<ul className="build-paths">{candidate.changedPaths.map(path=><li key={path.path}><span>{path.kind}</span><code>{path.oldPath?path.oldPath+' → ':''}{path.path}</code><span>{path.additions!==null?'+'+path.additions:''} {path.deletions!==null?'−'+path.deletions:''}</span></li>)}</ul>:<p>No changed paths captured.</p>}{candidate.inventoryTruncated&&<p>Changed-path inventory was truncated.</p>}{candidate.ignoredPaths>0&&<p>{candidate.ignoredPaths} ignored paths excluded from the candidate.</p>}<pre className="build-diff">{candidate.diff||'No text diff available.'}</pre>{candidate.diffTruncated&&<p>Diff preview truncated. Full bounded diff artifact: <code>{candidate.diffArtifactPath}</code></p>}</details>}
+   <details className="build-disclosure"><summary>View Activity · {view!.events.length} durable events</summary><ol className="build-activity">{view!.events.map(event=><li key={event.sequence}><time dateTime={event.createdAt}>{new Date(event.createdAt).toLocaleTimeString()}</time><span>{activityLabel(event)}</span><small>#{event.sequence}</small></li>)}</ol>{view!.eventsTruncated&&<p>The activity list is bounded; older events are omitted.</p>}{!view!.events.length&&<p>No recorded activity available.</p>}</details>
+   <details className="build-disclosure"><summary>Builder checks · {attempt.checks.length} · non-authoritative</summary><p>Local development checks reported by the Builder. They do not establish Evaluation Claim results.</p>{attempt.checks.map(check=><div className="build-check" key={check.itemId}><code>{check.command}</code><p>{check.status} · exit {check.exitCode??'not recorded'}</p><pre>{check.output}</pre>{check.truncated&&<p>Output truncated.</p>}</div>)}{!attempt.checks.length&&<p>No Builder checks recorded.</p>}{attempt.summary&&<><h4>Builder summary · unverified</h4><p className="build-builder-summary">{attempt.summary}</p></>}{attempt.logsTruncated&&<p>Detailed Builder output was truncated at the configured limit.</p>}</details>
+   <details className="build-disclosure build-identity"><summary>Technical details · attempt and candidate identity</summary><dl><dt>Attempt ID</dt><dd>{attempt.id}</dd><dt>Generation</dt><dd>{attempt.generation}</dd><dt>Provider</dt><dd>{attempt.provider} · {attempt.providerVersion}</dd><dt>Base HEAD</dt><dd><code>{attempt.baseHead}</code></dd><dt>Plan revision</dt><dd>{attempt.planRevisionId}</dd><dt>Evaluation revision</dt><dd>{attempt.evaluationRevisionId}</dd><dt>Workspace</dt><dd><code>{attempt.workspacePath}</code></dd><dt>Transport</dt><dd>{attempt.transportId}</dd><dt>Thread / turn</dt><dd>{attempt.providerThreadId??'Not bound'} / {attempt.providerTurnId??'Not bound'}</dd><dt>Started / ended</dt><dd>{attempt.startedAt} / {attempt.endedAt??'Not ended'}</dd><dt>Event cursor</dt><dd>{view!.nextSequence}</dd><dt>Process cleanup</dt><dd>{attempt.cleanup?.verified?'Verified':attempt.cleanup?.ambiguous?'Ownership ambiguous':'Not confirmed'}</dd>{candidate&&<><dt>Candidate ID</dt><dd>{candidate.id}</dd><dt>Candidate tree</dt><dd><code>{candidate.treeHash}</code></dd><dt>Diff SHA-256</dt><dd><code>{candidate.diffHash}</code></dd><dt>Captured</dt><dd>{candidate.createdAt}</dd></>}</dl></details>
+  </>}
+ </section>;
+}

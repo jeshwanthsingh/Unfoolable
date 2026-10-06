@@ -1,8 +1,8 @@
 # Command Center
 
-A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. Those capabilities do not exist in this foundation.
+A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. The first bounded builder now produces isolated candidates; independent verification is not implemented.
 
-Breakouts 1–6 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. Builder agents, execution adapters and execution approvals are absent.
+Breakouts 1–7 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. An explicit one-Slice Codex Builder can produce a frozen candidate. Runtime approval granting and authoritative verification are absent.
 
 ## Setup and development
 
@@ -30,7 +30,7 @@ After building, npm start serves UI and API together at http://127.0.0.1:3210. R
 
 Browser UI → local coordinator → SQLite. The APIs are GET /api/health, GET/POST /api/projects, GET/POST /api/projects/:projectId/missions and GET /api/missions/:missionId. UI initially shows checking/unknown states and refreshes health every 15 seconds or on request; a failure does not stay green. Runtime data, logs, builds and verification artifacts are Git-ignored.
 
-SQLite is owned by one coordinator per data directory. Normal shutdown releases the lock and a restart reopens the same migration metadata. An unclean crash leaves a lock: verify the recorded PID is no longer your coordinator before removing data/.coordinator.lock. Never remove a live/uncertain owner's lock. No automatic destructive recovery is implemented.
+SQLite is owned by one coordinator per data directory. Normal shutdown releases the lock and a restart reopens the same migration metadata. Startup reclaims a lock only when its recorded coordinator PID is confirmed absent; living/reused or ambiguous ownership fails closed. Interrupted Builder attempts invalidate their transport and reconcile exact recorded process identities. They never resume or become Candidates automatically.
 
 See docs/ARCHITECTURE.md and docs/NOT_NOW.md. Development-only browser evidence is saved under artifacts/breakout-1 and artifacts/breakout-2. No paid services or AI APIs are configured.
 
@@ -44,7 +44,7 @@ node scripts/ui-smoke.mjs http://127.0.0.1:3210
 
 ## Local Project Registration
 
-Choose Add Project, enter a name and an absolute repository path (or ~/ path), then Register Project. The coordinator validates Git identity read-only and confirms SQLite persistence before the card appears. Dirty repositories and detached HEAD are valid. Linked working trees are discovered by Git; no worktree management is implemented. A repository needs an existing committed HEAD.
+Choose Add Project, enter a name and an absolute repository path (or ~/ path), then Register Project. The coordinator validates Git identity read-only and confirms SQLite persistence before the card appears. Dirty repositories and detached HEAD are valid. Linked working trees are discovered by Git; registration itself performs no worktree management. A repository needs an existing committed HEAD.
 
 The allowed-root default is ~/Projects. To explicitly allow other existing folders:
 
@@ -104,7 +104,7 @@ Do not run this verifier against your personal registry. Evidence is saved under
 
 The Workbench shows registered workspaces, API-derived Mission counts and a bounded literal preview of the last viewed Mission (or recently recorded fallback). The optional browser preference stores only a Mission ID and is checked against current records. It is not an execution state. Existing APIs and SQLite models are unchanged.
 
-Engineering stations derive Intent from an actual Mission and Context from its actual latest snapshot. Loading/unavailable context stays distinct from no context. Clarify uses explicit analysis and saved decisions; Define now uses draft review and accepted revisions. Build, Verify and Proof remain noninteractive and unavailable. Needs You derives its real count from unanswered required questions.
+Engineering stations derive Intent from an actual Mission and Context from its actual latest snapshot. Loading/unavailable context stays distinct from no context. Clarify uses explicit analysis and saved decisions; Define now uses draft review and accepted revisions. Build requires an explicitly accepted Plan and Start Build; Verify and Proof remain unavailable. Needs You derives its real count from unanswered required questions.
 
 Mission detail keeps the exact Original Request, changes, inventory, complete hashes, UUID, limits and fingerprint in native keyboard-accessible disclosures. Motion respects reduced-motion preferences. See docs/VISUAL_LANGUAGE.md for design constraints. Development visual verification uses scripts/shell-ui-smoke.mjs with an isolated registry and disposable repositories; artifacts and visual review live under artifacts/breakout-3.5.
 
@@ -116,7 +116,7 @@ The packet contains exact Mission intent, snapshot identity/HEAD and selected ev
 
 The current installed codex-cli 0.160.0 uses the existing ChatGPT entitlement. The adapter is intentionally pinned to its verified capability boundary, uses no LLM SDK or API keys and fails safely if login/version changes. No billing is configured. Analysis has a 90-second process limit; failures do not mean no clarification is needed. Interrupted work is marked on restart and requires explicit retry.
 
-Needs You now shows real required questions. Choose an option or supply free text; saving updates the durable count and phase. Answers never trigger AI, requirements or execution. DRAFT means no successful current analysis; NEEDS_CLARIFICATION means required decisions remain; CLARIFIED means only that none remain. Contract drafting and explicit acceptance are described below; construction remains absent. A newer context displays an earlier-context warning; old analyses and answers remain intact.
+Needs You now shows real required questions. Choose an option or supply free text; saving updates the durable count and phase. Answers never trigger AI, requirements or execution. DRAFT means no successful current analysis; NEEDS_CLARIFICATION means required decisions remain; CLARIFIED means only that none remain. Contract drafting and explicit acceptance are described below; construction requires a separate explicit Start Build, described below. A newer context displays an earlier-context warning; old analyses and answers remain intact.
 
 Development-only verification: tests use fake analyzers; scripts/analysis-ui-smoke.mjs runs one real disposable UI analysis; scripts/analysis-quality-smoke.mjs runs exactly five explicit small quality fixtures. Both require existing ChatGPT authentication and should be used only with disposable data. Evidence lives under artifacts/breakout-4. No new application dependencies were added.
 
@@ -146,6 +146,16 @@ Edit titles, outcomes, flows, requirement bindings, evaluation wording/types/evi
 
 PLAN_REVIEW means a current candidate requires human review. PLAN_READY means a current immutable pair is agreed. PLAN_READY does not start a builder, make a worktree, run tests/browser verification, or execute project code. Changed Contract revision identity, decisions, analysis or context makes older artifacts historical; stale acceptance fails closed. Unfinished drafting is interrupted on restart, never resumed.
 
-Bounds: 1–8 slices, 1–30 claims, 700 characters per text field, at most eight flow/evidence steps, 512 KiB input, 64 KiB draft payload and 128 KiB per accepted canonical document. Hashes sort object keys and preserve array order; they identify documents, not correctness. Required evidence lives in native disclosures, and planning coverage uses accent/neutral colors. Build shows preparation only; Verify/Proof execution remain unavailable.
+Bounds: 1–8 slices, 1–30 claims, 700 characters per text field, at most eight flow/evidence steps, 512 KiB input, 64 KiB draft payload and 128 KiB per accepted canonical document. Hashes sort object keys and preserve array order; they identify documents, not correctness. Required evidence lives in native disclosures, and planning coverage uses accent/neutral colors. Build shows preparation until explicit Start Build; Verify/Proof execution remain unavailable.
 
 Development verifiers: scripts/planning-quality-smoke.mjs runs six explicit subscription-backed fixtures (--recheck makes no AI calls); scripts/planning-ui-smoke.mjs and planning-followup-ui-smoke.mjs exercise disposable registries. Exact outputs, runtime/browser evidence, screenshots, refinement and reproducible smoke helpers are under artifacts/breakout-6. No dependencies, providers, API keys or paid billing were added.
+
+## One-Slice Builder
+
+Choose an accepted Slice and explicitly Start Build. Admission requires current PLAN_READY artifacts, clean canonical source inside allowed roots, unchanged accepted base HEAD, no active/reconciliation attempt, and codex-cli 0.160.0. One Builder runs globally at a time, with a 15-minute wall-clock limit. Failures retain the accepted plan for an explicit fresh attempt. A current Candidate blocks additional construction.
+
+The coordinator creates a detached attempt worktree under the data directory. The worktree isolates source changes; Codex native sandboxing is a separate capability boundary. Network and unrelated host integrations are disabled. Unsupported permission requests grant nothing and trigger composite cleanup. No package installation, browser, remote Git mutation, automatic retry or second Slice.
+
+After verified process cleanup, a temporary Git index captures tracked changes, deletions and new nonignored files as a tree, without a user-visible commit. SQLite freezes the Candidate and its diff hash. Builder-reported commands are development evidence only. CANDIDATE_READY is not verified, and Evaluation Claims remain unexecuted. Symlinks/submodules and ignored outputs outside .cc-runtime conservatively prevent capture in this first bounded version.
+
+See docs/BUILDER_RUNTIME.md for ownership, fencing, restart, event bounds and limitations. Development-only live smoke: node scripts/build-smoke.ts --run-live --root /absolute/disposable/fixture. It prepares deterministic reviewed fixture artifacts, serves the UI, and waits for explicit Start Build; it never starts automatically. Use only a disposable fixture with your existing ChatGPT/Codex entitlement.
