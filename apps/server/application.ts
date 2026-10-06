@@ -11,6 +11,11 @@ import {listProjects,registerProject} from './projects.ts';
 import {projectBody} from './project-body.ts';
 import {ProjectError} from './project-errors.ts';
 import {MissionError} from './mission-errors.ts';
+import {createAnalysisStore} from './analysis-store.ts';
+import {analyzeMission} from './mission-analyzer.ts';
+import type {MissionAnalyzer} from './mission-analyzer.ts';
+import {AnalysisError} from './analysis-errors.ts';
+import type {AnalysisView,AttentionResponse} from '../../packages/shared/analysis.ts';
 import {createContextStore} from './context-store.ts';
 import {ContextError} from './context-errors.ts';
 import type {ContextResponse,ProjectContextSnapshot} from '../../packages/shared/context.ts';
@@ -18,10 +23,11 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission){
  const database=openDatabase(config.dataDir,logger);
  const context=createContextStore(database.connection,config.projectRoots,logger);
- const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
+ const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,analyzer);
+ const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
  const server=createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
@@ -46,6 +52,13 @@ export function createApplication(config:AppConfig,logger:Logger=log){
    const projectMissions=/^\/api\/projects\/([^/]+)\/missions$/.exec(pathname);
    if(projectMissions && req.method==='GET'){json(res,200,{missions:listMissions(database.connection,projectMissions[1]!,logger)});return;}
    if(projectMissions && req.method==='POST'){json(res,201,createMission(database.connection,projectMissions[1]!,await projectBody(req,'mission'),logger));return;}
+   if(pathname==='/api/clarifications'&&req.method==='GET'){json(res,200,analyses.attention());return;}
+   const answerRoute=/^\/api\/clarifications\/([^/]+)\/answer$/.exec(pathname);
+   if(answerRoute&&req.method==='PUT'){const body=await projectBody(req,'clarification answer');if(Object.keys(body).some(k=>k!=='text'))throw new AnalysisError('INVALID_REQUEST','Only an answer text is accepted.',400);const view=analyses.answer(answerRoute[1]!,body.text);json(res,200,view);return;}
+   const analysisRead=/^\/api\/missions\/([^/]+)\/analysis$/.exec(pathname);
+   if(analysisRead&&req.method==='GET'){json(res,200,analyses.view(analysisRead[1]!));return;}
+   const analysisWrite=/^\/api\/missions\/([^/]+)\/analyses$/.exec(pathname);
+   if(analysisWrite&&req.method==='POST'){const body=await projectBody(req,'mission analysis');if(Object.keys(body).length)throw new AnalysisError('INVALID_REQUEST','Analysis accepts only the Mission identity in its URL.',400);json(res,201,await analyses.analyze(analysisWrite[1]!));return;}
    const contextRoute=/^\/api\/missions\/([^/]+)\/context-snapshots$/.exec(pathname);
    if(contextRoute&&req.method==='GET'){json(res,200,context.list(contextRoute[1]!));return;}
    if(contextRoute&&req.method==='POST'){
@@ -57,13 +70,13 @@ export function createApplication(config:AppConfig,logger:Logger=log){
    if(mission && req.method==='GET'){json(res,200,getMission(database.connection,mission[1]!,logger));return;}
    if(req.method==='GET'&&serveWeb(pathname,config.webRoot,res))return;
    error(res,404,'NOT_FOUND','Route not found');
-  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
+  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
  });
  server.requestTimeout=5000;server.headersTimeout=5000;server.keepAliveTimeout=1000;
  let closing:Promise<void>|undefined;
  const close=()=>{
   if(closing)return closing;
-  logger({event:'shutdown.started'});
+  logger({event:'shutdown.started'});analyses.close();
   closing=new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}

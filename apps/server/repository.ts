@@ -24,7 +24,7 @@ export async function gitBytes(cwd: string, args: string[], maxBuffer=16384, con
     PATH: process.env.PATH ?? '/usr/bin:/bin', HOME: homedir(), LANG: 'C', LC_ALL: 'C',
     GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0'
   };
-  const result = await execute('git', ['--no-pager', '--no-optional-locks', '--no-lazy-fetch',
+  const result = await execute('git', ['--no-pager', '--no-optional-locks', '--no-lazy-fetch', '--no-replace-objects',
     '-c', 'core.fsmonitor=false', '-c', 'core.hooksPath=/dev/null', '-c', 'protocol.allow=never',
     ...config.flatMap(value=>['-c',value]), '-C', cwd, ...args], {env, timeout: 4000, maxBuffer, encoding: 'buffer'});
   return result.stdout;

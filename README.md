@@ -2,7 +2,7 @@
 
 A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. Those capabilities do not exist in this foundation.
 
-Breakouts 1–3.5 support persistent local Git Project registration and recording rough engineering Missions, with explicit bounded Project Context capture. A Mission in Breakout 2 is only durable user intent. It has not yet been analyzed. Agents, execution adapters and approval flows are absent.
+Breakouts 1–4 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, and bounded evidence-backed analysis with clarification decisions. A new Mission begins as exact durable user intent; analysis happens only when requested. Builder agents, execution adapters and execution approvals are absent.
 
 ## Setup and development
 
@@ -104,6 +104,18 @@ Do not run this verifier against your personal registry. Evidence is saved under
 
 The Workbench shows registered workspaces, API-derived Mission counts and a bounded literal preview of the last viewed Mission (or recently recorded fallback). The optional browser preference stores only a Mission ID and is checked against current records. It is not an execution state. Existing APIs and SQLite models are unchanged.
 
-Engineering stations derive Intent from an actual Mission and Context from its actual latest snapshot. Loading/unavailable context stays distinct from no context. Clarify, Define, Build, Verify and Proof are noninteractive and explicitly unavailable. Needs You is empty because no attention-producing features exist yet.
+Engineering stations derive Intent from an actual Mission and Context from its actual latest snapshot. Loading/unavailable context stays distinct from no context. Breakout 4 activates Clarify through explicit analysis and saved decisions. Define, Build, Verify and Proof remain noninteractive and unavailable. Needs You derives its real count from unanswered required questions.
 
 Mission detail keeps the exact Original Request, changes, inventory, complete hashes, UUID, limits and fingerprint in native keyboard-accessible disclosures. Motion respects reduced-motion preferences. See docs/VISUAL_LANGUAGE.md for design constraints. Development visual verification uses scripts/shell-ui-smoke.mjs with an isolated registry and disposable repositories; artifacts and visual review live under artifacts/breakout-3.5.
+
+## Targeted analysis and clarification
+
+With context captured, choose Analyze Mission. This is one bounded read-only Codex interpretation—not a builder. It reads selected committed text through Git, never runs registered project code and does not give Codex the repository. Evidence is bounded to 12 files (at most three root/relevant guidance files and two root/relevant manifests), 40 blocks, 8 KiB/block, 128 KiB evidence and 256 KiB packet; individual files are capped at 1 MiB, searches at 200 files/160 recorded matches. A broad/truncated packet is marked incomplete. Source contents in dirty changes are intentionally excluded.
+
+The packet contains exact Mission intent, snapshot identity/HEAD and selected evidence with path/line provenance. Analysis references must resolve to packet blocks. Model output is untrusted: strict fields, text bounds, evidence IDs, option/decision-area checks and at most five questions are enforced atomically. Zero questions is valid. Observations and inferences are separately labelled; references do not mechanically prove every AI claim.
+
+The current installed codex-cli 0.160.0 uses the existing ChatGPT entitlement. The adapter is intentionally pinned to its verified capability boundary, uses no LLM SDK or API keys and fails safely if login/version changes. No billing is configured. Analysis has a 90-second process limit; failures do not mean no clarification is needed. Interrupted work is marked on restart and requires explicit retry.
+
+Needs You now shows real required questions. Choose an option or supply free text; saving updates the durable count and phase. Answers never trigger AI, requirements or execution. DRAFT means no successful current analysis; NEEDS_CLARIFICATION means required decisions remain; CLARIFIED means only that none remain. Requirements, contracts and construction are still absent. A newer context displays an earlier-context warning; old analyses and answers remain intact.
+
+Development-only verification: tests use fake analyzers; scripts/analysis-ui-smoke.mjs runs one real disposable UI analysis; scripts/analysis-quality-smoke.mjs runs exactly five explicit small quality fixtures. Both require existing ChatGPT authentication and should be used only with disposable data. Evidence lives under artifacts/breakout-4. No new application dependencies were added.

@@ -1,3 +1,4 @@
+import {missionAnalysisPhase} from './analysis-phase.ts';
 import {randomUUID} from 'node:crypto';
 import type {DatabaseSync} from 'node:sqlite';
 import {validMissionIntent,MAX_MISSION_INTENT_LENGTH} from '../../packages/shared/missions.ts';
@@ -31,13 +32,13 @@ export function createMission(db:DatabaseSync,projectId:string,body:Record<strin
 export function listMissions(db:DatabaseSync,projectId:string,logger:Logger):Mission[] {
   try {
     requireProject(db,projectId);
-    return (db.prepare('SELECT * FROM missions WHERE project_id=? ORDER BY created_at DESC,id ASC').all(projectId) as Row[]).map(fromRow);
+    return (db.prepare('SELECT * FROM missions WHERE project_id=? ORDER BY created_at DESC,id ASC').all(projectId) as Row[]).map(row=>({...fromRow(row),phase:missionAnalysisPhase(db,row.id)}));
   } catch (problem) {return storageError(problem,logger);}
 }
 export function getMission(db:DatabaseSync,id:string,logger:Logger):Mission {
   try {
     const row=db.prepare('SELECT * FROM missions WHERE id=?').get(id) as Row|undefined;
     if (!row) throw new MissionError('MISSION_NOT_FOUND','That mission could not be found.',404);
-    return fromRow(row);
+    return {...fromRow(row),phase:missionAnalysisPhase(db,row.id)};
   } catch (problem) {return storageError(problem,logger);}
 }

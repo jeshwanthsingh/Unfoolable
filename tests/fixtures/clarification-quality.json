@@ -1,0 +1,49 @@
+[
+  {
+    "id": "vague-performance",
+    "intent": "Make this endpoint faster.",
+    "files": {
+      "README.md": "The endpoint lists active records. No workload, latency or throughput target has been decided.",
+      "src/endpoint.ts": "export function list(records) { return records.filter(r => r.active).map(r => ({id:r.id})); }",
+      "tests/endpoint.test.ts": "// Functional requirement: only active records are returned."
+    },
+    "expected": "performance"
+  },
+  {
+    "id": "compatibility-answered",
+    "intent": "Change response formatting.",
+    "files": {
+      "AGENTS.md": "Public API backwards compatibility is mandatory. Existing status codes and named fields must remain unchanged. Do not ask whether compatibility matters.",
+      "src/format.ts": "export function response(record) { return JSON.stringify({id:record.id,name:record.name}); }"
+    },
+    "expected": "compatibility-known"
+  },
+  {
+    "id": "destructive-deletion",
+    "intent": "Add delete account.",
+    "files": {
+      "README.md": "Accounts are stored with id and email. No soft-delete, permanent-erasure, retention or recovery policy has been defined.",
+      "src/accounts.ts": "export const accounts = new Map();\nexport function findAccount(id) { return accounts.get(id); }"
+    },
+    "expected": "deletion"
+  },
+  {
+    "id": "clear-bug",
+    "intent": "Fix duplicate event insertion.",
+    "files": {
+      "AGENTS.md": "An event is a duplicate exactly when its id equals an existing event id. Keep the existing record and public API unchanged. This bugfix has no product decisions to resolve.",
+      "src/events.ts": "export function insertEvent(events,event) { return [...events,event]; }",
+      "tests/events.test.ts": "// Acceptance: inserting id=x twice returns a single unchanged original event.\nassert.deepEqual(insertEvent([{id:\"x\",value:1}],{id:\"x\",value:2}),[{id:\"x\",value:1}]);"
+    },
+    "expected": "clear-bug"
+  },
+  {
+    "id": "migration-ambiguity",
+    "intent": "Add required workspace owner.",
+    "files": {
+      "README.md": "Workspace records already exist in persistent storage. No owner backfill or default value policy is defined.",
+      "src/workspaces.ts": "// Persistent existing schema: workspaces(id TEXT PRIMARY KEY, name TEXT NOT NULL)\nexport function workspace(row) { return {id:row.id,name:row.name}; }"
+    },
+    "expected": "migration"
+  }
+]

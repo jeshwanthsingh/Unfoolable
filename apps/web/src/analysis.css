@@ -1,0 +1,267 @@
+.analysis-panel {
+  margin-top:24px;
+  padding:24px;
+  min-width:0
+}
+
+.analysis-panel>p {
+  color:var(--muted);
+  line-height:1.6
+}
+
+.analysis-panel .primary-button {
+  margin:12px 0
+}
+
+.analysis-claims h4,.decisions-heading h4 {
+  margin:24px 0 10px
+}
+
+.analysis-claims ul {
+  list-style:none;
+  padding:0
+}
+
+.analysis-claims li {
+  padding:12px 0;
+  border-bottom:1px solid var(--border)
+}
+
+.claim-kind {
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted)
+}
+
+.analysis-claims li p {
+  margin:7px 0;
+  line-height:1.6
+}
+
+.evidence-disclosure summary {
+  cursor:pointer;
+  font-size:12px
+}
+
+.evidence-disclosure pre {
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  font-size:12px;
+  max-height:320px;
+  overflow:auto;
+  padding:12px;
+  background:rgba(0,0,0,.2)
+}
+
+.evidence-disclosure code {
+  overflow-wrap:anywhere
+}
+
+.evidence-note,.analysis-provenance,.answer-date {
+  font-size:12px;
+  color:var(--muted)
+}
+
+.analysis-warning {
+  border-left:3px solid var(--status-warning);
+  padding-left:12px
+}
+
+.clarification-question {
+  padding:20px 0;
+  border-top:1px solid var(--border);
+  min-width:0
+}
+
+.question-heading {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  color:var(--status-warning);
+  font-size:12px
+}
+
+.clarification-question h4 {
+  font-size:18px;
+  line-height:1.5;
+  margin:12px 0
+}
+
+.clarification-question h4:focus {
+  outline:2px solid var(--accent);
+  outline-offset:5px
+}
+
+.question-reason {
+  line-height:1.6;
+  color:var(--muted)
+}
+
+.clarification-question fieldset {
+  border:0;
+  padding:0;
+  margin:16px 0
+}
+
+.clarification-question legend {
+  font-size:12px;
+  margin-bottom:10px
+}
+
+.question-option {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 0;
+  line-height:1.5
+}
+
+.question-option input {
+  margin-top:5px;
+  flex-shrink:0
+}
+
+.decision-editor>label {
+  display:block;
+  font-weight:600;
+  margin:16px 0 8px
+}
+
+.decision-editor>label span {
+  display:block;
+  font-weight:400;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:5px
+}
+
+.clarification-question textarea {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  min-height:100px;
+  resize:vertical;
+  padding:12px;
+  color:inherit;
+  background:rgba(0,0,0,.2);
+  border:1px solid var(--border);
+  border-radius:6px;
+  font:inherit;
+  margin-bottom:12px
+}
+
+.answer-confirmed,.clarified-note {
+  color:var(--status-good)
+}
+
+.analysis-metadata {
+  margin-top:20px
+}
+
+.analysis-metadata summary {
+  cursor:pointer
+}
+
+.analysis-metadata dd {
+  margin:4px 0 12px;
+  overflow-wrap:anywhere;
+  font-size:12px
+}
+
+.analysis-metadata dt {
+  font-size:12px;
+  color:var(--muted)
+}
+
+.attention-items {
+  padding:0;
+  list-style:none
+}
+
+.attention-items li {
+  border-top:1px solid var(--border);
+  padding:12px 0
+}
+
+.attention-link {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  background:none;
+  border:0;
+  color:inherit;
+  text-align:left;
+  width:100%;
+  padding:0;
+  cursor:pointer
+}
+
+.attention-link span,.attention-link small {
+  font-size:11px;
+  color:var(--muted)
+}
+
+.attention-link strong {
+  line-height:1.5;
+  font-weight:500
+}
+
+.stations [data-state="attention"] .station-status {
+  color:var(--status-warning)
+}
+
+.stations [data-state="failed"] .station-status {
+  color:var(--status-error)
+}
+
+@media(max-width:600px) {
+  .analysis-panel {
+    padding:18px
+  }
+
+  .question-heading {
+    flex-wrap:wrap
+  }
+
+  .analysis-panel .primary-button {
+    width:100%
+  }
+
+}
+
+.additional-claims summary,.decision-editor summary {
+  cursor:pointer;
+  font-size:.78rem;
+  color:var(--accent);
+  line-height:1.8;
+  margin:12px 0
+}
+
+.decision-editor {
+  padding:4px 0
+}
+
+.analysis-claims li p {
+  font-size:.86rem
+}
+
+.stations li[data-state=attention] {
+  border-top-color:var(--status-warning)
+}
+
+.stations li[data-state=attention] .station-glyph {
+  stroke:var(--status-warning)
+}
+
+.stations li[data-state=attention] circle {
+  fill:var(--status-warning)
+}
+
+.stations:has([data-station=Clarify][data-state=attention]) li:nth-child(2):after {
+  border-top:1px solid var(--status-warning)
+}
+
+.stations:has([data-station=Clarify][data-state=captured]) li:nth-child(2):after {
+  border-top:1px solid var(--status-good)
+}

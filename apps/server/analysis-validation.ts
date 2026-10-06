@@ -1,0 +1,24 @@
+import {DECISION_AREAS} from '../../packages/shared/analysis.ts';
+import type {AnalysisPacket,AnalysisResult,AnalysisClaim,QuestionDraft} from '../../packages/shared/analysis.ts';
+import {AnalysisError} from './analysis-errors.ts';
+const invalid=():never=>{throw new AnalysisError('INVALID_ANALYSIS_OUTPUT','Analysis returned an invalid structured result. No questions were activated.');};
+function object(value:unknown,keys:readonly string[]):Record<string,unknown>{if(!value||typeof value!=='object'||Array.isArray(value))return invalid();const v=value as Record<string,unknown>;if(Object.keys(v).length!==keys.length||!keys.every(k=>Object.hasOwn(v,k)))return invalid();return v;}
+function text(value:unknown,max:number):string{if(typeof value!=='string'||!value.trim()||value.length>max||/[\uD800-\uDFFF]/u.test(value))return invalid();return value;}
+function refs(value:unknown,packet:AnalysisPacket):string[]{if(!Array.isArray(value)||value.length>8||!value.every(x=>typeof x==='string'&&packet.evidence.some(e=>e.id===x))||new Set(value).size!==value.length)return invalid();return value as string[];}
+export function validateAnalysisResult(input:unknown,packet:AnalysisPacket):AnalysisResult{
+ let value:unknown=input;
+ if(typeof input==='string'){if(Buffer.byteLength(input)>65536)return invalid();try{value=JSON.parse(input);}catch{return invalid();}}
+ const root=object(value,['understanding','questions']);const understanding=object(root.understanding,['relevantAreas','currentBehavior','constraints','uncertainties']);
+ const claims=(value:unknown):AnalysisClaim[]=>{if(!Array.isArray(value)||value.length>8)return invalid();return value.map(c=>{const v=object(c,['text','kind','evidenceIds']);if(!['observation','inference','uncertainty'].includes(String(v.kind)))return invalid();const evidenceIds=refs(v.evidenceIds,packet);if(v.kind==='observation'&&!evidenceIds.length)return invalid();return {text:text(v.text,900),kind:v.kind as AnalysisClaim['kind'],evidenceIds};});};
+ if(!Array.isArray(root.questions)||root.questions.length>5)return invalid();
+ const questions:QuestionDraft[]=root.questions.map(q=>{const v=object(q,['question','whyItMatters','decisionArea','options','evidenceIds']);if(!DECISION_AREAS.includes(v.decisionArea as QuestionDraft['decisionArea']))return invalid();if(!Array.isArray(v.options)||v.options.length>5)return invalid();const options=v.options.map(x=>text(x,180));if(new Set(options.map(o=>o.trim().toLowerCase())).size!==options.length)return invalid();const question=text(v.question,600);
+  if(/^(?:should (?:we|i) (?:write|add) tests|should (?:we|i) handle errors|what programming language|should (?:the )?(?:code|implementation) be clean)/i.test(question.trim()))return invalid();
+  if(/(?:paste|provide|enter|send).*(?:password|api key|access token|private key)/i.test(question))return invalid();
+  return {question,whyItMatters:text(v.whyItMatters,500),decisionArea:v.decisionArea as QuestionDraft['decisionArea'],options,evidenceIds:refs(v.evidenceIds,packet)};});
+ if(new Set(questions.map(q=>q.question.trim().toLowerCase())).size!==questions.length)return invalid();
+ return {understanding:{relevantAreas:claims(understanding.relevantAreas),currentBehavior:claims(understanding.currentBehavior),constraints:claims(understanding.constraints),uncertainties:claims(understanding.uncertainties)},questions};
+}
+const string={type:'string'};
+const evidenceIds={type:'array',items:string,maxItems:8};
+const claim={type:'object',additionalProperties:false,required:['text','kind','evidenceIds'],properties:{text:{type:'string',maxLength:900},kind:{type:'string',enum:['observation','inference','uncertainty']},evidenceIds}};
+export const ANALYSIS_OUTPUT_SCHEMA={type:'object',additionalProperties:false,required:['understanding','questions'],properties:{understanding:{type:'object',additionalProperties:false,required:['relevantAreas','currentBehavior','constraints','uncertainties'],properties:Object.fromEntries(['relevantAreas','currentBehavior','constraints','uncertainties'].map(k=>[k,{type:'array',items:claim,maxItems:8}]))},questions:{type:'array',maxItems:5,items:{type:'object',additionalProperties:false,required:['question','whyItMatters','decisionArea','options','evidenceIds'],properties:{question:{type:'string',maxLength:600},whyItMatters:{type:'string',maxLength:500},decisionArea:{type:'string',enum:DECISION_AREAS},options:{type:'array',items:{type:'string',maxLength:180},maxItems:5},evidenceIds}}}}};

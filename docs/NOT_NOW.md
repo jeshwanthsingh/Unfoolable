@@ -1,9 +1,7 @@
-# Not implemented after Breakout 3
+# Not implemented after Breakout 4
 
-Targeted source reading, AI project analysis, semantic understanding, clarification questions, requirements, scope, Mission Contract, evaluation contract, vertical slices, mission compilation, Codex builder/runtime, execution, attempts, agents, approvals, product verification, receipts, reviewers, memory, repo indexing, full-text indexing, embeddings, vector search, AST indexing, ranked repo maps, Antigravity, Aegis, Jev, embedded terminal, personal Chrome, deployment, remote Git publishing, worktree management and SSE.
+Requirements, Mission Contract, scope compilation, vertical-slice planning, Evaluation Contract, Codex builder/runtime, project code execution, worktrees, execution approvals, protected evaluator, reviewers, receipts, Aegis, Jev, multiple product agents, autonomous loops, generic memory, full-text/AST indexing, embeddings, vector databases, embedded terminal, personal Chrome, deployment and SSE.
 
-Project registration records Git identity. Missions preserve raw user intent and remain DRAFT. Project Context captures bounded observed Git facts and paths, without reading or analyzing source contents. Capturing context does not make a Mission ready or authorize execution. Update/delete, relocation and automatic reinspection remain absent. Playwright is only a development verifier.
+Project Context remains observed facts. Mission Analysis is evidence-bound AI interpretation, not authoritative repository truth. Clarification answers record product decisions and grant no execution authority. CLARIFIED means no required questions remain for the current successful analysis; it does not mean ready to build or verified. No automatic AI/requirements cascade follows answers.
 
-Breakout 4 — Targeted Project Analysis + High-Value Clarification Questions requires a separate task.
-
-Breakout 3.5 reserves dormant visual stations only. No attention items, stage persistence, workers, activity streams, logs, approvals or execution were added. “Current Mission” means a validated last-viewed browser preference.
+Breakout 5 — Mission Contract: Requirements + Scope + Non-Goals requires a separate task.
