@@ -1,3 +1,7 @@
+import type {diagnoseVerificationFailure} from './debug-diagnosis.ts';
+import {createDebugStore} from './debug-store.ts';
+import {debugRoute} from './debug-routes.ts';
+import type {DebugView} from '../../packages/shared/debug.ts';
 import {createVerificationStore} from "./verification-store.ts";
 import {verificationRoute} from "./verification-routes.ts";
 import type {VerificationView} from "../../packages/shared/verification.ts";
@@ -45,7 +49,7 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver()){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure){
  const database=openDatabase(config.dataDir,logger);
  const context=createContextStore(database.connection,config.projectRoots,logger);
  const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,analyzer);
@@ -53,7 +57,9 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const planning=createPlanningStore(database.connection,logger,planner);
  const builds=createBuildStore(database.connection,config,logger,builder);
  const verification=createVerificationStore(database.connection,config,logger);
- const json=(res:ServerResponse,status:number,body:Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
+ builds.bindCorrectionVerifier(verification.view);
+ const debugging=createDebugStore(database.connection,config,logger,{builder:builds,verification,...(diagnoser?{diagnose:diagnoser}:{})});
+ const json=(res:ServerResponse,status:number,body:DebugView|Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
  const server=createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
@@ -68,6 +74,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   const debugResponse=await debugRoute(req,url,debugging);if(debugResponse){json(res,debugResponse.status,debugResponse.body);return;}
    const verificationResponse=await verificationRoute(req,url,verification);if(verificationResponse){json(res,verificationResponse.status,verificationResponse.body);return;}
    const buildResponse=await buildRoute(req,url,builds);if(buildResponse){json(res,buildResponse.status,buildResponse.body);return;}
    if(req.method==='GET'&&pathname==='/api/health'){
@@ -80,7 +87,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    const projectMissions=/^\/api\/projects\/([^/]+)\/missions$/.exec(pathname);
    if(projectMissions && req.method==='GET'){json(res,200,{missions:listMissions(database.connection,projectMissions[1]!,logger)});return;}
    if(projectMissions && req.method==='POST'){json(res,201,createMission(database.connection,projectMissions[1]!,await projectBody(req,'mission'),logger));return;}
-   if(pathname==='/api/attention'&&req.method==='GET'){const items=[...analyses.attention().items.map(item=>({...item,kind:'clarification' as const})),...contracts.attention(),...planning.attention(),...builds.attention(),...verification.attention()];json(res,200,{items,count:items.length});return;}
+   if(pathname==='/api/attention'&&req.method==='GET'){const items=[...analyses.attention().items.map(item=>({...item,kind:'clarification' as const})),...contracts.attention(),...planning.attention(),...builds.attention(),...verification.attention(),...debugging.attention()];json(res,200,{items,count:items.length});return;}
    const planningResponse=await planningRoute(req,pathname,planning);if(planningResponse){json(res,planningResponse.status,planningResponse.body);return;}
    const contractResponse=await contractRoute(req,pathname,contracts);if(contractResponse){json(res,contractResponse.status,contractResponse.body);return;}
    if(pathname==='/api/clarifications'&&req.method==='GET'){json(res,200,analyses.attention());return;}
@@ -108,14 +115,14 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const close=()=>{
   if(closing)return closing;
   logger({event:'shutdown.started'});analyses.close();contracts.close();planning.close();
-  closing=Promise.all([builds.close(),verification.close()]).then(()=>new Promise<void>((resolve,reject)=>{
+  closing=debugging.close().then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}
    const timer=setTimeout(()=>server.closeAllConnections(),2000);timer.unref();
    server.close(error=>{clearTimeout(timer);finish(error);});server.closeIdleConnections();
   }));return closing;
  };
- const start=async()=>{await builds.recover();await verification.recover();return new Promise<void>((resolve,reject)=>{
+ const start=async()=>{await builds.recover();await verification.recover();await debugging.recover();return new Promise<void>((resolve,reject)=>{
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
  });};

@@ -1,5 +1,5 @@
-# Not implemented after Breakout 9
+# Not implemented after Breakout 10
 
-Broad/session/persistent or network permission grants, automatic recovery/resume, live turn resume, automatic retry, automatic next Slice, generic target-project browser/performance acceptance, arbitrary project command recipes, debugging/correction loop, reviewer, receipts, merge/rebase/push/PR/deploy, Aegis, Jev, multi-agent orchestration, autonomous loops, project memory, generic notification engines, embedded terminal and personal Chrome.
+Reviewer, final evidence receipt, Mission completion, merge/rebase/push/PR/deploy, automatic next Slice, Aegis, Jev, multi-agent orchestration, global learning/skill generation, project memory, generic notification engines, embedded terminal and personal Chrome. Broad/session/persistent/network permission grants, automatic recovery/resume, live turn resume, arbitrary project command recipes and generic target-project browser/performance acceptance remain unavailable.
 
-The Builder produces one frozen Candidate only. Builder development checks do not mark a Mission or Evaluation Claim verified. REST plus bounded durable-event polling is used; SSE remains deferred while one global worker and existing polling meet this slice.
+Debugging is explicitly started from a current deterministic protected failure and capped at two corrections against the same accepted scope/oracle. It never changes success criteria. Existing exact runtime permissions remain human decisions. REST and bounded polling are sufficient; SSE remains deferred. Protected acceptance is distinct from final Mission completion and a receipt.

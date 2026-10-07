@@ -1,8 +1,8 @@
 # Command Center
 
-A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. The first bounded builder now produces isolated candidates; explicit protected verification is available for a narrow denial fixture, objective path checks and manual claims. Other claims remain unsupported.
+A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. The first bounded builder now produces isolated candidates; explicit protected verification is available for a narrow denial fixture, objective path checks and manual claims. Other claims remain unsupported. Explicit Attempt Fix now starts at most two evidence-backed corrections, each automatically checked against the same protected oracle.
 
-Breakouts 1–9 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. An explicit one-Slice Codex Builder can produce a frozen candidate. Human-mediated narrow runtime permissions and composite Cancel are available; the Test Chamber now records protected claim evidence against exact frozen Candidate and accepted-artifact identities.
+Breakouts 1–10 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. An explicit one-Slice Codex Builder can produce a frozen candidate. Human-mediated narrow runtime permissions and composite Cancel are available; the Test Chamber now records protected claim evidence against exact frozen Candidate and accepted-artifact identities.
 
 ## Setup and development
 
@@ -173,3 +173,11 @@ The initial automatic recipe supports the explicitly accepted `approval.py` deni
 Native execution currently requires macOS and the existing Python 3 interpreter. A process-local native sandbox denies network, fork, exec, signalling, user/control reads and writes outside disposable scratch. System/framework reads remain available; this is no Aegis microVM or universal hostile-code security certification. Missing sandbox/toolchain support fails inconclusive. See docs/PROTECTED_VERIFICATION.md for the precise boundary.
 
 Rerun creates independent history. Restart interrupts unfinished Runs and reconciles recorded process identities; it never resumes or infers PASS. Changed evidence or bindings make old results historical. Proof/receipt and automatic correction remain unavailable.
+
+## Bounded debugging
+
+An eligible current definitive protected FAIL exposes **Attempt Fix**. The Debug Bench records a bounded, hashed Failure Packet and a tool-free subscription-backed Codex diagnosis. Only a validated `candidate_defect` classification can start correction. Ambiguity, evaluator/environment issues, stale identities, uncertain cleanup and exhausted budgets need human attention. ERROR/UNSUPPORTED/INCONCLUSIVE are never code-fix admission states.
+
+Each correction uses the existing Builder in a fresh workspace seeded from the exact frozen parent Candidate; its original accepted base is preserved. The existing explicit permission, cancellation and reconciliation boundaries apply. All required claims run automatically against the unchanged Evaluation, Recipe and evaluator. Two corrections is a durable maximum. `RESOLVED` means protected acceptance checks passed, not Mission completion; no receipt exists. Restart interrupts work and never resumes partial diagnosis or grants permission.
+
+See [DEBUGGING.md](docs/DEBUGGING.md). Development-only reproducible fixture: `node scripts/debug-smoke.ts --fixture --production --scenario two --case bad --root /private/tmp/command-center-debug-smoke` after `npm run build`. The CLI prints a loopback URL. Use the UI Run Verification → Attempt Fix. `real` uses the existing ChatGPT-backed Codex for diagnosis/correction; other enumerated scenarios are explicitly labeled lifecycle adapters, not product providers.

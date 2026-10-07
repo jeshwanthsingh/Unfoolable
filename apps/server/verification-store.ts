@@ -1,3 +1,4 @@
+import {diagnosisOwnershipUncertain} from './debug-ownership.ts';
 import {randomUUID} from 'node:crypto';
 import {mkdirSync,writeFileSync,readFileSync,lstatSync,realpathSync,openSync,fstatSync,readSync,closeSync,constants} from 'node:fs';
 import {join,resolve} from 'node:path';
@@ -20,6 +21,7 @@ import {verifierEnvironment} from './verification-environment.ts';
 export class VerificationError extends BuildError {}
 const fail=(code:string,message:string,status=409):never=>{throw new VerificationError(code,message,status);};
 const active=['CREATED','PREPARING','RUNNING'];
+type DebugVerificationBinding={sessionId:string;recipeId:string;recipeHash:string;evaluationHash:string;evaluatorHash:string};
 const clean:CleanupResult={verified:true,ambiguous:false,remaining:[],terminalCount:0,reason:null};
 function verifiedArtifact(path:string,bytes:number,sha:string):Buffer {
  if(!Number.isSafeInteger(bytes)||bytes<0||bytes>65536||!/^[a-f0-9]{64}$/.test(sha))throw Error('Invalid bounded artifact identity');const fd=openSync(path,constants.O_RDONLY|constants.O_NOFOLLOW|constants.O_NONBLOCK);
@@ -39,6 +41,8 @@ export async function executeStaticVerification(objectDir:string,baseHead:string
 }
 export function createVerificationStore(db:DatabaseSync,config:{dataDir:string},logger:Logger){
  const dataDir=realpathSync(resolve(config.dataDir));let recovered=false,closed=false,owned:{id:string;controller:AbortController;promise:Promise<void>}|null=null;
+ const debugOwner=()=>db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='debug_sessions'").get()?db.prepare("SELECT id,status,mission_id FROM debug_sessions WHERE status IN('CREATED','DIAGNOSING','CORRECTING','VERIFYING') LIMIT 1").get():undefined;
+ const debugAdmission=(missionId:string,binding?:DebugVerificationBinding)=>{if(diagnosisOwnershipUncertain(db))return fail('DEBUG_RECONCILE_REQUIRED','Diagnosis process ownership requires reconciliation.');const owner=debugOwner();if(owner&&(!binding||owner.id!==binding.sessionId||owner.status!=='VERIFYING'||owner.mission_id!==missionId))return fail('DEBUG_BUSY','The bounded Debug Session owns this execution slot.');if(binding&&(!owner||owner.id!==binding.sessionId))return fail('DEBUG_STALE','Debug verification ownership is no longer current.');};
  const transaction=<T>(fn:()=>T)=>{db.exec('BEGIN IMMEDIATE');try{const result=fn();db.exec('COMMIT');return result;}catch(error){db.exec('ROLLBACK');throw error;}};
  const getRun=(id:string):VerificationRun|null=>{const row=db.prepare('SELECT run_json FROM verification_runs WHERE id=?').get(id);if(!row)return null;const run=JSON.parse(String(row.run_json)) as VerificationRun;run.results=db.prepare('SELECT result_json FROM verification_claims WHERE run_id=? ORDER BY rowid').all(id).map(r=>JSON.parse(String(r.result_json)));run.evidence=db.prepare('SELECT evidence_json FROM verification_evidence WHERE run_id=? ORDER BY rowid').all(id).map(r=>JSON.parse(String(r.evidence_json)));return run;};
  const save=(run:VerificationRun)=>db.prepare('UPDATE verification_runs SET status=?,run_json=? WHERE id=?').run(run.status,JSON.stringify({...run,results:[],evidence:[]}),run.id);
@@ -79,7 +83,7 @@ export function createVerificationStore(db:DatabaseSync,config:{dataDir:string},
   if(latest)try{fresh(latest);if(!evidenceValid(latest)){current=false;reason='Verification evidence integrity changed; historical verdict is retained and is not current.';}}catch(error){current=false;recipeStale=error instanceof VerificationError&&['EVALUATOR_IDENTITY_MISMATCH','RECIPE_NOT_CURRENT','ENVIRONMENT_CHANGED'].includes(error.code);reason=error instanceof Error?error.message:'Verification binding is stale.';}
   const busy=!!db.prepare("SELECT id FROM verification_runs WHERE status IN('CREATED','PREPARING','RUNNING')").get();
   const uncertain=!!db.prepare("SELECT id FROM verification_runs WHERE json_extract(run_json,'$.cleanup.verified')=0").get();
-  return {recipe:latest?recipeFor(latest.recipeId):null,runs,current,eligible:!closed&&recovered&&(!reason||recipeStale)&&!busy&&!uncertain,reason:reason??(uncertain?'Verifier cleanup requires reconciliation.':busy?'Verification is already active.':!recovered?'Verifier recovery is pending.':null)};
+  return {recipe:latest?recipeFor(latest.recipeId):null,runs,current,eligible:!closed&&recovered&&(!reason||recipeStale)&&!busy&&!uncertain&&!diagnosisOwnershipUncertain(db)&&!debugOwner(),reason:reason??(uncertain?'Verifier cleanup requires reconciliation.':busy?'Verification is already active.':debugOwner()?'The bounded Debug Session owns this execution slot.':!recovered?'Verifier recovery is pending.':null)};
  };
  const claimSave=(id:string,result:VerificationClaimResult)=>db.prepare('UPDATE verification_claims SET status=?,result_json=? WHERE run_id=? AND claim_id=?').run(result.status,JSON.stringify(result),id,result.claimId);
  const evidence=(run:VerificationRun,claimId:string,kind:string,payload:Record<string,unknown>,truncated=false)=>{
@@ -117,11 +121,14 @@ export function createVerificationStore(db:DatabaseSync,config:{dataDir:string},
    try{const cleanup=run.cleanup&&!run.cleanup.verified?run.cleanup:run.environment.launchPending===true?{...clean,verified:false,ambiguous:true,reason:'Verifier launch identity is unproven; cleanup cannot infer absence.'}:await reconcileOwnedProcesses(run.processes);transaction(()=>{const latest=getRun(id)!;for(const result of latest.results)if(['PENDING','RUNNING'].includes(result.status))claimSave(id,{...result,status:signal.aborted?'INCONCLUSIVE':'ERROR',note:signal.aborted?'Verification interrupted.':(error instanceof Error?error.message:'Verification infrastructure error.').slice(0,2000)});latest.cleanup=cleanup;latest.status=signal.aborted?'INTERRUPTED':'ERROR';latest.error=(error instanceof Error?error.message:'Verification infrastructure error.').slice(0,2000);latest.endedAt=new Date().toISOString();save(latest);event(id,'verification.error',{status:latest.status,error:latest.error});});}catch{logger({event:'verification.persistence_failed',level:'error',code:'VERIFICATION_PERSISTENCE_FAILED',message:'Run remains non-passing; restart reconciliation is required.'});}
   }
  };
- const start=async(missionId:string)=>{
+ const start=async(missionId:string,binding?:DebugVerificationBinding)=>{
+  debugAdmission(missionId,binding);
   if(closed||!recovered)return fail('VERIFIER_UNAVAILABLE','Verifier recovery must complete.');if(owned)return fail('VERIFICATION_BUSY','Verification is already active.');
   const runId=randomUUID();transaction(()=>{
+   debugAdmission(missionId,binding);
    if(db.prepare("SELECT id FROM verification_runs WHERE status IN('CREATED','PREPARING','RUNNING') OR json_extract(run_json,'$.cleanup.verified')=0").get())return fail('VERIFICATION_BUSY','Prior Verification requires completion or cleanup.');
    const recipeStarted=performance.now(),a=admission(missionId),recipe=createVerificationRecipe({missionId,contractRevisionId:a.built.input.contractRevisionId,planRevisionId:String(a.p.id),evaluationRevisionId:String(a.e.id),evaluationHash:String(a.e.evaluation_hash),claims:a.claims,input:a.built.input,sliceClaimIds:a.slice.evaluationClaimIds,evaluatorHash:evaluatorBundle().hash});
+   if(binding&&(recipe.hash!==binding.recipeHash||recipe.evaluationHash!==binding.evaluationHash||recipe.evaluatorHash!==binding.evaluatorHash||recipeFor(binding.recipeId).hash!==recipe.hash||!db.prepare("SELECT id FROM debug_cycles WHERE session_id=? AND result='RUNNING' AND output_candidate_id=? ORDER BY number DESC LIMIT 1").get(binding.sessionId,a.candidate.id)))return fail('DEBUG_STALE','Automatic verification must retain the exact Debug oracle and correction Candidate.');
    const existing=db.prepare('SELECT id FROM verification_recipes WHERE recipe_hash=?').get(recipe.hash);if(existing){Object.assign(recipe,recipeFor(String(existing.id)));}else db.prepare('INSERT INTO verification_recipes VALUES(?,?,?,?)').run(recipe.id,missionId,recipe.hash,JSON.stringify(recipe));
    const run:VerificationRun={id:runId,missionId,candidateId:a.candidate.id,attemptId:String(a.attempt.id),generation:Number(a.attempt.generation),treeHash:a.candidate.treeHash,diffHash:a.candidate.diffHash,baseHead:a.candidate.baseHead,recipeId:recipe.id,recipeHash:recipe.hash,evaluationHash:recipe.evaluationHash,evaluatorHash:recipe.evaluatorHash,status:'CREATED',workspace:join(dataDir,'verification',runId,'workspace'),createdAt:new Date().toISOString(),endedAt:null,environment:{recipePreparationMs:performance.now()-recipeStarted},processes:[],cleanup:null,results:[],evidence:[],error:null};
    db.prepare('INSERT INTO verification_runs VALUES(?,?,?,?,?,?)').run(run.id,missionId,run.candidateId,run.recipeId,run.status,JSON.stringify(run));
@@ -146,5 +153,5 @@ export function createVerificationStore(db:DatabaseSync,config:{dataDir:string},
   try{if(record.id!==evidenceId||record.runId!==runId||record.path!==path||record.bytes<1||realpathSync(directory)!==directory||!evidenceValid(getRun(runId)!))throw Error();const value:unknown=JSON.parse(verifiedArtifact(path,record.bytes,record.sha256).toString('utf8'));if(!value||typeof value!=='object'||Array.isArray(value))throw Error();return value as Record<string,unknown>;
   }catch{return fail('EVIDENCE_IDENTITY_MISMATCH','Verification evidence bytes or ownership changed.');}
  };
- return {view,start,stop,decide,attention,recover,close,readEvidence};
+ return {view,start:(missionId:string)=>start(missionId),startForDebug:(missionId:string,binding:DebugVerificationBinding)=>start(missionId,binding),stop,decide,attention,recover,close,readEvidence};
 }
