@@ -67,7 +67,10 @@ export async function captureBuildCandidate(attempt:BuildAttempt,dataDir:string)
  for(const path of changedPaths){for(const tree of [...(path.kind!=='added'?[o.baseHead]:[]),...(path.kind!=='deleted'?[treeHash]:[])]){const blob=await safeBuildGit(o.workspacePath,['cat-file','blob',`${tree}:${path.path}`],BUILD_LIMITS.diffBytes+1);if(blob.length>BUILD_LIMITS.diffBytes)fail('CANDIDATE_FILE_LIMIT','A changed candidate file exceeds the bounded content limit.');if(secret.test(blob.toString('utf8')))fail('CANDIDATE_SECRET','Candidate content contains a credential-like value.');}}
  // A Git tree without a ref is collectible. Preserve its entire object closure in
  // an owned, bounded pack so source gc cannot erase the frozen candidate.
- const pack=await safeBuildGit(o.workspacePath,['pack-objects','--stdout','--revs'],64*1024*1024+1,undefined,Buffer.from(treeHash+'\n'));
+ const baseTree=await gitText(o.workspacePath,['rev-parse',o.baseHead+'^{tree}']);
+ const objects=await safeBuildGit(o.workspacePath,['rev-list','--objects','--no-object-names',treeHash,baseTree]);
+ // Retain these two complete trees and the BASE commit object, without copying unrelated ancestor history.
+ const pack=await safeBuildGit(o.workspacePath,['pack-objects','--stdout'],64*1024*1024+1,undefined,Buffer.concat([objects,Buffer.from(o.baseHead+'\n')]));
  if(pack.length>64*1024*1024)fail('CANDIDATE_ARCHIVE_LIMIT','The complete candidate object archive exceeds 64 MiB.');
  await owned(attempt,dataDir);const diffArtifactPath=join(paths.artifactDir,'candidate.diff');await immutableArtifact(join(paths.artifactDir,'candidate.pack'),pack);await immutableArtifact(diffArtifactPath,raw);
  const truncated=raw.length>BUILD_LIMITS.diffPreviewBytes;const diff=raw.subarray(0,BUILD_LIMITS.diffPreviewBytes).toString('utf8')+(truncated?'\n[Diff preview truncated; bounded full diff is in the artifact.]\n':'');

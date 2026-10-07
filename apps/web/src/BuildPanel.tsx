@@ -19,7 +19,7 @@ export function BuildPanel({control,planning}:{control:BuildControl;planning:Pla
  const status=view?executionStation(view).status:state.kind==='failed'?'UNAVAILABLE':'LOADING';
  return <section id="mission-build" className="build-panel bench" tabIndex={-1} aria-labelledby="build-title" aria-busy={pending}>
   <header className="bench-heading"><div><p className="eyebrow">BUILD / WORKBENCH</p><h3 id="build-title">Build one Slice</h3></div><span className="build-status">{status}</span></header>
-  <p>Choose one accepted end-to-end increment. Start Build creates an isolated attempt; a candidate still awaits verification.</p>
+  <p>Choose one accepted end-to-end increment. Start Build creates an isolated attempt; a Candidate alone establishes no acceptance result.</p>
   {state.kind==='loading'&&<p role="status">Loading build records…</p>}
   {state.kind==='failed'&&<p className="form-error" role="alert">Build records unavailable. Refresh to confirm the current attempt.</p>}
   {error&&<p className="form-error" role="alert">{error}</p>}
@@ -34,7 +34,7 @@ export function BuildPanel({control,planning}:{control:BuildControl;planning:Pla
     <div className="build-worker">{view!.workerPresent&&<svg viewBox="0 0 44 32" aria-hidden="true"><path d="M8 2H36L42 8V24L36 30H8L2 24V8Z M13 16H31M22 7V25"/></svg>}<div><strong>{attempt.input.slice.id} — {attempt.input.slice.title}</strong><p>Attempt generation {attempt.generation} · {attempt.status.replaceAll('_',' ')}</p></div>{view!.workerPresent&&<span className="build-worker-marker" role="status">{status==='WAITING FOR YOU'?'WAITING FOR YOU':status==='CANCELLING'?'CANCELLING':'Codex worker present'}</span>}</div>
     {attempt.failureMessage&&<p className="form-error" role="alert">{attempt.failureCode&&<strong>{attempt.failureCode} · </strong>}{attempt.failureMessage}</p>}
     {attempt.status==='RECONCILE_REQUIRED'&&<p className="build-note">Process ownership requires reconciliation. A new Build is unavailable until the coordinator can confirm safe cleanup.</p>}
-    {candidate&&<div className="build-candidate-summary"><strong>{view!.current?'Candidate ready':'Historical candidate'}</strong><span>{candidate.changedPaths.length} changed paths{candidate.inventoryTruncated?' · bounded inventory':''}</span><span>{attempt.checks.length} builder checks</span><p>VERIFY · AWAITING — no Evaluation Claim has been executed by the authoritative verifier.</p></div>}
+    {candidate&&<div className="build-candidate-summary"><strong>{view!.current?'Candidate ready':'Historical candidate'}</strong><span>{candidate.changedPaths.length} changed paths{candidate.inventoryTruncated?' · bounded inventory':''}</span><span>{attempt.checks.length} builder checks</span><p>Builder output is a frozen Candidate. Inspect protected Evaluation Claim results in the Test Chamber.</p></div>}
    </div>
    {activePermissions.map(request=><PermissionCard key={request.id} request={request} actionable onChanged={control.refresh}/>)}
    {!!historicalPermissions.length&&<details className="build-disclosure"><summary>Permission history · {historicalPermissions.length} · read only</summary>{historicalPermissions.map(request=><PermissionCard key={request.id} request={request} onChanged={control.refresh}/>)}</details>}

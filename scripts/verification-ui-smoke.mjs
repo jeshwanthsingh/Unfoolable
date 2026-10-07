@@ -1,0 +1,33 @@
+// Development-only browser verifier. Never an Evaluation Contract executor.
+import {execFileSync} from 'node:child_process';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+import {homedir} from 'node:os';
+import assert from 'node:assert/strict';
+const directory=resolve('artifacts/breakout-9'),cli=join(homedir(),'Projects/ai-lab/bin/playwright-cli'),steps=[];
+const run=(...args)=>{const output=execFileSync(cli,['-s=cc9-verifier',...args],{encoding:'utf8',timeout:60000,cwd:directory});steps.push({args,output});return output;};
+const code=body=>run('run-code','async(page)=>{'+body+'}');
+const session=mode=>JSON.parse(readFileSync(join(directory,'session-'+mode+'.json'),'utf8'));
+const view=async mode=>{const s=session(mode);return(await fetch(s.url+'/api/missions/'+s.missionId+'/verification')).json();};
+const save=async mode=>{const value=await view(mode);writeFileSync(join(directory,'live-'+mode+'.json'),JSON.stringify(value,null,2));return value;};
+function open(mode){const s=session(mode);const url=new URL(s.url);assert.equal(url.hostname,'127.0.0.1');run('goto',url.href);run('snapshot');code(`await page.getByRole('button',{name:'Open Mission',exact:true}).click();await page.locator('#mission-verification .verification-actions').waitFor();`);run('snapshot');}
+const shot=name=>code(`await page.locator('#mission-verification').screenshot({path:${JSON.stringify(join(directory,name))}});`);
+function start(){code(`await page.locator('#mission-verification').getByRole('button',{name:/^(Run Verification|Re-run Verification)$/}).click();`);}
+function wait(status){code(`await page.locator('#mission-verification .verification-run').first().filter({has:page.locator('[data-verification-status="${status}"]')}).count().catch(()=>0);await page.locator('#mission-verification > .verification-run[data-verification-status="${status}"]').waitFor({timeout:25000});`);}
+try{
+ run('resize','1440','1000');open('bad');start();shot('running-desktop.png');wait('FAILED');
+ const bad=await save('bad');assert.equal(bad.current,true);assert.deepEqual(bad.runs[0].results.map(r=>r.status),['FAIL','PASS']);shot('failed-desktop.png');
+ code(`const summary=page.locator('#mission-verification .verification-evidence summary').first();await summary.focus();await page.keyboard.press('Enter');if(!await summary.locator('..').evaluate(el=>el.open))throw Error('Keyboard evidence disclosure');const link=page.locator('#mission-verification .verification-evidence a').first();const response=await page.request.get(new URL(await link.getAttribute('href'),page.url()).href);if(response.status()!==200)throw Error('Evidence read failed');`);shot('failed-evidence-desktop.png');
+ open('fixed');if(!(await view('fixed')).runs.length){code(`await page.locator('#mission-verification').getByRole('button',{name:'Run Verification',exact:true}).waitFor();`);shot('candidate-not-run-desktop.png');}start();wait('PASSED');
+ const fixed=await save('fixed');assert.equal(fixed.current,true);assert.deepEqual(fixed.runs[0].results.map(r=>r.status),['PASS','PASS']);assert.equal(fixed.runs[0].treeHash,'d98b259f487da1622bf18b1b50273e4e10e56fa5');assert.equal(fixed.runs[0].evaluatorHash,bad.runs[0].evaluatorHash);
+ code(`await page.locator('#mission-verification .verification-status').filter({hasText:'ACCEPTANCE CHECKS PASSED'}).waitFor();if(await page.locator('[data-station=Proof]').getAttribute('data-state')!=='locked')throw Error('Proof activated');await page.locator('#mission-build').getByText('Builder checks',{exact:false}).first().waitFor();`);shot('passed-desktop.png');
+ const firstId=fixed.runs[0].id;start();wait('PASSED');const repeated=await save('fixed');assert.notEqual(repeated.runs[0].id,firstId);assert.equal(repeated.runs[1].id,firstId);assert.equal(repeated.runs[0].recipeHash,repeated.runs[1].recipeHash);assert.equal(repeated.runs[0].workspace===repeated.runs[1].workspace,false);
+ code(`await page.locator('#mission-verification > .verification-history > summary').click();`);shot('rerun-history-desktop.png');
+ run('resize','768','1000');code(`if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('Tablet overflow');`);shot('test-chamber-tablet.png');
+ run('resize','390','844');code(`if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('Mobile overflow');`);shot('test-chamber-mobile.png');
+ code(`await page.emulateMedia({reducedMotion:'reduce'});if(await page.evaluate(()=>getComputedStyle(document.querySelector('.view-entry')).animationName)!=='none')throw Error('Reduced motion');const summary=page.locator('#mission-verification .verification-identity summary').first();await summary.focus();if(!await summary.evaluate(el=>el===document.activeElement))throw Error('Focus lost');`);
+ run('resize','1440','1000');open('tampered');start();wait('FAILED');const tampered=await save('tampered');assert.deepEqual(tampered.runs[0].results.map(r=>r.status),['FAIL','PASS']);assert.equal(tampered.runs[0].evaluatorHash,fixed.runs[0].evaluatorHash);
+ open('manual');if(!['CREATED','PREPARING','RUNNING'].includes((await view('manual')).runs[0]?.status))start();code(`await page.locator('#mission-verification .manual-evaluation').waitFor({timeout:25000});await page.getByText('MANUAL EVALUATION REQUIRED',{exact:false}).waitFor();const submit=page.locator('#mission-verification .manual-evaluation button');if(!await submit.isDisabled())throw Error('Blank manual PASS actionable');`);shot('manual-attention-desktop.png');
+ code(`await page.locator('#mission-verification .manual-evaluation textarea').fill('Development UI fixture: no human acceptance judgment made; intentionally inconclusive.');await page.locator('#mission-verification .manual-evaluation').getByRole('button',{name:'Record human decision'}).click();`);wait('INCONCLUSIVE');const manual=await save('manual');assert.equal(manual.runs[0].results[2].status,'INCONCLUSIVE');assert.equal(manual.runs[0].results[2].operator,'local-operator');assert.ok(manual.runs[0].results[2].decidedAt);
+ writeFileSync(join(directory,'browser-results.json'),JSON.stringify({result:'PASS',flows:['explicit start','real claim transitions','known-bad failure','exact prior fixed Candidate acceptance','protected evidence API','separate Builder checks','Proof remains locked','immutable rerun history','tampered repository tests fail','manual Needs You','blank note disabled','explicit inconclusive operator fixture'],widths:[1440,768,390],keyboard:'native disclosure Enter and focus',reducedMotion:'animationName none',steps},null,2));
+}catch(error){writeFileSync(join(directory,'browser-failure.json'),JSON.stringify({error:String(error),steps},null,2));throw error;}

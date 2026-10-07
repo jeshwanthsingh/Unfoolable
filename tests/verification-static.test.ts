@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtempSync,mkdirSync,rmSync} from 'node:fs';
+import {join} from 'node:path';
+import {tmpdir} from 'node:os';
+import {randomUUID} from 'node:crypto';
+import {safeBuildGit} from '../apps/server/build-workspace.ts';
+import {executeStaticVerification} from '../apps/server/verification-store.ts';
+import {TRUSTED_FORBIDDEN_PATHS} from '../apps/server/verification-recipe.ts';
+import type {VerificationStep} from '../packages/shared/verification.ts';
+const step:VerificationStep={id:'static',claimIds:['E1'],kind:'STATIC_DIFF',timeoutMs:10000,description:'Objective protected path check.',provenance:'PROTECTED',forbiddenPaths:[...TRUSTED_FORBIDDEN_PATHS]};
+async function fixture(){
+ const root=mkdtempSync(join(tmpdir(),'cc-static-')),producer=join(root,'producer'),consumer=join(root,'consumer');mkdirSync(producer);mkdirSync(consumer);await safeBuildGit(producer,['init','--bare','-q']);await safeBuildGit(consumer,['init','--bare','-q']);
+ const tree=async(files:Record<string,string>)=>{const index=join(producer,'index-'+randomUUID());await safeBuildGit(producer,['read-tree','--empty'],undefined,index);for(const [path,contents] of Object.entries(files)){const blob=(await safeBuildGit(producer,['hash-object','-w','--stdin'],undefined,undefined,Buffer.from(contents))).toString().trim();await safeBuildGit(producer,['update-index','--add','--cacheinfo','100644',blob,path],undefined,index);}return (await safeBuildGit(producer,['write-tree'],undefined,index)).toString().trim();};
+ const baseTree=await tree({'app.txt':'base\n'}),baseHead=(await safeBuildGit(producer,['hash-object','-t','commit','-w','--stdin'],undefined,undefined,Buffer.from('tree '+baseTree+'\nauthor Static Fixture <fixture@example.invalid> 1 +0000\ncommitter Static Fixture <fixture@example.invalid> 1 +0000\n\nDisposable static BASE.\n'))).toString().trim();
+ const normal=await tree({'app.txt':'candidate\n'}),forbidden=await tree({'app.txt':'base\n','scripts/protected-verification/fixture.py':'candidate modified evaluator\n'});
+ const pack=await safeBuildGit(producer,['pack-objects','--stdout','--revs'],undefined,undefined,Buffer.from([baseHead,normal,forbidden].join('\n')+'\n'));await safeBuildGit(consumer,['unpack-objects','-r'],undefined,undefined,pack);
+ return {root,producer,consumer,baseHead,normal,forbidden,async treeOnly(){const directory=join(root,'tree-only');mkdirSync(directory);await safeBuildGit(directory,['init','--bare','-q']);const pack=await safeBuildGit(producer,['pack-objects','--stdout','--revs'],undefined,undefined,Buffer.from(normal+'\n'));await safeBuildGit(directory,['unpack-objects','-r'],undefined,undefined,pack);return directory;},finish(){rmSync(root,{recursive:true,force:true});}};
+}
+test('objective static primitive PASS uses exact BASE commit and normal Candidate path from retained Git pack closure',async()=>{const f=await fixture();try{assert.equal((await safeBuildGit(f.consumer,['cat-file','-t',f.baseHead])).toString().trim(),'commit');const result=await executeStaticVerification(f.consumer,f.baseHead,f.normal,step);assert.equal(result.status,'PASS');assert.equal(result.truncated,false);const evidence=JSON.parse(result.output);assert.deepEqual(evidence.changedPaths,['app.txt']);assert.deepEqual(evidence.findings,[]);assert.equal(evidence.semanticScopeVerified,false);assert.equal(result.cleanup.verified,true);}finally{f.finish();}});
+test('objective static primitive FAIL names the exact changed protected path and frozen matching rule',async()=>{const f=await fixture();try{const result=await executeStaticVerification(f.consumer,f.baseHead,f.forbidden,step);assert.equal(result.status,'FAIL');const evidence=JSON.parse(result.output);assert.deepEqual(evidence.forbidden,['scripts/protected-verification/fixture.py']);assert.deepEqual(evidence.findings,[{path:'scripts/protected-verification/fixture.py',rule:'scripts/protected-verification'}]);assert.equal(evidence.semanticScopeVerified,false);}finally{f.finish();}});
+test('Candidate-only retained pack without BASE is INCONCLUSIVE; empty diff cannot be inferred as PASS',async()=>{const f=await fixture();try{const treeOnly=await f.treeOnly();await assert.rejects(safeBuildGit(treeOnly,['cat-file','-e',f.baseHead]));const result=await executeStaticVerification(treeOnly,f.baseHead,f.normal,step);assert.equal(result.status,'INCONCLUSIVE');assert.match(result.output,/Base objects unavailable/);assert.equal(result.truncated,false);}finally{f.finish();}});

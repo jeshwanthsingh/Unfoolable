@@ -1,3 +1,4 @@
+import {migrateVerification} from "./verification-migration.ts";
 import {DatabaseSync} from 'node:sqlite';
 import {mkdirSync} from 'node:fs';
 import {join} from 'node:path';
@@ -19,7 +20,7 @@ export function openDatabase(dataDir:string,logger:Logger){
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>9)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current>10)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
    if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
    if(current<2){
     connection.exec(`CREATE TABLE projects(
@@ -287,10 +288,11 @@ export function openDatabase(dataDir:string,logger:Logger){
     connection.exec('INSERT INTO build_runtime_state(attempt_id) SELECT id FROM build_attempts');
     connection.prepare('INSERT INTO schema_migrations VALUES(9,?)').run(new Date().toISOString());applied.push(9);
    }
-   connection.exec('PRAGMA user_version=9; COMMIT');
+   if(current<10){migrateVerification(connection);connection.prepare('INSERT INTO schema_migrations VALUES(10,?)').run(new Date().toISOString());applied.push(10);}
+   connection.exec('PRAGMA user_version=10; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==9)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==10)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }

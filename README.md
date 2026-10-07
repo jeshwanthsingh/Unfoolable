@@ -1,8 +1,8 @@
 # Command Center
 
-A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. The first bounded builder now produces isolated candidates; independent verification is not implemented.
+A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. The first bounded builder now produces isolated candidates; explicit protected verification is available for a narrow denial fixture, objective path checks and manual claims. Other claims remain unsupported.
 
-Breakouts 1–8 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. An explicit one-Slice Codex Builder can produce a frozen candidate. Human-mediated narrow runtime permissions and composite Cancel are available; authoritative verification remains absent.
+Breakouts 1–9 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. An explicit one-Slice Codex Builder can produce a frozen candidate. Human-mediated narrow runtime permissions and composite Cancel are available; the Test Chamber now records protected claim evidence against exact frozen Candidate and accepted-artifact identities.
 
 ## Setup and development
 
@@ -163,3 +163,13 @@ See docs/BUILDER_RUNTIME.md for ownership, fencing, restart, event bounds and li
 ## Runtime decisions and Cancel
 
 A genuine supported request pauses the Builder and appears in Needs You. Allow grants exactly the displayed file-write capability for the current Codex turn; it is not one write. Deny grants nothing. Decisions are durable before transport writes, and provider acknowledgment is distinct from observed effects. Cancel invalidates pending authority and reconciles owned processes/effects before reporting interruption. Unknown recovery blocks new builds; no Force clear or callback resume. Explicit Retry creates a new generation/worktree/transport. See docs/RUNTIME_PERMISSIONS.md.
+
+## Protected verification (Breakout 9)
+
+Choose Run Verification explicitly after a Candidate exists. Each Run gets a fresh workspace from its frozen object archive, an immutable coordinator-owned recipe and bounded evidence. Builder checks remain non-authoritative. All accepted claims are required: unsupported, missing, interrupted or inconclusive evidence prevents acceptance. Acceptance checks passed means only the recorded finite checks passed for the bound Candidate/recipe/environment; it does not mean fully verified or production ready.
+
+The initial automatic recipe supports the explicitly accepted `approval.py` denial/allowed-effect fixture from stored pre-Build evidence, plus the exact objective protected-path claim. Arbitrary commands, browser and performance claims are unsupported. Accepted manual claims wait for a local operator result and nonempty evidence note. A new Run is required to revise a finalized result.
+
+Native execution currently requires macOS and the existing Python 3 interpreter. A process-local native sandbox denies network, fork, exec, signalling, user/control reads and writes outside disposable scratch. System/framework reads remain available; this is no Aegis microVM or universal hostile-code security certification. Missing sandbox/toolchain support fails inconclusive. See docs/PROTECTED_VERIFICATION.md for the precise boundary.
+
+Rerun creates independent history. Restart interrupts unfinished Runs and reconciles recorded process identities; it never resumes or infers PASS. Changed evidence or bindings make old results historical. Proof/receipt and automatic correction remain unavailable.

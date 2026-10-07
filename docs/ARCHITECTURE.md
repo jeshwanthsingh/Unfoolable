@@ -61,3 +61,5 @@ Breakout 7 adds three tables: build_attempts, build_events and build_candidates.
 Builder REST endpoints are GET /api/missions/:id/build?after=<sequence> and POST /api/missions/:id/build-attempts with only sliceId. No generic command, filesystem, permission grant or cancellation endpoint is exposed.
 
 Breakout 8 adds exact runtime permission bindings and runtime cancellation/effect metadata without replacing BuildAttempt/Candidate schemas. Needs You derives pending requests and unresolved reconciliation from SQLite. Decision persistence, stdio delivery, provider resolution and effect observation remain separate. Startup invalidates lost callback authority; explicit retries use new generations. Protected evaluation is still absent.
+
+Breakout 9 adds explicit protected verification after the frozen Candidate: immutable recipe → fresh verifier workspace → native sandbox → hashed claim evidence. All accepted claims remain required; unsupported evidence prevents acceptance. SQLite owns immutable Run history; polling reflects real state. No automatic correction, reviewer or receipt follows a check result.

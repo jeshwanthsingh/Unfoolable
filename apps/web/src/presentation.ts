@@ -1,3 +1,4 @@
+import type {VerificationView,VerificationRun} from '../../../packages/shared/verification.ts';
 import type {BuildView,BuildEvent} from '../../../packages/shared/build.ts';
 import type {PlanningView} from '../../../packages/shared/planning.ts';
 import type {ContractView} from '../../../packages/shared/contracts.ts';
@@ -6,12 +7,12 @@ import type {Mission} from '../../../packages/shared/missions.ts';
 export type ContextFact='loading'|'failed'|'absent'|'captured';
 export type Station={label:string;station:string;status:string;state:'recorded'|'captured'|'current'|'unknown'|'locked'|'attention'|'failed'};
 export const NEEDS_YOU_EMPTY='Nothing needs your attention.';
-export function journey(context:ContextFact,mission:Mission|null,clarification?:AnalysisView|null,contract?:ContractView|null,planning?:PlanningView|null,build?:BuildView|null):Station[]{
+export function journey(context:ContextFact,mission:Mission|null,clarification?:AnalysisView|null,contract?:ContractView|null,planning?:PlanningView|null,build?:BuildView|null,verification?:VerificationView|null):Station[]{
  return [{label:'Intent',station:'INTAKE',status:mission?'Intent recorded':'No intent recorded',state:mission?'recorded':'unknown'},
  {label:'Context',station:'UNDERSTAND',status:!mission?'Mission required':context==='captured'?'Context captured':context==='absent'?'Not captured':context==='loading'?'Loading context':'Context unavailable',state:!mission?'unknown':context==='captured'?'captured':context==='absent'?'current':'unknown'},
  ...(clarification===undefined?[{label:'Clarify',station:'CLARIFY',status:'Not available yet',state:'locked' as const}]:[clarifyStation(context,clarification)]),
  ...(contract===undefined?[{label:'Define',station:'DEFINE',status:'Not available yet',state:'locked' as const}]:[defineStation(contract)]),
- ...(planning===undefined?['Build','Verify','Proof'].map(label=>({label,station:label.toUpperCase(),status:'Not available yet',state:'locked' as const})):[build===null?{label:'Build',station:'BUILD',status:'Build unavailable',state:'unknown' as const}:build&&(build.attempt||build.eligible)?executionStation(build):buildStation(planning),...['Verify','Proof'].map(label=>({label,station:label.toUpperCase(),status:label==='Verify'&&build?.candidate?'AWAITING · not executed':'Execution unavailable',state:'locked' as const}))])];
+ ...(planning===undefined?['Build','Verify','Proof'].map(label=>({label,station:label.toUpperCase(),status:'Not available yet',state:'locked' as const})):[build===null?{label:'Build',station:'BUILD',status:'Build unavailable',state:'unknown' as const}:build&&(build.attempt||build.eligible)?executionStation(build):buildStation(planning),verification===undefined?{label:'Verify',station:'VERIFY',status:build?.candidate?'AWAITING · not executed':'Execution unavailable',state:'locked' as const}:verificationStation(verification),{label:'Proof',station:'PROOF',status:verification?.runs[0]?.status==='PASSED'&&verification.current?'AWAITING RECEIPT':'Receipt unavailable',state:'locked' as const}])];
 }
 export function intentPreview(intent:string):string {const paragraph=intent.trim().split(/\n\s*\n/,1)[0]??'';const text=paragraph.replace(/\s+/g,' ').trim();return text.length>180?text.slice(0,179)+'…':text;}
 export function recentMission(missions:readonly Mission[],viewedId:string|null):{mission:Mission;kind:'viewed'|'recorded'}|null{
@@ -68,4 +69,19 @@ export function mergeBuildView(previous:BuildView|null,next:BuildView):BuildView
 export function activityLabel(event:BuildEvent):string{
  const labels:Record<string,string>={'attempt.created':'Attempt created','builder.started':'Codex builder started','turn.started':'Builder turn started','tool.started':'Tool started','tool.completed':'Tool completed','builder.completed':'Builder completed','candidate.captured':'Candidate captured','attempt.failed':'Attempt failed','attempt.interrupted':'Attempt interrupted','permission.requested':'Filesystem permission requested','permission.decided':'Permission decision recorded','permission.transport_written':'Permission response written','permission.resolved':'Provider permission resolved','attempt.cancel_requested':'Cancellation requested','attempt.cancelling':'Owned execution cleanup in progress','attempt.reconcile_required':'Reconciliation required','attempt.retry_created':'Fresh attempt created'};
  return labels[event.kind]??event.kind.replaceAll('.',' · ').replaceAll('_',' ');
+}
+
+export function verificationActive(run:VerificationRun|undefined):boolean{return !!run&&['CREATED','PREPARING','RUNNING'].includes(run.status);}
+export function verificationStation(view:VerificationView|null):Station {
+ const base={label:'Verify',station:'VERIFY'};
+ if(!view)return {...base,status:'Verification unavailable',state:'unknown'};
+ const run=view.runs[0];
+ if(!run)return {...base,status:view.eligible?'AWAITING · not executed':'Verification locked',state:view.eligible?'current':'locked'};
+ if(!view.current)return {...base,status:'HISTORICAL · '+run.status,state:'attention'};
+ if(verificationActive(run))return {...base,status:run.status==='RUNNING'?'VERIFYING':run.status,state:'current'};
+ if(run.status==='PASSED'&&run.results.length>0&&run.results.every(result=>result.status==='PASS')&&view.recipe?.id===run.recipeId&&view.recipe.claims.every(claim=>run.results.some(result=>result.claimId===claim.id&&result.status==='PASS')))return {...base,status:'ACCEPTANCE CHECKS PASSED',state:'captured'};
+ return {...base,status:run.status==='PASSED'?'INCONCLUSIVE':run.status==='FAILED'?'CHECKS FAILED':run.status,state:run.status==='INCONCLUSIVE'?'attention':'failed'};
+}
+export function manualDecisionAllowed(view:VerificationView,run:VerificationRun,claimId:string):boolean {
+ return view.current&&view.runs[0]?.id===run.id&&run.status==='RUNNING'&&view.recipe?.id===run.recipeId&&view.recipe.steps.some(step=>step.kind==='MANUAL'&&step.claimIds.includes(claimId))&&run.results.some(result=>result.claimId===claimId&&result.status==='RUNNING'&&result.decidedAt===null);
 }
