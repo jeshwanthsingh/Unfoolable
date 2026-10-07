@@ -21,3 +21,6 @@ browser-profiles/
 
 .playwright-cli/
 .coordinator-recovery.lock
+
+__pycache__/
+*.pyc

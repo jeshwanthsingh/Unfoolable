@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {spawn} from 'node:child_process';
+import {spawn,execFileSync} from 'node:child_process';
 import {mkdtempSync,readFileSync,existsSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -12,3 +12,35 @@ test('composite OS reconciliation stops owned counter and leaves stable sentinel
  }finally{try{child.kill('SIGKILL');}catch{}rmSync(dir,{recursive:true,force:true});}});
 test('a late same-group descendant prevents falsely verified cleanup',async()=>{const dir=mkdtempSync(join(tmpdir(),'cc-late-child-')),ready=join(dir,'ready');const child=spawn(process.execPath,['-e',`const fs=require('fs');fs.writeFileSync(${JSON.stringify(ready)},'ready');process.on('SIGTERM',()=>{require('child_process').spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{stdio:'ignore'});setTimeout(()=>process.exit(0),30)});setInterval(()=>{},1000)`],{detached:true,stdio:'ignore'});try{await new Promise<void>(resolve=>child.once('spawn',resolve));for(let i=0;i<30&&!existsSync(ready);i++)await new Promise(r=>setTimeout(r,20));const cleanup=await reconcileOwnedProcesses(ownedProcessSnapshot(child.pid!));assert.equal(cleanup.verified,false);assert.equal(cleanup.ambiguous,true);assert.equal(cleanup.remaining.length,0,'Unknown survivor must not be promoted into trusted ownership for later retry');assert.ok(ownedProcessSnapshot(child.pid!).length,'late descendant is visible instead of being claimed gone');}finally{// Only this disposable test knows that its exact created session cannot be reused here.
  await reconcileOwnedProcesses(ownedProcessSnapshot(child.pid!));try{child.kill('SIGKILL');}catch{}rmSync(dir,{recursive:true,force:true});}});
+
+test('transient exit identity failure clears only after two proved absences and empty group snapshots',async()=>{
+ const {reconcileOwnedProcessesFixture}=await import('../apps/server/build-processes.ts');const record={pid:111,ppid:1,pgid:111,sid:111,birth:'fixture-birth',executable:'fixture',observedAt:'now',exitedAt:null};let queries=0,signals=0;
+ const result=await reconcileOwnedProcessesFixture([record],{identity:()=>{if(++queries===1)throw Error('exit race');return null;},snapshot:()=>[],signal:()=>{signals++;},pause:async()=>{}});assert.equal(result.verified,true);assert.equal(result.ambiguous,false);assert.equal(signals,0);
+});
+test('unknown living identity remains uncertified even when group inventory is empty',async()=>{
+ const {reconcileOwnedProcessesFixture}=await import('../apps/server/build-processes.ts');const record={pid:111,ppid:1,pgid:111,sid:111,birth:'fixture-birth',executable:'fixture',observedAt:'now',exitedAt:null};let signals=0;
+ const result=await reconcileOwnedProcessesFixture([record],{identity:()=>{throw Error('unknown live identity');},snapshot:()=>[],signal:()=>{signals++;},pause:async()=>{}});assert.equal(result.verified,false);assert.equal(signals,0);assert.match(result.reason!,/pid 111/);
+});
+test('observed PID reuse stays permanently uncertified after the reused process disappears',async()=>{
+ const {reconcileOwnedProcessesFixture}=await import('../apps/server/build-processes.ts');const record={pid:111,ppid:1,pgid:111,sid:111,birth:'fixture-birth',executable:'fixture',observedAt:'now',exitedAt:null};let queries=0,signals=0;
+ const result=await reconcileOwnedProcessesFixture([record],{identity:()=>++queries===1?{...record,birth:'reused-birth'}:null,snapshot:()=>[],signal:()=>{signals++;},pause:async()=>{}});assert.equal(result.verified,false);assert.equal(signals,0);assert.match(result.reason!,/mismatch/);
+});
+
+test('kernel tree refuses to omit an owned live PID with missing identity but accepts proved exit',()=>{
+ const helper=new URL('../scripts/build-process-info.py',import.meta.url).pathname;
+ const code=`import importlib.util,subprocess,os
+spec=importlib.util.spec_from_file_location('ownership_helper',${JSON.stringify(helper)})
+m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+m.subprocess.check_output=lambda *args,**kwargs:'111 1 111\\n222 111 111\\n'
+m.inspect=lambda pid:None
+m.os.kill=lambda pid,signal:None
+try:
+ m.tree(111)
+ raise AssertionError('A live owned PID was omitted')
+except RuntimeError as e:
+ assert 'live but kernel identity unavailable' in str(e)
+def absent(pid,signal): raise ProcessLookupError()
+m.os.kill=absent
+assert m.tree(111)==[]
+`;execFileSync(process.platform==='darwin'?'/usr/local/bin/python3':'/usr/bin/python3',['-c',code],{timeout:3000});
+});

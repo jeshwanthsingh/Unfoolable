@@ -21,7 +21,9 @@ import {draftMissionPlan} from './planning-drafter.ts';
 import type {PlanningDrafter} from './planning-drafter.ts';
 import {planningRoute} from './planning-routes.ts';
 import {PlanningError} from './planning-errors.ts';
-import type {PlanningView,PlanningPair,AttentionResponse as CombinedAttention} from '../../packages/shared/planning.ts';
+import type {PlanningView,PlanningPair} from '../../packages/shared/planning.ts';
+import type {AttentionResponse as CombinedAttention} from '../../packages/shared/attention.ts';
+import type {RuntimePermissionRequest} from '../../packages/shared/permissions.ts';
 import {createContractStore} from './contract-store.ts';
 import {draftMissionContract} from './contract-drafter.ts';
 import type {ContractDrafter} from './contract-drafter.ts';
@@ -47,7 +49,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const contracts=createContractStore(database.connection,logger,drafter);
  const planning=createPlanningStore(database.connection,logger,planner);
  const builds=createBuildStore(database.connection,config,logger,builder);
- const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
+ const json=(res:ServerResponse,status:number,body:ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
  const server=createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
@@ -73,7 +75,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    const projectMissions=/^\/api\/projects\/([^/]+)\/missions$/.exec(pathname);
    if(projectMissions && req.method==='GET'){json(res,200,{missions:listMissions(database.connection,projectMissions[1]!,logger)});return;}
    if(projectMissions && req.method==='POST'){json(res,201,createMission(database.connection,projectMissions[1]!,await projectBody(req,'mission'),logger));return;}
-   if(pathname==='/api/attention'&&req.method==='GET'){const items=[...analyses.attention().items.map(item=>({...item,kind:'clarification' as const})),...contracts.attention(),...planning.attention()];json(res,200,{items,count:items.length});return;}
+   if(pathname==='/api/attention'&&req.method==='GET'){const items=[...analyses.attention().items.map(item=>({...item,kind:'clarification' as const})),...contracts.attention(),...planning.attention(),...builds.attention()];json(res,200,{items,count:items.length});return;}
    const planningResponse=await planningRoute(req,pathname,planning);if(planningResponse){json(res,planningResponse.status,planningResponse.body);return;}
    const contractResponse=await contractRoute(req,pathname,contracts);if(contractResponse){json(res,contractResponse.status,contractResponse.body);return;}
    if(pathname==='/api/clarifications'&&req.method==='GET'){json(res,200,analyses.attention());return;}

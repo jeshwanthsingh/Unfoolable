@@ -2,7 +2,7 @@
 
 A personal, local-first workspace for engineering work. Later slices may connect isolated implementation and verification to a clear human interface. The first bounded builder now produces isolated candidates; independent verification is not implemented.
 
-Breakouts 1–7 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. An explicit one-Slice Codex Builder can produce a frozen candidate. Runtime approval granting and authoritative verification are absent.
+Breakouts 1–8 support persistent local Git Project registration, rough engineering Missions, explicit Project Context capture, bounded evidence-backed analysis with clarification decisions, and explicitly reviewed Mission Contract revisions, and paired Vertical Slice Plans/Evaluation Contracts. A new Mission begins as exact durable user intent; analysis happens only when requested. An explicit one-Slice Codex Builder can produce a frozen candidate. Human-mediated narrow runtime permissions and composite Cancel are available; authoritative verification remains absent.
 
 ## Setup and development
 
@@ -154,8 +154,12 @@ Development verifiers: scripts/planning-quality-smoke.mjs runs six explicit subs
 
 Choose an accepted Slice and explicitly Start Build. Admission requires current PLAN_READY artifacts, clean canonical source inside allowed roots, unchanged accepted base HEAD, no active/reconciliation attempt, and codex-cli 0.160.0. One Builder runs globally at a time, with a 15-minute wall-clock limit. Failures retain the accepted plan for an explicit fresh attempt. A current Candidate blocks additional construction.
 
-The coordinator creates a detached attempt worktree under the data directory. The worktree isolates source changes; Codex native sandboxing is a separate capability boundary. Network and unrelated host integrations are disabled. Unsupported permission requests grant nothing and trigger composite cleanup. No package installation, browser, remote Git mutation, automatic retry or second Slice.
+The coordinator creates a detached attempt worktree under the data directory. The worktree isolates source changes; Codex native sandboxing is a separate capability boundary. Network and unrelated host integrations are disabled. Only certified exact current-turn file requests can be explicitly allowed; unsupported requests grant nothing and trigger composite cleanup. No package installation, browser, remote Git mutation, automatic retry or second Slice.
 
 After verified process cleanup, a temporary Git index captures tracked changes, deletions and new nonignored files as a tree, without a user-visible commit. SQLite freezes the Candidate and its diff hash. Builder-reported commands are development evidence only. CANDIDATE_READY is not verified, and Evaluation Claims remain unexecuted. Symlinks/submodules and ignored outputs outside .cc-runtime conservatively prevent capture in this first bounded version.
 
 See docs/BUILDER_RUNTIME.md for ownership, fencing, restart, event bounds and limitations. Development-only live smoke: node scripts/build-smoke.ts --run-live --root /absolute/disposable/fixture. It prepares deterministic reviewed fixture artifacts, serves the UI, and waits for explicit Start Build; it never starts automatically. Use only a disposable fixture with your existing ChatGPT/Codex entitlement.
+
+## Runtime decisions and Cancel
+
+A genuine supported request pauses the Builder and appears in Needs You. Allow grants exactly the displayed file-write capability for the current Codex turn; it is not one write. Deny grants nothing. Decisions are durable before transport writes, and provider acknowledgment is distinct from observed effects. Cancel invalidates pending authority and reconciles owned processes/effects before reporting interruption. Unknown recovery blocks new builds; no Force clear or callback resume. Explicit Retry creates a new generation/worktree/transport. See docs/RUNTIME_PERMISSIONS.md.

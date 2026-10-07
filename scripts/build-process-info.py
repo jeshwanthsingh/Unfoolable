@@ -21,9 +21,8 @@ def inspect(pid):
         raise RuntimeError('Uncertified process identity platform')
     except (ProcessLookupError, FileNotFoundError, PermissionError): return None
 
-if sys.argv[1]=='one': print(json.dumps(inspect(int(sys.argv[2]))))
-else:
-    root=int(sys.argv[2]); rows=[]
+def tree(root):
+    rows=[]
     # Only kernel IDs are inspected internally; only exact owned ancestry/group is emitted.
     ids=subprocess.check_output(['/bin/ps','-axo','pid=,ppid=,pgid='],text=True).splitlines()
     basic=[tuple(map(int,line.split())) for line in ids if len(line.split())==3]
@@ -34,5 +33,19 @@ else:
         if len(owned)==before: break
     for pid in owned:
         row=inspect(pid)
-        if row: rows.append(row)
-    print(json.dumps(rows))
+        if row:
+            rows.append(row)
+            continue
+        # Never hide a live owned PID merely because libproc/proc identity is unavailable.
+        # Exit during inventory is harmless only after ESRCH proves this PID absent.
+        try:
+            os.kill(pid,0)
+        except ProcessLookupError:
+            continue
+        except PermissionError:
+            raise RuntimeError(f'Owned PID {pid} existence or kernel identity unavailable') from None
+        raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
+    return rows
+
+if __name__ == '__main__':
+    print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))

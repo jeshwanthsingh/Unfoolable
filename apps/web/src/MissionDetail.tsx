@@ -14,7 +14,7 @@ import {ProjectContextPanel} from './ProjectContextPanel.tsx';
 import {isMission} from '../../../packages/shared/missions.ts';
 import type {Mission} from '../../../packages/shared/missions.ts';
 type State={kind:'loading'}|{kind:'loaded';mission:Mission}|{kind:'failed';message:string};
-export function MissionDetail({id,projectId,onBack,onChanged,questionId,contractReview=false,planReview=false}:{id:string;projectId:string;onBack:()=>void;onChanged?:()=>void;questionId?:string|undefined;contractReview?:boolean;planReview?:boolean}){
+export function MissionDetail({id,projectId,onBack,onChanged,questionId,contractReview=false,planReview=false,buildFocus=false}:{id:string;projectId:string;onBack:()=>void;onChanged?:()=>void;questionId?:string|undefined;contractReview?:boolean;planReview?:boolean;buildFocus?:boolean}){
  const [contractRevision,setContractRevision]=useState(0);
  function changed(){setContractRevision(value=>value+1);onChanged?.();}
  const context=useProjectContext(id);
@@ -23,6 +23,7 @@ export function MissionDetail({id,projectId,onBack,onChanged,questionId,contract
  const planning=useMissionPlanning(id,onChanged,String(contractRevision)+':'+(context.state.kind==='loaded'?context.state.data.latest?.id??'no-context':'loading-context')+':'+(contract.state.kind==='loaded'?contract.state.data.accepted?.id??'no-contract':'loading-contract'));
  const build=useMissionBuild(id,onChanged,planning.state.kind==='loaded'?planning.state.data.accepted?.plan.pairId??'no-plan':'loading-plan');
  const [state,setState]=useState<State>({kind:'loading'});
+ useEffect(()=>{if(buildFocus&&state.kind==='loaded'){document.getElementById('mission-build')?.focus();document.getElementById('mission-build')?.scrollIntoView({block:'start'});}},[buildFocus,state.kind]);
  useEffect(()=>{
   const controller=new AbortController();let active=true;
   void fetch('/api/missions/'+encodeURIComponent(id),{signal:controller.signal,cache:'no-store'}).then(async response=>{

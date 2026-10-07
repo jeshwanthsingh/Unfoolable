@@ -1,0 +1,12 @@
+import type {RuntimeBinding} from './build.ts';
+export type PermissionStatus='PENDING'|'ALLOW_DECIDED'|'DENY_DECIDED'|'TRANSPORT_WRITTEN'|'RESOLVED'|'INVALIDATED'|'DELIVERY_UNKNOWN';
+export type PermissionDecision='ALLOW'|'DENY';
+export type ProviderPermission={method:string;id:string|number;params:Record<string,unknown>};
+export type PermissionEnvelope={binding:RuntimeBinding;request:ProviderPermission;receivedAt:string};
+export type PermissionDispatch={requestId:string;binding:RuntimeBinding;method:string;providerId:string|number;payloadHash:string;response:{permissions:Record<string,unknown>;scope:'turn'}};
+export type RuntimePermissionRequest={id:string;missionId:string;attemptId:string;generation:number;transportId:string;threadId:string;turnId:string;providerMethod:string;providerRequestId:string|number;providerItemId:string;payloadCanonical:string;payloadHash:string;path:string;requestedScope:'turn';reason:string;status:PermissionStatus;decision:PermissionDecision|null;createdAt:string;resolvedAt:string|null;decidedAt:string|null;writeAttemptedAt:string|null;writtenAt:string|null;providerResolvedAt:string|null;invalidatedAt:string|null};
+export type PermissionReceipt={id:string;status:PermissionStatus};
+export type EffectState='NONE_OBSERVED'|'OBSERVED'|'UNKNOWN';
+export type EffectEvidence={state:EffectState;stable:boolean;files:{path:string;exists:boolean;sha256:string|null;bytes:number|null}[];observedAt:string;reason:string|null};
+export type RuntimeAttentionItem={kind:'runtime_permission';requestId:string;missionId:string;projectId:string;projectName:string;originalIntent:string;sliceId:string;path:string;reason:string;requestedScope:'turn'};
+export type ReconciliationAttentionItem={kind:'reconciliation';attemptId:string;missionId:string;projectId:string;projectName:string;originalIntent:string;reason:string};

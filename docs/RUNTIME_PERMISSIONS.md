@@ -1,0 +1,17 @@
+# Runtime permissions, cancellation and recovery
+
+The certified native family is `item/permissions/requestApproval` in codex-cli 0.160.0. Only a single regular-file write directly in the owned Attempt effects directory is supported. The base workspace-write sandbox remains unchanged. A user grant sends the exact filesystem payload with `scope: turn`; it is not one command or one write. Network, read, directory, session/persistent and other approval families fail closed. Provider reason text is bounded untrusted display data, never scope authority.
+
+Requests bind Mission, Attempt UUID, generation, transport incarnation, thread, turn, typed method/request ID, item and exact canonical payload SHA-256. Repeated identical frames coalesce; payload changes under a binding stop execution. Numeric and string IDs remain distinct. IDs reused on a new transport cannot reuse authority.
+
+SQLite commits the first user decision before response dispatch. Decision, attempted/written bytes, provider `serverRequest/resolved`, observed effects and Candidate state are separate facts. Races/duplicates have one winner. Delivery uncertainty is not retried automatically. No Allow is ever replayed after restart.
+
+Cancel is durable before interrupt: invalidate unresolved permissions, abort the owned runtime, interrupt the turn, enumerate exact thread terminals, terminate matching opaque handles, verify recorded kernel birth/executable/group/session, and observe defined file/counter effects over three stable samples. `CANCELLING` is derived from the cancellation record while the original Attempt is active. Only established cleanup/effect reconciliation permits `INTERRUPTED`; uncertainty gives `RECONCILE_REQUIRED` and globally blocks builders. Unknown processes are never signalled. No Force clear control exists.
+
+Native 0.160.0 reports a wrapped shell command in item events and the underlying command in terminal inventory. Matching uses the same provider item ID/canonical cwd and an exact command representation supplied in that item's structured commandActions, never terminal prose or substring guessing. Acknowledged terminal termination is followed by bounded empty-inventory polling while the app-server remains alive.
+
+Startup invalidates old transports and pending requests, reconciles recorded owned execution and known effects, and never resumes the old callback. An unfinished Attempt with any committed Allow remains UNKNOWN even if a file exists: permission is not outcome certainty. Its history is read-only and new execution stays blocked. A safely ended FAILED/INTERRUPTED Attempt can be explicitly retried, with fresh UUID/generation/worktree/transport/thread/turn and no inherited pending authority.
+
+Migration 9 adds only runtime permission requests and per-Attempt runtime control/effect metadata. Earlier schemas, Candidates and event identities are preserved. Fixed POST routes decide a displayed hash, cancel an Attempt or explicitly retry it. Existing Host/Origin/body guards apply; callers cannot edit scope or supply shell commands.
+
+Native sandbox write/network boundaries and broader-read/detached-descendant limits from Breakout 7 still apply. This is not a microVM or arbitrary-effect exactly-once guarantee. Candidate capture requires zero unresolved permissions and established cleanup/stable observable effects. Candidate is not Verified; no protected evaluator, target browser acceptance or Evaluation Claim execution exists.

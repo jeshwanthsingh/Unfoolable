@@ -48,10 +48,12 @@ function buildStation(data:PlanningView|null):Station {
  return {...base,status:data.eligible?'READY TO PLAN':'CONTRACT REQUIRED',state:data.eligible?'current':'locked'};
 }
 
-export function buildActive(view:BuildView):boolean{return !!view.attempt&&['CREATED','STARTING','RUNNING','FINALIZING'].includes(view.attempt.status);}
+export function buildActive(view:BuildView):boolean{return !!view.attempt&&['CREATED','STARTING','RUNNING','FINALIZING','CANCELLING'].includes(view.attempt.status);}
 export function executionStation(view:BuildView):Station{
  const base={label:'Build',station:'BUILD'};
  if(view.candidate&&view.current)return {...base,status:'CANDIDATE READY',state:'captured'};
+ if(view.attempt?.status==='CANCELLING')return {...base,status:'CANCELLING',state:'attention'};
+ if(view.attempt?.status==='RUNNING'&&view.permissions?.some(p=>p.status==='PENDING'&&p.attemptId===view.attempt!.id&&p.generation===view.attempt!.generation))return {...base,status:'WAITING FOR YOU',state:'attention'};
  if(buildActive(view))return {...base,status:view.attempt!.status==='FINALIZING'?'FREEZING CANDIDATE':'BUILDING',state:'current'};
  if(view.attempt&&['FAILED','INTERRUPTED','RECONCILE_REQUIRED'].includes(view.attempt.status))return {...base,status:view.attempt.status.replaceAll('_',' '),state:'failed'};
  return {...base,status:view.eligible?'PLAN READY · select a slice':'CURRENT PLAN REQUIRED',state:view.eligible?'current':'locked'};
@@ -64,6 +66,6 @@ export function mergeBuildView(previous:BuildView|null,next:BuildView):BuildView
  return {...next,events:[...events.values()].sort((a,b)=>a.sequence-b.sequence).slice(-1000),eventsTruncated:next.eventsTruncated||events.size>1000||(previous?.attempt?.id===attempt?.id&&previous?.eventsTruncated===true)};
 }
 export function activityLabel(event:BuildEvent):string{
- const labels:Record<string,string>={'attempt.created':'Attempt created','builder.started':'Codex builder started','turn.started':'Builder turn started','tool.started':'Tool started','tool.completed':'Tool completed','builder.completed':'Builder completed','candidate.captured':'Candidate captured','attempt.failed':'Attempt failed','attempt.interrupted':'Attempt interrupted'};
+ const labels:Record<string,string>={'attempt.created':'Attempt created','builder.started':'Codex builder started','turn.started':'Builder turn started','tool.started':'Tool started','tool.completed':'Tool completed','builder.completed':'Builder completed','candidate.captured':'Candidate captured','attempt.failed':'Attempt failed','attempt.interrupted':'Attempt interrupted','permission.requested':'Filesystem permission requested','permission.decided':'Permission decision recorded','permission.transport_written':'Permission response written','permission.resolved':'Provider permission resolved','attempt.cancel_requested':'Cancellation requested','attempt.cancelling':'Owned execution cleanup in progress','attempt.reconcile_required':'Reconciliation required','attempt.retry_created':'Fresh attempt created'};
  return labels[event.kind]??event.kind.replaceAll('.',' · ').replaceAll('_',' ');
 }

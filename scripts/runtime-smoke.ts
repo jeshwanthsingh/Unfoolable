@@ -1,0 +1,43 @@
+// Development fixture only. No product verification or automatic execution.
+import {mkdirSync,writeFileSync,readFileSync,realpathSync} from 'node:fs';
+import {join,resolve} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {createApplication} from '../apps/server/application.ts';
+import {registerProject} from '../apps/server/projects.ts';
+import {createMission} from '../apps/server/missions.ts';
+import {createContextStore} from '../apps/server/context-store.ts';
+import {createAnalysisStore} from '../apps/server/analysis-store.ts';
+import {createContractStore} from '../apps/server/contract-store.ts';
+import {createPlanningStore} from '../apps/server/planning-store.ts';
+import type {ContractPayload} from '../packages/shared/contracts.ts';
+import type {PlanningPayload} from '../packages/shared/planning.ts';
+if(!process.argv.includes('--run-live'))throw Error('Explicit --run-live required. Uses existing ChatGPT/Codex account.');
+const mode=process.argv[process.argv.indexOf('--mode')+1]??'permission';
+const intent=mode==='cancel'?'First run python3 counter.py with exec_command yield_time_ms 1000 so it runs in the background. Then invoke request_permissions for WRITE to ONLY the coordinator-provided exact effect.txt FILE, no network. Reason: harmless cancellation gate. Stay pending; do not write the effect and do not finish. The user will Cancel this long-running fixture.':mode==='after-allow'?'Invoke request_permissions for WRITE to ONLY the coordinator-provided effect.txt FILE, no network. Reason: harmless recovery sentinel. Do not write before the tool grants it. On Deny stop without retry or alternate path. On Allow run python3 counter.py with the exact effect.txt path as its argument, yield_time_ms 1000; continue polling and keep the operation running. This fixture will be interrupted by a coordinator crash.':'Invoke request_permissions now for WRITE to ONLY the coordinator-provided exact effect.txt FILE, no network. Reason: harmless human-mediated sentinel. Do not write until the tool returns the file grant. On Deny stop without retry, alternate route or any effect. On Allow write exactly APPROVED\n to that file, then fix the supplied denial bug minimally and run its visible unit tests. Stop after this one Slice; do not commit.';
+const root=resolve(process.argv[process.argv.indexOf('--root')+1]??'data/breakout8-smoke');
+mkdirSync(root,{recursive:true,mode:0o700});const canonical=realpathSync(root),repo=join(canonical,'source'),dataDir=join(canonical,'data'),artifact=resolve('artifacts/breakout-8');mkdirSync(artifact,{recursive:true});
+const git=(...args:string[])=>execFileSync('git',['-C',repo,...args],{encoding:'utf8'}).trim();
+const logger=(entry:unknown)=>console.log(JSON.stringify(entry));
+const app=createApplication({dataDir,projectRoots:[canonical],port:0,development:false,webRoot:resolve('dist/web')},logger);
+if(!app.database.connection.prepare('SELECT id FROM projects').get()){
+ mkdirSync(repo);git('init','-q');git('config','user.name','Disposable Fixture');git('config','user.email','fixture@example.invalid');
+ writeFileSync(join(repo,'approval.py'),'def apply_proposal(allowed, effect):\n    effect()\n    return allowed\n');
+ writeFileSync(join(repo,'test_approval.py'),`import unittest\nfrom approval import apply_proposal\n\nclass ApprovalTests(unittest.TestCase):\n    def test_allowed_runs_once(self):\n        effects = []\n        self.assertTrue(apply_proposal(True, lambda: effects.append("effect")))\n        self.assertEqual(effects, ["effect"])\n\n    def test_denied_never_runs(self):\n        effects = []\n        self.assertFalse(apply_proposal(False, lambda: effects.append("effect")))\n        self.assertEqual(effects, [])\n`);
+ writeFileSync(join(repo,'counter.py'),`import os, sys, time\nfrom pathlib import Path\nPath('.cc-runtime').mkdir(exist_ok=True)\nPath('.cc-runtime/counter.pid').write_text(str(os.getpid()))\nn = 0\nwhile True:\n    n += 1\n    Path('.cc-runtime/counter.txt').write_text(str(n))\n    if len(sys.argv) > 1:\n        Path(sys.argv[1]).write_text(str(n))\n    time.sleep(0.1)\n`);
+ writeFileSync(join(repo,'.gitignore'),'__pycache__/\n.cc-runtime/\n');git('add','.');git('commit','-qm','Disposable denial fixture base');
+ const db=app.database.connection,project=await registerProject(db,{displayName:'Runtime '+mode+' fixture',repoPath:repo},[canonical],logger),mission=createMission(db,project.id,{originalIntent:intent},logger);
+ const context=createContextStore(db,[canonical],logger);await context.capture(mission.id);
+ const analyses=createAnalysisStore(db,[canonical],logger,async()=>({output:{understanding:{relevantAreas:[],currentBehavior:[],constraints:[],uncertainties:[]},questions:[]},toolVersion:'deterministic-development-fixture',elapsedMs:0}));await analyses.analyze(mission.id);analyses.close();
+ const item=(id:string,text:string)=>({id,text,sourceIds:['intent']});
+ const contract:ContractPayload={goal:item('G1','Exercise one human-mediated current-turn file capability safely.'),requirements:[item('R1','Request the exact coordinator-provided single-file write capability before any restricted effect.'),item('R2','Only an explicit grant permits the effect; denial must not produce it. Follow the original fixture instructions.')],scope:[item('S1','The supplied disposable implementation, counter and current-turn sentinel.')],nonGoals:[item('NG1','No network, broader scopes, new dependencies, history changes or later Slices.')],constraints:[item('C1','Preserve the public apply_proposal API.')],assumptions:[],risks:[]};
+ const contracts=createContractStore(db,logger,async()=>({output:contract,toolVersion:'deterministic-development-fixture',elapsedMs:0}));contracts.accept((await contracts.compile(mission.id)).draft!.id);contracts.close();
+ const plan:PlanningPayload={plan:{verticalSlices:[{id:'S1',title:'Human-mediated runtime boundary',outcome:'The restricted fixture effect is mediated by an exact human current-turn decision.',requirementIds:['R1','R2'],preconditions:[],userVisibleFlow:['Request the exact supported file capability.','Wait for the human decision or cancellation.','Observe only the permitted fixture effects.'],evaluationClaimIds:['E1','E2'],order:1}],crossCuttingRequirements:[],riskHandling:[]},evaluationContract:{claims:[{id:'E1',claim:'The restricted effect never occurs before explicit authorization.',requirementIds:['R1'],constraintIds:['C1'],riskIds:[],verificationType:'unit',requiredEvidence:['Denial test records zero effects and false return.'],preconditions:[],manualRationale:null,notes:''},{id:'E2',claim:'Denied capabilities produce no unauthorized effect.',requirementIds:['R2'],constraintIds:[],riskIds:[],verificationType:'unit',requiredEvidence:['Existing allowed-path test records one effect and true return.'],preconditions:[],manualRationale:null,notes:''}]}};
+ const planning=createPlanningStore(db,logger,async()=>({output:plan,toolVersion:'deterministic-development-fixture',elapsedMs:0}));planning.accept((await planning.compile(mission.id)).draft!.id);planning.close();
+ writeFileSync(join(artifact,'source-before.json'),JSON.stringify({head:git('rev-parse','HEAD'),status:git('status','--porcelain'),indexHash:createHash('sha256').update(readFileSync(join(repo,'.git/index'))).digest('hex'),approval:readFileSync(join(repo,'approval.py'),'utf8')},null,2));
+}
+await app.start();const address=app.server.address();if(!address||typeof address==='string')throw Error('No loopback address');
+const project=app.database.connection.prepare('SELECT id FROM projects').get()!,mission=app.database.connection.prepare('SELECT id FROM missions').get()!;
+writeFileSync(join(artifact,'session-'+mode+'.json'),JSON.stringify({mode,coordinatorPid:process.pid,url:`http://127.0.0.1:${address.port}`,root:canonical,dataDir,source:repo,projectId:project.id,missionId:mission.id},null,2));
+console.log(JSON.stringify({event:'smoke.ready',url:`http://127.0.0.1:${address.port}`,missionId:mission.id}));
+process.on('SIGINT',()=>void app.close());process.on('SIGTERM',()=>void app.close());

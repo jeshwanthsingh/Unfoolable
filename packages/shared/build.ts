@@ -1,9 +1,10 @@
+import type {PermissionEnvelope,PermissionDispatch,RuntimePermissionRequest,EffectEvidence} from './permissions.ts';
 import type {ContractItem} from './contracts.ts';
 import type {VerticalSlice,EvaluationClaim} from './planning.ts';
 export const BUILDER_PROMPT_VERSION='mission-builder-v1';
 export const CERTIFIED_CODEX_VERSION='codex-cli 0.160.0';
 export const BUILD_LIMITS=Object.freeze({timeoutMs:900000,eventBytes:4096,events:1000,protocolBytes:2097152,frameBytes:1048576,changedPaths:1000,diffBytes:4194304,diffPreviewBytes:131072,summary:6000,commands:200,processes:256});
-export type BuildStatus='CREATED'|'STARTING'|'RUNNING'|'FINALIZING'|'CANDIDATE'|'FAILED'|'INTERRUPTED'|'RECONCILE_REQUIRED';
+export type BuildStatus='CREATED'|'STARTING'|'RUNNING'|'FINALIZING'|'CANDIDATE'|'FAILED'|'INTERRUPTED'|'RECONCILE_REQUIRED'|'CANCELLING';
 export type BuildInput={version:'builder-input-v1';missionId:string;originalIntent:string;planRevisionId:string;evaluationRevisionId:string;pairId:string;planningInputHash:string;contractRevisionId:string;contractHash:string;planHash:string;evaluationHash:string;slice:VerticalSlice;contract:{goal:ContractItem;requirements:ContractItem[];scope:ContractItem[];nonGoals:ContractItem[];constraints:ContractItem[]};evaluationClaims:EvaluationClaim[];project:{baseHead:string;branch:string|null};promptVersion:typeof BUILDER_PROMPT_VERSION};
 export type ProcessRecord={pid:number;ppid:number;pgid:number;sid:number;birth:string;executable:string;observedAt:string;exitedAt:string|null};
 export type CleanupResult={verified:boolean;ambiguous:boolean;remaining:ProcessRecord[];terminalCount:number;reason:string|null};
@@ -13,9 +14,9 @@ export type ChangedPath={path:string;kind:'added'|'modified'|'deleted'|'renamed'
 export type BuildCandidate={id:string;attemptId:string;baseHead:string;treeHash:string;diffHash:string;changedPaths:ChangedPath[];diff:string;diffTruncated:boolean;inventoryTruncated:boolean;ignoredPaths:number;diffArtifactPath:string;createdAt:string};
 export type BuildEvent={sequence:number;attemptId:string;generation:number;transportId:string;threadId:string|null;turnId:string|null;kind:string;data:Record<string,unknown>;createdAt:string};
 export type BuildPhase=import('./planning.ts').PlanningPhase|'BUILDING'|'CANDIDATE_READY';
-export type BuildView={attempt:BuildAttempt|null;candidate:BuildCandidate|null;events:BuildEvent[];nextSequence:number;eventsTruncated:boolean;workerPresent:boolean;current:boolean;eligible:boolean;phase:BuildPhase};
+export type BuildView={attempt:BuildAttempt|null;candidate:BuildCandidate|null;events:BuildEvent[];nextSequence:number;eventsTruncated:boolean;workerPresent:boolean;current:boolean;eligible:boolean;phase:BuildPhase;permissions?:RuntimePermissionRequest[];permissionHistory?:RuntimePermissionRequest[];effect?:EffectEvidence|null;cancelRequestedAt?:string|null};
 export type RuntimeBinding={attemptId:string;generation:number;transportId:string;threadId:string|null;turnId:string|null};
 export type RuntimeContext={attemptId:string;generation:number;transportId:string;workspace:string;artifactDir:string;dataDir:string;sourceRoot:string;gitCommonDir:string};
-export type RuntimeCallbacks={binding:(binding:RuntimeBinding)=>void;processes:(processes:ProcessRecord[])=>void;event:(binding:RuntimeBinding,kind:string,data:Record<string,unknown>)=>boolean;truncated:()=>void};
+export type RuntimeCallbacks={binding:(binding:RuntimeBinding)=>void;processes:(processes:ProcessRecord[])=>void;event:(binding:RuntimeBinding,kind:string,data:Record<string,unknown>)=>boolean;truncated:()=>void;permission?:(envelope:PermissionEnvelope)=>string;permissionResolved?:(binding:RuntimeBinding,providerId:string|number)=>void;control?:(binding:RuntimeBinding,dispatch:(decision:PermissionDispatch)=>Promise<void>)=>void};
 export type BuilderResult={threadId:string;turnId:string;summary:string;checks:BuilderCheck[];cleanup:CleanupResult;startupMs:number;builderMs:number};
 export type BuilderDriver={version:()=>Promise<string>;run:(context:RuntimeContext,input:BuildInput,signal:AbortSignal,callbacks:RuntimeCallbacks)=>Promise<BuilderResult>;reconcile:(processes:ProcessRecord[])=>Promise<CleanupResult>};

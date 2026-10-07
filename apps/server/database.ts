@@ -19,7 +19,7 @@ export function openDatabase(dataDir:string,logger:Logger){
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>8)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current>9)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
    if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
    if(current<2){
     connection.exec(`CREATE TABLE projects(
@@ -251,10 +251,46 @@ export function openDatabase(dataDir:string,logger:Logger){
     CREATE TRIGGER candidate_no_delete BEFORE DELETE ON build_candidates BEGIN SELECT RAISE(ABORT,'Candidates are immutable'); END;`);
     connection.prepare('INSERT INTO schema_migrations VALUES(8,?)').run(new Date().toISOString());applied.push(8);
    }
-   connection.exec('PRAGMA user_version=8; COMMIT');
+   if(current<9){
+    connection.exec(`CREATE TABLE build_runtime_state(
+     attempt_id TEXT PRIMARY KEY NOT NULL REFERENCES build_attempts(id),cancel_requested_at TEXT,
+     effect_state TEXT NOT NULL DEFAULT 'NONE_OBSERVED' CHECK(effect_state IN('NONE_OBSERVED','OBSERVED','UNKNOWN')),
+     effect_json TEXT CHECK(effect_json IS NULL OR json_valid(effect_json)),reconcile_ms REAL
+    ) STRICT;
+    CREATE TABLE runtime_permission_requests(
+     id TEXT PRIMARY KEY NOT NULL,mission_id TEXT NOT NULL,attempt_id TEXT NOT NULL,generation INTEGER NOT NULL,
+     transport_id TEXT NOT NULL,thread_id TEXT NOT NULL,turn_id TEXT NOT NULL,provider_method TEXT NOT NULL CHECK(provider_method='item/permissions/requestApproval'),
+     provider_id_json TEXT NOT NULL CHECK(json_valid(provider_id_json)),provider_item_id TEXT NOT NULL,
+     payload_canonical TEXT NOT NULL CHECK(json_valid(payload_canonical) AND length(CAST(payload_canonical AS BLOB))<=16384),payload_hash TEXT NOT NULL CHECK(length(payload_hash)=64),
+     path TEXT NOT NULL,requested_scope TEXT NOT NULL CHECK(requested_scope='turn'),reason TEXT NOT NULL CHECK(length(reason)<=1000),
+     status TEXT NOT NULL CHECK(status IN('PENDING','ALLOW_DECIDED','DENY_DECIDED','TRANSPORT_WRITTEN','RESOLVED','INVALIDATED','DELIVERY_UNKNOWN')),
+     decision TEXT CHECK(decision IN('ALLOW','DENY')),created_at TEXT NOT NULL,resolved_at TEXT,decided_at TEXT,write_attempted_at TEXT,written_at TEXT,provider_resolved_at TEXT,invalidated_at TEXT,
+     FOREIGN KEY(attempt_id,mission_id) REFERENCES build_attempts(id,mission_id),
+     UNIQUE(mission_id,attempt_id,generation,transport_id,thread_id,provider_method,provider_id_json)
+    ) STRICT;
+    CREATE TRIGGER permission_insert_binding BEFORE INSERT ON runtime_permission_requests WHEN NOT EXISTS(
+     SELECT 1 FROM build_attempts b LEFT JOIN build_runtime_state r ON r.attempt_id=b.id WHERE b.id=NEW.attempt_id AND b.mission_id=NEW.mission_id AND b.generation=NEW.generation AND b.transport_id=NEW.transport_id AND b.provider_thread_id=NEW.thread_id AND b.provider_turn_id=NEW.turn_id AND b.status='RUNNING' AND b.transport_valid=1 AND r.cancel_requested_at IS NULL
+    ) OR NEW.status!='PENDING' OR NEW.decision IS NOT NULL BEGIN SELECT RAISE(ABORT,'Permission binding is stale'); END;
+    CREATE TRIGGER permission_no_replace BEFORE INSERT ON runtime_permission_requests WHEN EXISTS(SELECT 1 FROM runtime_permission_requests WHERE id=NEW.id OR (mission_id=NEW.mission_id AND attempt_id=NEW.attempt_id AND generation=NEW.generation AND transport_id=NEW.transport_id AND thread_id=NEW.thread_id AND provider_method=NEW.provider_method AND provider_id_json=NEW.provider_id_json)) BEGIN SELECT RAISE(ABORT,'Permissions cannot be replaced'); END;
+    CREATE TRIGGER permission_binding_fixed BEFORE UPDATE ON runtime_permission_requests WHEN NEW.id IS NOT OLD.id OR NEW.mission_id IS NOT OLD.mission_id OR NEW.attempt_id IS NOT OLD.attempt_id OR NEW.generation IS NOT OLD.generation OR NEW.transport_id IS NOT OLD.transport_id OR NEW.thread_id IS NOT OLD.thread_id OR NEW.turn_id IS NOT OLD.turn_id OR NEW.provider_method IS NOT OLD.provider_method OR NEW.provider_id_json IS NOT OLD.provider_id_json OR NEW.provider_item_id IS NOT OLD.provider_item_id OR NEW.payload_canonical IS NOT OLD.payload_canonical OR NEW.payload_hash IS NOT OLD.payload_hash OR NEW.path IS NOT OLD.path OR NEW.requested_scope IS NOT OLD.requested_scope OR NEW.reason IS NOT OLD.reason OR NEW.created_at IS NOT OLD.created_at BEGIN SELECT RAISE(ABORT,'Permission binding is immutable'); END;
+    CREATE TRIGGER permission_decision_fixed BEFORE UPDATE ON runtime_permission_requests WHEN (OLD.decision IS NOT NULL AND (NEW.decision IS NOT OLD.decision OR NEW.decided_at IS NOT OLD.decided_at)) OR (OLD.decision IS NULL AND NEW.decision IS NOT NULL AND (OLD.status!='PENDING' OR NEW.decided_at IS NULL OR NEW.status!=CASE NEW.decision WHEN 'ALLOW' THEN 'ALLOW_DECIDED' ELSE 'DENY_DECIDED' END OR NOT EXISTS(SELECT 1 FROM build_attempts b LEFT JOIN build_runtime_state r ON r.attempt_id=b.id WHERE b.id=OLD.attempt_id AND b.generation=OLD.generation AND b.transport_id=OLD.transport_id AND b.provider_thread_id=OLD.thread_id AND b.provider_turn_id=OLD.turn_id AND b.status='RUNNING' AND b.transport_valid=1 AND r.cancel_requested_at IS NULL))) BEGIN SELECT RAISE(ABORT,'Permission decision is immutable or stale'); END;
+    CREATE TRIGGER permission_lifecycle BEFORE UPDATE ON runtime_permission_requests WHEN
+     (NEW.status IS NOT OLD.status AND NOT (
+      (OLD.status='PENDING' AND NEW.status IN('ALLOW_DECIDED','DENY_DECIDED','INVALIDATED')) OR
+      (OLD.status IN('ALLOW_DECIDED','DENY_DECIDED') AND NEW.status IN('TRANSPORT_WRITTEN','RESOLVED','INVALIDATED','DELIVERY_UNKNOWN')) OR
+      (OLD.status IN('TRANSPORT_WRITTEN','DELIVERY_UNKNOWN') AND NEW.status IN('RESOLVED','INVALIDATED'))
+     )) OR (OLD.write_attempted_at IS NOT NULL AND NEW.write_attempted_at IS NOT OLD.write_attempted_at) OR (OLD.written_at IS NOT NULL AND NEW.written_at IS NOT OLD.written_at) OR (OLD.provider_resolved_at IS NOT NULL AND NEW.provider_resolved_at IS NOT OLD.provider_resolved_at) OR (OLD.invalidated_at IS NOT NULL AND NEW.invalidated_at IS NOT OLD.invalidated_at) OR (OLD.resolved_at IS NOT NULL AND NEW.resolved_at IS NOT OLD.resolved_at) OR (NEW.written_at IS NOT NULL AND NEW.write_attempted_at IS NULL) OR (NEW.write_attempted_at IS NOT NULL AND NEW.decision IS NULL) OR (NEW.status='RESOLVED' AND (NEW.provider_resolved_at IS NULL OR NEW.decision IS NULL)) OR (NEW.status='INVALIDATED' AND NEW.invalidated_at IS NULL)
+     BEGIN SELECT RAISE(ABORT,'Permission lifecycle is immutable or invalid'); END;
+    CREATE TRIGGER permission_terminal BEFORE UPDATE ON runtime_permission_requests WHEN OLD.status='INVALIDATED' OR (OLD.status='RESOLVED' AND (NEW.status IS NOT OLD.status OR NEW.decision IS NOT OLD.decision OR NEW.decided_at IS NOT OLD.decided_at OR NEW.write_attempted_at IS NOT OLD.write_attempted_at OR NEW.provider_resolved_at IS NOT OLD.provider_resolved_at OR NEW.invalidated_at IS NOT OLD.invalidated_at OR NEW.resolved_at IS NOT OLD.resolved_at OR (NEW.written_at IS NOT OLD.written_at AND (OLD.write_attempted_at IS NULL OR OLD.written_at IS NOT NULL OR NEW.written_at IS NULL)))) BEGIN SELECT RAISE(ABORT,'Terminal permission history is immutable'); END;
+    CREATE TRIGGER permission_delivery_fields BEFORE UPDATE ON runtime_permission_requests WHEN (NEW.decision IS NULL AND NEW.decided_at IS NOT NULL) OR (NEW.status='ALLOW_DECIDED' AND NEW.decision IS NOT 'ALLOW') OR (NEW.status='DENY_DECIDED' AND NEW.decision IS NOT 'DENY') OR (OLD.write_attempted_at IS NULL AND NEW.write_attempted_at IS NOT NULL AND OLD.status NOT IN('ALLOW_DECIDED','DENY_DECIDED')) OR (OLD.written_at IS NULL AND NEW.written_at IS NOT NULL AND NEW.status NOT IN('TRANSPORT_WRITTEN','RESOLVED')) OR (NEW.provider_resolved_at IS NOT NULL AND NEW.status!='RESOLVED') OR (NEW.status='TRANSPORT_WRITTEN' AND NEW.written_at IS NULL) OR (NEW.status='DELIVERY_UNKNOWN' AND NEW.write_attempted_at IS NULL) BEGIN SELECT RAISE(ABORT,'Permission delivery fields are invalid'); END;
+    CREATE TRIGGER permission_no_delete BEFORE DELETE ON runtime_permission_requests BEGIN SELECT RAISE(ABORT,'Permission history is immutable'); END;`);
+    connection.exec('INSERT INTO build_runtime_state(attempt_id) SELECT id FROM build_attempts');
+    connection.prepare('INSERT INTO schema_migrations VALUES(9,?)').run(new Date().toISOString());applied.push(9);
+   }
+   connection.exec('PRAGMA user_version=9; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==8)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==9)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }
