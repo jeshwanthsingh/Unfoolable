@@ -32,3 +32,24 @@ test('runtime pair guard binds plan/evaluation identity and checks computed cove
 test('runtime view rejects fabricated PLAN_READY and malformed histories',()=>{const v={draft:null,operation:null,accepted:samplePair(),history:[],current:true,draftStale:false,acceptedStale:false,eligible:true,phase:'PLAN_READY'};assert.equal(isPlanningView(v),true);assert.equal(isPlanningView({...v,accepted:null}),false);assert.equal(isPlanningView({...v,history:[{pairId:'bad'}]}),false);});
 test('attention union retains clarification/contract support and adds exact plan review shape',()=>{const item={kind:'plan_review',draftId:'d',missionId:'m',projectId:'p',projectName:'Project',originalIntent:'Approve restricted operations.',slices:3,claims:3};assert.equal(isAttentionResponse({items:[item],count:1}),true);assert.equal(isAttentionResponse({items:[{...item,slices:0}],count:1}),false);assert.equal(isAttentionResponse({items:[{...item,claims:31}],count:1}),false);});
 test('manual rationale must explain a deterministic-verification limitation',()=>{const f=first();f.payload.evaluationContract.claims[0]!.verificationType='manual';f.payload.evaluationContract.claims[0]!.manualRationale='This should be checked by the human operator.';assert.throws(()=>validatePlanningPayload(f.payload,f.input));f.payload.evaluationContract.claims[0]!.manualRationale='Human judgment of the visual evidence is subjective and cannot reasonably be automated.';assert.doesNotThrow(()=>validatePlanningPayload(f.payload,f.input));});
+
+const oracleReference={path:'/private/tmp/oracles/frozen.json',hash:'a'.repeat(64),runner:'unittest' as const,claimId:'E1',testId:'claim_e1',classification:'CHANGE' as const,summary:'Confirm the accepted operation is denied.',admission:'ADMITTED' as const,reason:null};
+test('host oracle references survive validation while model output cannot author them',()=>{
+ const f=first();f.payload.evaluationContract.claims[0]!.oracle=oracleReference;
+ assert.throws(()=>validatePlanningPayload(f.payload,f.input),{code:'INVALID_PLANNING_OUTPUT'});
+ const result=validatePlanningPayload(f.payload,f.input,{allowOracleReferences:true});
+ assert.deepEqual(result.payload.evaluationContract.claims[0]!.oracle,oracleReference);
+ const pair=samplePair();pair.evaluation.payload.claims[0]!.oracle=structuredClone(oracleReference);
+ assert.equal(isPlanningPair(pair),true);
+ pair.evaluation.payload.claims[0]!.oracle!.claimId='E2';assert.equal(isPlanningPair(pair),false);
+});
+test('optional oracle still rejects malformed shape, mismatched claim identity and extra keys',()=>{
+ for(const oracle of [null,undefined,{...oracleReference,hash:'bad'},{...oracleReference,claimId:'E2'},{...oracleReference,extra:true}]){
+  const f=first();(f.payload.evaluationContract.claims[0] as unknown as Record<string,unknown>).oracle=oracle;
+  assert.throws(()=>validatePlanningPayload(f.payload,f.input,{allowOracleReferences:true}),{code:'INVALID_PLANNING_OUTPUT'});
+  const pair=samplePair();(pair.evaluation.payload.claims[0] as unknown as Record<string,unknown>).oracle=oracle;
+  assert.equal(isPlanningPair(pair),false);
+ }
+ const f=first();(f.payload.evaluationContract.claims[0] as unknown as Record<string,unknown>).extra=true;
+ assert.throws(()=>validatePlanningPayload(f.payload,f.input,{allowOracleReferences:true}),{code:'INVALID_PLANNING_OUTPUT'});
+});

@@ -1,3 +1,4 @@
+import {isOracleReference} from '../../packages/shared/oracle.ts';
 import {PLANNING_LIMITS,VERIFICATION_TYPES,type PlanningInput,type PlanningPayload,type PlanningCoverage,type EvaluationClaim,type VerticalSlice} from '../../packages/shared/planning.ts';
 import {canonicalContractJson} from './contract-store.ts';
 import {PlanningError} from './planning-errors.ts';
@@ -31,14 +32,14 @@ function semantics(s:string,input:PlanningInput):void {
  }
 }
 function meaningful(s:string,minWords=3):boolean{return normalized(s).split(' ').length>=minWords&&!/^(?:works?|security(?: architecture)? (?:is )?correct|tests? pass(?:es)?|correct|good|as expected)[.! ]*$/i.test(s.trim());}
-export function validatePlanningPayload(output:unknown,input:PlanningInput):{payload:PlanningPayload;coverage:PlanningCoverage}{
+export function validatePlanningPayload(output:unknown,input:PlanningInput,options:{allowOracleReferences?:boolean}={}):{payload:PlanningPayload;coverage:PlanningCoverage}{
  checkPlanningMetrics(input);
  let value=output;if(typeof value==='string'){if(Buffer.byteLength(value)>PLANNING_LIMITS.payloadBytes)return fail();try{value=JSON.parse(value);}catch{return fail();}}
  try{if(Buffer.byteLength(canonicalContractJson(value))>PLANNING_LIMITS.payloadBytes)return fail();}catch{return fail();}
  const root=object(value,['plan','evaluationContract']),plan=object(root.plan,['verticalSlices','crossCuttingRequirements','riskHandling']),evaluation=object(root.evaluationContract,['claims']);
  const rIds=new Set(input.contract.requirements.map(i=>i.id)),cIds=new Set(input.contract.constraints.map(i=>i.id)),kIds=new Set(input.contract.risks.map(i=>i.id));
  if(!Array.isArray(evaluation.claims)||evaluation.claims.length<1||evaluation.claims.length>PLANNING_LIMITS.claims)return fail();
- const claims:EvaluationClaim[]=evaluation.claims.map((v,n)=>{const row=object(v,['id','claim','requirementIds','constraintIds','riskIds','verificationType','requiredEvidence','preconditions','manualRationale','notes']);if(row.id!=='E'+(n+1)||!VERIFICATION_TYPES.includes(row.verificationType as never))return fail();const claim:EvaluationClaim={id:String(row.id),claim:text(row.claim),requirementIds:refs(row.requirementIds,rIds),constraintIds:refs(row.constraintIds,cIds),riskIds:refs(row.riskIds,kIds),verificationType:row.verificationType as EvaluationClaim['verificationType'],requiredEvidence:texts(row.requiredEvidence,8,1),preconditions:texts(row.preconditions,8),manualRationale:row.manualRationale===null?null:text(row.manualRationale),notes:text(row.notes,true)};
+ const claims:EvaluationClaim[]=evaluation.claims.map((v,n)=>{const hasOracle=!!v&&typeof v==='object'&&Object.hasOwn(v,'oracle');const row=object(v,['id','claim','requirementIds','constraintIds','riskIds','verificationType','requiredEvidence','preconditions','manualRationale','notes',...(hasOracle&&options.allowOracleReferences?['oracle']:[])]);if(hasOracle&&(!isOracleReference(row.oracle)||row.oracle.claimId!==row.id))return fail();if(row.id!=='E'+(n+1)||!VERIFICATION_TYPES.includes(row.verificationType as never))return fail();const claim:EvaluationClaim={id:String(row.id),claim:text(row.claim),requirementIds:refs(row.requirementIds,rIds),constraintIds:refs(row.constraintIds,cIds),riskIds:refs(row.riskIds,kIds),verificationType:row.verificationType as EvaluationClaim['verificationType'],requiredEvidence:texts(row.requiredEvidence,8,1),preconditions:texts(row.preconditions,8),manualRationale:row.manualRationale===null?null:text(row.manualRationale),notes:text(row.notes,true),...(hasOracle?{oracle:row.oracle as NonNullable<EvaluationClaim['oracle']>}:{})};
   if(!claim.requirementIds.length&&!claim.constraintIds.length&&!claim.riskIds.length)return fail();
   if(!meaningful(claim.claim)||claim.requiredEvidence.some(e=>!meaningful(e)))return fail('UNOBSERVABLE_PLANNING_CLAIM','Evaluation claims must name observable evidence.');
   if(claim.verificationType==='manual'){if(!claim.manualRationale||claim.manualRationale.trim().length<30||!meaningful(claim.manualRationale)||!/(?:subjective|visual|accessibility|human judg(?:e)?ment|deterministic|automated|cannot|unable|not reasonably|not practical|requires human)/i.test(claim.manualRationale))return fail();}else if(claim.manualRationale!==null)return fail();
