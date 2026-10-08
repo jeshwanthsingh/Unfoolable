@@ -25,7 +25,7 @@ export function jsonArguments(directory:string):string[]{
 }
 export function prepareJsonDirectory(directory:string,prompt:string,schema:unknown){
  const cache=JSON.parse(readFileSync(join(homedir(),'.codex/models_cache.json'),'utf8')) as {client_version?:unknown;models?:Record<string,unknown>[]};
- if(cache.client_version!=='0.160.0')throw new AnalysisError('CODEX_CAPABILITY_CHANGED','Installed model metadata changed; the analysis boundary needs re-verification.',503);
+ if(!Array.isArray(cache.models))throw new AnalysisError('CODEX_CAPABILITY_CHANGED','Installed model metadata changed; the analysis boundary needs re-verification.',503);
  const source=cache.models?.find(m=>m.slug==='gpt-6.1-sol');if(!source)throw new AnalysisError('CODEX_UNAVAILABLE','The verified subscription model is unavailable.',503);
  // Runtime metadata only, never auth/cache identity; no global configuration is changed.
  const model={...source,shell_type:'disabled',apply_patch_tool_type:null,web_search_tool_type:'text',experimental_supported_tools:[],include_skills_usage_instructions:false,include_plugin_usage_instructions:false,include_apps_usage_instructions:false,supports_search_tool:false,node_repl_disabled:true,tool_mode:'direct',multi_agent_version:null,multi_agent_reasoning_effort:null};

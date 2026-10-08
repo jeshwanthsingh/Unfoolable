@@ -51,7 +51,7 @@ export async function prepareNativeEvaluation(db:DatabaseSync,dataDir:string,mis
  const row=db.prepare('SELECT p.repo_root FROM missions m JOIN projects p ON p.id=m.project_id WHERE m.id=?').get(missionId);if(!row||input.missionId!==missionId)throw Error('Oracle mission binding unavailable');
  const sourceRoot=realpathSync(String(row.repo_root)),baseHead=(await safeBuildGit(sourceRoot,['rev-parse','HEAD'],1000)).toString().trim();if(!/^[a-f0-9]{40,64}$/.test(baseHead))throw Error('Oracle BASE identity unavailable');
  const paths=(await safeBuildGit(sourceRoot,['ls-tree','-r','--name-only',baseHead],1048576)).toString().split('\n').filter(Boolean);
- const read=async(path:string)=>{if(!paths.includes(path))throw Error('Required oracle source absent: '+path);return (await safeBuildGit(sourceRoot,['show',baseHead+':'+path],65537)).toString('utf8');};
+ const read=async(path:string)=>{if(!paths.includes(path))throw Error('Required oracle source absent: '+path);return (await safeBuildGit(sourceRoot,['show',baseHead+':'+path],262145)).toString('utf8');};
  let runner:'unittest'|'vitest',runnerDirectory:string,dependencyRoot:string|null=null,componentPath:string|null=null,selected:string[];
  if(paths.includes('frontend/package.json')){
   const pkg=JSON.parse(await read('frontend/package.json')) as {scripts?:Record<string,string>;devDependencies?:Record<string,string>;dependencies?:Record<string,string>};
@@ -59,17 +59,47 @@ export async function prepareNativeEvaluation(db:DatabaseSync,dataDir:string,mis
   runner='vitest';runnerDirectory='frontend';dependencyRoot=realpathSync(join(sourceRoot,'frontend/node_modules'));componentPath='frontend/src/components/EmergencyHelpline/index.tsx';selected=['frontend/package.json',componentPath,'frontend/src/components/EmergencyHelpline/categories.ts','frontend/src/components/EmergencyHelpline/helplines.ts',...paths.filter(p=>/^frontend\/vitest\.config\.[cm]?[jt]s$/.test(p))];
  }else if(paths.includes('pyproject.toml')&&paths.some(p=>/^tests\/test_(github|hn)\.py$/.test(p))){runner='unittest';runnerDirectory='.';selected=['pyproject.toml','research_router/cli.py','research_router/sources/github.py','research_router/sources/hn.py','tests/test_github.py','tests/test_hn.py'];}
  else throw Error('No supported native oracle runner detected');
- const sourceContent:Record<string,string>={};let bytes=0;for(const path of selected){const text=await read(path);bytes+=Buffer.byteLength(text);if(bytes>65536)throw Error('Oracle source limit exceeded');sourceContent[path]=text;}
+ const sourceContent:Record<string,string>={};let bytes=0;for(const path of selected){const full=await read(path);let text=full;
+  if(runner==='unittest'&&(path==='research_router/cli.py'||path.startsWith('tests/'))){
+   const lines=full.split('\n'),wanted=new Set<number>();
+   const range=(start:number,end:number)=>{for(let line=start;line<=Math.min(end,lines.length);line++)wanted.add(line);};
+   if(path==='research_router/cli.py'){range(123,295);range(726,953);}
+   else {range(1,80);for(let i=0;i<lines.length;i++)if(/(?:duration|since|overflow)/i.test(lines[i]!))range(Math.max(1,i+1-12),i+1+18);}
+   const selectedLines=[...wanted].sort((a,b)=>a-b),parts:string[]=[];let start=0;
+   for(let i=0;i<=selectedLines.length;i++)if(i===selectedLines.length||i>0&&selectedLines[i]!==selectedLines[i-1]!+1){const chunk=selectedLines.slice(start,i);if(chunk.length)parts.push(`# committed HEAD excerpt ${path}:L${chunk[0]}-L${chunk.at(-1)}\n`+chunk.map(line=>lines[line-1]).join('\n'));start=i;}
+   text=parts.join('\n\n');
+  }
+  bytes+=Buffer.byteLength(text);if(bytes>65536)throw Error('Oracle source excerpt limit exceeded');sourceContent[path]=text;
+ }
  const claims=payload.evaluationContract.claims;if(!claims.length||claims.length>30)throw Error('Oracle claim count invalid');
  const authored=await runCodexJson({metadata:{runner,runnerDirectory,componentPath,baseHead},contract:input.contract,claims:claims.map(({oracle:_oracle,...c})=>c),sourceContent},signal,undefined,prompt,schema(claims.length,runner),canonical);
  const tests=validateTests(authored.output,claims,runner),id=randomUUID(),manifest:OracleManifest={version:'process-oracle-v1',id,sourceRoot,baseHead,evaluationSignature:evaluationSignature(payload),runner,runnerDirectory,dependencyRoot,componentPath,tests,assurance:'INTERFACE'};
- const admission=new Map<string,{admission:'ADMITTED'|'REJECTED';reason:string|null}>(),scratch=mkdtempSync(join(tmpdir(),'cc-oracle-admission-'));
+ const directory=join(resolve(dataDir),'oracles',id);mkdirSync(directory,{recursive:true,mode:0o700});const path=join(realpathSync(directory),'manifest.json'),temporary=join(directory,'.manifest-'+randomUUID()+'.tmp');writeFileSync(temporary,canonical(manifest)+'\n',{flag:'wx',mode:0o400});renameSync(temporary,path);
+ return admitNativeManifest(manifest,path,payload,signal,'admission.json');
+}
+async function admitNativeManifest(manifest:OracleManifest,path:string,payload:PlanningPayload,signal:AbortSignal,recordName:string):Promise<PlanningPayload>{
+ const {sourceRoot,baseHead,runner,tests}=manifest;if(evaluationSignature(payload)!==manifest.evaluationSignature||payload.evaluationContract.claims.length!==tests.length||tests.some(t=>!payload.evaluationContract.claims.some(c=>c.id===t.claimId)))throw Error('Frozen Oracle Evaluation binding changed');
+ if(realpathSync(sourceRoot)!==sourceRoot||(await safeBuildGit(sourceRoot,['rev-parse','HEAD'],1000)).toString().trim()!==baseHead)throw Error('Frozen Oracle source identity changed');
+ const recordPath=join(dirname(path),recordName);try{lstatSync(recordPath);throw Error('Oracle admission record already exists; honest admission cap reached');}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
+ const admission=new Map<string,{admission:'ADMITTED'|'REJECTED';reason:string|null}>(),scratch=realpathSync(mkdtempSync(join(tmpdir(),'cc-oracle-admission-')));
+ const record:{version:string;manifestPath:string;manifestHash:string;attempt:number;scratch:string;retainedScratch:boolean;results:{claimId:string;result:Awaited<ReturnType<typeof executeOracleTest>>}[];error:string|null}={version:'oracle-admission-v1',manifestPath:path,manifestHash:hash(manifest),attempt:recordName==='admission.json'?1:2,scratch,retainedScratch:false,results:[],error:null};
+ const persist=()=>{const temp=recordPath+'.'+randomUUID()+'.tmp';writeFileSync(temp,canonical(record)+'\n',{mode:0o600,flag:'wx'});renameSync(temp,recordPath);};
  try{
   const workspace=join(scratch,'base');await materializeOracleTree(sourceRoot,baseHead,workspace);
-  for(const test of tests){if(signal.aborted)throw Error('Oracle admission interrupted');const result=await executeOracleTest(manifest,test,workspace,scratch,signal);const expected=test.classification==='CHANGE'?'FAIL':'PASS';const okay=result.status===expected&&!result.truncated&&result.cleanup.verified&&!result.cleanup.ambiguous&&!result.cleanup.remaining.length;admission.set(test.claimId,{admission:okay?'ADMITTED':'REJECTED',reason:okay?null:`BASE admission expected ${expected}, observed ${result.status}. ${result.output}`.slice(0,2000)});}
- }catch(error){if(signal.aborted)throw error;for(const test of tests)if(!admission.has(test.claimId))admission.set(test.claimId,{admission:'REJECTED',reason:('BASE admission failed: '+(error instanceof Error?error.message:String(error))).slice(0,2000)});}
- finally{rmSync(scratch,{recursive:true,force:true});}
- if((await safeBuildGit(sourceRoot,['rev-parse','HEAD'],1000)).toString().trim()!==baseHead)throw Error('Oracle source HEAD changed during authoring');
- const directory=join(resolve(dataDir),'oracles',id);mkdirSync(directory,{recursive:true,mode:0o700});const path=join(realpathSync(directory),'manifest.json'),temporary=join(directory,'.manifest-'+randomUUID()+'.tmp');writeFileSync(temporary,canonical(manifest)+'\n',{flag:'wx',mode:0o400});renameSync(temporary,path);const digest=hash(manifest);
- return {...payload,evaluationContract:{claims:claims.map(c=>{const test=tests.find(t=>t.claimId===c.id)!;const state=admission.get(c.id)!;return {...c,oracle:{path,hash:digest,runner,claimId:c.id,testId:test.testId,classification:test.classification,summary:test.summary,...state,assurance:'INTERFACE'}};})}};
+  for(const test of tests){if(signal.aborted)throw Error('Oracle admission interrupted');const result=await executeOracleTest(manifest,test,workspace,scratch,signal);record.results.push({claimId:test.claimId,result});const expected=test.classification==='CHANGE'?'FAIL':'PASS',clean=result.cleanup.verified&&!result.cleanup.ambiguous&&!result.cleanup.remaining.length;
+   if(!clean)record.retainedScratch=true;persist();
+   const okay=result.status===expected&&!result.truncated&&clean;admission.set(test.claimId,{admission:okay?'ADMITTED':'REJECTED',reason:okay?null:(`BASE admission expected ${expected}, observed ${result.status}. ${result.output}`+(!clean?' Cleanup: '+canonical(result.cleanup):'')).slice(0,2000)});
+   if(!clean)throw Error('Native admission cleanup uncertain; further launches blocked: '+canonical(result.cleanup));
+  }
+ }catch(error){record.error=error instanceof Error?error.message:String(error);for(const test of tests)if(!admission.has(test.claimId))admission.set(test.claimId,{admission:'REJECTED',reason:('BASE admission failed: '+record.error).slice(0,2000)});}
+ finally{persist();if(!record.retainedScratch)rmSync(scratch,{recursive:true,force:true});}
+ if(signal.aborted)throw Error('Oracle admission interrupted');
+ if((await safeBuildGit(sourceRoot,['rev-parse','HEAD'],1000)).toString().trim()!==baseHead)throw Error('Oracle source HEAD changed during admission');
+ const digest=hash(manifest);return {...payload,evaluationContract:{claims:payload.evaluationContract.claims.map(c=>{const test=tests.find(t=>t.claimId===c.id)!;const state=admission.get(c.id)!;return {...c,oracle:{path,hash:digest,runner,claimId:c.id,testId:test.testId,classification:test.classification,summary:test.summary,...state,assurance:'INTERFACE'}};})}};
+}
+// Explicit experimental replay: exact immutable authored code/hash/clone, one final BASE admission.
+export async function replayNativeEvaluation(db:DatabaseSync,missionId:string,payload:PlanningPayload,signal:AbortSignal,ref:OracleReference):Promise<PlanningPayload>{
+ const manifest=readOracle(ref),row=db.prepare('SELECT p.repo_root FROM missions m JOIN projects p ON p.id=m.project_id WHERE m.id=?').get(missionId);if(!row||realpathSync(String(row.repo_root))!==manifest.sourceRoot)throw Error('Frozen Oracle mission/source binding changed');
+ const previous=join(dirname(ref.path),'admission.json');try{const record=JSON.parse(readFileSync(previous,'utf8')) as {retainedScratch?:boolean;attempt?:number};if(record.retainedScratch||record.attempt!==1)throw Error('Previous admission requires reconciliation or exceeds replay cap');}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
+ return admitNativeManifest(manifest,ref.path,payload,signal,'admission-replay.json');
 }

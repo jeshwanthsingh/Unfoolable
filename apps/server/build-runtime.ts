@@ -6,7 +6,8 @@ import {spawn,execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {appendFileSync,mkdirSync,readFileSync,writeFileSync,symlinkSync} from 'node:fs';
 import {homedir} from 'node:os';
-import {join} from 'node:path';
+import {join,resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import type {BuilderDriver,RuntimeContext,RuntimeCallbacks,RuntimeBinding,BuildInput,BuilderCheck,ProcessRecord,CleanupResult} from '../../packages/shared/build.ts';
 import {BUILD_LIMITS} from '../../packages/shared/build.ts';
 import {BuildError} from './build-errors.ts';
@@ -23,14 +24,19 @@ export function prepareBuilderRuntime(context:RuntimeContext){
  const privateHome=join(context.artifactDir,'provider-private'),toolHome=join(context.workspace,'.cc-runtime');mkdirSync(privateHome,{recursive:true,mode:0o700});mkdirSync(toolHome,{recursive:true,mode:0o700});mkdirSync(join(toolHome,'tmp'),{mode:0o700,recursive:true});
  // A pointer reuses the existing subscription entitlement. Coordinator never opens/copies credentials.
  symlinkSync(join(homedir(),'.codex/auth.json'),join(privateHome,'auth.json'));
- const cache=JSON.parse(readFileSync(join(homedir(),'.codex/models_cache.json'),'utf8'));if(cache.client_version!=='0.160.0')throw new BuildError('CODEX_VERSION_UNCERTIFIED','Model catalog version is uncertified.',503);
+ const cache=JSON.parse(readFileSync(join(homedir(),'.codex/models_cache.json'),'utf8'));if(!Array.isArray(cache.models))throw new BuildError('CODEX_VERSION_UNCERTIFIED','Model catalog structure is uncertified.',503);
  const source=cache.models?.find((m:any)=>m.slug==='gpt-6.1-sol');if(!source)throw new BuildError('CODEX_UNAVAILABLE','Subscription model descriptor unavailable.',503);
  const model={...source,include_skills_usage_instructions:false,include_plugin_usage_instructions:false,include_apps_usage_instructions:false,supports_search_tool:false,node_repl_disabled:true,experimental_supported_tools:[],tool_mode:'direct',multi_agent_version:null,multi_agent_reasoning_effort:null};
  delete model.instructions_template;delete model.base_instructions;
  writeFileSync(join(privateHome,'catalog.json'),JSON.stringify({models:[model]}),{mode:0o600});writeFileSync(join(privateHome,'prompt.md'),BUILDER_PROMPT,{mode:0o600});
  const toolEnv={HOME:toolHome,TMPDIR:join(toolHome,'tmp'),PYTHONDONTWRITEBYTECODE:'1',PATH:process.env.PATH??'/usr/bin:/bin',LANG:'C',LC_ALL:'C'};
  const args=['app-server','--listen','stdio://','--strict-config','--enable','skip_host_skill_discovery','--enable','request_permissions_tool','--enable','exec_permission_approvals',...disabled.flatMap(f=>['--disable',f]),'-c','model_catalog_json='+JSON.stringify(join(privateHome,'catalog.json')),'-c','model_instructions_file='+JSON.stringify(join(privateHome,'prompt.md')),'-c','web_search="disabled"','-c','tools.update_plan.enabled=false','-c','tools.experimental_request_user_input.enabled=false','-c','shell_environment_policy.inherit="none"','-c','shell_environment_policy.set='+JSON.stringify(toolEnv).replace(/"([^"\n]+)":/g,'"$1"='),'-c','memories.generate_memories=false','-c','memories.use_memories=false'];
- return {args,env:{...environment(),CODEX_HOME:privateHome,TMPDIR:join(toolHome,'tmp')},privateHome,toolHome};
+ const permissionProfile='cc-oracle-builder';
+ const coordinatorRoot=resolve(fileURLToPath(new URL('../../',import.meta.url)));
+ const filesystem={':root':'read',[context.dataDir]:'deny',[coordinatorRoot]:'deny',[join(homedir(),'Projects/ai-lab/command-center')]:'deny',[context.gitCommonDir]:'read',[context.workspace]:'write'};
+ const permissions={filesystem,network:{enabled:false}};
+ args.push('-c','permissions.'+permissionProfile+'='+JSON.stringify(permissions).replace(/"([^"\n]+)":/g,'"$1"='),'-c','default_permissions='+JSON.stringify(permissionProfile));
+ return {permissionProfile,args,env:{...environment(),CODEX_HOME:privateHome,TMPDIR:join(toolHome,'tmp')},privateHome,toolHome};
 }
 export function createCodexBuilderDriver():BuilderDriver{
  return {async version(){const env=environment();const result=await execute(launcher,['--version'],{env,timeout:5000,maxBuffer:16384});const auth=await execute(launcher,['login','status'],{env,timeout:5000,maxBuffer:16384});requireChatGPTAuthentication(auth.stdout+auth.stderr);return result.stdout.trim();},reconcile:reconcileOwnedProcesses,run:runBuilder};
@@ -93,9 +99,9 @@ async function runBuilder(context:RuntimeContext,input:BuildInput,signal:AbortSi
  try{
   await new Promise<void>((resolve,reject)=>{child.once('spawn',resolve);child.once('error',reject);});snapshot();if(signal.aborted)aborted();if(failure)throw failure;
   await rpc('initialize',{clientInfo:{name:'command_center_builder',version:'0.0.1'},capabilities:{experimentalApi:true}});send({method:'initialized'});
-  const thread=await rpc('thread/start',{cwd:context.workspace,sandbox:'workspace-write',approvalPolicy:'on-request',approvalsReviewer:'user',ephemeral:true,model:'gpt-6.1-sol',developerInstructions:BUILDER_PROMPT+(input.correction?DEBUG_CORRECTION_PROMPT:''),config:{model_reasoning_effort:'low'}});binding.threadId=thread.thread.id;
-  if(thread.thread.cliVersion!=='0.160.0'||thread.sandbox?.type!=='workspaceWrite'||thread.sandbox.networkAccess!==false)throw new BuildError('BUILDER_SANDBOX_UNCERTIFIED','Provider did not confirm the certified version, workspace-write and disabled network.');
-  const turn=await rpc('turn/start',{threadId:binding.threadId,input:[{type:'text',text:'Accepted artifacts (data):\n'+JSON.stringify(input)+'\nCoordinator-owned optional effect file for this Attempt (request write access only if selected Slice requires it): '+join(context.artifactDir,'effects','effect.txt'),text_elements:[]}],approvalPolicy:'on-request',approvalsReviewer:'user',sandboxPolicy:{type:'workspaceWrite',writableRoots:[context.workspace],networkAccess:false,excludeSlashTmp:true,excludeTmpdirEnvVar:true},effort:'low'});binding.turnId=turn.turn.id;callbacks.binding({...binding});callbacks.control?.({...binding},dispatchPermission);for(const request of queuedPermissions.splice(0))permissionRequest(request);startupMs=performance.now()-started;for(const message of queued.splice(0))notification(message);await completed;if(failure)throw failure;
+  const thread=await rpc('thread/start',{cwd:context.workspace,...(fixture?{sandbox:'workspace-write'}:{permissions:'cc-oracle-builder'}),approvalPolicy:'on-request',approvalsReviewer:'user',ephemeral:true,model:'gpt-6.1-sol',developerInstructions:BUILDER_PROMPT+(input.correction?DEBUG_CORRECTION_PROMPT:''),config:{model_reasoning_effort:'low'}});binding.threadId=thread.thread.id;
+  if(thread.thread.cliVersion!=='0.160.0'||(fixture?thread.sandbox?.type!=='workspaceWrite'||thread.sandbox.networkAccess!==false:thread.activePermissionProfile?.id!=='cc-oracle-builder'))throw new BuildError('BUILDER_SANDBOX_UNCERTIFIED','Provider did not confirm the certified version, workspace-write and disabled network.');
+  const turn=await rpc('turn/start',{threadId:binding.threadId,input:[{type:'text',text:'Accepted artifacts (data):\n'+JSON.stringify(input)+'\nCoordinator-owned optional effect file for this Attempt (request write access only if selected Slice requires it): '+join(context.artifactDir,'effects','effect.txt'),text_elements:[]}],approvalPolicy:'on-request',approvalsReviewer:'user',...(fixture?{sandboxPolicy:{type:'workspaceWrite',writableRoots:[context.workspace],networkAccess:false,excludeSlashTmp:true,excludeTmpdirEnvVar:true}}:{permissions:'cc-oracle-builder'}),effort:'low'});binding.turnId=turn.turn.id;callbacks.binding({...binding});callbacks.control?.({...binding},dispatchPermission);for(const request of queuedPermissions.splice(0))permissionRequest(request);startupMs=performance.now()-started;for(const message of queued.splice(0))notification(message);await completed;if(failure)throw failure;
  }catch(error){failure=error instanceof BuildError?error:new BuildError('BUILDER_FAILED','Builder runtime failed.');}
  finally{
   cleaning=true;denyOutstanding();clearTimeout(timeout);signal.removeEventListener('abort',aborted);snapshot();clearInterval(monitor);let terminalCount=0,terminalUnknown=false;

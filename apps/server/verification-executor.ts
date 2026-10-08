@@ -1,3 +1,7 @@
+import {executeOracleTest,executeCandidateTests,oracleScripts} from './oracle-execution.ts';
+import {readOracle} from './oracle-author.ts';
+import {canonicalContractJson} from './contract-store.ts';
+import type {materializeNativeVerification} from './verification-workspace.ts';
 import {spawn,execFileSync} from 'node:child_process';
 import {readFileSync,existsSync} from 'node:fs';
 import {mkdir,writeFile,readFile,lstat,realpath} from 'node:fs/promises';
@@ -31,9 +35,11 @@ const protectedSnapshots:Record<string,string>={
  'process-kernel-helper.py':readFileSync(existsSync(sourceProcessHelper)?sourceProcessHelper:resolve('scripts/build-process-info.py'),'utf8'),
  'runtime-representation.txt':runtimeExtension,
 };
+for(const name of ['oracle-execution','oracle-tree','oracle-author'])protectedSnapshots[name+'.txt']=hostModule(name);
+for(const name of ['python-observer.py','python-judge.py','ui-observer.mjs','ui-judge.mjs'])protectedSnapshots[name]=readFileSync(join(oracleScripts,name),'utf8');
 const protectedHash=hash(JSON.stringify(protectedSnapshots));
 export function evaluatorBundle():{files:Record<string,string>;hash:string}{return {files:{...protectedSnapshots},hash:protectedHash};}
-type Input={dataDir:string;runId:string;workspace:string;step:VerificationStep;signal:AbortSignal;onLaunchPending?:()=>void|Promise<void>;onProcesses:(records:ProcessRecord[])=>void|Promise<void>};
+type Input={dataDir:string;runId:string;workspace:string;step:VerificationStep;native?:Awaited<ReturnType<typeof materializeNativeVerification>>;signal:AbortSignal;onLaunchPending?:()=>void|Promise<void>;onProcesses:(records:ProcessRecord[])=>void|Promise<void>};
 type Result={status:'PASS'|'FAIL'|'ERROR'|'INCONCLUSIVE';durationMs:number;output:string;truncated:boolean;cleanup:CleanupResult;environment:Record<string,unknown>};
 const clean:CleanupResult={verified:true,ambiguous:false,remaining:[],terminalCount:0,reason:null};
 export function protectedSandboxProfile(dataDir:string,workspace:string,bundle:string,scratch:string):string{
@@ -44,6 +50,7 @@ export function protectedSandboxProfile(dataDir:string,workspace:string,bundle:s
  return `(version 1)(allow default)(deny network*)(deny mach*)(deny process-fork)(deny process-exec)(deny process-info*)(deny process-codesigning-status-get)(deny signal)(deny file-write* (require-not (subpath ${quote(scratch)})))`+forbidden.map(p=>`(deny file-read* (require-all (subpath ${quote(p)}) ${exceptions}))`).join('');
 }
 export async function executeProtectedStep(input:Input):Promise<Result>{
+ if(input.step.kind==='NATIVE_ORACLE')return executeNativeStep(input);
  const began=performance.now();let output='',truncated=false,cleanup=clean;const observations:Record<string,unknown>[]=[];const environment:Record<string,unknown>={platform:process.platform,osRelease:release(),startedAt:new Date().toISOString(),noProcessStarted:true,hostObservations:observations,interpreter:'/usr/local/bin/python3',sandbox:'Darwin sandbox_init before candidate import',systemReadLimitation:'Native interpreter/system framework reads remain allowed; user, temporary, coordinator, private configuration, network, write, fork, exec and process signal access are restricted.',inheritedEnvironment:false};
  const finish=(status:Result['status'],message:string):Result=>{environment.endedAt=new Date().toISOString();const bytes=Buffer.from(output+message);if(bytes.length>65536)truncated=true;return {status,durationMs:Math.round(performance.now()-began),output:bytes.subarray(0,65536).toString('utf8'),truncated,cleanup,environment};};
  if(process.platform!=='darwin')return finish('INCONCLUSIVE','Native Darwin sandbox unavailable.');
@@ -89,4 +96,37 @@ export async function executeProtectedStep(input:Input):Promise<Result>{
  }
  await checkTree();return finish('PASS',input.step.oracleCase==='DENIED'?'Host denied invocation observations passed.':input.step.oracleCase==='ALLOWED'?'Host allowed invocation observations passed.':'Host denial and allowed-effect observations passed.');
  }catch(error){return finish('ERROR',error instanceof Error?error.message:'Protected verification failed.');}
+}
+
+async function executeNativeStep(input:Input):Promise<Result>{
+ const began=performance.now(),environment:Record<string,unknown>={noProcessStarted:true,authority:'Frozen coordinator native oracle',candidateTestsAuthoritative:false};
+ const finish=(message:string):Result=>({status:'INCONCLUSIVE',durationMs:Math.round(performance.now()-began),output:message,truncated:false,cleanup:clean,environment});
+ try{
+  const oracle=input.step.oracle,native=input.native;if(!oracle||!native||oracle.reference.admission!=='ADMITTED'||oracle.manifest.baseHead!==native.baseHead||input.step.claimIds.length!==1||input.step.claimIds[0]!==oracle.reference.claimId)return finish('Native oracle binding unavailable.');
+  environment.oracleHash=oracle.reference.hash;environment.assurance=oracle.reference.assurance??'INTERFACE';environment.baseTestsRestored=native.baseTestsRestored;environment.candidateOnlyTestsExcluded=native.candidateOnlyTestsExcluded;
+  if(native.dependencyChanges.length||native.tripwireHits.length){environment.dependencyChanges=native.dependencyChanges;environment.tripwireHits=native.tripwireHits;return finish('Dependency change or review tripwire requires human review; native verification is INCONCLUSIVE.');}
+  const root=await realpath(input.dataDir),run=join(root,'verification',input.runId),identity=JSON.parse(await readFile(join(run,'identity.json'),'utf8'));
+  if(native.workspace!==join(run,'native-workspace')||await realpath(native.workspace)!==native.workspace||identity.objectDir!==join(run,'objects'))return finish('Native workspace ownership mismatch.');
+  const integrity=async()=>{if(canonicalContractJson(readOracle(oracle.reference))!==canonicalContractJson(oracle.manifest))throw Error('External oracle manifest identity changed');if(await verificationTreeHash(native.workspace,identity.objectDir)!==native.executionTree)throw Error('Restored native execution tree changed');};await integrity();
+  const tests=oracle.manifest.tests.filter(t=>t.claimId===oracle.reference.claimId&&t.testId===oracle.reference.testId);if(tests.length!==1)return finish('Expected exactly one native oracle test per claim.');
+  const executed=await executeOracleTest(oracle.manifest,tests[0]!,native.workspace,run,input.signal,{onLaunchPending:async()=>{environment.noProcessStarted=false;await input.onLaunchPending?.();},onProcesses:input.onProcesses});
+  // Keep actual cleanup evidence even if post-execution integrity fails.
+  try{await integrity();}catch(error){return {...executed,status:'INCONCLUSIVE',output:error instanceof Error?error.message:'Native integrity changed',environment:{...environment,...executed.environment}};}
+  return {...executed,environment:{...environment,...executed.environment}};
+ }catch(error){return finish(error instanceof Error?error.message:'Native oracle infrastructure unavailable.');}
+}
+
+// Diagnostics from Builder-authored tests never alter protected claim results.
+export async function executeCandidateTestStep(input:Input):Promise<Result>{
+ const environment:Record<string,unknown>={authority:'NONAUTHORITATIVE',protectedClaimAuthority:false,noProcessStarted:true};
+ const unavailable=(message:string):Result=>({status:'INCONCLUSIVE',output:message,durationMs:0,truncated:false,cleanup:clean,environment});
+ try{
+  const oracle=input.step.oracle,native=input.native;if(!oracle||!native?.candidateTestPaths.length)return unavailable('No modified or added Candidate tests to run.');
+  const root=await realpath(input.dataDir),run=join(root,'verification',input.runId),identity=JSON.parse(await readFile(join(run,'identity.json'),'utf8'));
+  if(input.workspace!==join(run,'workspace')||await realpath(input.workspace)!==input.workspace||identity.objectDir!==join(run,'objects'))return unavailable('Candidate test workspace ownership mismatch.');
+  const integrity=async()=>{if(canonicalContractJson(readOracle(oracle.reference))!==canonicalContractJson(oracle.manifest))throw Error('External oracle identity changed');if(await verificationTreeHash(input.workspace,identity.objectDir)!==identity.treeHash)throw Error('Immutable Candidate tree changed during diagnostics');};await integrity();
+  const result=await executeCandidateTests(oracle.manifest,input.workspace,run,native.candidateTestPaths,input.signal,{onLaunchPending:async()=>{environment.noProcessStarted=false;await input.onLaunchPending?.();},onProcesses:input.onProcesses});
+  try{await integrity();}catch(error){return {...result,status:'INCONCLUSIVE',output:error instanceof Error?error.message:'Candidate diagnostic integrity changed',environment:{...environment,...result.environment}};}
+  return {...result,environment:{...environment,...result.environment}};
+ }catch(error){return unavailable(error instanceof Error?error.message:'Candidate diagnostics unavailable.');}
 }

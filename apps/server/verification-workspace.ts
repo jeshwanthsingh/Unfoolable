@@ -1,3 +1,4 @@
+import {materializeOracleTree,restoreBaseTests,dependencyChanges,reviewTripwire,isOracleTestPath} from './oracle-tree.ts';
 import {createHash} from 'node:crypto';
 import {inflateSync} from 'node:zlib';
 import {readFileSync} from 'node:fs';
@@ -53,4 +54,15 @@ export async function materializeCandidate(dataDir:string,runId:string,candidate
  await writeFile(join(run,'identity.json'),JSON.stringify({candidateId:candidate.id,treeHash:candidate.treeHash,diffHash:candidate.diffHash,diffRecomputed:hasBase,packHash:digest(pack),workspace,objectDir}),{flag:'wx',mode:0o400});
  const seal=async(dir:string)=>{for(const e of await readdir(dir,{withFileTypes:true}))if(e.isDirectory())await seal(join(dir,e.name));await chmod(dir,0o500);};await seal(workspace);
  return {workspace,objectDir,packHash:digest(pack)};
+}
+
+// Keep the immutable Candidate workspace intact; the execution tree restores BASE tests.
+export async function materializeNativeVerification(objectDir:string,candidate:BuildCandidate,runDirectory:string){
+ const dependencyChangesFound=await dependencyChanges(objectDir,candidate.baseHead,candidate.treeHash),tripwireHits=await reviewTripwire(objectDir,candidate.baseHead,candidate.treeHash);
+ const candidateTestPaths=(await safeBuildGit(objectDir,['diff','--no-ext-diff','--no-textconv','--no-renames','--diff-filter=ACMT','--name-only','-z',candidate.baseHead,candidate.treeHash,'--'])).toString().split('\0').filter(path=>path&&isOracleTestPath(path));
+ const workspace=join(runDirectory,'native-workspace');await materializeOracleTree(objectDir,candidate.treeHash,workspace);
+ const tests=await restoreBaseTests(objectDir,candidate.baseHead,workspace);
+ const executionTree=await verificationTreeHash(workspace,objectDir);
+ const seal=async(dir:string)=>{for(const e of await readdir(dir,{withFileTypes:true})){const full=join(dir,e.name);if(e.isDirectory())await seal(full);else await chmod(full,(await lstat(full)).mode&0o111?0o555:0o444);}await chmod(dir,0o500);};await seal(workspace);
+ return {workspace,executionTree,candidateTestPaths,baseHead:candidate.baseHead,dependencyChanges:dependencyChangesFound,tripwireHits,baseTestsRestored:tests.restored,candidateOnlyTestsExcluded:tests.candidateOnlyTests,candidateTestsAuthoritative:false};
 }

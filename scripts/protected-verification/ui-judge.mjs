@@ -5,6 +5,9 @@ import { spawnSync } from 'node:child_process';
 fs.readFileSync(0, 'utf8'); // Parent releases only after ownership is recorded.
 const [observationsPath, oracleCodePath, exactTestName, depsRoot, scratch] = process.argv.slice(2);
 fs.mkdirSync(scratch, { recursive: true });
+// Bound module resolution to the trusted judge workspace, independent of its parent project.
+fs.writeFileSync(path.join(scratch, 'package.json'), '{"type":"module"}\n');
+fs.writeFileSync(path.join(scratch, 'tsconfig.json'), '{"compilerOptions":{"target":"ES2022","module":"ESNext"}}\n');
 const data = JSON.parse(fs.readFileSync(observationsPath, 'utf8'));
 if (data.version !== 'observations-v1' || !Array.isArray(data.observations)) throw new Error('invalid observations');
 const testFile = path.join(scratch, 'oracle.test.ts');
@@ -13,8 +16,8 @@ fs.writeFileSync(path.join(scratch, 'observations.mjs'), `export const observati
 const configFile = path.join(scratch, 'vitest.config.mjs');
 const reportFile = path.join(scratch, 'native-vitest-report.json');
 if (fs.existsSync(reportFile)) fs.unlinkSync(reportFile);
-fs.writeFileSync(configFile, `export default ${JSON.stringify({root:scratch,resolve:{alias:{vitest:path.join(depsRoot,'vitest/dist/index.js')}},test:{environment:'node',include:['oracle.test.ts'],globals:false,watch:false,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false}})};\n`);
-const result = spawnSync(process.execPath, [path.join(depsRoot, 'vitest/vitest.mjs'), 'run', '--config', configFile, '--reporter=json', '--outputFile', reportFile, '--testNamePattern', `^${exactTestName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`], { cwd:scratch, env:{PATH:path.dirname(process.execPath),HOME:scratch,TMPDIR:scratch,NODE_ENV:'test'}, encoding:'utf8', timeout:30000,maxBuffer:1048576 });
+fs.writeFileSync(configFile, `export default ${JSON.stringify({root:scratch,server:{host:'127.0.0.1'},resolve:{alias:{vitest:path.join(depsRoot,'vitest/dist/index.js')}},test:{environment:'node',include:['oracle.test.ts'],globals:false,watch:false,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false}})};\n`);
+const result = spawnSync(process.execPath, [path.join(depsRoot, 'vitest/vitest.mjs'), 'run', '--config', configFile, '--reporter=json', '--outputFile', reportFile, '--testNamePattern', `^${exactTestName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`], { cwd:scratch, env:{PATH:path.dirname(process.execPath),HOME:scratch,TMPDIR:scratch,LANG:'C',LC_ALL:'C',TZ:'UTC',NODE_ENV:'test'}, encoding:'utf8', timeout:30000,maxBuffer:1048576 });
 let report;
 try { report = JSON.parse(fs.readFileSync(reportFile, 'utf8')); } catch {}
 const suites = report?.testResults ?? [];

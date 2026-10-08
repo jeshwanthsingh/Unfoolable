@@ -13,6 +13,7 @@ import {validatePlanningPayload} from './planning-validation.ts';
 import {validateRepository} from './repository.ts';
 import {safeBuildGit,sourceIndexHash,safeBuildPath} from './build-workspace.ts';
 import {BuildError} from './build-errors.ts';
+import {readOracle,evaluationSignature} from './oracle-author.ts';
 export type BuildAdmission={input:BuildInput;sourceRoot:string;baseHead:string;gitCommonDir:string;admissionMs:number;sourceIndexHash:string};
 const digest=(s:string)=>createHash('sha256').update(s).digest('hex');
 const fail=(code:string,message:string):never=>{throw new BuildError(code,message);};
@@ -30,7 +31,10 @@ export async function admitBuild(db:DatabaseSync,missionId:string,sliceId:string
  const plan=JSON.parse(String(p.payload_json)) as VerticalSlicePlan,evaluation=JSON.parse(String(e.payload_json)) as EvaluationContract,edits=JSON.parse(String(p.user_edits_json)),coverage=JSON.parse(String(p.coverage_json));
  const pc=canonicalContractJson({payload:plan,inputHash:current.hash,userEdits:edits,coverage}),ec=canonicalContractJson({payload:evaluation,inputHash:current.hash,userEdits:edits});
  if(pc!==p.canonical||ec!==e.canonical||digest(pc)!==p.plan_hash||digest(ec)!==e.evaluation_hash||canonicalContractJson(JSON.parse(String(draft.user_edits_json)))!==canonicalContractJson(edits))return fail('INVALID_BUILD_INPUT','Accepted planning artifacts do not match their canonical hashes.');
- const validated=validatePlanningPayload({plan,evaluationContract:evaluation},current.input);if(canonicalContractJson(validated.coverage)!==canonicalContractJson(coverage))return fail('INVALID_BUILD_INPUT','Accepted planning coverage is invalid.');
+ const validated=validatePlanningPayload({plan,evaluationContract:evaluation},current.input,{allowOracleReferences:true});if(canonicalContractJson(validated.coverage)!==canonicalContractJson(coverage))return fail('INVALID_BUILD_INPUT','Accepted planning coverage is invalid.');
+ if(evaluation.claims.some(c=>c.oracle)){
+  try{for(const claim of evaluation.claims){const ref=claim.oracle;if(!ref||ref.admission!=='ADMITTED')throw Error('Oracle has not passed BASE admission');const manifest=readOracle(ref);if(manifest.evaluationSignature!==evaluationSignature({plan,evaluationContract:evaluation})||manifest.sourceRoot!==String(mission.repo_root))throw Error('Oracle binding changed');}}catch{return fail('ORACLE_REJECTED','The protected oracle is missing, changed or not admitted. Review a fresh Evaluation draft before building.');}
+ }
  const slice=plan.verticalSlices.find(s=>s.id===sliceId);if(!slice)throw new BuildError('UNKNOWN_SLICE','Choose exactly one Slice from the current accepted Plan.',400);
  const analysis=db.prepare("SELECT packet_json FROM mission_analyses WHERE id=? AND mission_id=? AND status='SUCCEEDED'").get(current.input.sourceBindings.analysisId,missionId);if(!analysis)return fail('INVALID_BUILD_INPUT','The accepted analysis binding is unavailable.');const packet=JSON.parse(String(analysis.packet_json));
  const sourceRoot=String(mission.repo_root);let identity:Awaited<ReturnType<typeof validateRepository>>;try{identity=await validateRepository(sourceRoot,roots,logger);}catch{ return fail('BUILD_REPOSITORY_INVALID','The registered Project repository cannot be revalidated within allowed roots.');}

@@ -1,6 +1,13 @@
 import unittest,json,sys,importlib.util,types
 sys.stdin.read(1)
-observations=json.load(open(sys.argv[1]));module=types.ModuleType('oracle_observations');module.observations=observations['observations'];sys.modules['oracle_observations']=module
+class ObservationRows(list):
+ def __getitem__(self,key):
+  if isinstance(key,str):
+   matches=[row for row in self if row['id']==key]
+   if len(matches)!=1:raise KeyError(key)
+   return matches[0]
+  return super().__getitem__(key)
+observations=json.load(open(sys.argv[1]));module=types.ModuleType('oracle_observations');module.observations=ObservationRows(observations['observations']);sys.modules['oracle_observations']=module
 spec=importlib.util.spec_from_file_location('oracle_judge',sys.argv[2]);oracle=importlib.util.module_from_spec(spec);sys.modules['oracle_judge']=oracle;spec.loader.exec_module(oracle)
 class Result(unittest.TestResult):
  def __init__(self):super().__init__();self.records=[]

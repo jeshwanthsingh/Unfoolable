@@ -3,6 +3,8 @@ import {performance} from 'node:perf_hooks';
 import type {DatabaseSync} from 'node:sqlite';
 import {PLANNING_LIMITS} from '../../packages/shared/planning.ts';
 import type {PlanningInput,PlanningDraft,PlanningPayload,PlanningEdit,PlanningCoverage,PlanRevision,EvaluationRevision,PlanningPair,PlanningView,PlanningAttentionItem} from '../../packages/shared/planning.ts';
+import {draftMissionPlan} from './planning-drafter.ts';
+import {prepareNativeEvaluation,readOracle,evaluationSignature} from './oracle-author.ts';
 import {buildPlanningInput} from './planning-input.ts';
 import {validatePlanningPayload} from './planning-validation.ts';
 import {PlanningError} from './planning-errors.ts';
@@ -17,7 +19,23 @@ const boundInputHash=(input:PlanningInput)=>createHash('sha256').update(canonica
 const draftRecord=(r:Row):PlanningDraft=>({id:String(r.id),missionId:String(r.mission_id),parentDraftId:r.parent_draft_id as string|null,origin:r.origin as PlanningDraft['origin'],status:r.status as PlanningDraft['status'],input:parse(r,'input_json'),inputHash:String(r.input_hash),payload:r.payload_json===null?null:parse(r,'payload_json'),coverage:r.coverage_json===null?null:parse(r,'coverage_json'),userEdits:parse(r,'user_edits_json'),promptVersion:String(r.prompt_version),toolVersion:r.tool_version as string|null,elapsedMs:r.elapsed_ms as number|null,createdAt:String(r.created_at),completedAt:r.completed_at as string|null,error:r.error as string|null});
 const planRecord=(r:Row):PlanRevision=>({id:String(r.id),pairId:String(r.pair_id),missionId:String(r.mission_id),revision:Number(r.revision),draftId:String(r.draft_id),contractRevisionId:String(r.contract_revision_id),inputHash:String(r.input_hash),payload:parse(r,'payload_json'),coverage:parse(r,'coverage_json'),userEdits:parse(r,'user_edits_json'),planHash:String(r.plan_hash),canonical:String(r.canonical),acceptedAt:String(r.accepted_at)});
 const evaluationRecord=(r:Row):EvaluationRevision=>({id:String(r.id),pairId:String(r.pair_id),missionId:String(r.mission_id),revision:Number(r.revision),draftId:String(r.draft_id),contractRevisionId:String(r.contract_revision_id),inputHash:String(r.input_hash),payload:parse(r,'payload_json'),evaluationHash:String(r.evaluation_hash),canonical:String(r.canonical),acceptedAt:String(r.accepted_at)});
-export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:PlanningDrafter){
+export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:PlanningDrafter,options:{dataDir?:string;prepareOracle?:typeof prepareNativeEvaluation}={}){
+ const native=options.prepareOracle??(drafter===draftMissionPlan?prepareNativeEvaluation:null);
+ const trusted=(payload:unknown,input:PlanningInput)=>validatePlanningPayload(payload,input,{allowOracleReferences:true});
+ const checkOracles=(payload:PlanningPayload)=>{
+  const present=payload.evaluationContract.claims.filter(c=>c.oracle);
+  if(!present.length&&!native)return;
+  if(present.length!==payload.evaluationContract.claims.length)throw new PlanningError('ORACLE_REQUIRED','Every Evaluation claim needs an admitted protected native test.',409);
+  const signature=evaluationSignature(payload);
+  for(const claim of present){const ref=claim.oracle!;if(ref.admission!=='ADMITTED')throw new PlanningError('ORACLE_REJECTED',ref.reason??'Protected native test did not pass BASE admission.',409);
+   try{const manifest=readOracle(ref);if(manifest.evaluationSignature!==signature||manifest.tests.length!==present.length||manifest.tests.some(t=>!present.some(c=>c.id===t.claimId)))throw Error('Evaluation changed');}
+   catch{throw new PlanningError('STALE_ORACLE','Protected test content or Evaluation binding changed. Compile a fresh planning draft.',409);}
+  }
+ };
+ const freezeOracles=(before:PlanningPayload,after:PlanningPayload)=>{
+  if(before.evaluationContract.claims.some((c,i)=>canonicalContractJson(c.oracle??null)!==canonicalContractJson(after.evaluationContract.claims[i]?.oracle??null)))throw new PlanningError('IMMUTABLE_ORACLE','Protected test references cannot be edited, removed, or supplied by the reviewer.',409);
+  if(before.evaluationContract.claims.some(c=>c.oracle)&&evaluationSignature(before)!==evaluationSignature(after))throw new PlanningError('STALE_ORACLE','Planning content changed after protected test authoring. Compile a fresh planning draft.',409);
+ };
  let closed=false,active:{id:string;controller:AbortController}|null=null;
  db.prepare("UPDATE planning_drafts SET status='INTERRUPTED',completed_at=?,error=? WHERE status IN('PREPARING','RUNNING')").run(new Date().toISOString(),'Planning was interrupted when the coordinator stopped.');
  const ensureOpen=()=>{if(closed)throw new PlanningError('PLANNING_INTERRUPTED','The planning coordinator has stopped.',409);};
@@ -62,7 +80,10 @@ export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:Planni
    db.prepare("INSERT INTO planning_drafts(id,mission_id,contract_revision_id,origin,status,input_json,input_hash,user_edits_json,prompt_version,created_at) VALUES(?,?,?,'CODEX','PREPARING',?,?,'[]',?,?)").run(owned.id,missionId,built.input.contractRevisionId,JSON.stringify(built.input),built.hash,built.input.promptVersion,new Date().toISOString());
    const output=await drafter(built.input,owned.controller.signal,()=>{ensureOpen();if(owned.controller.signal.aborted||Number(db.prepare("UPDATE planning_drafts SET status='RUNNING' WHERE id=? AND status='PREPARING'").run(owned.id).changes)!==1)throw new PlanningError('PLANNING_INTERRUPTED','Planning was interrupted.',409);});
    ensureOpen();if(owned.controller.signal.aborted)throw new PlanningError('PLANNING_INTERRUPTED','Planning was interrupted.',409);
-   const validationStart=performance.now(),validated=validatePlanningPayload(output.output,built.input);
+   const validationStart=performance.now();let validated=validatePlanningPayload(output.output,built.input);
+   if(native){if(!options.dataDir)throw new PlanningError('ORACLE_CONFIGURATION','Native Evaluation requires the coordinator data directory.',503);const enriched=await native(db,options.dataDir,missionId,built.input,validated.payload,owned.controller.signal);validated=trusted(enriched,built.input);}
+   ensureOpen();if(owned.controller.signal.aborted)throw new PlanningError('PLANNING_INTERRUPTED','Planning was interrupted during protected test authoring.',409);
+   if(currentPlanningInputHash(db,missionId)!==built.hash)throw new PlanningError('STALE_PLAN_DRAFT','Planning input changed during protected test authoring.',409);
    if(Number(db.prepare("UPDATE planning_drafts SET status='SUCCEEDED',payload_json=?,coverage_json=?,tool_version=?,elapsed_ms=?,completed_at=? WHERE id=? AND status IN('PREPARING','RUNNING')").run(JSON.stringify(validated.payload),JSON.stringify(validated.coverage),output.toolVersion,output.elapsedMs,new Date().toISOString(),owned.id).changes)!==1)throw new PlanningError('PLANNING_INTERRUPTED','Planning was interrupted.',409);
    logger({event:'planning.completed',draftingMillis:output.elapsedMs,validationMillis:performance.now()-validationStart});return view(missionId);
   }catch(error){
@@ -80,7 +101,7 @@ export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:Planni
   transact(()=>{
    checkCurrent(draft);if(db.prepare('SELECT id FROM plan_revisions WHERE draft_id=?').get(draft.id))throw new PlanningError('PLAN_ALREADY_ACCEPTED','Choose Revise Plan before editing an accepted revision.',409);
    try{if(canonicalContractJson(identity(body.payload as PlanningPayload))!==canonicalContractJson(identity(draft.payload!)))throw Error('identity');}catch{throw new PlanningError('INVALID_PLAN_EDIT','Keep the slice and claim IDs, order, cross-cutting classifications and risk IDs unchanged.',400);}
-   const validated=validatePlanningPayload(body.payload,draft.input);if(canonicalContractJson(validated.payload)===canonicalContractJson(draft.payload))return;
+   const validated=trusted(body.payload,draft.input);freezeOracles(draft.payload!,validated.payload);if(canonicalContractJson(validated.payload)===canonicalContractJson(draft.payload))return;
    let original=draft;while(original.parentDraftId)original=getDraft(original.parentDraftId);
    const baseline=new Map(editableItems(original.payload!)),edits:PlanningEdit[]=[];
    for(const [targetId,item] of editableItems(validated.payload)){
@@ -91,10 +112,10 @@ export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:Planni
   });return view(draft.missionId);
  };
  const accept=(draftId:string):PlanningView=>{
-  const draft=getDraft(draftId);transact(()=>{
+  const draft=getDraft(draftId);checkOracles(trusted(draft.payload,draft.input).payload);transact(()=>{
    const existing=db.prepare('SELECT p.pair_id '+COMPLETE_PLANNING_PAIR+' WHERE p.draft_id=?').get(draft.id);
    if(existing){if(currentPlanningInputHash(db,draft.missionId)!==draft.inputHash||boundInputHash(draft.input)!==draft.inputHash||basePhase(draft.missionId)!=='CONTRACT_READY')throw new PlanningError('STALE_PLAN_DRAFT','The accepted plan is bound to an older Mission Contract or decisions.',409);return;}
-   checkCurrent(draft);const {payload,coverage}=validatePlanningPayload(draft.payload,draft.input);
+   checkCurrent(draft);const {payload,coverage}=trusted(draft.payload,draft.input);
    const planCanonical=canonicalContractJson({payload:payload.plan,inputHash:draft.inputHash,userEdits:draft.userEdits,coverage}),evaluationCanonical=canonicalContractJson({payload:payload.evaluationContract,inputHash:draft.inputHash,userEdits:draft.userEdits});
    if([planCanonical,evaluationCanonical].some(c=>Buffer.byteLength(c)>PLANNING_LIMITS.canonicalBytes))throw new PlanningError('PLAN_CANONICAL_LIMIT','An accepted planning document exceeds its size bound.',422);
    const revision=Number(db.prepare('SELECT COALESCE(MAX(revision),0)+1 AS n FROM plan_revisions WHERE mission_id=?').get(draft.missionId)?.n),pairId=randomUUID(),now=new Date().toISOString(),hash=(canonical:string)=>createHash('sha256').update(canonical).digest('hex');
@@ -103,7 +124,7 @@ export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:Planni
   });return view(draft.missionId);
  };
  const revise=(missionId:string,pairId:string):PlanningView=>{
-  ensureOpen();transact(()=>{const accepted=latestPair(missionId);if(!accepted||accepted.plan.pairId!==pairId)throw new PlanningError('PLAN_PAIR_NOT_FOUND','Choose the latest accepted plan pair.',409);const draft=getDraft(accepted.plan.draftId);checkCurrent(draft);const validated=validatePlanningPayload(draft.payload,draft.input);candidate(draft,validated.payload,validated.coverage,draft.userEdits,'REVISION');});return view(missionId);
+  ensureOpen();transact(()=>{const accepted=latestPair(missionId);if(!accepted||accepted.plan.pairId!==pairId)throw new PlanningError('PLAN_PAIR_NOT_FOUND','Choose the latest accepted plan pair.',409);const draft=getDraft(accepted.plan.draftId);checkCurrent(draft);const validated=trusted(draft.payload,draft.input);candidate(draft,validated.payload,validated.coverage,draft.userEdits,'REVISION');});return view(missionId);
  };
  const attention=():PlanningAttentionItem[]=>{
   ensureOpen();const items:PlanningAttentionItem[]=[];

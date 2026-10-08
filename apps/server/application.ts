@@ -54,7 +54,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const context=createContextStore(database.connection,config.projectRoots,logger);
  const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,analyzer);
  const contracts=createContractStore(database.connection,logger,drafter);
- const planning=createPlanningStore(database.connection,logger,planner);
+ const planning=createPlanningStore(database.connection,logger,planner,{dataDir:config.dataDir});
  const builds=createBuildStore(database.connection,config,logger,builder);
  const verification=createVerificationStore(database.connection,config,logger);
  builds.bindCorrectionVerifier(verification.view);

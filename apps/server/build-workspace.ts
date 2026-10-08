@@ -2,8 +2,8 @@ import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {createHash,randomUUID} from 'node:crypto';
 import {realpathSync} from 'node:fs';
-import {readFile,writeFile,mkdir,lstat,realpath,readdir,unlink} from 'node:fs/promises';
-import {join,resolve,relative,isAbsolute,sep} from 'node:path';
+import {readFile,writeFile,mkdir,lstat,realpath,readdir,unlink,symlink,readlink} from 'node:fs/promises';
+import {join,resolve,relative,isAbsolute,sep,dirname} from 'node:path';
 import {performance} from 'node:perf_hooks';
 import {BUILD_LIMITS,type BuildAttempt,type BuildCandidate,type ChangedPath} from '../../packages/shared/build.ts';
 import type {BuildAdmission} from './build-admission.ts';
@@ -23,39 +23,68 @@ const gitText=async(root:string,args:string[]) => (await safeBuildGit(root,args)
 export async function sourceIndexHash(root:string):Promise<string>{const path=await gitText(root,['rev-parse','--path-format=absolute','--git-path','index']);return hash(await readFile(path).catch(e=>{if(e.code==='ENOENT')return Buffer.alloc(0);throw e;}));}
 export function safeBuildPath(path:string):boolean {
  if(!path||path.length>4096||isAbsolute(path)||/[\u0000-\u001f\u007f\\]/.test(path)||path.split('/').some(p=>!p||p==='.'||p==='..'))return false;
- return !path.toLowerCase().split('/').some(p=>/^\.env(?:\.|$)|^(?:\.git|\.ssh|\.aws|\.azure|\.gcloud|\.npmrc|\.netrc|\.codex|\.claude|browser[-_](?:storage|profiles)|chrome-profile|firefox-profile|cookies?|login data|local state|credentials?(?:\..*)?|secrets?(?:\..*)?|(?:auth|cookies?|tokens?|token[-_]store)\.(?:json|ya?ml|txt)|keystore(?:\..*)?|id_rsa(?:\..*)?|id_ed25519(?:\..*)?)$|\.(?:pem|key|p12|pfx|jks|keystore)$/.test(p));
+ // Only a final, exactly named template file is exempt; env directories remain blocked.
+ return !path.split('/').some((part,index,parts)=>{if(part==='.env.example'&&index===parts.length-1)return false;const p=part.toLowerCase();return /^\.env(?:\.|$)|^(?:\.git|\.ssh|\.aws|\.azure|\.gcloud|\.npmrc|\.netrc|\.codex|\.claude|browser[-_](?:storage|profiles)|chrome-profile|firefox-profile|cookies?|login data|local state|credentials?(?:\..*)?|secrets?(?:\..*)?|(?:auth|cookies?|tokens?|token[-_]store)\.(?:json|ya?ml|txt)|keystore(?:\..*)?|id_rsa(?:\..*)?|id_ed25519(?:\..*)?)$|\.(?:pem|key|p12|pfx|jks|keystore)$/.test(p);});
 }
 function attemptPaths(dataDir:string,id:string){if(!/^[a-zA-Z0-9_-]{1,100}$/.test(id))fail('INVALID_ATTEMPT_ID','Attempt identity is invalid.');return {workspacePath:join(realpathSync(dataDir),'workspaces',id),artifactDir:join(realpathSync(dataDir),'attempts',id)};}
-type Ownership={attemptId:string;workspacePath:string;sourceRoot:string;baseHead:string;gitCommonDir:string;gitDir:string;sourceIndexHash:string};
+type ManagedDependencyLink={path:'frontend/node_modules';target:string};
+async function dependencyLinkPolicy(root:string,links:ManagedDependencyLink[]):Promise<void>{
+ if(links.length>1)fail('MANAGED_DEPENDENCY_LINK_INVALID','Only one pinned frontend dependency link is supported.');
+ for(const link of links){
+  if(!link||link.path!=='frontend/node_modules'||typeof link.target!=='string'||!isAbsolute(link.target)||await realpath(link.target)!==link.target||!(await lstat(link.target)).isDirectory())fail('MANAGED_DEPENDENCY_LINK_INVALID','Pinned dependency metadata is invalid.');
+  if((await safeBuildGit(root,['ls-files','-z','--',link.path])).length)fail('MANAGED_DEPENDENCY_LINK_INVALID','Managed dependencies must not be tracked.');
+  try{if((await safeBuildGit(root,['check-ignore','--no-index',link.path])).toString().trim()!==link.path)fail('MANAGED_DEPENDENCY_LINK_INVALID','Managed dependencies must remain ignored.');}catch{fail('MANAGED_DEPENDENCY_LINK_INVALID','Managed dependencies must remain ignored.');}
+ }
+}
+async function admittedDependencyLinks(admission:BuildAdmission):Promise<ManagedDependencyLink[]>{
+ const refs=(admission.input.evaluationClaims??[]).flatMap(claim=>claim.oracle?.runner==='vitest'&&claim.oracle.admission==='ADMITTED'?[claim.oracle]:[]);
+ if(!refs.length)return [];
+ const {readOracle}=await import('./oracle-author.ts');let target:string|null=null;
+ for(const ref of refs){const manifest=readOracle(ref);if(manifest.runner!=='vitest'||manifest.runnerDirectory!=='frontend'||manifest.sourceRoot!==admission.sourceRoot||manifest.baseHead!==admission.baseHead||!manifest.dependencyRoot)return fail('MANAGED_DEPENDENCY_LINK_INVALID','Native dependency manifest is not bound to this BASE.');const root=await realpath(manifest.dependencyRoot);if(root!==manifest.dependencyRoot||await realpath(join(admission.sourceRoot,'frontend/node_modules'))!==root||target!==null&&target!==root)fail('MANAGED_DEPENDENCY_LINK_INVALID','Native dependency identity changed.');target=root;}
+ const links:ManagedDependencyLink[]=[{path:'frontend/node_modules',target:target!}];await dependencyLinkPolicy(admission.sourceRoot,links);return links;
+}
+async function verifyDependencyLinks(root:string,links:ManagedDependencyLink[]):Promise<void>{
+ await dependencyLinkPolicy(root,links);
+ for(const link of links){const full=join(root,link.path);let valid=false;try{valid=(await lstat(full)).isSymbolicLink()&&await readlink(full)===link.target&&await realpath(full)===link.target;}catch{/* Missing links fail closed. */}if(!valid)fail('MANAGED_DEPENDENCY_LINK_INVALID','The coordinator-owned dependency link was changed or removed.');}
+}
+
+type Ownership={allowedDependencyLinks?:ManagedDependencyLink[];attemptId:string;workspacePath:string;sourceRoot:string;baseHead:string;gitCommonDir:string;gitDir:string;sourceIndexHash:string};
 export async function createBuildWorkspace(admission:BuildAdmission,attemptId:string,dataDir:string):Promise<{workspacePath:string;artifactDir:string;gitCommonDir:string;worktreeMs:number}>{
  const start=performance.now();await mkdir(dataDir,{recursive:true,mode:0o700});const paths=attemptPaths(dataDir,attemptId);await mkdir(join(resolve(dataDir),'workspaces'),{recursive:true,mode:0o700});await mkdir(paths.artifactDir,{recursive:true,mode:0o700});
  if(await realpath(admission.sourceRoot)!==admission.sourceRoot||await gitText(admission.sourceRoot,['rev-parse','HEAD'])!==admission.baseHead||await sourceIndexHash(admission.sourceRoot)!==admission.sourceIndexHash||(await safeBuildGit(admission.sourceRoot,['status','--porcelain=v1','-z','--untracked-files=all'])).length)fail('SOURCE_CHANGED','The source changed after admission.');
+ const allowedDependencyLinks=await admittedDependencyLinks(admission);
  // Register metadata first. Conditional includes may become active only in the
  // linked worktree, so checkout must use that new effective configuration.
  await safeBuildGit(admission.sourceRoot,['worktree','add','--detach','--no-checkout',paths.workspacePath,admission.baseHead]);
  await safeBuildGit(paths.workspacePath,['read-tree','--reset','-u',admission.baseHead]);
  const workspacePath=await realpath(paths.workspacePath),gitCommonDir=await realpath(await gitText(workspacePath,['rev-parse','--path-format=absolute','--git-common-dir'])),gitDir=await realpath(await gitText(workspacePath,['rev-parse','--absolute-git-dir']));
  if(workspacePath!==paths.workspacePath||gitCommonDir!==admission.gitCommonDir||await gitText(workspacePath,['rev-parse','HEAD'])!==admission.baseHead||await sourceIndexHash(admission.sourceRoot)!==admission.sourceIndexHash)fail('WORKSPACE_IDENTITY_CHANGED','The isolated workspace identity could not be proved.');
- const owner:Ownership={attemptId,workspacePath,sourceRoot:admission.sourceRoot,baseHead:admission.baseHead,gitCommonDir,gitDir,sourceIndexHash:admission.sourceIndexHash};
+ for(const link of allowedDependencyLinks){await mkdir(dirname(join(workspacePath,link.path)),{recursive:true});await symlink(link.target,join(workspacePath,link.path),'dir');}
+ await verifyDependencyLinks(workspacePath,allowedDependencyLinks);
+ const owner:Ownership={attemptId,workspacePath,sourceRoot:admission.sourceRoot,baseHead:admission.baseHead,gitCommonDir,gitDir,sourceIndexHash:admission.sourceIndexHash,...(allowedDependencyLinks.length?{allowedDependencyLinks}:{})};
  await writeFile(join(paths.artifactDir,'ownership.json'),JSON.stringify(owner),{flag:'wx',mode:0o600});
  return {...paths,gitCommonDir,worktreeMs:Math.round(performance.now()-start)};
 }
-async function owned(attempt:BuildAttempt,dataDir:string):Promise<Ownership>{
+async function owned(attempt:Pick<BuildAttempt,'id'|'workspacePath'|'sourceRoot'|'baseHead'>,dataDir:string):Promise<Ownership>{
  const p=attemptPaths(dataDir,attempt.id);let o:Ownership;try{o=JSON.parse(await readFile(join(p.artifactDir,'ownership.json'),'utf8'));}catch{return fail('WORKSPACE_NOT_OWNED','The workspace ownership record is missing.');}
  if(o.attemptId!==attempt.id||o.workspacePath!==p.workspacePath||o.workspacePath!==attempt.workspacePath||o.sourceRoot!==attempt.sourceRoot||o.baseHead!==attempt.baseHead||await realpath(o.workspacePath)!==o.workspacePath||await realpath(await gitText(o.workspacePath,['rev-parse','--absolute-git-dir']))!==o.gitDir||await realpath(await gitText(o.workspacePath,['rev-parse','--path-format=absolute','--git-common-dir']))!==o.gitCommonDir)fail('WORKSPACE_NOT_OWNED','The workspace no longer matches its ownership record.');
  if(await gitText(o.workspacePath,['rev-parse','HEAD'])!==o.baseHead)fail('BUILDER_MOVED_HEAD','Builder changed the workspace HEAD.');
  if(await realpath(o.sourceRoot)!==o.sourceRoot||await realpath(await gitText(o.sourceRoot,['rev-parse','--path-format=absolute','--git-common-dir']))!==o.gitCommonDir||await gitText(o.sourceRoot,['rev-parse','HEAD'])!==o.baseHead||await sourceIndexHash(o.sourceRoot)!==o.sourceIndexHash||(await safeBuildGit(o.sourceRoot,['status','--porcelain=v1','-z','--untracked-files=all'])).length)fail('SOURCE_CHANGED','The original source repository, HEAD, index or working files changed.');
+ if(o.allowedDependencyLinks!==undefined&&!Array.isArray(o.allowedDependencyLinks))fail('MANAGED_DEPENDENCY_LINK_INVALID','Managed dependency ownership metadata is invalid.');
+ await verifyDependencyLinks(o.workspacePath,o.allowedDependencyLinks??[]);
+ for(const link of o.allowedDependencyLinks??[])if(await realpath(join(o.sourceRoot,link.path))!==link.target)fail('MANAGED_DEPENDENCY_LINK_INVALID','Source dependency identity changed.');
  return o;
 }
-async function regularTree(root:string,dir=root,count={n:0}):Promise<void>{for(const e of await readdir(dir,{withFileTypes:true})){if(++count.n>20000)fail('CANDIDATE_PATH_LIMIT','Workspace traversal exceeds its bounded inventory.');if(dir===root&&e.name==='.git')continue;const full=join(dir,e.name),rel=relative(root,full).split(sep).join('/');if(rel==='.cc-runtime'){const runtimeStat=await lstat(full);if(!runtimeStat.isDirectory()||runtimeStat.isSymbolicLink())fail('UNSAFE_CANDIDATE_PATH','The owned runtime directory must be a real directory.');continue;}if(!safeBuildPath(rel))fail('UNSAFE_CANDIDATE_PATH','The workspace contains a sensitive or unsafe path.');const s=await lstat(full);if(s.isSymbolicLink()||(!s.isDirectory()&&!s.isFile()))fail('UNSAFE_CANDIDATE_PATH','Candidate files must be regular files inside the workspace.');if(s.isDirectory())await regularTree(root,full,count);}}
+export async function getOwnedDependencyLinks(attempt:Pick<BuildAttempt,'id'|'workspacePath'|'sourceRoot'|'baseHead'>,dataDir:string):Promise<ManagedDependencyLink[]>{return (await owned(attempt,dataDir)).allowedDependencyLinks?.map(link=>({...link}))??[];}
+async function regularTree(root:string,links:ManagedDependencyLink[],dir=root,count={n:0}):Promise<void>{for(const e of await readdir(dir,{withFileTypes:true})){if(++count.n>20000)fail('CANDIDATE_PATH_LIMIT','Workspace traversal exceeds its bounded inventory.');if(dir===root&&e.name==='.git')continue;const full=join(dir,e.name),rel=relative(root,full).split(sep).join('/');if(rel==='.cc-runtime'){const runtimeStat=await lstat(full);if(!runtimeStat.isDirectory()||runtimeStat.isSymbolicLink())fail('UNSAFE_CANDIDATE_PATH','The owned runtime directory must be a real directory.');continue;}if(links.some(link=>link.path===rel))continue;if(!safeBuildPath(rel))fail('UNSAFE_CANDIDATE_PATH','The workspace contains a sensitive or unsafe path.');const s=await lstat(full);if(s.isSymbolicLink()||(!s.isDirectory()&&!s.isFile()))fail('UNSAFE_CANDIDATE_PATH','Candidate files must be regular files inside the workspace.');if(s.isDirectory())await regularTree(root,links,full,count);}}
 const secret= /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bsk-[A-Za-z0-9_-]{20,}|\bgh[pousr]_[A-Za-z0-9]{20,}|\bAKIA[0-9A-Z]{16}\b/;
 export async function captureBuildCandidate(attempt:BuildAttempt,dataDir:string):Promise<{candidate:BuildCandidate;captureMs:number}>{
- const start=performance.now(),o=await owned(attempt,dataDir),paths=attemptPaths(dataDir,attempt.id);await regularTree(o.workspacePath);
+ const start=performance.now(),o=await owned(attempt,dataDir),paths=attemptPaths(dataDir,attempt.id);await regularTree(o.workspacePath,o.allowedDependencyLinks??[]);
  const ignored=(await safeBuildGit(o.workspacePath,['ls-files','--others','--ignored','--exclude-standard','-z'])).toString('utf8').split('\0').filter(Boolean);
- if(ignored.some(p=>p!=='.cc-runtime'&&!p.startsWith('.cc-runtime/')))fail('IGNORED_CANDIDATE_FILES','Ignored workspace files outside the owned runtime directory require review.');
+ if(ignored.some(p=>p!=='.cc-runtime'&&!p.startsWith('.cc-runtime/')&&!(o.allowedDependencyLinks??[]).some(link=>p===link.path)))fail('IGNORED_CANDIDATE_FILES','Ignored workspace files outside the owned runtime directory require review.');
  const runtime=(await safeBuildGit(o.workspacePath,['ls-files','--others','--exclude-standard','-z','--','.cc-runtime'])).toString('utf8').split('\0').filter(Boolean);
  const index=join(paths.artifactDir,`capture-index-${randomUUID()}`);let treeHash:string;
- try{await safeBuildGit(o.workspacePath,['read-tree',o.baseHead],undefined,index);await safeBuildGit(o.workspacePath,['add','-f','-A','--','.',':(exclude,glob).cc-runtime/**'],undefined,index);treeHash=await gitTextWithIndex(o.workspacePath,['write-tree'],index);}finally{await unlink(index).catch(()=>{});}
+ try{await safeBuildGit(o.workspacePath,['read-tree',o.baseHead],undefined,index);await safeBuildGit(o.workspacePath,['add','-f','-A','--','.',':(exclude,glob).cc-runtime/**',...(o.allowedDependencyLinks??[]).map(link=>':(exclude,literal)'+link.path)],undefined,index);treeHash=await gitTextWithIndex(o.workspacePath,['write-tree'],index);}finally{await unlink(index).catch(()=>{});}
  const raw=await safeBuildGit(o.workspacePath,['diff','--no-ext-diff','--no-textconv','--binary','--no-renames',o.baseHead,treeHash,'--'],BUILD_LIMITS.diffBytes+1);
  if(raw.length>BUILD_LIMITS.diffBytes)fail('CANDIDATE_DIFF_LIMIT','The candidate diff exceeds its bounded limit.');if(secret.test(raw.toString('utf8')))fail('CANDIDATE_SECRET','Candidate content contains a credential-like value.');
  const inventory=(await safeBuildGit(o.workspacePath,['diff','--no-ext-diff','--no-textconv','--no-renames','--numstat','-z',o.baseHead,treeHash,'--'])).toString('utf8').split('\0').filter(Boolean);

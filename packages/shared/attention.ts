@@ -13,7 +13,7 @@ export function isAttentionResponse(value:unknown):value is AttentionResponse{
   if(!item||typeof item!=='object'||Array.isArray(item))return false;
   const i=item as Record<string,unknown>;
   if(i.kind==='debug_escalation')return Object.keys(i).length===9&&text(i.sessionId,200)&&text(i.missionId,200)&&text(i.projectId,200)&&text(i.projectName,120)&&text(i.originalIntent)&&text(i.reason,2000)&&Number.isInteger(i.corrections)&&Number(i.corrections)>=0&&Number(i.corrections)<=2&&Array.isArray(i.failedClaimIds)&&i.failedClaimIds.length<=100&&i.failedClaimIds.every(id=>text(id,200));
-  if(i.kind==='manual_evaluation')return Object.keys(i).length===7&&['kind','runId','claimId','missionId','projectId','projectName','originalIntent'].every(k=>Object.hasOwn(i,k))&&text(i.runId,200)&&text(i.claimId,200)&&text(i.missionId,200)&&text(i.projectId,200)&&text(i.projectName,120)&&text(i.originalIntent);
+  if(i.kind==='manual_evaluation'||i.kind==='verification_inspection')return Object.keys(i).length===7&&['kind','runId','claimId','missionId','projectId','projectName','originalIntent'].every(k=>Object.hasOwn(i,k))&&text(i.runId,200)&&text(i.claimId,200)&&text(i.missionId,200)&&text(i.projectId,200)&&text(i.projectName,120)&&text(i.originalIntent);
   if(i.kind!=='runtime_permission'&&i.kind!=='reconciliation')return isPlanningAttentionResponse({items:[i],count:1});
   const fields=i.kind==='runtime_permission'?['kind','requestId','missionId','projectId','projectName','originalIntent','sliceId','path','reason','requestedScope']:['kind','attemptId','missionId','projectId','projectName','originalIntent','reason'];
   if(Object.keys(i).length!==fields.length||Object.keys(i).some(k=>!fields.includes(k)))return false;
