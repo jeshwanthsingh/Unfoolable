@@ -1,3 +1,4 @@
+import {acceptedPlanningRow,draftAccepted} from './content-identity.ts';
 import type {DatabaseSync} from 'node:sqlite';
 import type {ContractPhase} from '../../packages/shared/contracts.ts';
 import type {PlanningPhase} from '../../packages/shared/planning.ts';
@@ -11,7 +12,7 @@ export function planningPhase(db:DatabaseSync,missionId:string,baseContractPhase
  if(baseContractPhase!=='CONTRACT_READY')return baseContractPhase;
  const hash=currentPlanningInputHash(db,missionId);if(!hash)return baseContractPhase;
  const draft=db.prepare("SELECT id,input_hash FROM planning_drafts WHERE mission_id=? AND status='SUCCEEDED' ORDER BY created_at DESC,rowid DESC LIMIT 1").get(missionId);
- const accepted=db.prepare('SELECT p.draft_id,p.input_hash '+COMPLETE_PLANNING_PAIR+' WHERE p.mission_id=? ORDER BY p.revision DESC LIMIT 1').get(missionId);
- if(draft&&draft.input_hash===hash&&draft.id!==accepted?.draft_id)return 'PLAN_REVIEW';
+ const accepted=acceptedPlanningRow(db,missionId);
+ if(draft&&draft.input_hash===hash&&draft.id!==accepted?.draft_id&&!draftAccepted(db,'planning',String(draft.id)))return 'PLAN_REVIEW';
  return accepted?.input_hash===hash?'PLAN_READY':baseContractPhase;
 }

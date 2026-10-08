@@ -6,7 +6,7 @@ import type {BuildInput,BuildCandidate,BuilderCheck,CleanupResult,ChangedPath} f
 import type {VerificationRun,VerificationRecipe,VerificationView} from '../../packages/shared/verification.ts';
 import {DEBUG_LIMITS,type FailurePacket,type FailurePacketData} from '../../packages/shared/debug.ts';
 import {canonicalContractJson} from './contract-store.ts';
-import {verificationHash} from './verification-recipe.ts';
+import {verificationHash,recipeCanonicalMatches} from './verification-recipe.ts';
 import {safeBuildGit,safeBuildPath} from './build-workspace.ts';
 import {BuildError} from './build-errors.ts';
 const fail=(code:string,message:string):never=>{throw new BuildError(code,message);};
@@ -31,8 +31,8 @@ export async function makeFailurePacketFrom(supplied:PacketInput,options:PacketO
  if(run.status!=='FAILED'||!run.results.length||run.results.some(r=>!['PASS','FAIL'].includes(r.status))||!run.results.some(r=>r.status==='FAIL')||!clean(run.cleanup)||!clean(cleanup))return fail('DEBUG_PACKET_INELIGIBLE','Only a required FAIL with certified Builder/Verifier cleanup can be diagnosed.');
  const bindingEqual=input.missionId===run.missionId&&recipe.missionId===run.missionId&&candidate.id===run.candidateId&&candidate.attemptId===run.attemptId&&candidate.baseHead===run.baseHead&&candidate.treeHash===run.treeHash&&candidate.diffHash===run.diffHash&&input.project.baseHead===run.baseHead&&recipe.id===run.recipeId&&recipe.hash===run.recipeHash&&recipe.evaluationHash===run.evaluationHash&&input.evaluationHash===run.evaluationHash&&recipe.evaluatorHash===run.evaluatorHash&&input.contractRevisionId===recipe.contractRevisionId&&input.planRevisionId===recipe.planRevisionId&&input.evaluationRevisionId===recipe.evaluationRevisionId;
  if(!bindingEqual||!Number.isSafeInteger(run.generation)||run.generation<1||![run.treeHash,run.baseHead].every(git)||![run.diffHash,run.recipeHash,run.evaluationHash,run.evaluatorHash,input.planHash,input.contractHash].every(sha)||verificationHash(recipe.canonical)!==recipe.hash)return fail('DEBUG_PACKET_BINDING','Candidate, accepted artifacts and recipe do not share one identity.');
- const rc=JSON.parse(recipe.canonical);
- if(canonicalContractJson({...rc,missionId:recipe.missionId,contractRevisionId:recipe.contractRevisionId,planRevisionId:recipe.planRevisionId,evaluationRevisionId:recipe.evaluationRevisionId,evaluationHash:recipe.evaluationHash,version:recipe.version,steps:recipe.steps,claims:recipe.claims,evaluatorHash:recipe.evaluatorHash})!==recipe.canonical)return fail('DEBUG_PACKET_BINDING','Recipe metadata differs from its canonical identity.');
+
+ if(!recipeCanonicalMatches(recipe))return fail('DEBUG_PACKET_BINDING','Recipe metadata differs from its canonical identity.');
  if(run.results.length!==recipe.claims.length||new Set(run.results.map(r=>r.claimId)).size!==run.results.length||!run.results.every(r=>recipe.claims.some(c=>c.id===r.claimId)&&recipe.steps.some(s=>s.id===r.stepId&&s.claimIds.includes(r.claimId)))||recipe.claims.some(c=>!input.evaluationClaims.some(i=>canonicalContractJson(i)===canonicalContractJson(c))))return fail('DEBUG_PACKET_BINDING','Protected claim identities differ from the accepted Evaluation.');
  const environmentIdentity=run.environment.environmentIdentity;
  if(typeof environmentIdentity!=='string'||!sha(environmentIdentity)||verificationHash(canonicalContractJson(run.environment.environmentManifest))!==environmentIdentity||run.environment.candidateTree!==run.treeHash||run.environment.baseHead!==run.baseHead||run.environment.recipeHash!==run.recipeHash||run.environment.evaluatorHash!==run.evaluatorHash)return fail('DEBUG_PACKET_BINDING','Verifier environment identity is incomplete or changed.');

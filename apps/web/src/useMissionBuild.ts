@@ -18,13 +18,11 @@ export function useMissionBuild(id:string,onChanged?:()=>void,revision:string|nu
  async function poll(){try{const data=await read(await fetch(url+'?after='+(view.current?.nextSequence??0),{signal:AbortSignal.any([controller.signal,AbortSignal.timeout(5000)]),cache:'no-store'}));if(controller.signal.aborted||generation!==request.current)return;setError(null);accept(data);if(buildActive(data)||data.events.length===100)timer=setTimeout(()=>void poll(),data.events.length===100?100:1000);}catch(problem){if(controller.signal.aborted||generation!==request.current)return;setError(problem instanceof Error?problem.message:'Build status unavailable.');setState({kind:'failed'});if(view.current){if(buildActive(view.current))timer=setTimeout(()=>void poll(),1000);}else setState({kind:'failed'});}}
  void poll();return()=>{controller.abort();clearTimeout(timer);request.current++;};
  },[url,revision,refreshKey]);
- async function start(sliceId:string){if(posting.current||!view.current?.eligible||view.current.phase!=='PLAN_READY'||buildActive(view.current))return;posting.current=true;setPending(true);setError(null);const generation=request.current;
- try{const data=await read(await fetch('/api/missions/'+encodeURIComponent(id)+'/build-attempts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sliceId}),signal:AbortSignal.timeout(20000)}));if(generation===request.current){accept(data);setRefreshKey(x=>x+1);}}catch(problem){if(generation===request.current){setError(problem instanceof Error?problem.message:'Build outcome could not be confirmed.');setRefreshKey(x=>x+1);}}finally{if(generation===request.current){posting.current=false;setPending(false);}}}
- async function action(kind:'cancel'|'retry'){const attempt=view.current?.attempt;if(posting.current||!attempt)return;posting.current=true;setPending(true);setError(null);const generation=request.current;
+ async function action(kind:'cancel'){const attempt=view.current?.attempt;if(posting.current||!attempt)return;posting.current=true;setPending(true);setError(null);const generation=request.current;
  try{const data=await read(await fetch('/api/build-attempts/'+encodeURIComponent(attempt.id)+'/'+kind,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}',signal:AbortSignal.timeout(20000)}));if(generation===request.current){accept(data);setRefreshKey(x=>x+1);changed.current?.();}}
  catch(problem){if(generation===request.current){setError(problem instanceof Error?problem.message:'Build action outcome could not be confirmed.');setRefreshKey(x=>x+1);}}
  finally{if(generation===request.current){posting.current=false;setPending(false);}}
  }
- return {state,pending,error,start,cancel:()=>action('cancel'),retry:()=>action('retry'),refresh:()=>{setError(null);setRefreshKey(x=>x+1);}};
+ return {state,pending,error,cancel:()=>action('cancel'),refresh:()=>{setError(null);setRefreshKey(x=>x+1);}};
 }
 export type BuildControl=ReturnType<typeof useMissionBuild>;

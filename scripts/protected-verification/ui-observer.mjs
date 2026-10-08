@@ -27,7 +27,7 @@ try {
   const origin = `http://127.0.0.1:${server.address().port}`;
   browser = await chromium.launch({ headless: true, executablePath: browserExecutable, args: ['--disable-background-networking', '--disable-extensions'], env: { PATH: process.env.PATH ?? '', HOME: scratch, TMPDIR: scratch } });
   for (const request of requests) {
-    const row = { id: request.id, html: '', text: '', missingElements: [], exception: null };
+    const row = { id: request.id, html: '', text: '', buttonNames: [], links: [], missingElements: [], exception: null };
     const context = await browser.newContext({ serviceWorkers: 'block', acceptDownloads: false });
     const errors = [];
     try {
@@ -62,6 +62,18 @@ try {
       row.html = outer.outerHTML.replace(/^<div\b[^>]*>/, '').replace(/<\/div>$/, '');
       const textOf = node => node.nodeType === 3 ? node.nodeValue : (node.children ?? []).map(textOf).join('');
       row.text = textOf(mount);
+      // Accessibility and link metadata come from Chromium CDP, never Candidate JavaScript.
+      const { nodes } = await cdp.send('Accessibility.getFullAXTree');
+      if (!Array.isArray(nodes) || nodes.length > 4096) throw new Error('AX observation limit exceeded');
+      row.buttonNames = [...new Set(nodes.filter(node => !node.ignored && node.role?.value === 'button').map(node => node.name?.value).filter(name => typeof name === 'string' && name.trim()))];
+      if (row.buttonNames.length > 64 || row.buttonNames.some(name => name.length > 500)) throw new Error('Button observation limit exceeded');
+      const collectLinks = node => {
+        const attributes = node.attributes ?? [], index = attributes.indexOf('href');
+        if (node.nodeName === 'A' && index >= 0 && index % 2 === 0) row.links.push({ text: textOf(node).slice(0, 100), href: attributes[index + 1] });
+        for (const child of node.children ?? []) collectLinks(child);
+      };
+      collectLinks(mount);
+      if (row.links.length > 40 || row.links.some(link => typeof link.href !== 'string' || link.href.length > 300)) throw new Error('Link observation limit exceeded');
       if (row.html.length > 1048576 || row.text.length > 262144) throw new Error('DOM observation limit exceeded');
       if (errors.length) throw errors[0];
     } catch (error) { row.exception = { name: error?.name ?? 'Error', message: String(error?.message ?? error).slice(0, 2048) }; }

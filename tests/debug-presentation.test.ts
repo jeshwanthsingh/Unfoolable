@@ -1,22 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import type {DebugSession,DebugView} from '../packages/shared/debug.ts';
-import type {VerificationView} from '../packages/shared/verification.ts';
 import {isDebugView} from '../packages/shared/debug-validation.ts';
 import {isAttentionResponse} from '../packages/shared/attention.ts';
-import {attemptFixAllowed,debugActive,debugLabel,hypothesisStatus,correctionLabel,visibleDebugReason} from '../apps/web/src/debug-presentation.ts';
+import {debugActive,debugLabel,hypothesisStatus,correctionLabel,visibleDebugReason} from '../apps/web/src/debug-presentation.ts';
 const debug:DebugView={session:null,history:[],current:false,eligible:true,reason:null};
-const verification={current:true,runs:[{id:'run',status:'FAILED',results:[{claimId:'E1',status:'FAIL'}]}]} as VerificationView;
-test('Attempt Fix requires server eligibility and current definitive protected failure, including first session',()=>{
- assert.equal(attemptFixAllowed(debug,verification),true);
- assert.equal(attemptFixAllowed({...debug,eligible:false},verification),false);
- assert.equal(attemptFixAllowed(debug,{...verification,current:false}),false);
- assert.equal(attemptFixAllowed(null,verification),false);
- for(const status of ['ERROR','UNSUPPORTED','INCONCLUSIVE','PASSED','RUNNING'])assert.equal(attemptFixAllowed(debug,{...verification,runs:[{...verification.runs[0]!,status}]} as VerificationView),false);
- for(const status of ['ERROR','UNSUPPORTED','INCONCLUSIVE','PENDING','RUNNING'])assert.equal(attemptFixAllowed(debug,{...verification,runs:[{...verification.runs[0]!,results:[{claimId:'E1',status:'FAIL'},{claimId:'E2',status}]}]} as VerificationView),false);
-});
 test('diagnosis cannot render acceptance; terminal history is not an active worker',()=>{
- for(const status of ['CREATED','DIAGNOSING','CORRECTING','VERIFYING'] as const){const session={status} as DebugSession;assert.equal(debugActive(session),true);assert.match(debugLabel({...debug,current:true,session}),/^DEBUGGING/);assert.equal(attemptFixAllowed({...debug,session},verification),false);}
+ for(const status of ['CREATED','DIAGNOSING','CORRECTING','VERIFYING'] as const){const session={status} as DebugSession;assert.equal(debugActive(session),true);assert.match(debugLabel({...debug,current:true,session}),/^DEBUGGING/);}
  for(const status of ['RESOLVED','NEEDS_HUMAN','FAILED','INTERRUPTED'] as const){const session={status} as DebugSession;assert.equal(debugActive(session),false);assert.doesNotMatch(debugLabel({...debug,current:true,session}),/ACCEPTANCE|COMPLETE|PASSED/);assert.match(debugLabel({...debug,session}),/^HISTORICAL/);}
  assert.equal(hypothesisStatus('PENDING'),'PROPOSED');assert.equal(hypothesisStatus('RUNNING'),'CORRECTION ATTEMPTED');assert.equal(hypothesisStatus('FAILED'),'CORRECTION ATTEMPTED');assert.equal(hypothesisStatus('FAILED',true),'INEFFECTIVE');assert.equal(hypothesisStatus('INEFFECTIVE'),'INEFFECTIVE');assert.equal(hypothesisStatus('RESOLVED'),'RESOLVED');
 });

@@ -18,6 +18,6 @@ export function useMissionVerification(id:string,onChanged?:()=>void,revision:st
  catch(problem){if(current===generation.current){setError(problem instanceof Error?problem.message:'Verification outcome could not be confirmed.');setKey(value=>value+1);}}
  finally{if(current===generation.current){posting.current=false;setPending(false);}}
  }
- return {state,pending,error,refresh:()=>setKey(value=>value+1),start:()=>{if(view.current?.eligible&&!verificationActive(view.current.runs[0]))return post('/api/missions/'+encodeURIComponent(id)+'/verification-runs',{});},stop:()=>{const run=view.current?.runs[0];if(verificationActive(run))return post('/api/verification-runs/'+encodeURIComponent(run!.id)+'/stop',{});},decide:(runId:string,claimId:string,status:'PASS'|'FAIL'|'INCONCLUSIVE',note:string)=>post('/api/verification-runs/'+encodeURIComponent(runId)+'/claims/'+encodeURIComponent(claimId)+'/decision',{status,note})};
+ return {state,pending,error,refresh:()=>setKey(value=>value+1),stop:()=>{const run=view.current?.runs[0];if(verificationActive(run))return post('/api/verification-runs/'+encodeURIComponent(run!.id)+'/stop',{});},decide:(runId:string,claimId:string,status:'PASS'|'FAIL'|'INCONCLUSIVE',note:string)=>post('/api/verification-runs/'+encodeURIComponent(runId)+'/claims/'+encodeURIComponent(claimId)+'/decision',{status,note})};
 }
 export type VerificationControl=ReturnType<typeof useMissionVerification>;

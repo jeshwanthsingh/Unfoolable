@@ -1,7 +1,11 @@
-# Not implemented after Breakout 11
+# Not now
 
-Reviewer, final evidence receipt, Mission completion, merge/rebase/push/PR/deploy, automatic next Slice, Aegis, Jev, multi-agent orchestration, global learning/skill generation, project memory, generic notification engines, embedded terminal and personal Chrome. Broad/session/persistent/network permission grants, automatic recovery/resume, live turn resume, arbitrary project command recipes and generic target-project browser/performance acceptance remain unavailable.
+- Receipt: Breakout 14.
+- Deployment, merge, push, remote Git mutation, external communications.
+- New model, provider, runtime or paid API configuration.
+- Builder runtime/sandbox/prompt changes, multiple workers, agent marketplace.
+- Generic runner plugins, broad new workflow framework, SSE/live terminal.
+- Aegis, Jev, VM containment, memory, personal Chrome or private browser data.
+- Unrestricted permissions, autonomous approval, manual native PASS.
 
-Debugging is explicitly started from a current deterministic protected failure and capped at two corrections against the same accepted scope/oracle. It never changes success criteria. Existing exact runtime permissions remain human decisions. REST and bounded polling are sufficient; SSE remains deferred. Protected acceptance is distinct from final Mission completion and a receipt.
-
-Receipt remains Breakout 12. Native oracles are limited to the two benchmark runner/interface shapes; generalized runner plugins, remote execution and complete protection against deliberate in-process observation forgery remain outside this breakout.
+Add mechanisms only for demonstrated needs. Keep the protected oracle independent and preserve both normal human decisions.

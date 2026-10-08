@@ -1,3 +1,4 @@
+import {acceptedPlanningRow,draftAccepted,migrateContentIdentity,planningContentIdentity} from './content-identity.ts';
 import {createHash,randomUUID} from 'node:crypto';
 import {performance} from 'node:perf_hooks';
 import type {DatabaseSync} from 'node:sqlite';
@@ -8,7 +9,7 @@ import {prepareNativeEvaluation,readOracle,evaluationSignature} from './oracle-a
 import {buildPlanningInput} from './planning-input.ts';
 import {validatePlanningPayload} from './planning-validation.ts';
 import {PlanningError} from './planning-errors.ts';
-import {canonicalContractJson} from './contract-store.ts';
+import {canonicalContractJson,acceptedContentCanonical,boundContentId} from './contract-store.ts';
 import {contractPhase} from './contract-phase.ts';
 import {planningPhase,currentPlanningInputHash,COMPLETE_PLANNING_PAIR} from './planning-phase.ts';
 import type {Logger} from './log.ts';
@@ -20,6 +21,7 @@ const draftRecord=(r:Row):PlanningDraft=>({id:String(r.id),missionId:String(r.mi
 const planRecord=(r:Row):PlanRevision=>({id:String(r.id),pairId:String(r.pair_id),missionId:String(r.mission_id),revision:Number(r.revision),draftId:String(r.draft_id),contractRevisionId:String(r.contract_revision_id),inputHash:String(r.input_hash),payload:parse(r,'payload_json'),coverage:parse(r,'coverage_json'),userEdits:parse(r,'user_edits_json'),planHash:String(r.plan_hash),canonical:String(r.canonical),acceptedAt:String(r.accepted_at)});
 const evaluationRecord=(r:Row):EvaluationRevision=>({id:String(r.id),pairId:String(r.pair_id),missionId:String(r.mission_id),revision:Number(r.revision),draftId:String(r.draft_id),contractRevisionId:String(r.contract_revision_id),inputHash:String(r.input_hash),payload:parse(r,'payload_json'),evaluationHash:String(r.evaluation_hash),canonical:String(r.canonical),acceptedAt:String(r.accepted_at)});
 export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:PlanningDrafter,options:{dataDir?:string;prepareOracle?:typeof prepareNativeEvaluation}={}){
+ migrateContentIdentity(db);
  const native=options.prepareOracle??(drafter===draftMissionPlan?prepareNativeEvaluation:null);
  const trusted=(payload:unknown,input:PlanningInput)=>validatePlanningPayload(payload,input,{allowOracleReferences:true});
  const checkOracles=(payload:PlanningPayload)=>{
@@ -47,7 +49,7 @@ export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:Planni
   const input=db.prepare('SELECT input_json FROM planning_drafts WHERE id=?').get(String(row.draft_id)) as Row;
   return {plan:planRecord(row),evaluation:evaluationRecord(evaluation),input:parse(input,'input_json')};
  };
- const latestPair=(missionId:string)=>{const row=db.prepare('SELECT p.pair_id '+COMPLETE_PLANNING_PAIR+' WHERE p.mission_id=? ORDER BY p.revision DESC LIMIT 1').get(missionId);return row?pair(missionId,String(row.pair_id)):null;};
+ const latestPair=(missionId:string)=>{const row=acceptedPlanningRow(db,missionId);return row?pair(missionId,String(row.pair_id)):null;};
  const basePhase=(missionId:string)=>{
   const analysis=db.prepare("SELECT id FROM mission_analyses WHERE mission_id=? AND status='SUCCEEDED' ORDER BY created_at DESC,rowid DESC LIMIT 1").get(missionId);
   const pending=analysis?Number(db.prepare('SELECT count(*) AS n FROM clarification_questions q LEFT JOIN clarification_answers a ON a.question_id=q.id WHERE q.analysis_id=? AND a.question_id IS NULL').get(analysis.id!)?.n):0;
@@ -99,7 +101,7 @@ export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:Planni
  const edit=(draftId:string,body:{payload:unknown}):PlanningView=>{
   const draft=getDraft(draftId);if(!body||Object.keys(body).length!==1||!('payload'in body))throw new PlanningError('INVALID_PLAN_EDIT','Provide the complete planning payload only.',400);
   transact(()=>{
-   checkCurrent(draft);if(db.prepare('SELECT id FROM plan_revisions WHERE draft_id=?').get(draft.id))throw new PlanningError('PLAN_ALREADY_ACCEPTED','Choose Revise Plan before editing an accepted revision.',409);
+   checkCurrent(draft);if(db.prepare('SELECT id FROM plan_revisions WHERE draft_id=?').get(draft.id)||draftAccepted(db,'planning',draft.id))throw new PlanningError('PLAN_ALREADY_ACCEPTED','Choose Revise Plan before editing an accepted revision.',409);
    try{if(canonicalContractJson(identity(body.payload as PlanningPayload))!==canonicalContractJson(identity(draft.payload!)))throw Error('identity');}catch{throw new PlanningError('INVALID_PLAN_EDIT','Keep the slice and claim IDs, order, cross-cutting classifications and risk IDs unchanged.',400);}
    const validated=trusted(body.payload,draft.input);freezeOracles(draft.payload!,validated.payload);if(canonicalContractJson(validated.payload)===canonicalContractJson(draft.payload))return;
    let original=draft;while(original.parentDraftId)original=getDraft(original.parentDraftId);
@@ -114,13 +116,16 @@ export function createPlanningStore(db:DatabaseSync,logger:Logger,drafter:Planni
  const accept=(draftId:string):PlanningView=>{
   const draft=getDraft(draftId);checkOracles(trusted(draft.payload,draft.input).payload);transact(()=>{
    const existing=db.prepare('SELECT p.pair_id '+COMPLETE_PLANNING_PAIR+' WHERE p.draft_id=?').get(draft.id);
-   if(existing){if(currentPlanningInputHash(db,draft.missionId)!==draft.inputHash||boundInputHash(draft.input)!==draft.inputHash||basePhase(draft.missionId)!=='CONTRACT_READY')throw new PlanningError('STALE_PLAN_DRAFT','The accepted plan is bound to an older Mission Contract or decisions.',409);return;}
+   if(existing||draftAccepted(db,'planning',draft.id)){if(currentPlanningInputHash(db,draft.missionId)!==draft.inputHash||boundInputHash(draft.input)!==draft.inputHash||basePhase(draft.missionId)!=='CONTRACT_READY')throw new PlanningError('STALE_PLAN_DRAFT','The accepted plan is bound to an older Mission Contract or decisions.',409);return;}
    checkCurrent(draft);const {payload,coverage}=trusted(draft.payload,draft.input);
-   const planCanonical=canonicalContractJson({payload:payload.plan,inputHash:draft.inputHash,userEdits:draft.userEdits,coverage}),evaluationCanonical=canonicalContractJson({payload:payload.evaluationContract,inputHash:draft.inputHash,userEdits:draft.userEdits});
+   const identity=planningContentIdentity(payload),planCanonical=acceptedContentCanonical(identity.plan),evaluationCanonical=acceptedContentCanonical(identity.evaluationContract);
+   const matching=(db.prepare('SELECT p.* '+COMPLETE_PLANNING_PAIR+' WHERE p.mission_id=? AND p.input_hash=? ORDER BY p.revision DESC').all(draft.missionId,draft.inputHash)).find(row=>{const e=db.prepare('SELECT payload_json FROM evaluation_contract_revisions WHERE pair_id=?').get(row.pair_id!)!;const old=planningContentIdentity({plan:JSON.parse(String(row.payload_json)),evaluationContract:JSON.parse(String(e.payload_json))});return acceptedContentCanonical(old.plan)===planCanonical&&acceptedContentCanonical(old.evaluationContract)===evaluationCanonical;});
+   if(matching){db.prepare('INSERT INTO planning_acceptances VALUES(?,?,?,?)').run(draft.id,draft.missionId,matching.pair_id!,new Date().toISOString());return;}
    if([planCanonical,evaluationCanonical].some(c=>Buffer.byteLength(c)>PLANNING_LIMITS.canonicalBytes))throw new PlanningError('PLAN_CANONICAL_LIMIT','An accepted planning document exceeds its size bound.',422);
-   const revision=Number(db.prepare('SELECT COALESCE(MAX(revision),0)+1 AS n FROM plan_revisions WHERE mission_id=?').get(draft.missionId)?.n),pairId=randomUUID(),now=new Date().toISOString(),hash=(canonical:string)=>createHash('sha256').update(canonical).digest('hex');
-   db.prepare('INSERT INTO plan_revisions VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)').run(randomUUID(),pairId,draft.missionId,revision,draft.id,draft.input.contractRevisionId,draft.inputHash,JSON.stringify(payload.plan),JSON.stringify(coverage),JSON.stringify(draft.userEdits),hash(planCanonical),planCanonical,now);
-   db.prepare('INSERT INTO evaluation_contract_revisions VALUES(?,?,?,?,?,?,?,?,?,?,?)').run(randomUUID(),pairId,draft.missionId,revision,draft.id,draft.input.contractRevisionId,draft.inputHash,JSON.stringify(payload.evaluationContract),hash(evaluationCanonical),evaluationCanonical,now);
+   const revision=Number(db.prepare('SELECT COALESCE(MAX(revision),0)+1 AS n FROM plan_revisions WHERE mission_id=?').get(draft.missionId)?.n),pairId=boundContentId('pair',draft.missionId,createHash('sha256').update(planCanonical+evaluationCanonical).digest('hex'),draft.inputHash),now=new Date().toISOString(),hash=(canonical:string)=>createHash('sha256').update(canonical).digest('hex');
+   db.prepare('INSERT INTO plan_revisions VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)').run(boundContentId('plan',draft.missionId,hash(planCanonical),pairId),pairId,draft.missionId,revision,draft.id,draft.input.contractRevisionId,draft.inputHash,JSON.stringify(payload.plan),JSON.stringify(coverage),JSON.stringify(draft.userEdits),hash(planCanonical),planCanonical,now);
+   db.prepare('INSERT INTO evaluation_contract_revisions VALUES(?,?,?,?,?,?,?,?,?,?,?)').run(boundContentId('evaluation',draft.missionId,hash(evaluationCanonical),pairId),pairId,draft.missionId,revision,draft.id,draft.input.contractRevisionId,draft.inputHash,JSON.stringify(payload.evaluationContract),hash(evaluationCanonical),evaluationCanonical,now);
+   db.prepare('INSERT INTO planning_acceptances VALUES(?,?,?,?)').run(draft.id,draft.missionId,pairId,now);
   });return view(draft.missionId);
  };
  const revise=(missionId:string,pairId:string):PlanningView=>{

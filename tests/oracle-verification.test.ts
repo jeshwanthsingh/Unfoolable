@@ -1,4 +1,3 @@
-import {unlinkSync} from 'node:fs';
 import {isAttentionResponse} from '../packages/shared/attention.ts';
 import {copyFileSync} from 'node:fs';
 import {createBuildStore} from '../apps/server/build-store.ts';
@@ -97,12 +96,8 @@ test('native store preserves diagnostics authority and routes only current lates
    assert.equal(run.status,'INCONCLUSIVE',run.error??'');assert.equal(run.results[0]!.status,'INCONCLUSIVE');const attention=verifier.attention();assert.equal(attention.length,1);assert.equal(attention[0]!.kind,'verification_inspection');assert.equal(attention[0]!.runId,run.id);assert.equal(attention[0]!.claimId,'E1');assert.equal(Object.keys(attention[0]!).length,7);assert.equal(isAttentionResponse({items:attention,count:1}),true);
    planning.db.prepare("UPDATE clarification_answers SET answer_text='Changed bound answer.' WHERE question_id='question'").run();assert.equal(verifier.view('mission').current,false);assert.deepEqual(verifier.attention(),[]);
    planning.db.prepare("UPDATE clarification_answers SET answer_text='Stop retrying after denial.' WHERE question_id='question'").run();assert.equal(verifier.attention().length,1);
-   // A fresh fixed Candidate produces a new PASS; the prior flagged run stays historical.
-   if(flags==='dependency')unlinkSync(join(f.manifest.sourceRoot,'requirements.txt'));else writeFileSync(join(f.manifest.sourceRoot,'app.py'),'def behavior():\n return True\n');git(f.manifest.sourceRoot,'add','-A');
-   f.candidate.treeHash=git(f.manifest.sourceRoot,'write-tree');const diff=execFileSync('git',['-C',f.manifest.sourceRoot,'diff','--no-ext-diff','--no-textconv','--binary','--no-renames',f.candidate.baseHead,f.candidate.treeHash,'--']);f.candidate.diffHash=createHash('sha256').update(diff).digest('hex');f.candidate.diff=diff.toString();writeFileSync(f.candidate.diffArtifactPath,diff);writeFileSync(join(f.data,'attempts','a1','candidate.pack'),execFileSync('git',['-C',f.manifest.sourceRoot,'pack-objects','--stdout','--revs'],{input:f.candidate.treeHash+'\n'+f.candidate.baseHead+'\n'}));
-   const revised=controlled.revise('mission',controlled.view('mission').accepted!.plan.pairId);controlled.accept(revised.draft!.id);assert.deepEqual(verifier.attention(),[]);
-   await builder.start('mission','S1');for(let i=0;i<200&&builder.view('mission').attempt?.status!=='CANDIDATE';i++)await pause(10);assert.equal(builder.view('mission').attempt?.status,'CANDIDATE');assert.deepEqual(verifier.attention(),[]);
-   await verifier.start('mission');for(let i=0;i<1500&&['CREATED','PREPARING','RUNNING'].includes(verifier.view('mission').runs[0]!.status);i++)await pause(10);const replacement=verifier.view('mission');assert.equal(replacement.runs[0]!.status,'PASSED',replacement.runs[0]!.error??'');assert.equal(replacement.runs[1]!.id,run.id);assert.equal(replacement.runs[1]!.status,'INCONCLUSIVE');assert.deepEqual(verifier.attention(),[]);
+   // Content-identical acceptance cannot hide an unresolved protected inspection.
+   const acceptedBefore=controlled.view('mission').accepted!;const revised=controlled.revise('mission',acceptedBefore.plan.pairId);const acceptedAfter=controlled.accept(revised.draft!.id).accepted!;assert.equal(acceptedAfter.evaluation.id,acceptedBefore.evaluation.id);assert.equal(acceptedAfter.evaluation.evaluationHash,acceptedBefore.evaluation.evaluationHash);assert.equal(verifier.attention().length,1);await assert.rejects(builder.start('mission','S1'),{code:'CANDIDATE_EXISTS'});assert.equal(verifier.view('mission').runs[0]!.id,run.id);assert.equal(verifier.view('mission').runs[0]!.status,'INCONCLUSIVE');
   }
  }finally{await verifier?.close();await builder?.close();controlled?.close();const unseal=(path:string)=>{chmodSync(path,0o700);for(const e of readdirSync(path,{withFileTypes:true}))if(e.isDirectory())unseal(join(path,e.name));};unseal(planning.root);planning.finish();f.finish();}
  }

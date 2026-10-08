@@ -1,8 +1,9 @@
+import type {SpecAttention} from './spec.ts';
 import type {DebugAttention} from './debug.ts';
 import type {VerificationAttention} from './verification.ts';
 import {isAttentionResponse as isPlanningAttentionResponse,type AttentionResponse as PlanningAttentionResponse} from './planning.ts';
 import type {RuntimeAttentionItem,ReconciliationAttentionItem} from './permissions.ts';
-export type AttentionItem=PlanningAttentionResponse['items'][number]|RuntimeAttentionItem|ReconciliationAttentionItem|VerificationAttention|DebugAttention;
+export type AttentionItem=SpecAttention|PlanningAttentionResponse['items'][number]|RuntimeAttentionItem|ReconciliationAttentionItem|VerificationAttention|DebugAttention;
 export type AttentionResponse={items:AttentionItem[];count:number};
 const text=(v:unknown,max=8000):v is string=>typeof v==='string'&&v.length>0&&v.length<=max;
 export function isAttentionResponse(value:unknown):value is AttentionResponse{
@@ -12,6 +13,7 @@ export function isAttentionResponse(value:unknown):value is AttentionResponse{
  return v.items.every(item=>{
   if(!item||typeof item!=='object'||Array.isArray(item))return false;
   const i=item as Record<string,unknown>;
+  if(['spec_review','mission_decision','workflow_exception'].includes(String(i.kind))){const common=['kind','missionId','projectId','projectName','originalIntent'];const fields=i.kind==='spec_review'?[...common,'specId','claims']:i.kind==='mission_decision'?[...common,'runId']:[...common,'reason'];if(Object.keys(i).length!==fields.length||Object.keys(i).some(k=>!fields.includes(k))||!text(i.missionId,200)||!text(i.projectId,200)||!text(i.projectName,120)||!text(i.originalIntent))return false;return i.kind==='spec_review'?text(i.specId,200)&&Number.isInteger(i.claims)&&Number(i.claims)>0&&Number(i.claims)<=30:i.kind==='mission_decision'?text(i.runId,200):text(i.reason,2000); }
   if(i.kind==='debug_escalation')return Object.keys(i).length===9&&text(i.sessionId,200)&&text(i.missionId,200)&&text(i.projectId,200)&&text(i.projectName,120)&&text(i.originalIntent)&&text(i.reason,2000)&&Number.isInteger(i.corrections)&&Number(i.corrections)>=0&&Number(i.corrections)<=2&&Array.isArray(i.failedClaimIds)&&i.failedClaimIds.length<=100&&i.failedClaimIds.every(id=>text(id,200));
   if(i.kind==='manual_evaluation'||i.kind==='verification_inspection')return Object.keys(i).length===7&&['kind','runId','claimId','missionId','projectId','projectName','originalIntent'].every(k=>Object.hasOwn(i,k))&&text(i.runId,200)&&text(i.claimId,200)&&text(i.missionId,200)&&text(i.projectId,200)&&text(i.projectName,120)&&text(i.originalIntent);
   if(i.kind!=='runtime_permission'&&i.kind!=='reconciliation')return isPlanningAttentionResponse({items:[i],count:1});

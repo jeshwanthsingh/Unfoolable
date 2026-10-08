@@ -1,12 +1,13 @@
+import {planningContentIdentity} from './content-identity.ts';
 import {readOracle} from './oracle-author.ts';
-import {createHash,randomUUID} from 'node:crypto';
+import {createHash} from 'node:crypto';
 import type {PlanningInput,EvaluationClaim} from '../../packages/shared/planning.ts';
 import {VERIFICATION_VERSION,type VerificationRecipe,type VerificationStep} from '../../packages/shared/verification.ts';
 import {canonicalContractJson} from './contract-store.ts';
 export const verificationHash=(text:string|Buffer)=>createHash('sha256').update(text).digest('hex');
 // Objective path protection only. This never asserts semantic scope compliance.
-export const TRUSTED_FORBIDDEN_PATHS=Object.freeze(['.git','.codex','.ssh','.aws','.env','verification','apps/server/verification','apps/server/verification-store.ts','apps/server/verification-recipe.ts','apps/server/verification-executor.ts','apps/server/verification-environment.ts','apps/server/verification-workspace.ts','apps/server/verification-migration.ts','packages/shared/verification.ts','scripts/protected-verification','scripts/verify_denial.py','command-center.sqlite']);
-export type RecipeInput={missionId:string;contractRevisionId:string;planRevisionId:string;evaluationRevisionId:string;evaluationHash:string;claims:EvaluationClaim[];input:PlanningInput;sliceClaimIds:string[];evaluatorHash:string};
+export const TRUSTED_FORBIDDEN_PATHS=Object.freeze(['.git','.codex','.ssh','.aws','.env','verification','apps/server/verification','apps/server/verification-store.ts','apps/server/verification-recipe.ts','apps/server/content-identity.ts','apps/server/contract-store.ts','apps/server/verification-executor.ts','apps/server/verification-environment.ts','apps/server/verification-workspace.ts','apps/server/verification-migration.ts','packages/shared/verification.ts','scripts/protected-verification','scripts/verify_denial.py','command-center.sqlite']);
+export type RecipeInput={missionId:string;contractRevisionId:string;planRevisionId:string;evaluationRevisionId:string;evaluationHash:string;claims:EvaluationClaim[];input:PlanningInput;sliceClaimIds:string[];evaluatorHash:string;planHash?:string};
 export function createVerificationRecipe(binding:RecipeInput):VerificationRecipe {
  const {input,claims,sliceClaimIds}=binding;
  const explicitDenial=input.contract.requirements.some(requirement=>requirement.text==='A denied proposal returns false without invoking the effect.'&&requirement.sourceIds.some(s=>input.sources.some(source=>source.id===s&&['ORIGINAL_INTENT','CLARIFICATION_ANSWER','USER_EDIT'].includes(source.type))));
@@ -23,7 +24,22 @@ export function createVerificationRecipe(binding:RecipeInput):VerificationRecipe
   }else description='Claim is outside this Candidate slice; full acceptance remains unsupported.';
   return {id:'step:'+claim.id,claimIds:[claim.id],kind,timeoutMs:10000,description,provenance:'PROTECTED',...(oracle?{oracle}:{}),...(oracleCase?{oracleCase}:{}),...(kind==='STATIC_DIFF'?{forbiddenPaths:[...TRUSTED_FORBIDDEN_PATHS]}:{})};
  });
- const document={missionId:binding.missionId,contractRevisionId:binding.contractRevisionId,contractHash:input.contractHash,planRevisionId:binding.planRevisionId,evaluationRevisionId:binding.evaluationRevisionId,evaluationHash:binding.evaluationHash,version:VERIFICATION_VERSION,steps,claims,evaluatorHash:binding.evaluatorHash};
+ const document={identityVersion:'recipe-content-v1',missionId:binding.missionId,contractHash:input.contractHash,planHash:binding.planHash??null,sourceBindings:input.sourceBindings,contractInputHash:input.contractInputHash,evaluationHash:binding.evaluationHash,version:VERIFICATION_VERSION,steps:semanticRecipeSteps(steps),claims:planningContentIdentity({plan:{verticalSlices:[],crossCuttingRequirements:[],riskHandling:[]},evaluationContract:{claims}}).evaluationContract.claims,evaluatorHash:binding.evaluatorHash};
  const canonical=canonicalContractJson(document);
- return {id:randomUUID(),missionId:binding.missionId,contractRevisionId:binding.contractRevisionId,planRevisionId:binding.planRevisionId,evaluationRevisionId:binding.evaluationRevisionId,evaluationHash:binding.evaluationHash,version:VERIFICATION_VERSION,steps,claims,canonical,hash:verificationHash(canonical),evaluatorHash:binding.evaluatorHash,createdAt:new Date().toISOString()};
+ return {id:'recipe:'+verificationHash(canonical),missionId:binding.missionId,contractRevisionId:binding.contractRevisionId,planRevisionId:binding.planRevisionId,evaluationRevisionId:binding.evaluationRevisionId,evaluationHash:binding.evaluationHash,version:VERIFICATION_VERSION,steps,claims,canonical,hash:verificationHash(canonical),evaluatorHash:binding.evaluatorHash,createdAt:new Date().toISOString()};
+}
+
+// Validate new semantic documents and historical bound documents without rewriting either.
+export function recipeCanonicalMatches(recipe:VerificationRecipe):boolean {
+ try {
+  const document=JSON.parse(recipe.canonical);
+  const semantic=document.identityVersion==='recipe-content-v1';
+  const fields={missionId:recipe.missionId,evaluationHash:recipe.evaluationHash,version:recipe.version,steps:semantic?semanticRecipeSteps(recipe.steps):recipe.steps,claims:semantic?planningContentIdentity({plan:{verticalSlices:[],crossCuttingRequirements:[],riskHandling:[]},evaluationContract:{claims:recipe.claims}}).evaluationContract.claims:recipe.claims,evaluatorHash:recipe.evaluatorHash};
+  const bound=document.identityVersion==='recipe-content-v1'?fields:{...fields,contractRevisionId:recipe.contractRevisionId,planRevisionId:recipe.planRevisionId,evaluationRevisionId:recipe.evaluationRevisionId};
+  return (!semantic||recipe.id==='recipe:'+recipe.hash)&&verificationHash(recipe.canonical)===recipe.hash&&canonicalContractJson({...document,...bound})===recipe.canonical;
+ }catch{return false;}
+}
+
+function semanticRecipeSteps(steps:VerificationStep[]){
+ return steps.map(step=>{if(!step.oracle)return step;const {id,...manifest}=step.oracle.manifest;const {path,hash,...reference}=step.oracle.reference;return {...step,oracle:{reference,manifest}};});
 }

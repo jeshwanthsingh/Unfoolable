@@ -8,6 +8,11 @@ import type {Logger} from './log.ts';
 
 type Row = {id:string;project_id:string;original_intent:string;phase:'DRAFT';created_at:string};
 const fromRow = (row:Row):Mission => ({id:row.id,projectId:row.project_id,originalIntent:row.original_intent,phase:row.phase,createdAt:row.created_at});
+function publicPhase(db:DatabaseSync,id:string):Mission['phase']{
+ if(db.prepare("SELECT name FROM sqlite_master WHERE name='mission_outcomes'").get()){const outcome=db.prepare('SELECT state FROM mission_outcomes WHERE mission_id=?').get(id);if(outcome)return outcome.state as Mission['phase'];}
+ if(db.prepare("SELECT name FROM sqlite_master WHERE name='mission_workflows'").get()){const workflow=db.prepare('SELECT status FROM mission_workflows WHERE mission_id=?').get(id);if(workflow)return workflow.status as Mission['phase'];}
+ const phase=missionAnalysisPhase(db,id);return phase==='DRAFT'||phase==='NEEDS_CLARIFICATION'?phase:'NEEDS_YOU';
+}
 function requireProject(db:DatabaseSync,projectId:string) {
   if (!db.prepare('SELECT id FROM projects WHERE id=?').get(projectId))
     throw new MissionError('PROJECT_NOT_FOUND','That project no longer exists.',404);
@@ -32,13 +37,13 @@ export function createMission(db:DatabaseSync,projectId:string,body:Record<strin
 export function listMissions(db:DatabaseSync,projectId:string,logger:Logger):Mission[] {
   try {
     requireProject(db,projectId);
-    return (db.prepare('SELECT * FROM missions WHERE project_id=? ORDER BY created_at DESC,id ASC').all(projectId) as Row[]).map(row=>({...fromRow(row),phase:missionAnalysisPhase(db,row.id)}));
+    return (db.prepare('SELECT * FROM missions WHERE project_id=? ORDER BY created_at DESC,id ASC').all(projectId) as Row[]).map(row=>({...fromRow(row),phase:publicPhase(db,row.id)}));
   } catch (problem) {return storageError(problem,logger);}
 }
 export function getMission(db:DatabaseSync,id:string,logger:Logger):Mission {
   try {
     const row=db.prepare('SELECT * FROM missions WHERE id=?').get(id) as Row|undefined;
     if (!row) throw new MissionError('MISSION_NOT_FOUND','That mission could not be found.',404);
-    return {...fromRow(row),phase:missionAnalysisPhase(db,row.id)};
+    return {...fromRow(row),phase:publicPhase(db,row.id)};
   } catch (problem) {return storageError(problem,logger);}
 }

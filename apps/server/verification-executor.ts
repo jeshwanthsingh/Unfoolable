@@ -29,6 +29,8 @@ const protectedSnapshots:Record<string,string>={
  'workspace-authority.txt':verificationWorkspaceAuthority,
  'store-authority.txt':hostModule('verification-store'),
  'recipe-authority.txt':hostModule('verification-recipe'),
+ 'content-identity-authority.txt':hostModule('content-identity'),
+ 'accepted-canonical-authority.txt':hostModule('contract-store'),
  'environment-authority.txt':hostModule('verification-environment'),
  'git-authority.txt':hostModule('build-workspace'),
  'process-authority.txt':hostModule('build-processes'),

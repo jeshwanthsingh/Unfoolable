@@ -6,7 +6,9 @@ export const DECISION_AREAS=['behavior','security','compatibility','data','migra
 export type DecisionArea=typeof DECISION_AREAS[number];
 export type AnalysisClaim={text:string;kind:'observation'|'inference'|'uncertainty';evidenceIds:string[]};
 export type QuestionDraft={question:string;whyItMatters:string;decisionArea:DecisionArea;options:string[];evidenceIds:string[]};
-export type AnalysisResult={understanding:{relevantAreas:AnalysisClaim[];currentBehavior:AnalysisClaim[];constraints:AnalysisClaim[];uncertainties:AnalysisClaim[]};questions:QuestionDraft[]};
+// A tool-free candidate description; native BASE admission is the only execution witness.
+export type ReproducibleBug={summary:string;reproduction:string;expectedBehavior:string;evidenceIds:string[];sourcePaths:string[];existingTestPaths:string[]};
+export type AnalysisResult={reproducibleBug?:ReproducibleBug|null;understanding:{relevantAreas:AnalysisClaim[];currentBehavior:AnalysisClaim[];constraints:AnalysisClaim[];uncertainties:AnalysisClaim[]};questions:QuestionDraft[]};
 export type AnalysisStatus='PREPARING'|'RUNNING'|'SUCCEEDED'|'FAILED'|'INTERRUPTED';
 export type MissionAnalysis={id:string;missionId:string;snapshotId:string;baseHead:string;packetHash:string|null;promptVersion:string;toolVersion:string|null;status:AnalysisStatus;packet:AnalysisPacket|null;result:AnalysisResult|null;packetMillis:number|null;analysisMillis:number|null;createdAt:string;completedAt:string|null;error:string|null};
 export type ClarificationQuestion=QuestionDraft&{id:string;analysisId:string;required:true;order:number;createdAt:string;answer:{text:string;updatedAt:string}|null};
@@ -19,7 +21,7 @@ const text=(v:unknown,max:number):v is string=>typeof v==='string'&&v.trim().len
 function hash(v:unknown):v is string{return typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);}
 function strings(v:unknown,max:number,count:number):v is string[]{return Array.isArray(v)&&v.length<=count&&v.every(s=>text(s,max));}
 function isResult(v:unknown):v is AnalysisResult {
- if(!object(v)||!object(v.understanding)||!Array.isArray(v.questions)||v.questions.length>5)return false;
+ if(!object(v)||!(v.reproducibleBug===undefined||v.reproducibleBug===null||(object(v.reproducibleBug)&&Object.keys(v.reproducibleBug).sort().join(',')==='evidenceIds,existingTestPaths,expectedBehavior,reproduction,sourcePaths,summary'&&text(v.reproducibleBug.summary,600)&&text(v.reproducibleBug.reproduction,700)&&text(v.reproducibleBug.expectedBehavior,700)&&strings(v.reproducibleBug.evidenceIds,100,8)&&strings(v.reproducibleBug.sourcePaths,500,6)&&strings(v.reproducibleBug.existingTestPaths,500,6)))||!object(v.understanding)||!Array.isArray(v.questions)||v.questions.length>5)return false;
  const claims=(value:unknown)=>Array.isArray(value)&&value.length<=8&&value.every(c=>object(c)&&text(c.text,900)&&['observation','inference','uncertainty'].includes(c.kind as string)&&strings(c.evidenceIds,100,8));
  return ['relevantAreas','currentBehavior','constraints','uncertainties'].every(k=>claims((v.understanding as Record<string,unknown>)[k]))&&v.questions.every(q=>object(q)&&text(q.question,600)&&text(q.whyItMatters,500)&&DECISION_AREAS.includes(q.decisionArea as DecisionArea)&&strings(q.options,180,5)&&strings(q.evidenceIds,100,8));
 }

@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {openDatabase} from '../apps/server/database.ts';
-import {createContractStore,canonicalContractJson,type ContractDrafter} from '../apps/server/contract-store.ts';
+import {createContractStore,canonicalContractJson,acceptedContentCanonical,type ContractDrafter} from '../apps/server/contract-store.ts';
 import {payloadHash} from '../apps/server/context-observation.ts';
 import {PACKET_LIMITS} from '../packages/shared/analysis.ts';
 import type {ContractPayload} from '../packages/shared/contracts.ts';
@@ -26,7 +26,7 @@ export function contractFixture(drafter:ContractDrafter=async()=>({output:payloa
 test('successful draft never autoaccepts; review attention and explicit hashed acceptance persist exactly',async()=>{
  const f=contractFixture();try{
   assert.equal(f.store.view('mission').phase,'CLARIFIED');const review=await f.store.compile('mission');assert.equal(review.phase,'CONTRACT_REVIEW');assert.equal(review.accepted,null);assert.equal(f.store.attention().length,1);
-  const accepted=f.store.accept(review.draft!.id);assert.equal(accepted.phase,'CONTRACT_READY');assert.equal(f.store.attention().length,0);assert.equal(accepted.accepted!.contractHash,createHash('sha256').update(accepted.accepted!.canonical).digest('hex'));assert.deepEqual(JSON.parse(accepted.accepted!.canonical),{inputHash:review.draft!.inputHash,payload:payload(),userEdits:[]});assert.deepEqual(accepted.accepted!.input,review.draft!.input);
+  const accepted=f.store.accept(review.draft!.id);assert.equal(accepted.phase,'CONTRACT_READY');assert.equal(f.store.attention().length,0);assert.equal(accepted.accepted!.contractHash,createHash('sha256').update(accepted.accepted!.canonical).digest('hex'));assert.equal(accepted.accepted!.canonical,acceptedContentCanonical(payload()));assert.deepEqual(accepted.accepted!.input,review.draft!.input);
   assert.deepEqual(f.store.accept(review.draft!.id),accepted);assert.equal(f.db.prepare('SELECT count(*) AS n FROM mission_contract_revisions').get()!.n,1);
   f.store.close();f.database.close();const reopened=openDatabase(join(f.root,'data'),quiet);try{const store=createContractStore(reopened.connection,quiet,async()=>{throw Error('no model');});assert.deepEqual(store.view('mission'),accepted);store.close();}finally{reopened.close();}
  }finally{f.finish();}

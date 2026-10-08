@@ -12,7 +12,7 @@ const quiet=()=>{};
 async function fixture(){
  const root=mkdtempSync(join(tmpdir(),'cc-missions-'));
  const config={...loadConfig({COMMAND_CENTER_DATA_DIR:join(root,'data'),COMMAND_CENTER_PROJECT_ROOTS:JSON.stringify([root])},root),port:0};
- const app=createApplication(config,quiet);await app.start();
+ const app=createApplication(config,quiet,undefined,undefined,undefined,undefined,undefined,{autoPrepare:false});await app.start();
  for(const id of ['project-a','project-b'])app.database.connection.prepare('INSERT INTO projects VALUES(?,?,?,?,?,?)').run(id,id,join(root,'missing-repository-'+id),'a'.repeat(40),'main','2026-01-01T00:00:00.000Z');
  const a=app.server.address();assert.ok(a&&typeof a!=='string');
  return {root,config,app,url:`http://127.0.0.1:${a.port}`};
@@ -27,7 +27,7 @@ async function list(f:Fixture,project='project-a'){
  const r=await fetch(f.url+`/api/projects/${project}/missions`);assert.equal(r.status,200);
  const data:unknown=await r.json();assert.ok(isMissionsResponse(data));return data.missions;
 }
-async function restart(f:Fixture){await f.app.close();f.app=createApplication(f.config,quiet);await f.app.start();const a=f.app.server.address();assert.ok(a&&typeof a!=='string');f.url=`http://127.0.0.1:${a.port}`;}
+async function restart(f:Fixture){await f.app.close();f.app=createApplication(f.config,quiet,undefined,undefined,undefined,undefined,undefined,{autoPrepare:false});await f.app.start();const a=f.app.server.address();assert.ok(a&&typeof a!=='string');f.url=`http://127.0.0.1:${a.port}`;}
 
 test('creates a DRAFT with stable UUID, relation, original intent and timestamp',async()=>{
  const f=await fixture();try{const r=await post(f,'Fix login.');assert.equal(r.status,201);assert.ok(isMission(r.body));assert.match(r.body.id,/^[a-f0-9-]{36}$/);assert.equal(r.body.projectId,'project-a');assert.equal(r.body.originalIntent,'Fix login.');assert.equal(r.body.phase,'DRAFT');assert.ok(Number.isFinite(Date.parse(r.body.createdAt)));assert.deepEqual(await list(f),[r.body]);}finally{await finish(f);}
@@ -61,5 +61,5 @@ test('accepted Unicode and NUL round-trip exactly; malformed Unicode is rejected
  const f=await fixture();try{const text='Fix café retry. 🛠️\nLiteral: <script>not executed</script>\u0000End';const r=await post(f,text);assert.equal(r.status,201);assert.equal((await list(f))[0]?.originalIntent,text);for(const bad of ['\ud800','\udfff']){const rejected=await post(f,bad);assert.equal(rejected.status,400);assert.equal(rejected.body.error.code,'INVALID_MISSION_INTENT');}assert.equal((await list(f)).length,1);}finally{await finish(f);}
 });
 test('shared boundaries reject invalid phase, intent and malformed list',()=>{
- const valid={id:'id',projectId:'project',originalIntent:'Fix login.',phase:'DRAFT',createdAt:new Date().toISOString()};assert.ok(isMission(valid));assert.ok(isMission({...valid,phase:'BUILDING'}));assert.ok(isMission({...valid,phase:'CANDIDATE_READY'}));assert.ok(!isMission({...valid,phase:'VERIFIED'}));assert.ok(!isMission({...valid,originalIntent:' '}));assert.ok(!isMissionsResponse({missions:[{}]}));
+ const valid={id:'id',projectId:'project',originalIntent:'Fix login.',phase:'DRAFT',createdAt:new Date().toISOString()};assert.ok(isMission(valid));assert.ok(isMission({...valid,phase:'BUILDING'}));assert.ok(isMission({...valid,phase:'CHECKS_PASSED'}));assert.ok(isMission({...valid,phase:'LANDED'}));assert.ok(isMission({...valid,phase:'ABANDONED'}));assert.ok(!isMission({...valid,phase:'CANDIDATE_READY'}));assert.ok(!isMission({...valid,phase:'VERIFIED'}));assert.ok(!isMission({...valid,originalIntent:' '}));assert.ok(!isMissionsResponse({missions:[{}]}));
 });

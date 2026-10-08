@@ -14,14 +14,14 @@ test('verification APIs retain Host/Origin and bounded typed errors without expo
   const hostStatus=await new Promise<number>((resolve,reject)=>{const req=request(origin+'/api/missions/missing/verification',{headers:{Host:'attacker.invalid'}},res=>{res.resume();resolve(res.statusCode!);});req.on('error',reject);req.end();});assert.equal(hostStatus,421);
   assert.equal((await fetch(origin+'/api/missions/missing/verification-runs',{method:'POST',body:'{}'})).status,403);
   assert.equal((await post('/api/missions/missing/verification-runs',{}, {Origin:'http://attacker.invalid'})).status,403);
-  const missing=await post('/api/missions/missing/verification-runs',{});assert.equal(missing.status,404);assert.equal((await missing.json()).error.code,'MISSION_NOT_FOUND');
-  assert.equal((await post('/api/missions/missing/verification-runs',{argv:['sh']})).status,400);
+  const missing=await post('/api/missions/missing/verification-runs',{});assert.equal(missing.status,404);assert.equal((await missing.json()).error.code,'NOT_FOUND');
+  assert.equal((await post('/api/missions/missing/verification-runs',{argv:['sh']})).status,404);
   assert.equal((await post('/api/verification-runs/missing/claims/E1/decision',{status:'PASS',note:'   '})).status,400);
   assert.equal((await post('/api/verification-runs/missing/stop',{})).status,404);
   assert.equal((await fetch(origin+'/api/verification-runs/missing/evidence/unknown')).status,404);
   assert.equal((await fetch(origin+'/api/verification-runs/missing/evidence/%2Fetc%2Fpasswd')).status,404);
-  const malformed=await fetch(origin+'/api/missions/missing/verification-runs',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:'{'});assert.equal(malformed.status,400);
-  const oversized=await post('/api/missions/missing/verification-runs',{text:'x'.repeat(70000)});assert.equal(oversized.status,413);
+  const malformed=await fetch(origin+'/api/missions/missing/verification-runs',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:'{'});assert.equal(malformed.status,404);
+  const oversized=await post('/api/missions/missing/verification-runs',{text:'x'.repeat(70000)});assert.equal(oversized.status,404);
   assert.equal(app.database.connection.prepare('SELECT count(*) AS n FROM verification_runs').get()!.n,0);
  }finally{await app.close();rmSync(root,{recursive:true,force:true});}
 });

@@ -1,35 +1,26 @@
 import {correctionLabel} from './debug-presentation.ts';
-import {useEffect,useRef,useState} from 'react';
-import type {PlanningView} from '../../../packages/shared/planning.ts';
+import {useRef} from 'react';
 import type {BuildControl} from './useMissionBuild.ts';
 import {activityLabel,buildActive,executionStation} from './presentation.ts';
 import './build.css';
 import {PermissionCard} from './PermissionCard.tsx';
-export function BuildPanel({control,planning}:{control:BuildControl;planning:PlanningView|null}){
- const {state,pending,error}=control,[sliceId,setSliceId]=useState('');
+export function BuildPanel({control}:{control:BuildControl}){
+ const {state,pending,error}=control;
  const dialog=useRef<HTMLDialogElement>(null),cancelButton=useRef<HTMLButtonElement>(null);
  const view=state.kind==='loaded'?state.data:null,attempt=view?.attempt,candidate=view?.candidate;
- const slices=planning?.current?planning.accepted?.plan.payload.verticalSlices??[]:[];
- const pairId=planning?.accepted?.plan.pairId;
- const previousPair=useRef<string|null>(null);useEffect(()=>{if(previousPair.current&&previousPair.current!==pairId)setSliceId('');previousPair.current=pairId??null;},[pairId]);
- const selected=slices.find(slice=>slice.id===sliceId);
- const eligible=!!(view?.eligible&&view.phase==='PLAN_READY'&&planning?.current&&planning.phase==='PLAN_READY'&&selected&&!pending&&!buildActive(view));
  const permissions=view?.permissions??[],activePermissions=permissions.filter(p=>p.status==='PENDING'&&p.attemptId===attempt?.id&&p.generation===attempt.generation&&attempt.status==='RUNNING');
  const historicalPermissions=[...(view?.permissionHistory??[]),...permissions.filter(p=>!activePermissions.includes(p))];
- const retryEligible=!!(attempt&&['FAILED','INTERRUPTED'].includes(attempt.status)&&view?.eligible&&planning?.current&&planning.phase==='PLAN_READY'&&planning.accepted?.plan.id===attempt.planRevisionId&&slices.some(s=>s.id===attempt.sliceId)&&!pending);
  const status=view?executionStation(view).status:state.kind==='failed'?'UNAVAILABLE':'LOADING';
  return <section id="mission-build" className="build-panel bench" tabIndex={-1} aria-labelledby="build-title" aria-busy={pending}>
-  <header className="bench-heading"><div><p className="eyebrow">BUILD / WORKBENCH</p><h3 id="build-title">Build one Slice</h3></div><span className="build-status">{status}</span></header>
-  <p>Choose one accepted end-to-end increment. Start Build creates an isolated attempt; a Candidate alone establishes no acceptance result.</p>
+  <header className="bench-heading"><div><p className="eyebrow">BUILD / WORKBENCH</p><h3 id="build-title">Build evidence</h3></div><span className="build-status">{status}</span></header>
+  <p>The coordinator builds the approved Spec in an isolated attempt. Inspect recorded execution and Candidate evidence.</p>
   {state.kind==='loading'&&<p role="status">Loading build records…</p>}
   {state.kind==='failed'&&<p className="form-error" role="alert">Build records unavailable. Refresh to confirm the current attempt.</p>}
   {error&&<p className="form-error" role="alert">{error}</p>}
   {(error||state.kind==='failed')&&<button className="secondary-button" onClick={control.refresh}>Refresh Build</button>}
-  {view?.eligible&&view.phase==='PLAN_READY'&&<div className="build-start"><label htmlFor="build-slice">Accepted Slice<select id="build-slice" value={sliceId} disabled={pending} onChange={event=>setSliceId(event.target.value)}><option value="">Select one Slice</option>{slices.map(slice=><option key={slice.id} value={slice.id}>{slice.id} — {slice.title}</option>)}</select></label>{selected&&<p>{selected.outcome}</p>}<button className="primary-button" disabled={!eligible} onClick={()=>void control.start(sliceId)}>{pending?'Starting Build…':'Start Build'}</button><p className="build-note">Admission rechecks the current artifacts, source repository, and runtime before launch. No next Slice starts automatically.</p></div>}
-  {view&&!view.eligible&&!attempt&&<p className="build-note">A current accepted Plan is required before a Build can start.</p>}
   {attempt&&<>
    {buildActive(view!)&&attempt.status!=='CANCELLING'&&<button ref={cancelButton} className="secondary-button" disabled={pending} onClick={()=>dialog.current?.showModal()}>Cancel Build</button>}
-   {retryEligible&&<button className="primary-button" disabled={pending} onClick={()=>void control.retry()}>Retry Slice · {attempt.sliceId}</button>}
+
    <dialog ref={dialog} className="cancel-dialog" aria-labelledby="cancel-title" onClose={()=>cancelButton.current?.focus()}><h4 id="cancel-title">Cancel this Build Attempt?</h4><p>Current work in this Attempt will not become a Candidate.</p><div className="permission-actions"><button autoFocus className="secondary-button" onClick={()=>dialog.current?.close()}>Keep Running</button><button className="primary-button" onClick={()=>{dialog.current?.close();void control.cancel();}}>Cancel Attempt</button></div></dialog>
    <div className="build-workbench" data-build-status={status} data-worker-present={view!.workerPresent}>
     <div className="build-worker">{view!.workerPresent&&<svg viewBox="0 0 44 32" aria-hidden="true"><path d="M8 2H36L42 8V24L36 30H8L2 24V8Z M13 16H31M22 7V25"/></svg>}<div><strong>{attempt.input.slice.id} — {attempt.input.slice.title}</strong>{attempt.input.correction&&<p className="debug-note">{correctionLabel(attempt.input)} · parent Candidate <code>{attempt.input.correction.parentCandidateId}</code></p>}<p>Attempt generation {attempt.generation} · {attempt.status.replaceAll('_',' ')}</p></div>{view!.workerPresent&&<span className="build-worker-marker" role="status">{status==='WAITING FOR YOU'?'WAITING FOR YOU':status==='CANCELLING'?'CANCELLING':'Codex worker present'}</span>}</div>

@@ -145,12 +145,13 @@ export async function executeOracleTest(manifest:OracleManifest,test:OracleTest,
   certificate=verdict.cleanup;environment.judgeProcesses=verdict.processes;environment.judgeExit=verdict.code;
   if(verdict.limited||verdict.timedOut||verdict.interrupted||!certificate.verified||certificate.ambiguous)return finish('INCONCLUSIVE',{reason:'Judge did not finish with certified cleanup'},verdict.limited);
   if(!verdict.stdout.trim())return finish('INCONCLUSIVE',{reason:'Judge produced no structured report',exitCode:verdict.code,stderr:verdict.stderr.slice(0,4096),observationHash:environment.observationHash});
-  const result=JSON.parse(verdict.stdout) as {status:string;testsRun:number;tests:{id:string;status:string}[];failures?:number;errors?:number;skipped?:number;expectedFailures?:number;unexpectedSuccesses?:number};
+  const result=JSON.parse(verdict.stdout) as {status:string;testsRun:number;tests:{id:string;status:string}[];failures?:number;errors?:number;skipped?:number;expectedFailures?:number;unexpectedSuccesses?:number;failureKind?:string;errorNames?:string[];failureMessages?:string[]};
   const validPass=verdict.code===0&&result.status==='PASS'&&result.testsRun===1&&result.tests.length===1&&result.tests[0]!.id===test.testId&&result.tests[0]!.status==='passed'&&['failures','errors','skipped','expectedFailures','unexpectedSuccesses'].every(k=>!((result as unknown as Record<string,unknown>)[k]));
-  const status=validPass?'PASS':result.status==='FAIL'&&result.testsRun===1?'FAIL':'INCONCLUSIVE';
+  const validFailure=result.status==='FAIL'&&result.testsRun===1&&(manifest.runner!=='vitest'||(result.failureKind==='ASSERTION'&&result.tests.length===1&&result.tests[0]!.id===test.testId&&result.tests[0]!.status==='failed'));
+  const status=validPass?'PASS':validFailure?'FAIL':'INCONCLUSIVE';
   environment.observationPath=observationPath;
   const summaries=data.observations.map(o=>Object.fromEntries(Object.entries(o).map(([key,value])=>{if(['html','text'].includes(key)&&typeof value==='string')return [key,{sha256:createHash('sha256').update(value).digest('hex'),bytes:Buffer.byteLength(value),preview:value.slice(0,250)}];return [key,value];})));
-  return finish(status,{status,observationHash:environment.observationHash,observations:summaries,judge:{status:result.status,testsRun:result.testsRun,tests:result.tests},runnerStdout:observed.stdout.slice(0,4096),runnerStderr:observed.stderr.slice(0,4096)});
+  return finish(status,{status,observationHash:environment.observationHash,observations:summaries,judge:{status:result.status,testsRun:result.testsRun,tests:result.tests,...(manifest.runner==='vitest'?{failureKind:result.failureKind??null,errorNames:(result.errorNames??[]).slice(0,8),failureMessages:(result.failureMessages??[]).slice(0,8).map(message=>message.slice(0,2048))}:{})},runnerStdout:observed.stdout.slice(0,4096),runnerStderr:observed.stderr.slice(0,4096)});
  }catch(error){if(error&&typeof error==='object'&&'oracleCleanup' in error)certificate=(error as {oracleCleanup:CleanupResult}).oracleCleanup;return finish('INCONCLUSIVE',{reason:error instanceof Error?error.message:'Oracle execution failed'});}
 }
 

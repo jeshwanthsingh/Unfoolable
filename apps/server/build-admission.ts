@@ -1,3 +1,4 @@
+import {acceptedPlanningRow,planningContentIdentity} from './content-identity.ts';
 import {performance} from 'node:perf_hooks';
 import {createHash} from 'node:crypto';
 import {realpath,lstat} from 'node:fs/promises';
@@ -7,8 +8,8 @@ import {BUILDER_PROMPT_VERSION,CERTIFIED_CODEX_VERSION,type BuildInput} from '..
 import type {VerticalSlicePlan,EvaluationContract} from '../../packages/shared/planning.ts';
 import type {Logger} from './log.ts';
 import {buildPlanningInput} from './planning-input.ts';
-import {planningPhase,COMPLETE_PLANNING_PAIR} from './planning-phase.ts';
-import {canonicalContractJson} from './contract-store.ts';
+import {planningPhase} from './planning-phase.ts';
+import {canonicalContractJson,acceptedCanonicalMatches} from './contract-store.ts';
 import {validatePlanningPayload} from './planning-validation.ts';
 import {validateRepository} from './repository.ts';
 import {safeBuildGit,sourceIndexHash,safeBuildPath} from './build-workspace.ts';
@@ -24,13 +25,13 @@ export async function admitBuild(db:DatabaseSync,missionId:string,sliceId:string
  if(db.prepare("SELECT id FROM build_attempts WHERE status IN('CREATED','STARTING','RUNNING','FINALIZING','RECONCILE_REQUIRED') LIMIT 1").get())return fail('BUILD_BUSY','An existing Builder Attempt requires completion or reconciliation.');
  let current:ReturnType<typeof buildPlanningInput>;try{current=buildPlanningInput(db,missionId);}catch{ return fail('PLAN_NOT_READY','Accept the current Mission Contract and complete planning pair before building.');}
  if(planningPhase(db,missionId,'CONTRACT_READY')!=='PLAN_READY'||db.prepare("SELECT id FROM planning_drafts WHERE mission_id=? AND status IN('PREPARING','RUNNING') LIMIT 1").get(missionId))return fail('PLAN_NOT_READY','The Mission must be in current PLAN_READY state.');
- const p=db.prepare('SELECT p.* '+COMPLETE_PLANNING_PAIR+' WHERE p.mission_id=? ORDER BY p.revision DESC LIMIT 1').get(missionId);
+ const p=acceptedPlanningRow(db,missionId);
  if(!p||p.input_hash!==current.hash||p.contract_revision_id!==current.input.contractRevisionId)return fail('PLAN_NOT_READY','The accepted planning pair is stale or incomplete.');
  const e=db.prepare('SELECT * FROM evaluation_contract_revisions WHERE pair_id=?').get(p.pair_id!),draft=db.prepare('SELECT input_json,user_edits_json FROM planning_drafts WHERE id=?').get(p.draft_id!);
  if(!e||!draft||canonicalContractJson(JSON.parse(String(draft.input_json)))!==canonicalContractJson(current.input))return fail('INVALID_BUILD_INPUT','Accepted planning input identity is invalid.');
  const plan=JSON.parse(String(p.payload_json)) as VerticalSlicePlan,evaluation=JSON.parse(String(e.payload_json)) as EvaluationContract,edits=JSON.parse(String(p.user_edits_json)),coverage=JSON.parse(String(p.coverage_json));
- const pc=canonicalContractJson({payload:plan,inputHash:current.hash,userEdits:edits,coverage}),ec=canonicalContractJson({payload:evaluation,inputHash:current.hash,userEdits:edits});
- if(pc!==p.canonical||ec!==e.canonical||digest(pc)!==p.plan_hash||digest(ec)!==e.evaluation_hash||canonicalContractJson(JSON.parse(String(draft.user_edits_json)))!==canonicalContractJson(edits))return fail('INVALID_BUILD_INPUT','Accepted planning artifacts do not match their canonical hashes.');
+ const normalized=planningContentIdentity({plan,evaluationContract:evaluation}),pc=String(p.canonical),ec=String(e.canonical);
+ if(!acceptedCanonicalMatches(pc,normalized.plan,{payload:plan,inputHash:current.hash,userEdits:edits,coverage})||!acceptedCanonicalMatches(ec,normalized.evaluationContract,{payload:evaluation,inputHash:current.hash,userEdits:edits})||digest(pc)!==p.plan_hash||digest(ec)!==e.evaluation_hash||canonicalContractJson(JSON.parse(String(draft.user_edits_json)))!==canonicalContractJson(edits))return fail('INVALID_BUILD_INPUT','Accepted planning artifacts do not match their canonical hashes.');
  const validated=validatePlanningPayload({plan,evaluationContract:evaluation},current.input,{allowOracleReferences:true});if(canonicalContractJson(validated.coverage)!==canonicalContractJson(coverage))return fail('INVALID_BUILD_INPUT','Accepted planning coverage is invalid.');
  if(evaluation.claims.some(c=>c.oracle)){
   try{for(const claim of evaluation.claims){const ref=claim.oracle;if(!ref||ref.admission!=='ADMITTED')throw Error('Oracle has not passed BASE admission');const manifest=readOracle(ref);if(manifest.evaluationSignature!==evaluationSignature({plan,evaluationContract:evaluation})||manifest.sourceRoot!==String(mission.repo_root))throw Error('Oracle binding changed');}}catch{return fail('ORACLE_REJECTED','The protected oracle is missing, changed or not admitted. Review a fresh Evaluation draft before building.');}

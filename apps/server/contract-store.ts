@@ -1,3 +1,4 @@
+import {acceptedContractRow,draftAccepted,migrateContentIdentity} from './content-identity.ts';
 import {createHash,randomUUID} from 'node:crypto';
 import {performance} from 'node:perf_hooks';
 import type {DatabaseSync} from 'node:sqlite';
@@ -15,16 +16,28 @@ export function canonicalContractJson(value:unknown):string {
  if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(key=>JSON.stringify(key)+':'+canonicalContractJson((value as Record<string,unknown>)[key])).join(',')+'}';
  const encoded=JSON.stringify(value);if(encoded===undefined)throw new Error('Invalid canonical value');return encoded;
 }
+// Semantic documents exclude acceptance provenance; immutable rows retain input fencing.
+const semanticContent=(value:unknown):unknown=>{
+ if(Array.isArray(value))return value.map(semanticContent);
+ if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).filter(([key])=>key!=='sourceIds').map(([key,item])=>[key,semanticContent(item)]));
+ return value;
+};
+export const acceptedContentCanonical=(payload:unknown)=>canonicalContractJson({identityVersion:'accepted-content-v1',payload:semanticContent(payload)});
+export const boundContentId=(kind:string,missionId:string,contentHash:string,inputHash:string)=>kind+':'+createHash('sha256').update(canonicalContractJson({missionId,contentHash,inputHash})).digest('hex');
+export function acceptedCanonicalMatches(canonical:string,payload:unknown,legacy:unknown):boolean {
+ return canonical===acceptedContentCanonical(payload)||canonical===canonicalContractJson(legacy);
+}
 type Row=Record<string,string|number|null>;
 const draftRecord=(r:Row):ContractDraft=>({id:String(r.id),missionId:String(r.mission_id),parentDraftId:r.parent_draft_id as string|null,origin:r.origin as ContractDraft['origin'],status:r.status as ContractDraft['status'],input:JSON.parse(String(r.input_json)),inputHash:String(r.input_hash),payload:r.payload_json===null?null:JSON.parse(String(r.payload_json)),userEdits:JSON.parse(String(r.user_edits_json)),promptVersion:String(r.prompt_version),toolVersion:r.tool_version as string|null,elapsedMs:r.elapsed_ms as number|null,createdAt:String(r.created_at),completedAt:r.completed_at as string|null,error:r.error as string|null});
 const revisionRecord=(r:Row):ContractRevision=>({input:JSON.parse(String(r.input_json)),id:String(r.id),missionId:String(r.mission_id),revision:Number(r.revision),draftId:String(r.draft_id),inputHash:String(r.input_hash),payload:JSON.parse(String(r.payload_json)),userEdits:JSON.parse(String(r.user_edits_json)),contractHash:String(r.contract_hash),canonical:String(r.canonical),acceptedAt:String(r.accepted_at)});
 const fields=['requirements','scope','nonGoals','constraints','assumptions','risks'] as const;
 export function createContractStore(db:DatabaseSync,logger:Logger,drafter:ContractDrafter){
+ migrateContentIdentity(db);
  let closed=false,active:{id:string;controller:AbortController}|null=null;
  db.prepare("UPDATE contract_drafts SET status='INTERRUPTED',completed_at=?,error=? WHERE status IN('PREPARING','RUNNING')").run(new Date().toISOString(),'Contract compilation was interrupted when the coordinator stopped.');
  const ensureOpen=()=>{if(closed)throw new ContractError('CONTRACT_INTERRUPTED','The contract coordinator has stopped.',409);};
  const latestDraft=(missionId:string)=>{const r=db.prepare("SELECT * FROM contract_drafts WHERE mission_id=? AND status='SUCCEEDED' ORDER BY created_at DESC,rowid DESC LIMIT 1").get(missionId) as Row|undefined;return r?draftRecord(r):null;};
- const latestRevision=(missionId:string)=>{const r=db.prepare('SELECT r.*,d.input_json FROM mission_contract_revisions r JOIN contract_drafts d ON d.id=r.draft_id WHERE r.mission_id=? ORDER BY r.revision DESC LIMIT 1').get(missionId) as Row|undefined;return r?revisionRecord(r):null;};
+ const latestRevision=(missionId:string)=>{const r=acceptedContractRow(db,missionId) as Row|undefined;return r?revisionRecord(r):null;};
  const view=(missionId:string):ContractView=>{
   ensureOpen();if(!db.prepare('SELECT id FROM missions WHERE id=?').get(missionId))throw new ContractError('MISSION_NOT_FOUND','That mission could not be found.',404);
   const draft=latestDraft(missionId),accepted=latestRevision(missionId),r=db.prepare('SELECT * FROM contract_drafts WHERE mission_id=? ORDER BY created_at DESC,rowid DESC LIMIT 1').get(missionId) as Row|undefined;
@@ -62,7 +75,7 @@ export function createContractStore(db:DatabaseSync,logger:Logger,drafter:Contra
  const edit=(draftId:string,body:{payload:unknown}):ContractView=>{
   const draft=getDraft(draftId);if(!body||Object.keys(body).length!==1||!('payload'in body))throw new ContractError('INVALID_CONTRACT_EDIT','Provide the complete draft payload only.',400);
   transact(()=>{
-   checkCurrent(draft);if(db.prepare('SELECT id FROM mission_contract_revisions WHERE draft_id=?').get(draft.id))throw new ContractError('CONTRACT_ALREADY_ACCEPTED','Choose Revise Contract before editing an accepted revision.',409);
+   checkCurrent(draft);if(db.prepare('SELECT id FROM mission_contract_revisions WHERE draft_id=?').get(draft.id)||draftAccepted(db,'contract',draft.id))throw new ContractError('CONTRACT_ALREADY_ACCEPTED','Choose Revise Contract before editing an accepted revision.',409);
    // Validate the browser payload against the existing provenance before replacing any changed claim.
    const raw=body.payload,original=draft.payload!;
    if(!raw||typeof raw!=='object'||Array.isArray(raw)||canonicalContractJson(Object.keys(raw).sort())!==canonicalContractJson(Object.keys(original).sort()))throw new ContractError('INVALID_CONTRACT_EDIT','Provide the complete structured payload.',400);
@@ -78,12 +91,16 @@ export function createContractStore(db:DatabaseSync,logger:Logger,drafter:Contra
  const accept=(draftId:string):ContractView=>{
   const draft=getDraft(draftId);
   transact(()=>{
-   const existing=db.prepare('SELECT id FROM mission_contract_revisions WHERE draft_id=?').get(draft.id);if(existing){if(currentContractInputHash(db,draft.missionId)!==draft.inputHash)throw new ContractError('STALE_CONTRACT_DRAFT','Mission decisions or evidence changed. Compile a fresh contract draft.',409);return;}
+   const existing=db.prepare('SELECT id FROM mission_contract_revisions WHERE draft_id=?').get(draft.id);if(existing||draftAccepted(db,'contract',draft.id)){if(currentContractInputHash(db,draft.missionId)!==draft.inputHash)throw new ContractError('STALE_CONTRACT_DRAFT','Mission decisions or evidence changed. Compile a fresh contract draft.',409);return;}
    checkCurrent(draft);const payload=validateContractPayload(draft.payload,draft.input,draft.userEdits,true);
-   const canonical=canonicalContractJson({payload,inputHash:draft.inputHash,userEdits:draft.userEdits}),hash=createHash('sha256').update(canonical).digest('hex');
+   const canonical=acceptedContentCanonical(payload),hash=createHash('sha256').update(canonical).digest('hex');
    if(Buffer.byteLength(canonical)>CONTRACT_LIMITS.canonicalBytes)throw new ContractError('CONTRACT_CANONICAL_LIMIT','The accepted contract exceeds its canonical document size bound.',422);
+   const matching=(db.prepare('SELECT * FROM mission_contract_revisions WHERE mission_id=? AND input_hash=? ORDER BY revision DESC').all(draft.missionId,draft.inputHash)).find(row=>acceptedContentCanonical(JSON.parse(String(row.payload_json)))===canonical);
+   if(matching){db.prepare('INSERT INTO contract_acceptances VALUES(?,?,?,?)').run(draft.id,draft.missionId,matching.id!,new Date().toISOString());return;}
+   const id=boundContentId('contract',draft.missionId,hash,draft.inputHash);
    const revision=Number(db.prepare('SELECT COALESCE(MAX(revision),0)+1 AS n FROM mission_contract_revisions WHERE mission_id=?').get(draft.missionId)?.n);
-   db.prepare('INSERT INTO mission_contract_revisions VALUES(?,?,?,?,?,?,?,?,?,?)').run(randomUUID(),draft.missionId,revision,draft.id,draft.inputHash,JSON.stringify(payload),JSON.stringify(draft.userEdits),hash,canonical,new Date().toISOString());
+   db.prepare('INSERT INTO mission_contract_revisions VALUES(?,?,?,?,?,?,?,?,?,?)').run(id,draft.missionId,revision,draft.id,draft.inputHash,JSON.stringify(payload),JSON.stringify(draft.userEdits),hash,canonical,new Date().toISOString());
+   db.prepare('INSERT INTO contract_acceptances VALUES(?,?,?,?)').run(draft.id,draft.missionId,id,new Date().toISOString());
   });return view(draft.missionId);
  };
  const revise=(missionId:string,revisionId:string):ContractView=>{
