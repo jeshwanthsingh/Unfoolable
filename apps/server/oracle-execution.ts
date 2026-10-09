@@ -1,3 +1,4 @@
+import {suiteExactReads} from './oracle-suite-policy.ts';
 import {spawn} from 'node:child_process';
 import {randomInt,randomUUID,createHash} from 'node:crypto';
 import {mkdirSync,writeFileSync,realpathSync,existsSync,readFileSync,lstatSync,symlinkSync} from 'node:fs';
@@ -28,12 +29,14 @@ export function oracleInput(value:unknown,scratch?:string):unknown {
  }
  return value;
 }
-export function oracleSandbox(reads:string[],scratch:string,canFork:boolean,loopback=false,ownedChildSignals=false):string {
+export function oracleSandbox(reads:string[],scratch:string,canFork:boolean,loopback=false,ownedChildSignals=false,exactReads:string[]=[]):string {
  const q=(s:string)=>JSON.stringify(s);
  const ancestors=new Set<string>();for(const read of reads.concat(scratch)){let parent=dirname(read);while(parent!=='/'){ancestors.add(parent);parent=dirname(parent);}}
  const metadata=`(allow file-read-metadata ${[...ancestors].map(p=>`(literal ${q(p)})`).join(' ')})`;
- const exceptions=reads.concat(scratch).map(p=>`(require-not (subpath ${q(p)}))`).join(' ');
- return `(version 1)(allow default)(deny network*)${loopback?'(allow network-inbound (local ip "localhost:*"))(allow network-outbound (remote ip "localhost:*"))':''}(deny signal)${ownedChildSignals?'(allow signal (require-all (target same-sandbox) (target children)))':''}${canFork?'':'(deny process-fork)'}(deny file-write* (require-not (subpath ${q(scratch)})))`+['/Users','/private/tmp','/tmp','/private/var','/var','/etc','/private/etc','/Volumes'].map(p=>`(deny file-read* (require-all (subpath ${q(p)}) ${exceptions}))`).join('')+metadata;
+ const traversal=[...new Set(exactReads.map(dirname))];
+ const directoryDataDenial=traversal.map(p=>`(deny file-read-data (literal ${q(p)}))`).join('');
+ const exceptions=reads.concat(scratch).map(p=>`(require-not (subpath ${q(p)}))`).concat(exactReads.concat(traversal).map(p=>`(require-not (literal ${q(p)}))`)).join(' ');
+ return `(version 1)(allow default)(deny network*)${loopback?'(allow network-inbound (local ip "localhost:*"))(allow network-outbound (remote ip "localhost:*"))':''}(deny signal)${ownedChildSignals?'(allow signal (require-all (target same-sandbox) (target children)))':''}${canFork?'':'(deny process-fork)'}(deny file-write* (require-not (subpath ${q(scratch)})))`+['/Users','/private/tmp','/tmp','/private/var','/var','/etc','/private/etc','/Volumes'].map(p=>`(deny file-read* (require-all (subpath ${q(p)}) ${exceptions}))`).join('')+metadata+directoryDataDenial;
 }
 async function processRun(command:string[],cwd:string,env:NodeJS.ProcessEnv,profile:string,input:string,signal:AbortSignal,ownership:Ownership,timeout=10000){
  if(signal.aborted)throw Error('Oracle interrupted before launch');
@@ -133,7 +136,8 @@ export async function executeOracleTest(manifest:OracleManifest,test:OracleTest,
    command=[process.execPath,observer,bundle,deps,observerScratch];reads=reads.concat(deps,'/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@playwright/cli','/Users/jeshwanthsingh/Library/Caches/ms-playwright');
   }
   const env:NodeJS.ProcessEnv={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:join(observerScratch,'home'),TMPDIR:join(observerScratch,'tmp'),LANG:'C',LC_ALL:'C',TZ:'UTC',CC_OBSERVATION_FD:'3',PYTHONDONTWRITEBYTECODE:'1',...(deps?{NODE_PATH:deps}:{})};
-  const observed=await processRun(command,observerScratch,env,oracleSandbox(reads,observerScratch,browserMode||cliMode,browserMode||requests.some(r=>r.kind==='SUITE'),true),JSON.stringify({version:'observations-v1',requests,fixture:!!manifest.uiFixture,runnerDirectory:manifest.runnerDirectory}),signal,ownership,requests.some(r=>r.kind==='CONCURRENT')?180000:requests.some(r=>r.kind==='SUITE')?120000:10000);
+  const exactReads=suiteExactReads(manifest,requests,workspace);environment.exactReadExceptions=exactReads;environment.excludedTests=requests.flatMap(r=>r.excludedTests??[]);
+  const observed=await processRun(command,observerScratch,env,oracleSandbox(reads,observerScratch,browserMode||cliMode,browserMode||requests.some(r=>r.kind==='SUITE'),true,exactReads),JSON.stringify({version:'observations-v1',requests,fixture:!!manifest.uiFixture,runnerDirectory:manifest.runnerDirectory}),signal,ownership,requests.some(r=>r.kind==='CONCURRENT')?180000:requests.some(r=>r.kind==='SUITE')?120000:10000);
   certificate=observed.cleanup;environment.runnerProcesses=observed.processes;environment.runnerExit=observed.code;
   if(observed.code!==0||observed.limited||observed.timedOut||observed.interrupted||!certificate.verified||certificate.ambiguous)return finish('INCONCLUSIVE',{reason:'Incomplete bounded runner observations',exitCode:observed.code,stderr:observed.stderr.slice(0,2000)},observed.limited);
   if(!observed.control.trim())return finish('INCONCLUSIVE',{reason:'Runner produced no observation JSON',exitCode:observed.code,stdout:observed.stdout.slice(0,4096),stderr:observed.stderr.slice(0,4096)});

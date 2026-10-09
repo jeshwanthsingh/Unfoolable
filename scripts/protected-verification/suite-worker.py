@@ -1,6 +1,8 @@
 """Observe native BASE-restored unittest results; no oracle assertions or verdict."""
 import sys,json,unittest,contextlib,io
-sys.stdin.read()
+policy=json.loads(sys.stdin.read());excluded=policy.get('excludedTests',[])
+allowed={'testId':'test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples','reason':'Needs live broker credentials; explicitly excluded by user.'}
+if excluded not in ([],[allowed]):raise ValueError('Unapproved suite exclusion')
 root=sys.argv[1];sys.path.insert(0,root)
 class Capture(io.StringIO):
  def write(self,s):
@@ -16,5 +18,14 @@ class Result(unittest.TestResult):
  def addUnexpectedSuccess(self,t):super().addUnexpectedSuccess(t);self.records.append({'id':t.id(),'outcome':'unexpected-success'})
 out,err=Capture(),Capture()
 with contextlib.redirect_stdout(out),contextlib.redirect_stderr(err):
- suite=unittest.defaultTestLoader.discover(root+'/tests');result=Result();suite.run(result)
-print(json.dumps({'testsRun':result.testsRun,'tests':result.records,'stdout':out.getvalue(),'stderr':err.getvalue()}))
+ suite=unittest.defaultTestLoader.discover(root+'/tests')
+ def flatten(suite):
+  for item in suite:
+   if isinstance(item,unittest.TestSuite):yield from flatten(item)
+   else:yield item
+ cases=list(flatten(suite));ids=[t.id() for t in cases];exclude_ids={e['testId'] for e in excluded}
+ if any(ids.count(i)!=1 for i in exclude_ids):raise ValueError('Declared excluded test missing or duplicated')
+ included=[t for t in cases if t.id() not in exclude_ids]
+ if not included:raise ValueError('No included native tests')
+ result=Result();unittest.TestSuite(included).run(result)
+print(json.dumps({'testsRun':result.testsRun,'tests':result.records,'excludedTests':[{**e,'status':'EXCLUDED'} for e in excluded],'stdout':out.getvalue(),'stderr':err.getvalue()}))
