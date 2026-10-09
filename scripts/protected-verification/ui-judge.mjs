@@ -12,7 +12,7 @@ const data = JSON.parse(fs.readFileSync(observationsPath, 'utf8'));
 if (data.version !== 'observations-v1' || !Array.isArray(data.observations)) throw new Error('invalid observations');
 const testFile = path.join(scratch, 'oracle.test.ts');
 fs.copyFileSync(oracleCodePath, testFile);
-fs.writeFileSync(path.join(scratch, 'observations.mjs'), `export const observations = ${JSON.stringify(data.observations)};\nexport const getObservation = id => observations.find(row => row.id === id);\n`);
+fs.writeFileSync(path.join(scratch, 'observations.mjs'), `const rows = ${JSON.stringify(data.observations)};\nconst byId = new Map(rows.map(row=>[row.id,row]));\nexport const observations = new Proxy(rows,{get:(target,key,receiver)=>typeof key==='string'&&!Reflect.has(target,key)&&byId.has(key)?byId.get(key):Reflect.get(target,key,receiver)});\nexport const getObservation = id => byId.get(id);\n`);
 const configFile = path.join(scratch, 'vitest.config.mjs');
 const reportFile = path.join(scratch, 'native-vitest-report.json');
 if (fs.existsSync(reportFile)) fs.unlinkSync(reportFile);

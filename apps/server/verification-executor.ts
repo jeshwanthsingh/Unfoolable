@@ -37,10 +37,13 @@ const protectedSnapshots:Record<string,string>={
  'process-kernel-helper.py':readFileSync(existsSync(sourceProcessHelper)?sourceProcessHelper:resolve('scripts/build-process-info.py'),'utf8'),
  'runtime-representation.txt':runtimeExtension,
 };
-for(const name of ['oracle-execution','oracle-tree','oracle-author','oracle-source','verify-only','verify-only-author'])protectedSnapshots[name+'.txt']=hostModule(name);
-for(const name of ['python-observer.py','python-judge.py','ui-observer.mjs','ui-judge.mjs'])protectedSnapshots[name]=readFileSync(join(oracleScripts,name),'utf8');
-const protectedHash=hash(JSON.stringify(protectedSnapshots));
-export function evaluatorBundle():{files:Record<string,string>;hash:string}{return {files:{...protectedSnapshots},hash:protectedHash};}
+const nativeHostModules=['oracle-execution','oracle-tree','oracle-author','oracle-source','verify-only','verify-only-author','verify-only-references','verify-only-admission','verify-only-identity','verify-only-deadline'];
+const nativeScripts=['python-observer.py','python-judge.py','ui-observer.mjs','ui-judge.mjs','suite-worker.py','concurrent-worker.py','concurrent-observation.py','cli-observation-worker.py'];
+export function evaluatorBundle():{files:Record<string,string>;hash:string}{
+ const files={...protectedSnapshots};for(const name of nativeHostModules)files[name+'.txt']=hostModule(name);for(const name of nativeScripts)files[name]=readFileSync(join(oracleScripts,name),'utf8');
+ files['verify-only-score.txt']=readFileSync(fileURLToPath(new URL('../../packages/shared/verify-only-v2'+runtimeExtension,import.meta.url)),'utf8');
+ return {files,hash:hash(JSON.stringify(files))};
+}
 type Input={dataDir:string;runId:string;workspace:string;step:VerificationStep;native?:Awaited<ReturnType<typeof materializeNativeVerification>>;signal:AbortSignal;onLaunchPending?:()=>void|Promise<void>;onProcesses:(records:ProcessRecord[])=>void|Promise<void>};
 type Result={status:'PASS'|'FAIL'|'ERROR'|'INCONCLUSIVE';durationMs:number;output:string;truncated:boolean;cleanup:CleanupResult;environment:Record<string,unknown>};
 const clean:CleanupResult={verified:true,ambiguous:false,remaining:[],terminalCount:0,reason:null};

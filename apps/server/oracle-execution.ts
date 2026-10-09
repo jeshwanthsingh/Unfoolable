@@ -1,6 +1,6 @@
 import {spawn} from 'node:child_process';
 import {randomInt,randomUUID,createHash} from 'node:crypto';
-import {mkdirSync,writeFileSync,realpathSync,existsSync,readFileSync,lstatSync} from 'node:fs';
+import {mkdirSync,writeFileSync,realpathSync,existsSync,readFileSync,lstatSync,symlinkSync} from 'node:fs';
 import {join,dirname,resolve,isAbsolute,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
@@ -28,12 +28,12 @@ export function oracleInput(value:unknown,scratch?:string):unknown {
  }
  return value;
 }
-export function oracleSandbox(reads:string[],scratch:string,canFork:boolean,loopback=false):string {
+export function oracleSandbox(reads:string[],scratch:string,canFork:boolean,loopback=false,ownedChildSignals=false):string {
  const q=(s:string)=>JSON.stringify(s);
  const ancestors=new Set<string>();for(const read of reads.concat(scratch)){let parent=dirname(read);while(parent!=='/'){ancestors.add(parent);parent=dirname(parent);}}
  const metadata=`(allow file-read-metadata ${[...ancestors].map(p=>`(literal ${q(p)})`).join(' ')})`;
  const exceptions=reads.concat(scratch).map(p=>`(require-not (subpath ${q(p)}))`).join(' ');
- return `(version 1)(allow default)(deny network*)${loopback?'(allow network-inbound (local ip "localhost:*"))(allow network-outbound (remote ip "localhost:*"))':''}(deny signal)${canFork?'':'(deny process-fork)'}(deny file-write* (require-not (subpath ${q(scratch)})))`+['/Users','/private/tmp','/tmp','/private/var','/var','/etc','/private/etc','/Volumes'].map(p=>`(deny file-read* (require-all (subpath ${q(p)}) ${exceptions}))`).join('')+metadata;
+ return `(version 1)(allow default)(deny network*)${loopback?'(allow network-inbound (local ip "localhost:*"))(allow network-outbound (remote ip "localhost:*"))':''}(deny signal)${ownedChildSignals?'(allow signal (require-all (target same-sandbox) (target children)))':''}${canFork?'':'(deny process-fork)'}(deny file-write* (require-not (subpath ${q(scratch)})))`+['/Users','/private/tmp','/tmp','/private/var','/var','/etc','/private/etc','/Volumes'].map(p=>`(deny file-read* (require-all (subpath ${q(p)}) ${exceptions}))`).join('')+metadata;
 }
 async function processRun(command:string[],cwd:string,env:NodeJS.ProcessEnv,profile:string,input:string,signal:AbortSignal,ownership:Ownership,timeout=10000){
  if(signal.aborted)throw Error('Oracle interrupted before launch');
@@ -66,16 +66,18 @@ async function processRun(command:string[],cwd:string,env:NodeJS.ProcessEnv,prof
 
 type BundleResolveArgs={path:string;importer:string;resolveDir:string;kind:string;pluginData?:unknown};
 type BundleBuild={onResolve:(options:{filter:RegExp},callback:(args:BundleResolveArgs)=>Promise<Record<string,unknown>>)=>void;onLoad:(options:{filter:RegExp;namespace:string},callback:(args:{path:string})=>Record<string,unknown>)=>void;resolve:(path:string,options:Record<string,unknown>)=>Promise<{path:string;errors:unknown[];external:boolean}>};
-export async function bundleOracleCandidate(workspace:string,deps:string,componentPath:string,outfile:string):Promise<void>{
+export async function bundleOracleCandidate(workspace:string,deps:string,componentPath:string,outfile:string,fixture?:string):Promise<void>{
  const roots=[realpathSync(workspace),realpathSync(deps)],within=(path:string)=>roots.some(root=>path===root||path.startsWith(root+sep));
  const confined=(path:string)=>{const absolute=resolve(path);if(!within(absolute))throw Error('Import outside oracle bundle roots');let existing=absolute;while(!existsSync(existing)){const parent=dirname(existing);if(parent===existing)throw Error('Import outside oracle bundle roots');existing=parent;}if(!within(realpathSync(existing)))throw Error('Import outside oracle bundle roots');return absolute;};
  const resolving=Symbol('confined resolution');
  const plugin={name:'oracle-confined-imports',setup(build:BundleBuild){
   build.onResolve({filter:/.*/},async args=>{
    if(args.pluginData===resolving)return {};
+   if(fixture&&['next/link','next/image','next/navigation','socket.io-client','motion/react'].includes(args.path))return {path:args.path,namespace:'fixture-host'};
    // Check lexical escapes and symlink ancestors before asking esbuild to read metadata.
    let requested:string;
-   if(isAbsolute(args.path)||args.path.startsWith('.'))requested=confined(resolve(args.resolveDir||dirname(args.importer)||workspace,args.path));
+   if(fixture&&args.path.startsWith('@/'))requested=confined(join(workspace,'frontend/src',args.path.slice(2)));
+   else if(isAbsolute(args.path)||args.path.startsWith('.'))requested=confined(resolve(args.resolveDir||dirname(args.importer)||workspace,args.path));
    else{if(!/^(?:@[\w.-]+\/)?[\w.-]+(?:\/[\w./-]+)*$/.test(args.path)||args.path.split('/').includes('..'))throw Error('Import outside oracle bundle roots');requested=confined(join(roots[1]!,args.path));}
    // Inspect only confined ancestor metadata. Redirects are checked before
    // default resolution can follow them into another package's metadata.
@@ -93,6 +95,7 @@ export async function bundleOracleCandidate(workspace:string,deps:string,compone
    if(result.external||!result.path)throw Error('Import outside oracle bundle roots');
    return {path:realpathSync(confined(result.path)),namespace:'file'};
   });
+  build.onLoad({filter:/.*/,namespace:'fixture-host'},args=>({contents:args.path==='socket.io-client'?'export const io=()=>({on(){return this},off(){return this},emit(){return this},disconnect(){return this},connected:false});':args.path==='next/navigation'?'export const useRouter=()=>({push(){},replace(){},refresh(){}});export const usePathname=()=>"/fixture";':args.path==='motion/react'?'import React from "react";export const motion=new Proxy({},{get(_,tag){return React.forwardRef(({children,initial,animate,exit,transition,layout,whileHover,whileTap,whileInView,viewport,variants,...props},ref)=>React.createElement(tag,{...props,ref},children));}});export const AnimatePresence=({children})=>children;':args.path==='next/image'?'import React from "react";export default function Image({alt}){return React.createElement("span",{"aria-label":alt});}':'import React from "react";export default function Link({children,href,...props}){return React.createElement("a",{...props,href},children);}',loader:'jsx',resolveDir:deps}));
   build.onLoad({filter:/.*/,namespace:'file'},args=>{
    const path=realpathSync(confined(args.path));if(!lstatSync(path).isFile())throw Error('Oracle bundle input must be a regular file');
    const extension=path.split('.').at(-1)!,loader=({js:'js',mjs:'js',cjs:'js',jsx:'jsx',ts:'ts',mts:'ts',cts:'ts',tsx:'tsx',json:'json',css:'css'} as Record<string,string>)[extension];
@@ -101,8 +104,8 @@ export async function bundleOracleCandidate(workspace:string,deps:string,compone
   });
  }};
  const require=createRequire(join(roots[1]!,'esbuild','package.json'));const esbuild=require('esbuild') as {build:(options:Record<string,unknown>)=>Promise<unknown>};
- const entry=`import React from ${JSON.stringify(join(roots[1]!,'react/index.js'))};import {createRoot} from ${JSON.stringify(join(roots[1]!,'react-dom/client.js'))};import Candidate from ${JSON.stringify(confined(join(roots[0]!,componentPath)))};createRoot(document.getElementById('root')).render(React.createElement(Candidate));`;
- await esbuild.build({stdin:{contents:entry,resolveDir:roots[0],loader:'tsx'},outfile,bundle:true,platform:'browser',target:'es2022',format:'iife',jsx:'automatic',nodePaths:[roots[1]],tsconfigRaw:{compilerOptions:{jsx:'react-jsx'}},plugins:[plugin],logLevel:'silent'});
+ const entry=fixture?fixture+'\nwindow.CCOracle={mount};':`import React from ${JSON.stringify(join(roots[1]!,'react/index.js'))};import {createRoot} from ${JSON.stringify(join(roots[1]!,'react-dom/client.js'))};import Candidate from ${JSON.stringify(confined(join(roots[0]!,componentPath)))};createRoot(document.getElementById('root')).render(React.createElement(Candidate));`;
+ await esbuild.build({stdin:{contents:entry,resolveDir:roots[0],loader:'tsx'},outfile,bundle:true,platform:'browser',target:'es2022',format:'iife',jsx:'automatic',nodePaths:[roots[1]],tsconfigRaw:{compilerOptions:{jsx:'react-jsx'}},...(fixture?{define:{'process.env':'{}','process.env.NODE_ENV':'"test"','process.env.NEXT_PUBLIC_API_URL':'"http://fixture.invalid"','process.env.NEXT_PUBLIC_API_BASE_URL':'"http://fixture.invalid"'}}:{}),plugins:[plugin],logLevel:'silent'});
 }
 
 export async function executeOracleTest(manifest:OracleManifest,test:OracleTest,workspace:string,runDirectory:string,signal:AbortSignal,ownership:Ownership={}):Promise<OracleExecution>{
@@ -116,20 +119,21 @@ export async function executeOracleTest(manifest:OracleManifest,test:OracleTest,
   const observerScratch=join(scratch,'runner');mkdirSync(observerScratch);mkdirSync(join(observerScratch,'home'));mkdirSync(join(observerScratch,'tmp'));
   const requests=test.requests.map(r=>oracleInput(r,observerScratch) as OracleRequest);environment.inputs=requests;
   const browserMode=manifest.runner==='vitest';
-  const cliMode=manifest.runner==='unittest'&&requests.some(r=>(r as unknown as {kind?:string}).kind==='CLI');
+  const cliMode=manifest.runner==='unittest'&&requests.some(r=>['CLI','CONCURRENT','SUITE'].includes(r.kind??''));
   const deps=manifest.dependencyRoot?realpathSync(manifest.dependencyRoot):null;
+  if(deps&&requests.some(r=>r.kind==='SUITE')){const link=join(workspace,manifest.runnerDirectory,'node_modules');if(existsSync(link)){if(!lstatSync(link).isSymbolicLink()||realpathSync(link)!==deps)throw Error('Unexpected dependency link in exported workspace');}else symlinkSync(deps,link);}
   let command:string[],reads=[workspace,observer,dirname(process.execPath)];
   if(manifest.runner==='unittest'){
-   for(const r of requests){if((r as unknown as {kind?:string}).kind==='CLI'){if(!Array.isArray(r.args)||!r.args.every(a=>typeof a==='string')||!existsSync(join(workspace,'research_router/cli.py')))throw Error('CLI interface unavailable');continue;}if(!r.module||!r.function||!/^\w+(?:\.\w+)*$/.test(r.module)||!/^\w+$/.test(r.function)||!existsSync(join(workspace,r.module.replaceAll('.','/')+'.py')))throw Error('Observer export is not a regular project module');}
-   command=['/usr/local/bin/python3','-I','-B',observer,workspace,observerScratch];
+   for(const r of requests){if(r.kind==='SUITE'||r.kind==='SCOPE')continue;if(r.kind==='CLI'||r.kind==='CONCURRENT'){if(!Array.isArray(r.args)||!r.args.every(a=>typeof a==='string')||!existsSync(join(workspace,'research_router/cli.py')))throw Error('CLI interface unavailable');continue;}if(!r.module||!r.function||!/^\w+(?:\.\w+)*$/.test(r.module)||!/^\w+$/.test(r.function)||!existsSync(join(workspace,r.module.replaceAll('.','/')+'.py')))throw Error('Observer export is not a regular project module');}
+   command=['/usr/local/bin/python3','-I','-B',observer,workspace,observerScratch];reads.push(join(oracleScripts,'concurrent-worker.py'),join(oracleScripts,'concurrent-observation.py'),join(oracleScripts,'suite-worker.py'),join(oracleScripts,'cli-observation-worker.py'));
   }else{
    if(!deps||!manifest.componentPath||manifest.componentPath.includes('..')||!manifest.componentPath.startsWith(manifest.runnerDirectory+'/'))throw Error('UI component identity unavailable');
    const bundle=join(observerScratch,'candidate.js');
-   await bundleOracleCandidate(workspace,deps,manifest.componentPath,bundle);
+   await bundleOracleCandidate(workspace,deps,manifest.componentPath,bundle,manifest.uiFixture);
    command=[process.execPath,observer,bundle,deps,observerScratch];reads=reads.concat(deps,'/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@playwright/cli','/Users/jeshwanthsingh/Library/Caches/ms-playwright');
   }
   const env:NodeJS.ProcessEnv={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:join(observerScratch,'home'),TMPDIR:join(observerScratch,'tmp'),LANG:'C',LC_ALL:'C',TZ:'UTC',CC_OBSERVATION_FD:'3',PYTHONDONTWRITEBYTECODE:'1',...(deps?{NODE_PATH:deps}:{})};
-  const observed=await processRun(command,observerScratch,env,oracleSandbox(reads,observerScratch,browserMode||cliMode,browserMode),JSON.stringify({version:'observations-v1',requests}),signal,ownership);
+  const observed=await processRun(command,observerScratch,env,oracleSandbox(reads,observerScratch,browserMode||cliMode,browserMode||requests.some(r=>r.kind==='SUITE'),true),JSON.stringify({version:'observations-v1',requests,fixture:!!manifest.uiFixture,runnerDirectory:manifest.runnerDirectory}),signal,ownership,requests.some(r=>r.kind==='CONCURRENT')?180000:requests.some(r=>r.kind==='SUITE')?120000:10000);
   certificate=observed.cleanup;environment.runnerProcesses=observed.processes;environment.runnerExit=observed.code;
   if(observed.code!==0||observed.limited||observed.timedOut||observed.interrupted||!certificate.verified||certificate.ambiguous)return finish('INCONCLUSIVE',{reason:'Incomplete bounded runner observations',exitCode:observed.code,stderr:observed.stderr.slice(0,2000)},observed.limited);
   if(!observed.control.trim())return finish('INCONCLUSIVE',{reason:'Runner produced no observation JSON',exitCode:observed.code,stdout:observed.stdout.slice(0,4096),stderr:observed.stderr.slice(0,4096)});
@@ -147,7 +151,7 @@ export async function executeOracleTest(manifest:OracleManifest,test:OracleTest,
   if(!verdict.stdout.trim())return finish('INCONCLUSIVE',{reason:'Judge produced no structured report',exitCode:verdict.code,stderr:verdict.stderr.slice(0,4096),observationHash:environment.observationHash});
   const result=JSON.parse(verdict.stdout) as {status:string;testsRun:number;tests:{id:string;status:string}[];failures?:number;errors?:number;skipped?:number;expectedFailures?:number;unexpectedSuccesses?:number;failureKind?:string;errorNames?:string[];failureMessages?:string[]};
   const validPass=verdict.code===0&&result.status==='PASS'&&result.testsRun===1&&result.tests.length===1&&result.tests[0]!.id===test.testId&&result.tests[0]!.status==='passed'&&['failures','errors','skipped','expectedFailures','unexpectedSuccesses'].every(k=>!((result as unknown as Record<string,unknown>)[k]));
-  const validFailure=result.status==='FAIL'&&result.testsRun===1&&(manifest.runner!=='vitest'||(result.failureKind==='ASSERTION'&&result.tests.length===1&&result.tests[0]!.id===test.testId&&result.tests[0]!.status==='failed'));
+  const validFailure=verdict.code===1&&result.status==='FAIL'&&result.testsRun===1&&result.tests.length===1&&result.tests[0]!.id===test.testId&&result.tests[0]!.status==='failed'&&(manifest.runner==='vitest'?result.failureKind==='ASSERTION':result.failures===1&&result.errors===0&&result.skipped===0&&result.expectedFailures===0&&result.unexpectedSuccesses===0);
   const status=validPass?'PASS':validFailure?'FAIL':'INCONCLUSIVE';
   environment.observationPath=observationPath;
   const summaries=data.observations.map(o=>Object.fromEntries(Object.entries(o).map(([key,value])=>{if(['html','text'].includes(key)&&typeof value==='string')return [key,{sha256:createHash('sha256').update(value).digest('hex'),bytes:Buffer.byteLength(value),preview:value.slice(0,250)}];return [key,value];})));

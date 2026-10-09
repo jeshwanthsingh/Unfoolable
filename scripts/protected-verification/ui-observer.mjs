@@ -7,7 +7,8 @@ const write = fs.writeSync.bind(fs), stringify = JSON.stringify.bind(JSON);
 const fd = Number(process.env.CC_OBSERVATION_FD);
 if (!Number.isInteger(fd) || fd < 3) throw new Error('parent-owned observation FD required');
 // Parent releases stdin only after recording ownership; do not launch before this gate.
-const requests = JSON.parse(fs.readFileSync(0, 'utf8')).requests;
+const packet = JSON.parse(fs.readFileSync(0, 'utf8'));
+const requests = packet.requests;
 if (!Array.isArray(requests) || requests.length > 30) throw new Error('invalid requests');
 const requireBrowser = createRequire('/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@playwright/cli/package.json');
 const { chromium } = requireBrowser('playwright');
@@ -31,6 +32,15 @@ try {
     const context = await browser.newContext({ serviceWorkers: 'block', acceptDownloads: false });
     const errors = [];
     try {
+      if(request.kind==='SCOPE'){rows.push({id:request.id,returnValue:request.scope});continue;}
+      if(request.kind==='SUITE'){
+        const {spawnSync}=await import('node:child_process');const path=await import('node:path');
+        const root=request.fixtureInput.root, report=path.join(scratch,'suite-'+request.id+'.json'),config=path.join(scratch,'suite-'+request.id+'.mjs');
+        fs.writeFileSync(config,'export default '+stringify({root,server:{host:'127.0.0.1'},cacheDir:path.join(scratch,'vite-cache'),resolve:{alias:{'@':path.join(root,'src')}},test:{include:['src/**/*.test.{ts,tsx}','src/**/*.spec.{ts,tsx}'],environment:'jsdom',globals:true,pool:'threads',maxWorkers:1,minWorkers:1,fileParallelism:false}})+';');
+        const result=spawnSync(process.execPath,[path.join(depsRoot,'vitest/vitest.mjs'),'run','--config',config,'--reporter=json','--outputFile',report],{cwd:root,env:{PATH:process.env.PATH,HOME:scratch,TMPDIR:scratch,LANG:'C',TZ:'UTC',NODE_ENV:'test'},timeout:100000,maxBuffer:262144});
+        if(result.error||!fs.existsSync(report))throw Error('native Vitest suite recorder incomplete');
+        rows.push({id:request.id,returnValue:{exitCode:result.status,report:JSON.parse(fs.readFileSync(report,'utf8'))}});continue;
+      }
       await context.route('**/*', route => {
         const url = new URL(route.request().url());
         return url.origin === origin && ['/', '/candidate.js'].includes(url.pathname) ? route.continue() : route.abort('blockedbyclient');
@@ -40,31 +50,39 @@ try {
       page.on('pageerror', error => errors.push(error));
       page.setDefaultTimeout(2000);
       await page.goto(origin, { waitUntil: 'load', timeout: 10000 });
-      await page.locator('#root > *').first().waitFor({ state: 'attached', timeout: 2000 });
+      if(packet.fixture){await page.evaluate(input=>window.CCOracle.mount(input),request.fixtureInput??{});}
+      await page.locator(packet.fixture?'body > div > *':'#root > *').first().waitFor({ state: 'attached', timeout: 2000 });
       for (const op of request.operations ?? []) {
         if (op.action === 'fill') {
           const element = page.getByLabel(op.label, { exact: true });
+          await element.waitFor({state:'visible',timeout:2000}).catch(()=>{});
           if (await element.count() !== 1) { row.missingElements.push({ action: op.action, label: op.label }); continue; }
           await element.fill(op.value);
-        } else if (op.action === 'click') {
-          const element = page.getByRole('button', { name: op.text, exact: true });
+        } else if (op.action === 'click'||op.action==='tab') {
+          const name=op.text||op.label;
+          let element = page.getByRole(op.action==='tab'?'tab':'button', { name, exact: true });
+          await element.waitFor({state:'visible',timeout:2000}).catch(()=>{});
+          if(op.action==='click'&&await element.count()===0){element=page.getByRole('tab',{name,exact:true});await element.waitFor({state:'visible',timeout:2000}).catch(()=>{});}
           if (await element.count() !== 1) { row.missingElements.push({ action: op.action, text: op.text }); continue; }
           await element.click();
         } else throw new Error('unsupported operation');
       }
+      if(request.waitText){try{await page.getByText(request.waitText,{exact:false}).first().waitFor({timeout:2000});}catch{row.missingElements.push({action:'wait',text:request.waitText});}}
       // CDP reads the browser's DOM tree without invoking Candidate-controlled DOM getters.
       const cdp = await context.newCDPSession(page);
       const { root } = await cdp.send('DOM.getDocument', { depth: -1, pierce: true });
       const findRoot = node => (node.attributes ?? []).some((v, i, a) => i % 2 === 0 && v === 'id' && a[i + 1] === 'root') ? node : (node.children ?? []).map(findRoot).find(Boolean);
-      const mount = findRoot(root);
+      const findBody=node=>node.nodeName==='BODY'?node:(node.children??[]).map(findBody).find(Boolean);
+      const mount = packet.fixture?findBody(root):findRoot(root);
       if (!mount) throw new Error('mount element missing');
       const outer = await cdp.send('DOM.getOuterHTML', { nodeId: mount.nodeId });
-      row.html = outer.outerHTML.replace(/^<div\b[^>]*>/, '').replace(/<\/div>$/, '');
-      const textOf = node => node.nodeType === 3 ? node.nodeValue : (node.children ?? []).map(textOf).join('');
+      row.html = outer.outerHTML.replace(packet.fixture?/^<body\b[^>]*>/:/^<div\b[^>]*>/, '').replace(packet.fixture?/<\/body>$/:/<\/div>$/, '');
+      const textOf = node => ['SCRIPT','STYLE'].includes(node.nodeName)?'':node.nodeType === 3 ? node.nodeValue : (node.children ?? []).map(textOf).join('');
       row.text = textOf(mount);
       // Accessibility and link metadata come from Chromium CDP, never Candidate JavaScript.
       const { nodes } = await cdp.send('Accessibility.getFullAXTree');
       if (!Array.isArray(nodes) || nodes.length > 4096) throw new Error('AX observation limit exceeded');
+      row.tabNames = [...new Set(nodes.filter(node=>!node.ignored&&node.role?.value==='tab').map(node=>node.name?.value).filter(name=>typeof name==='string'))];
       row.buttonNames = [...new Set(nodes.filter(node => !node.ignored && node.role?.value === 'button').map(node => node.name?.value).filter(name => typeof name === 'string' && name.trim()))];
       if (row.buttonNames.length > 64 || row.buttonNames.some(name => name.length > 500)) throw new Error('Button observation limit exceeded');
       const collectLinks = node => {

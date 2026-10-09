@@ -16,9 +16,16 @@ export async function oracleSource(root:string,base:string,intent:string){
  const words=intent.toLowerCase().match(/[a-z][a-z_-]{3,}/g)??[];
  const eligible=paths.filter(p=>(directory==='.'||p.startsWith(directory+'/'))&&/\.(py|tsx?|jsx?)$/.test(p)&&!/(?:^|\/)(?:node_modules|vendor|dist|fixtures)(?:\/|$)/.test(p));
  const scored=await Promise.all(eligible.slice(0,250).map(async p=>{
-  const raw=await safeBuildGit(root,['show',base+':'+p],65537).catch(()=>Buffer.alloc(0));if(raw.length>65536)return {p,text:'',score:-1};const text=raw.toString();
-  const lower=(p+' '+text).toLowerCase(),score=words.reduce((n,w)=>n+(lower.includes(w)?1:0)+(p.toLowerCase().includes(w)?3:0),0)+(p.includes('test_')?1:0);return {p,text,score};
+  const raw=await safeBuildGit(root,['show',base+':'+p],262145).catch(()=>Buffer.alloc(0));if(raw.length>262144)return {p,text:'',score:-1};const full=raw.toString();
+  const lines=full.split('\n');let text=full;
+  if(raw.length>20000){const frequency=words.map(w=>lines.filter(l=>l.toLowerCase().includes(w)).length),ranked=lines.map((l,i)=>({i,score:words.reduce((n,w,k)=>n+(l.toLowerCase().includes(w)?1/(frequency[k]!||1):0),0)+(/source(?:_|\s|['"])/i.test(l)&&/def |add_parser|args\.command|source_command/.test(l)?1:0)})).sort((a,b)=>b.score-a.score||a.i-b.i),wanted=new Set<number>();for(let i=0;i<Math.min(70,lines.length);i++)wanted.add(i);for(const hit of ranked.slice(0,10))for(let j=Math.max(0,hit.i-14);j<Math.min(lines.length,hit.i+48);j++)wanted.add(j);text=[...wanted].sort((a,b)=>a-b).map(i=>lines[i]).join('\n').slice(0,32000);}
+  const lower=(p+' '+text).toLowerCase(),score=words.reduce((n,w)=>n+(lower.includes(w)?1:0)+(p.toLowerCase().includes(w)?3:0),0)+(p.includes('test_')?1:0)+(p==='research_router/cli.py'?100:p==='research_router/db.py'?90:p==='research_router/sources/manual.py'?80:p==='research_router/config.py'?75:0);return {p,text,score};
  }));
- const source:Record<string,string>={};let bytes=0;for(const file of scored.sort((a,b)=>b.score-a.score||a.p.localeCompare(b.p)).slice(0,12)){if(!file.text||bytes+Buffer.byteLength(file.text)>65536)continue;source[file.p]=file.text;bytes+=Buffer.byteLength(file.text);}
- return {runner,directory,dependencyRoot,source};
+ const source:Record<string,string>={};let bytes=0;for(const file of scored.sort((a,b)=>b.score-a.score||a.p.localeCompare(b.p)).slice(0,14)){if(!file.text||bytes+Buffer.byteLength(file.text)>98304)continue;source[file.p]=file.text;bytes+=Buffer.byteLength(file.text);}
+ const expectedTests:string[]=[];
+ for(const p of eligible.filter(p=>/(?:^|\/)(?:tests|__tests__)\//.test(p))){const text=(await safeBuildGit(root,['show',base+':'+p],262145)).toString();
+  if(runner==='unittest'){let className='';for(const line of text.split('\n')){const cls=/^class (\w+)\([^)]*(?:TestCase|Tests)[^)]*\):/.exec(line);if(cls)className=cls[1]!;const method=/^ +def (test_\w+)\(self\)/.exec(line);if(className&&method)expectedTests.push(p.split('/').at(-1)!.replace(/\.py$/,'')+'.'+className+'.'+method[1]);}}
+  else for(const match of text.matchAll(/\b(?:test|it)\(\s*['"]([^'"]+)['"]/g))expectedTests.push(match[1]!);
+ }
+ return {runner,directory,dependencyRoot,source,expectedTests:expectedTests.sort(),paths:eligible};
 }

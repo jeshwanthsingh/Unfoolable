@@ -42,4 +42,4 @@ See docs/ARCHITECTURE.md and artifacts/breakout-12/RESULT.md for the implementat
 
 ## Verify-only
 
-Use **Verify a Candidate** to supply a local repo, committed BASE and Candidate refs, and original intent. Review and approve the authored acceptance checks before protected Candidate execution. No analysis, plan or Builder is invoked. Unsupported checks are HUMAN / NOT CHECKED; passing the rest is PARTIAL, not full acceptance. See [Verify-only](docs/VERIFY_ONLY.md) and [pilot failures](docs/PILOT_FAILURES.md).
+Use **Verify a Candidate** to supply a local repo, committed BASE and Candidate refs, and original intent. V2 freezes REQUIRED/ADVISORY claims and tests the tester on BASE plus independent correct/wrong references before review. No analysis, plan or Builder is invoked. VERIFIED requires all REQUIRED checks passing on the exact bound export, restored-test overlay and recipe. Unchecked/environment/stale outcomes remain explicit; a human waiver is recorded separately and never becomes PASS. See [Verify-only](docs/VERIFY_ONLY.md) and [pilot failures](docs/PILOT_FAILURES.md).

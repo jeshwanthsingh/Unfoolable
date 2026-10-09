@@ -61,9 +61,9 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const database=openDatabase(config.dataDir,logger);
  const verifyOnly=createVerifyOnly(database.connection,config,logger,options.verifyAuthor);
  const context=createContextStore(database.connection,config.projectRoots,logger);
- const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,analyzer);
- const contracts=createContractStore(database.connection,logger,drafter);
- const coordinatedPlanner:PlanningDrafter=async(input,signal,onStarted)=>{const result=await planner(input,signal,onStarted);return {...result,output:constrainFastLanePlanning(result.output,input,analyses.view(input.missionId).analysis?.result??undefined)};};
+ const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,(packet,signal,onStarted)=>analyzer(packet,signal,onStarted,config.dataDir));
+ const contracts=createContractStore(database.connection,logger,(input,signal,onStarted)=>drafter(input,signal,onStarted,config.dataDir));
+ const coordinatedPlanner:PlanningDrafter=async(input,signal,onStarted)=>{const result=await planner(input,signal,onStarted,config.dataDir);return {...result,output:constrainFastLanePlanning(result.output,input,analyses.view(input.missionId).analysis?.result??undefined)};};
  const planning=createPlanningStore(database.connection,logger,coordinatedPlanner,{dataDir:config.dataDir,...(options.prepareOracle?{prepareOracle:options.prepareOracle}:planner===draftMissionPlan?{prepareOracle:(db,dataDir,missionId,input,payload,signal)=>prepareNativeEvaluation(db,dataDir,missionId,input,payload,signal,{fastLane:isFastLaneAnalysis(analyses.view(missionId).analysis?.result??null)})}:{})});
  const builds=createBuildStore(database.connection,config,logger,builder);
  const verification=createVerificationStore(database.connection,config,logger);

@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {verifyStep,VerifyDeadline} from '../apps/server/verify-only-deadline.ts';
+test('deadline aborts the step and waits for cooperative cleanup before reporting ERROR',async()=>{let stopped=false;await assert.rejects(verifyStep('fixture',5,new AbortController().signal,s=>new Promise(resolve=>s.addEventListener('abort',()=>{stopped=true;resolve(0);}))),VerifyDeadline);assert.equal(stopped,true);});
+test('abandon abort interrupts a pending step and unresolved cleanup is not success',async()=>{const c=new AbortController();let started=false;const pending=verifyStep('fixture',1000,c.signal,()=>{started=true;return new Promise(()=>{});},5);await Promise.resolve();assert.equal(started,true);c.abort();await assert.rejects(pending,/uncertain/);});
+
+test('abandon retains an execution that settles with uncertain cleanup',async()=>{const c=new AbortController();const pending=verifyStep('execution',1000,c.signal,s=>new Promise(resolve=>s.addEventListener('abort',()=>resolve({cleanup:{verified:false,ambiguous:true,remaining:[]}}))));await Promise.resolve();c.abort();await assert.rejects(pending,/cleanup not certified/);});

@@ -1,4 +1,5 @@
 import {migrateVerifyOnly} from './verify-only-migration.ts';
+import {migrateVerifyOnlyV2} from './verify-only-v2-migration.ts';
 import {migrateWorkflow} from './workflow-migration.ts';
 import {migrateOutcomes} from './outcome-migration.ts';
 import {migrateContentIdentity} from './content-identity.ts';
@@ -25,7 +26,7 @@ export function openDatabase(dataDir:string,logger:Logger){
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>13)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current>14)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
    if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
    if(current<2){
     connection.exec(`CREATE TABLE projects(
@@ -297,10 +298,11 @@ export function openDatabase(dataDir:string,logger:Logger){
    if(current<11){migrateDebug(connection);connection.prepare('INSERT INTO schema_migrations VALUES(11,?)').run(new Date().toISOString());applied.push(11);}
    if(current<12){migrateContentIdentity(connection);migrateWorkflow(connection);migrateOutcomes(connection);connection.prepare('INSERT INTO schema_migrations VALUES(12,?)').run(new Date().toISOString());applied.push(12);}
    if(current<13){migrateVerifyOnly(connection);connection.prepare('INSERT INTO schema_migrations VALUES(13,?)').run(new Date().toISOString());applied.push(13);}
-   connection.exec('PRAGMA user_version=13; COMMIT');
+   if(current<14){migrateVerifyOnlyV2(connection);connection.prepare('INSERT INTO schema_migrations VALUES(14,?)').run(new Date().toISOString());applied.push(14);}
+   connection.exec('PRAGMA user_version=14; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==13)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==14)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }

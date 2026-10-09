@@ -1,0 +1,22 @@
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';import {resolve,join} from 'node:path';import {execFileSync} from 'node:child_process';import {createApplication} from '../apps/server/application.ts';
+import type {VerifyView} from '../packages/shared/verify-only.ts';
+const root=resolve(new URL('..',import.meta.url).pathname),out=resolve(process.argv[2]!),selected=process.argv[3];mkdirSync(out,{recursive:true,mode:0o700});
+const frozen=JSON.parse(readFileSync('/Users/jeshwanthsingh/.bench-private/d-pilot/READY.json','utf8')) as {tasks:string[];runs:Record<string,{root:string;candidateCommit:string;tree:string}>;baseRefs:Record<string,string>};
+const tasks=selected?selected.split(','):frozen.tasks;for(const t of tasks)if(!frozen.runs[t])throw Error('Unknown pilot task');
+const port=Number(process.env.CC_V2_EVIDENCE_PORT??33711),origin='http://127.0.0.1:'+port;const app=createApplication({port,dataDir:join(out,'data'),webRoot:join(root,'dist/web'),development:false,projectRoots:['/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-d']},entry=>{writeFileSync(join(out,'server.jsonl'),JSON.stringify(entry)+'\n',{flag:'a'});});
+const git=(repo:string,...args:string[])=>execFileSync('/opt/homebrew/bin/git',['-c','core.hooksPath=/dev/null','-C',repo,...args],{encoding:'utf8'}).trim();
+async function api(method:string,path:string,body?:unknown){const response=await fetch(origin+path,{method,headers:{'Origin':origin,'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)}),signal:AbortSignal.timeout(15000)});const value=await response.json();if(!response.ok)throw Error('API '+response.status+' '+JSON.stringify(value));return value as VerifyView;}
+await app.start();const results:Record<string,unknown>={};
+try{for(const task of tasks){const r=frozen.runs[task]!,repo=join(r.root,'repo');if(git(repo,'rev-parse','HEAD')!==r.candidateCommit||git(repo,'rev-parse','HEAD^{tree}')!==r.tree)throw Error('Frozen D Candidate changed');const before=git(repo,'status','--porcelain'),intent=readFileSync(join(r.root,'request.txt'),'utf8'),folder=join(out,task);mkdirSync(folder);const started=performance.now();console.log('V2 AUTHOR '+task);
+ const created=await api('POST','/api/verify-only',{repoPath:repo,baseRef:frozen.baseRefs[task],candidateRef:r.candidateCommit,intent});writeFileSync(join(folder,'created.json'),JSON.stringify(created,null,2));let current=created;const deadline=performance.now()+30*60*1000;
+ while(current.state==='AUTHORING'){if(performance.now()>deadline)throw Error('Oracle author/admission deadline');await new Promise(r=>setTimeout(r,1000));current=await api('GET','/api/verify-only/'+created.id);writeFileSync(join(folder,'latest.json'),JSON.stringify(current,null,2));}
+ writeFileSync(join(folder,'review.json'),JSON.stringify(current,null,2));
+ if(current.state==='REVIEW'){
+  console.log('V2 REVIEW '+task+' '+current.review!.claims.map(c=>c.id+':'+c.requirement+':'+c.admission).join(' '));
+  writeFileSync(join(folder,'approval.json'),JSON.stringify({actor:'USER_AUTHORIZED_EVIDENCE_HARNESS',authorization:'User requested v2 evidence on the four frozen pilot D Candidates; no waiver or Builder action',reviewHash:current.review!.hash,at:new Date().toISOString()},null,2));
+  current=await api('POST','/api/verify-only/'+created.id+'/approve',{reviewHash:current.review!.hash});
+  while(current.state==='VERIFYING'){if(performance.now()>deadline)throw Error('Candidate verification deadline');await new Promise(r=>setTimeout(r,1000));current=await api('GET','/api/verify-only/'+created.id);writeFileSync(join(folder,'latest.json'),JSON.stringify(current,null,2));}
+ }
+ current=await api('GET','/api/verify-only/'+created.id);writeFileSync(join(folder,'result.json'),JSON.stringify(current,null,2));results[task]={requestId:created.id,state:current.state,status:current.result?.status??'ERROR',acceptance:current.result?.acceptance??'NOT VERIFIED',claims:current.result?.claims??[],requiredExecutable:current.review?.claims.filter(c=>c.requirement==='REQUIRED'&&c.admission==='ADMITTED'&&c.mode==='AUTOMATED').map(c=>c.id)??[],candidate:r.candidateCommit,tree:r.tree,elapsedSeconds:(performance.now()-started)/1000};writeFileSync(join(out,'SUMMARY.json'),JSON.stringify(results,null,2));console.log('V2 RESULT '+task+' '+JSON.stringify(results[task]));if(git(repo,'status','--porcelain')!==before)throw Error('Registered D repository mutated');
+ }}finally{await app.close();}
+console.log('V2 pilot evidence '+out);
