@@ -24,7 +24,7 @@ for call in request['requests']:
      if len(stdout_bytes)>16384 or len(stderr_bytes)>16384:raise RuntimeError('output limit exceeded')
      out.write(stdout_bytes.decode('utf-8',errors='replace'));err.write(stderr_bytes.decode('utf-8',errors='replace'));row['exitCode']=result.returncode
    else:
-    phase='import';fn=getattr(importlib.import_module(call['module']),call['function']);args=decode(call.get('args',[]));kwargs=decode(call.get('kwargs',{}));phase='call';value=fn(*args,**kwargs);phase='serialize';dumps(value,allow_nan=False);row['returnValue']=value
+    phase='import';fn=getattr(importlib.import_module(call['module']),call['function']);args=decode(call.get('args',[]));kwargs=decode(call.get('kwargs',{}));phase='call';value=fn(*args,**kwargs);phase='serialize';value={field:getattr(value,field) for field in call['resultFields']} if call.get('resultFields') else value;dumps(value,allow_nan=False);row['returnValue']=value
   except BaseException as exc:row['exception']={'name':kind(exc).__name__,'module':kind(exc).__module__,'builtinValueError':isinstance(exc,value_error),'phase':phase}
  row['stdout']=out.getvalue();row['stderr']=err.getvalue();results.append(row)
 from pathlib import Path

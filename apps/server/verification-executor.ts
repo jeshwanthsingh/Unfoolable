@@ -37,7 +37,7 @@ const protectedSnapshots:Record<string,string>={
  'process-kernel-helper.py':readFileSync(existsSync(sourceProcessHelper)?sourceProcessHelper:resolve('scripts/build-process-info.py'),'utf8'),
  'runtime-representation.txt':runtimeExtension,
 };
-for(const name of ['oracle-execution','oracle-tree','oracle-author'])protectedSnapshots[name+'.txt']=hostModule(name);
+for(const name of ['oracle-execution','oracle-tree','oracle-author','oracle-source','verify-only','verify-only-author'])protectedSnapshots[name+'.txt']=hostModule(name);
 for(const name of ['python-observer.py','python-judge.py','ui-observer.mjs','ui-judge.mjs'])protectedSnapshots[name]=readFileSync(join(oracleScripts,name),'utf8');
 const protectedHash=hash(JSON.stringify(protectedSnapshots));
 export function evaluatorBundle():{files:Record<string,string>;hash:string}{return {files:{...protectedSnapshots},hash:protectedHash};}
@@ -111,7 +111,7 @@ async function executeNativeStep(input:Input):Promise<Result>{
   if(native.workspace!==join(run,'native-workspace')||await realpath(native.workspace)!==native.workspace||identity.objectDir!==join(run,'objects'))return finish('Native workspace ownership mismatch.');
   const integrity=async()=>{if(canonicalContractJson(readOracle(oracle.reference))!==canonicalContractJson(oracle.manifest))throw Error('External oracle manifest identity changed');if(await verificationTreeHash(native.workspace,identity.objectDir)!==native.executionTree)throw Error('Restored native execution tree changed');};await integrity();
   const tests=oracle.manifest.tests.filter(t=>t.claimId===oracle.reference.claimId&&t.testId===oracle.reference.testId);if(tests.length!==1)return finish('Expected exactly one native oracle test per claim.');
-  const executed=await executeOracleTest(oracle.manifest,tests[0]!,native.workspace,run,input.signal,{onLaunchPending:async()=>{environment.noProcessStarted=false;await input.onLaunchPending?.();},onProcesses:input.onProcesses});
+  const executed=await executeOracleTest(oracle.manifest,tests[0]!,oracle.manifest.runnerDirectory==='sdk/python'?join(native.workspace,'sdk/python'):native.workspace,run,input.signal,{onLaunchPending:async()=>{environment.noProcessStarted=false;await input.onLaunchPending?.();},onProcesses:input.onProcesses});
   // Keep actual cleanup evidence even if post-execution integrity fails.
   try{await integrity();}catch(error){return {...executed,status:'INCONCLUSIVE',output:error instanceof Error?error.message:'Native integrity changed',environment:{...environment,...executed.environment}};}
   return {...executed,environment:{...environment,...executed.environment}};

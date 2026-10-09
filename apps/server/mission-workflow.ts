@@ -23,8 +23,8 @@ export function createMissionWorkflow(db:DatabaseSync,services:Services,logger:L
  let closed=false,ticking=false;let timer:ReturnType<typeof setInterval>|undefined;let preparation=Promise.resolve();const preparing=new Map<string,Promise<void>>();const advancing=new Set<string>();
  const row=(id:string)=>db.prepare('SELECT * FROM mission_workflows WHERE mission_id=?').get(id) as Row|undefined;
  const ensure=(id:string)=>{if(!db.prepare('SELECT id FROM missions WHERE id=?').get(id))throw new SpecError('MISSION_NOT_FOUND','That Mission could not be found.',404);if(closed)throw new SpecError('WORKFLOW_CLOSED','The coordinator has stopped.');};
- const set=(id:string,status:SpecPhase,error:string|null=null,specId=row(id)?.spec_id??null)=>{db.prepare('INSERT INTO mission_workflows VALUES(?,?,?,?,?) ON CONFLICT(mission_id) DO UPDATE SET status=excluded.status,spec_id=excluded.spec_id,error=excluded.error,updated_at=excluded.updated_at').run(id,status,specId,error?.slice(0,2000)??null,new Date().toISOString());logger({event:'mission.transition',code:status,message:id});};
- const exception=(id:string,error:unknown)=>{if(!closed)set(id,'NEEDS_YOU',error instanceof Error?error.message:'The operation needs inspection.');};
+ const set=(id:string,status:SpecPhase,error:string|null=null,specId=row(id)?.spec_id??null)=>{if(db.prepare("SELECT sequence FROM mission_decisions WHERE mission_id=? AND kind='ABANDON'").get(id)&&!['ABANDONED','NEEDS_YOU'].includes(status))return;db.prepare('INSERT INTO mission_workflows VALUES(?,?,?,?,?) ON CONFLICT(mission_id) DO UPDATE SET status=excluded.status,spec_id=excluded.spec_id,error=excluded.error,updated_at=excluded.updated_at').run(id,status,specId,error?.slice(0,2000)??null,new Date().toISOString());logger({event:'mission.transition',code:status,message:id});};
+ const exception=(id:string,error:unknown)=>{if(!closed&&!recordedTerminal(id))set(id,'NEEDS_YOU',error instanceof Error?error.message:'The operation needs inspection.');};
  function claimsFor(id:string):SpecClaim[]{
   const plan=services.planning.view(id),payload=plan.draft?.payload??(plan.accepted?{plan:plan.accepted.plan.payload,evaluationContract:plan.accepted.evaluation.payload}:null);
   if(!payload)return [];
@@ -40,23 +40,23 @@ export function createMissionWorkflow(db:DatabaseSync,services:Services,logger:L
  const pendingLand=(id:string)=>!!db.prepare('SELECT mission_id FROM mission_land_intents WHERE mission_id=?').get(id);
  const pendingLandRun=(id:string):string|null=>{const intent=db.prepare('SELECT intent_json FROM mission_land_intents WHERE mission_id=?').get(id);if(!intent)return null;try{const run=JSON.parse(String(intent.intent_json)).outcome?.runId;return typeof run==='string'&&run.length>0?run:null;}catch{return null;}};
  // Record the human request before any terminal side effect. This never asserts an outcome.
- const terminalDecision=(id:string,kind:'LAND'|'ABANDON',specId:string,runId:string|null,createdAt=new Date().toISOString())=>{
+ const terminalDecision=(id:string,kind:'LAND'|'ABANDON',specId:string|null,runId:string|null,createdAt=new Date().toISOString())=>{
   db.exec('BEGIN IMMEDIATE');try{
-   if(!db.prepare("SELECT sequence FROM mission_decisions WHERE mission_id=? AND kind='APPROVE_SPEC' AND spec_id=?").get(id,specId))throw new SpecError('SPEC_NOT_APPROVED','Terminal decisions require the recorded approved Spec.');
+   if(kind==='LAND'&&!db.prepare("SELECT sequence FROM mission_decisions WHERE mission_id=? AND kind='APPROVE_SPEC' AND spec_id=?").get(id,specId))throw new SpecError('SPEC_NOT_APPROVED','Terminal decisions require the recorded approved Spec.');
    const existing=db.prepare("SELECT kind,spec_id,run_id FROM mission_decisions WHERE mission_id=? AND kind IN('LAND','ABANDON') ORDER BY sequence LIMIT 1").get(id);
    if(existing){if(existing.kind!==kind||existing.spec_id!==specId||existing.run_id!==runId)throw new SpecError('TERMINAL_DECISION_CONFLICT','Retry the exact recorded terminal decision.');}
    else db.prepare('INSERT INTO mission_decisions(mission_id,kind,spec_id,run_id,created_at) VALUES(?,?,?,?,?)').run(id,kind,specId,runId,createdAt);
    db.exec('COMMIT');
   }catch(error){db.exec('ROLLBACK');throw error;}
  };
- const reconcileTerminal=(id:string)=>{const outcome=services.outcomes.view(id),specId=row(id)?.spec_id;if(!outcome||!specId)throw new SpecError('TERMINAL_RECONCILE_REQUIRED','Terminal approval identity is unavailable.');const recorded=db.prepare("SELECT run_id FROM mission_decisions WHERE mission_id=? AND kind='ABANDON' AND spec_id=?").get(id,specId);terminalDecision(id,outcome.state==='LANDED'?'LAND':'ABANDON',specId,outcome.state==='LANDED'?outcome.runId:recorded?.run_id as string|null??null,outcome.createdAt);set(id,outcome.state,null,specId);return view(id);};
+ const reconcileTerminal=(id:string)=>{const outcome=services.outcomes.view(id),specId=row(id)?.spec_id;if(!outcome||(outcome.state==='LANDED'&&!specId))throw new SpecError('TERMINAL_RECONCILE_REQUIRED','Terminal approval identity is unavailable.');const recorded=db.prepare("SELECT run_id FROM mission_decisions WHERE mission_id=? AND kind='ABANDON' AND spec_id=?").get(id,specId??null);terminalDecision(id,outcome.state==='LANDED'?'LAND':'ABANDON',specId??null,outcome.state==='LANDED'?outcome.runId:recorded?.run_id as string|null??null,outcome.createdAt);set(id,outcome.state,null,specId);return view(id);};
  const reconcileLand=async(id:string)=>{const runId=pendingLandRun(id),specId=row(id)?.spec_id,request=db.prepare("SELECT spec_id,run_id FROM mission_decisions WHERE mission_id=? AND kind='LAND' ORDER BY sequence LIMIT 1").get(id);
   if(!runId||!specId||!request||request.spec_id!==specId||request.run_id!==runId||!db.prepare("SELECT sequence FROM mission_decisions WHERE mission_id=? AND kind='APPROVE_SPEC' AND spec_id=?").get(id,specId))throw new SpecError('LAND_RECONCILE_REQUIRED','The exact pending Land request and approved Spec must be recorded.');
   await services.outcomes.land(id,runId);set(id,'LANDED',null,specId);
  };
  const replayTerminalRequest=async(id:string)=>{
   const request=recordedTerminal(id),specId=row(id)?.spec_id;
-  if(!request||!specId||request.spec_id!==specId||!db.prepare("SELECT sequence FROM mission_decisions WHERE mission_id=? AND kind='APPROVE_SPEC' AND spec_id=?").get(id,specId))throw new SpecError('TERMINAL_RECONCILE_REQUIRED','The exact terminal request and prior Spec approval must be recorded.');
+  if(!request||request.spec_id!==(specId??null)||(request.kind==='LAND'&&(!specId||!db.prepare("SELECT sequence FROM mission_decisions WHERE mission_id=? AND kind='APPROVE_SPEC' AND spec_id=?").get(id,specId))))throw new SpecError('TERMINAL_RECONCILE_REQUIRED','The exact terminal request and prior Spec approval must be recorded.');
   if(request.kind==='LAND'){
    if(typeof request.run_id!=='string'||!request.run_id)throw new SpecError('LAND_RECONCILE_REQUIRED','The original Land run is unavailable.');
    if(pendingLand(id))await reconcileLand(id);
@@ -76,12 +76,13 @@ export function createMissionWorkflow(db:DatabaseSync,services:Services,logger:L
  };
  const prepare=(id:string):Promise<void>=>{
   ensure(id);if(services.outcomes.view(id)||pendingLand(id)||recordedTerminal(id))throw new SpecError('MISSION_ENDED','That Mission has ended.');const existing=preparing.get(id);if(existing)return existing;set(id,'PREPARING');
-  const job=preparation.then(async()=>{if(closed)return;try{
-   if(!services.context.list(id).latest)await services.context.capture(id);
+  const job=preparation.then(async()=>{if(closed||recordedTerminal(id))return;try{
+   if(!services.context.list(id).latest)await services.context.capture(id);if(recordedTerminal(id))return;
    let analysis=services.analysis.view(id);if(!analysis.analysis||analysis.stale||analysis.analysis.status!=='SUCCEEDED')analysis=await services.analysis.analyze(id);
+   if(recordedTerminal(id))return;
    if(analysis.questions.some(q=>!q.answer)){set(id,'NEEDS_CLARIFICATION');return;}
    let contract=services.contract.view(id);if(!contract.current){contract=await services.contract.compile(id);if(!contract.draft)throw new SpecError('SPEC_PREPARATION_FAILED','Contract generation returned no draft.');services.contract.accept(contract.draft.id);}
-   const planning=await services.planning.compile(id);if(!planning.draft?.payload)throw new SpecError('SPEC_PREPARATION_FAILED','Planning returned no candidate checks.');
+   if(recordedTerminal(id))return;const planning=await services.planning.compile(id);if(recordedTerminal(id))return;if(!planning.draft?.payload)throw new SpecError('SPEC_PREPARATION_FAILED','Planning returned no candidate checks.');
    if(planning.draft.payload.plan.verticalSlices.length!==1)throw new SpecError('SPEC_SLICE_COUNT','A normal Mission requires exactly one Vertical Slice.');
    const specId=identity(id);if(!specId)throw new SpecError('SPEC_STALE','Generated Spec is no longer current.');const claims=claimsFor(id);if(!claims.length||claims.some(c=>!c.admitted)){const rejected=planning.draft.payload.evaluationContract.claims.filter(c=>c.oracle?.admission!=='ADMITTED');set(id,'NEEDS_YOU','Oracle admission rejected: '+rejected.map(c=>c.id+': '+(c.oracle?.reason??'Missing protected admission witness')).join('; ').slice(0,1800),specId);return;}set(id,'SPEC_REVIEW',null,specId);
   }catch(error){exception(id,error);}}).finally(()=>{preparing.delete(id);});preparation=job.catch(()=>{});preparing.set(id,job);return job;
@@ -91,7 +92,7 @@ export function createMissionWorkflow(db:DatabaseSync,services:Services,logger:L
   const draft=services.planning.view(id).draft;if(!draft)throw new SpecError('SPEC_NOT_FOUND','Spec draft is unavailable.');services.planning.accept(draft.id);
   db.exec('BEGIN IMMEDIATE');try{db.prepare("INSERT INTO mission_decisions(mission_id,kind,spec_id,run_id,created_at) VALUES(?,'APPROVE_SPEC',?,NULL,?)").run(id,specId,new Date().toISOString());set(id,'QUEUED',null,specId);db.exec('COMMIT');}catch(error){db.exec('ROLLBACK');throw error;}void startBuild(id);return view(id);
  };
- async function startBuild(id:string){if(advancing.has(id)||closed)return;advancing.add(id);try{const state=services.build.view(id);if(!state.eligible&&db.prepare("SELECT id FROM build_attempts WHERE status IN('CREATED','STARTING','RUNNING','FINALIZING','CANCELLING') UNION ALL SELECT id FROM verification_runs WHERE status IN('CREATED','PREPARING','RUNNING') UNION ALL SELECT id FROM debug_sessions WHERE status IN('CREATED','DIAGNOSING','CORRECTING','VERIFYING') LIMIT 1").get()){set(id,'QUEUED','Waiting for the local execution slot.');return;}if(!state.eligible)throw new SpecError('BUILD_NEEDS_INSPECTION','The source or existing execution needs inspection before building.');const pair=services.planning.view(id).accepted;if(!pair||pair.plan.payload.verticalSlices.length!==1)throw new SpecError('SPEC_STALE','The accepted single-Slice Spec is unavailable.');await services.build.start(id,pair.plan.payload.verticalSlices[0]!.id);set(id,'BUILDING');}catch(error){exception(id,error);}finally{advancing.delete(id);}}
+ async function startBuild(id:string){if(advancing.has(id)||closed||recordedTerminal(id))return;advancing.add(id);try{const state=services.build.view(id);if(!state.eligible&&db.prepare("SELECT id FROM build_attempts WHERE status IN('CREATED','STARTING','RUNNING','FINALIZING','CANCELLING') UNION ALL SELECT id FROM verification_runs WHERE status IN('CREATED','PREPARING','RUNNING') UNION ALL SELECT id FROM debug_sessions WHERE status IN('CREATED','DIAGNOSING','CORRECTING','VERIFYING') LIMIT 1").get()){set(id,'QUEUED','Waiting for the local execution slot.');return;}if(!state.eligible)throw new SpecError('BUILD_NEEDS_INSPECTION','The source or existing execution needs inspection before building.');const pair=services.planning.view(id).accepted;if(!pair||pair.plan.payload.verticalSlices.length!==1)throw new SpecError('SPEC_STALE','The accepted single-Slice Spec is unavailable.');await services.build.start(id,pair.plan.payload.verticalSlices[0]!.id);set(id,'BUILDING');}catch(error){exception(id,error);}finally{advancing.delete(id);}}
  async function advance(id:string){if(advancing.has(id)||preparing.has(id)||closed)return;const state=row(id);if(!state||!['BUILDING','VERIFYING','CORRECTING'].includes(state.status))return;advancing.add(id);
   try{
    if(identity(id)!==state.spec_id)throw new SpecError('SPEC_STALE','Accepted Spec changed while execution was running.');
@@ -113,9 +114,16 @@ export function createMissionWorkflow(db:DatabaseSync,services:Services,logger:L
   ensure(id);const outcome=services.outcomes.view(id);if(outcome){if(outcome.state!=='ABANDONED')throw new SpecError('MISSION_ENDED','Mission is already landed.');return reconcileTerminal(id);}
   if(pendingLand(id))throw new SpecError('LAND_RECONCILE_REQUIRED','The pending Land request prevents another terminal decision.');
   const request=recordedTerminal(id);if(request){if(request.kind!=='ABANDON')throw new SpecError('TERMINAL_DECISION_CONFLICT','Retry the exact recorded terminal request.');try{await replayTerminalRequest(id);return view(id);}catch(error){exception(id,error);throw error;}}
-  const state=view(id);if(state.phase!=='CHECKS_PASSED'||!state.specId)throw new SpecError('MISSION_BUSY','Abandon here requires stopped execution after current checks. Use existing cancellation for a live exception.');
-  terminalDecision(id,'ABANDON',state.specId,state.runId);
-  try{await services.outcomes.abandon(id);set(id,'ABANDONED');return view(id);}catch(error){exception(id,error);throw error;}
+  const state=view(id);terminalDecision(id,'ABANDON',state.specId,state.runId);
+  set(id,'NEEDS_YOU','Abandon requested; waiting for owned execution cleanup.',state.specId);
+  services.analysis.interrupt(id);services.contract.interrupt(id);services.planning.interrupt(id);
+  try{
+   const debugging=services.debug.view(id).session;if(debugging&&['CREATED','DIAGNOSING','CORRECTING','VERIFYING'].includes(debugging.status))await services.debug.stop(debugging.id);
+   const build=services.build.view(id);if(build.attempt&&['CREATED','STARTING','RUNNING','FINALIZING','CANCELLING'].includes(build.attempt.status)){await services.build.cancel(build.attempt.id);await services.build.waitForExit(build.attempt.id);}
+   for(const run of services.verification.view(id).runs)if(['CREATED','PREPARING','RUNNING'].includes(run.status))await services.verification.stop(run.id);
+   await preparing.get(id);await services.outcomes.abandon(id);set(id,'ABANDONED',null,state.specId);return view(id);
+  }catch{set(id,'NEEDS_YOU','Abandon is recorded; owned cleanup requires reconciliation.',state.specId);return view(id);}
+
  };
  const retry=(id:string)=>{ensure(id);if(services.outcomes.view(id)){reconcileTerminal(id);return Promise.resolve();}if(recordedTerminal(id))return replayTerminalRequest(id).catch(error=>{exception(id,error);throw error;});if(pendingLand(id))return reconcileLand(id).catch(error=>{exception(id,error);throw error;});const state=view(id);if(state.phase!=='NEEDS_YOU')throw new SpecError('RETRY_NOT_NEEDED','This Mission has no exception to retry.');if(!state.accepted)return prepare(id);const built=services.build.view(id);if(built.current&&built.candidate){set(id,'VERIFYING');return services.verification.start(id).then(()=>{}).catch(error=>exception(id,error));}set(id,'QUEUED');void startBuild(id);return Promise.resolve();};
  const attention=():SpecAttention[]=>db.prepare('SELECT w.mission_id,m.project_id,p.display_name,m.original_intent FROM mission_workflows w JOIN missions m ON m.id=w.mission_id JOIN projects p ON p.id=m.project_id').all().flatMap<SpecAttention>(r=>{const state=view(String(r.mission_id)),common={missionId:String(r.mission_id),projectId:String(r.project_id),projectName:String(r.display_name),originalIntent:String(r.original_intent)};if(state.phase==='SPEC_REVIEW'&&state.specId)return [{...common,kind:'spec_review' as const,specId:state.specId,claims:state.claims.length}];if(state.phase==='CHECKS_PASSED'&&state.runId)return [{...common,kind:'mission_decision' as const,runId:state.runId}];if(state.phase==='NEEDS_YOU')return [{...common,kind:'workflow_exception' as const,reason:state.reason??'Inspect the recorded exception.'}];return [];});

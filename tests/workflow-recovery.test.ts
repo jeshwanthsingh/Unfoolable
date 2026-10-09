@@ -40,7 +40,7 @@ function attachWorkflow(f:Awaited<ReturnType<typeof setup>>,approved=true){
  f.db.prepare('INSERT INTO mission_workflows VALUES(?,?,?,?,?)').run('M1','CHECKS_PASSED',specId,null,time);
  if(approved)f.db.prepare('INSERT INTO mission_decisions(mission_id,kind,spec_id,run_id,created_at) VALUES(?,?,?,?,?)').run('M1','APPROVE_SPEC',specId,null,time);
  let starts=0,verifications=0;
- const services={outcomes:f.store,contract:{view:()=>({accepted:{contractHash:hash,payload:{goal:{text:'Change behavior.'},nonGoals:[]}},acceptedStale:false})},planning:{view:()=>({draft:{payload},draftStale:false,accepted:{plan:{payload}}})},verification:{view:()=>f.v,start:async()=>{verifications++;throw Error('Unexpected verifier start');}},build:{view:()=>f.b,start:async()=>{starts++;throw Error('Unexpected worker start');}}};
+ const services={analysis:{interrupt:()=>{}},debug:{view:()=>({session:null})},outcomes:f.store,contract:{interrupt:()=>{},view:()=>({accepted:{contractHash:hash,payload:{goal:{text:'Change behavior.'},nonGoals:[]}},acceptedStale:false})},planning:{interrupt:()=>{},view:()=>({draft:{payload},draftStale:false,accepted:{plan:{payload}}})},verification:{view:()=>f.v,start:async()=>{verifications++;throw Error('Unexpected verifier start');}},build:{view:()=>f.b,start:async()=>{starts++;throw Error('Unexpected worker start');}}};
  const workflow=createMissionWorkflow(f.db,services as unknown as Parameters<typeof createMissionWorkflow>[1],()=>{});
  return {workflow,specId,get starts(){return starts;},get verifications(){return verifications;}};
 }
@@ -86,7 +86,7 @@ test('prejournal Land failure retries only original V1 without a new verifier, w
 });
 test('Abandon outcome failure replays its recorded request through idle admission only',async()=>{
  const f=await setup(),w=attachWorkflow(f);try{
-  f.db.exec("CREATE TRIGGER abandon_fault BEFORE INSERT ON mission_outcomes BEGIN SELECT RAISE(ABORT,'abandon fault'); END");await assert.rejects(w.workflow.abandon('M1'),/abandon fault/);f.db.exec('DROP TRIGGER abandon_fault');const before=await f.snapshot();
+  f.db.exec("CREATE TRIGGER abandon_fault BEFORE INSERT ON mission_outcomes BEGIN SELECT RAISE(ABORT,'abandon fault'); END");assert.equal((await w.workflow.abandon('M1')).phase,'NEEDS_YOU');f.db.exec('DROP TRIGGER abandon_fault');const before=await f.snapshot();
   assert.equal(f.db.prepare('SELECT count(*) n FROM mission_land_intents').get()!.n,0);assert.equal(w.workflow.view('M1').phase,'NEEDS_YOU');assert.deepEqual(w.workflow.view('M1').decisionEvents.map(d=>d.kind),['APPROVE_SPEC','ABANDON']);assert.throws(()=>w.workflow.prepare('M1'),{code:'MISSION_ENDED'});assert.throws(()=>w.workflow.approve('M1',w.specId),{code:'MISSION_ENDED'});
   f.b.attempt!.status='RUNNING';await assert.rejects(w.workflow.retry('M1'),{code:'OUTCOME_BUSY'});assert.equal(f.store.view('M1'),null);f.b.attempt!.status='CANDIDATE';await w.workflow.retry('M1');assert.equal(w.workflow.view('M1').phase,'ABANDONED');assert.equal(w.starts,0);assert.equal(w.verifications,0);assert.equal(w.workflow.view('M1').decisionEvents.length,2);assert.deepEqual(await f.snapshot(),before);
  }finally{await w.workflow.close();f.finish();}

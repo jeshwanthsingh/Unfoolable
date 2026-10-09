@@ -113,6 +113,7 @@ export function createContractStore(db:DatabaseSync,logger:Logger,drafter:Contra
    const payload=state.draft.payload!;items.push({kind:'contract_review',draftId:state.draft.id,missionId:String(row.id),projectId:String(row.project_id),projectName:String(row.display_name),originalIntent:String(row.original_intent),requirements:payload.requirements.length,nonGoals:payload.nonGoals.length,constraints:payload.constraints.length});
   }return items;
  };
+ const interrupt=(missionId:string)=>{if(active&&db.prepare('SELECT mission_id FROM contract_drafts WHERE id=?').get(active.id)?.mission_id===missionId)active.controller.abort();};
  const close=()=>{if(closed)return;if(active){active.controller.abort();db.prepare("UPDATE contract_drafts SET status='INTERRUPTED',completed_at=?,error=? WHERE id=? AND status IN('PREPARING','RUNNING')").run(new Date().toISOString(),'Contract compilation was interrupted when the coordinator stopped.',active.id);}closed=true;};
- return {view,compile,edit,accept,revise,attention,close};
+ return {view,compile,edit,accept,revise,attention,close,interrupt};
 }

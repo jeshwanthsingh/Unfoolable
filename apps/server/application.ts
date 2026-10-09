@@ -1,3 +1,6 @@
+import type {authorVerifyOnly} from './verify-only-author.ts';
+import {createVerifyOnly} from './verify-only.ts';
+import {verifyOnlyRoute} from './verify-only-routes.ts';
 import {createMissionWorkflow} from './mission-workflow.ts';
 import {createMissionOutcomeStore} from './mission-outcomes.ts';
 import {specRoute} from './spec-routes.ts';
@@ -54,8 +57,9 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation}={}){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly}={}){
  const database=openDatabase(config.dataDir,logger);
+ const verifyOnly=createVerifyOnly(database.connection,config,logger,options.verifyAuthor);
  const context=createContextStore(database.connection,config.projectRoots,logger);
  const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,analyzer);
  const contracts=createContractStore(database.connection,logger,drafter);
@@ -82,6 +86,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   const verifyResponse=await verifyOnlyRoute(req,pathname,verifyOnly);if(verifyResponse){json(res,verifyResponse.status,verifyResponse.body);return;}
    const specResponse=await specRoute(req,pathname,workflow);if(specResponse){json(res,specResponse.status,specResponse.body);return;}
    const debugResponse=await debugRoute(req,url,debugging);if(debugResponse){json(res,debugResponse.status,debugResponse.body);return;}
    const verificationResponse=await verificationRoute(req,url,verification);if(verificationResponse){json(res,verificationResponse.status,verificationResponse.body);return;}
@@ -115,7 +120,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const close=()=>{
   if(closing)return closing;
   logger({event:'shutdown.started'});analyses.close();contracts.close();planning.close();
-  closing=Promise.all([workflow.close(),debugging.close()]).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
+  closing=Promise.all([workflow.close(),debugging.close(),verifyOnly.close()]).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}
    const timer=setTimeout(()=>server.closeAllConnections(),2000);timer.unref();

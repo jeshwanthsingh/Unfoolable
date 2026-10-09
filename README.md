@@ -39,3 +39,7 @@ Land imports the frozen tree and creates exactly one local commit on BASE at cc/
 Builder remains codex-cli 0.160.0 / gpt-6.1-sol using the existing ChatGPT entitlement. No new paid API billing or runtime dependencies are configured. Deliberate in-process observation forgery and unobserved process detachment remain documented residual risks; this is not VM containment.
 
 See docs/ARCHITECTURE.md and artifacts/breakout-12/RESULT.md for the implementation and actual evidence. Receipt is deferred to Breakout 14; no Receipt is implemented.
+
+## Verify-only
+
+Use **Verify a Candidate** to supply a local repo, committed BASE and Candidate refs, and original intent. Review and approve the authored acceptance checks before protected Candidate execution. No analysis, plan or Builder is invoked. Unsupported checks are HUMAN / NOT CHECKED; passing the rest is PARTIAL, not full acceptance. See [Verify-only](docs/VERIFY_ONLY.md) and [pilot failures](docs/PILOT_FAILURES.md).
