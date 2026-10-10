@@ -21,6 +21,29 @@ def inspect(pid):
         raise RuntimeError('Uncertified process identity platform')
     except (ProcessLookupError, FileNotFoundError, PermissionError): return None
 
+# The whole recording call has one budget, below the caller's three-second limit.
+# Exited, unreaped Darwin children can have no libproc identity while kill(pid,0)
+# still succeeds. Wait for a full identity or ESRCH, never invent ownership.
+RECORD_RETRY_SECONDS = 1.0
+
+def record(pid, deadline):
+    while True:
+        row=inspect(pid)
+        if row:
+            if row['pid'] != pid or not row['birth_id']:
+                raise RuntimeError(f'Owned PID {pid} kernel identity is invalid')
+            return row
+        try:
+            os.kill(pid,0)
+        except ProcessLookupError:
+            return None
+        except PermissionError:
+            raise RuntimeError(f'Owned PID {pid} existence or kernel identity unavailable') from None
+        remaining=deadline-time.monotonic()
+        if remaining<=0:
+            raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable after bounded retry')
+        time.sleep(min(.025,remaining))
+
 def tree(root):
     rows=[]
     # Only kernel IDs are inspected internally; only exact owned ancestry/group is emitted.
@@ -31,29 +54,22 @@ def tree(root):
         before=len(owned)
         owned.update(pid for pid,ppid,pgid in basic if ppid in owned or pgid==root)
         if len(owned)==before: break
+    deadline=time.monotonic()+RECORD_RETRY_SECONDS
     for pid in owned:
-        row=inspect(pid)
-        # exec/exit can briefly hide proc_pidpath. Retry identity, never substitute PID-only authority.
-        for retry in range(3):
-            if row: break
-            try: os.kill(pid,0)
-            except ProcessLookupError: break
-            except PermissionError: break
-            time.sleep(0.015)
-            row=inspect(pid)
+        row=record(pid,deadline)
         if row:
             rows.append(row)
-            continue
-        # Never hide a live owned PID merely because libproc/proc identity is unavailable.
-        # Exit during inventory is harmless only after ESRCH proves this PID absent.
-        try:
-            os.kill(pid,0)
-        except ProcessLookupError:
-            continue
-        except PermissionError:
-            raise RuntimeError(f'Owned PID {pid} existence or kernel identity unavailable') from None
-        raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
+    # A PID may disappear and be reused while recording retries. Revalidate
+    # membership from the recorded kernel parents/session, not stale ps rows.
+    current={root}
+    while True:
+        before=len(current)
+        current.update(r['pid'] for r in rows if r['ppid'] in current or (r['pgid']==root and r['sid']==root))
+        if len(current)==before:
+            break
+    if any(r['pid'] not in current for r in rows):
+        raise RuntimeError('Recorded process no longer belongs to the owned tree')
     return rows
 
 if __name__ == '__main__':
-    print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
+    print(json.dumps(record(int(sys.argv[2]),time.monotonic()+RECORD_RETRY_SECONDS) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
