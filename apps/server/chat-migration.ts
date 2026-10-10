@@ -14,3 +14,13 @@ export function migrateChat(db:DatabaseSync){db.exec(`
  CREATE TABLE chat_projection(id INTEGER PRIMARY KEY CHECK(id=1),ticket_event_sequence INTEGER NOT NULL CHECK(ticket_event_sequence>=0)) STRICT;
  INSERT INTO chat_projection SELECT 1,COALESCE(MAX(sequence),0) FROM ticket_events;
  `);}
+
+/** Version 17 keeps every existing decision and its immutable binding intact. */
+export function migrateChatRetry(db:DatabaseSync){
+ const definition=String(db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='chat_cards'").get()!.sql);
+ const triggers=db.prepare("SELECT sql FROM sqlite_master WHERE type='trigger' AND tbl_name='chat_cards' ORDER BY name").all().map(row=>String(row.sql));
+ db.exec(definition.replace('CREATE TABLE chat_cards','CREATE TABLE chat_cards_retry').replace("'recheck','approve_playbook'","'recheck','retry','approve_playbook'"));
+ db.exec('INSERT INTO chat_cards_retry SELECT * FROM chat_cards; DROP TABLE chat_cards; ALTER TABLE chat_cards_retry RENAME TO chat_cards;');
+ db.exec("CREATE UNIQUE INDEX chat_card_pending ON chat_cards(kind,target_id,binding) WHERE status IN('PENDING','RESOLVING')");
+ for(const trigger of triggers)db.exec(trigger);
+}

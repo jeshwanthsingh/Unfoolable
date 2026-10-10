@@ -5,6 +5,7 @@ import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createApplication} from '../apps/server/application.ts';
+import {createTicket,transitionTicket,appendTicketEvent} from '../apps/server/ticket-store.ts';
 import type {createChatCodex} from '../apps/server/chat-codex.ts';
 
 test('chat HTTP requires operator and same-origin; messages cannot inject actions; stale/cancelled drafts cannot Start',async()=>{
@@ -28,5 +29,10 @@ test('chat HTTP requires operator and same-origin; messages cannot inject action
  assert.equal((await post('/api/chat/drafts/'+draft.id+'/cancel',{version:current.version})).status,200);
  const refreshed=await (await fetch(base+'/api/chat',{headers})).json();const cancelled=refreshed.drafts.find((d:{id:string})=>d.id===draft.id);assert.equal(cancelled.status,'CANCELLED');
  assert.equal((await post('/api/chat/drafts/'+draft.id+'/start',{version:cancelled.version})).status,409);assert.equal(app.tickets.list().tickets.length,0);assert.equal(git('rev-parse','HEAD'),baseHead);
+ const stopped=createTicket(app.database.connection,{title:'Startup failure',requestText:'Fixture request.',repoPath:repo,baseCommit:baseHead});transitionTicket(app.database.connection,stopped.id,'harness_error');appendTicketEvent(app.database.connection,stopped.id,'cleanup',{reason:'Kernel process ownership could not be recorded'});
+ const retryView=await (await fetch(base+'/api/chat',{headers})).json(),card=retryView.cards.find((c:{targetId:string;status:string})=>c.targetId===stopped.id&&c.status==='PENDING');assert.ok(card);assert.deepEqual(card.actions,['retry','discard']);assert.match(card.summary,/could not confirm its process identity/);
+ assert.equal((await post('/api/chat/messages',{text:'retry '+stopped.id})).status,200);assert.equal(app.tickets.show(stopped.id).ticket.status,'harness_error');assert.equal(drafts,1);
+ const decisions=await Promise.all([post('/api/chat/cards/'+card.id+'/action',{binding:card.binding,action:'retry'}),post('/api/chat/cards/'+card.id+'/action',{binding:card.binding,action:'retry'})]);assert.deepEqual(decisions.map(r=>r.status).sort(),[200,409]);assert.equal(app.tickets.show(stopped.id).events.filter(e=>e.kind==='retry_requested').length,1);
+
  }finally{await app.close();rmSync(root,{recursive:true,force:true});}
 });

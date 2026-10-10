@@ -28,7 +28,7 @@ test('migration 9 preserves the Breakout 7 schema, source ownership, Candidate i
   const tables=db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name!='schema_migrations' ORDER BY name").all();
   const records=tables.map(table=>({name:String(table.name),rows:db.prepare('SELECT * FROM '+String(table.name)).all()}));
   base.close();upgraded=openDatabase(baseData,()=>{});
-  assert.equal(upgraded.version(),16);const next=upgraded.connection;
+  assert.equal(upgraded.version(),17);const next=upgraded.connection;
   for(const old of schema){assert.deepEqual(next.prepare('SELECT type,name,sql FROM sqlite_master WHERE name=?').get(old.name!),old);}
   for(const table of records)assert.deepEqual(next.prepare('SELECT * FROM '+table.name).all(),table.rows);
   assert.equal(next.prepare('SELECT count(*) AS n FROM runtime_permission_requests').get()!.n,0);

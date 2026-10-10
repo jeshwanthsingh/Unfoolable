@@ -7,6 +7,15 @@ export function referencedTicket(db:DatabaseSync,text:string):Ticket|null{
  if(!id)return null;const matches=listTickets(db).filter(t=>t.id.startsWith(id.toLowerCase()));
  if(matches.length!==1)throw new SpecError('TICKET_NOT_FOUND','That ticket identifier is missing or ambiguous.',404);return matches[0]!;
 }
+export function ticketHarnessFailure(db:DatabaseSync,t:Ticket):string|null{
+ if(t.status!=='harness_error')return null;
+ const event=listTicketEvents(db,t.id).filter(e=>['cleanup','agent_stopped','check_result'].includes(e.kind)&&typeof e.data.reason==='string').at(-1);
+ const reason=String(event?.data.reason??'The ticket stopped before its checks could finish.');
+ if(/Kernel process ownership could not be recorded|process identity|ownership.*record/i.test(reason))return 'Codex stopped because Command Center could not confirm its process identity.';
+ if(/timed? out|deadline/i.test(reason))return 'The ticket stopped because its runtime deadline expired.';
+ if(/sandbox|permission denied|EPERM/i.test(reason))return 'The ticket stopped because the sandbox blocked a required operation.';
+ return 'The ticket stopped: '+reason.replace(/[\r\n]+/g,' ').replace(/\s+/g,' ').slice(0,400).replace(/[.!?]+$/,'')+'.';
+}
 export function ticketSummary(db:DatabaseSync,t:Ticket):string{
  const frozen=listTicketEvents(db,t.id).filter(e=>e.kind==='candidate_frozen').at(-1)?.data.candidate as {paths?:string[]}|undefined;
  const paths=frozen?.paths??[];return paths.length?'Recorded changes in '+paths.length+' file'+(paths.length===1?'':'s')+': '+paths.slice(0,3).map(path=>path.length>180?path.slice(0,177)+'…':path).join(', ')+(paths.length>3?'…':'')+'.':'No frozen file changes recorded.';
@@ -21,4 +30,4 @@ export function statusAnswer(db:DatabaseSync,text:string):string|null{
  if(/^(?:how did ticket|show ticket|ticket|what happened to ticket)\b/i.test(text.trim())){const t=referencedTicket(db,text);return t?ticketStatusText(db,getTicket(db,t.id)!):'Include the ticket ID or its unique eight-character prefix.';}
  return null;
 }
-export function typedAction(text:string):boolean{return /^(?:(?:keep|discard|recheck|allow|deny)(?:\s+(?:it|that|ticket\s+[a-f0-9-]+|[a-f0-9-]+))?|approve(?:\s+(?:the\s+)?playbook)?)\s*[.!?]?$/i.test(text.trim());}
+export function typedAction(text:string):boolean{return /^(?:(?:keep|discard|recheck|retry|allow|deny)(?:\s+(?:it|that|ticket\s+[a-f0-9-]+|[a-f0-9-]+))?|approve(?:\s+(?:the\s+)?playbook)?)\s*[.!?]?$/i.test(text.trim());}
