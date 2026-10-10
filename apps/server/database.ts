@@ -1,4 +1,4 @@
-import {dataMode} from './data-mode.ts';
+import {dataMode,assertDataEntry} from './data-mode.ts';
 import {migrateChat,migrateChatRetry} from './chat-migration.ts';
 import {migrateTickets} from './ticket-migration.ts';
 import {migrateVerifyOnly} from './verify-only-migration.ts';
@@ -18,6 +18,7 @@ import {failure} from './errors.ts';
 export function openDatabase(dataDir:string,logger:Logger){
  dataMode(dataDir);
  mkdirSync(dataDir,{recursive:true,mode:0o700});
+ for(const name of ['command-center.sqlite','command-center.sqlite-wal','command-center.sqlite-shm'])assertDataEntry(join(dataDir,name),'file');
  const release=acquireDatabaseLock(dataDir);
  let connection:DatabaseSync;
  try{connection=new DatabaseSync(join(dataDir,'command-center.sqlite'));}catch(error){release();throw error;}

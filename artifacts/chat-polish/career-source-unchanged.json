@@ -1,0 +1,6 @@
+{
+  "unchanged": true,
+  "head": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
+  "diffHash": "377a65857829ca8906d3f9596b3b6e7e7ef14966011f8321457bfd6652fc3109",
+  "status": " M batch/batch-prompt.md\n M config/profile.example.yml\n M dashboard/internal/ui/screens/pipeline.go\n M dashboard/main.go\n M docs/SCRIPTS.md\n M modes/auto-pipeline.md\n M modes/pdf.md\n M package.json\n M scan.mjs\n?? __pycache__/\n?? article-digest.md\n?? config/tailoring-matrix.yml\n?? evaluate-inbox.mjs\n?? generate-docx-resume.py\n?? job-sources.mjs\n?? reports/evaluations/\n?? resume-auto.mjs\n?? \"templates/Jsingh_Resume_Platform 2.docx\"\n?? \"templates/RESUME SYSTEM .docx\"\n?? templates/jsingh-docx-template-contract.md\n"
+}

@@ -12,3 +12,5 @@ export function dataMode(dataDir:string):'LIVE'|'TEST'{
  if(testing&&(mode!=='TEST'||!isolated(path)))throw Error('Tests cannot open a live data directory');return mode;
 }
 export function fixtureApprovalsEnabled(dataDir:string){return testing&&dataMode(dataDir)==='TEST';}
+
+export function assertDataEntry(path:string,kind:'file'|'directory'){try{const stat=lstatSync(path);if(stat.isSymbolicLink()||(kind==='file'?!stat.isFile():!stat.isDirectory()))throw Error('Data entry is unsafe: '+basename(path));}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}}

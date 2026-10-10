@@ -1,0 +1,18 @@
+{
+  "tests": {
+    "passed": 768,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 240.117
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "negativeControls": {
+    "count": 12,
+    "PASS": 0,
+    "expectedStatusesMatched": true
+  },
+  "reviewFocusedTests": 27,
+  "registeredRepositoriesChanged": false,
+  "newDependencies": 0
+}

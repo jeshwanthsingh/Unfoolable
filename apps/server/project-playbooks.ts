@@ -1,4 +1,4 @@
-import {dataMode,fixtureApprovalsEnabled} from './data-mode.ts';
+import {dataMode,fixtureApprovalsEnabled,assertDataEntry} from './data-mode.ts';
 import {createHash, randomUUID} from 'node:crypto';
 import {mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, realpathSync, lstatSync} from 'node:fs';
 import {join, isAbsolute} from 'node:path';
@@ -47,7 +47,7 @@ export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefin
 
 export function createProjectPlaybookStore(dataDir: string) {
   dataMode(dataDir);const fixtureOnly=fixtureApprovalsEnabled(dataDir);
-  const root = join(realpathSync(dataDir), 'playbooks'); mkdirSync(root, {recursive: true, mode: 0o700});
+  const root = join(realpathSync(dataDir), 'playbooks'); assertDataEntry(root,'directory'); mkdirSync(root, {recursive: true, mode: 0o700});
   const folder = (repo: string) => join(root, hash(rootOf(repo)));
   const file = (repo: string) => join(folder(repo), 'current.json');
   const show = (repo: string): ProjectPlaybook | null => {
