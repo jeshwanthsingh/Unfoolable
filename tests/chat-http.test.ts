@@ -1,15 +1,16 @@
+import {tmpdir} from 'node:os';
 import test from 'node:test';
 import {request} from 'node:http';
 import assert from 'node:assert/strict';
 import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
-import {join,resolve} from 'node:path';
+import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createApplication} from '../apps/server/application.ts';
 import {createTicket,transitionTicket,appendTicketEvent} from '../apps/server/ticket-store.ts';
 import type {createChatCodex} from '../apps/server/chat-codex.ts';
 
 test('chat HTTP requires operator and same-origin; messages cannot inject actions; stale/cancelled drafts cannot Start',async()=>{
- const work=resolve('.work/foreman-v1/http-tests');mkdirSync(work,{recursive:true});const root=mkdtempSync(join(work,'case-')),repo=join(root,'repo'),data=join(root,'data');mkdirSync(repo);
+ const work=tmpdir();mkdirSync(work,{recursive:true});const root=mkdtempSync(join(work,'case-')),repo=join(root,'repo'),data=join(root,'data');mkdirSync(repo);
  const git=(...args:string[])=>execFileSync('git',['-C',repo,...args],{encoding:'utf8'}).trim();git('init','-q');writeFileSync(join(repo,'README'),'fixture');git('add','.');git('-c','user.name=Chat test','-c','user.email=chat@localhost','commit','-qm','fixture');const baseHead=git('rev-parse','HEAD');
  let drafts=0;const runtime:ReturnType<typeof createChatCodex>={draft:async()=>{drafts++;return {title:'Fixture ticket',repoPath:repo,requestText:'Change fixture message.',doneMeans:'The fixture message changes.',question:null,usage:{inputTokens:10,outputTokens:20,totalTokens:30},threadId:'test-thread',turnId:'test-turn'};},fuel:async()=>({unknown:true,windows:[]}),close:async()=>{}};
  const app=createApplication({port:0,dataDir:data,webRoot:join(root,'web'),development:false,projectRoots:[root]},()=>{},undefined,undefined,undefined,undefined,undefined,{chatRuntime:runtime,ticketDependencies:{check:async()=>({verdict:'NOT CHECKED',gaps:['Fixture runner'],failures:[]})}});

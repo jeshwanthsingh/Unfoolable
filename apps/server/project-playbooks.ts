@@ -1,3 +1,4 @@
+import {dataMode,fixtureApprovalsEnabled} from './data-mode.ts';
 import {createHash, randomUUID} from 'node:crypto';
 import {mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, realpathSync, lstatSync} from 'node:fs';
 import {join, isAbsolute} from 'node:path';
@@ -9,9 +10,9 @@ import type {ProjectPlaybook, ProjectPlaybookDefinition, PlaybookCommand} from '
 
 export class ProjectPlaybookError extends Error {
   readonly status: number;
-  readonly code: 'PLAYBOOK_REQUIRED' | 'INVALID_PLAYBOOK' | 'PLAYBOOK_CHANGED';
-  constructor(code: 'PLAYBOOK_REQUIRED' | 'INVALID_PLAYBOOK' | 'PLAYBOOK_CHANGED', message: string) {
-    super(message); this.code = code; this.status = code === 'INVALID_PLAYBOOK' ? 400 : 409;
+  readonly code: 'PLAYBOOK_REQUIRED' | 'INVALID_PLAYBOOK' | 'PLAYBOOK_CHANGED' | 'HUMAN_APPROVAL_REQUIRED';
+  constructor(code: 'PLAYBOOK_REQUIRED' | 'INVALID_PLAYBOOK' | 'PLAYBOOK_CHANGED' | 'HUMAN_APPROVAL_REQUIRED', message: string) {
+    super(message); this.code = code; this.status = code === 'INVALID_PLAYBOOK' ? 400 : code==='HUMAN_APPROVAL_REQUIRED'?403:409;
   }
 }
 const invalid = (message: string): never => {throw new ProjectPlaybookError('INVALID_PLAYBOOK', message);};
@@ -45,6 +46,7 @@ export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefin
 }
 
 export function createProjectPlaybookStore(dataDir: string) {
+  dataMode(dataDir);const fixtureOnly=fixtureApprovalsEnabled(dataDir);
   const root = join(realpathSync(dataDir), 'playbooks'); mkdirSync(root, {recursive: true, mode: 0o700});
   const folder = (repo: string) => join(root, hash(rootOf(repo)));
   const file = (repo: string) => join(folder(repo), 'current.json');
@@ -70,6 +72,7 @@ export function createProjectPlaybookStore(dataDir: string) {
     return save(repo, {repoRoot: rootOf(repo), baseCommit: previous?.baseCommit ?? '', definition: validated, hash: hash(validated), approval: null, updatedAt: new Date().toISOString()});
   };
   const approve = (repo: string, expectedHash: string): ProjectPlaybook => {
+    if(!fixtureOnly)throw new ProjectPlaybookError('HUMAN_APPROVAL_REQUIRED','New live playbook approvals are paused until human confirmation is configured; automated approval is disabled.');
     const record = show(repo); if (!record) throw new ProjectPlaybookError('PLAYBOOK_REQUIRED', 'Propose a project playbook before approving it.');
     if (record.hash !== expectedHash) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Review the current playbook before approving it.');
     if (record.approval) return record;
@@ -81,7 +84,7 @@ export function createProjectPlaybookStore(dataDir: string) {
       if (saved.repoRoot !== record.repoRoot || saved.hash !== record.hash || hash(validatePlaybookDefinition(saved.definition)) !== record.hash || saved.approval?.hash !== record.hash) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Immutable approval content changed.');
       return save(repo, saved);
     }
-    record.approval = {hash: record.hash, at: new Date().toISOString()};
+    record.approval = {hash: record.hash, at: new Date().toISOString(),actor:'test-fixture',source:'node:test',dataMode:'TEST'};
     writeFileSync(path, canonicalContractJson(record), {flag: 'wx', mode: 0o400}); return save(repo, record);
   };
   const requireApproved = (repo: string): ProjectPlaybook => {
@@ -108,5 +111,5 @@ export function createProjectPlaybookStore(dataDir: string) {
     definition = validatePlaybookDefinition(definition);
     return save(repo, {repoRoot, baseCommit, definition, hash: hash(definition), approval: null, updatedAt: new Date().toISOString()});
   };
-  return {root, show, propose, edit, approve, requireApproved};
+  return {root, show, propose, edit, approve, requireApproved,approvalEnabled:fixtureOnly};
 }

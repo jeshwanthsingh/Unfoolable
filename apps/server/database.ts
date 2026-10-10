@@ -1,3 +1,4 @@
+import {dataMode} from './data-mode.ts';
 import {migrateChat,migrateChatRetry} from './chat-migration.ts';
 import {migrateTickets} from './ticket-migration.ts';
 import {migrateVerifyOnly} from './verify-only-migration.ts';
@@ -15,6 +16,7 @@ import type {Logger} from './log.ts';
 import {failure} from './errors.ts';
 
 export function openDatabase(dataDir:string,logger:Logger){
+ dataMode(dataDir);
  mkdirSync(dataDir,{recursive:true,mode:0o700});
  const release=acquireDatabaseLock(dataDir);
  let connection:DatabaseSync;

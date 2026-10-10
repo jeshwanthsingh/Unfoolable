@@ -19,7 +19,7 @@ test('missing, proposed and edited playbooks cannot count as approved; explicit 
   assert.equal(f.store.show(f.repo),null);assert.throws(()=>f.store.requireApproved(f.repo),{code:'PLAYBOOK_REQUIRED'});
   const draft=await f.store.propose(f.repo,f.base);assert.equal(draft.approval,null);assert.throws(()=>f.store.requireApproved(f.repo),{code:'PLAYBOOK_REQUIRED'});
   assert.throws(()=>f.store.approve(f.repo,'0'.repeat(64)),{code:'PLAYBOOK_CHANGED'});
-  const approved=f.store.approve(f.repo,draft.hash);assert.equal(approved.approval?.hash,draft.hash);
+  const approved=f.store.approve(f.repo,draft.hash);assert.equal(approved.approval?.hash,draft.hash);assert.equal(approved.approval?.actor,'test-fixture');assert.equal(approved.approval?.source,'node:test');assert.equal(approved.approval?.dataMode,'TEST');
   assert.deepEqual(createProjectPlaybookStore(f.data).requireApproved(f.repo),approved);
   const edited=f.store.edit(f.repo,{...draft.definition,timeoutSeconds:181});assert.notEqual(edited.hash,draft.hash);assert.equal(edited.approval,null);assert.throws(()=>f.store.requireApproved(f.repo),{code:'PLAYBOOK_REQUIRED'});
  }finally{rmSync(f.root,{recursive:true,force:true});}

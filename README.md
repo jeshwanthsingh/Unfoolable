@@ -56,3 +56,5 @@ Only drafting uses AI: a fresh read-only pinned Codex session converts your mess
 Keep, Discard, Recheck, playbook approval and existing permission decisions use exact-item buttons. A changed or already-resolved item rejects the old button. Existing explicit ticket CLI controls remain available. Keep creates only the local `cc/<ticket-id>` branch; chat supplies inspect and manual merge commands. CC never merges or pushes.
 
 The test suite uses four workers because its fixtures launch real protected processes. This avoids oversubscribing process-recording and correction fixtures; their assertions and deadlines are unchanged.
+
+New approvals against live data are paused until a human-confirmation method is configured. Existing approved playbooks remain reusable. Tests use isolated TEST stores; test approvals are labelled as fixtures. See [approval boundary](docs/APPROVAL_BOUNDARY.md).

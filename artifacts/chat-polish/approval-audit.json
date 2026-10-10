@@ -1,0 +1,17 @@
+{
+  "repository": "research-router",
+  "definitionHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
+  "storedAtUTC": "2026-10-10T13:48:14.147Z",
+  "localTime": "October 10, 2026, 6:48:14 AM PDT",
+  "executor": "assistant-operated real-run script",
+  "channel": "chat-card HTTP API",
+  "authorization": "User replied Approve this exact playbook in this conversation before the real run",
+  "unitTest": false,
+  "manualUIClick": false,
+  "originalLedgerStoredActorOrChannel": false,
+  "sourceEvidence": [
+    ".work/foreman-v1/real-run.py:17",
+    "artifacts/foreman-v1/real-run.log:3"
+  ],
+  "limitation": "Executor/channel are established from saved execution evidence; missing fields were not retroactively inserted into immutable approval records"
+}
