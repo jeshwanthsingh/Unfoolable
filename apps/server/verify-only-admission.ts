@@ -8,6 +8,7 @@ import {materializeOracleTree} from './oracle-tree.ts';
 import {safeBuildGit} from './build-workspace.ts';
 import {canonicalContractJson} from './contract-store.ts';
 import {verifyStep} from './verify-only-deadline.ts';
+import {harnessRetry,retryableExecution} from './verify-only-retry.ts';
 import type {VerifyStatus} from '../../packages/shared/verify-only-v2.ts';
 
 export function executionStatus(result:OracleExecution):VerifyStatus{
@@ -45,7 +46,7 @@ export async function admitVerifyOnly(input:VerifyBinding,claims:VerifyClaim[],m
  const run=async(c:VerifyClaim,workspace:string,changed:string[],label:string,admission=false)=>{
   const folder=join(directory,'admission-'+c.id+'-'+label);mkdirSync(folder,{mode:0o700});
   const test=executionTest(c.test!,workspace,manifest,changed,admission);
-  const result=await verifyStep('Admission '+c.id+' '+label,180000,signal,s=>execute(manifest,test,workspace,folder,s));
+  const result=await harnessRetry('Admission '+c.id+' '+label,folder,signal,attempt=>verifyStep('Admission '+c.id+' '+label,180000,signal,s=>execute(manifest,test,workspace,join(folder,'execution-'+attempt),s)),retryableExecution);
   writeFileSync(join(folder,'execution.json'),canonicalContractJson({test,result}),{flag:'wx',mode:0o600});
   if(!result.cleanup.verified||result.cleanup.ambiguous)throw Error('Admission cleanup is not certified');return result;
  };

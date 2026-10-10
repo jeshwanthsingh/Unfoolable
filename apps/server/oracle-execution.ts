@@ -122,17 +122,17 @@ export async function executeOracleTest(manifest:OracleManifest,test:OracleTest,
   const observerScratch=join(scratch,'runner');mkdirSync(observerScratch);mkdirSync(join(observerScratch,'home'));mkdirSync(join(observerScratch,'tmp'));
   const requests=test.requests.map(r=>oracleInput(r,observerScratch) as OracleRequest);environment.inputs=requests;
   const browserMode=manifest.runner==='vitest';
-  const cliMode=manifest.runner==='unittest'&&requests.some(r=>['CLI','CONCURRENT','SUITE'].includes(r.kind??''));
+  const cliMode=manifest.runner==='unittest'&&requests.some(r=>['CLI','CONCURRENT','SUITE','BOUNDED_CALL'].includes(r.kind??''));
   const deps=manifest.dependencyRoot?realpathSync(manifest.dependencyRoot):null;
   if(deps&&requests.some(r=>r.kind==='SUITE')){const link=join(workspace,manifest.runnerDirectory,'node_modules');if(existsSync(link)){if(!lstatSync(link).isSymbolicLink()||realpathSync(link)!==deps)throw Error('Unexpected dependency link in exported workspace');}else symlinkSync(deps,link);}
   let command:string[],reads=[workspace,observer,dirname(process.execPath)];
   if(manifest.runner==='unittest'){
-   for(const r of requests){if(r.kind==='SUITE'||r.kind==='SCOPE')continue;if(r.kind==='CLI'||r.kind==='CONCURRENT'){if(!Array.isArray(r.args)||!r.args.every(a=>typeof a==='string')||!existsSync(join(workspace,'research_router/cli.py')))throw Error('CLI interface unavailable');continue;}if(!r.module||!r.function||!/^\w+(?:\.\w+)*$/.test(r.module)||!/^\w+$/.test(r.function)||!existsSync(join(workspace,r.module.replaceAll('.','/')+'.py')))throw Error('Observer export is not a regular project module');}
-   command=['/usr/local/bin/python3','-I','-B',observer,workspace,observerScratch];reads.push(join(oracleScripts,'concurrent-worker.py'),join(oracleScripts,'concurrent-observation.py'),join(oracleScripts,'suite-worker.py'),join(oracleScripts,'cli-observation-worker.py'));
+   for(const r of requests){if(r.kind==='SUITE'||r.kind==='SCOPE')continue;if(r.kind==='CLI'||r.kind==='CONCURRENT'){if(!Array.isArray(r.args)||!r.args.every(a=>typeof a==='string')||!existsSync(join(workspace,'research_router/cli.py')))throw Error('CLI interface unavailable');continue;}if(r.kind==='BOUNDED_CALL'&&(typeof r.deadlineSeconds!=='number'||!Number.isFinite(r.deadlineSeconds)||r.deadlineSeconds<.05||r.deadlineSeconds>5||r.method!==undefined&&!/^\w+$/.test(r.method)||r.executableFixture!==undefined&&r.executableFixture!=='sleep'))throw Error('Invalid bounded call request');if(!r.module||!r.function||!/^\w+(?:\.\w+)*$/.test(r.module)||!/^\w+$/.test(r.function)||!existsSync(join(workspace,r.module.replaceAll('.','/')+'.py')))throw Error('Observer export is not a regular project module');}
+   command=['/usr/local/bin/python3','-I','-B',observer,workspace,observerScratch];reads.push(join(oracleScripts,'concurrent-worker.py'),join(oracleScripts,'concurrent-observation.py'),join(oracleScripts,'suite-worker.py'),join(oracleScripts,'cli-observation-worker.py'),join(oracleScripts,'timeout-observation.py'),join(oracleScripts,'timeout-worker.py'));
   }else{
-   if(!deps||!manifest.componentPath||manifest.componentPath.includes('..')||!manifest.componentPath.startsWith(manifest.runnerDirectory+'/'))throw Error('UI component identity unavailable');
+   if(!deps||!manifest.uiFixture&&(!manifest.componentPath||manifest.componentPath.includes('..')||!manifest.componentPath.startsWith(manifest.runnerDirectory+'/')))throw Error('UI component identity unavailable');
    const bundle=join(observerScratch,'candidate.js');
-   await bundleOracleCandidate(workspace,deps,manifest.componentPath,bundle,manifest.uiFixture);
+   await bundleOracleCandidate(workspace,deps,manifest.componentPath??'',bundle,manifest.uiFixture);
    command=[process.execPath,observer,bundle,deps,observerScratch];reads=reads.concat(deps,'/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@playwright/cli','/Users/jeshwanthsingh/Library/Caches/ms-playwright');
   }
   const env:NodeJS.ProcessEnv={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:join(observerScratch,'home'),TMPDIR:join(observerScratch,'tmp'),LANG:'C',LC_ALL:'C',TZ:'UTC',CC_OBSERVATION_FD:'3',PYTHONDONTWRITEBYTECODE:'1',...(deps?{NODE_PATH:deps}:{})};

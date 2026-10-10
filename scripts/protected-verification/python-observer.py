@@ -35,6 +35,10 @@ for call in request['requests']:
     proc=subprocess.run(['/usr/local/bin/python3','-I','-B',script,root],cwd=root,input=dumps({'excludedTests':call.get('excludedTests',[])}).encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=100)
     if proc.returncode or len(proc.stdout)>200000:raise RuntimeError('native suite recorder did not complete')
     row['returnValue']=json.loads(proc.stdout)
+   elif call.get('kind')=='BOUNDED_CALL':
+    phase='bounded-call';path=os.path.join(os.path.dirname(__file__),'timeout-observation.py')
+    spec=importlib.util.spec_from_file_location('timeout_observation',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    row.update(module.observe(root,scratch,call));out.write(row['stdout']);err.write(row['stderr'])
    elif call.get('kind')=='CONCURRENT':
     phase='concurrent';path=os.path.join(os.path.dirname(__file__),'concurrent-observation.py')
     spec=importlib.util.spec_from_file_location('concurrent_observation',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
@@ -53,7 +57,9 @@ for call in request['requests']:
       out.write(stdout_bytes.decode('utf-8',errors='replace'));err.write(stderr_bytes.decode('utf-8',errors='replace'));row['exitCode']=result.returncode
    else:
     phase='import';fn=getattr(importlib.import_module(call['module']),call['function']);args=decode(call.get('args',[]));kwargs=decode(call.get('kwargs',{}));phase='call';value=fn(*args,**kwargs);phase='serialize';value={field:getattr(value,field) for field in call['resultFields']} if call.get('resultFields') else value;dumps(value,allow_nan=False);row['returnValue']=value
-  except BaseException as exc:row['exception']={'name':kind(exc).__name__,'module':kind(exc).__module__,'builtinValueError':isinstance(exc,value_error),'phase':phase}
+  except BaseException as exc:
+   if call.get('kind')=='BOUNDED_CALL':raise
+   row['exception']={'name':kind(exc).__name__,'module':kind(exc).__module__,'builtinValueError':isinstance(exc,value_error),'phase':phase}
  row['stdout']=out.getvalue();row['stderr']=err.getvalue()
  if call.get('kind')=='CLI':
   try:row['jsonOutput']=json.loads(row['stdout']);row['jsonParseError']=False

@@ -1,0 +1,12 @@
+[
+  {
+    "check": "typecheck",
+    "exitCode": 0,
+    "elapsedSeconds": 1.0671872920065653
+  },
+  {
+    "check": "build",
+    "exitCode": 0,
+    "elapsedSeconds": 1.4195852499979082
+  }
+]
