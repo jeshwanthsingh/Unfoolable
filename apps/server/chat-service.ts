@@ -1,0 +1,55 @@
+import type {DatabaseSync} from 'node:sqlite';
+import type {createTicketService} from './ticket-service.ts';
+import type {createChatCodex} from './chat-codex.ts';
+import type {ChatAction,ChatDraft,ChatUsage} from '../../packages/shared/chat.ts';
+import {createChatStore} from './chat-store.ts';
+import {createChatCards} from './chat-cards.ts';
+import {projectChatEvents} from './chat-events.ts';
+import {referencedTicket,statusAnswer,typedAction} from './chat-status.ts';
+import {listProjects} from './projects.ts';
+import {SpecError} from './spec-errors.ts';
+import {safeBuildGit} from './build-workspace.ts';
+const quote=(s:string)=>"'"+s.replaceAll("'","'\"'\"'")+"'";
+const validText=(s:unknown,max:number):s is string=>typeof s==='string'&&!!s.trim()&&s.length<=max&&!s.includes('\0');
+export function createChatService(db:DatabaseSync,tickets:ReturnType<typeof createTicketService>,runtime:ReturnType<typeof createChatCodex>,permissionDecision:(id:string,decision:'ALLOW'|'DENY',hash:string)=>Promise<unknown>){
+ const store=createChatStore(db),cards=createChatCards(db,tickets,store);store.recover();let drafting=false;
+ const project=()=>{projectChatEvents(db,store);cards.sync();};const timer=setInterval(project,1000);timer.unref();
+ const repos=()=>[...new Map([...listProjects(db).map(p=>({displayName:p.displayName,repoPath:p.repoRoot})),...tickets.list().tickets.map(t=>({displayName:t.repoPath.split('/').at(-1)!,repoPath:t.repoPath}))].map(r=>[r.repoPath,r])).values()];
+ function draft(id:string,version:unknown,statuses:ChatDraft['status'][]){const d=store.draft(id);if(!d||!Number.isSafeInteger(version)||d.version!==version||!statuses.includes(d.status))throw new SpecError('STALE_DRAFT','This draft changed or was already decided. Refresh it before acting.');return d;}
+ async function view(){project();const fuel=await runtime.fuel();return {...store.view(),fuel:{status:fuel.unknown?'unknown':'known',windows:fuel.windows}};}
+ async function message(text:unknown){
+  if(!validText(text,20000))throw new SpecError('INVALID_MESSAGE','Enter a message of 1–20,000 characters.',400);
+  if(drafting)throw new SpecError('DRAFT_IN_PROGRESS','One draft is already being prepared.');const original=store.appendMessage({role:'user',text});project();
+  const answer=statusAnswer(db,text);if(answer!==null){store.appendMessage({role:'jarvis',kind:'status',text:answer});return store.view();}
+  if(/^(?:how much fuel(?: is left)?|fuel|usage|limits)\??$/i.test(text.trim())){const fuel=await runtime.fuel();store.appendMessage({role:'jarvis',kind:'status',text:fuel.unknown?'Fuel unknown; the read-only limit request failed.':fuel.windows.map(w=>w.usedPercent+'% used · '+w.windowMinutes+' minute window · resets '+new Date(w.resetsAt*1000).toISOString()).join('\n')});return store.view();}
+  if(typedAction(text)){const t=referencedTicket(db,text),available=store.cards().filter(c=>c.status==='PENDING'&&(!t||c.targetId===t.id));store.appendMessage({role:'jarvis',kind:'status',text:available.length?'Use the button on the exact pending item below. This message made no decision.':'No matching pending item is available. This message made no decision.'});return store.view();}
+  const pending=store.pendingDraft();drafting=true;let d:ChatDraft|null=null;
+  try{
+   const first=pending?store.messages().find(m=>m.sequence===pending.originalMessageId)!.text:text;
+   const result=await runtime.draft({message:first,repos:repos(),...(pending?{clarification:text}:{})});
+   const usage:ChatUsage={inputTokens:result.usage?.inputTokens??null,outputTokens:result.usage?.outputTokens??null,totalTokens:result.usage?.totalTokens??null,cachedInputTokens:null,model:'gpt-6.1-sol',threadId:result.threadId};
+   if(pending&&result.question)throw new SpecError('CLARIFICATION_LIMIT','One question was already asked. Edit the draft instead.');
+   const input={title:result.title,repoPath:result.repoPath,requestText:result.requestText,doneMeans:result.doneMeans,question:result.question,questionAsked:!!pending||!!result.question,usage:[...(pending?.usage??[]),usage],status:result.question?'QUESTION' as const:'DRAFT' as const};
+   d=pending?store.updateDraft(pending.id,pending.version,input):store.createDraft(original.sequence,input);if(!d)throw new SpecError('STALE_DRAFT','The draft changed during preparation.');
+   store.appendMessage({role:'jarvis',kind:'draft',draftId:d.id,text:result.question??'Draft recorded. Nothing starts until you press Start.'});return store.view();
+  }catch(error){store.appendMessage({role:'jarvis',kind:'error',text:'Draft preparation failed. No ticket started. '+(error instanceof SpecError?error.message:'Try again or edit an existing draft.')});throw new SpecError('DRAFT_ERROR','Draft preparation failed; no ticket was started.',503);}finally{drafting=false;}
+ }
+ function edit(id:string,body:Record<string,unknown>){const d=draft(id,body.version,['DRAFT','QUESTION','ERROR']);if(Object.keys(body).some(k=>!['version','title','repoPath','requestText','doneMeans'].includes(k))||!validText(body.title,160)||!validText(body.repoPath,4096)||!validText(body.requestText,20000)||!validText(body.doneMeans,10000))throw new SpecError('INVALID_DRAFT','Complete title, repository, request and done criteria.',400);const updated=store.updateDraft(id,d.version,{title:body.title,repoPath:body.repoPath,requestText:body.requestText,doneMeans:body.doneMeans,question:null,status:'DRAFT'});if(!updated)throw new SpecError('STALE_DRAFT','Draft changed.');return updated;}
+ function cancel(id:string,version:unknown){const d=draft(id,version,['DRAFT','QUESTION','ERROR']);store.updateDraft(id,d.version,{status:'CANCELLED'});store.appendMessage({role:'jarvis',kind:'decision',draftId:id,text:'Draft cancelled. No ticket started.'});return store.view();}
+ async function start(id:string,version:unknown){const d=draft(id,version,['DRAFT']);if(!validText(d.title,160)||!validText(d.repoPath,4096)||!validText(d.requestText,20000)||!validText(d.doneMeans,10000))throw new SpecError('INVALID_DRAFT','Complete the draft before Start.',400);const reservation=store.updateDraft(id,d.version,{status:'STARTING'});if(!reservation)throw new SpecError('STALE_DRAFT','Draft already decided.');
+  try{const t=await tickets.create({title:d.title,repoPath:d.repoPath,requestText:d.requestText+'\n\nDone means:\n'+d.doneMeans},ticket=>{if(!store.updateDraft(id,reservation.version,{status:'STARTED',ticketId:ticket.id}))throw Error('Draft start binding changed');});store.appendMessage({role:'jarvis',kind:'decision',draftId:id,text:'Started ticket '+t.id+'.'});return store.view();}catch(error){store.updateDraft(id,reservation.version,{status:'ERROR'});throw error;}
+ }
+ async function action(id:string,body:Record<string,unknown>){project();const c=store.card(id);if(!c||typeof body.binding!=='string'||typeof body.action!=='string'||Object.keys(body).some(k=>!['binding','action'].includes(k))||cards.current(c)!==body.binding||!store.reserveCard(id,body.binding,body.action as ChatAction))throw new SpecError('STALE_CHAT_ACTION','This item changed or was already decided. Refresh the pending item.');
+  try{
+   if(c.kind==='ticket'){const v=tickets.show(c.targetId);if(body.action==='recheck')tickets.recheck(c.targetId,v.ticket.candidateCommits.at(-1));else if(body.action==='keep'||body.action==='discard')await tickets.decide(c.targetId,body.action,v.ticket.candidateCommits.at(-1));else throw new SpecError('INVALID_CHAT_ACTION','Unavailable ticket action.');
+    if(body.action==='keep'){const t=tickets.show(c.targetId).ticket,branch='cc/'+t.id;let main:string|null=null;for(const name of ['main','master']){try{await safeBuildGit(t.repoPath,['rev-parse','--verify','refs/heads/'+name]);main=name;break;}catch{}}
+     const git='git -C '+quote(t.repoPath);store.appendMessage({role:'jarvis',kind:'decision',cardId:id,text:'Saved to '+t.repoPath+' on '+branch+'. Command Center did not merge.\nInspect:\n'+git+' show --stat '+quote(branch)+'\n'+git+' diff '+quote(t.baseCommit+'..'+branch)+'\nMerge yourself after committing or stashing your own changes:\n'+(main?git+' switch '+quote(main)+'\n':git+' branch --list  # choose and switch to your main branch first\n')+git+' merge --ff-only '+quote(branch)});
+    }
+   }else if(c.kind==='playbook'&&body.action==='approve_playbook')await tickets.playbookApprove(c.targetId,c.binding);
+   else if(c.kind==='permission'&&(body.action==='allow'||body.action==='deny')){const p=cards.permissionBinding(c.targetId);if(!p||p.binding!==c.binding)throw new SpecError('STALE_CHAT_ACTION','Permission is no longer pending.');await permissionDecision(c.targetId,body.action==='allow'?'ALLOW':'DENY',p.payloadHash);}
+   else throw new SpecError('INVALID_CHAT_ACTION','Unavailable action.');
+   store.finishCard(id,'RESOLVED');store.appendMessage({role:'jarvis',kind:'decision',cardId:id,text:'Recorded '+body.action+' for '+c.targetId+'.'});project();return store.view();
+  }catch(error){store.finishCard(id,'ERROR');throw error;}
+ }
+ return {view,message,edit,cancel,start,action,project,store,async close(){clearInterval(timer);await runtime.close();}};
+}

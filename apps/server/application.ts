@@ -1,3 +1,6 @@
+import {createChatService} from './chat-service.ts';
+import {createChatCodex} from './chat-codex.ts';
+import {chatRoute} from './chat-routes.ts';
 import {ProjectPlaybookError} from './project-playbooks.ts';
 import {createTicketService} from './ticket-service.ts';
 import {ticketRoute} from './ticket-routes.ts';
@@ -61,7 +64,7 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies}={}){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;chatRuntime?:ReturnType<typeof createChatCodex>}={}){
  const database=openDatabase(config.dataDir,logger);
  const verifyOnly=createVerifyOnly(database.connection,config,logger,options.verifyAuthor);
  const tickets=createTicketService(database.connection,config,verifyOnly,options.ticketDependencies);
@@ -76,7 +79,8 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const debugging=createDebugStore(database.connection,config,logger,{builder:builds,verification,...(diagnoser?{diagnose:diagnoser}:{})});
  const outcomes=createMissionOutcomeStore(database.connection,config,logger,{verification:verification.view,build:builds.view});
  const workflow=createMissionWorkflow(database.connection,{context,analysis:analyses,contract:contracts,planning,build:builds,verification,debug:debugging,outcomes},logger);
- const json=(res:ServerResponse,status:number,body:SpecView|DebugView|Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
+ const chat=createChatService(database.connection,tickets,options.chatRuntime??createChatCodex({dataDir:config.dataDir}),builds.decide);
+ const json=(res:ServerResponse,status:number,body:import('../../packages/shared/chat.ts').ChatDraft|SpecView|DebugView|Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
  const server=createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
@@ -91,6 +95,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   const chatResponse=await chatRoute(req,pathname,chat,tickets);if(chatResponse){json(res,chatResponse.status,chatResponse.body);return;}
    const ticketResponse=await ticketRoute(req,pathname,tickets);if(ticketResponse){if('text' in ticketResponse){res.writeHead(ticketResponse.status,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});res.end(ticketResponse.text);}else json(res,ticketResponse.status,ticketResponse.body);return;}
    const verifyResponse=await verifyOnlyRoute(req,pathname,verifyOnly);if(verifyResponse){json(res,verifyResponse.status,verifyResponse.body);return;}
    const specResponse=await specRoute(req,pathname,workflow);if(specResponse){json(res,specResponse.status,specResponse.body);return;}
@@ -126,7 +131,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const close=()=>{
   if(closing)return closing;
   logger({event:'shutdown.started'});analyses.close();contracts.close();planning.close();
-  closing=tickets.close().then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
+  closing=chat.close().then(()=>tickets.close()).then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}
    const timer=setTimeout(()=>server.closeAllConnections(),2000);timer.unref();
@@ -137,5 +142,5 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
  });};
- return {server,database,start,close,workflow,tickets};
+ return {server,database,start,close,workflow,tickets,chat};
 }

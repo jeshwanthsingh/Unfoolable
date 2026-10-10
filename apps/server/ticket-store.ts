@@ -16,9 +16,9 @@ export function appendTicketEvent(db:DatabaseSync,id:string,kind:TicketEventKind
  const json=JSON.stringify(data);if(Buffer.byteLength(json)>65536)throw new Error('Event data exceeds limit');const parsed=JSON.parse(json) as Record<string,unknown>;const createdAt=new Date().toISOString();
  const r=db.prepare('INSERT INTO ticket_events(ticket_id,kind,data_json,created_at) VALUES(?,?,?,?)').run(id,kind,json,createdAt);return {sequence:Number(r.lastInsertRowid),ticketId:id,kind,data:parsed,createdAt};
 }
-export function createTicket(db:DatabaseSync,input:{title:string;requestText:string;repoPath:string;baseCommit:string}):Ticket{
+export function createTicket(db:DatabaseSync,input:{title:string;requestText:string;repoPath:string;baseCommit:string},onCreated?:(ticket:Ticket)=>void):Ticket{
  if(!text(input.title,200)||!text(input.requestText,65536)||!text(input.repoPath,4096)||!isAbsolute(input.repoPath)||!sha(input.baseCommit))throw new Error('Invalid ticket input');
- return transaction(db,()=>{const id=randomUUID(),now=new Date().toISOString();db.prepare("INSERT INTO tickets(id,title,request_text,repo_path,base_commit,status,created_at,updated_at) VALUES(?,?,?,?,?,'queued',?,?)").run(id,input.title,input.requestText,input.repoPath,input.baseCommit,now,now);appendTicketEvent(db,id,'submitted',{});return requireTicket(db,id);});
+ return transaction(db,()=>{const id=randomUUID(),now=new Date().toISOString();db.prepare("INSERT INTO tickets(id,title,request_text,repo_path,base_commit,status,created_at,updated_at) VALUES(?,?,?,?,?,'queued',?,?)").run(id,input.title,input.requestText,input.repoPath,input.baseCommit,now,now);appendTicketEvent(db,id,'submitted',{});const created=requireTicket(db,id);onCreated?.(created);return created;});
 }
 export function updateTicket(db:DatabaseSync,id:string,patch:{attemptCount?:number;candidateCommits?:string[];checkVerdict?:TicketCheckVerdict|null}):Ticket{
  const t=requireTicket(db,id);if(['ready_for_review','kept','discarded','cancelled'].includes(t.status))throw new Error('Ticket candidate is frozen or terminal');if(Object.keys(patch).some(k=>!['attemptCount','candidateCommits','checkVerdict'].includes(k)))throw new Error('Invalid ticket update field');
