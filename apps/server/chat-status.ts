@@ -9,7 +9,7 @@ export function referencedTicket(db:DatabaseSync,text:string):Ticket|null{
 }
 export function ticketSummary(db:DatabaseSync,t:Ticket):string{
  const frozen=listTicketEvents(db,t.id).filter(e=>e.kind==='candidate_frozen').at(-1)?.data.candidate as {paths?:string[]}|undefined;
- const paths=frozen?.paths??[];return paths.length?'Recorded changes in '+paths.length+' file'+(paths.length===1?'':'s')+': '+paths.slice(0,3).join(', ')+(paths.length>3?'…':'')+'.':'No frozen file changes recorded.';
+ const paths=frozen?.paths??[];return paths.length?'Recorded changes in '+paths.length+' file'+(paths.length===1?'':'s')+': '+paths.slice(0,3).map(path=>path.length>180?path.slice(0,177)+'…':path).join(', ')+(paths.length>3?'…':'')+'.':'No frozen file changes recorded.';
 }
 export function ticketStatusText(db:DatabaseSync,t:Ticket):string{
  const events=listTicketEvents(db,t.id),last=events.filter(e=>e.kind==='needs_you'||e.kind==='check_result').at(-1);
