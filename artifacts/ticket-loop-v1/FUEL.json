@@ -1,0 +1,91 @@
+{
+  "version": "codex-cli 0.160.0",
+  "initialize": {
+    "userAgent": "cc_ticket_fuel_probe/0.160.0 (Mac OS 27.2.0; arm64) unknown (cc_ticket_fuel_probe; 0.0.1)",
+    "codexHome": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/fuel/3def54fd-6570-4587-ac1d-b93be4f68935/provider-private",
+    "platformFamily": "unix",
+    "platformOs": "macos"
+  },
+  "method": "account/rateLimits/read",
+  "limits": {
+    "ordinaryUsageAllowed": true,
+    "rateLimits": {
+      "limitId": "codex",
+      "limitName": null,
+      "normalModelSlug": null,
+      "primary": {
+        "usedPercent": 52,
+        "windowDurationMins": 10080,
+        "resetsAt": 1791948747
+      },
+      "secondary": null,
+      "credits": {
+        "hasCredits": false,
+        "unlimited": false,
+        "balance": "0"
+      },
+      "individualLimit": null,
+      "spendControlReached": false,
+      "planType": "prolite",
+      "rateLimitReachedType": null
+    },
+    "rateLimitsByLimitId": {
+      "codex": {
+        "limitId": "codex",
+        "limitName": null,
+        "normalModelSlug": null,
+        "primary": {
+          "usedPercent": 52,
+          "windowDurationMins": 10080,
+          "resetsAt": 1791948747
+        },
+        "secondary": null,
+        "credits": {
+          "hasCredits": false,
+          "unlimited": false,
+          "balance": "0"
+        },
+        "individualLimit": null,
+        "spendControlReached": false,
+        "planType": "prolite",
+        "rateLimitReachedType": null
+      }
+    },
+    "rateLimitResetCredits": {
+      "availableCount": 3,
+      "credits": [
+        {
+          "id": "RateLimitResetCredit_40efe8af50c48191a5cf381df30f2ffe",
+          "resetType": "codexRateLimits",
+          "status": "available",
+          "grantedAt": 1790110474,
+          "expiresAt": 1792702474,
+          "title": "Full reset",
+          "description": "Thanks for using Codex! You've been granted one free rate limit reset."
+        },
+        {
+          "id": "RateLimitResetCredit_bf5d8cedc4188191a70b3cc106d5e3e9",
+          "resetType": "codexRateLimits",
+          "status": "available",
+          "grantedAt": 1790709717,
+          "expiresAt": 1793301717,
+          "title": "Full reset",
+          "description": "Thanks for using Codex! You've been granted one free rate limit reset."
+        },
+        {
+          "id": "RateLimitResetCredit_f3c017ec15f88191ac2aae0998b960c0",
+          "resetType": "codexRateLimits",
+          "status": "available",
+          "grantedAt": 1791416909,
+          "expiresAt": 1794008909,
+          "title": "Full reset",
+          "description": "Thanks for using Codex! You've been granted one free rate limit reset."
+        }
+      ]
+    },
+    "accountId": "22e329a4-500d-4760-9e9f-e5ba9c1c5057",
+    "rateLimitUpsell": null
+  },
+  "readOnly": true,
+  "modelTurns": 0
+}
