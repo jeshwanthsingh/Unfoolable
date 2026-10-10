@@ -54,3 +54,5 @@ Run `./cc chat` to open the authenticated chat, or `./cc chat "what's running?"`
 Only drafting uses AI: a fresh read-only pinned Codex session converts your message into a title, repository, request and done criteria. It may ask one question. Review or edit the versioned draft and press **Start**; messages alone never start work. Draft token usage is recorded, including rejected attempts. Status answers and ticket updates come from SQLite events; the fuel line uses the read-only account limits endpoint and shows unknown if unavailable.
 
 Keep, Discard, Recheck, playbook approval and existing permission decisions use exact-item buttons. A changed or already-resolved item rejects the old button. Existing explicit ticket CLI controls remain available. Keep creates only the local `cc/<ticket-id>` branch; chat supplies inspect and manual merge commands. CC never merges or pushes.
+
+The test suite uses four workers because its fixtures launch real protected processes. This avoids oversubscribing process-recording and correction fixtures; their assertions and deadlines are unchanged.

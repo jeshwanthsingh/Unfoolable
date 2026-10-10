@@ -1,0 +1,17 @@
+{
+  "command": "npm test (four workers)",
+  "tests": 750,
+  "passed": 750,
+  "failed": 0,
+  "skipped": 0,
+  "seconds": 233.50941362499998,
+  "typecheck": "PASS",
+  "build": "PASS",
+  "negativeControls": {
+    "count": 12,
+    "negativePasses": 0
+  },
+  "newDependencies": 0,
+  "frozenCandidate": "cb8a026cb203d664e42f7565ac7863456e7fc8bb",
+  "sourceUnchanged": true
+}

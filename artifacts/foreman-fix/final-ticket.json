@@ -1,0 +1,50 @@
+{
+  "ticket": {
+    "id": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+    "title": "Add top-level research --version option",
+    "requestText": "Add a top-level `research --version` option that prints the package version and exits successfully without requiring configuration, network access, or state files. Add focused tests and preserve existing commands.\n\nDone means:\n`research --version` prints the package version and exits with status 0 without configuration, network access, or state files. Focused tests cover this behavior, and existing commands retain their behavior.",
+    "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+    "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+    "status": "ready_for_review",
+    "attemptCount": 4,
+    "candidateCommits": [
+      "cb8a026cb203d664e42f7565ac7863456e7fc8bb"
+    ],
+    "checkVerdict": "PASSED WITH GAPS",
+    "createdAt": "2026-10-10T13:48:14.079Z",
+    "updatedAt": "2026-10-10T15:32:40.407Z"
+  },
+  "stats": {
+    "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+    "submitToReviewMs": 5057637,
+    "agentWorkingMs": 64550.715083999996,
+    "agentTimeIncomplete": false,
+    "needsYouStops": 1,
+    "fixAttempts": 0,
+    "finalVerdict": "PASSED WITH GAPS",
+    "decision": null
+  },
+  "check": {
+    "mode": "recheck",
+    "candidate": "cb8a026cb203d664e42f7565ac7863456e7fc8bb",
+    "verdict": "PASSED WITH GAPS",
+    "gaps": [
+      "Existing verifier: ai-task-checks: Advisory task checks not requested; original intent is not automatically proved.",
+      "Project playbook checks are regression guards; new intent is not independently proved."
+    ],
+    "failures": [],
+    "verificationId": "e98c623a-2851-44bb-9b30-a86ba13521c2",
+    "evidenceHash": "806cffe1496960ed4885099d2ee1dd8348b9212f45f2d00e2ad8f495f07ddbb4",
+    "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
+    "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/c79385f1-8fd4-4b73-889c-26cd83df4669/bound-result.json",
+    "playbookResultHash": "c775578eefe8c4f9dc9169998cc050414bcf12e255b301d83d25a348662c2eb1"
+  },
+  "keepAvailable": true,
+  "evidenceStale": false,
+  "sameCandidateAfterRecheck": true,
+  "noKeepOrDiscard": true,
+  "latestRecheck": {
+    "mode": "recheck",
+    "candidate": "cb8a026cb203d664e42f7565ac7863456e7fc8bb"
+  }
+}
