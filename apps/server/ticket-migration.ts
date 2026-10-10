@@ -14,6 +14,8 @@ export function migrateTickets(db:DatabaseSync){
  created_at TEXT NOT NULL CHECK(length(created_at)>0),updated_at TEXT NOT NULL CHECK(length(updated_at)>0)
  ) STRICT;
  CREATE INDEX tickets_created ON tickets(created_at DESC,id);
+ CREATE TRIGGER ticket_candidates_insert BEFORE INSERT ON tickets WHEN json_array_length(NEW.candidate_commits)>1000 OR EXISTS(SELECT 1 FROM json_each(NEW.candidate_commits) WHERE type!='text' OR length(value) NOT IN(40,64) OR value GLOB '*[^0-9a-f]*') OR (SELECT count(*) FROM json_each(NEW.candidate_commits))!=(SELECT count(DISTINCT value) FROM json_each(NEW.candidate_commits)) BEGIN SELECT RAISE(ABORT,'Invalid candidate commits'); END;
+ CREATE TRIGGER ticket_candidates_update BEFORE UPDATE OF candidate_commits ON tickets WHEN json_array_length(NEW.candidate_commits)>1000 OR EXISTS(SELECT 1 FROM json_each(NEW.candidate_commits) WHERE type!='text' OR length(value) NOT IN(40,64) OR value GLOB '*[^0-9a-f]*') OR (SELECT count(*) FROM json_each(NEW.candidate_commits))!=(SELECT count(DISTINCT value) FROM json_each(NEW.candidate_commits)) BEGIN SELECT RAISE(ABORT,'Invalid candidate commits'); END;
  CREATE TABLE ticket_events(sequence INTEGER PRIMARY KEY AUTOINCREMENT,ticket_id TEXT NOT NULL REFERENCES tickets(id) ON DELETE RESTRICT,
  kind TEXT NOT NULL CHECK(kind IN(${ticketEventKinds.map(s=>"'"+s+"'").join(',')})),
  data_json TEXT NOT NULL CHECK(json_valid(data_json) AND json_type(data_json)='object' AND length(CAST(data_json AS BLOB))<=65536),created_at TEXT NOT NULL CHECK(length(created_at)>0)) STRICT;

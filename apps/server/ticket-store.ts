@@ -1,7 +1,7 @@
 import {randomUUID} from 'node:crypto';
 import {isAbsolute} from 'node:path';
 import type {DatabaseSync} from 'node:sqlite';
-import {ticketEventKinds,ticketCheckVerdicts,type TicketCheckVerdict,type Ticket,type TicketEvent,type TicketEventKind} from '../../packages/shared/tickets.ts';
+import {ticketEventKinds,ticketCheckVerdicts,type TicketCheckVerdict,type TicketStatus,type Ticket,type TicketEvent,type TicketEventKind} from '../../packages/shared/tickets.ts';
 const sha=(v:unknown):v is string=>typeof v==='string'&&/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(v);
 function text(v:unknown,max:number){return typeof v==='string'&&v.trim().length>0&&v.length<=max&&!v.includes('\0');}
 function requireTicket(db:DatabaseSync,id:string){const t=getTicket(db,id);if(!t)throw new Error('Ticket not found');return t;}
@@ -21,9 +21,44 @@ export function createTicket(db:DatabaseSync,input:{title:string;requestText:str
  return transaction(db,()=>{const id=randomUUID(),now=new Date().toISOString();db.prepare("INSERT INTO tickets(id,title,request_text,repo_path,base_commit,status,created_at,updated_at) VALUES(?,?,?,?,?,'queued',?,?)").run(id,input.title,input.requestText,input.repoPath,input.baseCommit,now,now);appendTicketEvent(db,id,'submitted',{});return requireTicket(db,id);});
 }
 export function updateTicket(db:DatabaseSync,id:string,patch:{attemptCount?:number;candidateCommits?:string[];checkVerdict?:TicketCheckVerdict|null}):Ticket{
- const t=requireTicket(db,id);if(Object.keys(patch).some(k=>!['attemptCount','candidateCommits','checkVerdict'].includes(k)))throw new Error('Invalid ticket update field');
+ const t=requireTicket(db,id);if(['ready_for_review','kept','discarded','cancelled'].includes(t.status))throw new Error('Ticket candidate is frozen or terminal');if(Object.keys(patch).some(k=>!['attemptCount','candidateCommits','checkVerdict'].includes(k)))throw new Error('Invalid ticket update field');
  if(patch.attemptCount!==undefined&&(!Number.isSafeInteger(patch.attemptCount)||patch.attemptCount<t.attemptCount))throw new Error('Invalid attempt count');
  if(patch.candidateCommits!==undefined&&(!Array.isArray(patch.candidateCommits)||patch.candidateCommits.length>1000||!patch.candidateCommits.every(sha)||new Set(patch.candidateCommits).size!==patch.candidateCommits.length))throw new Error('Invalid candidate commits');
  if(patch.checkVerdict!==undefined&&patch.checkVerdict!==null&&!ticketCheckVerdicts.includes(patch.checkVerdict))throw new Error('Invalid check verdict');
  db.prepare('UPDATE tickets SET attempt_count=?,candidate_commits=?,check_verdict=?,updated_at=? WHERE id=?').run(patch.attemptCount??t.attemptCount,JSON.stringify(patch.candidateCommits??t.candidateCommits),patch.checkVerdict===undefined?t.checkVerdict:patch.checkVerdict,new Date().toISOString(),id);return requireTicket(db,id);
+}
+
+export const ticketTransitions:Readonly<Record<TicketStatus,readonly TicketStatus[]>>={
+ queued:['building','cancelled','harness_error','discarded'],
+ building:['checking','needs_you','interrupted','cancelled','harness_error'],
+ checking:['fixing','ready_for_review','needs_you','interrupted','cancelled','harness_error'],
+ fixing:['checking','needs_you','interrupted','cancelled','harness_error'],
+ ready_for_review:['kept','discarded'],needs_you:['queued','cancelled','discarded'],
+ interrupted:['queued','cancelled','discarded'],harness_error:['queued','cancelled','discarded'],
+ kept:[],discarded:[],cancelled:[]
+};
+function rejection(db:DatabaseSync,t:Ticket,next:TicketStatus,reason:string){appendTicketEvent(db,t.id,'transition_rejected',{from:t.status,to:next,reason});return Object.assign(new Error('Ticket transition rejected: '+reason),{code:'TICKET_TRANSITION_REJECTED'});}
+function changeState(db:DatabaseSync,t:Ticket,next:TicketStatus,data:Record<string,unknown>):Ticket{
+ appendTicketEvent(db,t.id,'state_changed',{...data,from:t.status,to:next,...(next==='building'||next==='fixing'?{attemptKind:next==='fixing'?'fix':'build'}:{})});
+ const increment=next==='building'||next==='fixing'?1:0;
+ db.prepare('UPDATE tickets SET status=?,attempt_count=attempt_count+?,updated_at=? WHERE id=?').run(next,increment,new Date().toISOString(),t.id);return requireTicket(db,t.id);
+}
+export function transitionTicket(db:DatabaseSync,id:string,next:TicketStatus,data:Record<string,unknown>={}):Ticket{
+ // Commit rejections before throwing so the caller cannot accidentally erase the audit event.
+ const result=transaction(db,()=>{const t=requireTicket(db,id);
+  if(!ticketTransitions[t.status].includes(next))return rejection(db,t,next,'invalid edge');
+  if(next==='kept'||next==='discarded')return rejection(db,t,next,'explicit human decision required');
+  if(next==='fixing'&&Number(db.prepare("SELECT count(*) AS n FROM ticket_events WHERE ticket_id=? AND kind='state_changed' AND json_extract(data_json,'$.to')='fixing'").get(id)!.n)>=2)return rejection(db,t,next,'two fix attempts exhausted');
+  return changeState(db,t,next,data);
+ });if(result instanceof Error)throw result;return result;
+}
+/** Call only after external Keep materialization succeeds; persistence does not mutate Git. */
+export function decideTicket(db:DatabaseSync,id:string,decision:'keep'|'discard',expectedCandidate?:string):Ticket{
+ const result=transaction(db,()=>{const t=requireTicket(db,id),next=decision==='keep'?'kept':'discarded';
+  if(decision!=='keep'&&decision!=='discard')return rejection(db,t,next,'invalid decision');
+  if(!ticketTransitions[t.status].includes(next))return rejection(db,t,next,'decision unavailable in current state');
+  if(decision==='keep'&&(t.status!=='ready_for_review'||!expectedCandidate||expectedCandidate!==t.candidateCommits.at(-1)))return rejection(db,t,next,'current frozen candidate must be confirmed');
+  appendTicketEvent(db,id,'decision',{decision,candidate:expectedCandidate??t.candidateCommits.at(-1)??null,checkVerdict:t.checkVerdict});
+  return changeState(db,t,next,{decision});
+ });if(result instanceof Error)throw result;return result;
 }
