@@ -1,0 +1,29 @@
+.chat-panel { max-width: 920px; margin: 0 auto; }
+.chat-header { display:flex; justify-content:space-between; align-items:start; gap:20px; border-bottom:1px solid var(--border, #36413e); padding-bottom:20px; }
+.chat-header h2 { margin:0 0 8px; }
+.chat-header p { margin:0; }
+.chat-fuel { font-size:12px; max-width:230px; text-align:right; }
+.chat-fuel span { display:block; }
+.chat-log { list-style:none; padding:0; margin:24px 0; display:grid; gap:18px; }
+.chat-message { padding:16px 18px; border-left:2px solid var(--border, #36413e); overflow-wrap:anywhere; }
+.chat-message[data-role="user"] { background:var(--surface-elevated, #242a27); border-left-color:var(--accent, #cfbb87); }
+.chat-message header { display:flex; gap:16px; justify-content:space-between; font-size:12px; margin-bottom:8px; }
+.chat-message p { white-space:pre-wrap; margin:0; }
+.chat-message time { opacity:.7; }
+.chat-card { border:1px solid var(--border, #36413e); border-radius:12px; padding:20px; margin:18px 0; overflow-wrap:anywhere; }
+.chat-card h3 { margin-top:0; }
+.chat-card dl { margin:16px 0; }
+.chat-card dt { font-size:12px; margin-top:14px; opacity:.75; }
+.chat-card dd { margin:5px 0; white-space:pre-wrap; }
+.chat-card code { overflow-wrap:anywhere; }
+.chat-card summary { cursor:pointer; }
+.chat-card pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+.chat-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+.chat-panel form { display:grid; gap:12px; }
+.chat-panel label { display:grid; gap:6px; }
+.chat-panel input, .chat-panel textarea { width:100%; box-sizing:border-box; font:inherit; padding:12px; color:inherit; background:var(--surface-elevated, #242a27); border:1px solid var(--border, #66706b); border-radius:8px; }
+.chat-composer { border-top:1px solid var(--border, #36413e); padding-top:20px; margin-top:28px; }
+.chat-composer button { justify-self:start; }
+.chat-panel button:focus-visible, .chat-panel input:focus-visible, .chat-panel textarea:focus-visible, .chat-panel summary:focus-visible { outline:2px solid var(--accent, #cfbb87); outline-offset:4px; }
+@media(max-width:600px) { .chat-header { display:block; } .chat-fuel { text-align:left; max-width:none; margin-top:14px; } .chat-message { padding:12px; } .chat-card { padding:14px; } .chat-message header { flex-wrap:wrap; gap:5px; } .chat-actions button { flex:1 1 120px; } }
+@media(prefers-reduced-motion:reduce) { .chat-panel *, .chat-panel *::before, .chat-panel *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }

@@ -6,7 +6,7 @@ import {join} from 'node:path';
 import {openDatabase} from '../apps/server/database.ts';
 test('migration 7 adds only three planning tables and preserves contract table layout',()=>{
  const root=mkdtempSync(join(tmpdir(),'cc-planning-migrate-')),database=openDatabase(root,()=>{});
- try{assert.equal(database.version(),15);assert.equal(database.connection.prepare('PRAGMA user_version').get()!.user_version,15);
+ try{assert.equal(database.version(),16);assert.equal(database.connection.prepare('PRAGMA user_version').get()!.user_version,16);
  const tables=database.connection.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name IN('planning_drafts','plan_revisions','evaluation_contract_revisions') ORDER BY name").all();assert.equal(tables.length,3);
  assert.equal(database.connection.prepare('PRAGMA table_info(mission_contract_revisions)').all().length,10);
  }finally{database.close();rmSync(root,{recursive:true,force:true});}
@@ -149,8 +149,8 @@ test('exact Breakout 5 schema migration preserves all nine tables byte-for-byte 
  const store=createContractStore(db,()=>{},async()=>({output:payload,toolVersion:'fake',elapsedMs:1}));const accepted=store.accept((await store.compile('mission')).draft!.id).accepted!;store.revise('mission',accepted.id);const attention=store.attention(),view=store.view('mission');
  const names=['schema_migrations','projects','missions','project_context_snapshots','mission_analyses','clarification_questions','clarification_answers','contract_drafts','mission_contract_revisions'];
  const before=names.map(name=>({name,rows:db.prepare('SELECT * FROM '+name+' ORDER BY rowid').all()}));assert.equal(before.length,9);assert.ok(before.every(t=>t.rows.length>0));store.close();db.close();
- upgraded=openDatabase(root,()=>{});assert.equal(upgraded.version(),15);for(const t of before){const rows:Record<string,unknown>[]=upgraded.connection.prepare('SELECT * FROM '+t.name+' ORDER BY rowid').all();assert.deepEqual(t.name==='schema_migrations'?rows.slice(0,6):rows,t.rows,t.name);}
+ upgraded=openDatabase(root,()=>{});assert.equal(upgraded.version(),16);for(const t of before){const rows:Record<string,unknown>[]=upgraded.connection.prepare('SELECT * FROM '+t.name+' ORDER BY rowid').all();assert.deepEqual(t.name==='schema_migrations'?rows.slice(0,6):rows,t.rows,t.name);}
  const after=createContractStore(upgraded.connection,()=>{},async()=>{throw Error('no AI after migration');});assert.deepEqual(after.view('mission'),view);assert.deepEqual(after.attention(),attention);assert.equal(attention.length,1);after.close();
- assert.equal(upgraded.connection.prepare("SELECT count(*) AS n FROM sqlite_master WHERE type='table'").get()!.n,37);
+ assert.equal(upgraded.connection.prepare("SELECT count(*) AS n FROM sqlite_master WHERE type='table'").get()!.n,41);
  }finally{if(db.isOpen)db.close();upgraded?.close();rmSync(root,{recursive:true,force:true});}
 });

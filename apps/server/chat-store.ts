@@ -1,0 +1,33 @@
+import {randomUUID} from 'node:crypto';
+import type {DatabaseSync} from 'node:sqlite';
+import type {ChatAction,ChatCard,ChatDraft,ChatMessage,ChatUsage} from '../../packages/shared/chat.ts';
+type Row=Record<string,unknown>;
+const now=()=>new Date().toISOString();
+function message(r:Row):ChatMessage{return {sequence:Number(r.sequence),role:r.role as ChatMessage['role'],text:String(r.text),kind:r.kind as ChatMessage['kind'],draftId:r.draft_id as string|null,cardId:r.card_id as string|null,ticketEventSequence:r.ticket_event_sequence as number|null,createdAt:String(r.created_at)};}
+function draft(r:Row):ChatDraft{return {id:String(r.id),originalMessageId:Number(r.original_message_id),version:Number(r.version),status:r.status as ChatDraft['status'],title:String(r.title),repoPath:String(r.repo_path),requestText:String(r.request_text),doneMeans:String(r.done_means),question:r.question as string|null,questionAsked:r.question_asked===1,usage:JSON.parse(String(r.usage_json)) as ChatUsage[],ticketId:r.ticket_id as string|null,createdAt:String(r.created_at),updatedAt:String(r.updated_at)};}
+function card(r:Row):ChatCard{return {id:String(r.id),kind:r.kind as ChatCard['kind'],targetId:String(r.target_id),binding:String(r.binding),summary:String(r.summary),verdict:r.verdict as string|null,actions:JSON.parse(String(r.actions_json)) as ChatAction[],status:r.status as ChatCard['status'],resolution:r.resolution as ChatAction|null,createdAt:String(r.created_at),resolvedAt:r.resolved_at as string|null};}
+export type DraftInput={title?:string;repoPath?:string;requestText?:string;doneMeans?:string;question?:string|null;questionAsked?:boolean;usage?:ChatUsage[];status?:ChatDraft['status']};
+export function createChatStore(db:DatabaseSync){
+ const getDraft=(id:string)=>{const r=db.prepare('SELECT * FROM chat_drafts WHERE id=?').get(id);return r?draft(r):null;};
+ const getCard=(id:string)=>{const r=db.prepare('SELECT * FROM chat_cards WHERE id=?').get(id);return r?card(r):null;};
+ const appendMessage=(input:{role:ChatMessage['role'];text:string;kind?:ChatMessage['kind'];draftId?:string|null;cardId?:string|null;ticketEventSequence?:number|null})=>{
+  if(input.ticketEventSequence!==undefined&&input.ticketEventSequence!==null){const previous=db.prepare('SELECT * FROM chat_messages WHERE ticket_event_sequence=?').get(input.ticketEventSequence);if(previous)return message(previous);}
+  const result=db.prepare('INSERT INTO chat_messages(role,text,kind,draft_id,card_id,ticket_event_sequence,created_at) VALUES(?,?,?,?,?,?,?)').run(input.role,input.text,input.kind??'message',input.draftId??null,input.cardId??null,input.ticketEventSequence??null,now());return message(db.prepare('SELECT * FROM chat_messages WHERE sequence=?').get(result.lastInsertRowid)!);
+ };
+ const createDraft=(originalMessageId:number,input:DraftInput={})=>{const id=randomUUID(),time=now();db.prepare('INSERT INTO chat_drafts VALUES(?,?,1,?,?,?,?,?,?,?,?,NULL,?,?)').run(id,originalMessageId,input.status??'DRAFT',input.title??'',input.repoPath??'',input.requestText??'',input.doneMeans??'',input.question??null,input.questionAsked?1:0,JSON.stringify(input.usage??[]),time,time);return getDraft(id)!;};
+ const updateDraft=(id:string,expectedVersion:number,patch:DraftInput&{ticketId?:string|null})=>{
+  const previous=getDraft(id);if(!previous||previous.version!==expectedVersion||['STARTED','CANCELLED'].includes(previous.status))return null;
+  const next={...previous,...patch};const result=db.prepare('UPDATE chat_drafts SET version=version+1,status=?,title=?,repo_path=?,request_text=?,done_means=?,question=?,question_asked=?,usage_json=?,ticket_id=?,updated_at=? WHERE id=? AND version=? AND status NOT IN(\'STARTED\',\'CANCELLED\')').run(next.status,next.title,next.repoPath,next.requestText,next.doneMeans,next.question,next.questionAsked?1:0,JSON.stringify(next.usage),next.ticketId,now(),id,expectedVersion);return result.changes===1?getDraft(id):null;
+ };
+ const createCard=(input:Pick<ChatCard,'kind'|'targetId'|'binding'|'summary'|'actions'>&{verdict?:string|null})=>{const existing=db.prepare("SELECT * FROM chat_cards WHERE kind=? AND target_id=? AND binding=? AND status IN('PENDING','RESOLVING')").get(input.kind,input.targetId,input.binding);if(existing)return card(existing);const id=randomUUID();db.prepare("INSERT INTO chat_cards VALUES(?,?,?,?,?,?,?,'PENDING',NULL,?,NULL)").run(id,input.kind,input.targetId,input.binding,input.summary,input.verdict??null,JSON.stringify(input.actions),now());return getCard(id)!;};
+ const reserveCard=(id:string,binding:string,action:ChatAction)=>{const previous=getCard(id);if(!previous||previous.binding!==binding||previous.status!=='PENDING'||!previous.actions.includes(action))return null;const result=db.prepare("UPDATE chat_cards SET status='RESOLVING',resolution=? WHERE id=? AND binding=? AND status='PENDING'").run(action,id,binding);return result.changes===1?getCard(id):null;};
+ const finishCard=(id:string,status:'RESOLVED'|'STALE'|'ERROR')=>{const result=db.prepare("UPDATE chat_cards SET status=?,resolved_at=? WHERE id=? AND status IN('PENDING','RESOLVING')").run(status,now(),id);return result.changes===1?getCard(id):null;};
+ const messages=(after=0)=>db.prepare('SELECT * FROM chat_messages WHERE sequence>? ORDER BY sequence').all(after).map(message);
+ const drafts=()=>db.prepare('SELECT * FROM chat_drafts ORDER BY created_at,id').all().map(draft);
+ const cards=()=>db.prepare('SELECT * FROM chat_cards ORDER BY created_at,id').all().map(card);
+ const projectionCursor=()=>Number(db.prepare('SELECT ticket_event_sequence FROM chat_projection WHERE id=1').get()!.ticket_event_sequence);
+ const advanceProjection=(sequence:number)=>{if(!Number.isSafeInteger(sequence)||sequence<0)throw new Error('Invalid projection sequence');db.prepare('UPDATE chat_projection SET ticket_event_sequence=max(ticket_event_sequence,?) WHERE id=1').run(sequence);};
+ const eventsAfterCursor=()=>db.prepare('SELECT * FROM ticket_events WHERE sequence>? ORDER BY sequence').all(projectionCursor());
+ const recover=()=>{db.prepare("UPDATE chat_drafts SET status='ERROR',version=version+1,updated_at=? WHERE status='STARTING'").run(now());db.prepare("UPDATE chat_cards SET status='ERROR',resolved_at=? WHERE status='RESOLVING'").run(now());};
+ return {appendMessage,messages,createDraft,draft:getDraft,drafts,pendingDraft:()=>drafts().findLast(d=>d.status==='QUESTION')??null,updateDraft,createCard,card:getCard,cards,reserveCard,finishCard,projectionCursor,advanceProjection,eventsAfterCursor,recover,view:()=>({messages:messages(),drafts:drafts(),cards:cards()})};
+}
