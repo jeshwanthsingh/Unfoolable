@@ -21,7 +21,7 @@ if(requests.every(r=>r.kind==='SUITE'||r.kind==='SCOPE')){
    fs.writeFileSync(config,'export default '+stringify({root,server:{host:'127.0.0.1'},cacheDir:path.join(scratch,'vite-cache'),resolve:{alias:{'@':path.join(root,'src'),vitest:path.join(depsRoot,'vitest/dist/index.js')}},test:{include,environment:'jsdom',globals:true,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false,cache:false}})+';');
    const result=spawnSync(process.execPath,[path.join(depsRoot,'vitest/vitest.mjs'),'run','--config',config,'--reporter=json','--outputFile',report],{cwd:root,env:{PATH:process.env.PATH,HOME:scratch,TMPDIR:scratch,LANG:'C',TZ:'UTC',NODE_ENV:'test'},timeout:100000,maxBuffer:262144});
    if(result.error||!fs.existsSync(report))throw Error('native Vitest suite recorder incomplete: '+String(result.error?.message??'')+' '+String(result.stderr??'').slice(0,1600));
-   rows.push({id:request.id,returnValue:{exitCode:result.status,report:JSON.parse(fs.readFileSync(report,'utf8'))},exception:null});
+   rows.push({id:request.id,returnValue:{exitCode:result.status,report:JSON.parse(fs.readFileSync(report,'utf8')),stderr:String(result.stderr??'').slice(0,2048)},exception:null});
   }catch(error){rows.push({id:request.id,returnValue:null,exception:{name:error?.name??'Error',message:String(error?.message??error).slice(0,2048)}});}
  }
  write(fd,stringify({version:'observations-v1',observations:rows})+'\n');process.exit(0);
@@ -55,7 +55,7 @@ try {
         fs.writeFileSync(config,'export default '+stringify({root,server:{host:'127.0.0.1'},cacheDir:path.join(scratch,'vite-cache'),resolve:{alias:{'@':path.join(root,'src')}},test:{include:['src/**/*.test.{ts,tsx}','src/**/*.spec.{ts,tsx}'],environment:'jsdom',globals:true,pool:'threads',maxWorkers:1,minWorkers:1,fileParallelism:false}})+';');
         const result=spawnSync(process.execPath,[path.join(depsRoot,'vitest/vitest.mjs'),'run','--config',config,'--reporter=json','--outputFile',report],{cwd:root,env:{PATH:process.env.PATH,HOME:scratch,TMPDIR:scratch,LANG:'C',TZ:'UTC',NODE_ENV:'test'},timeout:100000,maxBuffer:262144});
         if(result.error||!fs.existsSync(report))throw Error('native Vitest suite recorder incomplete: '+String(result.error?.message??'')+' '+String(result.stderr??'').slice(0,1600));
-        rows.push({id:request.id,returnValue:{exitCode:result.status,report:JSON.parse(fs.readFileSync(report,'utf8'))}});continue;
+        rows.push({id:request.id,returnValue:{exitCode:result.status,report:JSON.parse(fs.readFileSync(report,'utf8')),stderr:String(result.stderr??'').slice(0,2048)}});continue;
       }
       await context.route('**/*', route => {
         const url = new URL(route.request().url());

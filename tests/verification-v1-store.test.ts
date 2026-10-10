@@ -117,3 +117,16 @@ test('tampered durable Land intent cannot change the verified branch, evidence, 
   }
  }finally{await store.close();f.db.close();}
 });
+
+test('recipe failing this BASE cannot falsely reject a Candidate; BASE-passing recipe still rejects a regression',async()=>{
+ const f=fixture(),store=f.makeStore();try{
+  await seedRecipe(store,f);
+  const created=await store.create({...f.input,candidateRef:f.base}),unchanged=await store.wait(created.id);
+  assert.equal(unchanged.result?.v1?.verdict,'PASSED WITH GAPS',unchanged.error??'');
+  const c=unchanged.result!.v1!.layers[1]!.checks[0]!;assert.equal(c.baseStatus,'FAIL');assert.equal(c.candidateStatus,'FAIL');assert.equal(c.status,'NOT CHECKED');assert.match(c.reason!,/Not applicable to this BASE/);
+  const regression=await store.create({...f.input,baseRef:f.candidate,candidateRef:f.base}),failed=await store.wait(regression.id);
+  assert.equal(failed.result?.v1?.verdict,'FAILED',failed.error??'');assert.equal(failed.result!.v1!.layers[0]!.status,'PASS');assert.equal(failed.result!.v1!.layers[1]!.checks[0]!.baseStatus,'PASS');assert.equal(failed.result!.v1!.layers[1]!.checks[0]!.candidateStatus,'FAIL');assert.equal(failed.result!.v1!.canLand,false);
+  const newly=await store.create(f.input),done=await store.wait(newly.id);assert.match(done.result!.v1!.layers[1]!.checks[0]!.reason!,/newly satisfied/);assert.equal(isVerifyView(done),true);
+  writeFileSync(join(done.result!.evidence!.recipeBase!.path,'unexpected.txt'),'tampered BASE evidence');assert.equal(store.view(newly.id).result?.status,'STALE');
+ }finally{await store.close();f.db.close();}
+});

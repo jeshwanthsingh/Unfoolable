@@ -47,3 +47,14 @@ test('v1 view maps verdict to public result while preserving historical result s
  historical.result.acceptance='PASSED WITH GAPS';assert.equal(isVerifyView(historical),false);
  for(const mutate of [(v:any)=>v.review=null,(v:any)=>v.result.evidence=null,(v:any)=>v.result.v1.recipeIds=[]]){const v=view();mutate(v);assert.equal(isVerifyView(v),false);}
 });
+
+test('v1 scopes regression recipes by measured BASE outcome and keeps nonapplicable results informational',()=>{
+ const scoped=layers();scoped[1]!.checks=[{id:'new-behavior',status:'NOT CHECKED',reason:'Not applicable to this BASE; newly satisfied.',baseStatus:'FAIL',candidateStatus:'PASS'}];
+ assert.deepEqual(scoreV1(scoped),{verdict:'VERIFIED',canLand:true});
+ scoped[1]!.checks[0]!.candidateStatus='FAIL';assert.deepEqual(scoreV1(scoped),{verdict:'VERIFIED',canLand:true});
+ scoped[1]!.checks[0]!.baseStatus='PASS';assert.deepEqual(scoreV1(scoped),{verdict:'FAILED',canLand:false});
+ scoped[1]!.checks[0]!.status='FAIL';assert.deepEqual(scoreV1(scoped),{verdict:'FAILED',canLand:false});
+ scoped[1]!.checks[0]!.status='ERROR';scoped[1]!.checks[0]!.baseStatus='ERROR';assert.deepEqual(scoreV1(scoped),{verdict:'ERROR',canLand:false});
+ const valid=report();valid.layers[1]!.checks=[{id:'new-behavior',status:'NOT CHECKED',reason:'Not applicable to this BASE',baseStatus:'FAIL',candidateStatus:'PASS'}];Object.assign(valid,scoreV1(valid.layers));assert.equal(isV1Report(valid),true);
+ for(const mutate of [(v:any)=>v.layers[1].checks[0].baseStatus='NOT CHECKED',(v:any)=>delete v.layers[1].checks[0].candidateStatus,(v:any)=>v.layers[0].checks[0].baseStatus='FAIL']){const r=structuredClone(valid);mutate(r);assert.equal(isV1Report(r),false);}
+});

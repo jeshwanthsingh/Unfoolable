@@ -24,3 +24,5 @@ browser-profiles/
 
 __pycache__/
 *.pyc
+
+.work/

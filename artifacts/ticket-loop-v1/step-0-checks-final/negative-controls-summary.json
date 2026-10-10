@@ -1,0 +1,129 @@
+{
+  "completed": true,
+  "negativePasses": 0,
+  "results": [
+    {
+      "label": "observation-pipe-forgery-review-on",
+      "status": "INCONCLUSIVE",
+      "tree": "1436ff87fd473519b7c167c05e04724f7b0d8d75",
+      "nativeInvariant": null
+    },
+    {
+      "label": "R1-review-off",
+      "status": "FAIL",
+      "tree": "76463a8f4422366ad50a68bbcf83791dda4a1427",
+      "nativeInvariant": null
+    },
+    {
+      "label": "native-judge-skipped",
+      "status": "INCONCLUSIVE",
+      "tree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
+      "nativeInvariant": {
+        "kind": "skipped",
+        "exact": true,
+        "judge": {
+          "status": "INCONCLUSIVE",
+          "testsRun": 1,
+          "tests": [
+            {
+              "id": "oracle_judge.TestSkipped.test_e1",
+              "status": "skipped"
+            }
+          ]
+        },
+        "passRequiresExactlyOnePassedTest": true
+      }
+    },
+    {
+      "label": "native-judge-zero-collected",
+      "status": "INCONCLUSIVE",
+      "tree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
+      "nativeInvariant": {
+        "kind": "zero",
+        "exact": true,
+        "judge": {
+          "status": "INCONCLUSIVE",
+          "testsRun": 0,
+          "tests": []
+        },
+        "passRequiresExactlyOnePassedTest": true
+      }
+    },
+    {
+      "label": "skipped-existing-test-restored",
+      "status": "FAIL",
+      "tree": "fca4cb1265197cade8076e98e5dc52696ce64b3e",
+      "nativeInvariant": null
+    },
+    {
+      "label": "deleted-existing-test-restored",
+      "status": "FAIL",
+      "tree": "650bd3f6fa6f7b9c8332213094a641ebc2c8cb87",
+      "nativeInvariant": null
+    },
+    {
+      "label": "edited-existing-test-restored",
+      "status": "FAIL",
+      "tree": "9f7e50933bc670b21e9adcefaebe833015a3feb8",
+      "nativeInvariant": null
+    },
+    {
+      "label": "early-exit-0",
+      "status": "INCONCLUSIVE",
+      "tree": "09f17a4e53406d6af1bd760b89a4e9b9620b370b",
+      "nativeInvariant": null
+    },
+    {
+      "label": "symlink-escape",
+      "status": "INCONCLUSIVE",
+      "tree": "26825af3a38f996af164631b754ec323d0c748a8",
+      "nativeInvariant": null
+    },
+    {
+      "label": "dependency-change",
+      "status": "INCONCLUSIVE",
+      "tree": "6a53253146ff0e291c105e567206cf79e00200e9",
+      "nativeInvariant": null
+    },
+    {
+      "label": "oversized-output",
+      "status": "FAIL",
+      "tree": "1c4c0bc366e47490175930e7da5aa79058cf6746",
+      "nativeInvariant": null
+    },
+    {
+      "label": "timeout",
+      "status": "INCONCLUSIVE",
+      "tree": "3200b31931b1660bd1b0389f2f3ce93e56f00e55",
+      "nativeInvariant": null
+    }
+  ],
+  "coreUnchanged": true,
+  "coreHashesAfter": {
+    "apps/server/oracle-execution.ts": "3cc9eb47050f17b6a3be3371f7219420ef8b930d742286da551468994d631239",
+    "apps/server/oracle-tree.ts": "3d7f148b7ac5dec0316980158edb92f49c2950ad826df0559f35e6b6d6350e36",
+    "scripts/protected-verification/python-observer.py": "9392769b7fbd2dabbdaf567c337a17eb53b0c456cb34b417b658a1ed2c75ddc8",
+    "scripts/protected-verification/python-judge.py": "9223bf6b5f6c371ae2ae43b04ceecc0f1a6574e2a1646992037e81bb042a6ad0"
+  },
+  "limits": "Review tripwire is a heuristic human-review gate, not observation authenticity. Historical zero-project-tests was deletion of a Candidate file; this run includes actual zero-collected native judge.",
+  "identity": {
+    "repository": "/Users/jeshwanthsingh/Projects/ai-lab/command-center",
+    "repositoryHead": "034c280370f7aac73841ab39158a40483fadf318",
+    "baseHead": "0109c631ca600b675be6e140724c71d2b88fdab5",
+    "baseTree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
+    "patchPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/breakout-11/process-isolated/observation-pipe-forgery.patch",
+    "patchSHA256": "810ffa9d1ef9495d62577014954e2b56273331c3bcbdb1157e8df6d65847d676",
+    "baseModuleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+    "forgedModuleSHA256": "86b984ff2457be3b6c985c1b7404f49e5e798cac4fd9591816be3fa79cf99490",
+    "r1ModuleSHA256": "50d610b9f933a6beb22e234b4e8899cacbe7569875f863513af13fa98d0b85d5",
+    "oracleSHA256": "429bd08e5ca0e909b1951ba5ef44d13eef5be74a9a138e350ad3a9416a5dc948",
+    "coreHashes": {
+      "apps/server/oracle-execution.ts": "3cc9eb47050f17b6a3be3371f7219420ef8b930d742286da551468994d631239",
+      "apps/server/oracle-tree.ts": "3d7f148b7ac5dec0316980158edb92f49c2950ad826df0559f35e6b6d6350e36",
+      "scripts/protected-verification/python-observer.py": "9392769b7fbd2dabbdaf567c337a17eb53b0c456cb34b417b658a1ed2c75ddc8",
+      "scripts/protected-verification/python-judge.py": "9223bf6b5f6c371ae2ae43b04ceecc0f1a6574e2a1646992037e81bb042a6ad0"
+    },
+    "assurance": "IN-PROCESS",
+    "reviewAidGuarantee": false
+  }
+}
