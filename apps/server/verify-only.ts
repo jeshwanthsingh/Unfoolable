@@ -1,7 +1,7 @@
 import {evaluatorBundle} from './verification-executor.ts';
 import type {DatabaseSync} from 'node:sqlite';
 import {randomUUID,createHash} from 'node:crypto';
-import {mkdirSync,realpathSync,writeFileSync,readFileSync,cpSync,readdirSync,symlinkSync} from 'node:fs';
+import {mkdirSync,realpathSync,writeFileSync,readFileSync,cpSync,symlinkSync} from 'node:fs';
 import {join} from 'node:path';
 import {validateRepository} from './repository.ts';
 import {safeBuildGit} from './build-workspace.ts';
@@ -9,9 +9,8 @@ import {canonicalContractJson} from './contract-store.ts';
 import {materializeOracleTree,restoreBaseTests,dependencyChanges,reviewTripwire} from './oracle-tree.ts';
 import {executeOracleTest} from './oracle-execution.ts';
 import {authorVerifyOnly} from './verify-only-author.ts';
-import {authorVerifyReferences,type VerifyReferences} from './verify-only-references.ts';
-import {oracleSource} from './oracle-source.ts';
-import {admitVerifyOnly,executionStatus,executionTest,scopedRevision} from './verify-only-admission.ts';
+import {authorVerifyReferences} from './verify-only-references.ts';
+import {executionStatus,executionTest,scopedRevision} from './verify-only-admission.ts';
 import {verifyHash,verifyTreeHash} from './verify-only-identity.ts';
 import {verifyStep} from './verify-only-deadline.ts';
 import {harnessRetry,retryableExecution,retryEvidence} from './verify-only-retry.ts';
@@ -19,10 +18,7 @@ import {scoreVerifyV2,type VerifyClaimResult} from '../../packages/shared/verify
 import {SpecError} from './spec-errors.ts';
 import type {Logger} from './log.ts';
 import type {VerifyInput,VerifyBinding,VerifyView,VerifyReview,VerifyResult,VerifyClaim,VerifyEvidence} from '../../packages/shared/verify-only.ts';
-import type {OracleManifest} from '../../packages/shared/oracle.ts';
-type Proposal={claims:VerifyClaim[];manifest:OracleManifest|null;runnerDirectory:string;source?:Awaited<ReturnType<typeof oracleSource>>};
-type Author=(input:VerifyBinding,id:string,directory:string,signal:AbortSignal)=>Promise<Proposal>;
-type References=(input:VerifyBinding,source:Awaited<ReturnType<typeof oracleSource>>,directory:string,signal:AbortSignal)=>Promise<VerifyReferences>;
+import {authorAndAdmit,type Author,type References} from './verify-only-authoring.ts';
 type Ledger={requiredList?:{id:string;requirement:string;testName:string}[];requiredChecksHash?:string;recipeHash?:string;abandonedAt?:string;waiver?:NonNullable<VerifyView['waiver']>;partial?:VerifyClaimResult[];cleanupUncertain?:boolean;resultHash?:string;admissionRecords?:{path:string;hash:string}[]};
 const fileHash=(path:string)=>createHash('sha256').update(readFileSync(path)).digest('hex');
 const requiredList=(claims:VerifyClaim[])=>claims.map(c=>({id:c.id,requirement:c.requirement,testName:c.testName}));
@@ -68,19 +64,11 @@ export function createVerifyOnly(db:DatabaseSync,config:{dataDir:string;projectR
   const input:VerifyBinding={...b,repoRoot:repo.repoRoot,baseCommit,candidateCommit,baseTree:(await safeBuildGit(repo.repoRoot,['rev-parse',baseCommit+'^{tree}'],1000)).toString().trim(),candidateTree:(await safeBuildGit(repo.repoRoot,['rev-parse',candidateCommit+'^{tree}'],1000)).toString().trim(),runnerDirectory:'.'};
   db.prepare("INSERT INTO verify_only_runs(id,input_json,state,created_at,protocol_version) VALUES(?,?,'AUTHORING',?,2)").run(id,canonicalContractJson(input),new Date().toISOString());mkdirSync(directory(id),{recursive:true,mode:0o700});
   launch(id,async signal=>{
-   const proposal=await harnessRetry('Oracle authoring',directory(id),signal,()=>verifyStep('Oracle authoring',100000,signal,s=>author(input,id,directory(id),s)));check(id,signal);input.runnerDirectory=proposal.runnerDirectory;
-   if(!proposal.claims.length||proposal.claims.some(c=>!['REQUIRED','ADVISORY'].includes(c.requirement)))throw Error('Every claim must be classified before checks');
+   const authored=await authorAndAdmit(input,id,directory(id),signal,author,references,execute);check(id,signal);const proposal=authored.proposal;input.runnerDirectory=proposal.runnerDirectory;
    db.prepare('UPDATE verify_only_runs SET input_json=? WHERE id=?').run(canonicalContractJson(input),id);
    const review:VerifyReview={hash:'',evaluatorHash:evaluatorBundle().hash,claims:proposal.claims,manifest:proposal.manifest};const list=requiredList(review.claims),l:Ledger={requiredList:list,requiredChecksHash:verifyHash(list),recipeHash:recipe(input,review)};
    saveLedger(id,l);writeFileSync(join(directory(id),'frozen-before-checks.json'),canonicalContractJson({input,requiredList:list,recipeHash:l.recipeHash,review}),{flag:'wx',mode:0o400});
-   // Publish frozen claims before admission for truthful cancellation/error handling; never approvable while AUTHORING.
-   update(id,'AUTHORING',review,null);
-   const source=proposal.source??await verifyStep('Reference source',30000,signal,()=>oracleSource(input.repoRoot,input.baseCommit,input.intent));
-   const refs=await harnessRetry('Independent reference authoring',directory(id),signal,()=>verifyStep('Independent reference authoring',100000,signal,s=>references(input,source,directory(id),s)));check(id,signal);
-   await admitVerifyOnly(input,review.claims,review.manifest,refs,directory(id),signal,execute);check(id,signal);
-   if(recipe(input,review)!==l.recipeHash||verifyHash(requiredList(review.claims))!==l.requiredChecksHash)throw Error('Tester identity changed during admission');
-   const records:{path:string;hash:string}[]=retryEvidence(directory(id));for(const name of readdirSync(directory(id)).filter(n=>n.startsWith('admission-'))){const path=join(directory(id),name,'execution.json');records.push(...retryEvidence(join(directory(id),name)));records.push({path,hash:fileHash(path)});const execution=JSON.parse(readFileSync(path,'utf8'));if(typeof execution.result.environment.observationPath==='string'){const observation=execution.result.environment.observationPath;records.push({path:observation,hash:fileHash(observation)});}}
-   for(const name of ['author-proposal.json','reference-proposal.json']){const path=join(directory(id),name);try{records.push({path,hash:fileHash(path)});}catch{}}
+   const records=authored.records;
    saveLedger(id,{...ledger(id),admissionRecords:records});review.hash=verifyHash({input,claims:review.claims,manifest:review.manifest,evaluatorHash:review.evaluatorHash});writeFileSync(join(directory(id),'review.json'),canonicalContractJson(review),{flag:'wx',mode:0o400});update(id,'REVIEW',review,null);
   });return view(id);
  };
