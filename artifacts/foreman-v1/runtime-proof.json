@@ -1,0 +1,58 @@
+{
+  "recordedAt": "2026-10-10T13:54:23.065Z",
+  "version": "codex-cli 0.160.0",
+  "permissionProfile": "cc-chat-readonly",
+  "networkEnabled": false,
+  "boundary": {
+    "executedAt": "2026-10-10T13:54:23.068Z",
+    "workspace": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/foreman-v1/runtime-proof/9d54ddc2-e307-49ae-8d42-5e3a95c2d8c4/workspace",
+    "protectedSource": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/chat-codex.ts",
+    "protectedDataFixture": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/foreman-v1/runtime-proof/9d54ddc2-e307-49ae-8d42-5e3a95c2d8c4/private.txt",
+    "result": {
+      "workspace_read": "read",
+      "cc_source_denied": "denied",
+      "private_denied": "denied",
+      "workspace_write": "denied"
+    },
+    "writeSentinelExists": false
+  },
+  "liveDraft": {
+    "source": "Observed live app-server probe earlier in this session; reconstructed from exact tool result without another model call",
+    "threadId": "01a1260d-9c66-7c21-b9c3-81c10f6a0db7",
+    "turnId": "01a1260d-9d6d-7b13-a15c-11be73a58ef3",
+    "profileConfirmed": true,
+    "versionConfirmed": "0.160.0",
+    "message": "In research-router, make the source list command show sources in stable order without fetching or writing anything.",
+    "result": {
+      "title": "Make source listing stable and side-effect-free",
+      "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+      "requestText": "Update the source list command in research-router to display sources in a stable order without fetching or writing anything.",
+      "doneMeans": "The source list command returns sources in a deterministic order across repeated runs with unchanged inputs. It performs no fetches and no writes. Tests verify ordering and the absence of these side effects.",
+      "question": null,
+      "usage": {
+        "inputTokens": 5598,
+        "outputTokens": 108,
+        "totalTokens": 5706
+      }
+    }
+  },
+  "liveFuel": {
+    "source": "Observed account/rateLimits/read result earlier in this session; historical snapshot, not a current reading",
+    "modelTurns": 0,
+    "result": {
+      "unknown": false,
+      "windows": [
+        {
+          "usedPercent": 55,
+          "windowMinutes": 10080,
+          "resetsAt": 1791948747
+        }
+      ]
+    }
+  },
+  "safety": {
+    "newPaidBilling": false,
+    "credentialsRetained": false,
+    "configurationRetained": false
+  }
+}

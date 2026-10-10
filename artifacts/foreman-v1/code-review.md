@@ -1,0 +1,13 @@
+# Foreman v1 safety review
+
+Verdict: ACCEPT. Reviewed the current change against c80aa74 and the narrow Builder supervisor correction at 895a50b. No remaining blocking safety finding was identified. This is code review, not a claim that the requested real ticket has reached review.
+
+- Draft Start reserves one version before asynchronous validation. Ticket insertion, submitted event and STARTED/ticket-ID binding commit in one SQLite transaction through createTicket's synchronous callback. A callback failure rolls back all three. Recovery never resubmits a STARTED draft. Actual database-reopen coverage was added.
+- Chat messages never execute Keep, Discard, Recheck, playbook approval or permission decisions. Cards bind the exact target and content/evidence version, reserve once, and defer to the existing decision checks. Permission cards additionally require the live attempt, generation, transport, thread, turn and no cancellation; provider dispatch retains its existing full fencing.
+- Status and event updates use database records; fuel uses account/rateLimits/read with no model turn. Event identity is unique and the projection cursor is monotonic. Historical review updates obtain the verdict preceding that event, rather than borrowing a later verdict.
+- Read-only drafting rejects tool/permission attempts and validates its profile/version. The earlier latched-failure/new-RPC hang is fixed. Reported draft usage is retained on service-side rejection.
+- The Builder supervisor correction only rejects pending RPCs when the first failure occurs, rejects new operational RPCs after failure, and preserves that first failure. Cleanup RPCs remain available with their existing short deadlines. It changes no permission profile, process-identity rule, model, reasoning effort, network policy or lifetime/RPC deadline.
+
+Verification evidence supplied by the implementing parent: the supervisor regression reproduced the misleading BUILD_RPC_TIMEOUT before the fix and the actual BUILD_PROTOCOL_INVALID afterwards; the focused supervisor suite passed 18/18. I inspected the corresponding code and regression coverage but did not independently rerun the suite in this final review. Earlier owned initialize/thread/turn diagnostic probes were cleanup-verified; no additional model probes were run for this final review.
+
+Residual limits: safe action validation cannot repair an environmental startup or process-identity failure; those must remain harness errors. The supervisor fix improves the diagnosis rather than relaxing that boundary. Full-suite, negative controls, UI review and real-run completion remain the implementer's final verification responsibilities.

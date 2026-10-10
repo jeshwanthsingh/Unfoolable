@@ -1,0 +1,62 @@
+{
+  "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+  "status": "harness_error",
+  "verdict": "NOT CHECKED",
+  "attempts": 3,
+  "candidateCommits": [],
+  "stats": {
+    "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+    "submitToReviewMs": null,
+    "agentWorkingMs": 0,
+    "agentTimeIncomplete": false,
+    "needsYouStops": 1,
+    "fixAttempts": 0,
+    "finalVerdict": "NOT CHECKED",
+    "decision": null
+  },
+  "draft": {
+    "id": "d550b2a5-e7f5-436f-a774-685434d2f6e1",
+    "originalMessageId": 5,
+    "version": 1,
+    "status": "DRAFT",
+    "title": "Add top-level research --version option",
+    "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+    "requestText": "Add a top-level `research --version` option that prints the package version and exits successfully without requiring configuration, network access, or state files. Add focused tests and preserve existing commands.",
+    "doneMeans": "`research --version` prints the package version and exits with status 0 without configuration, network access, or state files. Focused tests cover this behavior, and existing commands retain their behavior.",
+    "question": null,
+    "questionAsked": false,
+    "usage": [
+      {
+        "inputTokens": 7077,
+        "outputTokens": 125,
+        "totalTokens": 7202,
+        "cachedInputTokens": null,
+        "model": "gpt-6.1-sol",
+        "threadId": "01a12612-26d3-7502-963f-668990b89b36"
+      }
+    ],
+    "ticketId": null,
+    "createdAt": "2026-10-10T13:48:14.037Z",
+    "updatedAt": "2026-10-10T13:48:14.037Z"
+  },
+  "failures": [
+    {
+      "at": "2026-10-10T13:48:33.897Z",
+      "attemptId": "949d5a6e-6e86-45bf-993e-843689b57ab5",
+      "reason": "Builder protocol request timed out.",
+      "cleanupVerified": true
+    },
+    {
+      "at": "2026-10-10T13:54:58.982Z",
+      "attemptId": "a7b5992a-bffe-447b-9625-202bcdb1d509",
+      "reason": "Builder protocol request timed out.",
+      "cleanupVerified": true
+    },
+    {
+      "at": "2026-10-10T14:05:14.075Z",
+      "attemptId": "af98e3f3-d7de-439d-8832-ce949be88a09",
+      "reason": "Kernel process ownership could not be recorded.",
+      "cleanupVerified": true
+    }
+  ]
+}

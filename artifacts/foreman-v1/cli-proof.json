@@ -1,0 +1,7 @@
+{
+  "command": "./cc chat \"what's running?\"",
+  "answer": "Nothing is running. 0 queued ticket(s).",
+  "modelCalls": 0,
+  "noActionPerformed": true,
+  "wrapperTrailer": "Use ./cc chat to open the exact-item buttons. No action was taken by this command."
+}

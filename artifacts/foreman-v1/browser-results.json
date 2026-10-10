@@ -1,0 +1,67 @@
+{
+  "url": "http://127.0.0.1:3225/?view=chat",
+  "desktop": {
+    "width": 1440,
+    "horizontalOverflow": false
+  },
+  "mobile": {
+    "width": 390,
+    "horizontalOverflow": false
+  },
+  "statusAnswer": "Nothing is running. 0 queued ticket(s).",
+  "fuelDisplayed": {
+    "usedPercent": 56,
+    "windowMinutes": 10080
+  },
+  "clearDraft": {
+    "questionCount": 0,
+    "edited": true,
+    "cancelled": true,
+    "started": false,
+    "usageTotalTokens": 7040
+  },
+  "keyboard": "Message textbox -> Send message button",
+  "reducedMotion": true,
+  "visibleErrors": [],
+  "screenshots": [
+    "chat-desktop.png",
+    "chat-draft-desktop.png",
+    "chat-draft-mobile.png",
+    "chat-mobile.png"
+  ],
+  "review": "Desktop and mobile screenshots inspected; no clipped content. Historical messages and stale cards remain visible; no fake state.",
+  "finalCapture": {
+    "screenshots": [
+      "chat-final-desktop.png",
+      "chat-final-mobile.png"
+    ],
+    "desktopWidth": 1440,
+    "mobileWidth": 390,
+    "horizontalOverflow": false,
+    "decisionHistoryCollapsed": true,
+    "serverRestartPersistence": {
+      "messageCount": 18,
+      "renderedMessageCount": 18,
+      "allMessagesMatchLiveApi": true,
+      "draftUsageTotalTokens": [
+        7040,
+        7202
+      ]
+    },
+    "harnessErrorShownHonestly": true,
+    "actionsPressed": [],
+    "manualReview": "Final release captures overwrite prior images. Mobile inspected, no clipped content; truthful three harness-error events and latest status preserved.",
+    "sidebarHealth": {
+      "coordinator": "Online",
+      "database": "Ready"
+    },
+    "latestStatusAnswer": "Nothing is running. 0 queued ticket(s)."
+  },
+  "errorDraftBrowserFixture": {
+    "startButtons": 0,
+    "editAvailable": true,
+    "cancelAvailable": true,
+    "usageAvailable": true,
+    "databaseMutations": false
+  }
+}

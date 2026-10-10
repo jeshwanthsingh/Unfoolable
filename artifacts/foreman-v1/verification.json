@@ -1,0 +1,21 @@
+{
+  "tests": {
+    "command": "npm test",
+    "tests": 735,
+    "passed": 735,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 174.625844708,
+    "log": ".work/foreman-v1/release-tests.txt"
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "negativeControls": {
+    "count": 12,
+    "PASS": 0,
+    "result": "all non-PASS",
+    "protectedCoreUnchanged": true
+  },
+  "browser": "PASS at 1440px and 390px",
+  "newDependencies": 0
+}
