@@ -1,0 +1,18 @@
+✔ native collection requires nonzero identities and never counts skip as PASS (1.526917ms)
+✔ approved playbook admits on BASE, restores edited tests, and catches Candidate regression (3235.654208ms)
+✔ BASE failure needs explicit known-fail admission; arbitrary failing BASE does not count (4270.360958ms)
+✔ missing playbook proposes Needs You before Builder; edit clears approval and API requires operator (193.549792ms)
+✔ explicit approval resumes the waiting ticket with BASE admission and records its approval trigger (3445.578834ms)
+✔ operator-only ticket API completes review; explicit Keep creates branch without checkout (503.826125ms)
+✔ bounded correction uses previous Candidate then clean BASE in fresh worktrees/sessions (828.694333ms)
+✔ two failed fixes need the user; driver failure is harness_error instead of code FAILED (736.382083ms)
+✔ durable queue runs one ticket at a time in submission order without double dispatch (579.612958ms)
+✔ restart mid build/check/fix marks interrupted, never passed and waits for Retry (137.028125ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7646.885084

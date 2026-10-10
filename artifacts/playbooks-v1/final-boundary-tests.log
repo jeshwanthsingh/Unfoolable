@@ -1,0 +1,14 @@
+✔ real Codex profile permits own Git and SQLite tests; denies shared refs and protected reads (522.990209ms)
+✔ kernel identity retries recover only transient absence; live unidentified PID still fails closed (31.803542ms)
+✔ native collection requires nonzero identities and never counts skip as PASS (0.844209ms)
+✔ approved playbook admits on BASE, restores edited tests, and catches Candidate regression (3375.742959ms)
+✔ BASE failure needs explicit known-fail admission; arbitrary failing BASE does not count (4322.632458ms)
+✔ a new Candidate failure cannot hide behind passing BASE guards (3283.019791ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11089.161791
