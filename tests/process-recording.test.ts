@@ -35,6 +35,6 @@ print('rejected')
 test('multiple pending identities share one recording budget',()=>{assert.equal(run(`deadlines=[]
 with patch.object(m.subprocess,'check_output',return_value='123 1 123\\n456 123 123\\n'),patch.object(m.time,'monotonic',return_value=50),patch.object(m,'record',side_effect=lambda pid,deadline:(deadlines.append(deadline) or (row if pid==123 else dict(row,pid=456,ppid=123)))):
  assert len(m.tree(123))==2
- assert deadlines==[51,51]
+ assert deadlines==[50.05,51]
 print('bounded')
 `).trim(),'bounded');});

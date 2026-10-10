@@ -25,6 +25,7 @@ def inspect(pid):
 # Exited, unreaped Darwin children can have no libproc identity while kill(pid,0)
 # still succeeds. Wait for a full identity or ESRCH, never invent ownership.
 RECORD_RETRY_SECONDS = 1.0
+ROOT_RETRY_SECONDS = .05
 
 def record(pid, deadline):
     while True:
@@ -55,8 +56,11 @@ def tree(root):
         owned.update(pid for pid,ppid,pgid in basic if ppid in owned or pgid==root)
         if len(owned)==before: break
     deadline=time.monotonic()+RECORD_RETRY_SECONDS
-    for pid in owned:
-        row=record(pid,deadline)
+    for pid in sorted(owned,key=lambda pid:pid!=root):
+        # Do not hold the coordinator event loop for a second on its own
+        # exiting child: it must run the exit handler to reap that PID.
+        limit=min(deadline,time.monotonic()+ROOT_RETRY_SECONDS) if pid==root else deadline
+        row=record(pid,limit)
         if row:
             rows.append(row)
     # A PID may disappear and be reused while recording retries. Revalidate
@@ -72,4 +76,4 @@ def tree(root):
     return rows
 
 if __name__ == '__main__':
-    print(json.dumps(record(int(sys.argv[2]),time.monotonic()+RECORD_RETRY_SECONDS) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
+    print(json.dumps(record(int(sys.argv[2]),time.monotonic()+ROOT_RETRY_SECONDS) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
