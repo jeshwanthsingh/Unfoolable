@@ -86,6 +86,6 @@ export function TicketPanel(){
  {detail.diffAvailable&&<button className="secondary-button" disabled={diffRequested} onClick={()=>setDiffRequested(true)}>{diffRequested&&!diff?'Loading diff…':'Inspect diff'}</button>}{diffError&&<p role="alert">{diffError}</p>}{diff&&<details open><summary>Candidate diff</summary><a href={diff.url} download={detail.ticket.id+'.diff'}>Download diff</a><pre>{diff.text}</pre></details>}
  {detail.ticket.status==='ready_for_review'&&<div className="ticket-actions"><button className="primary-button" disabled={busy||!detail.ticket.candidateCommits.length} onClick={()=>void action('keep')}>Keep candidate</button><button className="secondary-button" disabled={busy} onClick={()=>void action('discard')}>Discard candidate</button></div>}
  {['needs_you','interrupted','harness_error'].includes(detail.ticket.status)&&<button className="secondary-button" disabled={busy} onClick={()=>void action('retry')}>Retry ticket</button>}
- <h4>Events</h4><ol className="ticket-events">{detail.events.map(event=><li key={event.sequence}><time dateTime={event.createdAt}>{event.createdAt}</time> <strong>{event.kind}</strong><pre>{JSON.stringify(event.data,null,2)}</pre></li>)}</ol>
+ <h4>Events</h4><ol className="ticket-events">{detail.events.map(event=><li key={event.sequence}><time dateTime={event.createdAt}>{event.createdAt}</time> <strong>{event.kind}</strong><details><summary>Event details</summary><pre>{JSON.stringify(event.data,null,2)}</pre></details></li>)}</ol>
  </>}</article></div></section>;
 }

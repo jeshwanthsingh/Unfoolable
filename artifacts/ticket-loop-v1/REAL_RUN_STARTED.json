@@ -1,0 +1,27 @@
+{
+  "ids": [
+    "c6263195-76c4-4732-ae06-f28ef6c30767",
+    "b3991162-3407-4a22-9e07-2db785c22e36"
+  ],
+  "repos": [
+    "/Users/jeshwanthsingh/Projects/research-router",
+    "/Users/jeshwanthsingh/Projects/career-ops"
+  ],
+  "requests": [
+    "Reject oversized --since durations in the research-router CLI with a useful argument error instead of raising OverflowError. Keep normal supported duration filters working. Add a focused regression test. Do not perform network operations.",
+    "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing the tracker or archiving additions. Keep valid merges working. Test using copies of the script and synthetic Markdown under .cc-runtime/tmp because paths are anchored to import.meta.url. Do not run operational scripts against personal data or proof-lab."
+  ],
+  "before": [
+    {
+      "head": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "index": "9fadef9c0b2116c2010803346c9715e53d9284abe24611a0dfb0b909f2b618ee",
+      "status": " M README.md\u0000 M research_router/cli.py\u0000 M research_router/clipboard.py\u0000 M research_router/commands/critique.py\u0000 M research_router/commands/llm_import.py\u0000 M research_router/guards.py\u0000 M tests/test_clipboard.py\u0000 M tests/test_continue.py\u0000 M tests/test_llm_import.py\u0000 M tests/test_run.py\u0000"
+    },
+    {
+      "head": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
+      "index": "785cdb85fe315b24cbd09272346462b46b9120b4013347505180db5633b828fa",
+      "status": " M batch/batch-prompt.md\u0000 M config/profile.example.yml\u0000 M dashboard/internal/ui/screens/pipeline.go\u0000 M dashboard/main.go\u0000 M docs/SCRIPTS.md\u0000 M modes/auto-pipeline.md\u0000 M modes/pdf.md\u0000 M package.json\u0000 M scan.mjs\u0000?? __pycache__/\u0000?? article-digest.md\u0000?? config/tailoring-matrix.yml\u0000?? evaluate-inbox.mjs\u0000?? generate-docx-resume.py\u0000?? job-sources.mjs\u0000?? reports/evaluations/\u0000?? resume-auto.mjs\u0000?? templates/Jsingh_Resume_Platform 2.docx\u0000?? templates/RESUME SYSTEM .docx\u0000?? templates/jsingh-docx-template-contract.md\u0000"
+    }
+  ],
+  "startedAt": "2026-10-10T07:58:30.613Z"
+}

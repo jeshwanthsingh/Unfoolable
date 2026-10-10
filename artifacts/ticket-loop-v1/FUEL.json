@@ -55,7 +55,7 @@
       "availableCount": 3,
       "credits": [
         {
-          "id": "RateLimitResetCredit_40efe8af50c48191a5cf381df30f2ffe",
+          "id": "[redacted identifier]",
           "resetType": "codexRateLimits",
           "status": "available",
           "grantedAt": 1790110474,
@@ -64,7 +64,7 @@
           "description": "Thanks for using Codex! You've been granted one free rate limit reset."
         },
         {
-          "id": "RateLimitResetCredit_bf5d8cedc4188191a70b3cc106d5e3e9",
+          "id": "[redacted identifier]",
           "resetType": "codexRateLimits",
           "status": "available",
           "grantedAt": 1790709717,
@@ -73,7 +73,7 @@
           "description": "Thanks for using Codex! You've been granted one free rate limit reset."
         },
         {
-          "id": "RateLimitResetCredit_f3c017ec15f88191ac2aae0998b960c0",
+          "id": "[redacted identifier]",
           "resetType": "codexRateLimits",
           "status": "available",
           "grantedAt": 1791416909,
@@ -83,7 +83,7 @@
         }
       ]
     },
-    "accountId": "22e329a4-500d-4760-9e9f-e5ba9c1c5057",
+    "accountId": "[redacted identifier]",
     "rateLimitUpsell": null
   },
   "readOnly": true,

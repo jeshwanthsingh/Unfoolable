@@ -1,0 +1,31 @@
+{
+  "tickets": 2,
+  "readyForReview": 2,
+  "kept": 0,
+  "discarded": 0,
+  "agentWorkingMs": 151402.135041,
+  "needsYouStops": 0,
+  "fixAttempts": 0,
+  "rows": [
+    {
+      "ticketId": "b3991162-3407-4a22-9e07-2db785c22e36",
+      "submitToReviewMs": 230776,
+      "agentWorkingMs": 84102.77525,
+      "agentTimeIncomplete": false,
+      "needsYouStops": 0,
+      "fixAttempts": 0,
+      "finalVerdict": "NOT CHECKED",
+      "decision": null
+    },
+    {
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "submitToReviewMs": 145886,
+      "agentWorkingMs": 67299.359791,
+      "agentTimeIncomplete": false,
+      "needsYouStops": 0,
+      "fixAttempts": 0,
+      "finalVerdict": "PASSED WITH GAPS",
+      "decision": null
+    }
+  ]
+}
