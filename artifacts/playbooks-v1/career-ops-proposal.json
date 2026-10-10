@@ -1,0 +1,34 @@
+{
+  "repoRoot": "/Users/jeshwanthsingh/Projects/career-ops",
+  "baseCommit": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
+  "definition": {
+    "version": "project-playbook-v1",
+    "setup": null,
+    "tests": [
+      {
+        "argv": [
+          "node",
+          "test-all.mjs",
+          "--quick"
+        ],
+        "cwd": "."
+      }
+    ],
+    "env": {
+      "HOST": "127.0.0.1",
+      "BIND_ADDRESS": "127.0.0.1",
+      "CI": "1"
+    },
+    "runner": "node-script",
+    "timeoutSeconds": 600,
+    "knownFailingTests": [],
+    "knownFlakyTests": [],
+    "notes": [
+      "Proposal only; commands have not run. BASE admission is required before results count.",
+      "test-all.mjs --quick invokes operational scripts. Run only in disposable exports with no outside network; never against the registered repository. Native script completion alone is not proof that individual tests ran."
+    ]
+  },
+  "hash": "ce1a072cd4d1292c69e44bf0157a27e97bb1920205f0bf12d810d329b1f3d452",
+  "approval": null,
+  "updatedAt": "2026-10-10T08:43:23.558Z"
+}
