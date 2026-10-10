@@ -1,0 +1,6 @@
+### Result
+{"defaultV1":true,"projectAssociationRetained":true,"advisoryDefaultOff":true,"mobileNoOverflow":true}
+### Ran Playwright code
+```js
+await (async page => { await page.setViewportSize({width:1440,height:1000}); await page.getByLabel("Registered project (optional)").selectOption({label:"Research Router"}); const selected=await page.getByLabel("Registered project (optional)").inputValue(); await page.getByLabel("Repository path",{exact:true}).fill("/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/R4/A/repo"); if(await page.getByLabel("Registered project (optional)").inputValue()!==selected)throw Error("Clone lost project recipe association"); if(await page.getByRole("checkbox").isChecked())throw Error("Task checks default enabled"); await page.screenshot({path:"artifacts/verification-v1/ui-desktop.png",fullPage:true}); await page.setViewportSize({width:390,height:844}); if(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth))throw Error("Mobile overflow"); await page.screenshot({path:"artifacts/verification-v1/ui-mobile.png",fullPage:true}); return {defaultV1:await page.getByRole("heading",{name:"Verify a Candidate",exact:true}).isVisible(),projectAssociationRetained:true,advisoryDefaultOff:true,mobileNoOverflow:true}; })(page);
+```

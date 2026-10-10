@@ -1,0 +1,274 @@
+{
+  "id": "4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860",
+  "state": "RESULT",
+  "input": {
+    "baseCommit": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "baseRef": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "baseTree": "15ef423520099f19a026c55c20d92ab017f28e7f",
+    "candidateCommit": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "candidateRef": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "candidateTree": "15ef423520099f19a026c55c20d92ab017f28e7f",
+    "intent": "Handle empty and non-JSON HTTP responses without masking their status or preventing authentication recovery.\n\nDone means:\nA 204/empty successful response resolves as success with null data. Authenticated empty/HTML 401 responses still trigger exactly one refresh and retry; a failed refresh reports the original HTTP 401. Non-JSON 502 errors expose status 502 rather than a JSON parsing exception. Existing successful JSON behavior and frontend tests pass.\n\nAllowed changed paths: frontend/**\n",
+    "projectId": "v1-Therapy2",
+    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T3/A/repo",
+    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T3/A/repo",
+    "runnerDirectory": "frontend",
+    "taskChecks": false
+  },
+  "review": {
+    "claims": [],
+    "evaluatorHash": "d05018e26abf2a1fda30cfb38cf48b3912cb1d69f6094a42aeff330b8d0c4042",
+    "hash": "53cb14c3d2bc696485a0d3c0e65a7033e58cd1d886f09a4388b18483e081d9a0",
+    "manifest": {
+      "assurance": "IN-PROCESS",
+      "baseHead": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "componentPath": null,
+      "dependencyRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T3/A/repo/frontend/node_modules",
+      "evaluationSignature": "3045a620ec02eab9cbb79f216a8c1aaa3e09c4b54b5aabb24c62e9a7a393326b",
+      "id": "4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860",
+      "runner": "vitest",
+      "runnerDirectory": "frontend",
+      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T3/A/repo",
+      "tests": [],
+      "version": "process-oracle-v1"
+    }
+  },
+  "result": {
+    "acceptance": "NOT VERIFIED",
+    "automatedStatus": "FAIL",
+    "claims": [
+      {
+        "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "authStore loginDoctor should not crash when response.data.user is missing",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "authStore fetchProfile should preserve user.type after fetching profile",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "authStore fetchProfile should preserve user.type for patient profiles",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "authStore updateProfile should preserve user.type after updating profile",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "authStore setUser should normalize user type to lowercase",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48:E1",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "FAIL"
+      },
+      {
+        "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48:E2",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      }
+    ],
+    "evidence": {
+      "candidateExport": {
+        "hash": "97a551542e46a2ea1526eb28b5a2b6639a2d04d0298be8a06e02b27b16cc7edf",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/candidate-export",
+        "sourceTree": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f"
+      },
+      "executedChecks": [
+        {
+          "hash": "10b1e12f69d2775fd020dd5779648c0605158b40ff188761e9d99044ea8d755e",
+          "id": "protected-existing-tests",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/protected-existing-tests.json"
+        },
+        {
+          "hash": "51f1c58dd1f06a336f4bac8e24b4e5b80520e18ed9edb6ab7893f3ed7edbfacd",
+          "id": "recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E1",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E1.json"
+        },
+        {
+          "hash": "c1c6739bd3378a052dd4baff180af202551d3b7eac402d84b49b76770ae13366",
+          "id": "recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E2",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E2.json"
+        }
+      ],
+      "executionTree": {
+        "hash": "4ad88d27f19417d99552eb8e74890d4bae0187740dba68a8c1f6b1a0ca0be759",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/executed-tree",
+        "trustedLinks": {
+          "frontend/node_modules": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T3/A/repo/frontend/node_modules"
+        }
+      },
+      "hash": "4051b230ad309572108c88751751a4ff897cf8052901014509b2bab44204b5b8",
+      "inputHash": "f75cfac056c9e3173db2cfd1b180e3d3671bf89009b6b89c30988fe2c9257258",
+      "overlay": {
+        "candidateOnlyTests": [],
+        "hash": "fc73c7bc7df5be01d2bc55779ef948274305f4f2fdb80621d17a8cec2a597850",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/base-test-overlay",
+        "restored": [
+          "backend/__tests__/adminRoutes.test.js",
+          "backend/tests/__mocks__/otplib.js",
+          "backend/tests/__mocks__/qrcode.js",
+          "backend/tests/adminDoctorManagement.test.js",
+          "backend/tests/appointment.test.js",
+          "backend/tests/appointmentEmails.test.js",
+          "backend/tests/auditLog.test.js",
+          "backend/tests/auth.test.js",
+          "backend/tests/date.test.js",
+          "backend/tests/emailService.test.js",
+          "backend/tests/idor.test.js",
+          "backend/tests/loggerMiddleware.test.js",
+          "backend/tests/massAssignment.test.js",
+          "backend/tests/notificationHelper.test.js",
+          "backend/tests/notificationPrefs.test.js",
+          "backend/tests/passwordReset.test.js",
+          "backend/tests/response.test.js",
+          "backend/tests/role-based-auth.test.js",
+          "backend/tests/sanitize.test.js",
+          "backend/tests/securityHardening.test.js",
+          "backend/tests/setup.js",
+          "backend/tests/suspendedDoctorAccess.test.js",
+          "backend/tests/validate.test.js",
+          "frontend/src/__tests__/authStore.test.ts"
+        ]
+      },
+      "recipeHash": "3045a620ec02eab9cbb79f216a8c1aaa3e09c4b54b5aabb24c62e9a7a393326b",
+      "records": [
+        {
+          "hash": "2ef6d4c4e0581877c9a62ab6d76cfcf7e23b5689efe4c319fe8e4c0f283c57d9",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/existing-tests/native-E1-ca0cda2a-8ac3-47a3-96e3-c0f85a26e69f/observations.json"
+        },
+        {
+          "hash": "bab42a985ebad2f10eefb2cde030046b09bca195646ba4e36c632b2de186ca64",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/project-recipes/native-E1-d86fbe99-06ea-4627-a07f-9f49a6f36672/observations.json"
+        },
+        {
+          "hash": "d9586cd6b2268c92a3a54f685154e6310708ef3e07d141c7e61fcd023b2ab11b",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860/project-recipes/native-E2-60705cf0-a06c-430f-8a86-08e503bd1c49/observations.json"
+        }
+      ],
+      "requiredChecksHash": "62f2723dd1395ed8629b7b4906e06496b075943f087b77e89f8db1de4478908e"
+    },
+    "status": "FAIL",
+    "v1": {
+      "admittedTaskChecksHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "canLand": false,
+      "candidateTests": null,
+      "gaps": [
+        {
+          "id": "ai-task-checks",
+          "layer": 3,
+          "reason": "Advisory task checks not requested; original intent is not automatically proved."
+        }
+      ],
+      "landed": null,
+      "layers": [
+        {
+          "checks": [
+            {
+              "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "authStore loginDoctor should not crash when response.data.user is missing",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "authStore fetchProfile should preserve user.type after fetching profile",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "authStore fetchProfile should preserve user.type for patient profiles",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "authStore updateProfile should preserve user.type after updating profile",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "authStore setUser should normalize user type to lowercase",
+              "reason": null,
+              "status": "PASS"
+            }
+          ],
+          "gaps": [],
+          "layer": 1,
+          "status": "PASS"
+        },
+        {
+          "checks": [
+            {
+              "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48:E1",
+              "reason": null,
+              "status": "FAIL"
+            },
+            {
+              "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48:E2",
+              "reason": null,
+              "status": "PASS"
+            }
+          ],
+          "gaps": [],
+          "layer": 2,
+          "status": "FAIL"
+        },
+        {
+          "checks": [],
+          "gaps": [
+            {
+              "id": "ai-task-checks",
+              "layer": 3,
+              "reason": "Advisory task checks not requested; original intent is not automatically proved."
+            }
+          ],
+          "layer": 3,
+          "status": "NOT CHECKED"
+        }
+      ],
+      "recipeHash": "3045a620ec02eab9cbb79f216a8c1aaa3e09c4b54b5aabb24c62e9a7a393326b",
+      "recipeIds": [
+        "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48"
+      ],
+      "verdict": "FAILED",
+      "version": "verification-v1"
+    }
+  },
+  "error": null,
+  "approvedAt": null,
+  "protocolVersion": 2,
+  "abandonedAt": null,
+  "waiver": null
+}

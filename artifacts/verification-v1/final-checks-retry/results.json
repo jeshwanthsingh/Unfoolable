@@ -1,0 +1,22 @@
+[
+  {
+    "check": "full-suite",
+    "exitCode": 0,
+    "elapsedSeconds": 137.46587483299663
+  },
+  {
+    "check": "typecheck",
+    "exitCode": 0,
+    "elapsedSeconds": 0.8612346669979161
+  },
+  {
+    "check": "build",
+    "exitCode": 0,
+    "elapsedSeconds": 1.263310458001797
+  },
+  {
+    "check": "negative-controls",
+    "exitCode": 0,
+    "elapsedSeconds": 34.472992666007485
+  }
+]

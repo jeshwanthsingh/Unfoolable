@@ -1,0 +1,149 @@
+{
+  "automaticExecution": false,
+  "rows": [
+    {
+      "task": "A2",
+      "artifact": "Candidate",
+      "id": "ad83b120-904b-480b-a0aa-2369b40ed60d",
+      "state": "RESULT",
+      "verdict": "ERROR",
+      "evidenceHash": "8239ef011c1798e02f78bd62fbc00ccf6a80455c734e8f1039899baf4a5e7021"
+    },
+    {
+      "task": "A2",
+      "artifact": "BASE",
+      "id": "6f258163-a97f-4131-b930-87e5f7a89d55",
+      "state": "RESULT",
+      "verdict": "ERROR",
+      "evidenceHash": "37af9dd3421366ad0abeafad7441783412d626ae49e2e37065d09b1888e1274b"
+    },
+    {
+      "task": "R4",
+      "artifact": "Candidate",
+      "id": "09db4f17-0cfd-4f25-b8d5-8be539d57f77",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "2bdbff01c25f8e05fdea2f8e18af45c32f61834d3c720edbc7dd4594d445f619"
+    },
+    {
+      "task": "R4",
+      "artifact": "BASE",
+      "id": "5348c0dc-1059-4ff1-92d3-aae8bc9ec842",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "d36a5785517687c9982f2060a1a850624bc409c7ef65aca4887e93a9532fb1d0"
+    },
+    {
+      "task": "T5",
+      "artifact": "Candidate",
+      "id": "7a43ddc8-fa26-4f1b-9fed-d12615ddfc26",
+      "state": "RESULT",
+      "verdict": "PASSED WITH GAPS",
+      "evidenceHash": "8a6fa6405d6cc6abe1c8726ef6c0ebfcb6a2714de28ede7f068c96545c11dc4b"
+    },
+    {
+      "task": "T5",
+      "artifact": "BASE",
+      "id": "b6810ceb-ce64-4186-b799-5f3fb15a0b51",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "d1a511aa0428072dce57aa3386e9ac7f42b41abd6c5aabcf985c587608d02b64"
+    },
+    {
+      "task": "R1",
+      "artifact": "Candidate",
+      "id": "8d765a25-75a7-4bc8-83c1-99b751e12cf1",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "f2573c04ac2c264a985b96a0afee9f6ff8176c4ea482eed1a48765c8ddec9a6a"
+    },
+    {
+      "task": "R1",
+      "artifact": "BASE",
+      "id": "58ac3691-fdd5-4ac2-b107-f2313cbe4e36",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "82f383b71d06aa1b986abb0ba6065502aceac2db2a3186d1f1c173cb1dbdc3e2"
+    },
+    {
+      "task": "T3",
+      "artifact": "Candidate",
+      "id": "cc6785a0-6bcb-482c-84c2-bebb507c3e9e",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "7ea7103a18d31dc88c289e449e0cfaddc43b81902e363bd01ef11d845caad802"
+    },
+    {
+      "task": "T3",
+      "artifact": "BASE",
+      "id": "4ca5fe12-a4c8-4a00-8d0b-a7f7ff8f8860",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "4051b230ad309572108c88751751a4ff897cf8052901014509b2bab44204b5b8"
+    },
+    {
+      "task": "R3",
+      "artifact": "Candidate",
+      "id": "517aaa79-4895-4bba-ad3d-31db959bbe13",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "fd0ca11fc96d9246f94d24b10aaf960094a77d98f01f25f249e81a4a3ff90531"
+    },
+    {
+      "task": "R3",
+      "artifact": "BASE",
+      "id": "77bfac0b-3857-47b9-b22c-32e009714293",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "82203552a745932d7b0c382fe31a09ed603c3e42b5b2aacc3d1c276a7c71deb6"
+    },
+    {
+      "task": "A3",
+      "artifact": "Candidate",
+      "id": "8fdb478e-f914-4763-b35f-743dc5029bfb",
+      "state": "RESULT",
+      "verdict": "ERROR",
+      "evidenceHash": "a0eb4eae7af1715cd3816b3f0584e062f46de47a88adfe919c449fc03912a8c2"
+    },
+    {
+      "task": "A3",
+      "artifact": "BASE",
+      "id": "5f89182d-5dcc-41a7-aec0-e3c75588d431",
+      "state": "RESULT",
+      "verdict": "ERROR",
+      "evidenceHash": "e685f8b6c5c2c366a3c72ff7d44d6cd1d119081c148e73937f348b9383e39bbe"
+    },
+    {
+      "task": "T2",
+      "artifact": "Candidate",
+      "id": "dab43f7a-d2ad-41df-8e29-abacb64f527a",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "bf05366e48a9817253f68c291666e8bf3fae26e83cc4d9a59c6324fd704ea0b2"
+    },
+    {
+      "task": "T2",
+      "artifact": "BASE",
+      "id": "4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f",
+      "state": "RESULT",
+      "verdict": "FAILED",
+      "evidenceHash": "ce8ecec1d205212c994a3aac10ab8424f833b85ea53737f1ffacf1588759b70f"
+    },
+    {
+      "task": "A1",
+      "artifact": "Candidate",
+      "id": "5204bee7-8ecd-41a6-8277-cd13ee94c9ec",
+      "state": "RESULT",
+      "verdict": "ERROR",
+      "evidenceHash": "f83838f8840cd93d81f6433de7ecfcdd56e8db0175cf1e7e35bb0229f3ce90d6"
+    },
+    {
+      "task": "A1",
+      "artifact": "BASE",
+      "id": "439c87a2-df9c-4afb-8590-e6d46c711cfa",
+      "state": "RESULT",
+      "verdict": "ERROR",
+      "evidenceHash": "965527686c5f0bb3eab83585bb1bc5c6087635d034a9df5d77468c7ef7d009f6"
+    }
+  ]
+}

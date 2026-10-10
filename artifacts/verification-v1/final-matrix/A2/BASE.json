@@ -1,0 +1,466 @@
+{
+  "id": "6f258163-a97f-4131-b930-87e5f7a89d55",
+  "state": "RESULT",
+  "input": {
+    "baseCommit": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "baseRef": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "baseTree": "82c2fe9e31033de2f62d6b1f63c965285b53fbd4",
+    "candidateCommit": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "candidateRef": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "candidateTree": "82c2fe9e31033de2f62d6b1f63c965285b53fbd4",
+    "intent": "Reject malformed `done` events with missing or invalid exit codes instead of reporting successful completion.\n\nDone means:\nA done event with no exit code, or a non-integer exit code, is not reported as success (raises or ok is False with a reason). A done event with exit code 0 and no reason still reports ok. A done event with exit code 1 still reports not ok. Existing SDK tests pass.\n\nAllowed changed paths: sdk/python/**\n",
+    "projectId": "v1-Aegis",
+    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
+    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
+    "runnerDirectory": "sdk/python",
+    "taskChecks": false
+  },
+  "review": {
+    "claims": [],
+    "evaluatorHash": "d05018e26abf2a1fda30cfb38cf48b3912cb1d69f6094a42aeff330b8d0c4042",
+    "hash": "beb4cdab75c0892c0a901747c2bee94cdc65fa9c356b45e22fb4cc13b9402361",
+    "manifest": {
+      "assurance": "IN-PROCESS",
+      "baseHead": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "componentPath": null,
+      "dependencyRoot": null,
+      "evaluationSignature": "cc4cb56346badf19e65895839f260745b8e8744ae84c4854ea1ea2c06b3eb5e2",
+      "id": "6f258163-a97f-4131-b930-87e5f7a89d55",
+      "runner": "unittest",
+      "runnerDirectory": "sdk/python",
+      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
+      "tests": [],
+      "version": "process-oracle-v1"
+    }
+  },
+  "result": {
+    "acceptance": "NOT VERIFIED",
+    "automatedStatus": "ERROR",
+    "claims": [
+      {
+        "id": "test_sdk.AegisSDKTests.test_client_env_precedence",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_error_mapping_and_strings",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_execution_level_failure_inside_200",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_execution_result_error_and_receipt_branches",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_health_request_is_unauthed",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_http_transport_maps_connection_and_decode_failures",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_http_transport_stream_error_paths",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_invalid_client_configuration_raises",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_missing_cli_path_is_configuration_error",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_non_2xx_maps_to_sdk_error",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_receipt_load_infers_files_and_summary",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_receipt_missing_file_returns_none_from_result",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_receipt_verifier_argument_and_failure_paths",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_receipt_verifier_parses_cli_output",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_receipt_wrapper_uses_verifier",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_result_verify_receipt_uses_cached_wrapper",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_run_rejects_mixed_intent_and_capabilities_locally",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_run_rejects_mixed_request_and_kwargs",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_run_serializes_capabilities_request",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_run_serializes_request_object_and_auth",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_stream_parsing",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      },
+      {
+        "id": "test_sdk.AegisSDKTests.test_validation_error_maps_to_validation_exception",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      }
+    ],
+    "evidence": {
+      "candidateExport": {
+        "hash": "ae3a392eb22210b963d46e79cdf99be7ead792c1624bc9f161ea4a62da812f02",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/6f258163-a97f-4131-b930-87e5f7a89d55/candidate-export",
+        "sourceTree": "058c504660ed90f37023de16649333a3500033a2"
+      },
+      "executedChecks": [
+        {
+          "hash": "4e56ad4adcf8142b8814230cec0a8c0dfd89c59d380451a21319ac0ff6973891",
+          "id": "protected-existing-tests",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/6f258163-a97f-4131-b930-87e5f7a89d55/protected-existing-tests.json"
+        }
+      ],
+      "executionTree": {
+        "hash": "ae3a392eb22210b963d46e79cdf99be7ead792c1624bc9f161ea4a62da812f02",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/6f258163-a97f-4131-b930-87e5f7a89d55/executed-tree",
+        "trustedLinks": {}
+      },
+      "hash": "37af9dd3421366ad0abeafad7441783412d626ae49e2e37065d09b1888e1274b",
+      "inputHash": "2b2fb85d3a14470083fce1ec69b94429c5981e50073c2046dd3c25334a9687b6",
+      "overlay": {
+        "candidateOnlyTests": [],
+        "hash": "c06f3ce2e1bf8748ced962b85d8750aea354b3ab719065ddd96aa02a4063a232",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/6f258163-a97f-4131-b930-87e5f7a89d55/base-test-overlay",
+        "restored": [
+          "tests/__init__.py",
+          "tests/test_broker_smoke.py",
+          "tests/test_sdk.py"
+        ]
+      },
+      "recipeHash": "cc4cb56346badf19e65895839f260745b8e8744ae84c4854ea1ea2c06b3eb5e2",
+      "records": [
+        {
+          "hash": "a959973431376240cc12402161c53567b27da03679fa180676c77c71d9e6d4e4",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/6f258163-a97f-4131-b930-87e5f7a89d55/existing-tests/native-E1-eaa92ac4-fbab-434e-9fc7-420070557d53/observations.json"
+        }
+      ],
+      "requiredChecksHash": "6d8c0f10c8636a2ae90a2d1a7f0a18012efcce911bef5daacdb6946a364e0f34"
+    },
+    "status": "ERROR",
+    "v1": {
+      "admittedTaskChecksHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "canLand": false,
+      "candidateTests": null,
+      "gaps": [
+        {
+          "id": "test_sdk.AegisSDKTests.test_execution_level_failure_inside_200",
+          "layer": 1,
+          "reason": "Native error"
+        },
+        {
+          "id": "test_sdk.AegisSDKTests.test_health_request_is_unauthed",
+          "layer": 1,
+          "reason": "Native error"
+        },
+        {
+          "id": "test_sdk.AegisSDKTests.test_non_2xx_maps_to_sdk_error",
+          "layer": 1,
+          "reason": "Native error"
+        },
+        {
+          "id": "test_sdk.AegisSDKTests.test_result_verify_receipt_uses_cached_wrapper",
+          "layer": 1,
+          "reason": "Native error"
+        },
+        {
+          "id": "test_sdk.AegisSDKTests.test_run_serializes_capabilities_request",
+          "layer": 1,
+          "reason": "Native error"
+        },
+        {
+          "id": "test_sdk.AegisSDKTests.test_run_serializes_request_object_and_auth",
+          "layer": 1,
+          "reason": "Native error"
+        },
+        {
+          "id": "test_sdk.AegisSDKTests.test_stream_parsing",
+          "layer": 1,
+          "reason": "Native error"
+        },
+        {
+          "id": "test_sdk.AegisSDKTests.test_validation_error_maps_to_validation_exception",
+          "layer": 1,
+          "reason": "Native error"
+        },
+        {
+          "id": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples",
+          "layer": 1,
+          "reason": "Needs live broker credentials; explicitly excluded by user."
+        },
+        {
+          "id": "ai-task-checks",
+          "layer": 3,
+          "reason": "Advisory task checks not requested; original intent is not automatically proved."
+        }
+      ],
+      "landed": null,
+      "layers": [
+        {
+          "checks": [
+            {
+              "id": "test_sdk.AegisSDKTests.test_client_env_precedence",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_error_mapping_and_strings",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_execution_level_failure_inside_200",
+              "reason": null,
+              "status": "ERROR"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_execution_result_error_and_receipt_branches",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_health_request_is_unauthed",
+              "reason": null,
+              "status": "ERROR"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_http_transport_maps_connection_and_decode_failures",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_http_transport_stream_error_paths",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_invalid_client_configuration_raises",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_missing_cli_path_is_configuration_error",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_non_2xx_maps_to_sdk_error",
+              "reason": null,
+              "status": "ERROR"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_receipt_load_infers_files_and_summary",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_receipt_missing_file_returns_none_from_result",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_receipt_verifier_argument_and_failure_paths",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_receipt_verifier_parses_cli_output",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_receipt_wrapper_uses_verifier",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_result_verify_receipt_uses_cached_wrapper",
+              "reason": null,
+              "status": "ERROR"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_run_rejects_mixed_intent_and_capabilities_locally",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_run_rejects_mixed_request_and_kwargs",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_run_serializes_capabilities_request",
+              "reason": null,
+              "status": "ERROR"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_run_serializes_request_object_and_auth",
+              "reason": null,
+              "status": "ERROR"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_stream_parsing",
+              "reason": null,
+              "status": "ERROR"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_validation_error_maps_to_validation_exception",
+              "reason": null,
+              "status": "ERROR"
+            }
+          ],
+          "gaps": [
+            {
+              "id": "test_sdk.AegisSDKTests.test_execution_level_failure_inside_200",
+              "layer": 1,
+              "reason": "Native error"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_health_request_is_unauthed",
+              "layer": 1,
+              "reason": "Native error"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_non_2xx_maps_to_sdk_error",
+              "layer": 1,
+              "reason": "Native error"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_result_verify_receipt_uses_cached_wrapper",
+              "layer": 1,
+              "reason": "Native error"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_run_serializes_capabilities_request",
+              "layer": 1,
+              "reason": "Native error"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_run_serializes_request_object_and_auth",
+              "layer": 1,
+              "reason": "Native error"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_stream_parsing",
+              "layer": 1,
+              "reason": "Native error"
+            },
+            {
+              "id": "test_sdk.AegisSDKTests.test_validation_error_maps_to_validation_exception",
+              "layer": 1,
+              "reason": "Native error"
+            },
+            {
+              "id": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples",
+              "layer": 1,
+              "reason": "Needs live broker credentials; explicitly excluded by user."
+            }
+          ],
+          "layer": 1,
+          "status": "ERROR"
+        },
+        {
+          "checks": [],
+          "gaps": [],
+          "layer": 2,
+          "status": "NOT CHECKED"
+        },
+        {
+          "checks": [],
+          "gaps": [
+            {
+              "id": "ai-task-checks",
+              "layer": 3,
+              "reason": "Advisory task checks not requested; original intent is not automatically proved."
+            }
+          ],
+          "layer": 3,
+          "status": "NOT CHECKED"
+        }
+      ],
+      "recipeHash": "cc4cb56346badf19e65895839f260745b8e8744ae84c4854ea1ea2c06b3eb5e2",
+      "recipeIds": [
+        "f95ebb12657b578dae3b313a1dc898a721aa40a34885da6c8cbf551bae300027"
+      ],
+      "verdict": "ERROR",
+      "version": "verification-v1"
+    }
+  },
+  "error": null,
+  "approvedAt": null,
+  "protocolVersion": 2,
+  "abandonedAt": null,
+  "waiver": null
+}

@@ -1,0 +1,2111 @@
+{
+  "id": "517aaa79-4895-4bba-ad3d-31db959bbe13",
+  "state": "RESULT",
+  "input": {
+    "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+    "baseRef": "f7f198123955f6113cb583020d06bb47dc89817f",
+    "baseTree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
+    "candidateCommit": "10224d60882e14cdd7a9bcd26c5283c16e7531d1",
+    "candidateRef": "10224d60882e14cdd7a9bcd26c5283c16e7531d1",
+    "candidateTree": "fe1fec93b8f140652586fdbbb6bdb610a87f7630",
+    "intent": "Enforce the audit-event-to-run foreign key without deleting existing audit history when a run is updated.\n\nDone means:\nAn audit insertion referencing a missing run is rejected atomically. Updating an existing run succeeds and preserves its existing audit events exactly. Valid audit insertion and reopen persistence still work. Existing tests pass.\n\nAllowed changed paths: research_router/**, tests/**, README.md\n",
+    "projectId": "v1-research-router",
+    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/R3/A/repo",
+    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/R3/A/repo",
+    "runnerDirectory": ".",
+    "taskChecks": false
+  },
+  "review": {
+    "claims": [],
+    "evaluatorHash": "d05018e26abf2a1fda30cfb38cf48b3912cb1d69f6094a42aeff330b8d0c4042",
+    "hash": "fff5886077b6b6969f74cd1eecb69a1de590a65be75fd2f1ef31c741d3f9c906",
+    "manifest": {
+      "assurance": "IN-PROCESS",
+      "baseHead": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "componentPath": null,
+      "dependencyRoot": null,
+      "evaluationSignature": "7e9fe6a965a5ac6b1a7974009063577de32439abf004122c397df05dcac1e85b",
+      "id": "517aaa79-4895-4bba-ad3d-31db959bbe13",
+      "runner": "unittest",
+      "runnerDirectory": ".",
+      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/R3/A/repo",
+      "tests": [],
+      "version": "process-oracle-v1"
+    }
+  },
+  "result": {
+    "acceptance": "NOT VERIFIED",
+    "automatedStatus": "FAIL",
+    "claims": [
+      {
+        "id": "test_clipboard.ClipboardTests.test_copy_failure_warns_but_export_exists",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_export_copy_calls_clipboard_helper",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_export_open_calls_open_helper",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_import_clipboard_empty_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_import_clipboard_prompt_mentioning_title_still_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_import_clipboard_secret_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_import_clipboard_terminal_command_fails_before_writes",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_import_clipboard_writes_snapshot_and_import",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_import_paste_empty_stdin_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_import_paste_valid_stdin_imports",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_clipboard.ClipboardTests.test_open_failure_warns_but_export_exists",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_continue.ResearchContinueTests.test_continue_blocks_promotion_for_revise",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_continue.ResearchContinueTests.test_continue_does_not_write_to_proof_lab_and_logs_events",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_continue.ResearchContinueTests.test_continue_imports_clipboard_and_runs_critique",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_continue.ResearchContinueTests.test_continue_missing_synthesis_heading_fails_before_writes",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_continue.ResearchContinueTests.test_continue_terminal_command_clipboard_fails_before_writes",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_build_decision_without_support_is_flagged",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_critique_does_not_write_to_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_decision_parser_accepts_common_markdown_styles",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_empty_sources_used_is_blocking",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_engagement_as_proof_language_is_flagged",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_existing_critique_file_is_not_overwritten",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_generic_phrases_are_flagged",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_json_output_works",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_jsonl_logs_include_events_and_audit",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_known_source_ids_pass_source_validation",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_missing_buyer_user_distinction_blocks_build",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_missing_required_headings_reduces_score",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_no_source_ids_causes_non_pass_verdict",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_oversized_next_action_is_flagged",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_report_contains_verdict_and_score",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_structurally_valid_chatgpt_style_does_not_score_zero",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_unknown_source_ids_are_flagged",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_unsupported_market_claims_are_flagged",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_critique.CritiqueTests.test_valid_import_file_writes_critique_report",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_db.DatabaseTests.test_sources_table_has_step_2_columns",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_db.DatabaseTests.test_sqlite_initialization_creates_expected_tables",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_authorization_header_is_used_when_token_exists",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_duplicate_repo_does_not_create_duplicate_source_row",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_empty_result_returns_warning_style_output",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_github_api_url_query_construction",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_github_response_parsing",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_inserts_new_github_sources_into_sqlite",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_invalid_json_failure",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_json_output_works",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_jsonl_logs_include_github_events",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_limit_is_respected_and_capped",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_network_failure_returns_cli_failure",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_no_proof_lab_files_are_written",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_platform_note_preview_includes_topic_query_count_and_caveat",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_rate_limit_403_returns_clear_error",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_runtime_state_inside_proof_lab_is_rejected",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_since_generates_pushed_date_query",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_source_id_generation_is_stable_for_same_repo",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_github.GithubTests.test_token_is_never_printed",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_guards.GuardTests.test_contains_likely_secret",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_guards.GuardTests.test_is_path_inside",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_guards.GuardTests.test_reject_runtime_state_inside_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_guards.GuardTests.test_safe_slug_generation",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_guards.GuardTests.test_secret_redaction",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_guards.GuardTests.test_shell_true_refused",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_duplicate_hn_item_does_not_create_duplicate_source_row",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_empty_result_returns_warning_style_output",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_hn_api_url_query_construction",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_hn_response_parsing",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_inserts_new_hn_sources_into_sqlite",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_invalid_json_failure",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_invalid_limit_returns_cli_failure",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_json_output_works",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_jsonl_logs_include_hn_events",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_limit_is_respected",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_network_failure_returns_cli_failure",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_no_proof_lab_files_are_written",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_platform_note_preview_includes_topic_query_count_and_caveat",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_runtime_state_inside_proof_lab_is_rejected",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_hn.HackerNewsTests.test_source_id_generation_is_stable_for_same_hn_item",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_avoids_overwrite_by_suffixing_filename",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_does_not_write_to_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_file_includes_llm_instructions",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_file_includes_platform_caveats",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_file_includes_source_summary_table",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_filters_by_platform",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_handles_no_matching_sources_with_warning",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_redacts_secret_looking_metadata",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_respects_limit",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_selects_sources_by_topic",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_export_writes_to_state_exports_day_dir",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_invalid_limit_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_export.LlmExportTests.test_jsonl_logs_include_export_events_and_audit",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_empty_file_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_existing_import_file_is_not_overwritten_suffix_added",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_export_path_is_recorded_when_provided",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_import_does_not_write_to_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_import_valid_synthesis_file_writes_to_state_imports",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_imported_file_includes_frontmatter",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_imported_file_includes_validation_block",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_json_output_works",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_jsonl_logs_include_import_events_and_audit",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_known_source_ids_are_validated_against_sqlite",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_likely_secret_bearing_content_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_missing_export_path_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_missing_headings_warns_but_imports",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_no_source_ids_warns",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_oversized_file_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_required_headings_present_passes",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_source_ids_are_extracted",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_llm_import.LlmImportTests.test_unknown_source_ids_are_reported",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_paths.PathTests.test_doctor_returns_fail_when_proof_lab_invalid",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_paths.PathTests.test_doctor_returns_pass_or_warn_when_paths_valid",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_paths.PathTests.test_path_resolution_from_env_vars",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_paths.PathTests.test_state_dir_creation",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_confirmed_promote_writes_one_synthesis_note_inside_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_dry_run_promote_does_not_write_to_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_jsonl_logs_include_promote_events_and_audit",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_if_blocking_issues_exist",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_if_critique_verdict_is_reject",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_if_critique_verdict_is_revise",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_if_no_source_ids_exist",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_if_score_below_85",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_if_source_ids_are_not_in_sqlite",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_if_target_file_already_exists",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_if_unknown_source_ids_exist",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promote_fails_on_secret_looking_content",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_promoted_note_contains_frontmatter_references_and_source_ids",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_promote.PromoteTests.test_target_path_cannot_escape_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_run.ResearchRunTests.test_run_calls_hn_github_and_export_in_order",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_run.ResearchRunTests.test_run_does_not_write_to_proof_lab_and_logs_events",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_run.ResearchRunTests.test_run_honors_limits_and_passes_copy_open",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_confirmed_save_writes_one_markdown_note_inside_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_dry_run_save_does_not_write_to_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_duplicate_save_does_not_create_second_note",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_existing_proof_lab_file_is_not_modified",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_existing_target_file_is_not_overwritten",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_json_output_for_dry_run",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_jsonl_logs_and_audit_event_are_inserted",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_runtime_state_inside_proof_lab_is_rejected",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_save_refuses_invalid_proof_lab_path",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_save_refuses_secret_bearing_metadata",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_save_refuses_target_escape",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_saved_note_contains_required_frontmatter",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_saved_note_contains_source_metadata",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_save.SaveTests.test_unknown_source_id_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_duplicate_file_hash_does_not_create_duplicate_source",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_duplicate_url_does_not_create_duplicate_source",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_invalid_input_failure",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_json_output_works",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_local_file_detection",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_raw_source_preview_contains_required_values",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_secret_looking_url_query_is_redacted_in_stdout_and_logs",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_source_add_does_not_write_into_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_source_id_generation",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_sqlite_source_insert_for_url",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_source_add.SourceAddTests.test_url_detection",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_build_without_smallest_artifact_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_build_without_smallest_validation_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_existing_task_file_suffix_added",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_ignore_decision_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_invalid_decision_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_jsonl_logs_include_taskify_events_and_audit",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_kill_decision_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_known_source_ids_pass_validation",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_missing_decision_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_no_source_ids_fail",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_repo_path_warning_works",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_secret_looking_content_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_task_file_includes_frontmatter_source_note_and_source_ids",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_taskify_does_not_write_to_proof_lab",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_unknown_source_ids_fail",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_valid_synthesis_creates_task_under_state_tasks",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_taskify.TaskifyTests.test_watch_without_concrete_next_action_fails",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_templates.TemplateTests.test_all_required_templates_exist",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "test_templates.TemplateTests.test_templates_have_required_frontmatter_fields",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa:oracle_judge.TestOracle.test_e1",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "FAIL"
+      },
+      {
+        "id": "818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33:oracle_judge.TestOracle.test_e1",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "FAIL"
+      },
+      {
+        "id": "818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33:oracle_judge.TestOracle.test_e2",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      }
+    ],
+    "evidence": {
+      "candidateExport": {
+        "hash": "bf16332139785de1d7d01826cd5b53fd8505eb3c5fb60e77c5ff9f7e0dedfb9d",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/candidate-export",
+        "sourceTree": "10224d60882e14cdd7a9bcd26c5283c16e7531d1"
+      },
+      "executedChecks": [
+        {
+          "hash": "32f75bb1ca40d90508506bf878393cb260381a424ace02a6c5fa582938be5e60",
+          "id": "protected-existing-tests",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/protected-existing-tests.json"
+        },
+        {
+          "hash": "c435dea6c081a035c6038f1c0bd83158650185a135bae623a1c93174f61604bd",
+          "id": "recipe-041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa-E1",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/recipe-041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa-E1.json"
+        },
+        {
+          "hash": "603cdcbd47b5501fd9c94f90cd4172af9a89152339b5046a2d11da2dcdb90b74",
+          "id": "recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E1",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E1.json"
+        },
+        {
+          "hash": "53143dbd4938576d25229fda8b0b828f6c52639088a0d4af8b4ab13c45a92173",
+          "id": "recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E2",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E2.json"
+        },
+        {
+          "hash": "9eca37222158db6aa8a24571f92e5d8e5ee8985827c6b7d85d1f6cf9871dd65b",
+          "id": "candidate-tests-non-authoritative",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/candidate-tests-non-authoritative.json"
+        }
+      ],
+      "executionTree": {
+        "hash": "df2a1d9b0a26a01a21f5c7e162ce11e65a136c63951a3e9cecf43d7ef9570e84",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/executed-tree",
+        "trustedLinks": {}
+      },
+      "hash": "fd0ca11fc96d9246f94d24b10aaf960094a77d98f01f25f249e81a4a3ff90531",
+      "inputHash": "3ea49cfcd1987f25286a716914efa3c107779b4081e8d8c0718c1d223544bf51",
+      "overlay": {
+        "candidateOnlyTests": [],
+        "hash": "2103c69735c14fc8321f0b570de8d3394126225d840828235eee94ff4ce27a79",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/base-test-overlay",
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ]
+      },
+      "recipeHash": "7e9fe6a965a5ac6b1a7974009063577de32439abf004122c397df05dcac1e85b",
+      "records": [
+        {
+          "hash": "0826f80b93e516bdd21b227f369080ac47e893139b04530f90cd79efb2065a7f",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/existing-tests/native-E1-b0c1afb5-1ddf-49e7-a1e1-7188db8e926d/observations.json"
+        },
+        {
+          "hash": "57af70ee052ce0cb9072b0ecf083710f5f0496e6fa38c14b11e68002aefcecbc",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/project-recipes/native-E1-106842fc-ec59-4178-a0ce-d3d591a0d95b/observations.json"
+        },
+        {
+          "hash": "54d471dfa8210de562f7ca000ba692eef6ef1fd08cb2d8eeabbd13db8778938c",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/project-recipes/native-E1-958206ae-9af8-4227-955a-b4f8fbb29eb8/observations.json"
+        },
+        {
+          "hash": "1224896d8a03223bbccba92a6168d076e3249fe77a9569d63046f099f7889f68",
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/517aaa79-4895-4bba-ad3d-31db959bbe13/project-recipes/native-E2-1446bd02-bd6a-40df-8b8a-12a4c0aeb55e/observations.json"
+        }
+      ],
+      "requiredChecksHash": "a6937793247608d068acd5ae46de74ea521a532966d25072b599242aceae4d81"
+    },
+    "status": "FAIL",
+    "v1": {
+      "admittedTaskChecksHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "canLand": false,
+      "candidateTests": {
+        "authoritative": false,
+        "paths": [
+          "tests/test_db.py"
+        ],
+        "status": "PASS"
+      },
+      "gaps": [
+        {
+          "id": "ai-task-checks",
+          "layer": 3,
+          "reason": "Advisory task checks not requested; original intent is not automatically proved."
+        }
+      ],
+      "landed": null,
+      "layers": [
+        {
+          "checks": [
+            {
+              "id": "test_clipboard.ClipboardTests.test_copy_failure_warns_but_export_exists",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_export_copy_calls_clipboard_helper",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_export_open_calls_open_helper",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_import_clipboard_empty_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_import_clipboard_prompt_mentioning_title_still_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_import_clipboard_secret_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_import_clipboard_terminal_command_fails_before_writes",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_import_clipboard_writes_snapshot_and_import",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_import_paste_empty_stdin_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_import_paste_valid_stdin_imports",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_clipboard.ClipboardTests.test_open_failure_warns_but_export_exists",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_continue.ResearchContinueTests.test_continue_blocks_promotion_for_revise",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_continue.ResearchContinueTests.test_continue_does_not_write_to_proof_lab_and_logs_events",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_continue.ResearchContinueTests.test_continue_imports_clipboard_and_runs_critique",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_continue.ResearchContinueTests.test_continue_missing_synthesis_heading_fails_before_writes",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_continue.ResearchContinueTests.test_continue_terminal_command_clipboard_fails_before_writes",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_build_decision_without_support_is_flagged",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_critique_does_not_write_to_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_decision_parser_accepts_common_markdown_styles",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_empty_sources_used_is_blocking",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_engagement_as_proof_language_is_flagged",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_existing_critique_file_is_not_overwritten",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_generic_phrases_are_flagged",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_json_output_works",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_jsonl_logs_include_events_and_audit",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_known_source_ids_pass_source_validation",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_missing_buyer_user_distinction_blocks_build",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_missing_required_headings_reduces_score",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_no_source_ids_causes_non_pass_verdict",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_oversized_next_action_is_flagged",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_report_contains_verdict_and_score",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_structurally_valid_chatgpt_style_does_not_score_zero",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_unknown_source_ids_are_flagged",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_unsupported_market_claims_are_flagged",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_critique.CritiqueTests.test_valid_import_file_writes_critique_report",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_db.DatabaseTests.test_sources_table_has_step_2_columns",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_db.DatabaseTests.test_sqlite_initialization_creates_expected_tables",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_authorization_header_is_used_when_token_exists",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_duplicate_repo_does_not_create_duplicate_source_row",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_empty_result_returns_warning_style_output",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_github_api_url_query_construction",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_github_response_parsing",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_inserts_new_github_sources_into_sqlite",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_invalid_json_failure",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_json_output_works",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_jsonl_logs_include_github_events",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_limit_is_respected_and_capped",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_network_failure_returns_cli_failure",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_no_proof_lab_files_are_written",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_platform_note_preview_includes_topic_query_count_and_caveat",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_rate_limit_403_returns_clear_error",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_runtime_state_inside_proof_lab_is_rejected",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_since_generates_pushed_date_query",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_source_id_generation_is_stable_for_same_repo",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_github.GithubTests.test_token_is_never_printed",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_guards.GuardTests.test_contains_likely_secret",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_guards.GuardTests.test_is_path_inside",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_guards.GuardTests.test_reject_runtime_state_inside_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_guards.GuardTests.test_safe_slug_generation",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_guards.GuardTests.test_secret_redaction",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_guards.GuardTests.test_shell_true_refused",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_duplicate_hn_item_does_not_create_duplicate_source_row",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_empty_result_returns_warning_style_output",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_hn_api_url_query_construction",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_hn_response_parsing",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_inserts_new_hn_sources_into_sqlite",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_invalid_json_failure",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_invalid_limit_returns_cli_failure",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_json_output_works",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_jsonl_logs_include_hn_events",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_limit_is_respected",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_network_failure_returns_cli_failure",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_no_proof_lab_files_are_written",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_platform_note_preview_includes_topic_query_count_and_caveat",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_runtime_state_inside_proof_lab_is_rejected",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_hn.HackerNewsTests.test_source_id_generation_is_stable_for_same_hn_item",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_avoids_overwrite_by_suffixing_filename",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_does_not_write_to_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_file_includes_llm_instructions",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_file_includes_platform_caveats",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_file_includes_source_summary_table",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_filters_by_platform",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_handles_no_matching_sources_with_warning",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_redacts_secret_looking_metadata",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_respects_limit",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_selects_sources_by_topic",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_export_writes_to_state_exports_day_dir",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_invalid_limit_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_export.LlmExportTests.test_jsonl_logs_include_export_events_and_audit",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_empty_file_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_existing_import_file_is_not_overwritten_suffix_added",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_export_path_is_recorded_when_provided",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_import_does_not_write_to_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_import_valid_synthesis_file_writes_to_state_imports",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_imported_file_includes_frontmatter",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_imported_file_includes_validation_block",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_json_output_works",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_jsonl_logs_include_import_events_and_audit",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_known_source_ids_are_validated_against_sqlite",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_likely_secret_bearing_content_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_missing_export_path_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_missing_headings_warns_but_imports",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_no_source_ids_warns",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_oversized_file_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_required_headings_present_passes",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_source_ids_are_extracted",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_llm_import.LlmImportTests.test_unknown_source_ids_are_reported",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_paths.PathTests.test_doctor_returns_fail_when_proof_lab_invalid",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_paths.PathTests.test_doctor_returns_pass_or_warn_when_paths_valid",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_paths.PathTests.test_path_resolution_from_env_vars",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_paths.PathTests.test_state_dir_creation",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_confirmed_promote_writes_one_synthesis_note_inside_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_dry_run_promote_does_not_write_to_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_jsonl_logs_include_promote_events_and_audit",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_if_blocking_issues_exist",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_if_critique_verdict_is_reject",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_if_critique_verdict_is_revise",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_if_no_source_ids_exist",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_if_score_below_85",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_if_source_ids_are_not_in_sqlite",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_if_target_file_already_exists",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_if_unknown_source_ids_exist",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promote_fails_on_secret_looking_content",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_promoted_note_contains_frontmatter_references_and_source_ids",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_promote.PromoteTests.test_target_path_cannot_escape_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_run.ResearchRunTests.test_run_calls_hn_github_and_export_in_order",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_run.ResearchRunTests.test_run_does_not_write_to_proof_lab_and_logs_events",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_run.ResearchRunTests.test_run_honors_limits_and_passes_copy_open",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_confirmed_save_writes_one_markdown_note_inside_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_dry_run_save_does_not_write_to_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_duplicate_save_does_not_create_second_note",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_existing_proof_lab_file_is_not_modified",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_existing_target_file_is_not_overwritten",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_json_output_for_dry_run",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_jsonl_logs_and_audit_event_are_inserted",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_runtime_state_inside_proof_lab_is_rejected",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_save_refuses_invalid_proof_lab_path",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_save_refuses_secret_bearing_metadata",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_save_refuses_target_escape",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_saved_note_contains_required_frontmatter",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_saved_note_contains_source_metadata",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_save.SaveTests.test_unknown_source_id_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_duplicate_file_hash_does_not_create_duplicate_source",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_duplicate_url_does_not_create_duplicate_source",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_invalid_input_failure",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_json_output_works",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_local_file_detection",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_raw_source_preview_contains_required_values",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_secret_looking_url_query_is_redacted_in_stdout_and_logs",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_source_add_does_not_write_into_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_source_id_generation",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_sqlite_source_insert_for_url",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_source_add.SourceAddTests.test_url_detection",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_build_without_smallest_artifact_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_build_without_smallest_validation_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_existing_task_file_suffix_added",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_ignore_decision_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_invalid_decision_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_jsonl_logs_include_taskify_events_and_audit",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_kill_decision_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_known_source_ids_pass_validation",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_missing_decision_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_no_source_ids_fail",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_repo_path_warning_works",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_secret_looking_content_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_task_file_includes_frontmatter_source_note_and_source_ids",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_taskify_does_not_write_to_proof_lab",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_unknown_source_ids_fail",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_valid_synthesis_creates_task_under_state_tasks",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_taskify.TaskifyTests.test_watch_without_concrete_next_action_fails",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_templates.TemplateTests.test_all_required_templates_exist",
+              "reason": null,
+              "status": "PASS"
+            },
+            {
+              "id": "test_templates.TemplateTests.test_templates_have_required_frontmatter_fields",
+              "reason": null,
+              "status": "PASS"
+            }
+          ],
+          "gaps": [],
+          "layer": 1,
+          "status": "PASS"
+        },
+        {
+          "checks": [
+            {
+              "id": "041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa:oracle_judge.TestOracle.test_e1",
+              "reason": null,
+              "status": "FAIL"
+            },
+            {
+              "id": "818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33:oracle_judge.TestOracle.test_e1",
+              "reason": null,
+              "status": "FAIL"
+            },
+            {
+              "id": "818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33:oracle_judge.TestOracle.test_e2",
+              "reason": null,
+              "status": "PASS"
+            }
+          ],
+          "gaps": [],
+          "layer": 2,
+          "status": "FAIL"
+        },
+        {
+          "checks": [],
+          "gaps": [
+            {
+              "id": "ai-task-checks",
+              "layer": 3,
+              "reason": "Advisory task checks not requested; original intent is not automatically proved."
+            }
+          ],
+          "layer": 3,
+          "status": "NOT CHECKED"
+        }
+      ],
+      "recipeHash": "7e9fe6a965a5ac6b1a7974009063577de32439abf004122c397df05dcac1e85b",
+      "recipeIds": [
+        "041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa",
+        "818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33"
+      ],
+      "verdict": "FAILED",
+      "version": "verification-v1"
+    }
+  },
+  "error": null,
+  "approvedAt": null,
+  "protocolVersion": 2,
+  "abandonedAt": null,
+  "waiver": null
+}
