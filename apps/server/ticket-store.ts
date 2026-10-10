@@ -62,3 +62,9 @@ export function decideTicket(db:DatabaseSync,id:string,decision:'keep'|'discard'
   return changeState(db,t,next,{decision});
  });if(result instanceof Error)throw result;return result;
 }
+/** Explicit check-only edge. Generic transitions cannot unfreeze a review or select another Candidate. */
+export function beginTicketRecheck(db:DatabaseSync,id:string,expectedCandidate:string):Ticket{
+ return transaction(db,()=>{const t=requireTicket(db,id);if(!['ready_for_review','interrupted','harness_error','needs_you'].includes(t.status)||!expectedCandidate||t.candidateCommits.at(-1)!==expectedCandidate)throw new Error('Recheck requires the same stopped frozen Candidate');
+  changeState(db,t,'checking',{mode:'recheck',candidate:expectedCandidate});db.prepare("UPDATE tickets SET check_verdict='NOT CHECKED' WHERE id=?").run(id);appendTicketEvent(db,id,'retry_requested',{mode:'recheck',candidate:expectedCandidate});return requireTicket(db,id);
+ });
+}

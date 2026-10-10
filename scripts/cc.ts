@@ -9,7 +9,7 @@ const port=process.env.COMMAND_CENTER_PORT??active.port??3210;
 const data=resolve(root,process.env.COMMAND_CENTER_DATA_DIR??active.dataDir??'data');
 const base='http://127.0.0.1:'+port;
 const shellQuote=(value:string)=>"'"+value.replaceAll("'","'\"'\"'")+"'";
-const usage='Usage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | stats; cc playbook show|approve|edit <repo> [--file definition.json]';
+const usage='Usage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]';
 async function main(){
  const args=process.argv.slice(2),resource=args.shift(),command=args.shift();
  if(resource!=='ticket'&&resource!=='playbook')throw Error(usage);
@@ -45,7 +45,7 @@ async function main(){
  if(command==='new'){const at=args.indexOf('--repo');if(at!==1||!args[2]||args.length!==3)throw Error('Usage: cc ticket new "request" --repo path');result=await call('',{requestText:args[0],repoPath:args[2]});}
  else if(command==='list')result=await call('');else if(command==='stats')result=await call('/stats');
  else if(command==='show'&&id){result=await call('/'+id);if(args.includes('--open')){const url=base+'/?ticket='+encodeURIComponent(id)+'#operator='+key;execFile('/usr/bin/open',[url],error=>{if(error)console.error('Could not open browser');});}}
- else if(['keep','discard','retry'].includes(command??'')&&id){const view=command==='keep'?await call('/'+id):null;result=await call('/'+id+'/'+command,command==='keep'?{candidateCommit:view.ticket.candidateCommits.at(-1)}:{});}
+ else if(['keep','discard','retry','recheck'].includes(command??'')&&id){const view=(command==='keep'||command==='recheck')?await call('/'+id):null;result=await call('/'+id+'/'+command,(command==='keep'||command==='recheck')?{candidateCommit:view.ticket.candidateCommits.at(-1)}:{});}
  else throw Error('Unknown ticket command');
  console.log(JSON.stringify(result,null,2));
 }

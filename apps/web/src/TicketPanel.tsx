@@ -18,7 +18,7 @@ export function bootstrapTicketOperator():string|null{
 }
 type TicketStats={submitToReviewMs:number|null;agentWorkingMs:number;agentTimeIncomplete:boolean;needsYouStops:number;fixAttempts:number;finalVerdict:TicketCheckVerdict|null;decision:unknown};
 type Summary={tickets:number;readyForReview:number;kept:number;discarded:number;agentWorkingMs:number;needsYouStops:number;fixAttempts:number};
-type Detail={ticket:Ticket;events:TicketEvent[];stats:TicketStats;check?:{verdict:TicketCheckVerdict;gaps:string[];failures:string[]};diffAvailable:boolean;playbook?:ProjectPlaybook};
+type Detail={evidenceStale?:boolean;staleReason?:string|null;recheckAvailable?:boolean;keepAvailable?:boolean;ticket:Ticket;events:TicketEvent[];stats:TicketStats;check?:{verdict:TicketCheckVerdict;gaps:string[];failures:string[]};diffAvailable:boolean;playbook?:ProjectPlaybook};
 function record(value:unknown):value is Record<string,unknown>{return typeof value==='object'&&value!==null;}
 function strings(value:unknown):value is string[]{return Array.isArray(value)&&value.every(v=>typeof v==='string');}
 function isTicket(value:unknown):value is Ticket{return record(value)&&typeof value.id==='string'&&typeof value.title==='string'&&typeof value.requestText==='string'&&typeof value.repoPath==='string'&&typeof value.baseCommit==='string'&&ticketStatuses.some(s=>s===value.status)&&typeof value.attemptCount==='number'&&strings(value.candidateCommits)&&(value.checkVerdict===null||ticketCheckVerdicts.some(v=>v===value.checkVerdict))&&typeof value.createdAt==='string'&&typeof value.updatedAt==='string';}
@@ -80,9 +80,9 @@ export function TicketPanel(){
   return()=>{controller.abort();if(url)URL.revokeObjectURL(url);};
  },[key,selected,diffRequested,revision,diffAvailable,candidateCommit]);
  function choose(id:string){setSelected(id);setDiffRequested(false);setError(null);const url=new URL(window.location.href);url.searchParams.set('ticket',id);window.history.replaceState(window.history.state,'',url.pathname+url.search);}
- async function action(kind:'keep'|'discard'|'retry'){
+ async function action(kind:'keep'|'discard'|'retry'|'recheck'){
   if(!key||!detail||busy)return;setBusy(true);setError(null);
-  try{await request(key,'/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,undefined,kind==='keep'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{});setRevision(n=>n+1);}catch(e){setError((e as Error).message);}finally{setBusy(false);}
+  try{await request(key,'/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,undefined,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{});setRevision(n=>n+1);}catch(e){setError((e as Error).message);}finally{setBusy(false);}
  }
  async function approvePlaybook(){
   if(!key||!detail?.playbook||busy)return;setBusy(true);setError(null);
@@ -105,7 +105,8 @@ export function TicketPanel(){
  <h4>{detail.check?.verdict??detail.ticket.checkVerdict??'NOT CHECKED'}</h4>{detail.check?.gaps.map((gap,i)=><p key={i}>GAP: {gap}</p>)}{detail.check?.failures.map((failure,i)=><p key={i}>FAILURE: {failure}</p>)}
  <dl className="ticket-stats"><div><dt>Submit to review</dt><dd>{elapsed(detail.stats.submitToReviewMs)}</dd></div><div><dt>Agent work</dt><dd>{elapsed(detail.stats.agentWorkingMs)}{detail.stats.agentTimeIncomplete?' (incomplete)':''}</dd></div><div><dt>Needs-you stops</dt><dd>{detail.stats.needsYouStops}</dd></div><div><dt>Fix attempts</dt><dd>{detail.stats.fixAttempts}</dd></div></dl>
  {detail.diffAvailable&&<button className="secondary-button" disabled={diffRequested} onClick={()=>setDiffRequested(true)}>{diffRequested&&!diff?'Loading diff…':'Inspect diff'}</button>}{diffError&&<p role="alert">{diffError}</p>}{diff&&<details open><summary>Candidate diff</summary><a href={diff.url} download={detail.ticket.id+'.diff'}>Download diff</a><pre>{diff.text}</pre></details>}
- {detail.ticket.status==='ready_for_review'&&<div className="ticket-actions"><button className="primary-button" disabled={busy||!detail.ticket.candidateCommits.length} onClick={()=>void action('keep')}>Keep candidate</button><button className="secondary-button" disabled={busy} onClick={()=>void action('discard')}>Discard candidate</button></div>}
+ {detail.evidenceStale&&<p role="status">Checks are stale: {detail.staleReason}</p>}{detail.recheckAvailable&&<button className="secondary-button" disabled={busy} onClick={()=>void action('recheck')}>Recheck</button>}
+ {detail.ticket.status==='ready_for_review'&&<div className="ticket-actions"><button className="primary-button" disabled={busy||detail.evidenceStale||detail.keepAvailable===false||!detail.ticket.candidateCommits.length} onClick={()=>void action('keep')}>Keep candidate</button><button className="secondary-button" disabled={busy} onClick={()=>void action('discard')}>Discard candidate</button></div>}
  {['needs_you','interrupted','harness_error'].includes(detail.ticket.status)&&!(detail.ticket.status==='needs_you'&&detail.playbook?.approval?.hash!==detail.playbook?.hash)&&<button className="secondary-button" disabled={busy} onClick={()=>void action('retry')}>Retry ticket</button>}
  <h4>Events</h4><ol className="ticket-events">{detail.events.map(event=><li key={event.sequence}><time dateTime={event.createdAt}>{event.createdAt}</time> <strong>{event.kind}</strong><details><summary>Event details</summary><pre>{JSON.stringify(event.data,null,2)}</pre></details></li>)}</ol>
  </>}</article></div></section>;
