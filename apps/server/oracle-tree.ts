@@ -44,7 +44,7 @@ export async function materializeOracleTree(objectDir:string,revision:string,wor
  for(const entry of inventory){const full=join(target,entry.path),bytes=await readFile(full),source=await safeBuildGit(objectDir,['cat-file','blob',entry.oid],FILE_CAP+1);if(!bytes.equals(source))throw new Error('Oracle archive content differs from source tree');}
  return {workspace:target,sourceTree};
 }
-export function isOracleTestPath(path:string):boolean{return /(?:^|\/)(?:tests?|__tests__)(?:\/|$)/i.test(path)||/(?:^|\/)test_[^/]+\.py$|_test\.py$|\.(?:test|spec)\.(?:[cm]?[jt]s|tsx|jsx)$/i.test(path);}
+export function isOracleTestPath(path:string):boolean{return /(?:^|\/)(?:tests?|__tests__)(?:\/|$)/i.test(path)||/(?:^|\/)test[-_][^/]+\.(?:py|mjs|cjs)$|_test\.py$|\.(?:test|spec)\.(?:[cm]?[jt]s|tsx|jsx)$/i.test(path);}
 export async function restoreBaseTests(objectDir:string,baseHead:string,workspace:string):Promise<{restored:string[];candidateOnlyTests:string[]}>{
  const base=(await entries(objectDir,baseHead)).filter(e=>isOracleTestPath(e.path));
  const basePaths=new Set(base.map(e=>e.path));

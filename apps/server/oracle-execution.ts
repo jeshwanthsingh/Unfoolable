@@ -38,7 +38,7 @@ export function oracleSandbox(reads:string[],scratch:string,canFork:boolean,loop
  const exceptions=reads.concat(scratch).map(p=>`(require-not (subpath ${q(p)}))`).concat(exactReads.concat(traversal).map(p=>`(require-not (literal ${q(p)}))`)).join(' ');
  return `(version 1)(allow default)(deny network*)${loopback?'(allow network-inbound (local ip "localhost:*"))(allow network-outbound (remote ip "localhost:*"))':''}(deny signal)${ownedChildSignals?'(allow signal (require-all (target same-sandbox) (target children)))':''}${canFork?'':'(deny process-fork)'}(deny file-write* (require-not (subpath ${q(scratch)})))`+['/Users','/private/tmp','/tmp','/private/var','/var','/etc','/private/etc','/Volumes'].map(p=>`(deny file-read* (require-all (subpath ${q(p)}) ${exceptions}))`).join('')+metadata+directoryDataDenial;
 }
-async function processRun(command:string[],cwd:string,env:NodeJS.ProcessEnv,profile:string,input:string,signal:AbortSignal,ownership:Ownership,timeout=10000){
+export async function processRun(command:string[],cwd:string,env:NodeJS.ProcessEnv,profile:string,input:string,signal:AbortSignal,ownership:Ownership,timeout=10000){
  if(signal.aborted)throw Error('Oracle interrupted before launch');
  await ownership.onLaunchPending?.();
  const child=spawn('/usr/bin/sandbox-exec',['-p',profile,...command],{cwd,env,detached:true,stdio:['pipe','pipe','pipe','pipe']});

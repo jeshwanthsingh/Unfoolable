@@ -1,7 +1,8 @@
 import type {IncomingMessage} from 'node:http';import type {createTicketService} from './ticket-service.ts';import {projectBody} from './project-body.ts';import {SpecError} from './spec-errors.ts';
 export async function ticketRoute(req:IncomingMessage,path:string,service:ReturnType<typeof createTicketService>){
- if(!path.startsWith('/api/tickets'))return null;
+ if(!path.startsWith('/api/tickets')&&!path.startsWith('/api/playbooks/'))return null;
  if(!service.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open tickets through the local cc command.',403);
+ if(path.startsWith('/api/playbooks/')&&req.method==='POST'){const body=await projectBody(req,'project playbook',40000);if(path==='/api/playbooks/show')return {status:200,body:await service.playbookShow(body.repoPath)};if(path==='/api/playbooks/edit')return {status:200,body:await service.playbookEdit(body.repoPath,body.definition,body.expectedHash)};if(path==='/api/playbooks/approve')return {status:200,body:await service.playbookApprove(body.repoPath,body.expectedHash)};}
  if(path==='/api/tickets'&&req.method==='GET')return {status:200,body:service.list()};
  if(path==='/api/tickets/stats'&&req.method==='GET')return {status:200,body:service.stats()};
  if(path==='/api/tickets'&&req.method==='POST')return {status:201,body:await service.create(await projectBody(req,'ticket',70000))};

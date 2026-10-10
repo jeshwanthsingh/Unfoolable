@@ -29,7 +29,7 @@ export function updateTicket(db:DatabaseSync,id:string,patch:{attemptCount?:numb
 }
 
 export const ticketTransitions:Readonly<Record<TicketStatus,readonly TicketStatus[]>>={
- queued:['building','cancelled','harness_error','discarded'],
+ queued:['building','needs_you','cancelled','harness_error','discarded'],
  building:['checking','needs_you','interrupted','cancelled','harness_error'],
  checking:['fixing','ready_for_review','needs_you','interrupted','cancelled','harness_error'],
  fixing:['checking','needs_you','interrupted','cancelled','harness_error'],

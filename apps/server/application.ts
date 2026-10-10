@@ -1,3 +1,4 @@
+import {ProjectPlaybookError} from './project-playbooks.ts';
 import {createTicketService} from './ticket-service.ts';
 import {ticketRoute} from './ticket-routes.ts';
 import type {TicketLoopDependencies} from './ticket-loop.ts';
@@ -118,7 +119,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    if(mission && req.method==='GET'){json(res,200,getMission(database.connection,mission[1]!,logger));return;}
    if(req.method==='GET'&&serveWeb(pathname,config.webRoot,res))return;
    error(res,404,'NOT_FOUND','Route not found');
-  }catch(problem){if(res.destroyed)return;if(problem instanceof SpecError||problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError||problem instanceof PlanningError||problem instanceof BuildError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
+  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectPlaybookError||problem instanceof SpecError||problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError||problem instanceof PlanningError||problem instanceof BuildError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
  });
  server.requestTimeout=5000;server.headersTimeout=5000;server.keepAliveTimeout=1000;
  let closing:Promise<void>|undefined;
