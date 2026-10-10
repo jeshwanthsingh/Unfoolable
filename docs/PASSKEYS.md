@@ -1,0 +1,13 @@
+# Human decisions
+
+Open `./cc chat`, using http://localhost:3225 (or the configured port). Click Register platform passkey. Complete the browser platform-passkey prompt, then the separate initial macOS biometric prompt. Its 12-character fingerprint must match the page. Initial enrollment is single-flight and sealed to one credential; no replacement or reset API is implemented. CC stores only the credential public key/counter, never biometric data or the private key.
+
+Keep, Discard, playbook approval/edit, Allow/Deny, Retry and Recheck require a new signed WebAuthn confirmation of the exact action, item and current evidence. Draft Start/Edit/Cancel and legacy Mission review decisions are also gated. A challenge expires after two minutes, is consumed once, and cannot authorize a changed item/body/evidence. Authority is scoped and cleared before automatic queue work. Client-supplied actor labels grant nothing. Tests use fake authenticators only in isolated TEST data; LIVE stores reject injection. Read/status commands need no biometric check.
+
+CLI decision commands print a confirmation link, open the browser and wait. Only the browser's verified confirmation can submit the operation; the CLI never submits it. If an operation fails after confirmation, its confirmation stays consumed: inspect the item and create a fresh request. No typed chat action authorizes a decision.
+
+The WebAuthn server verifies signatures, challenge, origin, relying party and required user verification. Ordinary WebAuthn does not attest that Touch ID specifically was used; the platform may offer other verification. Initial LIVE enrollment therefore also requires macOS biometric authentication, with no software/password fallback. The same-user filesystem is a trusted boundary: someone able to modify CC source or its SQLite store can subvert CC; this does not claim to protect against that.
+
+The relying party and origin policy is centralized; v1 intentionally accepts only localhost over HTTP. The decision protocol is transport-independent, so future iPhone Face ID uses the same challenge/signature flow, but requires a stable private HTTPS hostname, explicit Host/Origin/network policy and re-enrollment for that RP. A localhost credential cannot be reused at another hostname. Phone access is not implemented.
+
+Dependencies: free MIT @simplewebauthn/server and @simplewebauthn/browser perform standard cryptographic validation and browser credential serialization. See https://simplewebauthn.dev/docs/packages/server and https://simplewebauthn.dev/docs/packages/browser. No paid API or SaaS is used.

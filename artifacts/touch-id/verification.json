@@ -1,0 +1,25 @@
+{
+  "fullSuite": {
+    "passed": 791,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 255.752
+  },
+  "focusedPasskeyTests": 21,
+  "stressRounds": [
+    50,
+    50,
+    50
+  ],
+  "immediateRetries": 75,
+  "stressProvider": "disposable process provider through real chat HTTP and real supervisor; not 150 model calls",
+  "negativeControls": 12,
+  "negativePASS": 0,
+  "typecheck": "PASS",
+  "build": "PASS",
+  "compiledNativeAssetResolution": "PASS outside repository cwd",
+  "nativeCallbackArgumentDelivery": "PASS using harmless Foundation callback, no biometric prompt",
+  "realOwnerEnrollment": "PENDING",
+  "realCareerRetry": "PENDING fresh passkey",
+  "builderModelRuntime": "unchanged"
+}

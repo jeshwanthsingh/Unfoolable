@@ -7,13 +7,35 @@ let active:{port?:number;dataDir?:string}={};
 try{active=JSON.parse(readFileSync(join(root,'.work/ticket-loop-v1/ACTIVE.json'),'utf8'));}catch{}
 const port=process.env.COMMAND_CENTER_PORT??active.port??3210;
 const data=resolve(root,process.env.COMMAND_CENTER_DATA_DIR??active.dataDir??'data');
-const base='http://127.0.0.1:'+port;
+const base='http://localhost:'+port;
 const shellQuote=(value:string)=>"'"+value.replaceAll("'","'\"'\"'")+"'";
 const usage='Usage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]';
 async function main(){
  const args=process.argv.slice(2),resource=args.shift(),command=args.shift();
  if(resource!=='ticket'&&resource!=='playbook'&&resource!=='chat')throw Error(usage);
  const key=readFileSync(join(data,'ticket-operator.key'),'utf8').trim();
+ const confirmInBrowser=async(path:string,body:unknown)=>{
+  const humanCall=async(route:string,payload?:unknown)=>{
+   const response=await fetch(base+route,{method:payload===undefined?'GET':'POST',headers:{'X-CC-Operator':key,Origin:base,...(payload===undefined?{}:{'Content-Type':'application/json'})},...(payload===undefined?{}:{body:JSON.stringify(payload)})});
+   const result=await response.json();if(!response.ok)throw Error(result.error?.message??'Confirmation request failed');return result;
+  };
+  const pending=await humanCall('/api/human/options',{path,body});
+  if(typeof pending.id!=='string'||typeof pending.expiresAt!=='number')throw Error('Confirmation identity unavailable');
+  const link=base+'/?view=chat&confirm='+encodeURIComponent(pending.id);
+  console.log('Confirm this exact decision with your platform passkey: '+link);
+  console.log('This command cannot decide. The browser confirmation expires in two minutes.');
+  // The operator capability goes only to the opened browser fragment, never terminal output.
+  execFile('/usr/bin/open',[link+'#operator='+key],error=>{if(error)console.error('Could not open browser; use ./cc chat and the pending confirmation link.');});
+  const deadline=pending.expiresAt;if(!Number.isFinite(deadline))throw Error('Confirmation expiry unavailable');
+  while(Date.now()<deadline){
+   const current=await humanCall('/api/human/requests/'+encodeURIComponent(pending.id));
+   if(current.status==='CONSUMED'){console.log('Browser decision consumed. Inspect the item for its recorded result.');return;}
+   if(['EXPIRED','STALE','CANCELLED','ERROR','REJECTED'].includes(current.status))throw Error('Confirmation '+String(current.status).toLowerCase()+'. No decision was made by the CLI.');
+   await new Promise(resolve=>setTimeout(resolve,1000));
+  }
+  throw Error('Confirmation expired. No decision was made by the CLI.');
+ };
+
  if(resource==='chat'){
   if(args.length)throw Error('Usage: cc chat ["message"]');
   if(command===undefined){execFile('/usr/bin/open',[base+'/?view=chat#operator='+key],error=>{if(error)console.error('Could not open browser');});console.log('Jarvis chat: '+base+'/?view=chat');return;}
@@ -27,7 +49,7 @@ async function main(){
  if(resource==='playbook'){
   const repoPath=args[0];if(!repoPath||!['show','approve','edit'].includes(command??''))throw Error(usage);
   if(command==='show'&&args.length===1){console.log(JSON.stringify(await call('/show',{repoPath}),null,2));return;}
-  if(command==='approve'&&args.length===1){const current=await call('/show',{repoPath});console.log('Approving playbook '+current.hash);console.log(JSON.stringify(await call('/approve',{repoPath,expectedHash:current.hash}),null,2));return;}
+  if(command==='approve'&&args.length===1){const current=await call('/show',{repoPath});await confirmInBrowser('/api/playbooks/approve',{repoPath,expectedHash:current.hash});return;}
   if(command==='edit'){
    const current=await call('/show',{repoPath});
    if(args.length===1){
@@ -43,7 +65,7 @@ async function main(){
    const draftIdentity=/^edit-([a-f0-9]{64})\.json$/.exec(basename(args[2]));
    if(draftIdentity&&draftIdentity[1]!==current.hash)throw Error('This draft was prepared for an older playbook. Run edit again and review the current definition before applying it.');
    const definition=JSON.parse(readFileSync(resolve(args[2]),'utf8'));
-   console.log(JSON.stringify(await call('/edit',{repoPath,definition,expectedHash:current.hash}),null,2));return;
+   await confirmInBrowser('/api/playbooks/edit',{repoPath,definition,expectedHash:current.hash});return;
   }
   throw Error(usage);
  }
@@ -51,7 +73,7 @@ async function main(){
  if(command==='new'){const at=args.indexOf('--repo');if(at!==1||!args[2]||args.length!==3)throw Error('Usage: cc ticket new "request" --repo path');result=await call('',{requestText:args[0],repoPath:args[2]});}
  else if(command==='list')result=await call('');else if(command==='stats')result=await call('/stats');
  else if(command==='show'&&id){result=await call('/'+id);if(args.includes('--open')){const url=base+'/?ticket='+encodeURIComponent(id)+'#operator='+key;execFile('/usr/bin/open',[url],error=>{if(error)console.error('Could not open browser');});}}
- else if(['keep','discard','retry','recheck'].includes(command??'')&&id){const view=(command==='keep'||command==='recheck')?await call('/'+id):null;result=await call('/'+id+'/'+command,(command==='keep'||command==='recheck')?{candidateCommit:view.ticket.candidateCommits.at(-1)}:{});}
+ else if(['keep','discard','retry','recheck'].includes(command??'')&&id){const view=(command==='keep'||command==='recheck')?await call('/'+id):null;await confirmInBrowser('/api/tickets/'+encodeURIComponent(id)+'/'+command,(command==='keep'||command==='recheck')?{candidateCommit:view.ticket.candidateCommits.at(-1)}:{});return;}
  else throw Error('Unknown ticket command');
  console.log(JSON.stringify(result,null,2));
 }

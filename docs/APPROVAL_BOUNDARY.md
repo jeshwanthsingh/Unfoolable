@@ -1,6 +1,6 @@
 # Live approval boundary
 
-New live playbook approval writes are paused. An operator key proves local access, not human presence; scripts and browser automation can use it. CC therefore refuses live approval in the store and API, before reserving a chat approval card. Existing approved playbooks remain usable; their immutable files and histories are preserved. A future human-presence method must be chosen before enabling new live approvals. No biometric gate is claimed here.
+New live playbook approval writes require an exact-item, one-use passkey receipt after sealed owner enrollment. An operator key proves local access, not human presence; scripts and browser automation can use it. CC refuses unauthenticated approval in the API and at the persistence sink, before reserving a chat card. Existing approved playbooks remain usable; their immutable files and histories are preserved. Initial owner enrollment requires macOS biometrics; subsequent decisions require signed WebAuthn user verification. Without a registered owner key, new live approvals remain unavailable. See PASSKEYS.md.
 
 Data stores have an write-once application LIVE/TEST marker. Node tests may only open TEST stores beneath their temporary root; LIVE stores, symlink aliases and legacy stores containing an operator key are refused before database access. Test approvals are permitted only in isolated Node-test stores and labelled actor=test-fixture, source=node:test, dataMode=TEST. Client-supplied human/source labels cannot grant live approval. Test subprocesses use synthetic data only.
 

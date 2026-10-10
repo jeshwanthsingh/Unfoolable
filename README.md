@@ -57,4 +57,6 @@ Keep, Discard, Recheck, playbook approval and existing permission decisions use 
 
 The test suite uses four workers because its fixtures launch real protected processes. This avoids oversubscribing process-recording and correction fixtures; their assertions and deadlines are unchanged.
 
-New approvals against live data are paused until a human-confirmation method is configured. Existing approved playbooks remain reusable. Tests use isolated TEST stores; test approvals are labelled as fixtures. See [approval boundary](docs/APPROVAL_BOUNDARY.md).
+New live approvals require a registered owner passkey and a fresh exact-item confirmation. Until owner enrollment, approval stays unavailable. Existing approved playbooks remain reusable. Tests use isolated TEST stores; test approvals are labelled as fixtures. See [approval boundary](docs/APPROVAL_BOUNDARY.md).
+
+Human decisions: run `./cc chat` on localhost and register your platform passkey. Initial enrollment also asks for macOS biometric confirmation. CLI decision commands open an exact-item browser confirmation and cannot decide alone. See [passkey setup and limits](docs/PASSKEYS.md).

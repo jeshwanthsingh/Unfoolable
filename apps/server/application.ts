@@ -1,3 +1,7 @@
+import {createHumanConfirmation,requiresHuman,type HumanOperation} from './human-confirmation.ts';
+import {withHumanReceipt,enterHumanReceipt} from './human-context.ts';
+import {fixtureApprovalsEnabled} from './data-mode.ts';
+import type {RegistrationResponseJSON,AuthenticationResponseJSON} from '@simplewebauthn/server';
 import {createChatService} from './chat-service.ts';
 import {createChatCodex} from './chat-codex.ts';
 import {chatRoute} from './chat-routes.ts';
@@ -64,7 +68,7 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;chatRuntime?:ReturnType<typeof createChatCodex>}={}){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;enforcePasskeys?:boolean;humanAuthenticator?:Parameters<typeof createHumanConfirmation>[3];chatRuntime?:ReturnType<typeof createChatCodex>}={}){
  const database=openDatabase(config.dataDir,logger);
  const verifyOnly=createVerifyOnly(database.connection,config,logger,options.verifyAuthor);
  const tickets=createTicketService(database.connection,config,verifyOnly,options.ticketDependencies);
@@ -80,9 +84,22 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const outcomes=createMissionOutcomeStore(database.connection,config,logger,{verification:verification.view,build:builds.view});
  const workflow=createMissionWorkflow(database.connection,{context,analysis:analyses,contract:contracts,planning,build:builds,verification,debug:debugging,outcomes},logger);
  const chat=createChatService(database.connection,tickets,options.chatRuntime??createChatCodex({dataDir:config.dataDir}),builds.decide);
+ function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
+  const path=op.path;let m:RegExpExecArray|null;
+  if(m=/^\/api\/tickets\/([^/]+)\/(keep|discard|retry|recheck)$/.exec(path))return {scope:{item:'ticket:'+m[1]!,action:m[2]!},state:tickets.show(m[1]!)};
+  if(m=/^\/api\/chat\/cards\/([^/]+)\/action$/.exec(path)){const state=chat.decisionEvidence(m[1]!,reserved?String(op.body.action):undefined),c=state.card;const action=String(op.body.action);let item=c.kind==='ticket'?'ticket:'+c.targetId:'permission:'+c.targetId;if(action==='approve_playbook'){const b=tickets.show(c.targetId).playbook;if(!b)throw new SpecError('PLAYBOOK_REQUIRED','Playbook unavailable.');item='playbook:'+b.repoRoot;}return {scope:{item,action},state};}
+  if(m=/^\/api\/chat\/drafts\/([^/]+)\/(start|edit|cancel)$/.exec(path)){const d=chat.store.draft(m[1]!);if(!d)throw new SpecError('DRAFT_NOT_FOUND','Draft not found.',404);return {scope:{item:'draft:'+m[1]!,action:m[2]!},state:d};}
+  if(/^\/api\/playbooks\/(approve|edit)$/.test(path)){if(typeof op.body.repoPath!=='string')throw new SpecError('INVALID_REQUEST','Repository required.',400);const b=tickets.playbookEvidence(op.body.repoPath);if(!b)throw new SpecError('PLAYBOOK_REQUIRED','Propose the playbook first.');return {scope:{item:'playbook:'+b.repoRoot,action:path.endsWith('/edit')?'edit_playbook':'approve_playbook'},state:b};}
+  if(m=/^\/api\/runtime-permissions\/([^/]+)\/decision$/.exec(path)){const row=database.connection.prepare('SELECT * FROM runtime_permission_requests WHERE id=? AND status=?').get(m[1]!,'PENDING');if(!row)throw new SpecError('STALE_PERMISSION','Permission is no longer pending.');return {scope:{item:'permission:'+m[1]!,action:String(op.body.decision).toLowerCase()},state:row};}
+  if(m=/^\/api\/missions\/([^/]+)\/spec\//.exec(path))return {scope:{item:'mission:'+m[1]!,action:path.split('/').at(-1)!},state:workflow.view(m[1]!)};
+  if(m=/^\/api\/verify-only\/([^/]+)\//.exec(path))return {scope:{item:'verification:'+m[1]!,action:path.split('/').at(-1)!},state:verifyOnly.view(m[1]!)};
+  if(m=/^\/api\/verification-runs\/([^/]+)\/claims\/([^/]+)\/decision$/.exec(path)){const row=database.connection.prepare('SELECT * FROM verification_runs WHERE id=?').get(m[1]!);if(!row)throw new SpecError('RUN_NOT_FOUND','Verification run unavailable.',404);return {scope:{item:'claim:'+m[1]!+':'+m[2]!,action:'decision'},state:row};}
+  throw new SpecError('INVALID_DECISION','Unsupported human decision.',400);
+ }
+ const human=createHumanConfirmation(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
  const json=(res:ServerResponse,status:number,body:import('../../packages/shared/chat.ts').ChatDraft|SpecView|DebugView|Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
- const server=createServer(async(req,res)=>{
+ const server=createServer((req,res)=>void withHumanReceipt(null,async()=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
   res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");
   const address=server.address();if(!address||typeof address==='string'){error(res,503,'UNAVAILABLE','Coordinator unavailable');return;}
@@ -95,6 +112,23 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   if(pathname.startsWith('/api/human')){
+    if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);
+    if(req.method==='GET'&&pathname==='/api/human'){json(res,200,{registered:human.registered()});return;}
+    const read=/^\/api\/human\/requests\/([a-f0-9-]{36})$/.exec(pathname);if(read&&req.method==='GET'){json(res,200,human.view(read[1]!));return;}
+    if(req.method==='POST'){
+     const b=await projectBody(req,'passkey',160000),origin=String(req.headers.origin);
+     if(pathname==='/api/human/register/options'){json(res,200,await human.registerOptions(origin));return;}
+     if(pathname==='/api/human/register/verify'){json(res,200,await human.register(String(b.id),b.response as RegistrationResponseJSON,origin));return;}
+     if(pathname==='/api/human/options'){if(typeof b.path!=='string'||!b.body||typeof b.body!=='object'||Array.isArray(b.body))throw new SpecError('INVALID_DECISION','Provide the exact action and its body.',400);json(res,200,await human.options({path:b.path,body:b.body as Record<string,unknown>},origin));return;}
+     if(pathname==='/api/human/confirm'){json(res,200,await human.confirm(String(b.id),b.response as AuthenticationResponseJSON,origin));return;}
+    }
+    throw new SpecError('NOT_FOUND','Passkey route not found.',404);
+   }
+   if(mutating&&requiresHuman(pathname)&&(!fixtureApprovalsEnabled(config.dataDir)||options.enforcePasskeys)){
+    if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);
+    const body=await projectBody(req,'human decision',160000);enterHumanReceipt(human.consume(req.headers['x-cc-confirmation'],{path:pathname,body}));
+   }
    const chatResponse=await chatRoute(req,pathname,chat,tickets);if(chatResponse){json(res,chatResponse.status,chatResponse.body);return;}
    const ticketResponse=await ticketRoute(req,pathname,tickets);if(ticketResponse){if('text' in ticketResponse){res.writeHead(ticketResponse.status,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});res.end(ticketResponse.text);}else json(res,ticketResponse.status,ticketResponse.body);return;}
    const verifyResponse=await verifyOnlyRoute(req,pathname,verifyOnly);if(verifyResponse){json(res,verifyResponse.status,verifyResponse.body);return;}
@@ -125,7 +159,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    if(req.method==='GET'&&serveWeb(pathname,config.webRoot,res))return;
    error(res,404,'NOT_FOUND','Route not found');
   }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectPlaybookError||problem instanceof SpecError||problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError||problem instanceof PlanningError||problem instanceof BuildError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
- });
+ }));
  server.requestTimeout=5000;server.headersTimeout=5000;server.keepAliveTimeout=1000;
  let closing:Promise<void>|undefined;
  const close=()=>{

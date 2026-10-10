@@ -1,0 +1,14 @@
+// Initial owner enrollment only. No shell data, credentials or filesystem access.
+ObjC.import('Foundation');
+ObjC.import('LocalAuthentication');
+function run(argv) {
+ if(argv.length!==1||!/^[a-f0-9]{12}$/.test(argv[0]))throw Error('Invalid enrollment identity');
+ const context=$.LAContext.alloc.init;
+ let finished=false,approved=false;
+ const callback=ObjC.block('void',function(success,error){approved=success===true||success===1;finished=true;});
+ context.evaluatePolicyLocalizedReasonReply(1,'Register Command Center owner passkey '+argv[0]+'. Approve only if you just clicked Register in Command Center.',callback);
+ const deadline=Date.now()+110000;
+ while(!finished&&Date.now()<deadline)$.NSRunLoop.currentRunLoop.runUntilDate($.NSDate.dateWithTimeIntervalSinceNow(.05));
+ if(!finished||!approved)throw Error('Owner biometric enrollment was not confirmed');
+ return JSON.stringify({approved:true,enrollment:argv[0]});
+}

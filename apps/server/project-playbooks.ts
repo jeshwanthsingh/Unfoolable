@@ -1,3 +1,4 @@
+import {requireHuman} from './human-context.ts';
 import {dataMode,fixtureApprovalsEnabled,assertDataEntry} from './data-mode.ts';
 import {createHash, randomUUID} from 'node:crypto';
 import {mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, realpathSync, lstatSync} from 'node:fs';
@@ -68,11 +69,12 @@ export function createProjectPlaybookStore(dataDir: string) {
     const tmp = join(dir, randomUUID() + '.tmp'); writeFileSync(tmp, canonicalContractJson(record), {flag: 'wx', mode: 0o600}); renameSync(tmp, file(repo)); return record;
   };
   const edit = (repo: string, definition: unknown): ProjectPlaybook => {
-    const previous = show(repo), validated = validatePlaybookDefinition(definition);
+    requireHuman(dataDir,{item:'playbook:'+rootOf(repo),action:'edit_playbook'});const previous = show(repo), validated = validatePlaybookDefinition(definition);
     return save(repo, {repoRoot: rootOf(repo), baseCommit: previous?.baseCommit ?? '', definition: validated, hash: hash(validated), approval: null, updatedAt: new Date().toISOString()});
   };
   const approve = (repo: string, expectedHash: string): ProjectPlaybook => {
-    if(!fixtureOnly)throw new ProjectPlaybookError('HUMAN_APPROVAL_REQUIRED','New live playbook approvals are paused until human confirmation is configured; automated approval is disabled.');
+    const receipt=requireHuman(dataDir,{item:'playbook:'+rootOf(repo),action:'approve_playbook'});
+    if(!fixtureOnly&&!receipt)throw new ProjectPlaybookError('HUMAN_APPROVAL_REQUIRED','New live playbook approvals are paused until human confirmation is configured; automated approval is disabled.');
     const record = show(repo); if (!record) throw new ProjectPlaybookError('PLAYBOOK_REQUIRED', 'Propose a project playbook before approving it.');
     if (record.hash !== expectedHash) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Review the current playbook before approving it.');
     if (record.approval) return record;
@@ -84,7 +86,7 @@ export function createProjectPlaybookStore(dataDir: string) {
       if (saved.repoRoot !== record.repoRoot || saved.hash !== record.hash || hash(validatePlaybookDefinition(saved.definition)) !== record.hash || saved.approval?.hash !== record.hash) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Immutable approval content changed.');
       return save(repo, saved);
     }
-    record.approval = {hash: record.hash, at: new Date().toISOString(),actor:'test-fixture',source:'node:test',dataMode:'TEST'};
+    record.approval = {hash: record.hash, at: new Date().toISOString(),...(!fixtureOnly&&receipt?{actor:'passkey' as const,source:'webauthn' as const,dataMode:'LIVE' as const,confirmationId:receipt.id,credentialId:receipt.credentialId,evidenceHash:receipt.evidenceHash}:{actor:'test-fixture' as const,source:'node:test' as const,dataMode:'TEST' as const})};
     writeFileSync(path, canonicalContractJson(record), {flag: 'wx', mode: 0o400}); return save(repo, record);
   };
   const requireApproved = (repo: string): ProjectPlaybook => {

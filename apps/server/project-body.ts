@@ -1,11 +1,13 @@
 import type {IncomingMessage} from 'node:http';
 import {ProjectError} from './project-errors.ts';
+const cached=new WeakMap<IncomingMessage,{promise:Promise<Record<string,unknown>>;size:()=>number}>();
 export function projectBody(req: IncomingMessage, subject = 'registration', limit = 16384): Promise<Record<string, unknown>> {
   if (req.headers['content-type']?.split(';')[0]?.trim() !== 'application/json')
     return Promise.reject(new ProjectError('INVALID_REQUEST', `The ${subject} request requires JSON.`, 415));
   if (Number(req.headers['content-length']) > limit) {req.resume();return Promise.reject(new ProjectError('PAYLOAD_TOO_LARGE', `The ${subject} request is too large.`, 413));}
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = []; let size = 0; let failed = false;
+  const prior=cached.get(req);if(prior)return prior.promise.then(body=>{if(prior.size()>limit)throw new ProjectError('PAYLOAD_TOO_LARGE',`The ${subject} request is too large.`,413);return body;});
+  let size=0;const promise=new Promise<Record<string,unknown>>((resolve, reject) => {
+    const chunks: Buffer[] = []; let failed = false;
     req.on('data', (chunk: Buffer) => {
       if (failed) return; size += chunk.length;
       if (size > limit) {failed = true;chunks.length = 0;reject(new ProjectError('PAYLOAD_TOO_LARGE', `The ${subject} request is too large.`, 413));}
@@ -21,5 +23,5 @@ export function projectBody(req: IncomingMessage, subject = 'registration', limi
     });
     req.on('error', () => reject(new ProjectError('INVALID_REQUEST', `The ${subject} request was interrupted.`, 400)));
     req.on('aborted', () => reject(new ProjectError('INVALID_REQUEST', `The ${subject} request was interrupted.`, 400)));
-  });
+  });cached.set(req,{promise,size:()=>size});return promise;
 }

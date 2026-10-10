@@ -1,14 +1,15 @@
 import {useRef,useState} from 'react';
 import type {PermissionDecision,RuntimePermissionRequest} from '../../../packages/shared/permissions.ts';
 import './permissions.css';
+import {confirmedResponse} from './human-confirmation-client.ts';
 export function PermissionCard({request,onChanged,actionable=false}:{request:RuntimePermissionRequest;onChanged:()=>void;actionable?:boolean}){
  const [pending,setPending]=useState(false),[submitted,setSubmitted]=useState(false),[message,setMessage]=useState<string|null>(null),posting=useRef(false);
  async function decide(decision:PermissionDecision){if(posting.current||submitted||!actionable||request.status!=='PENDING')return;posting.current=true;setPending(true);setMessage(null);
-  try{const response=await fetch('/api/runtime-permissions/'+encodeURIComponent(request.id)+'/decision',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({decision,payloadHash:request.payloadHash}),signal:AbortSignal.timeout(20000)});const data=await response.json();
+  try{const response=await confirmedResponse('/api/runtime-permissions/'+encodeURIComponent(request.id)+'/decision',{decision,payloadHash:request.payloadHash});const data=await response.json();
    if(response.ok){setSubmitted(true);setMessage('Decision recorded. Waiting for the current provider state.');}
    else if(response.status===409&&data?.error?.code==='ALREADY_RESOLVED'){setSubmitted(true);setMessage('This request was already resolved. Refreshing its current state.');}
    else{setMessage(typeof data?.error?.message==='string'?data.error.message.slice(0,2000):'Decision outcome could not be confirmed. Refreshing the current state.');}
-  }catch{setMessage('Decision outcome could not be confirmed. Refreshing the current state.');}finally{posting.current=false;setPending(false);onChanged();}
+  }catch(cause){setMessage(cause instanceof Error?cause.message.slice(0,2000):'Decision outcome could not be confirmed. Refreshing the current state.');}finally{posting.current=false;setPending(false);onChanged();}
  }
  return <article id={actionable?'runtime-permission':undefined} tabIndex={-1} className="permission-card" aria-busy={pending}>
   <p className="eyebrow">{actionable?'NEEDS YOU · RUNTIME PERMISSION':'PERMISSION HISTORY · READ ONLY'}</p><h4>Codex requests filesystem write capability</h4>

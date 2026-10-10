@@ -1,3 +1,4 @@
+import {requireHuman} from './human-context.ts';
 import {acceptedPlanningRow} from './content-identity.ts';
 import type {VerificationView} from '../../packages/shared/verification.ts';
 import {diagnosisOwnershipUncertain} from './debug-ownership.ts';
@@ -143,7 +144,7 @@ export function createBuildStore(db:DatabaseSync,config:{dataDir:string;projectR
  };
  const cancel=async(id:string)=>{ensure();const row=get(id);if(!row)throw new BuildError('ATTEMPT_NOT_FOUND','Build Attempt was not found.',404);if(cancelled(id))return view(String(row.mission_id));if(!activeStatuses.includes(String(row.status))||owned?.id!==id)throw new BuildError('BUILD_NOT_ACTIVE','This Attempt is no longer active.');transaction(()=>{db.prepare('UPDATE build_runtime_state SET cancel_requested_at=? WHERE attempt_id=?').run(new Date().toISOString(),id);permissions.invalidate(id);lifecycle(id,'attempt.cancel_requested',{});});owned.controller.abort();return view(String(row.mission_id));};
  const retry=async(id:string)=>{ensure();const row=get(id);if(!row||!['FAILED','INTERRUPTED'].includes(String(row.status)))throw new BuildError('RETRY_NOT_SAFE','Only a safely ended Attempt can be retried.');const latest=db.prepare('SELECT id FROM build_attempts WHERE mission_id=? ORDER BY generation DESC LIMIT 1').get(row.mission_id!);if(latest?.id!==id)throw new BuildError('STALE_BUILD_BINDING','Retry belongs to an older Attempt.');return start(String(row.mission_id),String(row.slice_id));};
- const decide=(id:string,decision:PermissionDecision,hash:string)=>permissions.decide(id,decision,hash);
+ const decide=(id:string,decision:PermissionDecision,hash:string)=>{requireHuman(config.dataDir,{item:'permission:'+id,action:decision.toLowerCase()});return permissions.decide(id,decision,hash);};
  const close=async()=>{if(closed)return;closed=true;if(owned){const active=owned;active.controller.abort();await active.task;}if(recovering)await recovering;};
  return {bindCorrectionVerifier:(reader:(missionId:string)=>VerificationView)=>{if(correctionView||owned)throw new BuildError('CORRECTION_VERIFIER_BOUND','Verifier binding is fixed for this coordinator.');correctionView=reader;},view,start:(missionId:string,sliceId:string)=>start(missionId,sliceId),startCorrection:(missionId:string,sliceId:string,context:CorrectionContext)=>start(missionId,sliceId,context),close,recover,event,cancel,waitForExit:async(id:string)=>{if(owned?.id===id)await owned.task;},retry,decide,attention};
 }

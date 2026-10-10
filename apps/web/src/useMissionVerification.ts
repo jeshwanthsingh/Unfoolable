@@ -1,3 +1,4 @@
+import {confirmedResponse} from './human-confirmation-client.ts';
 import {useEffect,useRef,useState} from 'react';
 import {isVerificationView,type VerificationView} from '../../../packages/shared/verification.ts';
 import {verificationActive} from './presentation.ts';
@@ -14,7 +15,7 @@ export function useMissionVerification(id:string,onChanged?:()=>void,revision:st
  void poll();return()=>{controller.abort();clearTimeout(timer);generation.current++;};
  },[url,revision,key]);
  async function post(path:string,body:unknown){if(posting.current)return;posting.current=true;setPending(true);setError(null);const current=generation.current;
- try{const data=await read(await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(5000)}));if(current===generation.current){accept(data);setKey(value=>value+1);}}
+ try{const data=await read(await (path.endsWith('/decision')?confirmedResponse(path,body):fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(5000)})));if(current===generation.current){accept(data);setKey(value=>value+1);}}
  catch(problem){if(current===generation.current){setError(problem instanceof Error?problem.message:'Verification outcome could not be confirmed.');setKey(value=>value+1);}}
  finally{if(current===generation.current){posting.current=false;setPending(false);}}
  }

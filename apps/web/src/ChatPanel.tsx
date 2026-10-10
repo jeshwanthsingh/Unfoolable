@@ -2,6 +2,8 @@ import {useEffect,useState} from 'react';
 import {isChatView,type ChatAction,type ChatCard,type ChatDraft,type ChatFuel,type ChatView} from '../../../packages/shared/chat.ts';
 import {bootstrapTicketOperator} from './TicketPanel.tsx';
 import './chat-panel.css';
+import {confirmedDecision} from './human-confirmation-client.ts';
+import {PasskeyPanel} from './PasskeyPanel.tsx';
 import {groupChatCards} from '../../../packages/shared/chat-presentation.ts';
 
 const actionLabels:Record<ChatAction,string>={keep:'Keep candidate',discard:'Discard candidate',recheck:'Recheck candidate',retry:'Retry',approve_playbook:'Approve playbook',allow:'Allow permission',deny:'Deny permission'};
@@ -27,7 +29,7 @@ export function ActionCard({card,busy,onAction,approvalEnabled=true}:{card:ChatC
 export function ChatPanel(){
  const [key]=useState(bootstrapTicketOperator),[view,setView]=useState<(ChatView&{fuel?:ChatFuel;playbookApprovalsEnabled?:boolean})|null>(null),[text,setText]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState<string|null>(null),[revision,setRevision]=useState(0);
  useEffect(()=>{if(!key)return;const controller=new AbortController();let running=false;async function refresh(){if(running)return;running=true;try{const value=await request(key!,'/api/chat',undefined,controller.signal);if(!isChatView(value))throw Error('Chat response could not be confirmed.');const rawFuel='fuel' in value?value.fuel:undefined;const fuel:ChatFuel=record(rawFuel)&&rawFuel.status==='known'&&Array.isArray(rawFuel.windows)&&rawFuel.windows.every(window=>record(window)&&typeof window.usedPercent==='number'&&Number.isFinite(window.usedPercent)&&typeof window.windowMinutes==='number'&&Number.isFinite(window.windowMinutes)&&typeof window.resetsAt==='number'&&Number.isFinite(window.resetsAt))?rawFuel as ChatFuel:{status:'unknown',windows:[]};if(!controller.signal.aborted){setView({...value,fuel,playbookApprovalsEnabled:'playbookApprovalsEnabled' in value&&value.playbookApprovalsEnabled===true});}}catch(cause){if(!controller.signal.aborted)setError((cause as Error).message);}finally{running=false;}}void refresh();const timer=setInterval(()=>void refresh(),2000);return()=>{controller.abort();clearInterval(timer);};},[key,revision]);
- async function mutate(path:string,body:unknown){if(!key||busy)return;setBusy(true);setError(null);try{await request(key,path,body);setRevision(value=>value+1);return true;}catch(cause){setError((cause as Error).message);return false;}finally{setBusy(false);}}
+ async function mutate(path:string,body:unknown){if(!key||busy)return;setBusy(true);setError(null);try{await (/^\/api\/chat\/(cards|drafts)\//.test(path)?confirmedDecision(key,path,body):request(key,path,body));setRevision(value=>value+1);return true;}catch(cause){setError((cause as Error).message);return false;}finally{setBusy(false);}}
  if(!key)return <section className="chat-panel"><h2>Jarvis</h2><p>Open your private chat with <code>./cc chat</code>.</p></section>;
  const groups=groupChatCards(view?.cards??[]),activeDrafts=view?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status))??[],pastDrafts=view?.drafts.filter(d=>!['DRAFT','QUESTION','ERROR'].includes(d.status))??[];
  const messages=view?.messages??[],recentMessages=messages.slice(-8),olderMessages=messages.slice(0,-8);
@@ -35,7 +37,7 @@ export function ChatPanel(){
  const decisionCard=(card:ChatCard)=><ActionCard key={card.id} card={card} busy={busy} approvalEnabled={view?.playbookApprovalsEnabled===true} onAction={action=>void mutate('/api/chat/cards/'+encodeURIComponent(card.id)+'/action',{binding:card.binding,action})}/>;
  return <section className="chat-panel" aria-label="Jarvis chat">
   <header className="chat-header"><div><h2>Jarvis</h2><p>Describe the work. Review the draft. You decide when it starts.</p></div><FuelLine {...(view?.fuel?{fuel:view.fuel}:{})}/></header>
-  {error&&<p role="alert" className="form-error">{error}</p>}{!view&&<p role="status">Loading chat…</p>}
+  <PasskeyPanel operatorKey={key}/>{error&&<p role="alert" className="form-error">{error}</p>}{!view&&<p role="status">Loading chat…</p>}
   {view&&<section className="chat-attention" aria-labelledby="chat-needs-you"><h3 id="chat-needs-you">Needs you now</h3>
    {!groups.needsYou.length&&!activeDrafts.length&&<p className="chat-empty">Nothing needs a decision right now.</p>}
    {activeDrafts.map(draft=><DraftCard key={draft.id+':'+draft.version} draft={draft} busy={busy} onChange={(action,fields)=>void mutate('/api/chat/drafts/'+encodeURIComponent(draft.id)+'/'+action,{version:draft.version,...fields})}/>)}

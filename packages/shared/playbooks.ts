@@ -17,6 +17,6 @@ export type ProjectPlaybook = {
   baseCommit: string;
   definition: ProjectPlaybookDefinition;
   hash: string;
-  approval: {hash: string; at: string;actor?:'test-fixture';source?:'node:test';dataMode?:'TEST'} | null;
+  approval: {hash: string; at: string;actor?:'test-fixture'|'passkey';source?:'node:test'|'webauthn';dataMode?:'TEST'|'LIVE';confirmationId?:string;credentialId?:string;evidenceHash?:string} | null;
   updatedAt: string;
 };

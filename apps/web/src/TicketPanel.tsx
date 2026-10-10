@@ -2,6 +2,8 @@ import {useEffect,useState} from 'react';
 import {ticketStatuses,ticketCheckVerdicts,ticketEventKinds,type Ticket,type TicketEvent,type TicketCheckVerdict} from '../../../packages/shared/tickets.ts';
 import type {ProjectPlaybook} from '../../../packages/shared/playbooks.ts';
 import './ticket-panel.css';
+import {confirmedDecision} from './human-confirmation-client.ts';
+import {PasskeyPanel} from './PasskeyPanel.tsx';
 
 const storageKey='cc-ticket-key';
 export function bootstrapTicketOperator():string|null{
@@ -82,15 +84,15 @@ export function TicketPanel(){
  function choose(id:string){setSelected(id);setDiffRequested(false);setError(null);const url=new URL(window.location.href);url.searchParams.set('ticket',id);window.history.replaceState(window.history.state,'',url.pathname+url.search);}
  async function action(kind:'keep'|'discard'|'retry'|'recheck'){
   if(!key||!detail||busy)return;setBusy(true);setError(null);
-  try{await request(key,'/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,undefined,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{});setRevision(n=>n+1);}catch(e){setError((e as Error).message);}finally{setBusy(false);}
+  try{await confirmedDecision(key,'/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{});setRevision(n=>n+1);}catch(e){setError((e as Error).message);}finally{setBusy(false);}
  }
  async function approvePlaybook(){
   if(!key||!detail?.playbook||busy)return;setBusy(true);setError(null);
-  try{await request(key,'/api/playbooks/approve',undefined,{repoPath:detail.playbook.repoRoot,expectedHash:detail.playbook.hash});setRevision(n=>n+1);}catch(e){setError((e as Error).message);}finally{setBusy(false);}
+  try{await confirmedDecision(key,'/api/playbooks/approve',{repoPath:detail.playbook.repoRoot,expectedHash:detail.playbook.hash});setRevision(n=>n+1);}catch(e){setError((e as Error).message);}finally{setBusy(false);}
  }
  if(!key)return <section className="ticket-panel"><h2>Tickets</h2><p>Open this view with <code>./cc ticket show &lt;id&gt; --open</code>.</p></section>;
  return <section className="ticket-panel"><header><h2>Tickets</h2><p>Submit a local engineering request. Review the recorded candidate, checks, and decisions.</p></header>
- {error&&<p role="alert" className="form-error">{error}</p>}
+ <PasskeyPanel operatorKey={key}/>{error&&<p role="alert" className="form-error">{error}</p>}
  {summary&&<section aria-label="Ticket summary" className="ticket-stats"><span>Tickets: {summary.tickets}</span><span>Reached review: {summary.readyForReview}</span><span>Kept: {summary.kept}</span><span>Discarded: {summary.discarded}</span><span>Agent work: {elapsed(summary.agentWorkingMs)}</span><span>Needs-you stops: {summary.needsYouStops}</span><span>Fix attempts: {summary.fixAttempts}</span></section>}
  <details><summary>New ticket</summary><form onSubmit={event=>{
   event.preventDefault();if(busy)return;const form=event.currentTarget,data=new FormData(form);setBusy(true);setError(null);

@@ -1,7 +1,8 @@
+import {confirmedResponse} from './human-confirmation-client.ts';
 import {useEffect,useState} from 'react';
 import {isVerifyView,type VerifyView} from '../../../packages/shared/verify-only.ts';
 import {isProjectsResponse,type Project} from '../../../packages/shared/projects.ts';
-async function api(path:string,body?:unknown){const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})});const data=await response.json();if(!response.ok)throw Error(data.error?.message??'Verification request failed.');return data;}
+async function api(path:string,body?:unknown){const response=await (body!==undefined&&/\/(land|abandon)$/.test(path)?confirmedResponse(path,body):fetch(path,{method:body===undefined?'GET':'POST',headers:{'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})}));const data=await response.json();if(!response.ok)throw Error(data.error?.message??'Verification request failed.');return data;}
 export function VerifyOnlyPanel({initialRequestId}:{initialRequestId?:string|undefined}){
  const [requests,setRequests]=useState<VerifyView[]>([]),[selected,setSelected]=useState<string|null>(null),[error,setError]=useState<string|null>(null),[busy,setBusy]=useState(false);
  const [projects,setProjects]=useState<Project[]>([]),[projectId,setProjectId]=useState(''),[repoPath,setRepoPath]=useState('');
