@@ -12,7 +12,9 @@ import {safeBuildGit} from './build-workspace.ts';
 const quote=(s:string)=>"'"+s.replaceAll("'","'\"'\"'")+"'";
 const validText=(s:unknown,max:number):s is string=>typeof s==='string'&&!!s.trim()&&s.length<=max&&!s.includes('\0');
 export function createChatService(db:DatabaseSync,tickets:ReturnType<typeof createTicketService>,runtime:ReturnType<typeof createChatCodex>,permissionDecision:(id:string,decision:'ALLOW'|'DENY',hash:string)=>Promise<unknown>){
- const store=createChatStore(db),cards=createChatCards(db,tickets,store);store.recover();let drafting=false;
+ const store=createChatStore(db),cards=createChatCards(db,tickets,store);store.recover();
+ for(const d of store.drafts().filter(d=>d.version===1&&['DRAFT','QUESTION'].includes(d.status))){const original=store.messages().find(m=>m.sequence===d.originalMessageId);if(original&&(statusAnswer(db,original.text)!==null||isFuelQuestion(original.text))){store.updateDraft(d.id,d.version,{status:'CANCELLED'});store.appendMessage({role:'jarvis',kind:'decision',draftId:d.id,text:'Retired an earlier misrouted status draft; no ticket started.'});}}
+ let drafting=false;
  const project=()=>{projectChatEvents(db,store);cards.sync();};const timer=setInterval(project,1000);timer.unref();
  const repos=()=>[...new Map([...listProjects(db).map(p=>({displayName:p.displayName,repoPath:p.repoRoot})),...tickets.list().tickets.map(t=>({displayName:t.repoPath.split('/').at(-1)!,repoPath:t.repoPath}))].map(r=>[r.repoPath,r])).values()];
  function draft(id:string,version:unknown,statuses:ChatDraft['status'][]){const d=store.draft(id);if(!d||!Number.isSafeInteger(version)||d.version!==version||!statuses.includes(d.status))throw new SpecError('STALE_DRAFT','This draft changed or was already decided. Refresh it before acting.');return d;}
