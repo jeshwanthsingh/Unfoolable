@@ -34,3 +34,9 @@ The coordinator and browser UI bind to loopback. Configuration: `COMMAND_CENTER_
 Registered Projects, Missions, read-only context, Spec preparation and the isolated Builder remain available as experimental functionality. Automatic analysis/planning/per-task oracle preparation is not the v1 entry point. Its existing permission, cancellation, restart reconciliation, bounded correction and local Land safety controls remain intact. No new orchestration behavior is claimed.
 
 Builder remains pinned to codex-cli 0.160.0 / gpt-6.1-sol with the existing ChatGPT entitlement. No new paid API billing or dependencies are configured. In-process native-test/observation forgery and unobserved deliberate process detachment remain residual risks; this is not VM containment. No Receipt is implemented.
+
+### Ticket loop v1
+
+`./cc ticket new "request" --repo /absolute/repo` records the committed BASE and queues one plain-Codex build. Each build/fix uses a fresh session in a private clone/worktree. Protected checks run after freeze; two fixes maximum, with the second starting from clean BASE. Unsupported checks remain **NOT CHECKED**, never passing. `ready_for_review` requires an explicit `./cc ticket keep ID` or `discard ID`; Keep creates `cc/ID` on BASE without checkout, merge or push. `list`, `show ID --open`, `retry ID` and `stats` are available. Set `COMMAND_CENTER_PORT` and `COMMAND_CENTER_DATA_DIR` consistently for server and CLI.
+
+Ticket API commands require a local operator capability stored mode 0600 in the data directory. `show --open` passes it in a fragment, removed immediately by the UI. It is never logged. Restart interrupts unfinished tickets; only explicit Retry resumes them. The existing Mission workflow remains experimental.

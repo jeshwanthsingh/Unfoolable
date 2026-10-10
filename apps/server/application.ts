@@ -1,3 +1,6 @@
+import {createTicketService} from './ticket-service.ts';
+import {ticketRoute} from './ticket-routes.ts';
+import type {TicketLoopDependencies} from './ticket-loop.ts';
 import type {authorVerifyOnly} from './verify-only-author.ts';
 import {createVerifyOnly} from './verify-only.ts';
 import {verifyOnlyRoute} from './verify-only-routes.ts';
@@ -57,9 +60,10 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly}={}){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies}={}){
  const database=openDatabase(config.dataDir,logger);
  const verifyOnly=createVerifyOnly(database.connection,config,logger,options.verifyAuthor);
+ const tickets=createTicketService(database.connection,config,verifyOnly,options.ticketDependencies);
  const context=createContextStore(database.connection,config.projectRoots,logger);
  const analyses=createAnalysisStore(database.connection,config.projectRoots,logger,(packet,signal,onStarted)=>analyzer(packet,signal,onStarted,config.dataDir));
  const contracts=createContractStore(database.connection,logger,(input,signal,onStarted)=>drafter(input,signal,onStarted,config.dataDir));
@@ -86,6 +90,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   const ticketResponse=await ticketRoute(req,pathname,tickets);if(ticketResponse){if('text' in ticketResponse){res.writeHead(ticketResponse.status,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});res.end(ticketResponse.text);}else json(res,ticketResponse.status,ticketResponse.body);return;}
    const verifyResponse=await verifyOnlyRoute(req,pathname,verifyOnly);if(verifyResponse){json(res,verifyResponse.status,verifyResponse.body);return;}
    const specResponse=await specRoute(req,pathname,workflow);if(specResponse){json(res,specResponse.status,specResponse.body);return;}
    const debugResponse=await debugRoute(req,url,debugging);if(debugResponse){json(res,debugResponse.status,debugResponse.body);return;}
@@ -120,16 +125,16 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const close=()=>{
   if(closing)return closing;
   logger({event:'shutdown.started'});analyses.close();contracts.close();planning.close();
-  closing=Promise.all([workflow.close(),debugging.close(),verifyOnly.close()]).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
+  closing=tickets.close().then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}
    const timer=setTimeout(()=>server.closeAllConnections(),2000);timer.unref();
    server.close(error=>{clearTimeout(timer);finish(error);});server.closeIdleConnections();
   }));return closing;
  };
- const start=async()=>{await builds.recover();await verification.recover();await debugging.recover();workflow.recover();return new Promise<void>((resolve,reject)=>{
+ const start=async()=>{await tickets.recover();await builds.recover();await verification.recover();await debugging.recover();workflow.recover();return new Promise<void>((resolve,reject)=>{
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
  });};
- return {server,database,start,close,workflow};
+ return {server,database,start,close,workflow,tickets};
 }

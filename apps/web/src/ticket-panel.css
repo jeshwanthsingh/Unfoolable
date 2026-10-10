@@ -1,0 +1,21 @@
+.ticket-panel { max-width: 1100px; }
+.ticket-panel header { margin-bottom: 24px; }
+.ticket-panel form { display: grid; gap: 14px; margin: 18px 0; max-width: 700px; }
+.ticket-panel label { display: grid; gap: 6px; }
+.ticket-panel input, .ticket-panel textarea { width: 100%; box-sizing: border-box; padding: 10px; font: inherit; }
+.ticket-panel summary { cursor: pointer; }
+.ticket-columns { display: grid; grid-template-columns: minmax(180px, 28%) minmax(0, 1fr); gap: 24px; margin-top: 24px; }
+.ticket-columns nav { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.ticket-columns nav button { display: grid; gap: 6px; text-align: left; padding: 12px; overflow-wrap: anywhere; }
+.ticket-columns nav button[aria-current="page"] { outline: 2px solid currentColor; }
+.ticket-panel article { min-width: 0; overflow-wrap: anywhere; }
+.ticket-panel pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; background: #f3f3f3; color: #222; }
+.ticket-panel code { overflow-wrap: anywhere; }
+.ticket-stats { display: flex; flex-wrap: wrap; gap: 12px 22px; margin: 18px 0; font-size: 14px; }
+.ticket-stats dd { margin: 4px 0 0; }
+.ticket-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+.ticket-events { padding-left: 22px; }
+.ticket-events li { margin-bottom: 18px; }
+.ticket-events time, .ticket-columns time { font-size: 12px; }
+@media (max-width: 700px) { .ticket-columns { grid-template-columns: 1fr; } }
+@media (min-width: 1001px) { .command-shell.ticket-shell { grid-template-columns: 210px minmax(0, 1fr); } }
