@@ -1,0 +1,13 @@
+{
+  "base": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
+  "selected": [
+    "liveness-core.mjs"
+  ],
+  "rejectedPaths": [
+    {
+      "path": ".claude/skills/career-ops/SKILL.md",
+      "reason": "unsafe/sensitive path",
+      "selected": false
+    }
+  ]
+}

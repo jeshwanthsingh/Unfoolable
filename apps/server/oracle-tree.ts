@@ -9,18 +9,21 @@ type Entry={path:string;oid:string;mode:string;size:number};
 async function entries(objectDir:string,revision:string,allowedFiles?:string[]):Promise<Entry[]>{
  if(!/^[a-f0-9]{40,64}$/.test(revision))throw new Error('Oracle revision must be an object identity');
  const records=(await safeBuildGit(objectDir,['ls-tree','-r','-l','-z',revision],8*1024*1024)).toString('utf8').split('\0').filter(Boolean);
- if(records.length>20000)throw new Error('Oracle path cap exceeded');
+ const wanted=allowedFiles?new Set(allowedFiles):null;
+ const selected=wanted?records.filter(record=>wanted.has(record.slice(record.indexOf('\t')+1))):records;
+ if(selected.length>20000)throw new Error('Oracle path cap exceeded');
  let total=0;
- const validated=records.map(record=>{
+ const validated=selected.map(record=>{
   const m=/^(100644|100755) blob ([a-f0-9]{40,64})\s+(\d+)\t(.+)$/s.exec(record);
   // All symlinks are rejected, including internal ones; gitlinks never enter tar.
-  if(!m||!safeBuildPath(m[4]!)||/^[A-Za-z]:/.test(m[4]!))throw new Error('Oracle tree contains unsafe path, symlink or submodule');
+  if(!m||!safeBuildPath(m[4]!)||/^[A-Za-z]:/.test(m[4]!))throw new Error('Oracle export contains unsafe path, symlink or submodule: '+JSON.stringify(record.slice(record.indexOf('\t')+1))); 
   const size=Number(m[3]);total+=size;
-  if(size>FILE_CAP||total>TREE_CAP)throw new Error('Oracle tree byte cap exceeded');
+  if(size>FILE_CAP||total>TREE_CAP)throw new Error('Oracle export byte cap exceeded: '+JSON.stringify(m[4]!));
   return {path:m[4]!,oid:m[2]!,mode:m[1]!,size};
  });
- // Selection limits exported contents, never the pre-existing whole-tree safety guards.
- return allowedFiles?validated.filter(e=>allowedFiles.includes(e.path)):validated;
+ // Unselected Git entries are never materialized or executed. Whole exports
+ // still validate every entry; selected exports validate every selected byte.
+ return validated;
 }
 async function workspaceFiles(workspace:string):Promise<string[]>{
  const root=await realpath(workspace),out:string[]=[];let count=0,total=0;
