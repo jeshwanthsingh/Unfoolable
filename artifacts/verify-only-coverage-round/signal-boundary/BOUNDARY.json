@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "extension": "(allow signal (require-all (target same-sandbox) (target children)))",
+  "scope": "v2 observer owned-child signals; judge retains deny signal",
+  "observation": {
+    "attempts": [
+      {
+        "role": "harness",
+        "pid": 26629,
+        "allowed": false,
+        "errno": 1
+      },
+      {
+        "role": "judge",
+        "pid": 26642,
+        "allowed": false,
+        "errno": 1
+      },
+      {
+        "role": "recorder",
+        "pid": 26650,
+        "allowed": false,
+        "errno": 1
+      }
+    ],
+    "childReady": true,
+    "childPid": 26660,
+    "childReturnCode": -15,
+    "reaped": true
+  },
+  "harnessSignals": 0,
+  "forbiddenDelivered": false,
+  "judgeExit": 0,
+  "judgeNativeReport": {
+    "testsRun": 1,
+    "tests": [
+      {
+        "id": "oracle_judge.Boundary.test_wait",
+        "status": "passed"
+      }
+    ],
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expectedFailures": 0,
+    "unexpectedSuccesses": 0,
+    "status": "PASS"
+  },
+  "identities": {
+    "harness": {
+      "pid": 26629,
+      "ppid": 3864,
+      "pgid": 26629,
+      "sid": 26629,
+      "birth": "darwin:1791591430:371231",
+      "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+      "observedAt": "2026-10-10T00:17:10.616Z",
+      "exitedAt": null
+    },
+    "judge": {
+      "pid": 26642,
+      "ppid": 26629,
+      "pgid": 26642,
+      "sid": 26642,
+      "birth": "darwin:1791591430:584859",
+      "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "observedAt": "2026-10-10T00:17:10.700Z",
+      "exitedAt": null
+    },
+    "recorder": {
+      "pid": 26650,
+      "ppid": 26629,
+      "pgid": 26650,
+      "sid": 26650,
+      "birth": "darwin:1791591430:746979",
+      "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "observedAt": "2026-10-10T00:17:10.927Z",
+      "exitedAt": null
+    }
+  },
+  "profileSHA256": "cc24fe6d7178eebfff66a6330d415adcb66d8895b50bcb30a0896b935d68ef97"
+}

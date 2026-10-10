@@ -13,7 +13,7 @@ export async function oracleSource(root:string,base:string,intent:string){
   const pkg=JSON.parse((await safeBuildGit(root,['show',base+':frontend/package.json'],65536)).toString());if(!pkg.devDependencies?.vitest&&!pkg.dependencies?.vitest)throw new SpecError('UNSUPPORTED_RUNNER','This frontend does not use Vitest.',422);
   try{dependencyRoot=realpathSync(join(root,'frontend/node_modules'));}catch{throw new SpecError('DEPENDENCIES_UNAVAILABLE','Install the existing locked frontend dependencies before verification.',422);}
  }
- const words=intent.toLowerCase().match(/[a-z][a-z_-]{3,}/g)??[];
+ const words=intent.toLowerCase().match(/[a-z]{3,}/g)??[];
  const eligible=paths.filter(p=>(directory==='.'||p.startsWith(directory+'/'))&&/\.(py|tsx?|jsx?)$/.test(p)&&!/(?:^|\/)(?:node_modules|vendor|dist|fixtures)(?:\/|$)/.test(p));
  const scored=await Promise.all(eligible.slice(0,250).map(async p=>{
   const raw=await safeBuildGit(root,['show',base+':'+p],262145).catch(()=>Buffer.alloc(0));if(raw.length>262144)return {p,text:'',score:-1};const full=raw.toString();

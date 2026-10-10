@@ -1,5 +1,5 @@
 """Bounded child-call recorder. No Candidate import or correctness verdict here."""
-import ctypes, json, os, selectors, signal, subprocess, sys, time, tempfile
+import ctypes, json, os, selectors, signal, subprocess, sys, time, tempfile, uuid
 from pathlib import Path
 
 def observe(root, scratch, call):
@@ -10,7 +10,7 @@ def observe(root, scratch, call):
   raise ValueError('unknown executable fixture')
  fixture = None
  if call.get('executableFixture') == 'sleep':
-  fixture = str(Path(scratch)/'bounded-cli.py')
+  fixture = str(Path(scratch)/('bounded-cli-'+uuid.uuid4().hex+'.py'))
   Path(fixture).write_text('#!/usr/local/bin/python3\nimport time\ntime.sleep(30)\nprint("verification=verified")\n')
   os.chmod(fixture, 0o500)
  read_fd, write_fd = os.pipe()
