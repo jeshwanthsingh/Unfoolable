@@ -46,3 +46,11 @@ Ticket API commands require a local operator capability stored mode 0600 in the 
 New tickets require an approved project playbook before building. Missing playbooks are proposed from committed metadata by read-only inspection and stop at **Needs You**. `./cc playbook show /repo`, `approve /repo`, and `edit /repo` manage the proposal; edit prepares a local JSON draft and prints the explicit apply command. Editing invalidates approval. Setup/test argv, safe environment, runner, timeout, known BASE failures and flaky names live in protected CC data, not the repository. Approval resumes matching waiting tickets.
 
 Checks run in fresh BASE and Candidate archives. BASE must pass or match explicitly approved named failures. Candidate-edited tests are replaced by BASE tests; zero collection never passes, and skips/known failures are named gaps. Flaky annotations never waive a failure. Playbook results are regression evidence, not proof of new intent. Setup has no network installation entitlement; protected exports, fixed runtime binaries, loopback-only fixtures and existing process-cleanup rules apply.
+
+### Jarvis chat (thin foreman)
+
+Run `./cc chat` to open the authenticated chat, or `./cc chat "what's running?"` to submit a message. The browser removes the operator fragment immediately. Use the same data directory and port as the coordinator.
+
+Only drafting uses AI: a fresh read-only pinned Codex session converts your message into a title, repository, request and done criteria. It may ask one question. Review or edit the versioned draft and press **Start**; messages alone never start work. Draft token usage is recorded, including rejected attempts. Status answers and ticket updates come from SQLite events; the fuel line uses the read-only account limits endpoint and shows unknown if unavailable.
+
+Keep, Discard, Recheck, playbook approval and existing permission decisions use exact-item buttons. A changed or already-resolved item rejects the old button. Existing explicit ticket CLI controls remain available. Keep creates only the local `cc/<ticket-id>` branch; chat supplies inspect and manual merge commands. CC never merges or pushes.
