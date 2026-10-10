@@ -21,8 +21,8 @@ export function ticketSummary(db:DatabaseSync,t:Ticket):string{
  const paths=frozen?.paths??[];return paths.length?'Recorded changes in '+paths.length+' file'+(paths.length===1?'':'s')+': '+paths.slice(0,3).map(path=>path.length>180?path.slice(0,177)+'…':path).join(', ')+(paths.length>3?'…':'')+'.':'No frozen file changes recorded.';
 }
 export function ticketStatusText(db:DatabaseSync,t:Ticket):string{
- const events=listTicketEvents(db,t.id),last=events.filter(e=>e.kind==='needs_you'||e.kind==='check_result').at(-1);
- return t.id.slice(0,8)+' · '+t.title+' — '+t.status+'; checks: '+(t.checkVerdict??'NOT CHECKED')+'.'+(last?.kind==='needs_you'&&typeof last.data.reason==='string'?' '+last.data.reason:'');
+ const events=listTicketEvents(db,t.id),last=events.filter(e=>e.kind==='needs_you'||e.kind==='check_result').at(-1),failure=ticketHarnessFailure(db,t);
+ return t.id.slice(0,8)+' · '+t.title+' — '+t.status+'; checks: '+(t.checkVerdict??'NOT CHECKED')+'.'+(failure?' '+failure:t.status==='needs_you'&&last?.kind==='needs_you'&&typeof last.data.reason==='string'?' '+last.data.reason:'');
 }
 export function statusAnswer(db:DatabaseSync,text:string):string|null{
  if(/^(?:what(?:'s| is) running|running|status)\??$/i.test(text.trim())){const active=listTickets(db).filter(t=>['building','checking','fixing'].includes(t.status));return active.length?active.map(t=>ticketStatusText(db,t)).join('\n'):'Nothing is running. '+listTickets(db).filter(t=>t.status==='queued').length+' queued ticket(s).';}
