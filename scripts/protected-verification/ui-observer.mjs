@@ -10,6 +10,22 @@ if (!Number.isInteger(fd) || fd < 3) throw new Error('parent-owned observation F
 const packet = JSON.parse(fs.readFileSync(0, 'utf8'));
 const requests = packet.requests;
 if (!Array.isArray(requests) || requests.length > 30) throw new Error('invalid requests');
+// Native suite-only execution does not require a browser or component bundle.
+if(requests.every(r=>r.kind==='SUITE'||r.kind==='SCOPE')){
+ const {spawnSync}=await import('node:child_process');const path=await import('node:path');const rows=[];
+ for(const request of requests){
+  if(request.kind==='SCOPE'){rows.push({id:request.id,returnValue:request.scope});continue;}
+  try{
+   const root=request.fixtureInput.root, report=path.join(scratch,'suite-'+request.id+'.json'),config=path.join(scratch,'suite-'+request.id+'.mjs');
+   const include=request.fixtureInput.testPaths??['src/**/*.test.{ts,tsx}','src/**/*.spec.{ts,tsx}'];
+   fs.writeFileSync(config,'export default '+stringify({root,server:{host:'127.0.0.1'},cacheDir:path.join(scratch,'vite-cache'),resolve:{alias:{'@':path.join(root,'src'),vitest:path.join(depsRoot,'vitest/dist/index.js')}},test:{include,environment:'jsdom',globals:true,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false,cache:false}})+';');
+   const result=spawnSync(process.execPath,[path.join(depsRoot,'vitest/vitest.mjs'),'run','--config',config,'--reporter=json','--outputFile',report],{cwd:root,env:{PATH:process.env.PATH,HOME:scratch,TMPDIR:scratch,LANG:'C',TZ:'UTC',NODE_ENV:'test'},timeout:100000,maxBuffer:262144});
+   if(result.error||!fs.existsSync(report))throw Error('native Vitest suite recorder incomplete: '+String(result.error?.message??'')+' '+String(result.stderr??'').slice(0,1600));
+   rows.push({id:request.id,returnValue:{exitCode:result.status,report:JSON.parse(fs.readFileSync(report,'utf8'))},exception:null});
+  }catch(error){rows.push({id:request.id,returnValue:null,exception:{name:error?.name??'Error',message:String(error?.message??error).slice(0,2048)}});}
+ }
+ write(fd,stringify({version:'observations-v1',observations:rows})+'\n');process.exit(0);
+}
 const requireBrowser = createRequire('/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@playwright/cli/package.json');
 const { chromium } = requireBrowser('playwright');
 const installedShell = '/Users/jeshwanthsingh/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell';
@@ -38,7 +54,7 @@ try {
         const root=request.fixtureInput.root, report=path.join(scratch,'suite-'+request.id+'.json'),config=path.join(scratch,'suite-'+request.id+'.mjs');
         fs.writeFileSync(config,'export default '+stringify({root,server:{host:'127.0.0.1'},cacheDir:path.join(scratch,'vite-cache'),resolve:{alias:{'@':path.join(root,'src')}},test:{include:['src/**/*.test.{ts,tsx}','src/**/*.spec.{ts,tsx}'],environment:'jsdom',globals:true,pool:'threads',maxWorkers:1,minWorkers:1,fileParallelism:false}})+';');
         const result=spawnSync(process.execPath,[path.join(depsRoot,'vitest/vitest.mjs'),'run','--config',config,'--reporter=json','--outputFile',report],{cwd:root,env:{PATH:process.env.PATH,HOME:scratch,TMPDIR:scratch,LANG:'C',TZ:'UTC',NODE_ENV:'test'},timeout:100000,maxBuffer:262144});
-        if(result.error||!fs.existsSync(report))throw Error('native Vitest suite recorder incomplete');
+        if(result.error||!fs.existsSync(report))throw Error('native Vitest suite recorder incomplete: '+String(result.error?.message??'')+' '+String(result.stderr??'').slice(0,1600));
         rows.push({id:request.id,returnValue:{exitCode:result.status,report:JSON.parse(fs.readFileSync(report,'utf8'))}});continue;
       }
       await context.route('**/*', route => {

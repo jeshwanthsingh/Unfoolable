@@ -1,0 +1,556 @@
+{
+  "displayName": "Aegis Python SDK done event",
+  "gaps": [
+    "Prior E2 is native SUITE and is excluded; E1 contains malformed-event cases and valid zero/nonzero outcomes."
+  ],
+  "knownBad": {
+    "commit": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "repo": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
+    "tree": "82c2fe9e31033de2f62d6b1f63c965285b53fbd4"
+  },
+  "knownGood": {
+    "commit": "bd5ed0a2905d0b6775a83ff46a008907b9c3db10",
+    "repo": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
+    "tree": "bb11b191567ef92c63aeb60480bb185554ede1cc"
+  },
+  "manifest": {
+    "assurance": "IN-PROCESS",
+    "baseHead": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "componentPath": null,
+    "dependencyRoot": null,
+    "evaluationSignature": "0000000000000000000000000000000000000000000000000000000000000000",
+    "id": "870f802f-a228-4638-aaee-4e37ac5cb7f7",
+    "runner": "unittest",
+    "runnerDirectory": "sdk/python",
+    "source": {
+      "dependencyRoot": null,
+      "directory": "sdk/python",
+      "expectedTests": [
+        "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples",
+        "test_sdk.AegisSDKTests.test_client_env_precedence",
+        "test_sdk.AegisSDKTests.test_error_mapping_and_strings",
+        "test_sdk.AegisSDKTests.test_execution_level_failure_inside_200",
+        "test_sdk.AegisSDKTests.test_execution_result_error_and_receipt_branches",
+        "test_sdk.AegisSDKTests.test_health_request_is_unauthed",
+        "test_sdk.AegisSDKTests.test_http_transport_maps_connection_and_decode_failures",
+        "test_sdk.AegisSDKTests.test_http_transport_stream_error_paths",
+        "test_sdk.AegisSDKTests.test_invalid_client_configuration_raises",
+        "test_sdk.AegisSDKTests.test_missing_cli_path_is_configuration_error",
+        "test_sdk.AegisSDKTests.test_non_2xx_maps_to_sdk_error",
+        "test_sdk.AegisSDKTests.test_receipt_load_infers_files_and_summary",
+        "test_sdk.AegisSDKTests.test_receipt_missing_file_returns_none_from_result",
+        "test_sdk.AegisSDKTests.test_receipt_verifier_argument_and_failure_paths",
+        "test_sdk.AegisSDKTests.test_receipt_verifier_parses_cli_output",
+        "test_sdk.AegisSDKTests.test_receipt_wrapper_uses_verifier",
+        "test_sdk.AegisSDKTests.test_result_verify_receipt_uses_cached_wrapper",
+        "test_sdk.AegisSDKTests.test_run_rejects_mixed_intent_and_capabilities_locally",
+        "test_sdk.AegisSDKTests.test_run_rejects_mixed_request_and_kwargs",
+        "test_sdk.AegisSDKTests.test_run_serializes_capabilities_request",
+        "test_sdk.AegisSDKTests.test_run_serializes_request_object_and_auth",
+        "test_sdk.AegisSDKTests.test_stream_parsing",
+        "test_sdk.AegisSDKTests.test_validation_error_maps_to_validation_exception"
+      ],
+      "paths": [
+        "sdk/python/aegis/__init__.py",
+        "sdk/python/aegis/_http.py",
+        "sdk/python/aegis/capabilities.py",
+        "sdk/python/aegis/client.py",
+        "sdk/python/aegis/errors.py",
+        "sdk/python/aegis/events.py",
+        "sdk/python/aegis/intent.py",
+        "sdk/python/aegis/receipt.py",
+        "sdk/python/aegis/request.py",
+        "sdk/python/aegis/result.py",
+        "sdk/python/aegis/types.py",
+        "sdk/python/aegis/verifier.py",
+        "sdk/python/examples/_broker_smoke_common.py",
+        "sdk/python/examples/authenticated.py",
+        "sdk/python/examples/broker_allowed.py",
+        "sdk/python/examples/broker_denied.py",
+        "sdk/python/examples/health.py",
+        "sdk/python/examples/run_code.py",
+        "sdk/python/examples/run_stream.py",
+        "sdk/python/examples/verify_receipt.py",
+        "sdk/python/tests/__init__.py",
+        "sdk/python/tests/test_broker_smoke.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "runner": "unittest",
+      "source": {
+        "sdk/python/aegis/__init__.py": "from .client import AegisClient\nfrom .capabilities import BrokerCapabilities, BrokerDelegation, CapabilitiesRequest\nfrom .errors import (\n    AegisAPIError,\n    AegisAuthError,\n    AegisConfigurationError,\n    AegisConnectionError,\n    AegisError,\n    AegisExecutionError,\n    AegisStreamError,\n    AegisValidationError,\n    AegisVerificationError,\n)\nfrom .events import DoneEvent, ErrorEvent, ProofEvent, StderrEvent, StdoutEvent, StreamEvent\nfrom .intent import (\n    BrokerScope,\n    Budgets,\n    IntentContract,\n    NetworkScope,\n    ProcessScope,\n    ResourceScope,\n)\nfrom .receipt import Receipt\nfrom .request import ExecutionRequest\nfrom .result import ExecutionResult\nfrom .types import ConnectionPosture, HealthStatus, ProofBundle\nfrom .verifier import ReceiptVerification\n\n__all__ = [\n    \"AegisAPIError\",\n    \"AegisAuthError\",\n    \"AegisClient\",\n    \"AegisConfigurationError\",\n    \"AegisConnectionError\",\n    \"AegisError\",\n    \"AegisExecutionError\",\n    \"AegisStreamError\",\n    \"AegisValidationError\",\n    \"AegisVerificationError\",\n    \"BrokerCapabilities\",\n    \"BrokerDelegation\",\n    \"BrokerScope\",\n    \"Budgets\",\n    \"CapabilitiesRequest\",\n    \"ConnectionPosture\",\n    \"DoneEvent\",\n    \"ErrorEvent\",\n    \"ExecutionRequest\",\n    \"ExecutionResult\",\n    \"HealthStatus\",\n    \"IntentContract\",\n    \"NetworkScope\",\n    \"ProcessScope\",\n    \"ProofBundle\",\n    \"ProofEvent\",\n    \"Receipt\",\n    \"ReceiptVerification\",\n    \"ResourceScope\",\n    \"StderrEvent\",\n    \"StdoutEvent\",\n    \"StreamEvent\",\n]\n",
+        "sdk/python/aegis/_http.py": "from __future__ import annotations\n\nimport json\nimport urllib.error\nimport urllib.request\nfrom collections.abc import Iterator\nfrom typing import Any\n\nfrom .errors import AegisAPIError, AegisConnectionError, AegisStreamError, map_api_error\n\n\nclass HTTPTransport:\n    def __init__(self, *, base_url: str, api_key: str | None, timeout: float) -> None:\n        self._base_url = base_url.rstrip(\"/\")\n        self._api_key = api_key\n        self._timeout = timeout\n\n    def request_json(\n        self,\n        method: str,\n        path: str,\n        *,\n        payload: dict[str, Any] | None = None,\n        authenticated: bool = True,\n    ) -> dict[str, Any]:\n        request = self._build_request(method, path, payload=payload, authenticated=authenticated)\n        try:\n            with urllib.request.urlopen(request, timeout=self._timeout) as response:\n                body = response.read().decode(\"utf-8\")\n        except urllib.error.HTTPError as exc:\n            raise self._map_http_error(exc) from exc\n        except (urllib.error.URLError, TimeoutError, OSError) as exc:\n            raise AegisConnectionError(str(exc)) from exc\n\n        try:\n            payload = json.loads(body)\n        except json.JSONDecodeError as exc:\n            raise AegisConnectionError(f\"server returned invalid JSON: {exc}\") from exc\n        if not isinstance(payload, dict):\n            raise AegisConnectionError(\"server returned non-object JSON\")\n        return payload\n\n    def stream_sse(\n        self,\n        path: str,\n        *,\n        payload: dict[str, Any],\n        authenticated: bool = True,\n    ) -> Iterator[dict[str, Any]]:\n        request = self._build_request(\"POST\", path, payload=payload, authenticated=authenticated)\n        request.add_header(\"Accept\", \"text/event-stream\")\n        try:\n            response = urllib.request.urlopen(request, timeout=self._timeout)\n        except urllib.error.HTTPError as exc:\n            raise self._map_http_error(exc) from exc\n        except (urllib.error.URLError, TimeoutError, OSError) as exc:\n            raise AegisConnectionError(str(exc)) from exc\n\n        content_type = response.headers.get(\"Content-Type\", \"\")\n        if \"text/event-stream\" not in content_type:\n            try:\n                body = response.read().decode(\"utf-8\")\n            finally:\n                response.close()\n            raise AegisStreamError(f\"expected text/event-stream, got {content_type or 'unknown'}: {body}\")\n\n        def iterator() -> Iterator[dict[str, Any]]:\n            data_lines: list[str] = []\n            try:\n                while True:\n                    raw = response.readline()\n                    if not raw:\n                        break\n                    line = raw.decode(\"utf-8\").rstrip(\"\\r\\n\")\n                    if not line:\n                        if data_lines:\n                            payload_text = \"\\n\".join(data_lines)\n                            data_lines.clear()\n                            try:\n                                yield json.loads(payload_text)\n                            except json.JSONDecodeError as exc:\n                                raise AegisStreamError(f\"invalid SSE payload: {exc}\") from exc\n                        continue\n                    if line.startswith(\":\"):\n                        continue\n                    if line.startswith(\"data: \"):\n                        data_lines.append(line[6:])\n                if data_lines:\n                    payload_text = \"\\n\".join(data_lines)\n                    yield json.loads(payload_text)\n            finally:\n                response.close()\n\n        return iterator()\n\n    def _build_request(\n        self,\n        method: str,\n        path: str,\n        *,\n        payload: dict[str, Any] | None,\n        authenticated: bool,\n    ) -> urllib.request.Request:\n        data = None\n        headers = {\"Accept\": \"application/json\"}\n        if payload is not None:\n            data = json.dumps(payload).encode(\"utf-8\")\n            headers[\"Content-Type\"] = \"application/json\"\n        if authenticated and self._api_key:\n            headers[\"Authorization\"] = f\"Bearer {self._api_key}\"\n        return urllib.request.Request(self._base_url + path, data=data, headers=headers, method=method)\n\n    def _map_http_error(self, exc: urllib.error.HTTPError) -> AegisAPIError:\n        body = exc.read().decode(\"utf-8\", errors=\"replace\")\n        code = \"http_error\"\n        message = body.strip() or exc.reason or f\"HTTP {exc.code}\"\n        details = None\n        try:\n            payload = json.loads(body)\n        except json.JSONDecodeError:\n            payload = None\n        if isinstance(payload, dict) and isinstance(payload.get(\"error\"), dict):\n            error = payload[\"error\"]\n            code = str(error.get(\"code\", code))\n            message = str(error.get(\"message\", message))\n            raw_details = error.get(\"details\")\n            details = dict(raw_details) if isinstance(raw_details, dict) else None\n        return map_api_error(exc.code, code, message, details)\n",
+        "sdk/python/aegis/client.py": "from __future__ import annotations\n\nimport os\nfrom collections.abc import Iterator, Mapping\nfrom typing import Any\n\nfrom ._http import HTTPTransport\nfrom .capabilities import CapabilitiesRequest\nfrom .errors import AegisConfigurationError\nfrom .events import StreamEvent, parse_stream_event\nfrom .intent import IntentContract\nfrom .request import ExecutionRequest\nfrom .result import ExecutionResult\nfrom .types import ConnectionPosture, HealthStatus\nfrom .verifier import ReceiptVerification, ReceiptVerifier\n\n\nclass AegisClient:\n    def __init__(\n        self,\n        *,\n        base_url: str | None = None,\n        api_key: str | None = None,\n        timeout: float = 30.0,\n        cli_path: str | None = None,\n    ) -> None:\n        if timeout <= 0:\n            raise AegisConfigurationError(\"timeout must be greater than zero\")\n        resolved_base_url, base_url_source = _resolve_base_url(base_url)\n        resolved_api_key, api_key_source = _resolve_api_key(api_key)\n        self.base_url = resolved_base_url\n        self.api_key = resolved_api_key\n        self.timeout = timeout\n        self.posture = ConnectionPosture(\n            base_url=resolved_base_url,\n            base_url_source=base_url_source,\n            api_key_source=api_key_source,\n            api_key_configured=bool(resolved_api_key),\n        )\n        self._transport = HTTPTransport(\n            base_url=resolved_base_url,\n            api_key=resolved_api_key,\n            timeout=timeout,\n        )\n        self._verifier = ReceiptVerifier(cli_path=cli_path)\n\n    def health(self) -> HealthStatus:\n        payload = self._transport.request_json(\"GET\", \"/v1/health\", authenticated=False)\n        return HealthStatus(\n            status=str(payload.get(\"status\", \"unknown\")),\n            worker_slots_available=int(payload.get(\"worker_slots_available\", 0) or 0),\n            worker_slots_total=int(payload.get(\"worker_slots_total\", 0) or 0),\n        )\n\n    def run(\n        self,\n        request: ExecutionRequest | None = None,\n        *,\n        language: str | None = None,\n        code: str | None = None,\n        timeout_ms: int | None = None,\n        intent: IntentContract | Mapping[str, Any] | None = None,\n        capabilities: CapabilitiesRequest | Mapping[str, Any] | None = None,\n        profile: str | None = None,\n        workspace_id: str | None = None,\n        execution_id: str | None = None,\n    ) -> ExecutionResult:\n        execution_request = _coerce_execution_request(\n            request=request,\n            language=language,\n            code=code,\n            timeout_ms=timeout_ms,\n            intent=intent,\n            capabilities=capabilities,\n            profile=profile,\n            workspace_id=workspace_id,\n            execution_id=execution_id,\n        )\n        response = self._transport.request_json(\"POST\", \"/v1/execute\", payload=execution_request.to_payload())\n        return ExecutionResult.from_dict(response, verifier=self._verifier)\n\n    def run_code(\n        self,\n        *,\n        language: str,\n        code: str,\n        timeout_ms: int | None = None,\n        intent: IntentContract | Mapping[str, Any] | None = None,\n        capabilities: CapabilitiesRequest | Mapping[str, Any] | None = None,\n        profile: str | None = None,\n        workspace_id: str | None = None,\n        execution_id: str | None = None,\n    ) -> ExecutionResult:\n        return self.run(\n            language=language,\n            code=code,\n            timeout_ms=timeout_ms,\n            intent=intent,\n            capabilities=capabilities,\n            profile=profile,\n            workspace_id=workspace_id,\n            execution_id=execution_id,\n        )\n\n    def stream(\n        self,\n        request: ExecutionRequest | None = None,\n        *,\n        language: str | None = None,\n        code: str | None = None,\n        timeout_ms: int | None = None,\n        intent: IntentContract | Mapping[str, Any] | None = None,\n        capabilities: CapabilitiesRequest | Mapping[str, Any] | None = None,\n        profile: str | None = None,\n        workspace_id: str | None = None,\n        execution_id: str | None = None,\n    ) -> Iterator[StreamEvent]:\n        execution_request = _coerce_execution_request(\n            request=request,\n            language=language,\n            code=code,\n            timeout_ms=timeout_ms,\n            intent=intent,\n            capabilities=capabilities,\n            profile=profile,\n            workspace_id=workspace_id,\n            execution_id=execution_id,\n        )\n        for raw_event in self._transport.stream_sse(\"/v1/execute/stream\", payload=execution_request.to_payload()):\n            yield parse_stream_event(raw_event)\n\n    def run_stream(\n        self,\n        *,\n        language: str,\n        code: str,\n        timeout_ms: int | None = None,\n        intent: IntentContract | Mapping[str, Any] | None = None,\n        capabilities: CapabilitiesRequest | Mapping[str, Any] | None = None,\n        profile: str | None = None,\n        workspace_id: str | None = None,\n        execution_id: str | None = None,\n    ) -> Iterator[StreamEvent]:\n        return self.stream(\n            language=language,\n            code=code,\n            timeout_ms=timeout_ms,\n            intent=intent,\n            capabilities=capabilities,\n            profile=profile,\n            workspace_id=workspace_id,\n            execution_id=execution_id,\n        )\n\n    def verify_receipt(\n        self,\n        *,\n        receipt_path: str | None = None,\n        public_key_path: str | None = None,\n        proof_dir: str | None = None,\n        execution_id: str | None = None,\n    ) -> ReceiptVerification:\n        return self._verifier.verify_receipt(\n            receipt_path=receipt_path,\n            public_key_path=public_key_path,\n            proof_dir=proof_dir,\n            execution_id=execution_id,\n        )\n\n\ndef _coerce_execution_request(\n    *,\n    request: ExecutionRequest | None,\n    language: str | None,\n    code: str | None,\n    timeout_ms: int | None,\n    intent: IntentContract | Mapping[str, Any] | None,\n    capabilities: CapabilitiesRequest | Mapping[str, Any] | None,\n    profile: str | None,\n    workspace_id: str | None,\n    execution_id: str | None,\n) -> ExecutionRequest:\n    if request is not None:\n        provided_fields = (\n            language,\n            code,\n            timeout_ms,\n            intent,\n            capabilities,\n            profile,\n            workspace_id,\n            execution_id,\n        )\n        if any(value is not None for value in provided_fields):\n            raise AegisConfigurationError(\n                \"pass either request=ExecutionRequest(...) or keyword execution fields, not both\"\n            )\n        return request\n    if not language:\n        raise AegisConfigurationError(\"language is required\")\n    if code is None:\n        raise AegisConfigurationError(\"code is required\")\n    return ExecutionRequest(\n        language=language,\n        code=code,\n        timeout_ms=timeout_ms,\n        intent=intent,\n        capabilities=capabilities,\n        profile=profile,\n        workspace_id=workspace_id,\n        execution_id=execution_id,\n    )\n\n\ndef _resolve_base_url(explicit: str | None) -> tuple[str, str]:\n    if explicit:\n        return explicit.rstrip(\"/\"), \"explicit\"\n    for env_name in (\"AEGIS_BASE_URL\", \"AEGIS_URL\"):\n        value = os.getenv(env_name)\n        if value:\n            return value.rstrip(\"/\"), env_name\n    return \"http://localhost:8080\", \"default\"\n\n\ndef _resolve_api_key(explicit: str | None) -> tuple[str | None, str]:\n    if explicit:\n        return explicit, \"explicit\"\n    env_value = os.getenv(\"AEGIS_API_KEY\")\n    if env_value:\n        return env_value, \"AEGIS_API_KEY\"\n    return None, \"none\"\n",
+        "sdk/python/aegis/errors.py": "from __future__ import annotations\n\nfrom dataclasses import dataclass\nfrom typing import Any\n\n\nclass AegisError(Exception):\n    \"\"\"Base SDK error.\"\"\"\n\n\nclass AegisConnectionError(AegisError):\n    \"\"\"Raised when the SDK cannot reach the Aegis server.\"\"\"\n\n\nclass AegisConfigurationError(AegisError):\n    \"\"\"Raised when the local SDK configuration is incomplete or invalid.\"\"\"\n\n\n@dataclass(slots=True)\nclass AegisAPIError(AegisError):\n    status_code: int\n    code: str\n    message: str\n    details: dict[str, Any] | None = None\n\n    def __str__(self) -> str:\n        suffix = f\" ({self.code})\" if self.code else \"\"\n        return f\"HTTP {self.status_code}{suffix}: {self.message}\"\n\n\nclass AegisAuthError(AegisAPIError):\n    \"\"\"Authentication or authorization failure.\"\"\"\n\n\nclass AegisValidationError(AegisAPIError):\n    \"\"\"Request validation failure.\"\"\"\n\n\n@dataclass(slots=True)\nclass AegisExecutionError(AegisError):\n    message: str\n    execution_id: str | None = None\n    exit_code: int | None = None\n    exit_reason: str | None = None\n    raw_response: dict[str, Any] | None = None\n\n    def __str__(self) -> str:\n        parts = [self.message]\n        if self.execution_id:\n            parts.append(f\"execution_id={self.execution_id}\")\n        if self.exit_code is not None:\n            parts.append(f\"exit_code={self.exit_code}\")\n        if self.exit_reason:\n            parts.append(f\"exit_reason={self.exit_reason}\")\n        return \" \".join(parts)\n\n\nclass AegisVerificationError(AegisError):\n    \"\"\"Receipt verification failed or could not run.\"\"\"\n\n\nclass AegisStreamError(AegisError):\n    \"\"\"Streaming execution failed.\"\"\"\n\n\ndef map_api_error(status_code: int, code: str, message: str, details: dict[str, Any] | None = None) -> AegisAPIError:\n    if status_code == 401 or code.startswith(\"auth_\"):\n        return AegisAuthError(status_code, code, message, details)\n    validation_codes = {\n        \"invalid_request\",\n        \"invalid_intent_contract\",\n        \"invalid_profile\",\n        \"validation_error\",\n    }\n    if status_code == 400 or code in validation_codes:\n        return AegisValidationError(status_code, code, message, details)\n    return AegisAPIError(status_code, code, message, details)\n",
+        "sdk/python/aegis/events.py": "from __future__ import annotations\n\nfrom dataclasses import dataclass\nfrom typing import Any\n\nfrom .types import ProofBundle\n\n\n@dataclass(frozen=True, slots=True)\nclass StreamEvent:\n    type: str\n    raw: dict[str, Any]\n\n\n@dataclass(frozen=True, slots=True)\nclass StdoutEvent(StreamEvent):\n    chunk: str\n\n\n@dataclass(frozen=True, slots=True)\nclass StderrEvent(StreamEvent):\n    chunk: str\n\n\n@dataclass(frozen=True, slots=True)\nclass ProofEvent(StreamEvent):\n    execution_id: str | None\n    proof_bundle: ProofBundle\n    artifact_count: int\n    divergence_verdict: str | None\n\n\n@dataclass(frozen=True, slots=True)\nclass ErrorEvent(StreamEvent):\n    error: str\n\n\n@dataclass(frozen=True, slots=True)\nclass DoneEvent(StreamEvent):\n    exit_code: int\n    reason: str | None\n    duration_ms: int\n\n    @property\n    def ok(self) -> bool:\n        return self.exit_code == 0 and self.reason in {None, \"\", \"completed\"}\n\n\ndef parse_stream_event(raw: dict[str, Any]) -> StreamEvent:\n    event_type = str(raw.get(\"type\", \"\"))\n    if event_type == \"stdout\":\n        return StdoutEvent(type=event_type, raw=raw, chunk=str(raw.get(\"chunk\", \"\")))\n    if event_type == \"stderr\":\n        return StderrEvent(type=event_type, raw=raw, chunk=str(raw.get(\"chunk\", \"\")))\n    if event_type == \"proof\":\n        return ProofEvent(\n            type=event_type,\n            raw=raw,\n            execution_id=raw.get(\"execution_id\"),\n            proof_bundle=ProofBundle(\n                proof_dir=raw.get(\"proof_dir\"),\n                receipt_path=raw.get(\"receipt_path\"),\n                receipt_public_key_path=raw.get(\"receipt_public_key_path\"),\n                receipt_summary_path=raw.get(\"receipt_summary_path\"),\n            ),\n            artifact_count=int(raw.get(\"artifact_count\", 0) or 0),\n            divergence_verdict=raw.get(\"divergence_verdict\"),\n        )\n    if event_type == \"error\":\n        return ErrorEvent(type=event_type, raw=raw, error=str(raw.get(\"error\", \"\")))\n    if event_type == \"done\":\n        return DoneEvent(\n            type=event_type,\n            raw=raw,\n            exit_code=int(raw.get(\"exit_code\", 0) or 0),\n            reason=raw.get(\"reason\"),\n            duration_ms=int(raw.get(\"duration_ms\", 0) or 0),\n        )\n    return StreamEvent(type=event_type or \"unknown\", raw=raw)\n",
+        "sdk/python/aegis/receipt.py": "from __future__ import annotations\n\nimport json\nfrom dataclasses import dataclass, field\nfrom pathlib import Path\nfrom typing import Any\n\nfrom .verifier import ReceiptVerification, ReceiptVerifier\n\n\n@dataclass(slots=True)\nclass Receipt:\n    path: str\n    raw: dict[str, Any]\n    public_key_path: str | None = None\n    summary_path: str | None = None\n    verifier: ReceiptVerifier | None = field(default=None, repr=False)\n\n    @classmethod\n    def load(\n        cls,\n        path: str,\n        *,\n        public_key_path: str | None = None,\n        summary_path: str | None = None,\n        verifier: ReceiptVerifier | None = None,\n    ) -> Receipt:\n        raw = json.loads(Path(path).read_text(encoding='utf-8'))\n        if public_key_path is None:\n            inferred = Path(path).with_name('receipt.pub')\n            if inferred.exists():\n                public_key_path = str(inferred)\n        if summary_path is None:\n            inferred_summary = Path(path).with_name('receipt.summary.txt')\n            if inferred_summary.exists():\n                summary_path = str(inferred_summary)\n        return cls(path=path, raw=raw, public_key_path=public_key_path, summary_path=summary_path, verifier=verifier)\n\n    @property\n    def proof_dir(self) -> str:\n        return str(Path(self.path).parent)\n\n    @property\n    def statement(self) -> dict[str, Any]:\n        return dict(self.raw.get('statement', {}))\n\n    @property\n    def predicate(self) -> dict[str, Any]:\n        return dict(self.statement.get('predicate', {}))\n\n    @property\n    def execution_id(self) -> str | None:\n        return self.predicate.get('execution_id')\n\n    @property\n    def result_class(self) -> str | None:\n        result_class = self.predicate.get('result_class')\n        return result_class if isinstance(result_class, str) else None\n\n    @property\n    def divergence_verdict(self) -> str | None:\n        divergence = self.predicate.get('divergence') or {}\n        if isinstance(divergence, dict):\n            return divergence.get('verdict')\n        return None\n\n    @property\n    def signing_mode(self) -> str | None:\n        trust = self.predicate.get('trust') or {}\n        if isinstance(trust, dict):\n            return trust.get('signing_mode')\n        return None\n\n    @property\n    def key_source(self) -> str | None:\n        trust = self.predicate.get('trust') or {}\n        if isinstance(trust, dict):\n            return trust.get('key_source')\n        return None\n\n    @property\n    def summary_text(self) -> str | None:\n        if not self.summary_path:\n            return None\n        summary_file = Path(self.summary_path)\n        if not summary_file.exists():\n            return None\n        return summary_file.read_text(encoding='utf-8')\n\n    def verify(self) -> ReceiptVerification:\n        verifier = self.verifier or ReceiptVerifier()\n        return verifier.verify_receipt(receipt_path=self.path, public_key_path=self.public_key_path)\n",
+        "sdk/python/aegis/request.py": "from __future__ import annotations\n\nfrom collections.abc import Mapping\nfrom dataclasses import dataclass\nfrom typing import Any\n\nfrom .capabilities import CapabilitiesRequest, coerce_capabilities_payload\nfrom .errors import AegisConfigurationError\nfrom .intent import IntentContract, coerce_intent_payload\n\n\n@dataclass(slots=True)\nclass ExecutionRequest:\n    language: str\n    code: str\n    timeout_ms: int | None = None\n    intent: IntentContract | Mapping[str, Any] | None = None\n    capabilities: CapabilitiesRequest | Mapping[str, Any] | None = None\n    profile: str | None = None\n    workspace_id: str | None = None\n    execution_id: str | None = None\n\n    def __post_init__(self) -> None:\n        if self.intent is not None and self.capabilities is not None:\n            raise AegisConfigurationError(\"provide either intent or capabilities, not both\")\n\n    def to_payload(self) -> dict[str, Any]:\n        payload: dict[str, Any] = {\"lang\": self.language, \"code\": self.code}\n        if self.timeout_ms is not None:\n            payload[\"timeout_ms\"] = self.timeout_ms\n        if self.profile:\n            payload[\"profile\"] = self.profile\n        if self.workspace_id:\n            payload[\"workspace_id\"] = self.workspace_id\n        if self.execution_id:\n            payload[\"execution_id\"] = self.execution_id\n        intent_payload = coerce_intent_payload(self.intent)\n        capabilities_payload = coerce_capabilities_payload(self.capabilities)\n        if intent_payload is not None:\n            payload[\"intent\"] = intent_payload\n        if capabilities_payload is not None:\n            payload[\"capabilities\"] = capabilities_payload\n        return payload\n",
+        "sdk/python/aegis/result.py": "from __future__ import annotations\n\nfrom dataclasses import dataclass, field\nfrom typing import Any\n\nfrom .errors import AegisExecutionError, AegisVerificationError\nfrom .receipt import Receipt\nfrom .types import ProofBundle\nfrom .verifier import ReceiptVerification, ReceiptVerifier\n\n\n@dataclass(slots=True)\nclass ExecutionResult:\n    stdout: str\n    stderr: str\n    exit_code: int\n    execution_id: str\n    duration_ms: int = 0\n    exit_reason: str | None = None\n    execution_error: str | None = None\n    output_truncated: bool = False\n    proof_dir: str | None = None\n    receipt_path: str | None = None\n    receipt_public_key_path: str | None = None\n    receipt_summary_path: str | None = None\n    raw_response: dict[str, Any] = field(default_factory=dict)\n    _verifier: ReceiptVerifier | None = field(default=None, repr=False, compare=False)\n    _receipt_cache: Receipt | None = field(default=None, init=False, repr=False, compare=False)\n\n    @classmethod\n    def from_dict(cls, payload: dict[str, Any], verifier: ReceiptVerifier | None = None) -> ExecutionResult:\n        return cls(\n            stdout=str(payload.get(\"stdout\", \"\")),\n            stderr=str(payload.get(\"stderr\", \"\")),\n            exit_code=int(payload.get(\"exit_code\", 0) or 0),\n            execution_id=str(payload.get(\"execution_id\", \"\")),\n            duration_ms=int(payload.get(\"duration_ms\", 0) or 0),\n            exit_reason=payload.get(\"exit_reason\"),\n            execution_error=payload.get(\"error\"),\n            output_truncated=bool(payload.get(\"output_truncated\", False)),\n            proof_dir=payload.get(\"proof_dir\"),\n            receipt_path=payload.get(\"receipt_path\"),\n            receipt_public_key_path=payload.get(\"receipt_public_key_path\"),\n            receipt_summary_path=payload.get(\"receipt_summary_path\"),\n            raw_response=dict(payload),\n            _verifier=verifier,\n        )\n\n    @property\n    def proof_bundle(self) -> ProofBundle:\n        return ProofBundle(\n            proof_dir=self.proof_dir,\n            receipt_path=self.receipt_path,\n            receipt_public_key_path=self.receipt_public_key_path,\n            receipt_summary_path=self.receipt_summary_path,\n        )\n\n    @property\n    def ok(self) -> bool:\n        return not self.execution_failed\n\n    @property\n    def execution_failed(self) -> bool:\n        if self.execution_error:\n            return True\n        if self.exit_code != 0:\n            return True\n        return self.exit_reason not in {None, \"\", \"completed\"}\n\n    @property\n    def error(self) -> str | None:\n        if self.execution_error:\n            return self.execution_error\n        if self.exit_code != 0:\n            return f\"process exited with code {self.exit_code}\"\n        if self.exit_reason not in {None, \"\", \"completed\"}:\n            return self.exit_reason\n        return None\n\n    @property\n    def receipt(self) -> Receipt | None:\n        if self._receipt_cache is not None:\n            return self._receipt_cache\n        if not self.receipt_path:\n            return None\n        try:\n            self._receipt_cache = Receipt.load(\n                self.receipt_path,\n                public_key_path=self.receipt_public_key_path,\n                summary_path=self.receipt_summary_path,\n                verifier=self._verifier,\n            )\n        except FileNotFoundError:\n            return None\n        return self._receipt_cache\n\n    def require_receipt(self) -> Receipt:\n        receipt = self.receipt\n        if receipt is None:\n            raise AegisVerificationError(\"execution result does not include a readable receipt\")\n        return receipt\n\n    def verify_receipt(self) -> ReceiptVerification:\n        return self.require_receipt().verify()\n\n    def raise_for_execution_error(self) -> None:\n        if not self.execution_failed:\n            return\n        raise AegisExecutionError(\n            message=self.error or \"execution failed\",\n            execution_id=self.execution_id,\n            exit_code=self.exit_code,\n            exit_reason=self.exit_reason,\n            raw_response=self.raw_response,\n        )\n",
+        "sdk/python/aegis/verifier.py": "from __future__ import annotations\n\nimport os\nimport shutil\nimport subprocess\nfrom dataclasses import dataclass\nfrom pathlib import Path\n\nfrom .errors import AegisConfigurationError, AegisVerificationError\n\n\n@dataclass(frozen=True, slots=True)\nclass ReceiptVerification:\n    verified: bool\n    summary_text: str\n    fields: dict[str, str]\n\n    @property\n    def execution_id(self) -> str | None:\n        return self.fields.get(\"execution_id\")\n\n    @property\n    def divergence_verdict(self) -> str | None:\n        return self.fields.get(\"divergence_verdict\")\n\n    @property\n    def signing_mode(self) -> str | None:\n        return self.fields.get(\"signing_mode\")\n\n\nclass ReceiptVerifier:\n    def __init__(self, cli_path: str | None = None) -> None:\n        self._cli_path = cli_path\n\n    def resolve_cli_path(self) -> str:\n        candidates: list[Path] = []\n        if self._cli_path:\n            candidates.append(Path(self._cli_path))\n        env_cli = os.getenv(\"AEGIS_CLI_BIN\")\n        if env_cli:\n            candidates.append(Path(env_cli))\n        cwd = Path.cwd()\n        for root in [cwd, *cwd.parents]:\n            candidates.append(root / \".aegis/bin/aegis\")\n        for candidate in candidates:\n            if candidate.is_file() and os.access(candidate, os.X_OK):\n                return str(candidate)\n        which = shutil.which(\"aegis\")\n        if which:\n            return which\n        raise AegisConfigurationError(\n            \"could not locate the Aegis CLI for receipt verification; set AEGIS_CLI_BIN or install the aegis CLI\"\n        )\n\n    def verify_receipt(\n        self,\n        *,\n        receipt_path: str | None = None,\n        public_key_path: str | None = None,\n        proof_dir: str | None = None,\n        execution_id: str | None = None,\n    ) -> ReceiptVerification:\n        cli = self.resolve_cli_path()\n        command = [cli, \"receipt\", \"verify\"]\n        if receipt_path:\n            command.extend([\"--file\", receipt_path])\n            if public_key_path:\n                command.extend([\"--public-key\", public_key_path])\n        elif proof_dir:\n            command.extend([\"--proof-dir\", proof_dir])\n        elif execution_id:\n            command.extend([\"--execution-id\", execution_id])\n        else:\n            raise AegisConfigurationError(\"receipt verification requires receipt_path, proof_dir, or execution_id\")\n\n        try:\n            completed = subprocess.run(command, check=False, capture_output=True, text=True)\n        except OSError as exc:\n            raise AegisVerificationError(str(exc)) from exc\n        if completed.returncode != 0:\n            stderr = completed.stderr.strip() or completed.stdout.strip() or \"receipt verification failed\"\n            raise AegisVerificationError(stderr)\n        summary_text = completed.stdout\n        fields = _parse_summary(summary_text)\n        return ReceiptVerification(\n            verified=fields.get(\"verification\") == \"verified\",\n            summary_text=summary_text,\n            fields=fields,\n        )\n\n\ndef _parse_summary(summary_text: str) -> dict[str, str]:\n    fields: dict[str, str] = {}\n    for raw_line in summary_text.splitlines():\n        line = raw_line.strip()\n        if not line:\n            continue\n        if line.startswith(\"outcome=\"):\n            for token in line.split():\n                if \"=\" in token:\n                    key, value = token.split(\"=\", 1)\n                    fields[key] = value\n            continue\n        if \"=\" not in line:\n            continue\n        key, value = line.split(\"=\", 1)\n        fields[key] = value\n    return fields\n",
+        "sdk/python/examples/_broker_smoke_common.py": "from __future__ import annotations\n\nimport os\nimport threading\nimport uuid\nfrom dataclasses import dataclass\nfrom http.server import BaseHTTPRequestHandler, ThreadingHTTPServer\nfrom pathlib import Path\n\nfrom aegis import (\n    AegisClient,\n    BrokerCapabilities,\n    BrokerDelegation,\n    CapabilitiesRequest,\n)\n\nDEFAULT_LOG_PATH = \"/tmp/aegis-local-orchestrator.log\"\nALLOWED_MARKER = \"PASS_auth_present_true_no_raw_token\"\nDENIED_MARKER = \"PASS_denied_no_raw_token\"\n\n\n@dataclass(slots=True)\nclass ProbeObservation:\n    path: str\n    auth_present: bool\n    auth_scheme: str\n\n\nclass ProbeServer(ThreadingHTTPServer):\n    allow_reuse_address = True\n\n    def __init__(self) -> None:\n        self.observations: list[ProbeObservation] = []\n        super().__init__((\"127.0.0.1\", 0), ProbeHandler)\n\n    @property\n    def port(self) -> int:\n        return int(self.server_address[1])\n\n\nclass ProbeHandler(BaseHTTPRequestHandler):\n    protocol_version = \"HTTP/1.1\"\n\n    def do_GET(self) -> None:\n        auth_header = self.headers.get(\"Authorization\", \"\")\n        auth_present = auth_header.startswith(\"Bearer \")\n        self.server.observations.append(  # type: ignore[attr-defined]\n            ProbeObservation(\n                path=self.path,\n                auth_present=auth_present,\n                auth_scheme=\"Bearer\" if auth_present else \"\",\n            )\n        )\n        body = f\"auth_present={'true' if auth_present else 'false'}\\n\".encode()\n        self.send_response(200)\n        self.send_header(\"Content-Type\", \"text/plain; charset=utf-8\")\n        self.send_header(\"Content-Length\", str(len(body)))\n        self.send_header(\"Connection\", \"close\")\n        self.end_headers()\n        self.wfile.write(body)\n\n    def log_message(self, format: str, *args: object) -> None:\n        return\n\n\nclass ProbeContext:\n    def __init__(self) -> None:\n        self.server = ProbeServer()\n        self._thread = threading.Thread(target=self.server.serve_forever, daemon=True)\n\n    def __enter__(self) -> ProbeServer:\n        self._thread.start()\n        return self.server\n\n    def __exit__(self, exc_type, exc, tb) -> None:\n        self.server.shutdown()\n        self.server.server_close()\n        self._thread.join(timeout=2)\n\n\ndef run_allowed_case() -> None:\n    _require_secret()\n    client = _client()\n    _assert_health(client)\n    with ProbeContext() as probe:\n        execution_id = str(uuid.uuid4())\n        capabilities = _broker_capabilities(\n            resource=f\"http://127.0.0.1:{probe.port}/probe\",\n            allow_http_requests=True,\n        )\n        result = client.run(\n            language=\"bash\",\n            code=_allowed_guest_code(probe.port),\n            timeout_ms=10000,\n            capabilities=capabilities,\n        )\n        _assert_stdout_marker(result.stdout, ALLOWED_MARKER)\n        _assert_result_artifacts(result)\n        _assert_no_secret_leak(result)\n        _assert_probe_requests(probe.observations, expected=1, require_auth=True)\n        telemetry_status = _broker_evidence_status(result=result, expected=\"allowed\")\n        verification = result.receipt.verify() if result.receipt is not None else None\n        print(\"broker_case=allowed\")\n        print(f\"execution_id={result.execution_id}\")\n        print(f\"result_ok={str(result.ok).lower()}\")\n        print(f\"exit_code={result.exit_code}\")\n        print(f\"proof_dir={result.proof_dir}\")\n        print(f\"receipt_path={result.receipt_path}\")\n        print(f\"receipt_verified={str(bool(verification and verification.verified)).lower()}\")\n        print(f\"upstream_requests={len(probe.observations)}\")\n        print(f\"telemetry={telemetry_status}\")\n        print(\"status=passed\")\n\n\ndef run_denied_case() -> None:\n    _require_secret()\n    client = _client()\n    _assert_health(client)\n    with ProbeContext() as probe:\n        execution_id = str(uuid.uuid4())\n        capabilities = _broker_capabilities(\n            resource=\"https://example.invalid/probe\",\n            allow_http_requests=True,\n        )\n        result = client.run(\n            language=\"bash\",\n            code=_denied_guest_code(probe.port),\n            timeout_ms=10000,\n            capabilities=capabilities,\n        )\n        _assert_stdout_marker(result.stdout, DENIED_MARKER)\n        _assert_result_artifacts(result)\n        _assert_no_secret_leak(result)\n        _assert_probe_requests(probe.observations, expected=0, require_auth=False)\n        telemetry_status = _broker_evidence_status(result=result, expected=\"denied\")\n        verification = result.receipt.verify() if result.receipt is not None else None\n        print(\"broker_case=denied\")\n        print(f\"execution_id={result.execution_id}\")\n        print(f\"result_ok={str(result.ok).lower()}\")\n        print(f\"exit_code={result.exit_code}\")\n        print(f\"proof_dir={result.proof_dir}\")\n        print(f\"receipt_path={result.receipt_path}\")\n        print(f\"receipt_verified={str(bool(verification and verification.verified)).lower()}\")\n        print(f\"upstream_requests={len(probe.observations)}\")\n        print(f\"telemetry={telemetry_status}\")\n        print(\"status=passed\")\n\n\ndef _client() -> AegisClient:\n    return AegisClient()\n\n\ndef _assert_health(client: AegisClient) -> None:\n    health = client.health()\n    if not health.ok:\n        raise RuntimeError(f\"Aegis health check failed: status={health.status}\")\n\n\ndef _require_secret() -> str:\n    secret = os.getenv(\"AEGIS_CRED_GITHUB_TOKEN\", \"\").strip()\n    if secret:\n        return secret\n    secret = _secret_from_orchestrator_env()\n    if secret:\n        return secret\n    raise RuntimeError(\n        \"AEGIS_CRED_GITHUB_TOKEN must be exported in the host environment \"\n        \"or present in the running orchestrator for broker smoke validation\"\n    )\n\n\ndef _secret_from_orchestrator_env() -> str:\n    proc_root = Path(\"/proc\")\n    for entry in proc_root.iterdir():\n        if not entry.name.isdigit():\n            continue\n        try:\n            cmdline = (entry / \"cmdline\").read_bytes().decode(\"utf-8\", errors=\"ignore\").replace(\"\\x00\", \" \")\n        except OSError:\n            continue\n        if \".aegis/bin/orchestrator\" not in cmdline and \"/tmp/aegis-bin\" not in cmdline:\n            continue\n        try:\n            environ = (entry / \"environ\").read_bytes().split(b\"\\x00\")\n        except OSError:\n            continue\n        for item in environ:\n            if item.startswith(b\"AEGIS_CRED_GITHUB_TOKEN=\"):\n                return item.split(b\"=\", 1)[1].decode(\"utf-8\", errors=\"ignore\").strip()\n    return \"\"\n\n\ndef _assert_stdout_marker(stdout: str, marker: str) -> None:\n    if marker not in stdout:\n        raise RuntimeError(f\"expected stdout marker {marker!r}, got: {stdout!r}\")\n\n\ndef _assert_result_artifacts(result) -> None:\n    if not result.ok:\n        result.raise_for_execution_error()\n    if not result.proof_dir:\n        raise RuntimeError(\"missing proof_dir in execution result\")\n    if not result.receipt_path:\n        raise RuntimeError(\"missing receipt_path in execution result\")\n    if not Path(result.proof_dir).is_dir():\n        raise RuntimeError(f\"proof_dir missing on disk: {result.proof_dir}\")\n    if not Path(result.receipt_path).is_file():\n        raise RuntimeError(f\"receipt_path missing on disk: {result.receipt_path}\")\n    receipt = result.receipt\n    if receipt is None:\n        raise RuntimeError(\"result.receipt could not be loaded\")\n    verification = receipt.verify()\n    if not verification.verified:\n        raise RuntimeError(\"receipt verification did not return verified\")\n\n\ndef _assert_probe_requests(observations: list[ProbeObservation], *, expected: int, require_auth: bool) -> None:\n    if len(observations) != expected:\n        raise RuntimeError(f\"expected {expected} upstream requests, got {len(observations)}\")\n    if require_auth and (not observations or not observations[0].auth_present):\n        raise RuntimeError(\"expected upstream probe to receive Bearer auth\")\n\n\ndef _broker_evidence_status(*, result, expected: str) -> str:\n    if _telemetry_events_present(result.execution_id, [\"credential.request\", f\"credential.{expected}\"]):\n        return f\"credential.request,credential.{expected}\"\n    receipt = result.receipt\n    if expected == \"denied\" and receipt is not None:\n        summary = receipt.summary_text or \"\"\n        if \"broker.request_denied\" in summary:\n            return \"receipt:broker.request_denied\"\n    if expected == \"allowed\":\n        return \"upstream_probe_auth_present\"\n    return \"receipt:broker.request_denied\"\n\n\ndef _telemetry_events_present(execution_id: str, expected_kinds: list[str]) -> bool:\n    log_path = Path(os.getenv(\"AEGIS_ORCHESTRATOR_LOG\", DEFAULT_LOG_PATH))\n    if log_path.is_file():\n        lines = log_path.read_text(errors=\"replace\").splitlines()\n        return all(any(execution_id in line and kind in line for line in lines) for kind in expected_kinds)\n    return False\n\n\ndef _assert_no_secret_leak(result) -> None:\n    secret = _require_secret()\n    leaks: list[str] = []\n    if secret in result.stdout:\n        leaks.append(\"stdout\")\n    if secret in result.stderr:\n        leaks.append(\"stderr\")\n    if result.proof_dir:\n        leaks.extend(_scan_directory_for_secret(Path(result.proof_dir), secret))\n    if leaks:\n        raise RuntimeError(f\"raw credential leak detected in: {', '.join(leaks)}\")\n\n\ndef _scan_directory_for_secret(root: Path, secret: str) -> list[str]:\n    findings: list[str] = []\n    if not root.exists():\n        return findings\n    secret_bytes = secret.encode(\"utf-8\")\n    for path in root.rglob(\"*\"):\n        if not path.is_file():\n            continue\n        try:\n            data = path.read_bytes()\n        except OSError:\n            continue\n        if secret_bytes in data:\n            findings.append(str(path))\n    return findings\n\n\ndef _broker_capabilities(*, resource: str, allow_http_requests: bool) -> CapabilitiesRequest:\n    return CapabilitiesRequest(\n        broker=BrokerCapabilities(\n            delegations=[BrokerDelegation(name=\"github\", resource=resource)],\n            http_requests=allow_http_requests,\n        )\n    )\n\n\ndef _allowed_guest_code(port: int) -> str:\n    return f\"\"\"#!/usr/bin/env bash\nset -euo pipefail\nexec 3<>/dev/tcp/127.0.0.1/8888\nprintf 'GET http://127.0.0.1:{port}/probe HTTP/1.1\\r\\nHost: 127.0.0.1:{port}\\r\\nConnection: close\\r\\n\\r\\n' >&3\nresponse=''\nwhile IFS= read -r line <&3; do\n  response+=\"$line\"$'\\n'\ndone || true\nexec 3>&-\nexec 3<&-\ncase \"$response\" in\n  *'HTTP/1.1 200'*auth_present=true*|*'HTTP/1.0 200'*auth_present=true*)\n    echo '{ALLOWED_MARKER}'\n    exit 0\n    ;;\nesac\necho 'FAIL_broker_allowed'\nprintf '%s\\n' \"$response\"\nexit 1\n\"\"\"\n\n\ndef _denied_guest_code(port: int) -> str:\n    return f\"\"\"#!/usr/bin/env bash\nset -euo pipefail\nexec 3<>/dev/tcp/127.0.0.1/8888\nprintf 'GET http://127.0.0.1:{port}/probe HTTP/1.1\\r\\nHost: 127.0.0.1:{port}\\r\\nConnection: close\\r\\n\\r\\n' >&3\nresponse=''\nwhile IFS= read -r line <&3; do\n  response+=\"$line\"$'\\n'\ndone || true\nexec 3>&-\nexec 3<&-\ncase \"$response\" in\n  *'HTTP/1.1 403'*'broker denied:'*|*'HTTP/1.0 403'*'broker denied:'*)\n    echo '{DENIED_MARKER}'\n    exit 0\n    ;;\nesac\necho 'FAIL_broker_denied'\nprintf '%s\\n' \"$response\"\nexit 1\n\"\"\"\n",
+        "sdk/python/examples/run_code.py": "from aegis import AegisClient\n\nclient = AegisClient()\nresult = client.run(language=\"bash\", code=\"echo hello from sdk\")\nprint(result.stdout, end=\"\")\nprint(f\"ok={str(result.ok).lower()}\")\nprint(f\"exit_code={result.exit_code}\")\nprint(f\"execution_id={result.execution_id}\")\nprint(f\"proof_dir={result.proof_dir}\")\n",
+        "sdk/python/examples/run_stream.py": "from aegis import AegisClient, DoneEvent, ErrorEvent, ProofEvent, StdoutEvent\n\nclient = AegisClient()\nfor event in client.stream(language=\"bash\", code=\"echo streamed\"):\n    if isinstance(event, StdoutEvent):\n        print(event.chunk, end=\"\")\n    elif isinstance(event, ProofEvent):\n        print(f\"receipt_path={event.proof_bundle.receipt_path}\")\n    elif isinstance(event, DoneEvent):\n        print(f\"done exit={event.exit_code} duration_ms={event.duration_ms}\")\n    elif isinstance(event, ErrorEvent):\n        print(f\"stream error: {event.error}\")\n",
+        "sdk/python/tests/test_broker_smoke.py": "from __future__ import annotations\n\nimport os\nimport subprocess\nimport sys\nimport unittest\nfrom pathlib import Path\n\n\nclass BrokerSmokeIntegrationTests(unittest.TestCase):\n    def test_broker_examples(self) -> None:\n        if os.getenv('AEGIS_RUN_BROKER_SMOKE') != '1':\n            self.skipTest('set AEGIS_RUN_BROKER_SMOKE=1 to run live broker smoke examples')\n        if not os.getenv('AEGIS_CRED_GITHUB_TOKEN'):\n            self.skipTest('AEGIS_CRED_GITHUB_TOKEN is required for live broker smoke examples')\n\n        repo_root = Path(__file__).resolve().parents[3]\n        examples_dir = repo_root / 'sdk/python/examples'\n        for script_name in ('broker_allowed.py', 'broker_denied.py'):\n            completed = subprocess.run(\n                [sys.executable, str(examples_dir / script_name)],\n                cwd=repo_root,\n                check=False,\n                capture_output=True,\n                text=True,\n                env=os.environ.copy(),\n            )\n            self.assertEqual(\n                completed.returncode,\n                0,\n                msg=f'{script_name} failed\\nstdout:\\n{completed.stdout}\\nstderr:\\n{completed.stderr}',\n            )\n",
+        "sdk/python/tests/test_sdk.py": "from __future__ import annotations\n\nimport json\nimport os\nimport threading\nimport urllib.error\nimport unittest\nfrom http.server import BaseHTTPRequestHandler, ThreadingHTTPServer\nfrom pathlib import Path\nfrom tempfile import TemporaryDirectory\nfrom unittest import mock\n\nfrom aegis import (\n    AegisAuthError,\n    AegisClient,\n    AegisConfigurationError,\n    AegisExecutionError,\n    AegisValidationError,\n    BrokerCapabilities,\n    BrokerDelegation,\n    BrokerScope,\n    Budgets,\n    CapabilitiesRequest,\n    DoneEvent,\n    ExecutionRequest,\n    IntentContract,\n    NetworkScope,\n    ProcessScope,\n    ProofEvent,\n    ResourceScope,\n    StdoutEvent,\n)\nfrom aegis.receipt import Receipt\nfrom aegis.result import ExecutionResult\nfrom aegis.verifier import ReceiptVerification, ReceiptVerifier\n\n\nclass SDKServer(ThreadingHTTPServer):\n    allow_reuse_address = True\n\n    def __init__(self, responses):\n        self.responses = responses\n        self.requests = []\n        super().__init__((\"127.0.0.1\", 0), Handler)\n\n\nclass Handler(BaseHTTPRequestHandler):\n    protocol_version = \"HTTP/1.1\"\n\n    def do_GET(self):\n        self.server.requests.append((self.command, self.path, dict(self.headers), None))\n        response = self.server.responses[(self.command, self.path)]\n        self.send_response(response[0])\n        for key, value in response[1].items():\n            self.send_header(key, value)\n        self.send_header(\"Content-Length\", str(len(response[2])))\n        self.send_header(\"Connection\", \"close\")\n        self.end_headers()\n        self.wfile.write(response[2])\n\n    def do_POST(self):\n        length = int(self.headers.get(\"Content-Length\", \"0\"))\n        body = self.rfile.read(length).decode(\"utf-8\")\n        self.server.requests.append((self.command, self.path, dict(self.headers), body))\n        response = self.server.responses[(self.command, self.path)]\n        self.send_response(response[0])\n        for key, value in response[1].items():\n            self.send_header(key, value)\n        self.send_header(\"Content-Length\", str(len(response[2])))\n        self.send_header(\"Connection\", \"close\")\n        self.end_headers()\n        self.wfile.write(response[2])\n\n    def log_message(self, format, *args):\n        return\n\n\nclass AegisSDKTests(unittest.TestCase):\n    def test_client_env_precedence(self):\n        with mock.patch.dict(\n            os.environ,\n            {\n                \"AEGIS_BASE_URL\": \"http://env-base:8080\",\n                \"AEGIS_URL\": \"http://legacy:8080\",\n                \"AEGIS_API_KEY\": \"env-key\",\n            },\n            clear=False,\n        ):\n            client = AegisClient()\n            self.assertEqual(client.base_url, \"http://env-base:8080\")\n            self.assertEqual(client.api_key, \"env-key\")\n            self.assertEqual(client.posture.base_url_source, \"AEGIS_BASE_URL\")\n            self.assertEqual(client.posture.api_key_source, \"AEGIS_API_KEY\")\n\n        with mock.patch.dict(\n            os.environ,\n            {\"AEGIS_BASE_URL\": \"http://env-base:8080\", \"AEGIS_API_KEY\": \"env-key\"},\n            clear=False,\n        ):\n            client = AegisClient(base_url=\"http://explicit:8080\", api_key=\"explicit-key\")\n            self.assertEqual(client.base_url, \"http://explicit:8080\")\n            self.assertEqual(client.api_key, \"explicit-key\")\n            self.assertEqual(client.posture.base_url_source, \"explicit\")\n            self.assertEqual(client.posture.api_key_source, \"explicit\")\n            self.assertTrue(client.posture.authenticated)\n\n    def test_invalid_client_configuration_raises(self):\n        with self.assertRaises(AegisConfigurationError):\n            AegisClient(timeout=0)\n\n    def test_health_request_is_unauthed(self):\n        server = run_server({\n            (\"GET\", \"/v1/health\"): (\n                200,\n                {\"Content-Type\": \"application/json\"},\n                b'{\"status\":\"ok\",\"worker_slots_available\":5,\"worker_slots_total\":5}',\n            ),\n        })\n        try:\n            client = AegisClient(base_url=server_url(server), api_key=\"token\")\n            health = client.health()\n            self.assertTrue(health.ok)\n            method, path, headers, body = server.requests[0]\n            self.assertEqual((method, path, body), (\"GET\", \"/v1/health\", None))\n            self.assertNotIn(\"Authorization\", headers)\n        finally:\n            stop_server(server)\n\n    def test_run_serializes_request_object_and_auth(self):\n        response_body = json.dumps(\n            {\n                \"stdout\": \"ok\\n\",\n                \"stderr\": \"\",\n                \"exit_code\": 0,\n                \"exit_reason\": \"completed\",\n                \"duration_ms\": 12,\n                \"execution_id\": \"exec-1\",\n                \"proof_dir\": \"/tmp/aegis/proofs/exec-1\",\n                \"receipt_path\": \"/tmp/aegis/proofs/exec-1/receipt.dsse.json\",\n                \"receipt_public_key_path\": \"/tmp/aegis/proofs/exec-1/receipt.pub\",\n                \"receipt_summary_path\": \"/tmp/aegis/proofs/exec-1/receipt.summary.txt\",\n            }\n        ).encode(\"utf-8\")\n        server = run_server({\n            (\"POST\", \"/v1/execute\"): (200, {\"Content-Type\": \"application/json\"}, response_body),\n        })\n        try:\n            client = AegisClient(base_url=server_url(server), api_key=\"token\")\n            intent = IntentContract(\n                version=\"v1\",\n                execution_id=\"11111111-1111-4111-8111-111111111111\",\n                workflow_id=\"wf_1\",\n                task_class=\"demo\",\n                declared_purpose=\"test\",\n                language=\"bash\",\n                resource_scope=ResourceScope(\"/workspace\", [\"/workspace\"], [\"/workspace/out\"], [], 3),\n                network_scope=NetworkScope(False, [], [], 0, 0),\n                process_scope=ProcessScope([\"bash\"], True, False, 1),\n                broker_scope=BrokerScope([], [], [], False),\n                budgets=Budgets(10, 128, 100, 4096),\n            )\n            request = ExecutionRequest(\n                language=\"bash\",\n                code=\"echo hi\",\n                timeout_ms=1000,\n                intent=intent,\n                profile=\"default\",\n            )\n            result = client.run(request)\n            self.assertTrue(result.ok)\n            self.assertEqual(result.stdout, \"ok\\n\")\n            method, path, headers, body = server.requests[0]\n            self.assertEqual((method, path), (\"POST\", \"/v1/execute\"))\n            self.assertEqual(headers.get(\"Authorization\"), \"Bearer token\")\n            payload = json.loads(body)\n            self.assertEqual(payload[\"lang\"], \"bash\")\n            self.assertEqual(payload[\"profile\"], \"default\")\n            self.assertEqual(payload[\"intent\"][\"resource_scope\"][\"workspace_root\"], \"/workspace\")\n        finally:\n            stop_server(server)\n\n    def test_run_rejects_mixed_request_and_kwargs(self):\n        client = AegisClient(base_url=\"http://localhost:8080\")\n        with self.assertRaises(AegisConfigurationError):\n            client.run(ExecutionRequest(language=\"bash\", code=\"echo hi\"), language=\"bash\")\n\n    def test_run_serializes_capabilities_request(self):\n        response_body = json.dumps(\n            {\n                \"stdout\": \"ok\\n\",\n                \"stderr\": \"\",\n                \"exit_code\": 0,\n                \"exit_reason\": \"completed\",\n                \"duration_ms\": 12,\n                \"execution_id\": \"exec-cap-1\",\n            }\n        ).encode(\"utf-8\")\n        server = run_server({\n            (\"POST\", \"/v1/execute\"): (200, {\"Content-Type\": \"application/json\"}, response_body),\n        })\n        try:\n            client = AegisClient(base_url=server_url(server), api_key=\"token\")\n            request = ExecutionRequest(\n                language=\"bash\",\n                code=\"echo hi\",\n                capabilities=CapabilitiesRequest(\n                    network_domains=[\"api.github.com\"],\n                    write_paths=[\"/workspace/out.txt\"],\n                    broker=BrokerCapabilities(\n                        delegations=[BrokerDelegation(name=\"github\", resource=\"https://api.github.com/repos/openai/openai-python\")],\n                        http_requests=True,\n                    ),\n                ),\n            )\n            result = client.run(request)\n            self.assertTrue(result.ok)\n            payload = json.loads(server.requests[0][3])\n            self.assertNotIn(\"intent\", payload)\n            self.assertEqual(payload[\"capabilities\"][\"network_domains\"], [\"api.github.com\"])\n            self.assertEqual(payload[\"capabilities\"][\"write_paths\"], [\"/workspace/out.txt\"])\n            self.assertTrue(payload[\"capabilities\"][\"broker\"][\"http_requests\"])\n            self.assertEqual(payload[\"capabilities\"][\"broker\"][\"delegations\"][0][\"name\"], \"github\")\n        finally:\n            stop_server(server)\n\n    def test_run_rejects_mixed_intent_and_capabilities_locally(self):\n        client = AegisClient(base_url=\"http://127.0.0.1:1\")\n        intent = IntentContract(\n            version=\"v1\",\n            execution_id=\"11111111-1111-4111-8111-111111111111\",\n            workflow_id=\"wf_1\",\n            task_class=\"demo\",\n            declared_purpose=\"test\",\n            language=\"bash\",\n            resource_scope=ResourceScope(\"/workspace\", [\"/workspace\"], [\"/workspace/out\"], [], 3),\n            network_scope=NetworkScope(False, [], [], 0, 0),\n            process_scope=ProcessScope([\"bash\"], True, False, 1),\n            broker_scope=BrokerScope([], [], [], False),\n            budgets=Budgets(10, 128, 100, 4096),\n        )\n            ),\n        })\n        try:\n            client = AegisClient(base_url=server_url(server))\n            with self.assertRaises(AegisValidationError):\n                client.run(language=\"bash\", code=\"echo hi\")\n        finally:\n            stop_server(server)\n\n    def test_execution_level_failure_inside_200(self):\n        server = run_server({\n            (\"POST\", \"/v1/execute\"): (\n                200,\n                {\"Content-Type\": \"application/json\"},\n                b'{\"stdout\":\"\",\"stderr\":\"\",\"exit_code\":0,\"exit_reason\":\"sandbox_error\",\"duration_ms\":10,\"execution_id\":\"exec-2\",\"error\":\"timeout\"}',\n            ),\n        })\n        try:\n            client = AegisClient(base_url=server_url(server))\n            result = client.run(language=\"bash\", code=\"sleep 1\")\n            self.assertFalse(result.ok)\n            self.assertEqual(result.error, \"timeout\")\n            with self.assertRaises(AegisExecutionError):\n                result.raise_for_execution_error()\n        finally:\n            stop_server(server)\n\n    def test_stream_parsing(self):\n        body = (\n            b'data: {\"type\":\"stdout\",\"chunk\":\"hello\\\\n\"}\\n\\n'\n            b'data: {\"type\":\"proof\",\"execution_id\":\"exec-stream\",'\n            b'\"proof_dir\":\"/tmp/aegis/proofs/exec-stream\",'\n            b'\"receipt_path\":\"/tmp/aegis/proofs/exec-stream/receipt.dsse.json\",'\n            b'\"receipt_public_key_path\":\"/tmp/aegis/proofs/exec-stream/receipt.pub\",'\n            b'\"receipt_summary_path\":\"/tmp/aegis/proofs/exec-stream/receipt.summary.txt\",'\n            b'\"artifact_count\":2,\"divergence_verdict\":\"allow\"}\\n\\n'\n            b'data: {\"type\":\"done\",\"exit_code\":0,\"reason\":\"completed\",\"duration_ms\":12}\\n\\n'\n        )\n        server = run_server({\n            (\"POST\", \"/v1/execute/stream\"): (200, {\"Content-Type\": \"text/event-stream\"}, body),\n        })\n        try:\n            client = AegisClient(base_url=server_url(server))\n            events = list(client.stream(language=\"bash\", code=\"echo hi\"))\n            self.assertIsInstance(events[0], StdoutEvent)\n            self.assertIsInstance(events[1], ProofEvent)\n            self.assertIsInstance(events[2], DoneEvent)\n            self.assertEqual(events[1].proof_bundle.receipt_path, \"/tmp/aegis/proofs/exec-stream/receipt.dsse.json\")\n        finally:\n            stop_server(server)\n\n    def test_receipt_wrapper_uses_verifier(self):\n        with TemporaryDirectory() as tmp:\n            receipt_path = Path(tmp) / \"receipt.dsse.json\"\n            receipt_path.write_text(\n                json.dumps(\n                    {\n                        \"statement\": {\n                            \"predicate\": {\n                                \"execution_id\": \"exec-r\",\n                                \"result_class\": \"completed\",\n                                \"divergence\": {\"verdict\": \"allow\"},\n                                \"trust\": {\"signing_mode\": \"strict\", \"key_source\": \"configured_seed\"},\n                            }\n                        }\n                    }\n                )\n            )\n\n            class StubVerifier:\n                def verify_receipt(self, **kwargs):\n                    return ReceiptVerification(\n                        True,\n                        \"verification=verified\\nexecution_id=exec-r\\n\",\n                        {\"verification\": \"verified\", \"execution_id\": \"exec-r\"},\n                    )\n\n            receipt = Receipt.load(str(receipt_path), verifier=StubVerifier())\n            self.assertEqual(receipt.execution_id, \"exec-r\")\n            self.assertEqual(receipt.result_class, \"completed\")\n            self.assertEqual(receipt.divergence_verdict, \"allow\")\n            verification = receipt.verify()\n            self.assertTrue(verification.verified)\n\n    def test_result_verify_receipt_uses_cached_wrapper(self):\n        with TemporaryDirectory() as tmp:\n            receipt_path = Path(tmp) / \"receipt.dsse.json\"\n            receipt_path.write_text(json.dumps({\"statement\": {\"predicate\": {\"execution_id\": \"exec-r\"}}}))\n\n            class StubVerifier:\n                def verify_receipt(self, **kwargs):\n                    return ReceiptVerification(\n                        True,\n                        \"verification=verified\\nexecution_id=exec-r\\n\",\n                        {\"verification\": \"verified\", \"execution_id\": \"exec-r\"},\n                    )\n\n            server = run_server({\n                (\"POST\", \"/v1/execute\"): (\n                    200,\n                    {\"Content-Type\": \"application/json\"},\n                    json.dumps({\n                        \"stdout\": \"ok\\n\",\n                        \"stderr\": \"\",\n                        \"exit_code\": 0,\n                        \"exit_reason\": \"completed\",\n                        \"duration_ms\": 1,\n                        \"execution_id\": \"exec-r\",\n                        \"receipt_path\": str(receipt_path),\n                    }).encode(\"utf-8\"),\n                ),\n            })\n            try:\n                client = AegisClient(base_url=server_url(server))\n                client._verifier = StubVerifier()\n                result = client.run(language=\"bash\", code=\"echo hi\")\n                verification = result.verify_receipt()\n                self.assertTrue(verification.verified)\n                self.assertEqual(result.require_receipt().proof_dir, tmp)\n            finally:\n                stop_server(server)\n\n    def test_receipt_verifier_parses_cli_output(self):\n        verifier = ReceiptVerifier(cli_path=\"/tmp/fake-aegis\")\n        completed = mock.Mock(\n            returncode=0,\n            stdout=\"verification=verified\\nexecution_id=exec-1\\noutcome=completed exit_code=0\\n\",\n            stderr=\"\",\n        )\n        with (\n            mock.patch.object(\n                ReceiptVerifier,\n                \"resolve_cli_path\",\n                return_value=\"/tmp/fake-aegis\",\n            ),\n            mock.patch(\"subprocess.run\", return_value=completed),\n        ):\n            result = verifier.verify_receipt(receipt_path=\"/tmp/receipt.dsse.json\", public_key_path=\"/tmp/receipt.pub\")\n        self.assertTrue(result.verified)\n        self.assertEqual(result.fields[\"execution_id\"], \"exec-1\")\n        self.assertEqual(result.fields[\"exit_code\"], \"0\")\n\n    def test_missing_cli_path_is_configuration_error(self):\n        verifier = ReceiptVerifier(cli_path=\"/tmp/definitely-missing-aegis\")\n        with (\n            mock.patch(\"pathlib.Path.is_file\", return_value=False),\n            mock.patch(\"os.access\", return_value=False),\n            mock.patch(\"shutil.which\", return_value=None),\n        ):\n            with self.assertRaises(AegisConfigurationError):\n                verifier.resolve_cli_path()\n\n    def test_execution_result_error_and_receipt_branches(self):\n        result = ExecutionRequest(language=\"bash\", code=\"echo hi\").to_payload()\n        self.assertEqual(result[\"lang\"], \"bash\")\n\n        parsed = ExecutionResult.from_dict(\n            {\n                \"stdout\": \"\",\n                \"stderr\": \"\",\n                \"exit_code\": 9,\n                \"exit_reason\": \"completed\",\n                \"execution_id\": \"exec-x\",\n            }\n        )\n        self.assertFalse(parsed.ok)\n        self.assertEqual(parsed.error, \"process exited with code 9\")\n        with self.assertRaises(AegisExecutionError):\n            parsed.raise_for_execution_error()\n\n        no_receipt = ExecutionResult.from_dict(\n            {\"stdout\": \"\", \"stderr\": \"\", \"exit_code\": 0, \"execution_id\": \"exec-y\"}\n        )\n        with self.assertRaisesRegex(Exception, \"does not include a readable receipt\"):\n            no_receipt.require_receipt()\n\n    def test_receipt_load_infers_files_and_summary(self):\n        with TemporaryDirectory() as tmp:\n            proof_dir = Path(tmp)\n            receipt_path = proof_dir / \"receipt.dsse.json\"\n            pub_path = proof_dir / \"receipt.pub\"\n            summary_path = proof_dir / \"receipt.summary.txt\"\n            receipt_path.write_text(json.dumps({\"statement\": {\"predicate\": {\"execution_id\": \"exec-r\"}}}))\n            pub_path.write_text(\"pub\")\n            summary_path.write_text(\"verification=verified\\n\")\n\n            receipt = Receipt.load(str(receipt_path))\n            self.assertEqual(receipt.proof_dir, tmp)\n            self.assertEqual(receipt.public_key_path, str(pub_path))\n            self.assertEqual(receipt.summary_path, str(summary_path))\n            self.assertEqual(receipt.summary_text, \"verification=verified\\n\")\n            self.assertIsNone(receipt.result_class)\n            self.assertIsNone(receipt.divergence_verdict)\n            self.assertIsNone(receipt.signing_mode)\n            self.assertIsNone(receipt.key_source)\n\n    def test_receipt_missing_file_returns_none_from_result(self):\n        result = ExecutionResult.from_dict(\n            {\n                \"stdout\": \"\",\n                \"stderr\": \"\",\n                \"exit_code\": 0,\n                \"execution_id\": \"exec-z\",\n                \"receipt_path\": \"/tmp/definitely-missing.dsse.json\",\n            }\n        )\n        self.assertIsNone(result.receipt)\n\n    def test_http_transport_maps_connection_and_decode_failures(self):"
+      }
+    },
+    "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
+    "tests": [
+      {
+        "assurance": "IN-PROCESS",
+        "claimId": "E1",
+        "classification": "CHANGE",
+        "code": "import unittest\nfrom oracle_observations import observations\n\nclass TestOracle(unittest.TestCase):\n    def test_e1(self):\n        for case_id in ['missing', 'null', 'false', 'true', 'empty_string', 'numeric_string', 'fraction', 'array', 'object']:\n            observation = next(o for o in observations if o['id'] == case_id)\n            if observation.get('exception'):\n                continue\n            result = observation['returnValue']\n            self.assertIs(result['ok'], False, case_id)\n            self.assertTrue(result['reason'], case_id)\n        for case_id, expected in [('zero', True), ('one', False)]:\n            observation = next(o for o in observations if o['id'] == case_id)\n            self.assertFalse(observation.get('exception'), case_id)\n            self.assertIs(observation['returnValue']['ok'], expected, case_id)\n",
+        "requests": [
+          {
+            "args": [
+              {
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "missing",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": null,
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "null",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": false,
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "false",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": true,
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "true",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": "",
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "empty_string",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": "0",
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "numeric_string",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": 0.5,
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "fraction",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": [],
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "array",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": {},
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "object",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": 0,
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "zero",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          },
+          {
+            "args": [
+              {
+                "exit_code": 1,
+                "type": "done"
+              }
+            ],
+            "function": "parse_stream_event",
+            "id": "one",
+            "kind": "CALL",
+            "module": "aegis.events",
+            "resultFields": [
+              "ok",
+              "reason"
+            ]
+          }
+        ],
+        "summary": "Reject missing and non-integer done exit codes without changing valid zero and nonzero completion outcomes.",
+        "testId": "oracle_judge.TestOracle.test_e1"
+      }
+    ],
+    "version": "process-oracle-v1"
+  },
+  "priorAdmissionEvidence": [
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/frozen-own-oracle.json",
+      "sha256": "1cdb762f551060fc0698ed9a022c249d306e1f8fe114f37ac1c411e07c40bb98"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/correct-review.json",
+      "sha256": "13419b31e978d26c3adbf396f8b3e9097d89d702ab8ff1b36ef300f6bf47f979"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/correct-result.json",
+      "sha256": "d8cdb600ba965446ab451f99eb35267a30a80fdecef03ca61c700b82f670b539"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/admission-E1-base-0/execution.json",
+      "recordedHash": "713eed077cd385addd647f8da73d18f4655adc002f1832060462bf6c573dfc90",
+      "sha256": "713eed077cd385addd647f8da73d18f4655adc002f1832060462bf6c573dfc90"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/admission-E1-base-0/execution-0/native-E1-7235a038-4688-4d77-ac9d-00ffb6531b50/observations.json",
+      "recordedHash": "1d0f267b17ea23b4f95a2786afee5876447be3e024f1f68f1480397413e775e9",
+      "sha256": "1d0f267b17ea23b4f95a2786afee5876447be3e024f1f68f1480397413e775e9"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/admission-E1-correct/execution.json",
+      "recordedHash": "30009335a14c42e11404e06e7a94d7e6d0ae1f1dd68c74ecec122920c3e6969a",
+      "sha256": "30009335a14c42e11404e06e7a94d7e6d0ae1f1dd68c74ecec122920c3e6969a"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/admission-E1-correct/execution-0/native-E1-a098c121-c989-4e8c-805d-5236f25c8405/observations.json",
+      "recordedHash": "c14c4c973f84e04cc3eb7ef53bdbb313707a60f64398c838a5b01339c2cb60f9",
+      "sha256": "c14c4c973f84e04cc3eb7ef53bdbb313707a60f64398c838a5b01339c2cb60f9"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/admission-E1-wrong-0/execution.json",
+      "recordedHash": "a7ea4b97309c5309f6a9aaf7d170527949acb2fd70eecce00dfba85f48de1947",
+      "sha256": "a7ea4b97309c5309f6a9aaf7d170527949acb2fd70eecce00dfba85f48de1947"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/admission-E1-wrong-0/execution-0/native-E1-457921b5-ef08-4e65-81ee-9392116f2551/observations.json",
+      "recordedHash": "4d87a7dc5cffd6049025f1e4d6ee128da6bd517e2cf55e979d9d38422535138f",
+      "sha256": "4d87a7dc5cffd6049025f1e4d6ee128da6bd517e2cf55e979d9d38422535138f"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/admission-E1-wrong-1/execution.json",
+      "recordedHash": "1d329552af7aff7e2793ca2ab5060c4b17a577b5b05e929a67a0d9bbb88fc925",
+      "sha256": "1d329552af7aff7e2793ca2ab5060c4b17a577b5b05e929a67a0d9bbb88fc925"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/admission-E1-wrong-1/execution-0/native-E1-d68bff0b-e6c8-450e-94f1-e9b3e43cbf37/observations.json",
+      "recordedHash": "e84b8af042e038c51ea24c289e4072b63367ae130d7f21d7b8d44ef8a2eba209",
+      "sha256": "e84b8af042e038c51ea24c289e4072b63367ae130d7f21d7b8d44ef8a2eba209"
+    },
+    {
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/A2/data/verify-only/870f802f-a228-4638-aaee-4e37ac5cb7f7/candidate-E1.json",
+      "recordedHash": "dac668e844286eada214934ba06077dab9aa8348f258db1ee8b2ed5cb7fb4c5a",
+      "sha256": "dac668e844286eada214934ba06077dab9aa8348f258db1ee8b2ed5cb7fb4c5a"
+    }
+  ],
+  "priorAdmissionOutcomes": [
+    {
+      "admission": "ADMITTED",
+      "evidence": {
+        "base": [
+          "FAIL"
+        ],
+        "correct": "PASS",
+        "wrong": [
+          "FAIL",
+          "FAIL"
+        ]
+      },
+      "id": "E1"
+    }
+  ],
+  "projectRoot": "/Users/jeshwanthsingh/Projects/Aegis",
+  "proposalStatus": "PROPOSED_NOT_ADMITTED_ON_FINAL_RUNTIME",
+  "recipeId": "aegis-done",
+  "runnerDirectory": "sdk/python",
+  "scopeDirectory": "sdk/python",
+  "selectedClaimIds": [
+    "E1"
+  ],
+  "tests": [
+    {
+      "assurance": "IN-PROCESS",
+      "claimId": "E1",
+      "classification": "CHANGE",
+      "code": "import unittest\nfrom oracle_observations import observations\n\nclass TestOracle(unittest.TestCase):\n    def test_e1(self):\n        for case_id in ['missing', 'null', 'false', 'true', 'empty_string', 'numeric_string', 'fraction', 'array', 'object']:\n            observation = next(o for o in observations if o['id'] == case_id)\n            if observation.get('exception'):\n                continue\n            result = observation['returnValue']\n            self.assertIs(result['ok'], False, case_id)\n            self.assertTrue(result['reason'], case_id)\n        for case_id, expected in [('zero', True), ('one', False)]:\n            observation = next(o for o in observations if o['id'] == case_id)\n            self.assertFalse(observation.get('exception'), case_id)\n            self.assertIs(observation['returnValue']['ok'], expected, case_id)\n",
+      "requests": [
+        {
+          "args": [
+            {
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "missing",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": null,
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "null",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": false,
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "false",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": true,
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "true",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": "",
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "empty_string",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": "0",
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "numeric_string",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": 0.5,
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "fraction",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": [],
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "array",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": {},
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "object",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": 0,
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "zero",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        },
+        {
+          "args": [
+            {
+              "exit_code": 1,
+              "type": "done"
+            }
+          ],
+          "function": "parse_stream_event",
+          "id": "one",
+          "kind": "CALL",
+          "module": "aegis.events",
+          "resultFields": [
+            "ok",
+            "reason"
+          ]
+        }
+      ],
+      "summary": "Reject missing and non-integer done exit codes without changing valid zero and nonzero completion outcomes.",
+      "testId": "oracle_judge.TestOracle.test_e1"
+    }
+  ]
+}

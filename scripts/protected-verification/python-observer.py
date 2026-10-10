@@ -32,7 +32,7 @@ for call in request['requests']:
     phase='scope';row['returnValue']=call['scope']
    elif call.get('kind')=='SUITE':
     phase='suite';script=os.path.join(os.path.dirname(__file__),'suite-worker.py')
-    proc=subprocess.run(['/usr/local/bin/python3','-I','-B',script,root],cwd=root,input=dumps({'excludedTests':call.get('excludedTests',[])}).encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=100)
+    proc=subprocess.run(['/usr/local/bin/python3','-I','-B',script,root],cwd=root,input=dumps({'excludedTests':call.get('excludedTests',[]),'testPaths':call.get('fixtureInput',{}).get('testPaths')}).encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=100)
     if proc.returncode or len(proc.stdout)>200000:raise RuntimeError('native suite recorder did not complete')
     row['returnValue']=json.loads(proc.stdout)
    elif call.get('kind')=='BOUNDED_CALL':

@@ -15,3 +15,5 @@ CHECKS_PASSED waits for the second human choice. LANDED/ABANDONED are immutable 
 Migration 12 adds acceptance acknowledgments, workflow/decision records and terminal outcome/intents. Prior tables, source ownership records and historical checks are retained. Deprecated public review/manual-start commands and their screens were deleted; bounded read-only evidence and genuine exception controls remain.
 
 No Receipt exists. The next Receipt work belongs to Breakout 14.
+
+The primary shipped verification path is now Verification v1: frozen Candidate → BASE-restored existing tests → admitted project recipes → optional advisory task checks. Historical per-task mandatory-oracle reviews are read-only; their approve/waive paths are retired. The older Mission orchestration is experimental and is not the default application landing view. See VERIFICATION_V1.md.

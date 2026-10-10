@@ -1,13 +1,18 @@
 # Command Center
 
-A local engineering workspace for registered Git projects and durable Missions. A Mission records raw intent, prepares read-only project evidence and protected acceptance checks, then runs one isolated coding slice after approval.
+A local workspace for registered Git projects and frozen-Candidate verification. The primary v1 verifies committed code using protected existing tests and reusable approved project recipes. AI task checks are an optional advisory bonus, not a mandatory planning or landing gate.
 
-## Two decisions
+## Verification v1
 
-1. **Approve acceptance checks** in the single Spec review: goal, non-goals, each native test, assertion summary, assurance tag and real red-on-base result.
-2. **Land or Abandon** after current protected checks pass. Checks Passed is not a completed Mission.
+1. Run BASE versions of existing unittest/Vitest tests against the exported Candidate. Candidate-edited tests are non-authoritative diagnostics.
+2. Run all admitted, approved recipes for the associated project. Admit each recipe once on known-bad/known-good versions and reuse its immutable identity.
+3. Optionally request up to two AI task-check authoring attempts. Only fully admitted checks execute. Unadmitted claims remain NOT CHECKED.
 
-Context capture, analysis, generated Contract/Plan preparation, Build, verification and eligible bounded correction are automatic. Clarifying questions, out-of-profile permissions, source admission failures and Needs You escalations remain explicit exceptions. Default: one vertical slice; no separate slice or Contract/Plan review.
+VERIFIED means mandatory layers and every admitted task check passed. PASSED WITH GAPS means mandatory checks passed with disclosed coverage gaps. Both permit an explicit local Land decision. FAILED, ERROR, stale evidence, missing recipes and uncertain cleanup block Land. Zero collected never passes; skipped and excluded tests are named.
+
+Land creates a new local `cc/verify-<id>` branch containing the frozen tree as one commit on BASE. It does not check out, merge, push or alter the working tree/index. Changed source state, branch conflicts and modified evidence fail closed.
+
+See [Verification v1](docs/VERIFICATION_V1.md) for recipe administration, assurance limits and scope rules.
 
 ## Development
 
@@ -22,24 +27,10 @@ npm run build
 npm start
 ```
 
-The coordinator and browser UI bind to loopback. Configuration: COMMAND_CENTER_DATA_DIR, COMMAND_CENTER_PORT and COMMAND_CENTER_PROJECT_ROOTS. Existing Host/Origin protections apply to every mutation. Runtime databases, browser evidence, oracle proposals and auth pointers are ignored by Git.
+The coordinator and browser UI bind to loopback. Configuration: `COMMAND_CENTER_DATA_DIR`, `COMMAND_CENTER_PORT` and `COMMAND_CENTER_PROJECT_ROOTS`. Existing Host/Origin protections apply to every mutation. Runtime databases, browser evidence, oracle assertions and auth material remain ignored by Git.
 
-## Protected checks
+## Experimental Mission orchestration
 
-A separate Codex operation proposes native checks outside the Candidate. Every CHANGE must produce a real assertion failure on BASE; every GUARD must pass BASE. Node-judge runtime errors, skips and empty collection are inconclusive. The Builder cannot read the oracle or coordinator source/runtime. Candidate execution uses Git archives, restored BASE tests, scrubbed environments and separate observation/judge processes. Candidate-authored tests are diagnostics only.
+Registered Projects, Missions, read-only context, Spec preparation and the isolated Builder remain available as experimental functionality. Automatic analysis/planning/per-task oracle preparation is not the v1 entry point. Its existing permission, cancellation, restart reconciliation, bounded correction and local Land safety controls remain intact. No new orchestration behavior is claimed.
 
-Current native interface shapes are ResearchRouter CLI/unittest and Therapy2 component browser/Vitest; this is not a universal runner system. Single reproducible-bug analysis can select a fast lane with one CHANGE reproduction and an existing-test GUARD; it still needs the same BASE admission.
-
-Accepted identities are content-addressed within immutable Mission/input/Spec/evaluator bindings. Reaccepting identical content reuses Evaluation and Recipe identity, without resetting an unresolved inspection or starting another worker. Binding changes still invalidate currentness.
-
-## Landing
-
-Land imports the frozen tree and creates exactly one local commit on BASE at cc/<mission-id>. It does not checkout, merge, push or change the user's staged/untracked files. Branch collisions and source identity changes fail closed. Durable intent reconciles only the exact recorded ref after interruption. Final Mission states are LANDED and ABANDONED.
-
-Builder remains codex-cli 0.160.0 / gpt-6.1-sol using the existing ChatGPT entitlement. No new paid API billing or runtime dependencies are configured. Deliberate in-process observation forgery and unobserved process detachment remain documented residual risks; this is not VM containment.
-
-See docs/ARCHITECTURE.md and artifacts/breakout-12/RESULT.md for the implementation and actual evidence. Receipt is deferred to Breakout 14; no Receipt is implemented.
-
-## Verify-only
-
-Use **Verify a Candidate** to supply a local repo, committed BASE and Candidate refs, and original intent. V2 freezes REQUIRED/ADVISORY claims and tests the tester on BASE plus independent correct/wrong references before review. No analysis, plan or Builder is invoked. VERIFIED requires all REQUIRED checks passing on the exact bound export, restored-test overlay and recipe. Unchecked/environment/stale outcomes remain explicit; a human waiver is recorded separately and never becomes PASS. See [Verify-only](docs/VERIFY_ONLY.md) and [pilot failures](docs/PILOT_FAILURES.md).
+Builder remains pinned to codex-cli 0.160.0 / gpt-6.1-sol with the existing ChatGPT entitlement. No new paid API billing or dependencies are configured. In-process native-test/observation forgery and unobserved deliberate process detachment remain residual risks; this is not VM containment. No Receipt is implemented.
