@@ -1,0 +1,7 @@
+task,graderAdmission,truth,CandidateVerdict,BASEVerdict,WrongVerdict,reasons
+R2,EXCLUDED,NOT RUN,EXCLUDED,NOT RUN,NOT RUN,"['Wrong references did not reject CHANGE claim: __main__.Claims.test_change_https_default_port', 'Wrong references did not reject CHANGE claim: __main__.Claims.test_change_http_default_port', 'Wrong references did not reject CHANGE claim: __main__.Claims.test_change_empty_root_equivalence', 'Wrong references did not reject CHANGE claim: __main__.Claims.test_change_query_root_equivalence']"
+T1,EXCLUDED,NOT RUN,EXCLUDED,NOT RUN,NOT RUN,['Admission/environment error: Adapter environment error; do not retry']
+T4,EXCLUDED,NOT RUN,EXCLUDED,NOT RUN,NOT RUN,['Admission/environment error: Adapter environment error; do not retry']
+A1,ADMITTED,UNKNOWN,NOT CHECKED,NOT CHECKED,NOT CHECKED,[]
+A5,EXCLUDED,NOT RUN,EXCLUDED,NOT RUN,NOT RUN,['Admission/environment error: Adapter environment error; do not retry']
+A4,EXCLUDED,NOT RUN,EXCLUDED,NOT RUN,NOT RUN,['Admission/environment error: Adapter environment error; do not retry']

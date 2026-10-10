@@ -1,0 +1,560 @@
+{
+  "verdict": "FAIL \u2014 pre-registered validation bar not met; incomplete ground truth",
+  "denominator": 6,
+  "wrongDenominator": 12,
+  "records": [
+    {
+      "task": "R2",
+      "graderAdmission": "EXCLUDED",
+      "truth": "NOT RUN",
+      "CandidateVerdict": "EXCLUDED",
+      "BASEVerdict": "NOT RUN",
+      "WrongVerdict": "NOT RUN",
+      "reasons": [
+        "Wrong references did not reject CHANGE claim: __main__.Claims.test_change_https_default_port",
+        "Wrong references did not reject CHANGE claim: __main__.Claims.test_change_http_default_port",
+        "Wrong references did not reject CHANGE claim: __main__.Claims.test_change_empty_root_equivalence",
+        "Wrong references did not reject CHANGE claim: __main__.Claims.test_change_query_root_equivalence"
+      ]
+    },
+    {
+      "task": "T1",
+      "graderAdmission": "EXCLUDED",
+      "truth": "NOT RUN",
+      "CandidateVerdict": "EXCLUDED",
+      "BASEVerdict": "NOT RUN",
+      "WrongVerdict": "NOT RUN",
+      "reasons": [
+        "Admission/environment error: Adapter environment error; do not retry"
+      ]
+    },
+    {
+      "task": "T4",
+      "graderAdmission": "EXCLUDED",
+      "truth": "NOT RUN",
+      "CandidateVerdict": "EXCLUDED",
+      "BASEVerdict": "NOT RUN",
+      "WrongVerdict": "NOT RUN",
+      "reasons": [
+        "Admission/environment error: Adapter environment error; do not retry"
+      ]
+    },
+    {
+      "task": "A1",
+      "graderAdmission": "ADMITTED",
+      "truth": "UNKNOWN",
+      "CandidateVerdict": "NOT CHECKED",
+      "BASEVerdict": "NOT CHECKED",
+      "WrongVerdict": "NOT CHECKED",
+      "reasons": [],
+      "candidateCommit": "a5c6c16463ab10433f0985c0488cdaa47c099b0f",
+      "candidateTree": "0564059e3096c90af49cbce919f8f1f8e7141abb",
+      "claimedDone": true,
+      "hiddenGrade": "ERROR",
+      "falseDone": "UNAVAILABLE \u2014 truth unknown",
+      "filesChanged": [
+        "sdk/python/aegis/_http.py"
+      ],
+      "scopeViolations": [],
+      "usage": {
+        "input_tokens": 138229,
+        "cached_input_tokens": 109952,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1580,
+        "reasoning_output_tokens": 8
+      }
+    },
+    {
+      "task": "A5",
+      "graderAdmission": "EXCLUDED",
+      "truth": "NOT RUN",
+      "CandidateVerdict": "EXCLUDED",
+      "BASEVerdict": "NOT RUN",
+      "WrongVerdict": "NOT RUN",
+      "reasons": [
+        "Admission/environment error: Adapter environment error; do not retry"
+      ]
+    },
+    {
+      "task": "A4",
+      "graderAdmission": "EXCLUDED",
+      "truth": "NOT RUN",
+      "CandidateVerdict": "EXCLUDED",
+      "BASEVerdict": "NOT RUN",
+      "WrongVerdict": "NOT RUN",
+      "reasons": [
+        "Admission/environment error: Adapter environment error; do not retry"
+      ]
+    }
+  ],
+  "matrix": [
+    {
+      "task": "A1",
+      "candidate": "correct",
+      "commit": "a5c6c16463ab10433f0985c0488cdaa47c099b0f",
+      "tree": "0564059e3096c90af49cbce919f8f1f8e7141abb",
+      "truth": "UNKNOWN",
+      "status": "NOT CHECKED",
+      "acceptance": "NOT VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": "The supplied Python observation protocol cannot inject a fake urllib response and consume HTTPTransport.stream_sse's returned iterator; CALL supports exported functions with JSON arguments, not this mocked method lifecycle. Manually patch urllib.request.urlopen with an in-memory response and exercise the actual transport. Check separate events data:{\"n\":1} and data: {\"n\":2}, and mixed fields data:{ followed by data: \"n\":3 followed by data:}, separated by LF and dispatched by a blank line; expect",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E2",
+          "reason": "Requires response injection and iterator lifecycle observation unavailable in the supplied CALL protocol. With an in-memory fake response patched into urllib.request.urlopen, verify spaced single-line and multiline JSON payloads retain string whitespace; interleave comment lines and event/id/retry metadata and confirm they do not enter decoded payloads. Verify a final valid spaced payload without a blank separator dispatches at EOF, and that response.close is called after exhaustion and after an",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E3",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E4",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [
+        {
+          "claimId": "E3",
+          "reason": "Needs live broker credentials; explicitly excluded by user.",
+          "status": "EXCLUDED",
+          "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+        }
+      ],
+      "reason": null,
+      "requestId": "fe373e55-ce50-430e-8d20-94d628c71e73",
+      "semanticOracleHash": "45a9a20bd583cded9e7e663d0ef5118aca8fdc26509b183ee97f3dfe30328eb8",
+      "evaluatorHash": "97b2e239a72f483de911163c91793d6fdcdefabc07683cf66fb7a61f3563cb37",
+      "elapsedSeconds": 82.76014041600001
+    },
+    {
+      "task": "A1",
+      "candidate": "BASE",
+      "commit": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "tree": "82c2fe9e31033de2f62d6b1f63c965285b53fbd4",
+      "truth": "WRONG",
+      "status": "NOT CHECKED",
+      "acceptance": "NOT VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": "The supplied Python observation protocol cannot inject a fake urllib response and consume HTTPTransport.stream_sse's returned iterator; CALL supports exported functions with JSON arguments, not this mocked method lifecycle. Manually patch urllib.request.urlopen with an in-memory response and exercise the actual transport. Check separate events data:{\"n\":1} and data: {\"n\":2}, and mixed fields data:{ followed by data: \"n\":3 followed by data:}, separated by LF and dispatched by a blank line; expect",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E2",
+          "reason": "Requires response injection and iterator lifecycle observation unavailable in the supplied CALL protocol. With an in-memory fake response patched into urllib.request.urlopen, verify spaced single-line and multiline JSON payloads retain string whitespace; interleave comment lines and event/id/retry metadata and confirm they do not enter decoded payloads. Verify a final valid spaced payload without a blank separator dispatches at EOF, and that response.close is called after exhaustion and after an",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E3",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E4",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [
+        {
+          "claimId": "E3",
+          "reason": "Needs live broker credentials; explicitly excluded by user.",
+          "status": "EXCLUDED",
+          "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+        }
+      ],
+      "reason": null,
+      "requestId": "b18f7ce2-fa33-4983-9f49-ababbb1c69ca",
+      "semanticOracleHash": "45a9a20bd583cded9e7e663d0ef5118aca8fdc26509b183ee97f3dfe30328eb8",
+      "evaluatorHash": "97b2e239a72f483de911163c91793d6fdcdefabc07683cf66fb7a61f3563cb37",
+      "elapsedSeconds": 27.383559208000005
+    },
+    {
+      "task": "A1",
+      "candidate": "wrong-1",
+      "commit": "168aefd61e09e16b96b8ef3c677f90768c69c0e3",
+      "tree": "acd7f31a368e703a8288721274513b2840ea62a0",
+      "truth": "WRONG",
+      "status": "NOT CHECKED",
+      "acceptance": "NOT VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": "The supplied Python observation protocol cannot inject a fake urllib response and consume HTTPTransport.stream_sse's returned iterator; CALL supports exported functions with JSON arguments, not this mocked method lifecycle. Manually patch urllib.request.urlopen with an in-memory response and exercise the actual transport. Check separate events data:{\"n\":1} and data: {\"n\":2}, and mixed fields data:{ followed by data: \"n\":3 followed by data:}, separated by LF and dispatched by a blank line; expect",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E2",
+          "reason": "Requires response injection and iterator lifecycle observation unavailable in the supplied CALL protocol. With an in-memory fake response patched into urllib.request.urlopen, verify spaced single-line and multiline JSON payloads retain string whitespace; interleave comment lines and event/id/retry metadata and confirm they do not enter decoded payloads. Verify a final valid spaced payload without a blank separator dispatches at EOF, and that response.close is called after exhaustion and after an",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E3",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E4",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [
+        {
+          "claimId": "E3",
+          "reason": "Needs live broker credentials; explicitly excluded by user.",
+          "status": "EXCLUDED",
+          "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+        }
+      ],
+      "reason": null,
+      "requestId": "41972659-d9a2-422c-81db-22bf449b755b",
+      "semanticOracleHash": "45a9a20bd583cded9e7e663d0ef5118aca8fdc26509b183ee97f3dfe30328eb8",
+      "evaluatorHash": "97b2e239a72f483de911163c91793d6fdcdefabc07683cf66fb7a61f3563cb37",
+      "elapsedSeconds": 28.026364709000003
+    }
+  ],
+  "correctAccepted": 0,
+  "falseRejectsObserved": 0,
+  "falseAcceptsObserved": 0,
+  "truthKnownCorrectCandidates": 0,
+  "correctRejectsEvaluated": 2,
+  "wrongRealFAIL": 0,
+  "excludedTasks": 5,
+  "truthUnknownCandidates": 1,
+  "interpretation": "Observed zero false accepts/rejects is not validation of excluded or truth-unknown candidates. No denominator reduction.",
+  "oldAfterFixes": [
+    {
+      "task": "A2",
+      "candidate": "correct",
+      "commit": "bd5ed0a2905d0b6775a83ff46a008907b9c3db10",
+      "tree": "bb11b191567ef92c63aeb60480bb185554ede1cc",
+      "truth": "CORRECT",
+      "status": "PASS",
+      "acceptance": "VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E2",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E3",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [
+        {
+          "claimId": "E2",
+          "reason": "Needs live broker credentials; explicitly excluded by user.",
+          "status": "EXCLUDED",
+          "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+        }
+      ],
+      "reason": null,
+      "requestId": "870f802f-a228-4638-aaee-4e37ac5cb7f7",
+      "semanticOracleHash": "b01ddaaecfe1186385fbc9f8e4bd219453dc24dd1b98a299094abdd242b50c33",
+      "evaluatorHash": "ae3aae82e48a4dfa9cfc8beed64f696c36778115cf3586f4d0df694d0330f76c",
+      "elapsedSeconds": 76.84164849999999
+    },
+    {
+      "task": "R4",
+      "candidate": "correct",
+      "commit": "55d39ed22193be862b52abf5c1cdef80fe8753d0",
+      "tree": "7b22be8f9944e49f0b3023f3f228c4338bd17fb0",
+      "truth": "CORRECT",
+      "status": "ERROR",
+      "acceptance": "NOT VERIFIED",
+      "claims": [],
+      "excludedTests": [],
+      "reason": "Verification could not complete. Inspect retained tester evidence.",
+      "requestId": "648a4227-84cd-4f95-84bf-4bc256db5e54",
+      "semanticOracleHash": "cb134539bcca1082dff11237042f87af33b87cafa7d8f49f18074b6d9abd7e26",
+      "elapsedSeconds": 36.770260958
+    },
+    {
+      "task": "T5",
+      "candidate": "correct",
+      "commit": "3b990174e4d768caac45ffda0c5a6da74f1c3053",
+      "tree": "e539dbb512524fd4e82fbac1e0b325b5d497bcc3",
+      "truth": "CORRECT",
+      "status": "PASS",
+      "acceptance": "VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E2",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E3",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E4",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [],
+      "reason": null,
+      "requestId": "b46deb5b-e8b2-4686-a6bc-19357f8d3f9d",
+      "semanticOracleHash": "474df6c87de058f1f27b9c31ad04bec78290de1140439597a50af8499cab3dc9",
+      "evaluatorHash": "ae3aae82e48a4dfa9cfc8beed64f696c36778115cf3586f4d0df694d0330f76c",
+      "elapsedSeconds": 477.66310966700007
+    },
+    {
+      "task": "R1",
+      "candidate": "correct",
+      "commit": "9d1de1e690ffcfcaaba7544fedc61627a32468e2",
+      "tree": "4154e18751e5c83c8328907ffc11dab59dfe6244",
+      "truth": "CORRECT",
+      "status": "PASS",
+      "acceptance": "VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E2",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E3",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E4",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [],
+      "reason": null,
+      "requestId": "791bddf8-4fd8-4324-8c97-f9aa6ef87ebf",
+      "semanticOracleHash": "698936574490a562419d779e0787b8b4fbb1f78df43cf680658d20ff31e84728",
+      "evaluatorHash": "ae3aae82e48a4dfa9cfc8beed64f696c36778115cf3586f4d0df694d0330f76c",
+      "elapsedSeconds": 156.52983129100002
+    },
+    {
+      "task": "T3",
+      "candidate": "correct",
+      "commit": "fc947bbc83659cad223ea2bc910d65310cd63517",
+      "tree": "63d839be3a0717b9eb0627e1a689f17a9cb95bca",
+      "truth": "CORRECT",
+      "status": "PASS",
+      "acceptance": "VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E2",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E3",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E4",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E5",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E6",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [],
+      "reason": null,
+      "requestId": "ace34157-78b8-424f-ad1e-88028f52808c",
+      "semanticOracleHash": "c2401b9f0799cb30bf35dd49466294b9c06a36454cb3559536d8e6abbc67aa38",
+      "evaluatorHash": "ae3aae82e48a4dfa9cfc8beed64f696c36778115cf3586f4d0df694d0330f76c",
+      "elapsedSeconds": 393.10424266700005
+    },
+    {
+      "task": "R3",
+      "candidate": "correct",
+      "commit": "10224d60882e14cdd7a9bcd26c5283c16e7531d1",
+      "tree": "fe1fec93b8f140652586fdbbb6bdb610a87f7630",
+      "truth": "CORRECT",
+      "status": "NOT CHECKED",
+      "acceptance": "NOT VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": "The available CALL observer invokes one exported function but cannot initialize and seed a disposable SQLite database, execute a sequence of database calls, or inspect audit rows afterward. Verify using initialize_database and insert_audit_event on a temporary database: try two distinct missing run IDs with distinct event payloads, both on an empty database and alongside an existing run and valid audit history. Each insertion must raise a rejection, leave no attempted audit row or fabricated run",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E2",
+          "reason": "The available observer cannot perform stateful SQLite setup and row snapshots across exported calls. On a temporary initialized database, create two runs and several distinct audit events using insert_run and insert_audit_event. Snapshot every audit column. Update one run using insert_run with changed command, args, started_at, status and error; require success and persisted updated run values, with both runs' audit rows exactly unchanged. Also exercise finish_run and require history unchanged. ",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E3",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E4",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [],
+      "reason": null,
+      "requestId": "a5da6d8b-adda-4af9-a204-f6de7066e688",
+      "semanticOracleHash": "f9a0b470f6a09f55ec213da291501c01302c721dc0bcf01de40bc41970f8264b",
+      "evaluatorHash": "ae3aae82e48a4dfa9cfc8beed64f696c36778115cf3586f4d0df694d0330f76c",
+      "elapsedSeconds": 46.11681987500005
+    },
+    {
+      "task": "A3",
+      "candidate": "correct",
+      "commit": "34bc82960286ca8abf8fe385db2f600baff05ff0",
+      "tree": "6193dedd385692079cb6ec0c003ec1b0ad0d7417",
+      "truth": "CORRECT",
+      "status": "ERROR",
+      "acceptance": "NOT VERIFIED",
+      "claims": [
+        {
+          "id": "E1",
+          "reason": "Tester admission requires intended BASE failure, independent correct PASS and plausible wrong FAIL. No Candidate failure is inferred.",
+          "requirement": "REQUIRED",
+          "status": "ERROR"
+        },
+        {
+          "id": "E2",
+          "reason": "Review and execute constructor cases timeout=0, -1, float('nan'), float('inf'), -float('inf'), True, False, None, '0.1', [], and {}. Each must raise AegisConfigurationError before launching a verifier. The provided JSON request interface does not specify a portable encoding for actual NaN and infinity; strings would test different values.",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E3",
+          "reason": "Verify construction accepts timeout=0.5 and timeout=2, and omission selects five seconds independently of the client's HTTP timeout. Exercise a hanging executable with the omitted keyword to confirm the default deadline. The bounded observer's maximum deadline is five seconds, so it cannot reliably observe completion and cleanup after a five-second default timeout.",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E4",
+          "reason": "The available executable fixture only sleeps. Using controlled executables, check successful verification returns the original summary and parsed fields, including verified and unverified summaries. Check nonzero exits raise AegisVerificationError using stderr first, stdout when stderr is empty, and the existing fallback when both are empty. This complements, rather than duplicates, the server-provided existing-suite guard.",
+          "requirement": "REQUIRED",
+          "status": "NOT CHECKED"
+        },
+        {
+          "id": "E5",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        },
+        {
+          "id": "E6",
+          "reason": null,
+          "requirement": "REQUIRED",
+          "status": "PASS"
+        }
+      ],
+      "excludedTests": [
+        {
+          "claimId": "E5",
+          "reason": "Needs live broker credentials; explicitly excluded by user.",
+          "status": "EXCLUDED",
+          "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+        }
+      ],
+      "reason": null,
+      "requestId": "7495843c-470b-43f0-b887-87e5ec310106",
+      "semanticOracleHash": "631e011ab3c378d06ca88e41e6edf727d32fcc91298d289be0d4bf82b831a560",
+      "evaluatorHash": "ae3aae82e48a4dfa9cfc8beed64f696c36778115cf3586f4d0df694d0330f76c",
+      "elapsedSeconds": 73.58551662499993
+    },
+    {
+      "task": "T2",
+      "candidate": "correct",
+      "commit": "1e3c2174aa880208a600301e796d78a007f0cbf4",
+      "tree": "607ec32c6cf6d0a2f7a2abdd218f9c6168ed9ea6",
+      "truth": "CORRECT",
+      "status": "ERROR",
+      "acceptance": "NOT VERIFIED",
+      "claims": [],
+      "excludedTests": [],
+      "reason": "Verification could not complete. Inspect retained tester evidence.",
+      "requestId": "74390a9a-5aca-47d0-96d2-048cbf1f30d8",
+      "semanticOracleHash": "cb134539bcca1082dff11237042f87af33b87cafa7d8f49f18074b6d9abd7e26",
+      "elapsedSeconds": 18.110270791999994
+    }
+  ],
+  "scorerCommitBeforeNewTasks": "aa6478f195659e0a6f4a3055615f31c568a526bd",
+  "assertionsAndGraderHashesUnchanged": true,
+  "onceOnlyCandidateGradingConsumed": "A1 ERROR; no replacement/regrade",
+  "billingEnabled": false,
+  "builderRuntimeChanged": false
+}

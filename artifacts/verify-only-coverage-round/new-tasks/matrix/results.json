@@ -1,0 +1,146 @@
+[
+  {
+    "task": "A1",
+    "candidate": "correct",
+    "commit": "a5c6c16463ab10433f0985c0488cdaa47c099b0f",
+    "tree": "0564059e3096c90af49cbce919f8f1f8e7141abb",
+    "truth": "UNKNOWN",
+    "status": "NOT CHECKED",
+    "acceptance": "NOT VERIFIED",
+    "claims": [
+      {
+        "id": "E1",
+        "reason": "The supplied Python observation protocol cannot inject a fake urllib response and consume HTTPTransport.stream_sse's returned iterator; CALL supports exported functions with JSON arguments, not this mocked method lifecycle. Manually patch urllib.request.urlopen with an in-memory response and exercise the actual transport. Check separate events data:{\"n\":1} and data: {\"n\":2}, and mixed fields data:{ followed by data: \"n\":3 followed by data:}, separated by LF and dispatched by a blank line; expect",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E2",
+        "reason": "Requires response injection and iterator lifecycle observation unavailable in the supplied CALL protocol. With an in-memory fake response patched into urllib.request.urlopen, verify spaced single-line and multiline JSON payloads retain string whitespace; interleave comment lines and event/id/retry metadata and confirm they do not enter decoded payloads. Verify a final valid spaced payload without a blank separator dispatches at EOF, and that response.close is called after exhaustion and after an",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E3",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E4",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      }
+    ],
+    "excludedTests": [
+      {
+        "claimId": "E3",
+        "reason": "Needs live broker credentials; explicitly excluded by user.",
+        "status": "EXCLUDED",
+        "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+      }
+    ],
+    "reason": null,
+    "requestId": "fe373e55-ce50-430e-8d20-94d628c71e73",
+    "semanticOracleHash": "45a9a20bd583cded9e7e663d0ef5118aca8fdc26509b183ee97f3dfe30328eb8",
+    "evaluatorHash": "97b2e239a72f483de911163c91793d6fdcdefabc07683cf66fb7a61f3563cb37",
+    "elapsedSeconds": 82.76014041600001
+  },
+  {
+    "task": "A1",
+    "candidate": "BASE",
+    "commit": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "tree": "82c2fe9e31033de2f62d6b1f63c965285b53fbd4",
+    "truth": "WRONG",
+    "status": "NOT CHECKED",
+    "acceptance": "NOT VERIFIED",
+    "claims": [
+      {
+        "id": "E1",
+        "reason": "The supplied Python observation protocol cannot inject a fake urllib response and consume HTTPTransport.stream_sse's returned iterator; CALL supports exported functions with JSON arguments, not this mocked method lifecycle. Manually patch urllib.request.urlopen with an in-memory response and exercise the actual transport. Check separate events data:{\"n\":1} and data: {\"n\":2}, and mixed fields data:{ followed by data: \"n\":3 followed by data:}, separated by LF and dispatched by a blank line; expect",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E2",
+        "reason": "Requires response injection and iterator lifecycle observation unavailable in the supplied CALL protocol. With an in-memory fake response patched into urllib.request.urlopen, verify spaced single-line and multiline JSON payloads retain string whitespace; interleave comment lines and event/id/retry metadata and confirm they do not enter decoded payloads. Verify a final valid spaced payload without a blank separator dispatches at EOF, and that response.close is called after exhaustion and after an",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E3",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E4",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      }
+    ],
+    "excludedTests": [
+      {
+        "claimId": "E3",
+        "reason": "Needs live broker credentials; explicitly excluded by user.",
+        "status": "EXCLUDED",
+        "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+      }
+    ],
+    "reason": null,
+    "requestId": "b18f7ce2-fa33-4983-9f49-ababbb1c69ca",
+    "semanticOracleHash": "45a9a20bd583cded9e7e663d0ef5118aca8fdc26509b183ee97f3dfe30328eb8",
+    "evaluatorHash": "97b2e239a72f483de911163c91793d6fdcdefabc07683cf66fb7a61f3563cb37",
+    "elapsedSeconds": 27.383559208000005
+  },
+  {
+    "task": "A1",
+    "candidate": "wrong-1",
+    "commit": "168aefd61e09e16b96b8ef3c677f90768c69c0e3",
+    "tree": "acd7f31a368e703a8288721274513b2840ea62a0",
+    "truth": "WRONG",
+    "status": "NOT CHECKED",
+    "acceptance": "NOT VERIFIED",
+    "claims": [
+      {
+        "id": "E1",
+        "reason": "The supplied Python observation protocol cannot inject a fake urllib response and consume HTTPTransport.stream_sse's returned iterator; CALL supports exported functions with JSON arguments, not this mocked method lifecycle. Manually patch urllib.request.urlopen with an in-memory response and exercise the actual transport. Check separate events data:{\"n\":1} and data: {\"n\":2}, and mixed fields data:{ followed by data: \"n\":3 followed by data:}, separated by LF and dispatched by a blank line; expect",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E2",
+        "reason": "Requires response injection and iterator lifecycle observation unavailable in the supplied CALL protocol. With an in-memory fake response patched into urllib.request.urlopen, verify spaced single-line and multiline JSON payloads retain string whitespace; interleave comment lines and event/id/retry metadata and confirm they do not enter decoded payloads. Verify a final valid spaced payload without a blank separator dispatches at EOF, and that response.close is called after exhaustion and after an",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E3",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E4",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      }
+    ],
+    "excludedTests": [
+      {
+        "claimId": "E3",
+        "reason": "Needs live broker credentials; explicitly excluded by user.",
+        "status": "EXCLUDED",
+        "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+      }
+    ],
+    "reason": null,
+    "requestId": "41972659-d9a2-422c-81db-22bf449b755b",
+    "semanticOracleHash": "45a9a20bd583cded9e7e663d0ef5118aca8fdc26509b183ee97f3dfe30328eb8",
+    "evaluatorHash": "97b2e239a72f483de911163c91793d6fdcdefabc07683cf66fb7a61f3563cb37",
+    "elapsedSeconds": 28.026364709000003
+  }
+]
