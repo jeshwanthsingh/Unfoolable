@@ -27,3 +27,9 @@ This is a local administrative approval action. Definitions are admitted against
 Native existing tests import Candidate product code in their own process. They retain IN-PROCESS assurance: frozen tests, exact inventory and the review tripwire constrain ordinary test gaming but do not prove immunity to deliberate in-memory framework tampering. Project-recipe judges remain in a separate process and never import Candidate code. Deliberate observation-channel forgery remains the previously documented residual risk. No sandbox or signal exception has been broadened; browser reads are limited to the tooling's specific dependency package directories.
 
 Verification scopes are explicit: Therapy2 uses frontend and Aegis uses sdk/python. Changes outside the selected scope block verification/Land; an unchecked backend/core change cannot ride along in the landed commit.
+
+## Current validated limits
+
+The SDK existing suite starts local HTTP fixture servers. The native-suite network-deny policy currently blocks those tests, so SDK suite runs return ERROR rather than excluding them or treating them as passing. Only the explicitly named live-credential broker test is excluded. Browser recipes use the existing isolated loopback exception; the SDK limitation has not been repaired by broadening permissions.
+
+Literal BASE test inventories fail closed on unsupported/dynamic test names. Project recipes establish a project-wide gate: an older Candidate that fixes one behavior can fail another approved recipe it does not implement. This is distinct from failing its original task-specific hidden grader.

@@ -25,7 +25,11 @@ export async function oracleSource(root:string,base:string,intent:string){
  const expectedTests:string[]=[];
  for(const p of eligible.filter(p=>/(?:^|\/)(?:tests|__tests__)\//.test(p))){const text=(await safeBuildGit(root,['show',base+':'+p],262145)).toString();
   if(runner==='unittest'){let className='';for(const line of text.split('\n')){const cls=/^class (\w+)\([^)]*(?:TestCase|Tests)[^)]*\):/.exec(line);if(cls)className=cls[1]!;const method=/^ +def (test_\w+)\(self\)/.exec(line);if(className&&method)expectedTests.push(p.split('/').at(-1)!.replace(/\.py$/,'')+'.'+className+'.'+method[1]);}}
-  else for(const match of text.matchAll(/\b(?:test|it)\(\s*['"]([^'"]+)['"]/g))expectedTests.push(match[1]!);
+  else for(const match of text.matchAll(/\b(?:test|it)\(\s*(['"])((?:\\.|(?!\1)[^\\\r\n])*)\1/g)){
+   // Decode only literal titles; never evaluate repository JavaScript.
+   const body=match[1]==='"'?match[2]!:match[2]!.replace(/\\.|"/g,part=>part==="\\'"?"'":part==='"'?'\\"':part);
+   try{expectedTests.push(JSON.parse('"'+body+'"') as string);}catch{throw new SpecError('UNSUPPORTED_TEST_TITLE','A frozen test title uses unsupported string escapes.',422);}
+  }
  }
  return {runner,directory,dependencyRoot,source,expectedTests:expectedTests.sort(),paths:eligible};
 }
