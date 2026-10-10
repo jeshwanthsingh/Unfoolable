@@ -1,0 +1,13 @@
+{
+  "ownedPid": 75201,
+  "startedAt": 1791616031.510271,
+  "timeboxSeconds": 1800,
+  "port": 58587,
+  "outboundDenied": true,
+  "en0": "192.168.1.91",
+  "inboundSucceeded": true,
+  "loopbackServed": true,
+  "exitCode": 0,
+  "stderr": "",
+  "elapsedSeconds": 0.8783538341522217
+}

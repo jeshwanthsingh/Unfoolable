@@ -18,10 +18,12 @@ The previous R4/R1/T3/R3/T2 failures were false rejects caused by incorrect scop
 - Initial full run: 518/520. Both failures came from moving synthetic fixtures inside the repository. Git discovery inherited the enclosing repository; Vitest inherited CC's package/TS config and hit read-denial. Fixtures now have their own discovery/metadata boundaries, with all assertions unchanged. Native Vitest stderr is retained bounded for truthful harness diagnostics. Initial failures and focused reproductions remain in artifacts.
 - All new temporary files are inside .work/ticket-loop-v1; .work is ignored. No scratch runtime dependency links or source read permissions were added.
 
-## Pending: network boundary
+## Accepted network boundary
 
-Runtime network policy remains unchanged. The earlier macOS localhost filter proof allowed real IPv4/IPv6 fixture traffic and denied tested non-loopback connections, but permitted a wildcard bind. Literal numeric address filters are rejected by the installed parser. The user was asked whether rejection of wildcard binding itself is mandatory, or whether enforced denial of non-loopback traffic is sufficient. No answer has been received. A preselected option is not authorization.
+The user accepted enforced denial of all non-loopback OUTBOUND traffic; rejecting wildcard binding itself is not required. Checker runners now use the existing loopback exception, while judges retain network denial and Builder permissions remain unchanged. HOST and BIND_ADDRESS default to 127.0.0.1 as a cheap advisory fixture mitigation; they are not an enforcement boundary.
 
-Step 0(b) therefore is not complete. The ticket model/runtime, queue, UI/CLI, real tasks and fuel probe have not been implemented/run. Those steps cannot start under the instruction to finish missing Step 0 fixes first. This is a partial Step 0 WIP checkpoint, not a completed ticket loop.
+The extra time-boxed en0 inbound check is recorded in step-0-network.json. No sandbox network filter was broadened beyond the existing localhost exception. If inbound succeeds, residual risk is labelled: wildcard bind allowed; inbound exposure limited to test duration. All fixture processes are owned and stopped afterward.
 
-No new AI roles, Builder model/runtime changes, paid APIs, pushes, merges, deployments, hidden-grader changes or production repository modifications.
+Step 0 can proceed to the ticket loop. No hidden grader, model/runtime, billing, push, merge or deployment changes.
+
+The extra en0 connection succeeded. Residual risk: **wildcard bind allowed; inbound exposure limited to test duration.** Both outside-bound connection attempts were permission-denied, loopback served, and the owned test process exited 0 after 0.88 seconds. HOST/BIND_ADDRESS mitigation is advisory only.
