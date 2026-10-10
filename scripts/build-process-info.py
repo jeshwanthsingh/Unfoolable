@@ -4,16 +4,38 @@ import ctypes, json, os, subprocess, sys, time
 class BsdInfo(ctypes.Structure):
     _fields_ = [(n, ctypes.c_uint32) for n in ('flags','status','xstatus','pid','ppid','uid','gid','ruid','rgid','svuid','svgid','rfu')]+[('comm',ctypes.c_char*16),('name',ctypes.c_char*32)]+[(n,ctypes.c_uint32) for n in ('nfiles','pgid','pjobc','e_tdev','e_tpgid','nice')]+[('start_sec',ctypes.c_uint64),('start_usec',ctypes.c_uint64)]
 
+class DarwinProcessPrefix(ctypes.Structure):
+    # sys/proc.h extern_proc prefix (64-bit Darwin): timeval + two
+    # pointers + flags + status + PID. Kernel sysctl includes zombies
+    # even when libproc and getpgid/getsid return ESRCH.
+    _fields_ = [('start_sec',ctypes.c_long),('start_usec',ctypes.c_int),
+                ('vmspace',ctypes.c_void_p),('sigacts',ctypes.c_void_p),
+                ('flags',ctypes.c_int),('status',ctypes.c_char),('pid',ctypes.c_int)]
+
+def darwin_zombie(pid):
+    if ctypes.sizeof(ctypes.c_void_p) != 8:
+        return None
+    lib=ctypes.CDLL(None,use_errno=True)
+    mib=(ctypes.c_int*4)(1,14,1,pid) # CTL_KERN, KERN_PROC, KERN_PROC_PID
+    data=ctypes.create_string_buffer(4096); length=ctypes.c_size_t(len(data))
+    if lib.sysctl(mib,4,data,ctypes.byref(length),None,0) != 0 or length.value < ctypes.sizeof(DarwinProcessPrefix):
+        return None
+    info=DarwinProcessPrefix.from_buffer_copy(data)
+    if info.pid != pid or info.status != b'\x05' or info.start_sec <= 0 or not 0 <= info.start_usec < 1000000:
+        return None
+    # This is death proof, not live ownership. No group/parent/executable
+    # is invented; no consumer may signal an exited record.
+    return dict(pid=pid,ppid=0,pgid=0,sid=0,birth_id=f'darwin:{info.start_sec}:{info.start_usec}',executable='<zombie>',zombie=True)
+
 def inspect(pid):
     try:
         if sys.platform == 'darwin':
             lib=ctypes.CDLL('/usr/lib/libproc.dylib')
             info=BsdInfo()
-            if lib.proc_pidinfo(pid,3,0,ctypes.byref(info),ctypes.sizeof(info)) != ctypes.sizeof(info): return None
+            if lib.proc_pidinfo(pid,3,0,ctypes.byref(info),ctypes.sizeof(info)) != ctypes.sizeof(info): return darwin_zombie(pid)
             path=ctypes.create_string_buffer(4096)
             if lib.proc_pidpath(pid,path,4096)<=0:
-                if info.status==5: return dict(pid=pid,ppid=info.ppid,pgid=info.pgid,sid=os.getsid(pid),birth_id=f'darwin:{info.start_sec}:{info.start_usec}',executable='<zombie>',zombie=True)
-                return None
+                return darwin_zombie(pid)
             return dict(pid=pid,ppid=info.ppid,pgid=info.pgid,sid=os.getsid(pid),birth_id=f'darwin:{info.start_sec}:{info.start_usec}',executable=path.value.decode(),zombie=info.status==5)
         if sys.platform.startswith('linux'):
             raw=open(f'/proc/{pid}/stat').read(); fields=raw[raw.rfind(')')+2:].split()
@@ -23,7 +45,8 @@ def inspect(pid):
 
 # The whole recording call has one budget, below the caller's three-second limit.
 # Exited, unreaped Darwin children can have no libproc identity while kill(pid,0)
-# still succeeds. Wait for a full identity or ESRCH, never invent ownership.
+# still succeeds. Accept only a full live identity, kernel-certified zombie,
+# or ESRCH absence; never invent ownership.
 RECORD_RETRY_SECONDS = 1.0
 ROOT_RETRY_SECONDS = .05
 
@@ -61,7 +84,7 @@ def tree(root):
         # exiting child: it must run the exit handler to reap that PID.
         limit=min(deadline,time.monotonic()+ROOT_RETRY_SECONDS) if pid==root else deadline
         row=record(pid,limit)
-        if row:
+        if row and not row['zombie']:
             rows.append(row)
     # A PID may disappear and be reused while recording retries. Revalidate
     # membership from the recorded kernel parents/session, not stale ps rows.

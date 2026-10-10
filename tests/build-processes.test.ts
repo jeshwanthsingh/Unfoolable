@@ -44,3 +44,29 @@ m.os.kill=absent
 assert m.tree(111)==[]
 `;execFileSync(process.platform==='darwin'?'/usr/local/bin/python3':'/usr/bin/python3',['-c',code],{timeout:3000});
 });
+
+if(process.platform==='darwin')test('Darwin unreaped death is certified by the same kernel microsecond birth, never PID-only',()=>{
+ const helper=new URL('../scripts/build-process-info.py',import.meta.url).pathname;
+ const code=`import importlib.util,os,time
+spec=importlib.util.spec_from_file_location('ownership_helper',${JSON.stringify(helper)})
+m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+r,w=os.pipe();pid=os.fork()
+if pid==0:
+ os.close(w);os.read(r,1);os._exit(0)
+os.close(r)
+try:
+ before=m.inspect(pid);assert before and not before['zombie']
+ os.write(w,b'x');os.close(w)
+ for i in range(100):
+  after=m.inspect(pid)
+  if after and after['zombie']:break
+  time.sleep(.01)
+ assert after and after['zombie']
+ assert before['pid']==after['pid'] and before['birth_id']==after['birth_id']
+ assert after['executable']=='<zombie>'
+ os.kill(pid,0) # Proves that PID existence alone incorrectly implies alive.
+ assert m.record(pid,time.monotonic())['zombie']
+finally:
+ os.waitpid(pid,0)
+`;execFileSync('/usr/local/bin/python3',['-c',code],{timeout:3000});
+});

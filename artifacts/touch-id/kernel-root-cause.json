@@ -1,0 +1,26 @@
+{
+  "proc_pidinfo_result": 0,
+  "proc_pidinfo_errno": 3,
+  "proc_pidpath_result": 0,
+  "proc_pidpath_errno": 3,
+  "kill_zero": "succeeds on zombie",
+  "alive": {
+    "pid": 88494,
+    "ppid": 88492,
+    "pgid": 88482,
+    "sid": 88482,
+    "birth_id": "darwin:1791653706:661650",
+    "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+    "zombie": false
+  },
+  "zombie": {
+    "pid": 88494,
+    "ppid": 0,
+    "pgid": 0,
+    "sid": 0,
+    "birth_id": "darwin:1791653706:661650",
+    "executable": "<zombie>",
+    "zombie": true
+  },
+  "same_kernel_birth": true
+}

@@ -1,0 +1,9 @@
+# Process ownership root cause
+
+The earlier fix waited briefly for a child to disappear. On macOS, an exited child can remain unreaped for longer than that wait: `kill(pid, 0)` still succeeds, but both `proc_pidinfo` and `proc_pidpath` return ESRCH. The helper therefore incorrectly treated a dead child as an unknown live process and refused to start the Builder. A longer wait cannot reliably fix this.
+
+The fix uses the macOS kernel's `KERN_PROC_PID` record only to certify a zombie's exact PID, microsecond birth and `SZOMB` state. It does not infer ownership from a PID, invent live executable/group data, or signal an unknown process. Live ownership and kill paths still require the original PID + kernel birth + executable + group/session record. Unknown live identities still fail closed. Certified zombies cannot execute code and are omitted from the live tree inventory.
+
+Evidence: `kernel-root-cause.json` shows ESRCH from libproc, successful kill-zero, and an identical microsecond birth before and after the owned child exits. `.work/touch-id/red-chat-startup.log` records the original chat-server failure with a persistently unreaped child; `.work/touch-id/ownership-final-focused.log` records the fixed regression and unchanged refusal-to-start when durable ownership recording fails.
+
+Stress test: `tests/chat-ownership-stress.test.ts` starts 25 tickets through the actual HTTP chat Start path. Each real supervised fixture process creates a persistently unreaped child and intentionally fails its first turn, then immediately retries through the exact current chat card. Each round therefore supervises 50 sessions, including 25 back-to-back retries, with no model calls. Source repositories are disposable TEST data; kernel process inspection and cleanup are real. The suite records all PID/birth snapshots and agent-start/stop events in rounds 2 and 3. This stress proves the chat/coordinator/process path, not Codex model quality.

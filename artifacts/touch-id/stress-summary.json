@@ -1,0 +1,29 @@
+{
+  "rounds": [
+    {
+      "sessions": 50,
+      "successfulStarts": 50,
+      "retries": 25,
+      "readyTickets": 25,
+      "kernelBirthRecords": 250
+    },
+    {
+      "sessions": 50,
+      "successfulStarts": 50,
+      "retries": 25,
+      "readyTickets": 25,
+      "kernelBirthRecords": 250
+    },
+    {
+      "sessions": 50,
+      "successfulStarts": 50,
+      "retries": 25,
+      "readyTickets": 25,
+      "kernelBirthRecords": 251
+    }
+  ],
+  "totalStarted": 150,
+  "totalImmediateRetries": 75,
+  "fixture": "real chat HTTP + real supervisor + disposable process provider, no model calls",
+  "ownership": "PID and exact kernel birth before agent_started; unknown-live recording failure prevents turn"
+}

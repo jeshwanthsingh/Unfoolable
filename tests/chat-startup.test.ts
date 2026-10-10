@@ -9,14 +9,14 @@ import {runBuilderSupervisorFixture} from '../apps/server/build-runtime.ts';
 import {processIdentity} from '../apps/server/build-processes.ts';
 import type {createChatCodex} from '../apps/server/chat-codex.ts';
 import type {BuildInput,ProcessRecord} from '../packages/shared/build.ts';
-for(const blockRecording of [false,true])test(blockRecording?'chat-server never starts a turn when ownership cannot be durably recorded':'chat-server Start survives a short unreaped child while recording real PID and birth before the build turn',async()=>{
+for(const blockRecording of [false,true])test(blockRecording?'chat-server never starts a turn when ownership cannot be durably recorded':'chat-server Start survives a persistently unreaped child while recording real PID and birth before the build turn',async()=>{
  mkdirSync(resolve('.work/foreman-fix'),{recursive:true});const root=mkdtempSync(join(tmpdir(),'cc-chat-start-')),repo=join(root,'repo'),data=join(root,'data'),script=join(root,'provider.py');mkdirSync(repo);
  const git=(...args:string[])=>execFileSync('git',['-C',repo,...args],{encoding:'utf8'}).trim();git('init','-q');writeFileSync(join(repo,'value.txt'),'BASE');git('add','.');git('-c','user.name=Fixture','-c','user.email=fixture@localhost','commit','-qm','BASE');
  writeFileSync(script,`import os,time,threading,json,sys
 # Force the real Darwin gap: kernel keeps an exited child alive until waitpid,
 # but libproc cannot provide its identity and kill(pid,0) still succeeds.
 def reap(pid):
- time.sleep(.7)
+ time.sleep(7)
  os.waitpid(pid,0)
 def send(value):
  print(json.dumps(value),flush=True)
@@ -27,7 +27,7 @@ for line in sys.stdin:
   pid=os.fork()
   if pid==0:os._exit(0)
   threading.Thread(target=reap,args=(pid,),daemon=True).start()
-  time.sleep(.9)
+  time.sleep(.2)
   send({'id':rid,'result':{'userAgent':'fixture/0.160.0'}})
  elif method=='thread/start':send({'id':rid,'result':{'thread':{'id':'thread','cliVersion':'0.160.0'},'sandbox':{'type':'workspaceWrite','networkAccess':False}}})
  elif method=='turn/start':
