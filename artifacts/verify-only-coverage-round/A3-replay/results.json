@@ -1,0 +1,62 @@
+[
+  {
+    "task": "A3",
+    "candidate": "correct",
+    "commit": "34bc82960286ca8abf8fe385db2f600baff05ff0",
+    "tree": "6193dedd385692079cb6ec0c003ec1b0ad0d7417",
+    "truth": "CORRECT",
+    "status": "ERROR",
+    "acceptance": "NOT VERIFIED",
+    "claims": [
+      {
+        "id": "E1",
+        "reason": "Tester admission requires intended BASE failure, independent correct PASS and plausible wrong FAIL. No Candidate failure is inferred.",
+        "requirement": "REQUIRED",
+        "status": "ERROR"
+      },
+      {
+        "id": "E2",
+        "reason": "Review and execute constructor cases timeout=0, -1, float('nan'), float('inf'), -float('inf'), True, False, None, '0.1', [], and {}. Each must raise AegisConfigurationError before launching a verifier. The provided JSON request interface does not specify a portable encoding for actual NaN and infinity; strings would test different values.",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E3",
+        "reason": "Verify construction accepts timeout=0.5 and timeout=2, and omission selects five seconds independently of the client's HTTP timeout. Exercise a hanging executable with the omitted keyword to confirm the default deadline. The bounded observer's maximum deadline is five seconds, so it cannot reliably observe completion and cleanup after a five-second default timeout.",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E4",
+        "reason": "The available executable fixture only sleeps. Using controlled executables, check successful verification returns the original summary and parsed fields, including verified and unverified summaries. Check nonzero exits raise AegisVerificationError using stderr first, stdout when stderr is empty, and the existing fallback when both are empty. This complements, rather than duplicates, the server-provided existing-suite guard.",
+        "requirement": "REQUIRED",
+        "status": "NOT CHECKED"
+      },
+      {
+        "id": "E5",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E6",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      }
+    ],
+    "excludedTests": [
+      {
+        "claimId": "E5",
+        "reason": "Needs live broker credentials; explicitly excluded by user.",
+        "status": "EXCLUDED",
+        "testId": "test_broker_smoke.BrokerSmokeIntegrationTests.test_broker_examples"
+      }
+    ],
+    "reason": null,
+    "requestId": "ffb754d9-96f8-4582-b35e-faca3b37b0f9",
+    "semanticOracleHash": "631e011ab3c378d06ca88e41e6edf727d32fcc91298d289be0d4bf82b831a560",
+    "evaluatorHash": "0c019e839c6df7ac8271a56cefc6d8d977594495b509700eb6967f6b52a683a8",
+    "elapsedSeconds": 29.866172167000002
+  }
+]

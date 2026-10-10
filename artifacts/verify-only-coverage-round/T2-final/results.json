@@ -1,0 +1,17 @@
+[
+  {
+    "task": "T2",
+    "candidate": "correct",
+    "commit": "1e3c2174aa880208a600301e796d78a007f0cbf4",
+    "tree": "607ec32c6cf6d0a2f7a2abdd218f9c6168ed9ea6",
+    "truth": "CORRECT",
+    "status": "ERROR",
+    "acceptance": "NOT VERIFIED",
+    "claims": [],
+    "excludedTests": [],
+    "reason": "Verification could not complete. Inspect retained tester evidence.",
+    "requestId": "f0e1ad9e-e774-4b9e-8898-36b0577f5a91",
+    "semanticOracleHash": "cb134539bcca1082dff11237042f87af33b87cafa7d8f49f18074b6d9abd7e26",
+    "elapsedSeconds": 38.719297166
+  }
+]

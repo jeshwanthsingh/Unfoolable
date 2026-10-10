@@ -1,0 +1,55 @@
+[
+  {
+    "task": "T3-repeat",
+    "candidate": "correct",
+    "commit": "fc947bbc83659cad223ea2bc910d65310cd63517",
+    "tree": "63d839be3a0717b9eb0627e1a689f17a9cb95bca",
+    "truth": "CORRECT",
+    "status": "PASS",
+    "acceptance": "VERIFIED",
+    "claims": [
+      {
+        "id": "E1",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E2",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E3",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E4",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E5",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      },
+      {
+        "id": "E6",
+        "reason": null,
+        "requirement": "REQUIRED",
+        "status": "PASS"
+      }
+    ],
+    "excludedTests": [],
+    "reason": null,
+    "requestId": "b9143d38-659d-467e-bce7-fbfeb48f3a1d",
+    "semanticOracleHash": "a09b5c96ec8fa5d4ff26f279e0e6582742ba9386a1bffcb57a833d53db8d3270",
+    "evaluatorHash": "ae3aae82e48a4dfa9cfc8beed64f696c36778115cf3586f4d0df694d0330f76c",
+    "elapsedSeconds": 382.033102125
+  }
+]
