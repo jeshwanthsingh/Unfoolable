@@ -1,9 +1,9 @@
-import {mkdirSync,writeFileSync,existsSync,readFileSync} from 'node:fs';import {join,resolve} from 'node:path';import {randomUUID} from 'node:crypto';import {safeBuildGit,safeBuildPath} from './build-workspace.ts';import type {Ticket} from '../../packages/shared/tickets.ts';
+import {mkdirSync,writeFileSync,existsSync,readFileSync} from 'node:fs';import {join,resolve} from 'node:path';import {randomUUID,createHash} from 'node:crypto';import {safeBuildGit,safeBuildPath} from './build-workspace.ts';import type {Ticket} from '../../packages/shared/tickets.ts';
 const text=async(root:string,...args:string[])=>(await safeBuildGit(root,args)).toString().trim();
 export async function ticketWorkspace(ticket:Ticket,dataDir:string,seed=ticket.baseCommit){
- const root=join(resolve(dataDir),'ticket-work',ticket.id),clone=join(root,'repo');mkdirSync(root,{recursive:true,mode:0o700});
+ const root=join(resolve(dataDir),'ticket-work',ticket.id),builderRoot=join(resolve(import.meta.dirname,'../../.work/builder-workspaces'),createHash('sha256').update(resolve(dataDir)).digest('hex'),ticket.id),clone=join(builderRoot,'repo');mkdirSync(root,{recursive:true,mode:0o700});mkdirSync(builderRoot,{recursive:true,mode:0o700});
  if(!existsSync(clone)){await safeBuildGit(ticket.repoPath,['-c','protocol.file.allow=always','clone','--no-hardlinks','--no-checkout','--',ticket.repoPath,clone],65536);await safeBuildGit(clone,['remote','remove','origin']);}
- const attemptId=randomUUID(),workspace=join(root,'worktrees',attemptId),artifactDir=join(root,'attempts',attemptId);mkdirSync(artifactDir,{recursive:true});await safeBuildGit(clone,['worktree','add','--detach',workspace,seed],65536);
+ const attemptId=randomUUID(),workspace=join(builderRoot,'worktrees',attemptId),artifactDir=join(root,'attempts',attemptId);mkdirSync(artifactDir,{recursive:true});await safeBuildGit(clone,['worktree','add','--detach',workspace,seed],65536);
  const gitCommonDir=await text(clone,'rev-parse','--path-format=absolute','--git-common-dir');const gitDir=await text(workspace,'rev-parse','--absolute-git-dir');const owned={gitDir,ticketId:ticket.id,attemptId,workspace,artifactDir,clone,gitCommonDir,seed,base:ticket.baseCommit};writeFileSync(join(artifactDir,'owner.json'),JSON.stringify(owned),{flag:'wx',mode:0o600});return owned;
 }
 export async function freezeTicketCandidate(owned:Awaited<ReturnType<typeof ticketWorkspace>>){

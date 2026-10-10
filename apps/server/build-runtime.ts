@@ -1,3 +1,4 @@
+import {builderFilesystem} from './builder-filesystem.ts';
 import {DEBUG_CORRECTION_PROMPT} from './debug-correction-prompt.ts';
 import {createHash} from 'node:crypto';
 import type {PermissionDispatch,ProviderPermission} from '../../packages/shared/permissions.ts';
@@ -21,7 +22,7 @@ function environment():NodeJS.ProcessEnv{
  return {PATH:process.env.PATH,HOME:homedir(),LANG:'C',LC_ALL:'C',NO_COLOR:'1',RUST_LOG:'error'};
 }
 export function prepareBuilderRuntime(context:RuntimeContext,systemPrompt=BUILDER_PROMPT){
- const privateHome=join(context.artifactDir,'provider-private'),toolHome=join(context.workspace,'.cc-runtime');mkdirSync(privateHome,{recursive:true,mode:0o700});mkdirSync(toolHome,{recursive:true,mode:0o700});mkdirSync(join(toolHome,'tmp'),{mode:0o700,recursive:true});
+ const privateHome=join(context.artifactDir,'provider-private'),toolHome=join(context.workspace,'.cc-runtime');mkdirSync(privateHome,{recursive:true,mode:0o700});mkdirSync(toolHome,{recursive:true,mode:0o700});mkdirSync(join(toolHome,'tmp'),{mode:0o700,recursive:true});mkdirSync(join(toolHome,'git-objects'),{mode:0o700,recursive:true});
  // A pointer reuses the existing subscription entitlement. Coordinator never opens/copies credentials.
  symlinkSync(join(homedir(),'.codex/auth.json'),join(privateHome,'auth.json'));
  const cache=JSON.parse(readFileSync(join(homedir(),'.codex/models_cache.json'),'utf8'));if(!Array.isArray(cache.models))throw new BuildError('CODEX_VERSION_UNCERTIFIED','Model catalog structure is uncertified.',503);
@@ -29,11 +30,11 @@ export function prepareBuilderRuntime(context:RuntimeContext,systemPrompt=BUILDE
  const model={...source,include_skills_usage_instructions:false,include_plugin_usage_instructions:false,include_apps_usage_instructions:false,supports_search_tool:false,node_repl_disabled:true,experimental_supported_tools:[],tool_mode:'direct',multi_agent_version:null,multi_agent_reasoning_effort:null};
  delete model.instructions_template;delete model.base_instructions;
  writeFileSync(join(privateHome,'catalog.json'),JSON.stringify({models:[model]}),{mode:0o600});writeFileSync(join(privateHome,'prompt.md'),systemPrompt,{mode:0o600});
- const toolEnv={HOME:toolHome,TMPDIR:join(toolHome,'tmp'),PYTHONDONTWRITEBYTECODE:'1',PATH:process.env.PATH??'/usr/bin:/bin',LANG:'C',LC_ALL:'C'};
+ const toolEnv={HOME:toolHome,TMPDIR:join(toolHome,'tmp'),TMPPREFIX:join(toolHome,'tmp','zsh'),PYTHONDONTWRITEBYTECODE:'1',GIT_OPTIONAL_LOCKS:'0',GIT_OBJECT_DIRECTORY:join(toolHome,'git-objects'),GIT_ALTERNATE_OBJECT_DIRECTORIES:join(context.gitCommonDir,'objects'),PATH:process.env.PATH??'/usr/bin:/bin',LANG:'C',LC_ALL:'C'};
  const args=['app-server','--listen','stdio://','--strict-config','--enable','skip_host_skill_discovery','--enable','request_permissions_tool','--enable','exec_permission_approvals',...disabled.flatMap(f=>['--disable',f]),'-c','model_catalog_json='+JSON.stringify(join(privateHome,'catalog.json')),'-c','model_instructions_file='+JSON.stringify(join(privateHome,'prompt.md')),'-c','web_search="disabled"','-c','tools.update_plan.enabled=false','-c','tools.experimental_request_user_input.enabled=false','-c','shell_environment_policy.inherit="none"','-c','shell_environment_policy.set='+JSON.stringify(toolEnv).replace(/"([^"\n]+)":/g,'"$1"='),'-c','memories.generate_memories=false','-c','memories.use_memories=false'];
  const permissionProfile='cc-oracle-builder';
  const coordinatorRoot=resolve(fileURLToPath(new URL('../../',import.meta.url)));
- const filesystem={':root':'read',[context.dataDir]:'deny',[coordinatorRoot]:'deny',[join(homedir(),'Projects/ai-lab/command-center')]:'deny',[context.gitCommonDir]:'read',[context.workspace]:'write'};
+ const filesystem=builderFilesystem([context.dataDir,coordinatorRoot,join(homedir(),'Projects/ai-lab/command-center')],context.workspace,context.gitCommonDir,context.gitDir);
  const permissions={filesystem,network:{enabled:false}};
  args.push('-c','permissions.'+permissionProfile+'='+JSON.stringify(permissions).replace(/"([^"\n]+)":/g,'"$1"='),'-c','default_permissions='+JSON.stringify(permissionProfile));
  return {permissionProfile,args,env:{...environment(),CODEX_HOME:privateHome,TMPDIR:join(toolHome,'tmp')},privateHome,toolHome};

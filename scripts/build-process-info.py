@@ -1,5 +1,5 @@
 """Kernel process identity only. Never emit argv or environment."""
-import ctypes, json, os, subprocess, sys
+import ctypes, json, os, subprocess, sys, time
 
 class BsdInfo(ctypes.Structure):
     _fields_ = [(n, ctypes.c_uint32) for n in ('flags','status','xstatus','pid','ppid','uid','gid','ruid','rgid','svuid','svgid','rfu')]+[('comm',ctypes.c_char*16),('name',ctypes.c_char*32)]+[(n,ctypes.c_uint32) for n in ('nfiles','pgid','pjobc','e_tdev','e_tpgid','nice')]+[('start_sec',ctypes.c_uint64),('start_usec',ctypes.c_uint64)]
@@ -33,6 +33,14 @@ def tree(root):
         if len(owned)==before: break
     for pid in owned:
         row=inspect(pid)
+        # exec/exit can briefly hide proc_pidpath. Retry identity, never substitute PID-only authority.
+        for retry in range(3):
+            if row: break
+            try: os.kill(pid,0)
+            except ProcessLookupError: break
+            except PermissionError: break
+            time.sleep(0.015)
+            row=inspect(pid)
         if row:
             rows.append(row)
             continue

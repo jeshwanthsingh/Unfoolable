@@ -1,0 +1,26 @@
+[
+  {
+    "ticket": "research-router",
+    "command": "/bin/zsh -lc \"python3 -c 'from research_router.sources.hn import duration_to_epoch; duration_to_epoch(\\\"999999999999999999999d\\\")'\"",
+    "exitCode": 1,
+    "output": "Historical protocol omitted aggregate output; diagnostic requires reproduction."
+  },
+  {
+    "ticket": "research-router",
+    "command": "/bin/zsh -lc \"sed -n '164,185p' tests/test_hn.py; sed -n '205,226p' tests/test_github.py; mkdir -p .cc-runtime/tmp; TMPDIR=\\\"\"'$PWD/.cc-runtime/tmp\" python3 -m unittest discover -s tests -p '\"'test_since.py'\"",
+    "exitCode": 1,
+    "output": "Historical protocol omitted aggregate output; diagnostic requires reproduction."
+  },
+  {
+    "ticket": "research-router",
+    "command": "/bin/zsh -lc 'TMPDIR=\"$PWD/.cc-runtime/tmp\" python3 -m unittest discover -s tests -p '\"'test_since.py'; TMPDIR=\\\"\"'$PWD/.cc-runtime/tmp\" python3 -m unittest discover -s tests -p '\"'test_hn.py'; TMPDIR=\\\"\"'$PWD/.cc-runtime/tmp\" python3 -m unittest discover -s tests -p '\"'test_github.py'; git diff --check; git diff --stat; git diff -- research_router/sources\"",
+    "exitCode": 128,
+    "output": "Historical protocol omitted aggregate output; diagnostic requires reproduction."
+  },
+  {
+    "ticket": "career-ops",
+    "command": "/bin/zsh -lc 'node --check merge-tracker.mjs; node --check test-merge-tracker.mjs; node test-merge-tracker.mjs; git diff --check; git diff --stat'",
+    "exitCode": 128,
+    "output": "Historical protocol omitted aggregate output; diagnostic requires reproduction."
+  }
+]
