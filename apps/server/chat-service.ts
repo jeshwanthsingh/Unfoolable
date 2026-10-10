@@ -5,7 +5,7 @@ import type {ChatAction,ChatDraft,ChatUsage} from '../../packages/shared/chat.ts
 import {createChatStore} from './chat-store.ts';
 import {createChatCards} from './chat-cards.ts';
 import {projectChatEvents} from './chat-events.ts';
-import {referencedTicket,statusAnswer,typedAction} from './chat-status.ts';
+import {referencedTicket,statusAnswer,typedAction,isFuelQuestion} from './chat-status.ts';
 import {listProjects} from './projects.ts';
 import {SpecError} from './spec-errors.ts';
 import {safeBuildGit} from './build-workspace.ts';
@@ -21,7 +21,7 @@ export function createChatService(db:DatabaseSync,tickets:ReturnType<typeof crea
   if(!validText(text,20000))throw new SpecError('INVALID_MESSAGE','Enter a message of 1–20,000 characters.',400);
   if(drafting)throw new SpecError('DRAFT_IN_PROGRESS','One draft is already being prepared.');const original=store.appendMessage({role:'user',text});project();
   const answer=statusAnswer(db,text);if(answer!==null){store.appendMessage({role:'jarvis',kind:'status',text:answer});return store.view();}
-  if(/^(?:how much fuel(?: is left)?|fuel|usage|limits)\??$/i.test(text.trim())){const fuel=await runtime.fuel();store.appendMessage({role:'jarvis',kind:'status',text:fuel.unknown?'Fuel unknown; the read-only limit request failed.':fuel.windows.map(w=>w.usedPercent+'% used · '+w.windowMinutes+' minute window · resets '+new Date(w.resetsAt*1000).toISOString()).join('\n')});return store.view();}
+  if(isFuelQuestion(text)){const fuel=await runtime.fuel();store.appendMessage({role:'jarvis',kind:'status',text:fuel.unknown?'Fuel unknown; the read-only limit request failed.':fuel.windows.map(w=>w.usedPercent+'% used · '+w.windowMinutes+' minute window · resets '+new Date(w.resetsAt*1000).toISOString()).join('\n')});return store.view();}
   if(typedAction(text)){const t=referencedTicket(db,text),available=store.cards().filter(c=>c.status==='PENDING'&&(!t||c.targetId===t.id));store.appendMessage({role:'jarvis',kind:'status',text:available.length?'Use the button on the exact pending item below. This message made no decision.':'No matching pending item is available. This message made no decision.'});return store.view();}
   const pending=store.pendingDraft();drafting=true;let d:ChatDraft|null=null;let captured:Awaited<ReturnType<typeof runtime.draft>>|null=null;
   try{

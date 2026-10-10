@@ -24,10 +24,13 @@ export function ticketStatusText(db:DatabaseSync,t:Ticket):string{
  const events=listTicketEvents(db,t.id),last=events.filter(e=>e.kind==='needs_you'||e.kind==='check_result').at(-1),failure=ticketHarnessFailure(db,t);
  return t.id.slice(0,8)+' · '+t.title+' — '+t.status+'; checks: '+(t.checkVerdict??'NOT CHECKED')+'.'+(failure?' '+failure:t.status==='needs_you'&&last?.kind==='needs_you'&&typeof last.data.reason==='string'?' '+last.data.reason:'');
 }
+export function normalizedStatusQuestion(text:string):string{return text.toLowerCase().replace(/[’']/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();}
+export function isFuelQuestion(text:string):boolean{return /^(?:how much fuel(?: is left)?|fuel|usage|limits|how much fuel do i have)$/.test(normalizedStatusQuestion(text));}
 export function statusAnswer(db:DatabaseSync,text:string):string|null{
- if(/^(?:what(?:'s| is) running|running|status)\??$/i.test(text.trim())){const active=listTickets(db).filter(t=>['building','checking','fixing'].includes(t.status));return active.length?active.map(t=>ticketStatusText(db,t)).join('\n'):'Nothing is running. '+listTickets(db).filter(t=>t.status==='queued').length+' queued ticket(s).';}
- if(/^(?:what(?:'s| is|) (?:needs? me|needs? my attention)|what needs me|needs you)\??$/i.test(text.trim())){const needs=listTickets(db).filter(t=>['needs_you','harness_error','interrupted','ready_for_review'].includes(t.status));return needs.length?needs.map(t=>ticketStatusText(db,t)).join('\n'):'Nothing needs your attention.';}
- if(/^(?:how did ticket|show ticket|ticket|what happened to ticket)\b/i.test(text.trim())){const t=referencedTicket(db,text);return t?ticketStatusText(db,getTicket(db,t.id)!):'Include the ticket ID or its unique eight-character prefix.';}
+ const query=normalizedStatusQuestion(text);
+ if(/^(?:whats running(?: right now)?|what is running(?: right now)?|running|status|show status|are any tickets running)$/.test(query)){const active=listTickets(db).filter(t=>['building','checking','fixing'].includes(t.status));return active.length?active.map(t=>ticketStatusText(db,t)).join('\n'):'Nothing is running. '+listTickets(db).filter(t=>t.status==='queued').length+' queued ticket(s).';}
+ if(/^(?:what needs me|what needs my attention|whats waiting for me|is there anything for me|needs you|anything for me|anything i need to do|does anything need me)$/.test(query)){const needs=listTickets(db).filter(t=>['needs_you','harness_error','interrupted','ready_for_review'].includes(t.status));return needs.length?needs.map(t=>ticketStatusText(db,t)).join('\n'):'Nothing needs your attention.';}
+ if(/^(?:how did ticket|show ticket|ticket|what happened to ticket)\b/.test(query)){const t=referencedTicket(db,text);return t?ticketStatusText(db,getTicket(db,t.id)!):'Include the ticket ID or its unique eight-character prefix.';}
  return null;
 }
 export function typedAction(text:string):boolean{return /^(?:(?:keep|discard|recheck|retry|allow|deny)(?:\s+(?:it|that|ticket\s+[a-f0-9-]+|[a-f0-9-]+))?|approve(?:\s+(?:the\s+)?playbook)?)\s*[.!?]?$/i.test(text.trim());}
