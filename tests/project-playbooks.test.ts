@@ -30,8 +30,8 @@ test('canonical aliases share one playbook and identical explicit reapproval reu
 test('proposal reads BASE metadata, ignores dirty package and never changes the repository',async()=>{
  const f=fixture({'frontend/package.json':'{"scripts":{"test":"vitest"}}'});try{writeFileSync(join(f.repo,'frontend/package.json'),'DIRTY');const before=f.git(['status','--porcelain']);const record=await f.store.propose(f.repo,f.base);assert.equal(record.definition.runner,'vitest');assert.deepEqual(record.definition.tests,[{argv:['npm','test','--','--run'],cwd:'frontend'}]);assert.equal(f.git(['status','--porcelain']),before);assert.equal(readFileSync(join(f.repo,'frontend/package.json'),'utf8'),'DIRTY');}finally{rmSync(f.root,{recursive:true,force:true});}
 });
-test('career operational script proposal is unapproved and explicitly limited to disposable exports',async()=>{
- const f=fixture({'test-all.mjs':'throw new Error("MUST NOT EXECUTE");'});try{const r=await f.store.propose(f.repo,f.base);assert.equal(r.definition.runner,'node-script');assert.deepEqual(r.definition.tests,[{argv:['node','test-all.mjs','--quick'],cwd:'.'}]);assert.match(r.definition.notes.join(' '),/operational scripts.*disposable exports/);assert.equal(r.approval,null);}finally{rmSync(f.root,{recursive:true,force:true});}
+test('career proposal is unapproved and exports only pure code with counted checks',async()=>{
+ const f=fixture({'test-all.mjs':'throw new Error("MUST NOT EXECUTE");','liveness-core.mjs':'export function classifyLiveness() {}'});try{const r=await f.store.propose(f.repo,f.base);assert.equal(r.definition.runner,'node-script');assert.deepEqual(r.definition.exportFiles,['liveness-core.mjs']);assert.deepEqual(r.definition.tests[0]!.argv.slice(0,2),['node','-e']);assert.equal(r.definition.tests[0]!.report!.expectedTestIds.length,5);assert.match(r.definition.notes.join(' '),/no tracker/);assert.equal(r.approval,null);}finally{rmSync(f.root,{recursive:true,force:true});}
 });
 for(const [label,changed] of [
  ['shell',{tests:[{argv:['sh','-c','echo unsafe'],cwd:'.'}]}],

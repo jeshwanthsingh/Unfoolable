@@ -6,12 +6,12 @@ import {safeBuildGit,safeBuildPath} from './build-workspace.ts';
 const execute=promisify(execFile);
 const FILE_CAP=8*1024*1024,TREE_CAP=64*1024*1024;
 type Entry={path:string;oid:string;mode:string;size:number};
-async function entries(objectDir:string,revision:string):Promise<Entry[]>{
+async function entries(objectDir:string,revision:string,allowedFiles?:string[]):Promise<Entry[]>{
  if(!/^[a-f0-9]{40,64}$/.test(revision))throw new Error('Oracle revision must be an object identity');
  const records=(await safeBuildGit(objectDir,['ls-tree','-r','-l','-z',revision],8*1024*1024)).toString('utf8').split('\0').filter(Boolean);
  if(records.length>20000)throw new Error('Oracle path cap exceeded');
  let total=0;
- return records.map(record=>{
+ const validated=records.map(record=>{
   const m=/^(100644|100755) blob ([a-f0-9]{40,64})\s+(\d+)\t(.+)$/s.exec(record);
   // All symlinks are rejected, including internal ones; gitlinks never enter tar.
   if(!m||!safeBuildPath(m[4]!)||/^[A-Za-z]:/.test(m[4]!))throw new Error('Oracle tree contains unsafe path, symlink or submodule');
@@ -19,6 +19,8 @@ async function entries(objectDir:string,revision:string):Promise<Entry[]>{
   if(size>FILE_CAP||total>TREE_CAP)throw new Error('Oracle tree byte cap exceeded');
   return {path:m[4]!,oid:m[2]!,mode:m[1]!,size};
  });
+ // Selection limits exported contents, never the pre-existing whole-tree safety guards.
+ return allowedFiles?validated.filter(e=>allowedFiles.includes(e.path)):validated;
 }
 async function workspaceFiles(workspace:string):Promise<string[]>{
  const root=await realpath(workspace),out:string[]=[];let count=0,total=0;
@@ -30,12 +32,14 @@ async function workspaceFiles(workspace:string):Promise<string[]>{
  }};
  await walk(root);return out.sort();
 }
-export async function materializeOracleTree(objectDir:string,revision:string,workspace:string):Promise<{workspace:string;sourceTree:string}>{
- const inventory=await entries(objectDir,revision);
+export async function materializeOracleTree(objectDir:string,revision:string,workspace:string,allowedFiles?:string[]):Promise<{workspace:string;sourceTree:string}>{
+ if(allowedFiles && (!allowedFiles.length || new Set(allowedFiles).size!==allowedFiles.length || allowedFiles.some(p=>!safeBuildPath(p)||/[:*?\[\]]/.test(p)||p.split('/').some(x=>!x||x==='.'||x==='..'))))throw new Error('Invalid oracle export whitelist');
+ const inventory=await entries(objectDir,revision,allowedFiles);
+ if(allowedFiles && inventory.length!==allowedFiles.length)throw new Error('Oracle whitelist file missing from source tree');
  const sourceTree=(await safeBuildGit(objectDir,['rev-parse',`${revision}^{tree}`])).toString().trim();
  const target=join(await realpath(dirname(resolve(workspace))),resolve(workspace).split(sep).at(-1)!);
  await mkdir(target,{mode:0o700}); // Must be a new directory: never reuse a checkout/worktree.
- const archive=await safeBuildGit(objectDir,['archive','--format=tar',sourceTree],90*1024*1024);
+ const archive=await safeBuildGit(objectDir,['archive','--format=tar',sourceTree,...(allowedFiles?['--',...allowedFiles]:[])],90*1024*1024);
  const task=execute('tar',['-x','-f','-','-C',target],{env:{PATH:process.env.PATH??'/usr/bin:/bin',LANG:'C',LC_ALL:'C'},timeout:30000,maxBuffer:65536});
  task.child.stdin?.end(archive);await task;
  const paths=await workspaceFiles(target),expectedPaths=inventory.map(e=>e.path).sort();
@@ -45,8 +49,8 @@ export async function materializeOracleTree(objectDir:string,revision:string,wor
  return {workspace:target,sourceTree};
 }
 export function isOracleTestPath(path:string):boolean{return /(?:^|\/)(?:tests?|__tests__)(?:\/|$)/i.test(path)||/(?:^|\/)test[-_][^/]+\.(?:py|mjs|cjs)$|_test\.py$|\.(?:test|spec)\.(?:[cm]?[jt]s|tsx|jsx)$/i.test(path);}
-export async function restoreBaseTests(objectDir:string,baseHead:string,workspace:string):Promise<{restored:string[];candidateOnlyTests:string[]}>{
- const base=(await entries(objectDir,baseHead)).filter(e=>isOracleTestPath(e.path));
+export async function restoreBaseTests(objectDir:string,baseHead:string,workspace:string,allowedFiles?:string[]):Promise<{restored:string[];candidateOnlyTests:string[]}>{
+ const base=(await entries(objectDir,baseHead,allowedFiles)).filter(e=>isOracleTestPath(e.path));
  const basePaths=new Set(base.map(e=>e.path));
  const candidateOnlyTests=(await workspaceFiles(workspace)).filter(p=>isOracleTestPath(p)&&!basePaths.has(p));
  for(const path of candidateOnlyTests)await unlink(join(workspace,path));

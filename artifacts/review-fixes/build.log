@@ -1,0 +1,18 @@
+
+> personal-command-center@0.0.1 build
+> npm run typecheck && tsc -p tsconfig.server.json && vite build --config apps/web/vite.config.ts
+
+
+> personal-command-center@0.0.1 typecheck
+> tsc --noEmit
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 73 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/web/index.html                   0.50 kB │ gzip:   0.32 kB
+dist/web/assets/index-COVbbv14.css   39.48 kB │ gzip:   8.29 kB
+dist/web/assets/index-B2i84xiM.js   374.00 kB │ gzip: 106.37 kB
+
+✓ built in 88ms

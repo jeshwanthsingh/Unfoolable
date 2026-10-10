@@ -1,0 +1,46 @@
+{
+  "repoRoot": "/Users/jeshwanthsingh/Projects/career-ops",
+  "baseCommit": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
+  "definition": {
+    "exportFiles": [
+      "liveness-core.mjs"
+    ],
+    "version": "project-playbook-v1",
+    "setup": null,
+    "tests": [
+      {
+        "argv": [
+          "node",
+          "-e",
+          "const {strict:assert}=require('node:assert');\nconst {execFileSync}=require('node:child_process');\nconst rows=[];let classify;\nconst check=(id,fn)=>{try{fn();rows.push({id,status:'PASS'});}catch{rows.push({id,status:'FAIL'});}};\n(async()=>{\ncheck('liveness.syntax',()=>execFileSync(process.execPath,['--check','liveness-core.mjs'],{stdio:'pipe',timeout:10000}));\ntry{classify=(await import(require('node:url').pathToFileURL(require('node:path').resolve('liveness-core.mjs')).href)).classifyLiveness;}catch{}\ncheck('liveness.expired-apply',()=>assert.equal(classify({finalUrl:'https://example.com/jobs/closed',bodyText:'Company Careers\\nApply\\nThe job you are looking for is no longer open.',applyControls:[]}).result,'expired'));\ncheck('liveness.active-workday',()=>assert.equal(classify({finalUrl:'https://example.workday.com/job/123',bodyText:'663 JOBS FOUND\\nSenior Engineer\\nSynthetic job description.',applyControls:['Apply for this Job']}).result,'active'));\ncheck('liveness.expired-url',()=>assert.equal(classify({finalUrl:'https://example.com/job?error=true',bodyText:'Synthetic content',applyControls:['Apply']}).result,'expired'));\ncheck('liveness.listing-only',()=>assert.equal(classify({finalUrl:'https://example.com/jobs',bodyText:'663 JOBS FOUND',applyControls:[]}).result,'expired'));\nconsole.log('CC_CHECKS_JSON: '+JSON.stringify({testsRun:rows.length,tests:rows}));\nprocess.exitCode=rows.some(r=>r.status!=='PASS')?1:0;\n})().catch(()=>{process.exitCode=1;});"
+        ],
+        "cwd": ".",
+        "report": {
+          "format": "cc-checks-v1",
+          "expectedTestIds": [
+            "liveness.syntax",
+            "liveness.expired-apply",
+            "liveness.active-workday",
+            "liveness.expired-url",
+            "liveness.listing-only"
+          ]
+        }
+      }
+    ],
+    "env": {
+      "HOST": "127.0.0.1",
+      "BIND_ADDRESS": "127.0.0.1",
+      "CI": "1"
+    },
+    "runner": "node-script",
+    "timeoutSeconds": 30,
+    "knownFailingTests": [],
+    "knownFlakyTests": [],
+    "notes": [
+      "This small proposal checks only the liveness classifier: its JavaScript syntax and four made-up page examples (closed page, active job, expired URL and listing page). CC exports only liveness-core.mjs; no tracker, applications, profile files or operational scripts are copied or run. The protected command must report exactly five named checks; missing, zero, skipped or mismatched counts cannot pass. BASE must pass before the checks count. This does not check dashboard compilation, tracker merging or personal-data correctness. Approval is still required."
+    ]
+  },
+  "hash": "ff4de1504a7a32112a28bf55f6f6dbe5b6dff37f98c0caffc8f67f811b25ef4f",
+  "approval": null,
+  "updatedAt": "2026-10-10T12:44:27.777Z"
+}

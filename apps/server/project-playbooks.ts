@@ -3,7 +3,8 @@ import {mkdirSync, readFileSync, writeFileSync, renameSync, existsSync, realpath
 import {join, isAbsolute} from 'node:path';
 import {canonicalContractJson} from './contract-store.ts';
 import {absoluteRepoPath} from './repository.ts';
-import {safeBuildGit} from './build-workspace.ts';
+import {careerSafePlaybook} from './career-safe-playbook.ts';
+import {safeBuildGit, safeBuildPath} from './build-workspace.ts';
 import type {ProjectPlaybook, ProjectPlaybookDefinition, PlaybookCommand} from '../../packages/shared/playbooks.ts';
 
 export class ProjectPlaybookError extends Error {
@@ -23,13 +24,14 @@ function command(value: unknown): PlaybookCommand {
   if (!Array.isArray(c.argv) || c.argv.length < 1 || c.argv.length > 40 || !c.argv.every(x => safeText(x, 4096))) return invalid('Invalid command arguments.');
   if (!['node', 'npm', 'python3'].includes(c.argv[0]!)) return invalid('Use an explicit node, npm, or python3 command, without a shell.');
   if (!safeText(c.cwd, 1024) || !c.cwd || isAbsolute(c.cwd) || c.cwd.split(/[\\/]/).includes('..') || c.cwd.includes('\\')) return invalid('Command cwd must remain inside the exported repository.');
-  if (Object.keys(c).some(k => !['argv', 'cwd'].includes(k))) return invalid('Unexpected command field.');
+  if (Object.keys(c).some(k => !['argv', 'cwd', 'report'].includes(k))) return invalid('Unexpected command field.');
+  if(c.report !== undefined && (!c.report || typeof c.report !== 'object' || c.report.format !== 'cc-checks-v1' || Object.keys(c.report).some(k=>!['format','expectedTestIds'].includes(k)) || !Array.isArray(c.report.expectedTestIds) || !c.report.expectedTestIds.length || c.report.expectedTestIds.length>100 || c.report.expectedTestIds.some(id=>!safeText(id,256)||!id.trim()) || new Set(c.report.expectedTestIds).size!==c.report.expectedTestIds.length)) return invalid('Invalid explicit test-count contract.');
   return structuredClone(c);
 }
 export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefinition {
   if (!value || typeof value !== 'object' || JSON.stringify(value).length > 32768) return invalid('Invalid or oversized playbook.');
   const d = value as ProjectPlaybookDefinition;
-  const fields = ['version', 'setup', 'tests', 'env', 'runner', 'timeoutSeconds', 'knownFailingTests', 'knownFlakyTests', 'notes'];
+  const fields = ['version', 'exportFiles', 'setup', 'tests', 'env', 'runner', 'timeoutSeconds', 'knownFailingTests', 'knownFlakyTests', 'notes'];
   if (Object.keys(d).some(k => !fields.includes(k)) || d.version !== 'project-playbook-v1' || !['unittest', 'vitest', 'node-script'].includes(d.runner)) return invalid('Unsupported playbook definition.');
   if (!Array.isArray(d.tests) || d.tests.length < 1 || d.tests.length > 12) return invalid('Provide between one and twelve test commands.');
   if (!Number.isInteger(d.timeoutSeconds) || d.timeoutSeconds < 1 || d.timeoutSeconds > 1800) return invalid('Timeout must be between 1 and 1800 seconds.');
@@ -38,7 +40,8 @@ export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefin
   for (const [key, val] of Object.entries(d.env)) if (!allowedEnv.includes(key) || !safeText(val, 256)) return invalid('Environment key or value is unsafe.');
   if ((d.env.HOST && d.env.HOST !== '127.0.0.1') || (d.env.BIND_ADDRESS && d.env.BIND_ADDRESS !== '127.0.0.1')) return invalid('Fixture binds must use loopback.');
   for (const key of ['knownFailingTests', 'knownFlakyTests', 'notes'] as const) if (!Array.isArray(d[key]) || d[key].length > 100 || !d[key].every(x => safeText(x, 1024) && x.trim())) return invalid('Invalid test annotations.');
-  return {version: d.version, setup: d.setup === null ? null : command(d.setup), tests: d.tests.map(command), env: {...d.env}, runner: d.runner, timeoutSeconds: d.timeoutSeconds, knownFailingTests: [...d.knownFailingTests], knownFlakyTests: [...d.knownFlakyTests], notes: [...d.notes]};
+  if(d.exportFiles !== undefined && (!Array.isArray(d.exportFiles)||!d.exportFiles.length||d.exportFiles.length>100||d.exportFiles.some(p=>!safeText(p,1024)||!safeBuildPath(p)||/[:*?\[\]]/.test(p)||!p||isAbsolute(p)||p.split('/').some(x=>!x||x==='.'||x==='..')||p.includes('\\'))||new Set(d.exportFiles).size!==d.exportFiles.length)) return invalid('Invalid export file whitelist.');
+  return {...(d.exportFiles?{exportFiles:[...d.exportFiles]}:{}),version: d.version, setup: d.setup === null ? null : command(d.setup), tests: d.tests.map(command), env: {...d.env}, runner: d.runner, timeoutSeconds: d.timeoutSeconds, knownFailingTests: [...d.knownFailingTests], knownFlakyTests: [...d.knownFlakyTests], notes: [...d.notes]};
 }
 
 export function createProjectPlaybookStore(dataDir: string) {
@@ -91,9 +94,8 @@ export function createProjectPlaybookStore(dataDir: string) {
     let definition: ProjectPlaybookDefinition = {version: 'project-playbook-v1', setup: null, tests: [{argv: ['python3', '-m', 'unittest', 'discover', '-s', 'tests', '-v'], cwd: '.'}], env: {HOST: '127.0.0.1', BIND_ADDRESS: '127.0.0.1', CI: '1'}, runner: 'unittest', timeoutSeconds: 180, knownFailingTests: [], knownFlakyTests: [], notes: ['Proposal only; commands have not run. BASE admission is required before results count.']};
     if(names.includes('sdk/python/pyproject.toml')){definition.tests[0]!.cwd='sdk/python';definition.notes.push('Credential-dependent live tests need explicitly reviewed exclusions or named BASE failures; they never count as passing.');}
     const packagePath = names.includes('frontend/package.json') ? 'frontend/package.json' : names.includes('package.json') ? 'package.json' : null;
-    if (names.includes('test-all.mjs')) {
-      definition.runner = 'node-script'; definition.tests = [{argv: ['node', 'test-all.mjs', '--quick'], cwd: '.'}]; definition.timeoutSeconds = 600;
-      definition.notes.push('test-all.mjs --quick invokes operational scripts. Run only in disposable exports with no outside network; never against the registered repository. Native script completion alone is not proof that individual tests ran.');
+    if (names.includes('test-all.mjs') && names.includes('liveness-core.mjs')) {
+      definition = careerSafePlaybook();
     } else if (packagePath) {
       const raw = (await safeBuildGit(repoRoot, ['show', baseCommit + ':' + packagePath], 65536)).toString();
       const pkg = JSON.parse(raw) as {scripts?: Record<string, unknown>};

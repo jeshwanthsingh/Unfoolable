@@ -1,0 +1,12 @@
+{
+  "base": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
+  "knownPersonalFilePathsTracked": [
+    "batch/tracker-additions/.gitkeep",
+    "reports/.gitkeep"
+  ],
+  "onlyMetadataRead": true,
+  "untrackedOrIgnoredLocalFilesExported": false,
+  "newAllowedExportFiles": [
+    "liveness-core.mjs"
+  ]
+}

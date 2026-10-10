@@ -1,0 +1,22 @@
+✔ explicit check contract rejects missing (0.995208ms)
+✔ explicit check contract rejects zero (0.27ms)
+✔ explicit check contract rejects count mismatch (0.109208ms)
+✔ explicit check contract rejects wrong identity (0.209375ms)
+✔ explicit check contract rejects skipped (0.0725ms)
+✔ explicit report names a failure rather than counting it as PASS (0.73425ms)
+✔ playbook file whitelist and report schema reject path escapes and empty identities (1.216875ms)
+✔ safe career checks export no tracked personal data and BASE runs exactly five synthetic checks without source writes (3315.609916ms)
+✔ selected export retains whole-tree symlink rejection (58.12675ms)
+✔ selected export retains whole-tree submodule rejection (60.284166ms)
+✔ selected export retains whole-tree oversized rejection (104.39425ms)
+✔ stale Keep blocked; recheck same Candidate refreshes evidence and permits explicit Keep without Builder (424.502959ms)
+✔ failed check-only run never fixes/rebuilds or enables Keep (277.356708ms)
+✔ restart while rechecking interrupts and never dispatches Builder or replays checks (59.395583ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3673.167666

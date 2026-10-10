@@ -1,0 +1,14 @@
+✔ missing playbook proposes Needs You before Builder; edit clears approval and API requires operator (181.07925ms)
+✔ explicit approval resumes the waiting ticket with BASE admission and records its approval trigger (3635.163417ms)
+✔ operator-only ticket API completes review; explicit Keep creates branch without checkout (467.544959ms)
+✔ stale Keep blocked; recheck same Candidate refreshes evidence and permits explicit Keep without Builder (507.284542ms)
+✔ failed check-only run never fixes/rebuilds or enables Keep (351.096375ms)
+✔ restart while rechecking interrupts and never dispatches Builder or replays checks (52.578208ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4065.744625

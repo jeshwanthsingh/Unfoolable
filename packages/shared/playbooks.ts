@@ -1,7 +1,8 @@
 export type PlaybookRunner = 'unittest' | 'vitest' | 'node-script';
-export type PlaybookCommand = {argv: string[]; cwd: string};
+export type PlaybookCommand = {argv: string[]; cwd: string; report?: {format: 'cc-checks-v1'; expectedTestIds: string[]}};
 export type ProjectPlaybookDefinition = {
   version: 'project-playbook-v1';
+  exportFiles?: string[];
   setup: PlaybookCommand | null;
   tests: PlaybookCommand[];
   env: Record<string, string>;

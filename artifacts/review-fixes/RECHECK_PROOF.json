@@ -1,0 +1,27 @@
+{
+  "candidateUnchanged": true,
+  "candidateCommit": "924fea07e68959d5e150d5f6aa8b72a7453f46c7",
+  "baseUnchanged": true,
+  "intentUnchanged": true,
+  "builderStartsAdded": 0,
+  "attemptCountUnchanged": true,
+  "decisionsAdded": 0,
+  "keepAvailable": true,
+  "status": "ready_for_review",
+  "verdict": "PASSED WITH GAPS",
+  "newVerificationId": "83ea46a4-ad83-4796-9e18-861049496f22",
+  "oldVerificationId": "b7bf19ea-6bb6-42f3-a343-bfacba15ea5d",
+  "rechecksThisRound": 2,
+  "oldAndNewEvidenceRetained": true,
+  "careerApproval": null,
+  "careerExportFiles": [
+    "liveness-core.mjs"
+  ],
+  "careerExpectedTests": [
+    "liveness.syntax",
+    "liveness.expired-apply",
+    "liveness.active-workday",
+    "liveness.expired-url",
+    "liveness.listing-only"
+  ]
+}

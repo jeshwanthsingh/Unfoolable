@@ -1,0 +1,15 @@
+{
+  "id": "c6263195-76c4-4732-ae06-f28ef6c30767",
+  "title": "Bound oversized since durations",
+  "requestText": "Reject oversized --since durations in the research-router CLI with a useful argument error instead of raising OverflowError. Keep normal supported duration filters working. Add a focused regression test. Do not perform network operations.",
+  "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+  "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+  "status": "checking",
+  "attemptCount": 1,
+  "candidateCommits": [
+    "924fea07e68959d5e150d5f6aa8b72a7453f46c7"
+  ],
+  "checkVerdict": "NOT CHECKED",
+  "createdAt": "2026-10-10T07:58:30.579Z",
+  "updatedAt": "2026-10-10T13:16:34.328Z"
+}
