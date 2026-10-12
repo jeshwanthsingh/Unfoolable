@@ -1,0 +1,9 @@
+✔ first correction fixes E1 but regresses E2: fresh cycle 2 packet centers E2, same oracle, then C resolves (12908.309375ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13074.013459

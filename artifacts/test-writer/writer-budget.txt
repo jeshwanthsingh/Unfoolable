@@ -1,0 +1,16 @@
+✔ budget deduplicates commands, sums fresh sessions, retains unknown usage and immutable limits (84.299084ms)
+✔ ticket under budget preserves evidence and stops before freeze when exceeded (308.568917ms)
+✔ ticket commands budget preserves evidence and stops before freeze when exceeded (158.872125ms)
+✔ ticket tokens budget preserves evidence and stops before freeze when exceeded (142.026541ms)
+✔ ticket minutes budget preserves evidence and stops before freeze when exceeded (147.043166ms)
+✔ Test Writer usage joins Builder budget; unknown or over-limit cost needs you: 20 (391.73625ms)
+✔ Test Writer usage joins Builder budget; unknown or over-limit cost needs you: 21 (266.603917ms)
+✔ Test Writer usage joins Builder budget; unknown or over-limit cost needs you: null (257.912ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1875.466458
