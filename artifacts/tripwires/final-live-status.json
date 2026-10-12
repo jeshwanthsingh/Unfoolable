@@ -1,0 +1,19 @@
+{
+  "health": {
+    "status": "ok",
+    "version": "0.0.1",
+    "coordinator": "online",
+    "database": {
+      "status": "ready",
+      "schemaVersion": 17
+    }
+  },
+  "realTicket": {
+    "id": "f5fe8c34-2808-41b5-8802-48c557750042",
+    "status": "ready_for_review",
+    "verdict": "PASSED WITH GAPS",
+    "keepAvailable": true,
+    "evidenceStale": false,
+    "staleReason": null
+  }
+}

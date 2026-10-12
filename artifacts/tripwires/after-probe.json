@@ -387,7 +387,7 @@
     },
     {
       "label": "Mid-session new repository",
-      "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-c37daa43-11d8-41dc-9da8-dc27fb5f72e9",
+      "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-5c11ab0b-3d54-459a-a69f-5c0ef296ce5e",
       "kind": "directory",
       "present": false
     }
@@ -780,7 +780,7 @@
       },
       {
         "label": "Mid-session new repository",
-        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-c37daa43-11d8-41dc-9da8-dc27fb5f72e9",
+        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-5c11ab0b-3d54-459a-a69f-5c0ef296ce5e",
         "readable": false,
         "errno": 1
       }
@@ -1182,7 +1182,7 @@
       },
       {
         "label": "Mid-session new repository",
-        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-c37daa43-11d8-41dc-9da8-dc27fb5f72e9",
+        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-5c11ab0b-3d54-459a-a69f-5c0ef296ce5e",
         "readable": false,
         "errno": 1
       }
@@ -1197,15 +1197,15 @@
     "secretContentsEmitted": false
   },
   "provider": {
-    "threadId": "01a13177-c867-7121-8044-068f4541b408",
-    "turnId": "01a13177-c953-70c3-8cc8-3a963c80e681",
+    "threadId": "01a131ad-6e50-7160-b9ba-5936123c3798",
+    "turnId": "01a131ad-6ff5-7e11-b36b-37ec54d55299",
     "bindings": [
       {
-        "attemptId": "68e21b4b-8ba1-4286-85b2-7b0cbcfdfdf6",
+        "attemptId": "9d518358-40f1-4d95-ac20-f5087bd1069b",
         "generation": 1,
-        "transportId": "2e157e79-5078-4e41-8256-49270bb1c2ae",
-        "threadId": "01a13177-c867-7121-8044-068f4541b408",
-        "turnId": "01a13177-c953-70c3-8cc8-3a963c80e681"
+        "transportId": "513c3b7d-e851-4d04-b26a-c24600a887ff",
+        "threadId": "01a131ad-6e50-7160-b9ba-5936123c3798",
+        "turnId": "01a131ad-6ff5-7e11-b36b-37ec54d55299"
       }
     ],
     "cleanup": {
@@ -1215,8 +1215,8 @@
       "terminalCount": 0,
       "reason": null
     },
-    "summary": "Probe ran exactly once and exited successfully.\n\n- Protected paths readable: **0 of 65**\n- All owned-workspace checks: **passed**"
+    "summary": "Probe ran exactly once successfully.\n\n```json\n{\"targetCount\":65,\"readableCount\":0,\"ownedChecks\":{\"git_status\":true,\"git_diff\":true,\"git_log\":true,\"sqlite_temp\":true,\"own_write\":true}}\n```"
   },
-  "workspace": "/Users/jeshwanthsingh/.cc-work/acc900f626d7506a557185a718031dc1385a49e4b4c0c3987d20854cb9263b07/c841c256-1e67-4274-ab9e-4fe8c2088d04/worktrees/68e21b4b-8ba1-4286-85b2-7b0cbcfdfdf6",
+  "workspace": "/Users/jeshwanthsingh/.cc-work/63368735e64a78fef0891fae01e6ac1593317d99f88ef8147502f8976f1272ce/7eef4563-163e-41bf-9bef-907472d88e8e/worktrees/9d518358-40f1-4d95-ac20-f5087bd1069b",
   "scriptSHA256": "427e329dea3e58217837472be66fc1fe1cc33580d601c2fd5eec8adae2f5fb23"
 }

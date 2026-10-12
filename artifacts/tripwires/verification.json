@@ -1,0 +1,29 @@
+{
+  "fullSuite": {
+    "tests": 806,
+    "pass": 806,
+    "fail": 0,
+    "skipped": 0,
+    "seconds": 260.470717916
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "negativeControls": 12,
+  "negativePASS": 0,
+  "readProbe": {
+    "previousPaths": 64,
+    "midSessionNewRepo": 1,
+    "readable": 0
+  },
+  "normalActualCodexTickets": 3,
+  "normalAlarms": 0,
+  "normalDataMode": "TEST",
+  "cheat": "TRIPWIRE / needs_you / NOT CHECKED; no Candidate",
+  "realChatTicket": "f5fe8c34-2808-41b5-8802-48c557750042",
+  "realChatVerdict": "PASSED WITH GAPS",
+  "humanKeepDiscard": "untouched",
+  "newDependencies": 0,
+  "newPaidBilling": false,
+  "builderModelRuntime": "unchanged: codex 0.160.0 / gpt-6.1-sol / low",
+  "alarmAssurance": "best-effort; explicitly approved; read denial enforced"
+}
