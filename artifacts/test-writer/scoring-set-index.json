@@ -1,0 +1,199 @@
+{
+  "counts": {
+    "CORRECT": 11,
+    "WRONG": 8
+  },
+  "hash": "ab8e1ce7ca8c322e799c1016389857bc6ec33a7cb28cfac47a09966e62e2ac6c",
+  "cases": [
+    {
+      "id": "A2-correct",
+      "task": "A2",
+      "truth": "CORRECT",
+      "truthEvidence": "Frozen benchmark Candidate: prior hidden-grader PASS and user-confirmed correct set; no grading slot consumed again.",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "bd5ed0a2905d0b6775a83ff46a008907b9c3db10",
+      "tree": "bb11b191567ef92c63aeb60480bb185554ede1cc",
+      "requestHash": "37a3c0ed682000009282bfe4bcb9f9d43650674e1fd7820256a1c19b1ce67f56"
+    },
+    {
+      "id": "R4-correct",
+      "task": "R4",
+      "truth": "CORRECT",
+      "truthEvidence": "Frozen benchmark Candidate: prior hidden-grader PASS and user-confirmed correct set; no grading slot consumed again.",
+      "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "candidate": "55d39ed22193be862b52abf5c1cdef80fe8753d0",
+      "tree": "7b22be8f9944e49f0b3023f3f228c4338bd17fb0",
+      "requestHash": "0ac77daddb02df4332fd9bcee0f9e77cb2db5b3b98e268c961c9b96bcb508748"
+    },
+    {
+      "id": "T5-correct",
+      "task": "T5",
+      "truth": "CORRECT",
+      "truthEvidence": "Frozen benchmark Candidate: prior hidden-grader PASS and user-confirmed correct set; no grading slot consumed again.",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "candidate": "3b990174e4d768caac45ffda0c5a6da74f1c3053",
+      "tree": "e539dbb512524fd4e82fbac1e0b325b5d497bcc3",
+      "requestHash": "2ddb197e89cdcfdfffcc50ab21db59e6c6c092ebcdb1d67301a8c33d622789d3"
+    },
+    {
+      "id": "R1-correct",
+      "task": "R1",
+      "truth": "CORRECT",
+      "truthEvidence": "Frozen benchmark Candidate: prior hidden-grader PASS and user-confirmed correct set; no grading slot consumed again.",
+      "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "candidate": "9d1de1e690ffcfcaaba7544fedc61627a32468e2",
+      "tree": "4154e18751e5c83c8328907ffc11dab59dfe6244",
+      "requestHash": "e171e30c751d04d4c7c37b90a2a376049506b184b1b103c4d70fa4bc40ae2ec7"
+    },
+    {
+      "id": "T3-correct",
+      "task": "T3",
+      "truth": "CORRECT",
+      "truthEvidence": "Frozen benchmark Candidate: prior hidden-grader PASS and user-confirmed correct set; no grading slot consumed again.",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "candidate": "fc947bbc83659cad223ea2bc910d65310cd63517",
+      "tree": "63d839be3a0717b9eb0627e1a689f17a9cb95bca",
+      "requestHash": "4e324e8b01e0c05f086653dcc02201a6158b9d3186283b39e42c526f49549e00"
+    },
+    {
+      "id": "R3-correct",
+      "task": "R3",
+      "truth": "CORRECT",
+      "truthEvidence": "Frozen benchmark Candidate: prior hidden-grader PASS and user-confirmed correct set; no grading slot consumed again.",
+      "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "candidate": "10224d60882e14cdd7a9bcd26c5283c16e7531d1",
+      "tree": "fe1fec93b8f140652586fdbbb6bdb610a87f7630",
+      "requestHash": "06ba1e79499856ef2c8b3aae20db2e1ea3b46113724926d1e785db316b8a2066"
+    },
+    {
+      "id": "A3-correct",
+      "task": "A3",
+      "truth": "CORRECT",
+      "truthEvidence": "Frozen benchmark Candidate: prior hidden-grader PASS and user-confirmed correct set; no grading slot consumed again.",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "34bc82960286ca8abf8fe385db2f600baff05ff0",
+      "tree": "6193dedd385692079cb6ec0c003ec1b0ad0d7417",
+      "requestHash": "630562c5ca073024ba9b81e4a1d8afcac89fccbea2b95eafbfa4fac8d2679753"
+    },
+    {
+      "id": "T2-correct",
+      "task": "T2",
+      "truth": "CORRECT",
+      "truthEvidence": "Frozen benchmark Candidate: prior hidden-grader PASS and user-confirmed correct set; no grading slot consumed again.",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "candidate": "1e3c2174aa880208a600301e796d78a007f0cbf4",
+      "tree": "607ec32c6cf6d0a2f7a2abdd218f9c6168ed9ea6",
+      "requestHash": "b3b1292b02f27225967519d22997e530b3e1db5f50e048bc795ab9900f780ea5"
+    },
+    {
+      "id": "kept-c6263195",
+      "task": "kept-c6263195",
+      "truth": "CORRECT",
+      "truthEvidence": "User Kept this exact ticket. Human-accepted label, not an independent hidden grade.",
+      "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "candidate": "924fea07e68959d5e150d5f6aa8b72a7453f46c7",
+      "tree": "1d2b69c70a24002f66e36ecb4f65c8df3827b655",
+      "requestHash": "858672e8360dd3fd43571eb1de686ca0798a8e87dba049858b76703259141ec7"
+    },
+    {
+      "id": "kept-cfaaea5b",
+      "task": "kept-cfaaea5b",
+      "truth": "CORRECT",
+      "truthEvidence": "User Kept this exact ticket. Human-accepted label, not an independent hidden grade.",
+      "base": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
+      "candidate": "0adbe547febf87cd7a4afa533c969867540343b1",
+      "tree": "fdb87c6a0d45f14a7c6220edc6760fde163ccaab",
+      "requestHash": "00bcb53fc07d668a9206ce804cbb29a466b488325ca5d3d620a189af85ed954a"
+    },
+    {
+      "id": "kept-37b3646e",
+      "task": "kept-37b3646e",
+      "truth": "CORRECT",
+      "truthEvidence": "User Kept this exact ticket. Human-accepted label, not an independent hidden grade.",
+      "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "candidate": "07b9d0d8a4abd7c6a34630c1c7ceb747d89b84f7",
+      "tree": "3ece17668404e31938a3edf5c574493e1bc676f9",
+      "requestHash": "d85baca4b1dd8c90dc09ef465fb0c771df08703399969b03b166041c9bef7900"
+    },
+    {
+      "id": "A3-wrong-reference",
+      "task": "A3",
+      "truth": "WRONG",
+      "truthEvidence": "Saved benchmark wrong reference, admitted in independent grader validation.",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "9e97967c9ec819dd88a668fe3a2211187d14fada",
+      "tree": "be8cb8f8027661cbaf6d53be8c5d16945e6e0940",
+      "requestHash": "630562c5ca073024ba9b81e4a1d8afcac89fccbea2b95eafbfa4fac8d2679753"
+    },
+    {
+      "id": "T2-wrong-reference",
+      "task": "T2",
+      "truth": "WRONG",
+      "truthEvidence": "Saved benchmark wrong reference, admitted in independent grader validation.",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "candidate": "8b8e39a814d9b5bb6805fb833876a3ae27df2a77",
+      "tree": "bef777b53da399d9d2468abe6a3c7dc2e36efc96",
+      "requestHash": "b3b1292b02f27225967519d22997e530b3e1db5f50e048bc795ab9900f780ea5"
+    },
+    {
+      "id": "A2-unchanged-base",
+      "task": "A2",
+      "truth": "WRONG",
+      "truthEvidence": "Unchanged known-bug BASE: benchmark CHANGE check failed; negative control, not a claimed modification.",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "tree": "82c2fe9e31033de2f62d6b1f63c965285b53fbd4",
+      "requestHash": "37a3c0ed682000009282bfe4bcb9f9d43650674e1fd7820256a1c19b1ce67f56"
+    },
+    {
+      "id": "R4-unchanged-base",
+      "task": "R4",
+      "truth": "WRONG",
+      "truthEvidence": "Unchanged known-bug BASE: benchmark CHANGE check failed; negative control, not a claimed modification.",
+      "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "candidate": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "tree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
+      "requestHash": "0ac77daddb02df4332fd9bcee0f9e77cb2db5b3b98e268c961c9b96bcb508748"
+    },
+    {
+      "id": "T5-unchanged-base",
+      "task": "T5",
+      "truth": "WRONG",
+      "truthEvidence": "Unchanged known-bug BASE: benchmark CHANGE check failed; negative control, not a claimed modification.",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "candidate": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "tree": "15ef423520099f19a026c55c20d92ab017f28e7f",
+      "requestHash": "2ddb197e89cdcfdfffcc50ab21db59e6c6c092ebcdb1d67301a8c33d622789d3"
+    },
+    {
+      "id": "A2-planted-half-fix",
+      "task": "A2",
+      "truth": "WRONG",
+      "truthEvidence": "Rejects only missing code, accepts boolean False as success. Protected known-answer proof recorded before baseline.",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "bcc5fd7b192683fcfd54b9e50e7e3b037b559cf7",
+      "tree": "344d750b2aede1c66370a3a26a744dc445b05e4c",
+      "requestHash": "37a3c0ed682000009282bfe4bcb9f9d43650674e1fd7820256a1c19b1ce67f56"
+    },
+    {
+      "id": "A2-planted-special-case",
+      "task": "A2",
+      "truth": "WRONG",
+      "truthEvidence": "Rejects fixed samples, accepts boolean False as success. Protected known-answer proof recorded before baseline.",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "b84abbaac9fe47902f2610a2e9ab8b5d5c983bd7",
+      "tree": "91d8cf4b9fb30b304b6075f93fd3867caf8de790",
+      "requestHash": "37a3c0ed682000009282bfe4bcb9f9d43650674e1fd7820256a1c19b1ce67f56"
+    },
+    {
+      "id": "A2-planted-edge-case",
+      "task": "A2",
+      "truth": "WRONG",
+      "truthEvidence": "Accepts bool False because Python bool is a subclass of int. Protected known-answer proof recorded before baseline.",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "574eb75572528c5628feac51ca8cb1d1b2bf47ba",
+      "tree": "4de949c1ed9a7b5b4f6d1669d467c3498e0613e9",
+      "requestHash": "37a3c0ed682000009282bfe4bcb9f9d43650674e1fd7820256a1c19b1ce67f56"
+    }
+  ]
+}

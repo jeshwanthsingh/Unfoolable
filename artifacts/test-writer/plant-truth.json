@@ -1,0 +1,17 @@
+[
+  {
+    "id": "A2-planted-half-fix",
+    "status": "FAIL",
+    "reason": "Rejects only missing code, accepts boolean False as success. Protected known-answer proof recorded before baseline."
+  },
+  {
+    "id": "A2-planted-special-case",
+    "status": "FAIL",
+    "reason": "Rejects fixed samples, accepts boolean False as success. Protected known-answer proof recorded before baseline."
+  },
+  {
+    "id": "A2-planted-edge-case",
+    "status": "FAIL",
+    "reason": "Accepts bool False because Python bool is a subclass of int. Protected known-answer proof recorded before baseline."
+  }
+]
