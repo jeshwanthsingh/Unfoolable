@@ -2,7 +2,7 @@ import type {OracleManifest,OracleTest} from './oracle.ts';
 import type {VerifyRequirement,VerifyStatus,VerifyClaimResult} from './verify-only-v2.ts';
 import {isV1Report} from './verification-v1.ts';
 import type {V1Report} from './verification-v1.ts';
-export type VerifyInput={repoPath:string;baseRef:string;candidateRef:string;intent:string;projectId?:string;taskChecks?:boolean};
+export type VerifyInput={repoPath:string;baseRef:string;candidateRef:string;intent:string;projectId?:string;taskChecks?:boolean;testWriter?:boolean};
 export type VerifyBinding=VerifyInput&{repoRoot:string;baseCommit:string;candidateCommit:string;baseTree:string;candidateTree:string;runnerDirectory:string};
 export type VerifyClaim={id:string;classification:'CHANGE'|'GUARD';testName:string;summary:string;mode:'AUTOMATED'|'HUMAN';reason:string|null;test:OracleTest|null;admission:'ADMITTED'|'REJECTED'|'NOT CHECKED';baseResult:string;requirement:VerifyRequirement;intentQuote:string;targetPaths:string[];admissionEvidence?:{base:VerifyStatus[];correct:VerifyStatus;wrong:VerifyStatus[];failureRate?:number;residualRisk?:string}};
 export type VerifyReview={hash:string;evaluatorHash:string;claims:VerifyClaim[];manifest:OracleManifest|null};

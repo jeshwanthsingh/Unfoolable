@@ -176,7 +176,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    server.close(error=>{clearTimeout(timer);finish(error);});server.closeIdleConnections();
   }));return closing;
  };
- const start=async()=>{await tickets.recover();await builds.recover();await verification.recover();await debugging.recover();workflow.recover();return new Promise<void>((resolve,reject)=>{
+ const start=async()=>{await verifyOnly.recover();await tickets.recover();await builds.recover();await verification.recover();await debugging.recover();workflow.recover();return new Promise<void>((resolve,reject)=>{
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
  });};

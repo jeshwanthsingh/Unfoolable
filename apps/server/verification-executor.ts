@@ -37,10 +37,11 @@ const protectedSnapshots:Record<string,string>={
  'process-kernel-helper.py':readFileSync(existsSync(sourceProcessHelper)?sourceProcessHelper:resolve('scripts/build-process-info.py'),'utf8'),
  'runtime-representation.txt':runtimeExtension,
 };
-const nativeHostModules=['oracle-execution','oracle-suite-policy','oracle-tree','oracle-author','oracle-source','verify-only','verify-only-author','verify-only-references','verify-only-admission','verify-only-identity','verify-only-deadline','verify-only-retry','verify-only-authoring','protected-existing-tests','project-recipes'];
+const nativeHostModules=['test-writer','codex-json','oracle-execution','oracle-suite-policy','oracle-tree','oracle-author','oracle-source','verify-only','verify-only-author','verify-only-references','verify-only-admission','verify-only-identity','verify-only-deadline','verify-only-retry','verify-only-authoring','protected-existing-tests','project-recipes'];
 const nativeScripts=['python-observer.py','python-judge.py','ui-observer.mjs','ui-judge.mjs','suite-worker.py','concurrent-worker.py','concurrent-observation.py','cli-observation-worker.py','timeout-observation.py','timeout-worker.py'];
 export function evaluatorBundle():{files:Record<string,string>;hash:string}{
  const files={...protectedSnapshots};for(const name of nativeHostModules)files[name+'.txt']=hostModule(name);for(const name of nativeScripts)files[name]=readFileSync(join(oracleScripts,name),'utf8');
+ files['test-writer-types.txt']=readFileSync(fileURLToPath(new URL('../../packages/shared/test-writer'+runtimeExtension,import.meta.url)),'utf8');files['verification-v1-score.txt']=readFileSync(fileURLToPath(new URL('../../packages/shared/verification-v1'+runtimeExtension,import.meta.url)),'utf8');
  files['verify-only-score.txt']=readFileSync(fileURLToPath(new URL('../../packages/shared/verify-only-v2'+runtimeExtension,import.meta.url)),'utf8');
  return {files,hash:hash(JSON.stringify(files))};
 }

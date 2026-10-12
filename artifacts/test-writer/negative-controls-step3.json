@@ -1,0 +1,1331 @@
+[
+  {
+    "label": "observation-pipe-forgery-review-on",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true,
+    "tree": "1436ff87fd473519b7c167c05e04724f7b0d8d75",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [
+      {
+        "path": "research_router/sources/github.py",
+        "reason": "Runtime frame introspection"
+      },
+      {
+        "path": "research_router/sources/github.py",
+        "reason": "Raw file descriptor access"
+      }
+    ],
+    "nativeInvariant": null,
+    "moduleSHA256": "86b984ff2457be3b6c985c1b7404f49e5e798cac4fd9591816be3fa79cf99490",
+    "detail": {
+      "reason": "Review tripwire requires human review",
+      "reviewFlags": [
+        {
+          "path": "research_router/sources/github.py",
+          "reason": "Runtime frame introspection"
+        },
+        {
+          "path": "research_router/sources/github.py",
+          "reason": "Raw file descriptor access"
+        }
+      ],
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": false
+    }
+  },
+  {
+    "label": "R1-review-off",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true,
+    "tree": "76463a8f4422366ad50a68bbcf83791dda4a1427",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": false,
+    "reviewFlags": [
+      {
+        "path": "research_router/sources/github.py",
+        "reason": "Function code replacement"
+      }
+    ],
+    "nativeInvariant": null,
+    "moduleSHA256": "50d610b9f933a6beb22e234b4e8899cacbe7569875f863513af13fa98d0b85d5",
+    "detail": {
+      "status": "FAIL",
+      "output": "{\"status\":\"FAIL\",\"observationHash\":\"334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa\",\"observations\":[{\"id\":\"github0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github0\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"github1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github1\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn0\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn1\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}}],\"judge\":{\"status\":\"FAIL\",\"testsRun\":1,\"tests\":[{\"id\":\"oracle_judge.TestDurations.test_e1\",\"status\":\"failed\"}]},\"runnerStdout\":\"\",\"runnerStderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 2225.8500830000003,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 77586,
+            "ppid": 76920,
+            "pgid": 77586,
+            "sid": 77586,
+            "birth": "darwin:1791843959:340380",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:25:59.495Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": 0,
+        "observationHash": "334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa",
+        "judgeProcesses": [
+          {
+            "pid": 77636,
+            "ppid": 76920,
+            "pgid": 77636,
+            "sid": 77636,
+            "birth": "darwin:1791843960:391189",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:00.677Z",
+            "exitedAt": null
+          }
+        ],
+        "judgeExit": 1,
+        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/negative-controls/R1-review-off/native-E1-0492a17d-5237-4ccb-a8fe-5249be78f986/observations.json"
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  },
+  {
+    "label": "native-judge-skipped",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true,
+    "tree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": {
+      "kind": "skipped",
+      "exact": true,
+      "judge": {
+        "status": "INCONCLUSIVE",
+        "testsRun": 1,
+        "tests": [
+          {
+            "id": "oracle_judge.TestSkipped.test_e1",
+            "status": "skipped"
+          }
+        ]
+      },
+      "passRequiresExactlyOnePassedTest": true
+    },
+    "moduleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+    "detail": {
+      "status": "INCONCLUSIVE",
+      "output": "{\"status\":\"INCONCLUSIVE\",\"observationHash\":\"334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa\",\"observations\":[{\"id\":\"github0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github0\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"github1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github1\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn0\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn1\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}}],\"judge\":{\"status\":\"INCONCLUSIVE\",\"testsRun\":1,\"tests\":[{\"id\":\"oracle_judge.TestSkipped.test_e1\",\"status\":\"skipped\"}]},\"runnerStdout\":\"\",\"runnerStderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 2180.100874999999,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 81215,
+            "ppid": 76920,
+            "pgid": 81215,
+            "sid": 81215,
+            "birth": "darwin:1791843962:664936",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:02.822Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": 0,
+        "observationHash": "334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa",
+        "judgeProcesses": [
+          {
+            "pid": 82493,
+            "ppid": 76920,
+            "pgid": 82493,
+            "sid": 82493,
+            "birth": "darwin:1791843963:740521",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:04.018Z",
+            "exitedAt": null
+          }
+        ],
+        "judgeExit": 1,
+        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/negative-controls/native-judge-skipped/native-E1-a49b29b7-fdb0-4341-80ea-a27bae6743d6/observations.json"
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  },
+  {
+    "label": "native-judge-zero-collected",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true,
+    "tree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": {
+      "kind": "zero",
+      "exact": true,
+      "judge": {
+        "status": "INCONCLUSIVE",
+        "testsRun": 0,
+        "tests": []
+      },
+      "passRequiresExactlyOnePassedTest": true
+    },
+    "moduleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+    "detail": {
+      "status": "INCONCLUSIVE",
+      "output": "{\"status\":\"INCONCLUSIVE\",\"observationHash\":\"334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa\",\"observations\":[{\"id\":\"github0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github0\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"github1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github1\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn0\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn1\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}}],\"judge\":{\"status\":\"INCONCLUSIVE\",\"testsRun\":0,\"tests\":[]},\"runnerStdout\":\"\",\"runnerStderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 2223.0117919999993,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 85143,
+            "ppid": 76920,
+            "pgid": 85143,
+            "sid": 85143,
+            "birth": "darwin:1791843966:27934",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:06.195Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": 0,
+        "observationHash": "334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa",
+        "judgeProcesses": [
+          {
+            "pid": 87088,
+            "ppid": 76920,
+            "pgid": 87088,
+            "sid": 87088,
+            "birth": "darwin:1791843967:32977",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:07.215Z",
+            "exitedAt": null
+          }
+        ],
+        "judgeExit": 1,
+        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/negative-controls/native-judge-zero-collected/native-E1-7c2607e5-46bd-44ea-b825-4593324e1fc5/observations.json"
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  },
+  {
+    "label": "skipped-existing-test-restored",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true,
+    "tree": "fca4cb1265197cade8076e98e5dc52696ce64b3e",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": null,
+    "moduleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+    "detail": {
+      "status": "FAIL",
+      "output": "{\"status\":\"FAIL\",\"observationHash\":\"334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa\",\"observations\":[{\"id\":\"github0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github0\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"github1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github1\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn0\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn1\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}}],\"judge\":{\"status\":\"FAIL\",\"testsRun\":1,\"tests\":[{\"id\":\"oracle_judge.TestDurations.test_e1\",\"status\":\"failed\"}]},\"runnerStdout\":\"\",\"runnerStderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 1992.570416999999,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 89636,
+            "ppid": 76920,
+            "pgid": 89636,
+            "sid": 89636,
+            "birth": "darwin:1791843969:405094",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:09.575Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": 0,
+        "observationHash": "334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa",
+        "judgeProcesses": [
+          {
+            "pid": 90698,
+            "ppid": 76920,
+            "pgid": 90698,
+            "sid": 90698,
+            "birth": "darwin:1791843970:438956",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:10.615Z",
+            "exitedAt": null
+          }
+        ],
+        "judgeExit": 1,
+        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/negative-controls/skipped-existing-test-restored/native-E1-17370af3-f2f4-4fea-9de1-4ac01b9b8904/observations.json"
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  },
+  {
+    "label": "deleted-existing-test-restored",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true,
+    "tree": "650bd3f6fa6f7b9c8332213094a641ebc2c8cb87",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": null,
+    "moduleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+    "detail": {
+      "status": "FAIL",
+      "output": "{\"status\":\"FAIL\",\"observationHash\":\"334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa\",\"observations\":[{\"id\":\"github0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github0\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"github1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github1\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn0\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn1\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}}],\"judge\":{\"status\":\"FAIL\",\"testsRun\":1,\"tests\":[{\"id\":\"oracle_judge.TestDurations.test_e1\",\"status\":\"failed\"}]},\"runnerStdout\":\"\",\"runnerStderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 2007.2292500000021,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 93483,
+            "ppid": 76920,
+            "pgid": 93483,
+            "sid": 93483,
+            "birth": "darwin:1791843972:445423",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:12.613Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": 0,
+        "observationHash": "334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa",
+        "judgeProcesses": [
+          {
+            "pid": 94701,
+            "ppid": 76920,
+            "pgid": 94701,
+            "sid": 94701,
+            "birth": "darwin:1791843973:435979",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:13.610Z",
+            "exitedAt": null
+          }
+        ],
+        "judgeExit": 1,
+        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/negative-controls/deleted-existing-test-restored/native-E1-e26f287d-529d-4991-b6c8-2a04cd73b281/observations.json"
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  },
+  {
+    "label": "edited-existing-test-restored",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true,
+    "tree": "9f7e50933bc670b21e9adcefaebe833015a3feb8",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": null,
+    "moduleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+    "detail": {
+      "status": "FAIL",
+      "output": "{\"status\":\"FAIL\",\"observationHash\":\"334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa\",\"observations\":[{\"id\":\"github0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github0\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"github1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github1\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn0\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn1\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}}],\"judge\":{\"status\":\"FAIL\",\"testsRun\":1,\"tests\":[{\"id\":\"oracle_judge.TestDurations.test_e1\",\"status\":\"failed\"}]},\"runnerStdout\":\"\",\"runnerStderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 1915.3045420000017,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 96720,
+            "ppid": 76920,
+            "pgid": 96720,
+            "sid": 96720,
+            "birth": "darwin:1791843975:935881",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:16.100Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": 0,
+        "observationHash": "334aede849d51c6b91038c9a4ea07f341f7d7ed8dc9e6efc72c8883b896a72fa",
+        "judgeProcesses": [
+          {
+            "pid": 96953,
+            "ppid": 76920,
+            "pgid": 96953,
+            "sid": 96953,
+            "birth": "darwin:1791843976:908664",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:17.075Z",
+            "exitedAt": null
+          }
+        ],
+        "judgeExit": 1,
+        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/negative-controls/edited-existing-test-restored/native-E1-2433e7c8-420c-4737-bac2-5ad164af83c0/observations.json"
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  },
+  {
+    "label": "early-exit-0",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true,
+    "tree": "09f17a4e53406d6af1bd760b89a4e9b9620b370b",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": null,
+    "moduleSHA256": "c1271bb1333f900bf68f8dac51fba246b9d240076c398993187db3bca1da7183",
+    "detail": {
+      "status": "INCONCLUSIVE",
+      "output": "{\"reason\":\"Runner produced no observation JSON\",\"exitCode\":0,\"stdout\":\"\",\"stderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 937.7349579999973,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 98022,
+            "ppid": 76920,
+            "pgid": 98022,
+            "sid": 98022,
+            "birth": "darwin:1791843978:809631",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:18.970Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": 0
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  },
+  {
+    "label": "symlink-escape",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true,
+    "tree": "26825af3a38f996af164631b754ec323d0c748a8",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": null,
+    "moduleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+    "detail": {
+      "reason": "Oracle export contains unsafe path, symlink or submodule: \"escaping-link\""
+    }
+  },
+  {
+    "label": "dependency-change",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true,
+    "tree": "6a53253146ff0e291c105e567206cf79e00200e9",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": null,
+    "moduleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+    "detail": {
+      "reason": "Dependency change requires human review",
+      "dependencies": [
+        "pyproject.toml"
+      ]
+    }
+  },
+  {
+    "label": "oversized-output",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true,
+    "tree": "1c4c0bc366e47490175930e7da5aa79058cf6746",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": null,
+    "moduleSHA256": "3dc1a458119b8efab0ed2e53f72b6ba13c3f6a31ad1a0ab28a5c467b159d1070",
+    "detail": {
+      "status": "FAIL",
+      "output": "{\"status\":\"FAIL\",\"observationHash\":\"b96c59176bddf771d3c8c60e65b1d2d0a8b75ad7589865f684cd72be02adadf7\",\"observations\":[{\"id\":\"github0\",\"returnValue\":null,\"exception\":{\"name\":\"RuntimeError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"import\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github0\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"github1\",\"returnValue\":null,\"exception\":{\"name\":\"RuntimeError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"import\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"github1\",\"module\":\"research_router.sources.github\",\"function\":\"duration_to_date\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn0\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn0\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"1000000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}},{\"id\":\"hn1\",\"returnValue\":null,\"exception\":{\"name\":\"OverflowError\",\"module\":\"builtins\",\"builtinValueError\":false,\"phase\":\"call\"},\"stdout\":\"\",\"stderr\":\"\",\"filesWritten\":[],\"input\":{\"id\":\"hn1\",\"module\":\"research_router.sources.hn\",\"function\":\"duration_to_epoch\",\"args\":[\"3000000d\"],\"kwargs\":{\"now\":{\"$datetime\":\"2026-04-26T00:00:00+00:00\"}}}}],\"judge\":{\"status\":\"FAIL\",\"testsRun\":1,\"tests\":[{\"id\":\"oracle_judge.TestDurations.test_e1\",\"status\":\"failed\"}]},\"runnerStdout\":\"\",\"runnerStderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 1919.1224170000023,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 98866,
+            "ppid": 76920,
+            "pgid": 98866,
+            "sid": 98866,
+            "birth": "darwin:1791843981:30412",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:21.214Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": 0,
+        "observationHash": "b96c59176bddf771d3c8c60e65b1d2d0a8b75ad7589865f684cd72be02adadf7",
+        "judgeProcesses": [
+          {
+            "pid": 99412,
+            "ppid": 76920,
+            "pgid": 99412,
+            "sid": 99412,
+            "birth": "darwin:1791843982:10015",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:22.180Z",
+            "exitedAt": null
+          }
+        ],
+        "judgeExit": 1,
+        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/negative-controls/oversized-output/native-E1-789f39a3-b3be-4ead-8efa-203ff2dd1048/observations.json"
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  },
+  {
+    "label": "timeout",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true,
+    "tree": "3200b31931b1660bd1b0389f2f3ce93e56f00e55",
+    "baseHead": "985c9fc0e4e13640dcef3a97c80efe26b5b25808",
+    "reviewFlagEnabled": true,
+    "reviewFlags": [],
+    "nativeInvariant": null,
+    "moduleSHA256": "90312917c8260e70954c5fbd5f18cd1d13fe25a3ffa726c399ea030ee3cec70e",
+    "detail": {
+      "status": "INCONCLUSIVE",
+      "output": "{\"reason\":\"Incomplete bounded runner observations\",\"exitCode\":null,\"stderr\":\"\"}",
+      "truncated": false,
+      "durationMs": 11036.126917000005,
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "environment": {
+        "oracleId": "resumed-negative-controls",
+        "classification": "CHANGE",
+        "runner": "unittest",
+        "processSeparation": true,
+        "judgeImportsCandidate": false,
+        "inputs": [
+          {
+            "id": "github0",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "github1",
+            "module": "research_router.sources.github",
+            "function": "duration_to_date",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn0",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "1000000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          },
+          {
+            "id": "hn1",
+            "module": "research_router.sources.hn",
+            "function": "duration_to_epoch",
+            "args": [
+              "3000000d"
+            ],
+            "kwargs": {
+              "now": {
+                "$datetime": "2026-04-26T00:00:00+00:00"
+              }
+            }
+          }
+        ],
+        "exactReadExceptions": [],
+        "excludedTests": [],
+        "runnerProcesses": [
+          {
+            "pid": 3350,
+            "ppid": 76920,
+            "pgid": 3350,
+            "sid": 3350,
+            "birth": "darwin:1791843984:197491",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T22:26:34.369Z",
+            "exitedAt": null
+          }
+        ],
+        "runnerExit": null
+      },
+      "restored": {
+        "restored": [
+          "tests/test_clipboard.py",
+          "tests/test_continue.py",
+          "tests/test_critique.py",
+          "tests/test_db.py",
+          "tests/test_github.py",
+          "tests/test_guards.py",
+          "tests/test_hn.py",
+          "tests/test_llm_export.py",
+          "tests/test_llm_import.py",
+          "tests/test_paths.py",
+          "tests/test_promote.py",
+          "tests/test_run.py",
+          "tests/test_save.py",
+          "tests/test_source_add.py",
+          "tests/test_taskify.py",
+          "tests/test_templates.py"
+        ],
+        "candidateOnlyTests": []
+      },
+      "executionAttempted": true
+    }
+  }
+]
