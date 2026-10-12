@@ -1,3 +1,4 @@
+import {builderPrivateRoots,canonicalReadRoots,overlapsPrivateRoot} from './builder-private-paths.ts';
 import {builderFilesystem} from './builder-filesystem.ts';
 import {DEBUG_CORRECTION_PROMPT} from './debug-correction-prompt.ts';
 import {createHash} from 'node:crypto';
@@ -34,7 +35,8 @@ export function prepareBuilderRuntime(context:RuntimeContext,systemPrompt=BUILDE
  const args=['app-server','--listen','stdio://','--strict-config','--enable','skip_host_skill_discovery','--enable','request_permissions_tool','--enable','exec_permission_approvals',...disabled.flatMap(f=>['--disable',f]),'-c','model_catalog_json='+JSON.stringify(join(privateHome,'catalog.json')),'-c','model_instructions_file='+JSON.stringify(join(privateHome,'prompt.md')),'-c','web_search="disabled"','-c','tools.update_plan.enabled=false','-c','tools.experimental_request_user_input.enabled=false','-c','shell_environment_policy.inherit="none"','-c','shell_environment_policy.set='+JSON.stringify(toolEnv).replace(/"([^"\n]+)":/g,'"$1"='),'-c','memories.generate_memories=false','-c','memories.use_memories=false'];
  const permissionProfile='cc-oracle-builder';
  const coordinatorRoot=resolve(fileURLToPath(new URL('../../',import.meta.url)));
- const filesystem=builderFilesystem([context.dataDir,coordinatorRoot,join(homedir(),'Projects/ai-lab/command-center'),join(homedir(),'.bench-private')],context.workspace,context.gitCommonDir,context.gitDir);
+ const privateRoots=builderPrivateRoots();if(overlapsPrivateRoot(privateRoots,[context.workspace,context.gitCommonDir]))throw new BuildError('BUILDER_SANDBOX_UNCERTIFIED','Owned capabilities overlap private data.');
+ const filesystem=builderFilesystem(canonicalReadRoots([context.dataDir,coordinatorRoot,join(homedir(),'Projects/ai-lab/command-center'),join(homedir(),'.bench-private'),join(homedir(),'Projects'),...privateRoots]),context.workspace,context.gitCommonDir,context.gitDir);
  const permissions={filesystem,network:{enabled:false}};
  args.push('-c','permissions.'+permissionProfile+'='+JSON.stringify(permissions).replace(/"([^"\n]+)":/g,'"$1"='),'-c','default_permissions='+JSON.stringify(permissionProfile));
  return {permissionProfile,args,env:{...environment(),CODEX_HOME:privateHome,TMPDIR:join(toolHome,'tmp')},privateHome,toolHome};
