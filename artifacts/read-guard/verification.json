@@ -1,0 +1,32 @@
+{
+  "fullSuite": {
+    "passed": 794,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 261.828
+  },
+  "finalIsolatedRegression": {
+    "passed": 3,
+    "failed": 0
+  },
+  "focusedReadAndOwnedCapabilities": {
+    "passed": 5,
+    "failed": 0
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "negativeControls": 12,
+  "negativePASS": 0,
+  "beforeReadable": 50,
+  "afterReadable": 0,
+  "corpusSize": 64,
+  "absentTargets": 6,
+  "normalTicket": "37b3646e-864c-4d8c-9787-1d005357bbec",
+  "normalStatus": "ready_for_review",
+  "normalVerdict": "PASSED WITH GAPS",
+  "careerStatus": "ready_for_review",
+  "careerVerdict": "PASSED WITH GAPS",
+  "noKeepDiscard": true,
+  "noPaidBilling": true,
+  "builderModelRuntime": "unchanged"
+}

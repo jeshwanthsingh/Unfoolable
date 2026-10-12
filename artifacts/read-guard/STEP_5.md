@@ -1,0 +1,3 @@
+# Step 5 — permanent regression
+
+Native pinned Codex test opens all current named private paths (discarding bytes/names), uses isolated CC database/playbook fixtures, and fails if any is readable. It also verifies private aliases, canonical root targets, strict owned/private overlap, and all declared private roots as later-created harmless fixtures. Own Git/temp/SQLite remain functional. No model calls in the test; no live data approval or modification. Full suite794/794, final isolated regression3/3, strict typecheck/build PASS, all12 negative controls non-PASS. Launch-time sibling inventory limit is documented in docs/BUILDER_READ_BOUNDARY.md.

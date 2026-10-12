@@ -1,0 +1,7 @@
+# Builder read boundary
+
+Shell tools cannot read the named SSH, Codex/auth, config, AWS, GnuPG, user Keychain and browser private roots. Existing root aliases receive canonical-target denials; missing roots receive explicit rules. A workspace/private-root overlap is rejected. Host-side subscription authentication remains outside the tool sandbox; no credentials are copied by CC.
+
+The owned worktree remains writable. Its cloned Git common metadata is read-only; only its private index/index.lock are writable. Network stays off and read permission escalations remain unsupported. Other existing Projects and CC children are denied using the existing ancestor traversal carve-out. This is a launch-time inventory: a new sibling repo/directory created after profile generation may inherit read from the traversable ancestor until the next fresh session. Unlisted sensitive paths elsewhere are outside this bounded round. Do not call it an evergreen home-wide allowlist.
+
+Live evidence is in artifacts/read-guard/before-after-table.md. Six paths were absent and return ENOENT; named rules remain installed and native synthetic fixtures prove those rules deny later-created private directories. The permanent local integration test uses isolated CC-data fixtures, scans current real private roots/projects, tests aliases and owned Git/SQLite, and never emits contents. It needs the already-installed pinned Codex and local model catalog, not a live CC deployment. It makes no model calls.
