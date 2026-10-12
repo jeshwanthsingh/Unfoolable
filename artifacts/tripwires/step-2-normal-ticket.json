@@ -1,0 +1,272 @@
+{
+  "ticket": {
+    "id": "f5fe8c34-2808-41b5-8802-48c557750042",
+    "title": "Add local-changes epilog to research --help",
+    "requestText": "Using committed HEAD in an isolated worktree, add this exact epilog to the top-level research --help output: \"Changes stay local until you choose to share them.\" Preserve existing commands and arguments. Add a focused unittest confirming help exits 0 and contains that text without loading config, using network, or writing state. Run the focused test and the existing unittest suite. Leave the source working tree unchanged.\n\nDone means:\nTop-level research --help includes the exact epilog and existing commands and arguments remain unchanged. A focused unittest verifies exit code 0, the epilog text, and no config loading, network use, or state writes. The focused test and existing unittest suite pass. Work is based on committed HEAD in an isolated worktree, with the source working tree unchanged.",
+    "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+    "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+    "status": "ready_for_review",
+    "attemptCount": 2,
+    "candidateCommits": [
+      "ba330d59a93b8f4b7fde7e709c005fd8e8c8c840",
+      "59883f5baa6162e35fff5f22f26d7dfe2383d480"
+    ],
+    "checkVerdict": "PASSED WITH GAPS",
+    "createdAt": "2026-10-12T19:08:34.454Z",
+    "updatedAt": "2026-10-12T19:18:50.261Z"
+  },
+  "events": [
+    {
+      "sequence": 448,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "state_changed",
+      "data": {
+        "from": "queued",
+        "to": "building",
+        "attemptKind": "build"
+      },
+      "createdAt": "2026-10-12T19:08:37.920Z"
+    },
+    {
+      "sequence": 449,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "980f7039-f3f2-4d85-94bb-55c4ecce5c5a",
+        "generation": 1,
+        "kind": "dependencies_prepared",
+        "data": {
+          "prepared": [],
+          "networkOwner": "coordinator",
+          "lifecycleScripts": false
+        }
+      },
+      "createdAt": "2026-10-12T19:08:38.055Z"
+    },
+    {
+      "sequence": 484,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "agent_stopped",
+      "data": {
+        "attemptId": "980f7039-f3f2-4d85-94bb-55c4ecce5c5a",
+        "generation": 1,
+        "agentWasStarted": true,
+        "elapsedMs": 50418.840874999994,
+        "cleanupVerified": true,
+        "summary": "Added the exact top-level help epilog and a focused test guarding against config loading, network calls, and state writes.\n\nChecks:\n- Focused test passed.\n- Full unittest suite: 173 tests passed.\n- Commands and arguments match committed HEAD.\n- `git diff --check` passed.\n\nChanges are confined to the supplied isolated worktree. The source working tree was not accessed or modified; its status was not independently verified.",
+        "recordedChecks": 6
+      },
+      "createdAt": "2026-10-12T19:09:28.474Z"
+    },
+    {
+      "sequence": 485,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "candidate_frozen",
+      "data": {
+        "attemptId": "980f7039-f3f2-4d85-94bb-55c4ecce5c5a",
+        "generation": 1,
+        "candidate": {
+          "commit": "ba330d59a93b8f4b7fde7e709c005fd8e8c8c840",
+          "tree": "a2cbd5fa7d124649a13f3bb91ec4fcb750eff9c3",
+          "paths": [
+            "research_router/cli.py",
+            "tests/test_cli_help.py"
+          ],
+          "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/f5fe8c34-2808-41b5-8802-48c557750042/attempts/980f7039-f3f2-4d85-94bb-55c4ecce5c5a/candidate.diff",
+          "repo": "/Users/jeshwanthsingh/.cc-work/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/f5fe8c34-2808-41b5-8802-48c557750042/repo"
+        }
+      },
+      "createdAt": "2026-10-12T19:09:28.634Z"
+    },
+    {
+      "sequence": 486,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "state_changed",
+      "data": {
+        "from": "building",
+        "to": "checking"
+      },
+      "createdAt": "2026-10-12T19:09:28.634Z"
+    },
+    {
+      "sequence": 488,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "check_result",
+      "data": {
+        "attemptId": "980f7039-f3f2-4d85-94bb-55c4ecce5c5a",
+        "candidate": "ba330d59a93b8f4b7fde7e709c005fd8e8c8c840",
+        "verdict": "NOT CHECKED",
+        "harnessError": true,
+        "reason": "That folder is outside the allowed project locations."
+      },
+      "createdAt": "2026-10-12T19:09:29.009Z"
+    },
+    {
+      "sequence": 489,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "state_changed",
+      "data": {
+        "from": "checking",
+        "to": "harness_error"
+      },
+      "createdAt": "2026-10-12T19:09:29.010Z"
+    },
+    {
+      "sequence": 490,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "cleanup",
+      "data": {
+        "reason": "That folder is outside the allowed project locations.",
+        "cleanupUncertain": true
+      },
+      "createdAt": "2026-10-12T19:09:29.010Z"
+    },
+    {
+      "sequence": 491,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "cleanup",
+      "data": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      },
+      "createdAt": "2026-10-12T19:16:41.179Z"
+    },
+    {
+      "sequence": 492,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "retry_requested",
+      "data": {
+        "trigger": "chat_button",
+        "chatCardId": "5df22720-d10a-473a-8b2d-2d02d5aaaff1",
+        "chatBinding": "03e5f9f6b24e51451d2906bdb383b58e626c7e4c9fbe32528957f0747a3da958"
+      },
+      "createdAt": "2026-10-12T19:16:41.218Z"
+    },
+    {
+      "sequence": 493,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "state_changed",
+      "data": {
+        "from": "harness_error",
+        "to": "queued"
+      },
+      "createdAt": "2026-10-12T19:16:41.218Z"
+    },
+    {
+      "sequence": 494,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "state_changed",
+      "data": {
+        "from": "queued",
+        "to": "building",
+        "attemptKind": "build"
+      },
+      "createdAt": "2026-10-12T19:16:44.717Z"
+    },
+    {
+      "sequence": 495,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "95a47f3c-ebb6-45fc-b1cb-36823b6588e6",
+        "generation": 2,
+        "kind": "dependencies_prepared",
+        "data": {
+          "prepared": [],
+          "networkOwner": "coordinator",
+          "lifecycleScripts": false
+        }
+      },
+      "createdAt": "2026-10-12T19:16:44.800Z"
+    },
+    {
+      "sequence": 524,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "agent_stopped",
+      "data": {
+        "attemptId": "95a47f3c-ebb6-45fc-b1cb-36823b6588e6",
+        "generation": 2,
+        "agentWasStarted": true,
+        "elapsedMs": 45899.998792,
+        "cleanupVerified": true,
+        "summary": "Implemented in the supplied clean, isolated worktree based on committed HEAD.\n\n- Added the exact top-level help epilog; commands and arguments unchanged.\n- Added a focused test checking exit code 0, epilog text, and no config, network, or state-write calls.\n- Focused test passed; full suite passed (173 tests).\n- `git diff --check` passed.\n\nSource working tree was not accessed or modified. No known concerns; these are local checks, not protected verification.",
+        "recordedChecks": 5
+      },
+      "createdAt": "2026-10-12T19:17:30.700Z"
+    },
+    {
+      "sequence": 525,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "candidate_frozen",
+      "data": {
+        "attemptId": "95a47f3c-ebb6-45fc-b1cb-36823b6588e6",
+        "generation": 2,
+        "candidate": {
+          "commit": "59883f5baa6162e35fff5f22f26d7dfe2383d480",
+          "tree": "368287e0b229437c880cb0282a8bb23dfbee932c",
+          "paths": [
+            "research_router/cli.py",
+            "tests/test_help.py"
+          ],
+          "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/f5fe8c34-2808-41b5-8802-48c557750042/attempts/95a47f3c-ebb6-45fc-b1cb-36823b6588e6/candidate.diff",
+          "repo": "/Users/jeshwanthsingh/.cc-work/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/f5fe8c34-2808-41b5-8802-48c557750042/repo"
+        }
+      },
+      "createdAt": "2026-10-12T19:17:30.827Z"
+    },
+    {
+      "sequence": 526,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "state_changed",
+      "data": {
+        "from": "building",
+        "to": "checking"
+      },
+      "createdAt": "2026-10-12T19:17:30.827Z"
+    },
+    {
+      "sequence": 528,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "check_result",
+      "data": {
+        "attemptId": "95a47f3c-ebb6-45fc-b1cb-36823b6588e6",
+        "candidate": "59883f5baa6162e35fff5f22f26d7dfe2383d480",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: ai-task-checks: Advisory task checks not requested; original intent is not automatically proved.",
+          "Project playbook checks are regression guards; new intent is not independently proved."
+        ],
+        "failures": [],
+        "verificationId": "fda9608b-9fd9-45e2-b83c-06dc1d8bd359",
+        "evidenceHash": "f4b0925368136a40d463d41246dab6c6076cb5982a0822adb1a0007c33a4c577",
+        "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a2baa20f-857b-4391-a941-8c9160d26d60/bound-result.json",
+        "playbookResultHash": "4f5f6c2ca346f942dd244bbff3d0a92d31ab08edacd48d5c0eae785ee194f998"
+      },
+      "createdAt": "2026-10-12T19:18:50.238Z"
+    },
+    {
+      "sequence": 529,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "cleanup",
+      "data": {
+        "attemptId": "95a47f3c-ebb6-45fc-b1cb-36823b6588e6",
+        "workspaceRemoved": true
+      },
+      "createdAt": "2026-10-12T19:18:50.261Z"
+    },
+    {
+      "sequence": 530,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "kind": "state_changed",
+      "data": {
+        "from": "checking",
+        "to": "ready_for_review"
+      },
+      "createdAt": "2026-10-12T19:18:50.261Z"
+    }
+  ]
+}

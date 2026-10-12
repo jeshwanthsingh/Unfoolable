@@ -1,3 +1,4 @@
+import {prepareTicketDependencies} from './ticket-dependencies.ts';
 import {existsSync,symlinkSync,realpathSync} from 'node:fs';import {join} from 'node:path';
 import type {TicketLoopDependencies} from './ticket-loop.ts';import type {createPlaybookChecks} from './playbook-checks.ts';import type {createTicketChecker} from './ticket-checker.ts';import {ProjectPlaybookError} from './project-playbooks.ts';
 export function ticketPlaybookHooks(playbooks:ReturnType<typeof createPlaybookChecks>,nativeCheck:ReturnType<typeof createTicketChecker>):TicketLoopDependencies{
@@ -7,6 +8,7 @@ export function ticketPlaybookHooks(playbooks:ReturnType<typeof createPlaybookCh
    const approved=playbooks.store.requireApproved(ticket.repoPath);
    await playbooks.admit(approved,ticket.repoPath,ticket.baseCommit,signal);
   },
+  prepareBuild:async(ticket,owned,signal)=>prepareTicketDependencies(owned,playbooks.store.requireApproved(ticket.repoPath).definition,signal),
   check:async(ticket,candidate,signal)=>{
    const approved=playbooks.store.requireApproved(ticket.repoPath);
    if(approved.definition.runner==='node-script')return playbooks.check(approved,candidate.repo,ticket.baseCommit,candidate.commit,signal);

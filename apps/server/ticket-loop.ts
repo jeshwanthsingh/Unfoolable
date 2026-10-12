@@ -1,12 +1,14 @@
 import {writeFileSync} from 'node:fs';import {join} from 'node:path';
 import type {DatabaseSync} from 'node:sqlite';import {randomUUID} from 'node:crypto';import {createCodexTicketDriver} from './build-runtime.ts';import {ticketWorkspace,freezeTicketCandidate,cleanTicketWorkspace} from './ticket-workspace.ts';import {appendTicketEvent,getTicket,listTicketEvents,transitionTicket,updateTicket} from './ticket-store.ts';import type {TicketCheck} from './ticket-checker.ts';import type {Ticket,TicketEventKind} from '../../packages/shared/tickets.ts';import {boundedBuildData} from './build-protocol.ts';
 type Candidate=Awaited<ReturnType<typeof freezeTicketCandidate>>;
-export type TicketLoopDependencies={driver?:ReturnType<typeof createCodexTicketDriver>;ensurePlaybook?:(ticket:Ticket,signal:AbortSignal)=>Promise<void>;check:(ticket:Ticket,candidate:Candidate,signal:AbortSignal)=>Promise<TicketCheck>};
+export type TicketLoopDependencies={driver?:ReturnType<typeof createCodexTicketDriver>;ensurePlaybook?:(ticket:Ticket,signal:AbortSignal)=>Promise<void>;prepareBuild?:(ticket:Ticket,owned:Awaited<ReturnType<typeof ticketWorkspace>>,signal:AbortSignal)=>Promise<unknown>;check:(ticket:Ticket,candidate:Candidate,signal:AbortSignal)=>Promise<TicketCheck>};
 export function createTicketLoop(db:DatabaseSync,dataDir:string,deps:TicketLoopDependencies){
  const driver=deps.driver??createCodexTicketDriver();
  const event=(id:string,kind:TicketEventKind,data:Record<string,unknown>)=>appendTicketEvent(db,id,kind,data);
  async function run(id:string,signal:AbortSignal){let owned:Awaited<ReturnType<typeof ticketWorkspace>>|undefined;let seed=getTicket(db,id)!.baseCommit;const failures:string[]=[];let stopped=false;
   try{await deps.ensurePlaybook?.(getTicket(db,id)!,signal);transitionTicket(db,id,'building');while(true){const ticket=getTicket(db,id)!;if(ticket.status==='fixing')await deps.ensurePlaybook?.(ticket,signal);if(signal.aborted)throw Error('Ticket interrupted');owned=await ticketWorkspace(ticket,dataDir,seed);const attemptId=owned.attemptId,generation=ticket.attemptCount,transportId=randomUUID(),began=performance.now();let started=false,stopRecorded=false,lastProcesses='';
+   event(id,'agent_event',{attemptId,generation,kind:'workspace_prepared',owned});
+   const dependencies=await deps.prepareBuild?.(ticket,owned,signal);if(dependencies)event(id,'agent_event',{attemptId,generation,kind:'dependencies_prepared',data:dependencies});
    event(id,'agent_launch_requested',{attemptId,generation,owned});
    try{const result=await driver.run({attemptId,generation,transportId,workspace:owned.workspace,artifactDir:owned.artifactDir,dataDir,sourceRoot:owned.clone,gitCommonDir:owned.gitCommonDir,gitDir:owned.gitDir},{version:'ticket-builder-v1',requestText:ticket.requestText+(failures.length?'\n\nProtected failure details (do not weaken tests):\n'+failures.slice(-2).join('\n'):'')},signal,{
     binding:binding=>{if(!started&&binding.threadId){started=true;event(id,'agent_started',{attemptId,generation,threadId:binding.threadId});}event(id,'agent_bound',{...binding});},

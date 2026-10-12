@@ -2,7 +2,7 @@ import {evaluatorBundle} from './verification-executor.ts';
 import type {DatabaseSync} from 'node:sqlite';
 import {randomUUID,createHash} from 'node:crypto';
 import {mkdirSync,realpathSync,writeFileSync,readFileSync,cpSync,symlinkSync,existsSync} from 'node:fs';
-import {join} from 'node:path';
+import {join,resolve as resolvePath} from 'node:path';import {homedir} from 'node:os';
 import {validateRepository} from './repository.ts';
 import {safeBuildGit} from './build-workspace.ts';
 import {canonicalContractJson} from './contract-store.ts';
@@ -44,11 +44,11 @@ export function createVerifyOnly(db:DatabaseSync,config:{dataDir:string;projectR
  const resolve=async(root:string,ref:unknown)=>{if(typeof ref!=='string'||!ref||ref.length>200||ref.startsWith('-')||/[\x00-\x20]/.test(ref))throw new SpecError('INVALID_REF','Supply a local commit ref.',400);return (await safeBuildGit(root,['rev-parse','--verify',ref+'^{commit}'],1000)).toString().trim();};
  const record=(e:VerifyEvidence,path:string)=>{e.records.push({path,hash:fileHash(path)});};
  const check=(id:string,signal:AbortSignal)=>{if(closed||signal.aborted||ledger(id).abandonedAt)throw Error('Verification cancelled');};
- const create=async(body:unknown):Promise<VerifyView>=>{
+ const create=async(body:unknown,ownedRoot?:string):Promise<VerifyView>=>{
   if(closed)throw new SpecError('VERIFY_UNAVAILABLE','Verifier is closed.');if(db.prepare("SELECT id FROM verify_only_runs WHERE json_extract(ledger_json,'$.cleanupUncertain')=1").get())throw new SpecError('VERIFY_RECONCILE_REQUIRED','Owned cleanup requires reconciliation.');
   if(!body||typeof body!=='object'||Array.isArray(body)||!['repoPath','baseRef','candidateRef','intent'].every(k=>Object.hasOwn(body,k))||Object.keys(body).some(k=>!['repoPath','baseRef','candidateRef','intent','projectId','taskChecks'].includes(k)))throw new SpecError('INVALID_VERIFY_INPUT','Provide repo, BASE, Candidate ref and intent.',400);
   const b=body as VerifyInput;if(typeof b.intent!=='string'||!b.intent.trim()||Buffer.byteLength(b.intent)>16000||b.taskChecks!==undefined&&typeof b.taskChecks!=='boolean'||b.projectId!==undefined&&typeof b.projectId!=='string')throw new SpecError('INVALID_VERIFY_INPUT','Supply bounded original intent and valid options.',400);
-  const repository=await validateRepository(b.repoPath,config.projectRoots,logger),baseCommit=await resolve(repository.repoRoot,b.baseRef),candidateCommit=await resolve(repository.repoRoot,b.candidateRef),id=randomUUID();
+  const repository=await validateRepository(b.repoPath,ownedRoot?[...config.projectRoots,ownedRoot]:config.projectRoots,logger),baseCommit=await resolve(repository.repoRoot,b.baseRef),candidateCommit=await resolve(repository.repoRoot,b.candidateRef),id=randomUUID();
   const project=b.projectId?db.prepare('SELECT repo_root FROM projects WHERE id=?').get(b.projectId):db.prepare('SELECT repo_root FROM projects WHERE repo_root=?').get(repository.repoRoot);if(b.projectId&&!project)throw new SpecError('PROJECT_NOT_FOUND','Registered project not found.',404);const projectRoot=project?realpathSync(String(project.repo_root)):repository.repoRoot;
   if(projectRoot!==repository.repoRoot){await validateRepository(projectRoot,config.projectRoots,logger);await resolve(projectRoot,baseCommit);}
   const input:VerifyBinding={...b,repoRoot:repository.repoRoot,baseCommit,candidateCommit,baseTree:(await safeBuildGit(repository.repoRoot,['rev-parse',baseCommit+'^{tree}'],1000)).toString().trim(),candidateTree:(await safeBuildGit(repository.repoRoot,['rev-parse',candidateCommit+'^{tree}'],1000)).toString().trim(),runnerDirectory:'.'};
@@ -98,5 +98,15 @@ export function createVerifyOnly(db:DatabaseSync,config:{dataDir:string;projectR
  };
  const close=async()=>{closed=true;for(const op of operations.values())op.controller.abort();await Promise.all([...operations.values()].map(op=>op.promise));if(db.isOpen&&db.prepare("SELECT id FROM verify_only_runs WHERE json_extract(ledger_json,'$.cleanupUncertain')=1").get())throw new SpecError('VERIFY_RECONCILE_REQUIRED','Owned cleanup remains uncertain.');};
  db.prepare("UPDATE verify_only_runs SET state='ERROR',error='Coordinator restarted; execution was not replayed.' WHERE state IN('AUTHORING','VERIFYING')").run();
- return {create,view,abandon,land,close,projectRecipes:(id:string)=>{const p=db.prepare('SELECT repo_root FROM projects WHERE id=?').get(id);if(!p)throw new SpecError('PROJECT_NOT_FOUND','Registered project not found.',404);return recipes.list(String(p.repo_root)).map(r=>({id:r.id,displayName:r.displayName,approvedAt:r.approval.at,tests:r.definition.tests.map(t=>({name:t.testId,summary:t.summary})),knownGood:r.definition.knownGood.commit,knownBad:r.definition.knownBad.commit}));},list:()=>db.prepare('SELECT id FROM verify_only_runs ORDER BY created_at DESC,id').all().map(r=>view(String(r.id))),wait:async(id:string)=>{await operations.get(id)?.promise;return view(id);},recipes};
+ // Internal ticket path only: public create never receives an extra root. Require the exact
+ // CC-recorded frozen commit, BASE, intent and canonical clone for this data namespace.
+ const createTicketCandidate=async(body:{repoPath:string;baseRef:string;candidateRef:string;intent:string;projectId:string;taskChecks:false},ticketId:string)=>{
+  const t=db.prepare('SELECT * FROM tickets WHERE id=?').get(ticketId),event=db.prepare("SELECT data_json FROM ticket_events WHERE ticket_id=? AND kind='candidate_frozen' ORDER BY sequence DESC LIMIT 1").get(ticketId);
+  const frozen=event?JSON.parse(String(event.data_json)).candidate:null;
+  const root=join(homedir(),'.cc-work',createHash('sha256').update(resolvePath(config.dataDir)).digest('hex'),ticketId,'repo');
+  if(!t||t.status!=='checking'||!frozen||body.repoPath!==root||realpathSync(root)!==root||frozen.repo!==root||body.candidateRef!==frozen.commit||body.baseRef!==t.base_commit||body.intent!==t.request_text)throw new SpecError('UNOWNED_TICKET_CANDIDATE','Only the current CC-frozen ticket Candidate may use private clone storage.');
+  const project=db.prepare('SELECT repo_root FROM projects WHERE id=?').get(body.projectId);if(!project||project.repo_root!==t.repo_path)throw new SpecError('UNOWNED_TICKET_CANDIDATE','Ticket project binding changed.');
+  return create(body,root);
+ };
+ return {create:(body:unknown)=>create(body),createTicketCandidate,view,abandon,land,close,projectRecipes:(id:string)=>{const p=db.prepare('SELECT repo_root FROM projects WHERE id=?').get(id);if(!p)throw new SpecError('PROJECT_NOT_FOUND','Registered project not found.',404);return recipes.list(String(p.repo_root)).map(r=>({id:r.id,displayName:r.displayName,approvedAt:r.approval.at,tests:r.definition.tests.map(t=>({name:t.testId,summary:t.summary})),knownGood:r.definition.knownGood.commit,knownBad:r.definition.knownBad.commit}));},list:()=>db.prepare('SELECT id FROM verify_only_runs ORDER BY created_at DESC,id').all().map(r=>view(String(r.id))),wait:async(id:string)=>{await operations.get(id)?.promise;return view(id);},recipes};
 }
