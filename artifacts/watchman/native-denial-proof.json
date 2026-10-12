@@ -1,0 +1,2029 @@
+{
+  "kind": "deterministic planted provider, actual native Codex sandbox commands",
+  "ticket": {
+    "id": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+    "title": "Planted native probing fixture",
+    "requestText": "Synthetic denial regression",
+    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/repo",
+    "baseCommit": "585f00fb77aaa4bdc2f83af82dd88750928ec41a",
+    "status": "needs_you",
+    "attemptCount": 1,
+    "candidateCommits": [],
+    "checkVerdict": "NOT CHECKED",
+    "createdAt": "2026-10-12T21:12:34.498Z",
+    "updatedAt": "2026-10-12T21:12:40.046Z"
+  },
+  "actions": [
+    {
+      "itemId": "probe-0",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 0",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-1",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 1",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-2",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 2",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-3",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 3",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-4",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 4",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-5",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 5",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-6",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 6",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-7",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 7",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-8",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 8",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-9",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 9",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    },
+    {
+      "itemId": "probe-10",
+      "category": "sandbox",
+      "command": "python synthetic-denied-read 10",
+      "reason": "The tool reported a sandbox/permission denial.",
+      "exitCode": 1
+    }
+  ],
+  "events": [
+    {
+      "sequence": 1,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "submitted",
+      "data": {},
+      "createdAt": "2026-10-12T21:12:34.498Z"
+    },
+    {
+      "sequence": 2,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "kind": "budget_limits",
+        "limits": {
+          "maxCommands": 80,
+          "maxMinutes": 15,
+          "maxCodexTokens": 100000
+        }
+      },
+      "createdAt": "2026-10-12T21:12:34.499Z"
+    },
+    {
+      "sequence": 3,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "state_changed",
+      "data": {
+        "from": "queued",
+        "to": "building",
+        "attemptKind": "build"
+      },
+      "createdAt": "2026-10-12T21:12:34.499Z"
+    },
+    {
+      "sequence": 4,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "workspace_prepared",
+        "owned": {
+          "gitDir": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "workspace": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "artifactDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/data/ticket-work/219e6a71-4ea7-4e55-997e-5da5b1055c54/attempts/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "clone": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo",
+          "gitCommonDir": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git",
+          "seed": "585f00fb77aaa4bdc2f83af82dd88750928ec41a",
+          "base": "585f00fb77aaa4bdc2f83af82dd88750928ec41a"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:34.598Z"
+    },
+    {
+      "sequence": 5,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_launch_requested",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "owned": {
+          "gitDir": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "workspace": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "artifactDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/data/ticket-work/219e6a71-4ea7-4e55-997e-5da5b1055c54/attempts/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "clone": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo",
+          "gitCommonDir": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git",
+          "seed": "585f00fb77aaa4bdc2f83af82dd88750928ec41a",
+          "base": "585f00fb77aaa4bdc2f83af82dd88750928ec41a"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:34.598Z"
+    },
+    {
+      "sequence": 6,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "f791cdc1-1cee-4118-a950-2cd552e0a54d",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:34.649Z",
+            "exitedAt": null
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:34.649Z"
+    },
+    {
+      "sequence": 7,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_started",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "threadId": "thread"
+      },
+      "createdAt": "2026-10-12T21:12:34.650Z"
+    },
+    {
+      "sequence": 8,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_bound",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+        "threadId": "thread",
+        "turnId": "turn"
+      },
+      "createdAt": "2026-10-12T21:12:34.650Z"
+    },
+    {
+      "sequence": 9,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-0",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 0",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:34.857Z"
+    },
+    {
+      "sequence": 10,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-0"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:34.857Z"
+    },
+    {
+      "sequence": 11,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "fff72a3c-53b5-4f43-9796-cb2b280d018c",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": null
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:35.063Z"
+    },
+    {
+      "sequence": 12,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-0",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 0",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.122Z"
+    },
+    {
+      "sequence": 13,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-0",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 0",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.123Z"
+    },
+    {
+      "sequence": 14,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "8137fa37-c6a7-4e10-8902-60ff3754ed90",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:35.250Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:35.250Z"
+    },
+    {
+      "sequence": 15,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-1",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 1",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.325Z"
+    },
+    {
+      "sequence": 16,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-1"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.325Z"
+    },
+    {
+      "sequence": 17,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-1",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 1",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.455Z"
+    },
+    {
+      "sequence": 18,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-1",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 1",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.455Z"
+    },
+    {
+      "sequence": 19,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-2",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 2",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.658Z"
+    },
+    {
+      "sequence": 20,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-2"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.658Z"
+    },
+    {
+      "sequence": 21,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-2",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 2",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.779Z"
+    },
+    {
+      "sequence": 22,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-2",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 2",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.780Z"
+    },
+    {
+      "sequence": 23,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-3",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 3",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.985Z"
+    },
+    {
+      "sequence": 24,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-3"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:35.986Z"
+    },
+    {
+      "sequence": 25,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "2a47063d-e5f4-4def-ad65-50d788b169df",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:36.061Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 84541,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839555:985350",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:36.061Z",
+            "exitedAt": null
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:36.061Z"
+    },
+    {
+      "sequence": 26,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-3",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 3",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.116Z"
+    },
+    {
+      "sequence": 27,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-3",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 3",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.116Z"
+    },
+    {
+      "sequence": 28,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "be701a2b-a4d2-47aa-83cd-789215b0b74d",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:36.263Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 84541,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839555:985350",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:36.061Z",
+            "exitedAt": "2026-10-12T21:12:36.263Z"
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:36.263Z"
+    },
+    {
+      "sequence": 29,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-4",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 4",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.326Z"
+    },
+    {
+      "sequence": 30,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-4"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.326Z"
+    },
+    {
+      "sequence": 31,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-4",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 4",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.464Z"
+    },
+    {
+      "sequence": 32,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-4",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 4",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.464Z"
+    },
+    {
+      "sequence": 33,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-5",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 5",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.661Z"
+    },
+    {
+      "sequence": 34,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-5"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.662Z"
+    },
+    {
+      "sequence": 35,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-5",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 5",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.780Z"
+    },
+    {
+      "sequence": 36,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-5",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 5",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.780Z"
+    },
+    {
+      "sequence": 37,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-6",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 6",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.984Z"
+    },
+    {
+      "sequence": 38,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-6"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:36.985Z"
+    },
+    {
+      "sequence": 39,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "12a99dc2-8bbb-4823-b029-c52d3a685164",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 84541,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839555:985350",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:36.061Z",
+            "exitedAt": "2026-10-12T21:12:36.263Z"
+          },
+          {
+            "pid": 86016,
+            "ppid": 85942,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839557:37048",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 85942,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839556:984702",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": null
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:37.066Z"
+    },
+    {
+      "sequence": 40,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-6",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 6",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.101Z"
+    },
+    {
+      "sequence": 41,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-6",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 6",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.102Z"
+    },
+    {
+      "sequence": 42,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "1527af00-ea2e-481d-8abd-b43fa02d4f99",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:37.263Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 84541,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839555:985350",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:36.061Z",
+            "exitedAt": "2026-10-12T21:12:36.263Z"
+          },
+          {
+            "pid": 86016,
+            "ppid": 85942,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839557:37048",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": "2026-10-12T21:12:37.263Z"
+          },
+          {
+            "pid": 85942,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839556:984702",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": "2026-10-12T21:12:37.263Z"
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:37.264Z"
+    },
+    {
+      "sequence": 43,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-7",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 7",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.302Z"
+    },
+    {
+      "sequence": 44,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-7"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.302Z"
+    },
+    {
+      "sequence": 45,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-7",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 7",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.414Z"
+    },
+    {
+      "sequence": 46,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-7",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 7",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.415Z"
+    },
+    {
+      "sequence": 47,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-8",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 8",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.620Z"
+    },
+    {
+      "sequence": 48,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-8"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.620Z"
+    },
+    {
+      "sequence": 49,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "81b17cae-e1e3-4c86-928b-8d73089ae5c7",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:37.667Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 84541,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839555:985350",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:36.061Z",
+            "exitedAt": "2026-10-12T21:12:36.263Z"
+          },
+          {
+            "pid": 86016,
+            "ppid": 85942,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839557:37048",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": "2026-10-12T21:12:37.263Z"
+          },
+          {
+            "pid": 85942,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839556:984702",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": "2026-10-12T21:12:37.263Z"
+          },
+          {
+            "pid": 86398,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839557:619883",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:37.667Z",
+            "exitedAt": null
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:37.667Z"
+    },
+    {
+      "sequence": 50,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-8",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 8",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.736Z"
+    },
+    {
+      "sequence": 51,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-8",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 8",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.736Z"
+    },
+    {
+      "sequence": 52,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "2377bf0b-3902-4a3b-b092-74a940437c27",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:37.871Z",
+            "exitedAt": null
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:35.250Z"
+          },
+          {
+            "pid": 84541,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839555:985350",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:36.061Z",
+            "exitedAt": "2026-10-12T21:12:36.263Z"
+          },
+          {
+            "pid": 86016,
+            "ppid": 85942,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839557:37048",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": "2026-10-12T21:12:37.263Z"
+          },
+          {
+            "pid": 85942,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839556:984702",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": "2026-10-12T21:12:37.263Z"
+          },
+          {
+            "pid": 86398,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839557:619883",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:37.667Z",
+            "exitedAt": "2026-10-12T21:12:37.871Z"
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:37.871Z"
+    },
+    {
+      "sequence": 53,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-9",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 9",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.939Z"
+    },
+    {
+      "sequence": 54,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-9"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:37.939Z"
+    },
+    {
+      "sequence": 55,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-9",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 9",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:38.073Z"
+    },
+    {
+      "sequence": 56,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-9",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 9",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:38.074Z"
+    },
+    {
+      "sequence": 57,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.started",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-10",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 10",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "inProgress"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:38.275Z"
+    },
+    {
+      "sequence": 58,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "command_observed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-10"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:38.275Z"
+    },
+    {
+      "sequence": 59,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "tool.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-10",
+          "type": "commandExecution",
+          "command": "python synthetic-denied-read 10",
+          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "status": "completed",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:38.381Z"
+    },
+    {
+      "sequence": 60,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "blocked_action",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "itemId": "probe-10",
+          "category": "sandbox",
+          "command": "python synthetic-denied-read 10",
+          "reason": "The tool reported a sandbox/permission denial.",
+          "exitCode": 1
+        }
+      },
+      "createdAt": "2026-10-12T21:12:38.382Z"
+    },
+    {
+      "sequence": 61,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_event",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "kind": "builder.completed",
+        "binding": {
+          "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "generation": 1,
+          "transportId": "e0976b5c-70ff-4744-a2f5-088cd35520cd",
+          "threadId": "thread",
+          "turnId": "turn"
+        },
+        "data": {
+          "status": "interrupted"
+        }
+      },
+      "createdAt": "2026-10-12T21:12:38.425Z"
+    },
+    {
+      "sequence": 62,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "processes",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "snapshot": "c650d725-af64-49c7-a0df-3c03e126217f",
+        "chunk": 0,
+        "chunks": 1,
+        "records": [
+          {
+            "pid": 83646,
+            "ppid": 83406,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:604167",
+            "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+            "observedAt": "2026-10-12T21:12:38.468Z",
+            "exitedAt": "2026-10-12T21:12:40.045Z"
+          },
+          {
+            "pid": 83854,
+            "ppid": 83772,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:923535",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:40.045Z"
+          },
+          {
+            "pid": 83772,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839554:856278",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:35.063Z",
+            "exitedAt": "2026-10-12T21:12:40.045Z"
+          },
+          {
+            "pid": 84541,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839555:985350",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:36.061Z",
+            "exitedAt": "2026-10-12T21:12:40.045Z"
+          },
+          {
+            "pid": 86016,
+            "ppid": 85942,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839557:37048",
+            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": "2026-10-12T21:12:40.045Z"
+          },
+          {
+            "pid": 85942,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839556:984702",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:37.065Z",
+            "exitedAt": "2026-10-12T21:12:40.045Z"
+          },
+          {
+            "pid": 86398,
+            "ppid": 83646,
+            "pgid": 83646,
+            "sid": 83646,
+            "birth": "darwin:1791839557:619883",
+            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "observedAt": "2026-10-12T21:12:37.667Z",
+            "exitedAt": "2026-10-12T21:12:40.045Z"
+          }
+        ]
+      },
+      "createdAt": "2026-10-12T21:12:40.045Z"
+    },
+    {
+      "sequence": 63,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "agent_stopped",
+      "data": {
+        "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+        "generation": 1,
+        "agentWasStarted": true,
+        "elapsedMs": 5447.277917,
+        "failed": true,
+        "cleanupVerified": true,
+        "reason": "Paused after more than 10 blocked actions."
+      },
+      "createdAt": "2026-10-12T21:12:40.045Z"
+    },
+    {
+      "sequence": 64,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "state_changed",
+      "data": {
+        "from": "building",
+        "to": "needs_you"
+      },
+      "createdAt": "2026-10-12T21:12:40.045Z"
+    },
+    {
+      "sequence": 65,
+      "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
+      "kind": "needs_you",
+      "data": {
+        "reason": "Paused after more than 10 blocked actions.",
+        "kind": "WATCHMAN",
+        "actions": [
+          {
+            "itemId": "probe-0",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 0",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-1",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 1",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-2",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 2",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-3",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 3",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-4",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 4",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-5",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 5",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-6",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 6",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-7",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 7",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-8",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 8",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-9",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 9",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          },
+          {
+            "itemId": "probe-10",
+            "category": "sandbox",
+            "command": "python synthetic-denied-read 10",
+            "reason": "The tool reported a sandbox/permission denial.",
+            "exitCode": 1
+          }
+        ],
+        "cleanupUncertain": false
+      },
+      "createdAt": "2026-10-12T21:12:40.046Z"
+    }
+  ]
+}

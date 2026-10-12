@@ -1,0 +1,30 @@
+{
+  "first": {
+    "id": "3f1a146c-1384-4b0e-8983-91c03707e711",
+    "title": "Fixture first",
+    "requestText": "Fixture first",
+    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-stop-all-KDnRLL/repo",
+    "baseCommit": "4288a15042f421b0db71e6b0215ae4b841133275",
+    "status": "interrupted",
+    "attemptCount": 1,
+    "candidateCommits": [],
+    "checkVerdict": "NOT CHECKED",
+    "createdAt": "2026-10-12T21:14:02.495Z",
+    "updatedAt": "2026-10-12T21:14:25.990Z"
+  },
+  "second": {
+    "id": "fde656ca-2aba-42e8-aed7-f369b93c769c",
+    "title": "Fixture second",
+    "requestText": "Fixture second",
+    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-stop-all-KDnRLL/repo",
+    "baseCommit": "4288a15042f421b0db71e6b0215ae4b841133275",
+    "status": "needs_you",
+    "attemptCount": 0,
+    "candidateCommits": [],
+    "checkVerdict": "NOT CHECKED",
+    "createdAt": "2026-10-12T21:14:02.516Z",
+    "updatedAt": "2026-10-12T21:14:24.790Z"
+  },
+  "launches": 1,
+  "ownedProcessesGone": true
+}

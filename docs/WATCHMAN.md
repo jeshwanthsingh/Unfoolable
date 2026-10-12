@@ -1,0 +1,9 @@
+# Watchman and ticket limits
+
+Watchman counts completed command tool invocations with directly observed denial/unavailable-network/offline-installer results. One command invocation counts once, keyed by attempt and provider item ID. Ordinary assertion failures do not count. Above 10, the owned run is interrupted and the ticket needs you; its bounded command/reason list remains in the event ledger. OS tripwire logs remain an additional, best-effort sensor, not the source of truth for this counter.
+
+Default ticket limits: 80 observed Builder commands, 15 active minutes (setup, build, corrections and checks together), 100,000 provider-reported Codex tokens summed across fresh attempts. Queued waiting is excluded. Token reports are asynchronous: the last batch may exceed the threshold before interruption. Missing reports remain unknown and prevent freezing a production Candidate. Command counts cover provider tool invocations, not every subprocess or system call in a shell command. An explicit passkey-confirmed Retry opens a fresh accounting window; the recorded limits do not change. Recheck has the same 15-minute deadline and never starts a Builder.
+
+`./cc stop-all` and the red chat button stop owned work without a passkey. They interrupt active builders, protected checks, drafting and legacy AI operations; queued tickets are durably paused. They preserve candidate/evidence/event history and report uncertain cleanup as an error. Nothing resumes automatically; each ticket Retry still requires its own fresh evidence-bound passkey. FIFO remains one ticket at a time, so the two-ticket proof stops an active ticket and a queued ticket, separately covering active checks.
+
+No operator-controlled sandbox bypass or arbitrary shell endpoint was added. Runtime model and permissions are unchanged. Fake providers/authenticators are used only in isolated tests; native denial results in the planted proof come from the actual installed Codex sandbox.
