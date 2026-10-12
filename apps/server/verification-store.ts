@@ -165,6 +165,7 @@ export function createVerificationStore(db:DatabaseSync,config:{dataDir:string},
   const run=getRun(String(row.id))!,cleanup=run.environment.launchPending===true||run.status==='RUNNING'&&!run.processes.length&&run.environment.automatedPhaseComplete!==true?{...clean,verified:false,ambiguous:true,reason:'Restart during process launch or manual wait lacks process cleanup identity.'}:await reconcileOwnedProcesses(run.processes);
   transaction(()=>{for(const result of run.results)if(['PENDING','RUNNING'].includes(result.status))claimSave(run.id,{...result,status:'INCONCLUSIVE',note:'Coordinator restarted; explicit new Verification is required.'});run.cleanup=cleanup;run.status='INTERRUPTED';run.endedAt=new Date().toISOString();run.error='Coordinator restarted; verification never resumes automatically.';save(run);event(run.id,'verification.interrupted',{});});
  }recovered=true;};
+ const stopAll=async()=>{for(const row of db.prepare("SELECT id FROM verification_runs WHERE status IN('CREATED','PREPARING','RUNNING')").all())await stop(String(row.id));};
  const close=async()=>{closed=true;if(owned){owned.controller.abort();await owned.promise;}if(!db.isOpen)return;for(const row of db.prepare("SELECT id FROM verification_runs WHERE status IN('CREATED','PREPARING','RUNNING')").all())await stop(String(row.id));};
  const readEvidence=(runId:string,evidenceId:string):Record<string,unknown>=>{
   const row=db.prepare('SELECT evidence_json FROM verification_evidence WHERE id=? AND run_id=?').get(evidenceId,runId);if(!row)return fail('EVIDENCE_NOT_FOUND','Verification evidence was not found for this Run.',404);
@@ -172,5 +173,5 @@ export function createVerificationStore(db:DatabaseSync,config:{dataDir:string},
   try{if(record.id!==evidenceId||record.runId!==runId||record.path!==path||record.bytes<1||realpathSync(directory)!==directory||!evidenceValid(getRun(runId)!))throw Error();const value:unknown=JSON.parse(verifiedArtifact(path,record.bytes,record.sha256).toString('utf8'));if(!value||typeof value!=='object'||Array.isArray(value))throw Error();return value as Record<string,unknown>;
   }catch{return fail('EVIDENCE_IDENTITY_MISMATCH','Verification evidence bytes or ownership changed.');}
  };
- return {view,start:(missionId:string)=>start(missionId),startForDebug:(missionId:string,binding:DebugVerificationBinding)=>start(missionId,binding),stop,decide,attention,recover,close,readEvidence};
+ return {view,start:(missionId:string)=>start(missionId),startForDebug:(missionId:string,binding:DebugVerificationBinding)=>start(missionId,binding),stop,decide,attention,recover,close,stopAll,readEvidence};
 }

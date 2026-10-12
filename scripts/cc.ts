@@ -9,11 +9,12 @@ const port=process.env.COMMAND_CENTER_PORT??active.port??3210;
 const data=resolve(root,process.env.COMMAND_CENTER_DATA_DIR??active.dataDir??'data');
 const base='http://localhost:'+port;
 const shellQuote=(value:string)=>"'"+value.replaceAll("'","'\"'\"'")+"'";
-const usage='Usage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]';
+const usage='Usage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all';
 async function main(){
  const args=process.argv.slice(2),resource=args.shift(),command=args.shift();
- if(resource!=='ticket'&&resource!=='playbook'&&resource!=='chat')throw Error(usage);
+ if(resource!=='ticket'&&resource!=='playbook'&&resource!=='chat'&&resource!=='stop-all')throw Error(usage);
  const key=readFileSync(join(data,'ticket-operator.key'),'utf8').trim();
+ if(resource==='stop-all'){if(command||args.length)throw Error('Usage: cc stop-all');const response=await fetch(base+'/api/stop-all',{method:'POST',headers:{'X-CC-Operator':key,Origin:base,'Content-Type':'application/json'},body:'{}'});const result=await response.json();if(!response.ok)throw Error(result.error?.message??'STOP ALL cleanup failed');console.log(JSON.stringify(result,null,2));return;}
  const confirmInBrowser=async(path:string,body:unknown)=>{
   const humanCall=async(route:string,payload?:unknown)=>{
    const response=await fetch(base+route,{method:payload===undefined?'GET':'POST',headers:{'X-CC-Operator':key,Origin:base,...(payload===undefined?{}:{'Content-Type':'application/json'})},...(payload===undefined?{}:{body:JSON.stringify(payload)})});
@@ -37,7 +38,7 @@ async function main(){
  };
 
  if(resource==='chat'){
-  if(args.length)throw Error('Usage: cc chat ["message"]');
+  if(args.length)throw Error('Usage: cc chat ["message"]; cc stop-all');
   if(command===undefined){execFile('/usr/bin/open',[base+'/?view=chat#operator='+key],error=>{if(error)console.error('Could not open browser');});console.log('Jarvis chat: '+base+'/?view=chat');return;}
   const response=await fetch(base+'/api/chat/messages',{method:'POST',headers:{'X-CC-Operator':key,Origin:base,'Content-Type':'application/json'},body:JSON.stringify({text:command})});
   const result=await response.json();if(!response.ok)throw Error(result.error?.message??'Chat request failed');console.log(JSON.stringify(result,null,2));console.log('Use ./cc chat to open the exact-item buttons. No action was taken by this command.');return;

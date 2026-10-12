@@ -43,3 +43,5 @@
 .chat-history-draft { margin:10px 0; }
 .chat-history-draft summary { cursor:pointer; overflow-wrap:anywhere; }
 @media(max-width:600px) { .chat-history-list summary { flex-wrap:wrap; gap:5px; } .chat-stuck { padding-left:10px; } }
+
+.chat-stop-all{background:#9e252d;color:#fff;border:2px solid #e8898e;border-radius:var(--radius,8px);padding:14px 24px;font:inherit;font-weight:750;min-height:48px;cursor:pointer}.chat-stop-all:focus-visible{outline:3px solid #fff;outline-offset:4px}.chat-stop-all:disabled{cursor:wait}.chat-stop-help{font-size:.85rem;color:var(--text-secondary)}

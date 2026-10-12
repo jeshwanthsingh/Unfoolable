@@ -95,10 +95,11 @@ export function createAnalysisStore(db:DatabaseSync,roots:readonly string[],logg
   }finally{if(active===owned)active=null;}
  };
  const interrupt=(missionId:string)=>{if(active&&db.prepare('SELECT mission_id FROM mission_analyses WHERE id=?').get(active.id)?.mission_id===missionId)active.controller.abort();};
+ const stopAll=async()=>{active?.controller.abort();while(active)await new Promise(r=>setTimeout(r,10));};
  const close=()=>{
   if(closed)return;
   if(active){active.controller.abort();db.prepare("UPDATE mission_analyses SET status='INTERRUPTED',completed_at=?,error=? WHERE id=? AND status IN('PREPARING','RUNNING')").run(new Date().toISOString(),'Analysis was interrupted when the coordinator stopped.',active.id);}
   closed=true;
  };
- return {view,attention,analyze,answer,close,interrupt};
+ return {view,attention,analyze,answer,close,stopAll,interrupt};
 }

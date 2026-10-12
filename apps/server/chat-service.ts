@@ -11,7 +11,7 @@ import {SpecError} from './spec-errors.ts';
 import {safeBuildGit} from './build-workspace.ts';
 const quote=(s:string)=>"'"+s.replaceAll("'","'\"'\"'")+"'";
 const validText=(s:unknown,max:number):s is string=>typeof s==='string'&&!!s.trim()&&s.length<=max&&!s.includes('\0');
-export function createChatService(db:DatabaseSync,tickets:ReturnType<typeof createTicketService>,runtime:ReturnType<typeof createChatCodex>,permissionDecision:(id:string,decision:'ALLOW'|'DENY',hash:string)=>Promise<unknown>){
+export function createChatService(db:DatabaseSync,tickets:ReturnType<typeof createTicketService>,runtime:Omit<ReturnType<typeof createChatCodex>,'stopAll'>&{stopAll?:()=>Promise<void>},permissionDecision:(id:string,decision:'ALLOW'|'DENY',hash:string)=>Promise<unknown>){
  const store=createChatStore(db),cards=createChatCards(db,tickets,store);store.recover();
  for(const d of store.drafts().filter(d=>d.version===1&&['DRAFT','QUESTION'].includes(d.status))){const original=store.messages().find(m=>m.sequence===d.originalMessageId);if(original&&(statusAnswer(db,original.text)!==null||isFuelQuestion(original.text))){store.updateDraft(d.id,d.version,{status:'CANCELLED'});store.appendMessage({role:'jarvis',kind:'decision',draftId:d.id,text:'Retired an earlier misrouted status draft; no ticket started.'});}}
  let drafting=false;
@@ -53,5 +53,5 @@ export function createChatService(db:DatabaseSync,tickets:ReturnType<typeof crea
    store.finishCard(id,'RESOLVED');store.appendMessage({role:'jarvis',kind:'decision',cardId:id,text:'Recorded '+body.action+' for '+c.targetId+'.'});project();return store.view();
   }catch(error){store.finishCard(id,'ERROR');throw error;}
  }
- return {decisionEvidence:(id:string,reservedAction?:string)=>{project();const c=store.card(id);const ownReservation=!!c&&c.status==='RESOLVING'&&c.resolution===reservedAction;if(!c||(c.status!=='PENDING'&&!ownReservation)||cards.current(c)!==c.binding)throw new SpecError('STALE_CHAT_ACTION','This item changed or was already decided.');return {card:ownReservation?{...c,status:'PENDING' as const,resolution:null}:c,current:cards.current(c)};},view,message,edit,cancel,start,action,project,store,async close(){clearInterval(timer);await runtime.close();}};
+ return {decisionEvidence:(id:string,reservedAction?:string)=>{project();const c=store.card(id);const ownReservation=!!c&&c.status==='RESOLVING'&&c.resolution===reservedAction;if(!c||(c.status!=='PENDING'&&!ownReservation)||cards.current(c)!==c.binding)throw new SpecError('STALE_CHAT_ACTION','This item changed or was already decided.');return {card:ownReservation?{...c,status:'PENDING' as const,resolution:null}:c,current:cards.current(c)};},view,message,edit,cancel,start,action,project,store,async stopAll(){if('stopAll' in runtime&&typeof runtime.stopAll==='function')await runtime.stopAll();else await runtime.close();project();},async close(){clearInterval(timer);await runtime.close();}};
 }

@@ -127,6 +127,7 @@ export function createDebugStore(db:DatabaseSync,config:{dataDir:string},logger:
   finish(s,uncertain?'NEEDS_HUMAN':'INTERRUPTED',uncertain?'DEBUG_RECONCILE_REQUIRED':'DEBUG_RESTART_INTERRUPTED',uncertain?'Runtime cleanup requires human reconciliation.':'Debugging interrupted by restart; no work resumed.',c);
  }recovered=true;};
  const attention=():DebugAttention[]=>db.prepare("SELECT s.id,m.project_id,m.original_intent,p.display_name FROM debug_sessions s JOIN missions m ON m.id=s.mission_id JOIN projects p ON p.id=m.project_id WHERE s.status='NEEDS_HUMAN' AND s.rowid=(SELECT MAX(t.rowid) FROM debug_sessions t WHERE t.mission_id=s.mission_id)").all().map(r=>{const s=session(String(r.id))!,c=s.cycles.at(-1),run=c?.outputVerificationRun??readRun(c?.inputVerificationRunId??s.initialVerificationRunId);return {kind:'debug_escalation',sessionId:s.id,missionId:s.missionId,projectId:String(r.project_id),projectName:String(r.display_name),originalIntent:String(r.original_intent),reason:s.message??s.failureCode??'Debugging needs human action.',corrections:s.cycles.filter(c=>c.correctionAttemptId).length,failedClaimIds:run?.results.filter(c=>c.status==='FAIL').map(c=>c.claimId)??[]};});
+ const stopAll=async()=>{if(owned)await stop(owned.id);};
  const close=async()=>{if(closed)return;if(owned)await stop(owned.id);closed=true;};
- return {view,start,stop,attention,recover,close};
+ return {view,start,stop,attention,recover,close,stopAll};
 }

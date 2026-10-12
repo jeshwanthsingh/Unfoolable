@@ -68,7 +68,7 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;enforcePasskeys?:boolean;humanAuthenticator?:Parameters<typeof createHumanConfirmation>[3];chatRuntime?:ReturnType<typeof createChatCodex>}={}){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;enforcePasskeys?:boolean;humanAuthenticator?:Parameters<typeof createHumanConfirmation>[3];chatRuntime?:Omit<ReturnType<typeof createChatCodex>,'stopAll'>&{stopAll?:()=>Promise<void>}}={}){
  const database=openDatabase(config.dataDir,logger);
  const verifyOnly=createVerifyOnly(database.connection,config,logger,options.verifyAuthor);
  const tickets=createTicketService(database.connection,config,verifyOnly,options.ticketDependencies);
@@ -84,6 +84,8 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const outcomes=createMissionOutcomeStore(database.connection,config,logger,{verification:verification.view,build:builds.view});
  const workflow=createMissionWorkflow(database.connection,{context,analysis:analyses,contract:contracts,planning,build:builds,verification,debug:debugging,outcomes},logger);
  const chat=createChatService(database.connection,tickets,options.chatRuntime??createChatCodex({dataDir:config.dataDir}),builds.decide);
+ let stopping:Promise<unknown>|null=null;
+ const stopAll=()=>{if(stopping)return stopping;const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
  function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
   const path=op.path;let m:RegExpExecArray|null;
   if(m=/^\/api\/tickets\/([^/]+)\/(keep|discard|retry|recheck)$/.exec(path))return {scope:{item:'ticket:'+m[1]!,action:m[2]!},state:tickets.show(m[1]!)};
@@ -112,6 +114,8 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   if(pathname==='/api/stop-all'&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);await projectBody(req,'stop all');json(res,200,await stopAll() as Record<string,unknown>);return;}
+   if(stopping&&mutating)throw new SpecError('STOP_IN_PROGRESS','STOP ALL is cleaning up owned work. Wait before starting or resuming.',409);
    if(pathname.startsWith('/api/human')){
     if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);
     if(req.method==='GET'&&pathname==='/api/human'){json(res,200,{registered:human.registered()});return;}
@@ -176,5 +180,5 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
  });};
- return {server,database,start,close,workflow,tickets,chat};
+ return {server,database,start,close,stopAll,workflow,tickets,chat};
 }
