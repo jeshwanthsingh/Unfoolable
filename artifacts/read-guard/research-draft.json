@@ -1,0 +1,28 @@
+{
+  "typed": "In /Users/jeshwanthsingh/Projects/research-router, improve the top-level research --help with the concise description \"Local research sources and topic workflows.\" Add a focused unittest showing --help exits 0 without requiring configuration, network, or state writes. Preserve existing arguments, commands and exit behavior. Run the focused test and the full unittest suite. Work only from the committed HEAD in the isolated worktree; do not change the source repository or its uncommitted work.",
+  "draft": {
+    "id": "21fae950-42c5-40ef-b390-8b7e0834fd02",
+    "originalMessageId": 46,
+    "version": 1,
+    "status": "DRAFT",
+    "title": "Improve research CLI help and add configuration-free help test",
+    "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+    "requestText": "Update top-level research --help with the concise description \"Local research sources and topic workflows.\" Add a focused unittest proving --help exits 0 without configuration, network access, or state writes. Preserve existing arguments, commands, and exit behavior. Run the focused test and full unittest suite. Work only from committed HEAD in an isolated worktree; do not modify the source repository or its uncommitted work.",
+    "doneMeans": "Top-level research --help displays the exact requested description. A focused unittest verifies exit code 0 without configuration, network access, or state writes. The focused test and full unittest suite pass. Existing arguments, commands, and exit behavior remain unchanged. Changes are confined to an isolated worktree based on committed HEAD, leaving the source repository and its uncommitted work untouched.",
+    "question": null,
+    "questionAsked": false,
+    "usage": [
+      {
+        "inputTokens": 36039,
+        "outputTokens": 207,
+        "totalTokens": 36246,
+        "cachedInputTokens": null,
+        "model": "gpt-6.1-sol",
+        "threadId": "01a13147-4d79-7701-927c-415f7a4ec362"
+      }
+    ],
+    "ticketId": null,
+    "createdAt": "2026-10-12T18:02:14.050Z",
+    "updatedAt": "2026-10-12T18:02:14.050Z"
+  }
+}

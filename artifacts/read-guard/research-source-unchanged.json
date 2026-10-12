@@ -1,0 +1,6 @@
+{
+  "unchanged": true,
+  "head": "f7f198123955f6113cb583020d06bb47dc89817f",
+  "status": " M README.md\n M research_router/cli.py\n M research_router/clipboard.py\n M research_router/commands/critique.py\n M research_router/commands/llm_import.py\n M research_router/guards.py\n M tests/test_clipboard.py\n M tests/test_continue.py\n M tests/test_llm_import.py\n M tests/test_run.py\n",
+  "diffSHA256": "8a7be0cd91aaa8bab4ed6e30229da396513823c4dbe562ee1c470cd59a47dd31"
+}
