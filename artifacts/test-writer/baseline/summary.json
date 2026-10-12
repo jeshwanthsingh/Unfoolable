@@ -1,0 +1,12 @@
+{
+  "phase": "baseline",
+  "cases": 19,
+  "correct": 11,
+  "wrong": 8,
+  "confirmed": 0,
+  "falseAccepts": 0,
+  "passedWithGaps": 16,
+  "errors": 3,
+  "failed": 0,
+  "voidEnvironmentAttempts": 1
+}

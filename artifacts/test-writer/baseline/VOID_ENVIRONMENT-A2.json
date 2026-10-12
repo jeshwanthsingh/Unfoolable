@@ -1,0 +1,13 @@
+{
+  "reason": "Recipe provisioning finished during the first run; empty recipe hash became stale. Exact case rerun after provisioning, no checker or grader edits.",
+  "attempt": {
+    "case": "A2-correct",
+    "truth": "CORRECT",
+    "verdict": "ERROR",
+    "gaps": [],
+    "layers": [],
+    "testWriter": null,
+    "error": "Candidate, overlay, recipes or execution evidence changed.",
+    "elapsedSeconds": 15.320604042
+  }
+}
