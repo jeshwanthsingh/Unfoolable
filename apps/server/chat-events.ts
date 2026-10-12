@@ -11,6 +11,7 @@ export function projectChatEvents(db:DatabaseSync,store:ReturnType<typeof create
    store.appendMessage({role:'jarvis',kind:'update',text:t.id.slice(0,8)+' · '+t.title+': '+states[data.to]+verdict,ticketEventSequence:Number(e.sequence)});
   }
   if(t&&e.kind==='needs_you'&&data.kind==='TRIPWIRE')store.appendMessage({role:'jarvis',kind:'update',text:t.id.slice(0,8)+' · TRIPWIRE: read attempt on '+String(data.path)+' at '+String(data.at)+'. Ticket stopped; no Candidate was accepted.',ticketEventSequence:Number(e.sequence)});
+  if(t&&e.kind==='needs_you'&&data.kind==='WATCHMAN')store.appendMessage({role:'jarvis',kind:'update',text:t.id.slice(0,8)+' · Watchman paused this ticket: '+String(data.reason)+' '+(Array.isArray(data.actions)?data.actions.slice(0,11).map((a:any)=>String(a.category)+': '+String(a.command)).join('; '):''),ticketEventSequence:Number(e.sequence)});
   store.advanceProjection(Number(e.sequence));
  }
 }
