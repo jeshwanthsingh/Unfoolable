@@ -1,0 +1,3 @@
+# Step 2 — current real Builder read access
+
+A pinned0.160.0/gpt-6.1-sol app-server Builder executed the fixed byte-discarding probe. The coordinator then replayed it directly with the identical generated permission profile through Codex’s own native sandbox. All rows matched. No contents or discovered filenames were emitted; paths and booleans only. Owned git status/diff/log, SQLite temp files and worktree writes passed. Exact64-row table is in before-table.md. The diagnostic profile is unchanged from production; only its fixed coordinator-only prompt permits this diagnostic. No route exposes it.
