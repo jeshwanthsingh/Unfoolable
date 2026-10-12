@@ -1,3 +1,4 @@
+import {ticketBudget} from './ticket-budget.ts';
 import {watchmanActions,WATCHMAN_LIMIT} from './watchman.ts';
 import {requireHuman,withHumanReceipt} from './human-context.ts';
 import {ticketPlaybookHooks} from './ticket-playbook-hooks.ts';
@@ -42,7 +43,7 @@ export function createTicketService(db:DatabaseSync,config:AppConfig,verifier:Re
  }
  function show(id:string){const t=ticket(id),events=listTicketEvents(db,id),recorded=events.filter(e=>e.kind==='check_result').at(-1)?.data,playbook=playbooks.store.show(t.repoPath),reason=evidenceProblem(t,candidate(id),recorded),pending=t.status==='checking'&&events.filter(e=>e.kind==='retry_requested').at(-1)?.data.mode==='recheck';
   const check=reason||pending?{...recorded,verdict:'NOT CHECKED',gaps:[...((recorded?.gaps as string[])??[]),pending?'Rechecking the same Candidate; previous results cannot authorize Keep.':reason!],failures:(recorded?.failures as string[])??[]}:recorded;
-  return {ticket:t,events,watchman:{limit:WATCHMAN_LIMIT,blocked:watchmanActions(db,id)},stats:ticketStats(db,id),...(check?{check}:{}),...(playbook?{playbook}:{}),diffAvailable:!!candidate(id),evidenceStale:!!reason,staleReason:reason,recheckAvailable:!!reason&&['ready_for_review','interrupted','harness_error','needs_you'].includes(t.status),keepAvailable:t.status==='ready_for_review'&&!reason};
+  return {ticket:t,events,budget:ticketBudget(db,id),watchman:{limit:WATCHMAN_LIMIT,blocked:watchmanActions(db,id)},stats:ticketStats(db,id),...(check?{check}:{}),...(playbook?{playbook}:{}),diffAvailable:!!candidate(id),evidenceStale:!!reason,staleReason:reason,recheckAvailable:!!reason&&['ready_for_review','interrupted','harness_error','needs_you'].includes(t.status),keepAvailable:t.status==='ready_for_review'&&!reason};
  }
  function recheck(id:string,expected:unknown){requireHuman(config.dataDir,{item:'ticket:'+id,action:'recheck'});return recheckSame(id,expected);}
  function recheckSame(id:string,expected:unknown){if(queue.isBlocked())throw new SpecError('CHECK_CLEANUP_REQUIRED','Owned process cleanup must be reconciled before recheck.');if(db.prepare("SELECT id FROM verify_only_runs WHERE json_extract(ledger_json,'$.cleanupUncertain')=1").get())throw new SpecError('CHECK_CLEANUP_REQUIRED','Protected process cleanup needs reconciliation before recheck.');if(deciding.has(id))throw new SpecError('DECISION_PENDING','A decision is already in progress.');const t=ticket(id),c=candidate(id);if(!c||typeof expected!=='string'||expected!==c.commit||t.candidateCommits.at(-1)!==c.commit)throw new SpecError('STALE_CANDIDATE','Confirm the same frozen Candidate to recheck.');

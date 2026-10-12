@@ -8,7 +8,7 @@ export function referencedTicket(db:DatabaseSync,text:string):Ticket|null{
  if(matches.length!==1)throw new SpecError('TICKET_NOT_FOUND','That ticket identifier is missing or ambiguous.',404);return matches[0]!;
 }
 export function ticketHarnessFailure(db:DatabaseSync,t:Ticket):string|null{
- if(t.status==='needs_you'){const alert=listTicketEvents(db,t.id).filter(e=>e.kind==='needs_you').at(-1);if(alert?.data.kind==='WATCHMAN')return 'Watchman paused this ticket after more than 10 blocked actions.';if(alert?.data.kind==='TRIPWIRE')return 'TRIPWIRE: read attempt on '+String(alert.data.path)+' at '+String(alert.data.at)+'. The ticket was stopped.';}
+ if(t.status==='needs_you'){const alert=listTicketEvents(db,t.id).filter(e=>e.kind==='needs_you').at(-1);if(alert?.data.kind==='ACTION_BUDGET')return String(alert.data.reason);if(alert?.data.kind==='WATCHMAN')return 'Watchman paused this ticket after more than 10 blocked actions.';if(alert?.data.kind==='TRIPWIRE')return 'TRIPWIRE: read attempt on '+String(alert.data.path)+' at '+String(alert.data.at)+'. The ticket was stopped.';}
  if(t.status!=='harness_error')return null;
  const event=listTicketEvents(db,t.id).filter(e=>['cleanup','agent_stopped','check_result'].includes(e.kind)&&typeof e.data.reason==='string').at(-1);
  const reason=String(event?.data.reason??'The ticket stopped before its checks could finish.');
