@@ -10,6 +10,7 @@ export function projectChatEvents(db:DatabaseSync,store:ReturnType<typeof create
    const verdict=data.to==='ready_for_review'?' Checks: '+(checked??'NOT CHECKED')+'.':'';
    store.appendMessage({role:'jarvis',kind:'update',text:t.id.slice(0,8)+' · '+t.title+': '+states[data.to]+verdict,ticketEventSequence:Number(e.sequence)});
   }
+  if(t&&e.kind==='needs_you'&&data.kind==='TRIPWIRE')store.appendMessage({role:'jarvis',kind:'update',text:t.id.slice(0,8)+' · TRIPWIRE: read attempt on '+String(data.path)+' at '+String(data.at)+'. Ticket stopped; no Candidate was accepted.',ticketEventSequence:Number(e.sequence)});
   store.advanceProjection(Number(e.sequence));
  }
 }
