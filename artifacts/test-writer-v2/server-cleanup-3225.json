@@ -1,0 +1,13 @@
+[
+  {
+    "port": 3225,
+    "pid": 71080,
+    "cleanup": {
+      "verified": true,
+      "ambiguous": false,
+      "remaining": [],
+      "terminalCount": 0,
+      "reason": null
+    }
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "fixture": "isolated TEST data; clearly labelled; actual A2 evidence with current advisory policy; no decision clicked",
+  "desktopWidth": 1440,
+  "mobileWidth": 390,
+  "mobileScrollWidth": 390,
+  "advisoryTextVisible": true,
+  "screenshots": [
+    "writer-desktop.png",
+    "writer-mobile.png"
+  ],
+  "browserClosed": true,
+  "serverCleanup": "server-cleanup-3246.json"
+}

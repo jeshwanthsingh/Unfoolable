@@ -34,6 +34,7 @@ export async function runWriterSession(root:string,input:unknown,directory:strin
  if(m.id!==undefined){const p=m.params;let response:any={contentItems:[{type:'inputText',text:'Denied: only BASE read access is available.'}],success:false};
  if(m.method==='item/tool/call'&&p.threadId===thread&&(turn===null||p.turnId===turn)&&p.tool==='read_base'){try{response={contentItems:[{type:'inputText',text:read(p.arguments?.path)}],success:true};}catch{}}else{send({id:m.id,error:{code:-32601,message:'Unsupported writer capability'}});stop(Error('Unsupported writer capability'));continue;}
  log({method:m.method,path:p.arguments?.path,success:response.success,threadId:p.threadId,turnId:p.turnId});send({id:m.id,result:response});continue;}
+ if(['item/started','item/completed'].includes(m.method)&&m.params?.item&&!['userMessage','agentMessage','reasoning','dynamicToolCall','contextCompaction'].includes(m.params.item.type)){stop(Error('Unexpected writer tool activity'));continue;}
  if(m.method==='item/completed'&&m.params?.item?.type==='agentMessage')summary=m.params.item.text;
  if(m.method==='thread/tokenUsage/updated'){const u=m.params.tokenUsage?.total;if(u&&['inputTokens','cachedInputTokens','outputTokens','totalTokens'].every(k=>Number.isSafeInteger(u[k])&&u[k]>=0))usage=u;}
  if(m.method==='turn/completed'){m.params?.turn?.status==='completed'?finish():stop(Error('Writer turn did not complete'));}

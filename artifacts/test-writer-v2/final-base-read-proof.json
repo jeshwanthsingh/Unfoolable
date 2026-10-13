@@ -1,0 +1,43 @@
+{
+  "filesExistedOutsideBase": true,
+  "calls": [
+    {
+      "method": "item/tool/call",
+      "path": "app.py",
+      "success": true,
+      "threadId": "01a132f8-a24b-70f3-91b6-f50f422c176c",
+      "turnId": "01a132f8-a2a6-7643-80f5-05db4731b1c6"
+    },
+    {
+      "method": "item/tool/call",
+      "path": "../candidate.py",
+      "success": false,
+      "threadId": "01a132f8-a24b-70f3-91b6-f50f422c176c",
+      "turnId": "01a132f8-a2a6-7643-80f5-05db4731b1c6"
+    },
+    {
+      "method": "item/tool/call",
+      "path": "../grader.json",
+      "success": false,
+      "threadId": "01a132f8-a24b-70f3-91b6-f50f422c176c",
+      "turnId": "01a132f8-a2a6-7643-80f5-05db4731b1c6"
+    }
+  ],
+  "result": {
+    "baseReadable": true,
+    "candidateReadable": false,
+    "graderReadable": false
+  },
+  "cost": {
+    "usage": {
+      "totalTokens": 10571,
+      "inputTokens": 10486,
+      "cachedInputTokens": 4864,
+      "cacheWriteInputTokens": 0,
+      "outputTokens": 85,
+      "reasoningOutputTokens": 0
+    },
+    "sessionId": "01a132f8-a24b-70f3-91b6-f50f422c176c",
+    "started": true
+  }
+}

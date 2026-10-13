@@ -22,8 +22,13 @@ class Result(unittest.TestResult):
         super().addUnexpectedSuccess(t); self.records.append({'id':t.id(),'status':'ERROR','reason':'unexpected success'})
     def addSubTest(self,t,sub,e):
         super().addSubTest(t,sub,e)
-        if e is not None and t.id() not in self.subfailures:
-            self.subfailures.add(t.id()); self.records.append({'id':t.id(),'status':'ASSERTION_FAIL' if issubclass(e[0],t.failureException) else 'ERROR','reason':''.join(traceback.format_exception(*e))[-6000:]})
+        if e is not None:
+            status='ASSERTION_FAIL' if issubclass(e[0],t.failureException) else 'ERROR'
+            existing=next((r for r in self.records if r['id']==t.id()),None)
+            if existing is None:
+                self.subfailures.add(t.id()); self.records.append({'id':t.id(),'status':status,'reason':''.join(traceback.format_exception(*e))[-6000:]})
+            elif status=='ERROR':
+                existing['status']='ERROR'; existing['reason']=''.join(traceback.format_exception(*e))[-6000:]
 class Capture(io.StringIO):
     def write(self,s):
         if self.tell()+len(s)>16384: raise RuntimeError('Writer native output exceeded bound')

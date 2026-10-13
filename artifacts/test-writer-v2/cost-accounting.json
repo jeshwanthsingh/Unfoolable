@@ -1,6 +1,6 @@
 {
   "measuredTokens": 1423853,
-  "allRetainedReportedTokens": 1981499,
+  "allRetainedReportedTokens": 1992070,
   "sessions": {
     "01a13299-5107-7420-b47d-8791083d833b": {
       "path": ".work/test-writer-v2/session-proof-3/cost.json",
@@ -129,6 +129,10 @@
     "01a132ae-3460-77c1-b312-b665e1028c8c": {
       "path": ".work/test-writer-v2/scoring-data/verify-only/b2019329-f373-4448-8d19-ec683db6111a/test-writer/author-0/cost.json",
       "totalTokens": 45868
+    },
+    "01a132f8-a24b-70f3-91b6-f50f422c176c": {
+      "path": ".work/test-writer-v2/session-proof-final/cost.json",
+      "totalTokens": 10571
     }
   },
   "note": "Includes native/read probes and void implementation attempts when usage was retained. Partial sessions stopped during void measurements without retained usage remain unavailable; no guess."

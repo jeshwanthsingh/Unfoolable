@@ -1,0 +1,9 @@
+✔ an invalid cross-project Mission list becomes unavailable rather than fabricated data (0.688458ms)
+ℹ tests 853
+ℹ suites 0
+ℹ pass 853
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 271202.031833
