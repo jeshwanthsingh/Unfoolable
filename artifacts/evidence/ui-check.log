@@ -1,0 +1,10 @@
+### Result
+{
+  "width": 390,
+  "scroll": 390,
+  "measurement": "Independent Test WriterAdvisory only — these tests never change the verdict.1/1 focused tests admitted · Admitted checks executed all measured changed linesChanged lines covered: 100.0% (3/3)Mutation score: 66.7% · 6/9 killed (advisory only)Codex cost: 23,625 reported tokenstests/test_cc_writer_8ef08eb0_8ca8_4c21_9bf5_299d102f01b5.py · Tests malformed exit-code types, missing codes, rejection reasons, and valid integer completion outcomes.Admitted: assertion failure on BASE and passing checks on this Candidate."
+}
+### Ran Playwright code
+```js
+await page.evaluate('() => ({width:innerWidth,scroll:document.documentElement.scrollWidth,measurement:document.querySelector("section[aria-label=\\"Independent Test Writer\\"]").textContent})');
+```

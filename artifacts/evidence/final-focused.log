@@ -1,0 +1,21 @@
+✔ real protected native writer pass (949.075042ms)
+✔ real protected native writer assertion (947.997625ms)
+✔ real protected native writer import (949.43375ms)
+✔ real protected native writer skip (949.482625ms)
+✔ real protected native writer zero (989.399667ms)
+✔ real protected native writer mixed-subtest (983.354458ms)
+✔ real protected native writer early-exit (1027.489875ms)
+✔ native report classifications never admit syntax/setup, skipped or missing test count (0.385209ms)
+✔ Vitest setup message is retained for the single BASE-only repair; error prose never masquerades as AssertionError (0.214084ms)
+✔ Vitest promise expectation errors count only with a native expectation frame, not arbitrary error prose (0.175583ms)
+✔ native Vitest dependency preflight rejects missing packages before trusting installer or reports (1.820375ms)
+✔ changed line coverage is measured from tool counts, zero is unknown (1.573167ms)
+✔ Candidate test edits and documentation never enter the changed production-line denominator (2.561083ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6911.992416

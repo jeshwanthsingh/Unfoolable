@@ -1,0 +1,25 @@
+START fresh H1-correct
+RESULT H1-correct ERROR TOKENS not started
+START fresh H1-wrong
+RESULT H1-wrong ERROR TOKENS not started
+START fresh H2-correct
+RESULT H2-correct ERROR TOKENS not started
+START fresh H2-wrong
+RESULT H2-wrong ERROR TOKENS not started
+START fresh H3-correct
+RESULT H3-correct ERROR TOKENS not started
+START fresh H3-wrong
+RESULT H3-wrong ERROR TOKENS not started
+START fresh H4-correct
+RESULT H4-correct ERROR TOKENS not started
+START fresh H4-wrong
+RESULT H4-wrong ERROR TOKENS not started
+START fresh H5-correct
+RESULT H5-correct ERROR TOKENS not started
+START fresh H5-wrong
+RESULT H5-wrong ERROR TOKENS not started
+START fresh H6-correct
+RESULT H6-correct ERROR TOKENS not started
+START fresh H6-wrong
+RESULT H6-wrong ERROR TOKENS not started
+{"mode":"fresh","cases":12,"correct":6,"wrong":6,"confirmed":0,"falseAccepts":0,"actualPolicy":"ADVISORY","method":"Counterfactual existing scoreV1 with admitted writer advisoryOnly=false; actual app results unchanged","tokens":0,"started":0,"unknownUsageCases":[],"averageTokensPerStartedCase":null,"averageTokensPerAllCases":0}

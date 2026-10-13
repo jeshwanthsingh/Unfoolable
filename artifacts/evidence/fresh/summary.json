@@ -1,0 +1,15 @@
+{
+  "mode": "fresh",
+  "cases": 12,
+  "correct": 6,
+  "wrong": 6,
+  "confirmed": 0,
+  "falseAccepts": 0,
+  "actualPolicy": "ADVISORY",
+  "method": "Counterfactual existing scoreV1 with admitted writer advisoryOnly=false; actual app results unchanged",
+  "tokens": 0,
+  "started": 0,
+  "unknownUsageCases": [],
+  "averageTokensPerStartedCase": null,
+  "averageTokensPerAllCases": 0
+}

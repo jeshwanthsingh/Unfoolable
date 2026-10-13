@@ -1,0 +1,67 @@
+{
+  "note": "mutant on line 106 survived",
+  "remaining": 30643,
+  "previous": {
+    "cachedInputTokens": 0,
+    "inputTokens": 7573,
+    "outputTokens": 1784,
+    "totalTokens": 9357
+  },
+  "result": {
+    "version": "test-writer-v1",
+    "mode": "NATIVE",
+    "advisoryOnly": true,
+    "baseCommit": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "requestHash": "4e324e8b01e0c05f086653dcc02201a6158b9d3186283b39e42c526f49549e00",
+    "inputHash": "5d7621d75fb2c160552184be836387efc5f79aad56bb9fc07ae3837edbdfab07",
+    "usage": {
+      "inputTokens": 7498,
+      "cachedInputTokens": 0,
+      "outputTokens": 1656,
+      "totalTokens": 9154
+    },
+    "sessionId": "01a13379-4b07-79a3-a856-0533602ce1c3",
+    "started": true,
+    "coverage": "FULL",
+    "checks": [
+      {
+        "id": "writer-file",
+        "testName": "src/__tests__/cc-writer-6af30d00-0587-4dc0-a122-2430981e2d7e.test.tsx",
+        "summary": "Tests empty successes, non-JSON HTTP errors, refresh recovery and failure, retry limits, unauthenticated isolation, and JSON preservation.",
+        "status": "ADMITTED",
+        "base": [
+          "FAIL"
+        ],
+        "candidate": "PASS",
+        "candidateRuns": [
+          "PASS",
+          "PASS"
+        ],
+        "reason": null
+      }
+    ],
+    "reason": "Native writer not admitted: One mutation-feedback authoring retry already consumed",
+    "lineCoverage": {
+      "tool": "c8",
+      "changedLines": 18,
+      "coveredLines": 18,
+      "percent": 100,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-candidate-0/execution/measured-coverage.json"
+    },
+    "mutation": {
+      "tool": "StrykerJS",
+      "generated": 21,
+      "tested": 12,
+      "killed": 4,
+      "survived": 8,
+      "errors": 0,
+      "score": 33.333333333333336,
+      "sampled": true,
+      "survivorLine": 106,
+      "reason": "Sampled up to 12 changed-line mutants; advisory only",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-mutation/mutations.json"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "case": "T5-correct",
+    "admitted": true,
+    "coverage": {
+      "tool": "c8",
+      "changedLines": 3,
+      "coveredLines": 3,
+      "percent": 100,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-0/execution/measured-coverage.json"
+    },
+    "mutation": {
+      "tool": "StrykerJS",
+      "generated": 2,
+      "tested": 2,
+      "killed": 2,
+      "survived": 0,
+      "errors": 0,
+      "score": 100,
+      "sampled": false,
+      "survivorLine": null,
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/mutation/mutations.json"
+    },
+    "results": [
+      {
+        "status": "ASSERTION_FAIL",
+        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/base/execution/native-report.json"
+      },
+      {
+        "status": "PASS",
+        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-0/execution/native-report.json"
+      },
+      {
+        "status": "PASS",
+        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-1/execution/native-report.json"
+      }
+    ]
+  },
+  {
+    "case": "T3-correct",
+    "admitted": true,
+    "coverage": {
+      "tool": "c8",
+      "changedLines": 18,
+      "coveredLines": 18,
+      "percent": 100,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-0/execution/measured-coverage.json"
+    },
+    "mutation": {
+      "tool": "StrykerJS",
+      "generated": 21,
+      "tested": 12,
+      "killed": 4,
+      "survived": 8,
+      "errors": 0,
+      "score": 33.333333333333336,
+      "sampled": true,
+      "survivorLine": 106,
+      "reason": "Sampled up to 12 changed-line mutants; advisory only",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/mutation/mutations.json"
+    },
+    "results": [
+      {
+        "status": "ASSERTION_FAIL",
+        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/base/execution/native-report.json"
+      },
+      {
+        "status": "PASS",
+        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-0/execution/native-report.json"
+      },
+      {
+        "status": "PASS",
+        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-1/execution/native-report.json"
+      }
+    ]
+  }
+]

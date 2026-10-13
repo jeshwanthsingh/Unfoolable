@@ -1,0 +1,3694 @@
+[
+  {
+    "case": "H1-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the visible error on initial fetch failure without stale booking controls",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading restores the error after a failed retry instead of leaving a loader",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the correct doctor and booking controls after a successful retry",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading does not show an older response after the current Doctor request finishes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts a therapist who has not started",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner says payouts are blocked, not merely incomplete",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when details failed verification",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when the account is suspended",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent once payouts are active",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent while Razorpay is still reviewing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner links to the payouts tab, not just to settings",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is rendered on the welcome page, not only the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is still rendered on the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner can be dismissed for the visit",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity keeps the same object when the profile has not changed",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity stays stable across repeated fetches",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity ignores a re-signed profileImage URL for the same object",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a genuinely different profile image",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a first profile image appearing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity publishes a new object when the profile genuinely changes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a change nested inside the profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices verification status changing, which gates the redirects",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity returns the fetched profile regardless of whether state was replaced",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 29.231812875,
+    "error": null,
+    "base": "279c2e5ea4b4447947b3e96ef065558c05459254",
+    "candidate": "eb5b5b292ab16da93e72367e34d9c0e587c81ce0",
+    "tree": "99078bfcdd809fb1799b447afdec11a87361a5ba"
+  },
+  {
+    "case": "H1-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the visible error on initial fetch failure without stale booking controls",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading restores the error after a failed retry instead of leaving a loader",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the correct doctor and booking controls after a successful retry",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading does not show an older response after the current Doctor request finishes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts a therapist who has not started",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner says payouts are blocked, not merely incomplete",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when details failed verification",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when the account is suspended",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent once payouts are active",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent while Razorpay is still reviewing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner links to the payouts tab, not just to settings",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is rendered on the welcome page, not only the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is still rendered on the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner can be dismissed for the visit",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity keeps the same object when the profile has not changed",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity stays stable across repeated fetches",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity ignores a re-signed profileImage URL for the same object",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a genuinely different profile image",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a first profile image appearing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity publishes a new object when the profile genuinely changes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a change nested inside the profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices verification status changing, which gates the redirects",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity returns the fetched profile regardless of whether state was replaced",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 31.732723,
+    "error": null,
+    "base": "279c2e5ea4b4447947b3e96ef065558c05459254",
+    "candidate": "76483eabeee6744171552f41cd240d57e41371c1",
+    "tree": "ab72d8f76b174042f587127a42da9e27c24b9fa8"
+  },
+  {
+    "case": "H2-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the visible error on initial fetch failure without stale booking controls",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading restores the error after a failed retry instead of leaving a loader",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the correct doctor and booking controls after a successful retry",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading does not show an older response after the current Doctor request finishes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts a therapist who has not started",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner says payouts are blocked, not merely incomplete",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when details failed verification",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when the account is suspended",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent once payouts are active",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent while Razorpay is still reviewing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner links to the payouts tab, not just to settings",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is rendered on the welcome page, not only the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is still rendered on the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner can be dismissed for the visit",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity keeps the same object when the profile has not changed",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity stays stable across repeated fetches",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity ignores a re-signed profileImage URL for the same object",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a genuinely different profile image",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a first profile image appearing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity publishes a new object when the profile genuinely changes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a change nested inside the profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices verification status changing, which gates the redirects",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity returns the fetched profile regardless of whether state was replaced",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 28.050556957999994,
+    "error": null,
+    "base": "5632ee14d5735e535b18cb8e5b9922c90554e14c",
+    "candidate": "185571fed6730d77b7aca7f793a26341089f0bf2",
+    "tree": "4bb1c5a06708568460f5f7d866f042cfa8b83005"
+  },
+  {
+    "case": "H2-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the visible error on initial fetch failure without stale booking controls",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading restores the error after a failed retry instead of leaving a loader",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the correct doctor and booking controls after a successful retry",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading does not show an older response after the current Doctor request finishes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts a therapist who has not started",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner says payouts are blocked, not merely incomplete",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when details failed verification",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when the account is suspended",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent once payouts are active",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent while Razorpay is still reviewing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner links to the payouts tab, not just to settings",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is rendered on the welcome page, not only the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is still rendered on the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner can be dismissed for the visit",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity keeps the same object when the profile has not changed",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity stays stable across repeated fetches",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity ignores a re-signed profileImage URL for the same object",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a genuinely different profile image",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a first profile image appearing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity publishes a new object when the profile genuinely changes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a change nested inside the profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices verification status changing, which gates the redirects",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity returns the fetched profile regardless of whether state was replaced",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 25.447573374999994,
+    "error": null,
+    "base": "5632ee14d5735e535b18cb8e5b9922c90554e14c",
+    "candidate": "762615d5765415c8a3878973e84f2f57f1cfc1de",
+    "tree": "ed0d01b97f5f80258bd81e48fa3f9d3401830901"
+  },
+  {
+    "case": "H3-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the visible error on initial fetch failure without stale booking controls",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading restores the error after a failed retry instead of leaving a loader",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the correct doctor and booking controls after a successful retry",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading does not show an older response after the current Doctor request finishes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window that is not a whole number of sessions drops the partial one",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window that divides exactly keeps every session",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a session ending exactly at closing is still offered",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window shorter than one session offers nothing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered every offered start leaves room for the whole session",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered split windows are each measured on their own",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a missing duration yields nothing rather than looping forever",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts a therapist who has not started",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner says payouts are blocked, not merely incomplete",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when details failed verification",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when the account is suspended",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent once payouts are active",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent while Razorpay is still reviewing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner links to the payouts tab, not just to settings",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is rendered on the welcome page, not only the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is still rendered on the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner can be dismissed for the visit",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity keeps the same object when the profile has not changed",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity stays stable across repeated fetches",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity ignores a re-signed profileImage URL for the same object",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a genuinely different profile image",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a first profile image appearing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity publishes a new object when the profile genuinely changes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a change nested inside the profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices verification status changing, which gates the redirects",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity returns the fetched profile regardless of whether state was replaced",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 26.557479957999995,
+    "error": null,
+    "base": "ebf3b79b1d7f8f85a657b72a597465c988191e73",
+    "candidate": "38e75228b59c50a9e40d58581c096a91c6c55159",
+    "tree": "658a738d7a5a1f3b4e5ef61ee4bc89e825dd7f9f"
+  },
+  {
+    "case": "H3-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the visible error on initial fetch failure without stale booking controls",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading restores the error after a failed retry instead of leaving a loader",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the correct doctor and booking controls after a successful retry",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading does not show an older response after the current Doctor request finishes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window that is not a whole number of sessions drops the partial one",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window that divides exactly keeps every session",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a session ending exactly at closing is still offered",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window shorter than one session offers nothing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered every offered start leaves room for the whole session",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered split windows are each measured on their own",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a missing duration yields nothing rather than looping forever",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts a therapist who has not started",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner says payouts are blocked, not merely incomplete",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when details failed verification",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when the account is suspended",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent once payouts are active",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent while Razorpay is still reviewing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner links to the payouts tab, not just to settings",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is rendered on the welcome page, not only the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is still rendered on the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner can be dismissed for the visit",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity keeps the same object when the profile has not changed",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity stays stable across repeated fetches",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity ignores a re-signed profileImage URL for the same object",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a genuinely different profile image",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a first profile image appearing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity publishes a new object when the profile genuinely changes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a change nested inside the profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices verification status changing, which gates the redirects",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity returns the fetched profile regardless of whether state was replaced",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 26.590366083,
+    "error": null,
+    "base": "ebf3b79b1d7f8f85a657b72a597465c988191e73",
+    "candidate": "041e05cf87270759caaf598ef3824ac149556c59",
+    "tree": "e8251d15865d0dba7f57bc6bd5bcac8b0545a846"
+  },
+  {
+    "case": "H4-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the visible error on initial fetch failure without stale booking controls",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading restores the error after a failed retry instead of leaving a loader",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the correct doctor and booking controls after a successful retry",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading does not show an older response after the current Doctor request finishes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window that is not a whole number of sessions drops the partial one",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window that divides exactly keeps every session",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a session ending exactly at closing is still offered",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window shorter than one session offers nothing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered every offered start leaves room for the whole session",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered split windows are each measured on their own",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a missing duration yields nothing rather than looping forever",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A booked slot reads as booked from any browser the taken slot is recognised whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A booked slot reads as booked from any browser a free slot next to it is still offered",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A booked slot reads as booked from any browser an afternoon slot matches on the 12-hour conversion",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A slot that has already started is not offered an earlier slot today is past, whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A slot that has already started is not offered a later slot today is not",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A slot that has already started is not offered a slot inside the five-minute buffer counts as past",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A slot that has already started is not offered a day already underway in India is still checked from a western browser",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts a therapist who has not started",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner says payouts are blocked, not merely incomplete",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when details failed verification",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when the account is suspended",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent once payouts are active",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent while Razorpay is still reviewing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner links to the payouts tab, not just to settings",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is rendered on the welcome page, not only the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is still rendered on the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner can be dismissed for the visit",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity keeps the same object when the profile has not changed",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity stays stable across repeated fetches",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity ignores a re-signed profileImage URL for the same object",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a genuinely different profile image",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a first profile image appearing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity publishes a new object when the profile genuinely changes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a change nested inside the profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices verification status changing, which gates the redirects",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity returns the fetched profile regardless of whether state was replaced",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 27.014787375000015,
+    "error": null,
+    "base": "5c6eaa22b823a426e43ca30b80f3f3882de4a603",
+    "candidate": "1fcbd7c8419088993d2091e1b8ae31999e4c55c9",
+    "tree": "7261698f9a878e0ecedde9f08f5f7e7c815bac8f"
+  },
+  {
+    "case": "H4-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the visible error on initial fetch failure without stale booking controls",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading restores the error after a failed retry instead of leaving a loader",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading shows the correct doctor and booking controls after a successful retry",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "booking page therapist loading does not show an older response after the current Doctor request finishes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window that is not a whole number of sessions drops the partial one",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window that divides exactly keeps every session",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a session ending exactly at closing is still offered",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a window shorter than one session offers nothing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered every offered start leaves room for the whole session",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered split windows are each measured on their own",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "Only sessions that fit inside the window are offered a missing duration yields nothing rather than looping forever",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A booked slot reads as booked from any browser the taken slot is recognised whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A booked slot reads as booked from any browser a free slot next to it is still offered",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A booked slot reads as booked from any browser an afternoon slot matches on the 12-hour conversion",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A slot that has already started is not offered an earlier slot today is past, whatever the browser zone",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A slot that has already started is not offered a later slot today is not",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A slot that has already started is not offered a slot inside the five-minute buffer counts as past",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "A slot that has already started is not offered a day already underway in India is still checked from a western browser",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts a therapist who has not started",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner says payouts are blocked, not merely incomplete",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when details failed verification",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner prompts when the account is suspended",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent once payouts are active",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent while Razorpay is still reviewing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner links to the payouts tab, not just to settings",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is rendered on the welcome page, not only the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner is still rendered on the dashboard",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "PayoutSetupBanner can be dismissed for the visit",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity keeps the same object when the profile has not changed",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity stays stable across repeated fetches",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity ignores a re-signed profileImage URL for the same object",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a genuinely different profile image",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a first profile image appearing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity publishes a new object when the profile genuinely changes",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices a change nested inside the profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity notices verification status changing, which gates the redirects",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "fetchProfile identity returns the fetched profile regardless of whether state was replaced",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 26.06310904099999,
+    "error": null,
+    "base": "5c6eaa22b823a426e43ca30b80f3f3882de4a603",
+    "candidate": "0b9e655640506c976bfbda98da87a7e09d579f5f",
+    "tree": "a3921226f3c0663e13bc7525b562a37f245df627"
+  },
+  {
+    "case": "H5-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "native-suite",
+        "layer": 1,
+        "reason": "Native suite observations or cleanup unavailable"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "native-suite",
+            "layer": 1,
+            "reason": "Native suite observations or cleanup unavailable"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 25.845001792000026,
+    "error": null,
+    "base": "1bd19397c28d1241bf24dea5a7a838bd8ecb6cb1",
+    "candidate": "f03753d37e26c2d4ed9864734fa6527d70a53423",
+    "tree": "4ae3001c55f6154c1dff0ee84b8c7ba6ab7b30f9"
+  },
+  {
+    "case": "H5-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "native-suite",
+        "layer": 1,
+        "reason": "Native suite observations or cleanup unavailable"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "native-suite",
+            "layer": 1,
+            "reason": "Native suite observations or cleanup unavailable"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 25.70987150000001,
+    "error": null,
+    "base": "1bd19397c28d1241bf24dea5a7a838bd8ecb6cb1",
+    "candidate": "abad213212b9446f3c187595148600b15af4df9a",
+    "tree": "8b90f1929e45edc7531cde64c3ecae478f2d7366"
+  },
+  {
+    "case": "H6-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 23.313395791999994,
+    "error": null,
+    "base": "790d6006726237705bf8c0ef830475cf31ac2ed2",
+    "candidate": "899833eafb468d308d4616e4d6cfa7ba8a654240",
+    "tree": "7eaca453068fa6e1c4926de15a451b833296c46c"
+  },
+  {
+    "case": "H6-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "round-trips a 2000-code-unit ASCII message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit Hindi message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit CJK message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "round-trips a 2000-code-unit emoji message",
+        "layer": 1,
+        "reason": "Native test is outside frozen BASE inventory"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "admin dashboard logout redirects only after server logout succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin dashboard logout keeps the dashboard available when server logout fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout calls the backend before clearing local admin state",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin logout does not present logout as complete when server revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change clears the current browser only after account-wide revocation succeeds",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "admin password change preserves the current browser state when password revocation fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should set user.type to \"doctor\" after login",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore loginDoctor should not crash when response.data.user is missing",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type after fetching profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should preserve user.type for patient profiles",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore fetchProfile should not set global error state on failure (safe for polling)",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore updateProfile should preserve user.type after updating profile",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "authStore setUser should normalize user type to lowercase",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat does not select any transport when encryption fails",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit ASCII message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit Hindi message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit CJK message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary round-trips a 2000-code-unit emoji message",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading stores an approved public therapist response",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading clears a stale therapist and propagates a 404 to the page",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "doctorStore public profile loading does not restore an older profile when its response arrives after a 404",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "public therapist API errors preserves the HTTP 404 status for the profile not-found UI",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "round-trips a 2000-code-unit ASCII message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit Hindi message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit CJK message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          },
+          {
+            "id": "round-trips a 2000-code-unit emoji message",
+            "layer": 1,
+            "reason": "Native test is outside frozen BASE inventory"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 23.09387050000002,
+    "error": null,
+    "base": "790d6006726237705bf8c0ef830475cf31ac2ed2",
+    "candidate": "492566e1cd7c5060df136e50a809842b63f8840e",
+    "tree": "ffad20c4440386ceddb1a3152ea21bb777187da9"
+  }
+]

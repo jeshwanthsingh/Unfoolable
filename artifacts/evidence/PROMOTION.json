@@ -1,0 +1,15 @@
+{
+  "policy": "ADVISORY",
+  "oldConfirmed": 2,
+  "oldCorrect": 11,
+  "oldFalseAccepts": 0,
+  "oldWrong": 8,
+  "freshConfirmed": 0,
+  "freshCorrect": 6,
+  "freshFalseAccepts": 0,
+  "freshWrong": 6,
+  "freshAllBlockedBeforeAuthoring": true,
+  "averageOldTokensPerStartedCase": 14398.333333333334,
+  "averageFreshTokensPerStartedCase": null,
+  "reason": "Neither set reached 60%; fresh has no valid writer-quality observation."
+}

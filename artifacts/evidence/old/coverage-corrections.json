@@ -1,0 +1,222 @@
+[
+  {
+    "case": "A2-correct",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-candidate-0/execution/measured-coverage.json",
+    "originalSHA256": "8b805bf4a12d40c207c4537a36b6092d1864fc3d8433b1b82fbda33bbea13533",
+    "original": {
+      "tool": "coverage.py",
+      "changedLines": 12,
+      "coveredLines": 3,
+      "percent": 25,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-candidate-0/execution/measured-coverage.json"
+    },
+    "corrected": {
+      "tool": "coverage.py",
+      "changedLines": 3,
+      "coveredLines": 3,
+      "percent": 100,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-candidate-0/execution/measured-coverage.json"
+    },
+    "excluded": [
+      "tests/test_sdk.py"
+    ],
+    "method": "Corrected denominator from retained diff-cover file-level counts; no re-execution, new AI or changed test"
+  },
+  {
+    "case": "A2-correct",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-candidate-1/execution/measured-coverage.json",
+    "originalSHA256": "3c2c7689e85ee9781c502f89ed1fa2313de950e86f95837d697d0b5284a3afb9",
+    "original": {
+      "tool": "coverage.py",
+      "changedLines": 12,
+      "coveredLines": 3,
+      "percent": 25,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-candidate-1/execution/measured-coverage.json"
+    },
+    "corrected": {
+      "tool": "coverage.py",
+      "changedLines": 3,
+      "coveredLines": 3,
+      "percent": 100,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-candidate-1/execution/measured-coverage.json"
+    },
+    "excluded": [
+      "tests/test_sdk.py"
+    ],
+    "method": "Corrected denominator from retained diff-cover file-level counts; no re-execution, new AI or changed test"
+  },
+  {
+    "case": "T5-correct",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/36105223-e5b8-43ec-b627-f4b98d27ddf1/test-writer/attempt-0-candidate-0/execution/measured-coverage.json",
+    "originalSHA256": "edc0dc92f48356e493d5e5bec38003d02d269f2fc3591f777814cdc23611eb96",
+    "original": {
+      "tool": "c8",
+      "changedLines": 0,
+      "coveredLines": 0,
+      "percent": null,
+      "unmeasuredPaths": [
+        "src/store/appointmentStore.ts"
+      ],
+      "reason": "Changed source missing from native coverage report",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/36105223-e5b8-43ec-b627-f4b98d27ddf1/test-writer/attempt-0-candidate-0/execution/measured-coverage.json"
+    },
+    "corrected": {
+      "tool": "c8",
+      "changedLines": 0,
+      "coveredLines": 0,
+      "percent": null,
+      "unmeasuredPaths": [
+        "src/store/appointmentStore.ts"
+      ],
+      "reason": "Changed source missing from native coverage report",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/36105223-e5b8-43ec-b627-f4b98d27ddf1/test-writer/attempt-0-candidate-0/execution/measured-coverage.json"
+    },
+    "excluded": [],
+    "method": "Corrected denominator from retained diff-cover file-level counts; no re-execution, new AI or changed test"
+  },
+  {
+    "case": "T5-correct",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/36105223-e5b8-43ec-b627-f4b98d27ddf1/test-writer/attempt-0-candidate-1/execution/measured-coverage.json",
+    "originalSHA256": "725b0972e185ce20912670551081a4b4a42264b8f843c2938436806d3b7ff17b",
+    "original": {
+      "tool": "c8",
+      "changedLines": 0,
+      "coveredLines": 0,
+      "percent": null,
+      "unmeasuredPaths": [
+        "src/store/appointmentStore.ts"
+      ],
+      "reason": "Changed source missing from native coverage report",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/36105223-e5b8-43ec-b627-f4b98d27ddf1/test-writer/attempt-0-candidate-1/execution/measured-coverage.json"
+    },
+    "corrected": {
+      "tool": "c8",
+      "changedLines": 0,
+      "coveredLines": 0,
+      "percent": null,
+      "unmeasuredPaths": [
+        "src/store/appointmentStore.ts"
+      ],
+      "reason": "Changed source missing from native coverage report",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/36105223-e5b8-43ec-b627-f4b98d27ddf1/test-writer/attempt-0-candidate-1/execution/measured-coverage.json"
+    },
+    "excluded": [],
+    "method": "Corrected denominator from retained diff-cover file-level counts; no re-execution, new AI or changed test"
+  },
+  {
+    "case": "T3-correct",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/771dde0d-fe4c-43e9-89b6-d956e41f609f/test-writer/attempt-0-candidate-0/execution/measured-coverage.json",
+    "originalSHA256": "0966d888cdc8ea1a3e40a4eff5aab1d24adb435e338ae0edd33f7f40e068b0a7",
+    "original": {
+      "tool": "c8",
+      "changedLines": 0,
+      "coveredLines": 0,
+      "percent": null,
+      "unmeasuredPaths": [
+        "src/services/httpsServices.ts"
+      ],
+      "reason": "Changed source missing from native coverage report",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/771dde0d-fe4c-43e9-89b6-d956e41f609f/test-writer/attempt-0-candidate-0/execution/measured-coverage.json"
+    },
+    "corrected": {
+      "tool": "c8",
+      "changedLines": 0,
+      "coveredLines": 0,
+      "percent": null,
+      "unmeasuredPaths": [
+        "src/services/httpsServices.ts"
+      ],
+      "reason": "Changed source missing from native coverage report",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/771dde0d-fe4c-43e9-89b6-d956e41f609f/test-writer/attempt-0-candidate-0/execution/measured-coverage.json"
+    },
+    "excluded": [],
+    "method": "Corrected denominator from retained diff-cover file-level counts; no re-execution, new AI or changed test"
+  },
+  {
+    "case": "T3-correct",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/771dde0d-fe4c-43e9-89b6-d956e41f609f/test-writer/attempt-0-candidate-1/execution/measured-coverage.json",
+    "originalSHA256": "c6a06a5c4b765b9423b26e5f1eecde95ca7348d0aa56f4e9c18d5645338603db",
+    "original": {
+      "tool": "c8",
+      "changedLines": 0,
+      "coveredLines": 0,
+      "percent": null,
+      "unmeasuredPaths": [
+        "src/services/httpsServices.ts"
+      ],
+      "reason": "Changed source missing from native coverage report",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/771dde0d-fe4c-43e9-89b6-d956e41f609f/test-writer/attempt-0-candidate-1/execution/measured-coverage.json"
+    },
+    "corrected": {
+      "tool": "c8",
+      "changedLines": 0,
+      "coveredLines": 0,
+      "percent": null,
+      "unmeasuredPaths": [
+        "src/services/httpsServices.ts"
+      ],
+      "reason": "Changed source missing from native coverage report",
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/771dde0d-fe4c-43e9-89b6-d956e41f609f/test-writer/attempt-0-candidate-1/execution/measured-coverage.json"
+    },
+    "excluded": [],
+    "method": "Corrected denominator from retained diff-cover file-level counts; no re-execution, new AI or changed test"
+  },
+  {
+    "case": "kept-c6263195",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-candidate-0/execution/measured-coverage.json",
+    "originalSHA256": "7d4765283c5200edcf4c9893c6acc28ebef7d905ec88e6ec7970c672ca5cce86",
+    "original": {
+      "tool": "coverage.py",
+      "changedLines": 24,
+      "coveredLines": 22,
+      "percent": 91.66666666666667,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-candidate-0/execution/measured-coverage.json"
+    },
+    "corrected": {
+      "tool": "coverage.py",
+      "changedLines": 24,
+      "coveredLines": 22,
+      "percent": 91.66666666666667,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-candidate-0/execution/measured-coverage.json"
+    },
+    "excluded": [],
+    "method": "Corrected denominator from retained diff-cover file-level counts; no re-execution, new AI or changed test"
+  },
+  {
+    "case": "kept-c6263195",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-candidate-1/execution/measured-coverage.json",
+    "originalSHA256": "9854679e2f7c5cdce4422f5dbe3b9f3ad8259a9180181c04e5016bfdbb2a48c9",
+    "original": {
+      "tool": "coverage.py",
+      "changedLines": 24,
+      "coveredLines": 22,
+      "percent": 91.66666666666667,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-candidate-1/execution/measured-coverage.json"
+    },
+    "corrected": {
+      "tool": "coverage.py",
+      "changedLines": 24,
+      "coveredLines": 22,
+      "percent": 91.66666666666667,
+      "unmeasuredPaths": [],
+      "reason": null,
+      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-candidate-1/execution/measured-coverage.json"
+    },
+    "excluded": [],
+    "method": "Corrected denominator from retained diff-cover file-level counts; no re-execution, new AI or changed test"
+  }
+]
