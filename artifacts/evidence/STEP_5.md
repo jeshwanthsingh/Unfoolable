@@ -1,0 +1,6 @@
+# Fresh historical holdout frozen
+Six distinct Therapy2 frontend bug-fix commits, never used in the earlier graded cases. Five are related clinic-calendar fixes and one is booking retry failure; correlation is explicit, not a cross-project reliability claim.
+BASE = exact first parent. Correct = original fix with all changed test files restored to BASE. Wrong = one planted half-fix on the correct code. Only an owned disposable clone/index/object store was changed; no checkouts, source repo edits, remote, push, merge or deployment.
+Protected manifest and historical test packets: .work/evidence/data/holdout, mode 0700/0400, inside CC's Builder-denied tree. Writer receives only BASE context and request, never labels, Candidate code or truth packets.
+Historical truth validation: all six exact correct references PASS. All six half-fixes non-PASS (five assertion failures; the failed-retry case has an unhandled rejection ERROR). BASE controls non-PASS; several historical tests import new extracted APIs absent on BASE, so their results are ERROR, not asserted-red. This is disclosed and does not relax Test Writer's separate assertion-red admission rule.
+No writer/CC holdout scoring has started. Scoring source frozen at faa4adc. Exactly one forthcoming measurement per correct/wrong case; no tuning afterwards.

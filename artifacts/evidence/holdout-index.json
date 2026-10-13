@@ -1,0 +1,79 @@
+{
+  "manifestHash": "d249b0078e3ab9baa1d182292589ac70e2c35b9a23035a6fcef4e02a02b2e52f",
+  "protectedPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/data/holdout",
+  "correlation": "No tuning after first holdout measurement. Six distinct historical commits, all Therapy2 frontend; five related clinic-calendar bugs, so results are correlated and do not prove cross-repository generalization. Correct candidates contain the exact fix with BASE tests restored. Wrong candidates contain one planted half-fix. No checkout/worktree materialization.",
+  "cases": [
+    {
+      "id": "H1",
+      "base": "279c2e5ea4b4447947b3e96ef065558c05459254",
+      "fix": "6342ce351b4e37b13e4639e0af24ae4420b8a730",
+      "intent": "Resolve the picked booking date and time against Asia/Kolkata, regardless of the browser timezone.",
+      "historicalTest": "frontend/src/__tests__/clinicTime.test.ts",
+      "correct": "eb5b5b292ab16da93e72367e34d9c0e587c81ce0",
+      "correctTree": "99078bfcdd809fb1799b447afdec11a87361a5ba",
+      "wrong": "76483eabeee6744171552f41cd240d57e41371c1",
+      "wrongTree": "ab72d8f76b174042f587127a42da9e27c24b9fa8",
+      "testPacketHash": "a4378271ca8b3055c117ffb3ec9f7307f2c4f0e8ceca3b19af0d5879f52e8f7d"
+    },
+    {
+      "id": "H2",
+      "base": "5632ee14d5735e535b18cb8e5b9922c90554e14c",
+      "fix": "ebf3b79b1d7f8f85a657b72a597465c988191e73",
+      "intent": "Only offer booking slots when the entire session fits inside the published clinic time window.",
+      "historicalTest": "frontend/src/__tests__/buildSlotTimes.test.ts",
+      "correct": "185571fed6730d77b7aca7f793a26341089f0bf2",
+      "correctTree": "4bb1c5a06708568460f5f7d866f042cfa8b83005",
+      "wrong": "762615d5765415c8a3878973e84f2f57f1cfc1de",
+      "wrongTree": "ed0d01b97f5f80258bd81e48fa3f9d3401830901",
+      "testPacketHash": "a1016ae1f561e011ef2cd14e2ebb2e59bd7fc617f53817aff871ee3588f2fe1e"
+    },
+    {
+      "id": "H3",
+      "base": "ebf3b79b1d7f8f85a657b72a597465c988191e73",
+      "fix": "b304abe471806b096eccc94c0d345f719cf2688e",
+      "intent": "Compare booked and past booking slots using clinic-time instants rather than the browser clock.",
+      "historicalTest": "frontend/src/__tests__/clinicTime.test.ts",
+      "correct": "38e75228b59c50a9e40d58581c096a91c6c55159",
+      "correctTree": "658a738d7a5a1f3b4e5ef61ee4bc89e825dd7f9f",
+      "wrong": "041e05cf87270759caaf598ef3824ac149556c59",
+      "wrongTree": "e8251d15865d0dba7f57bc6bd5bcac8b0545a846",
+      "testPacketHash": "fd7919cb3551b1264bb53296ab245fc4ec8777cee7694dda407f79077c547d4f"
+    },
+    {
+      "id": "H4",
+      "base": "5c6eaa22b823a426e43ca30b80f3f3882de4a603",
+      "fix": "a82907eda76e31377f03675ceca05f5ac7f0b1a7",
+      "intent": "Build the inclusive available booking dates without UTC date-only parsing and use today on the clinic clock.",
+      "historicalTest": "frontend/src/__tests__/availableDates.test.ts",
+      "correct": "1fcbd7c8419088993d2091e1b8ae31999e4c55c9",
+      "correctTree": "7261698f9a878e0ecedde9f08f5f7e7c815bac8f",
+      "wrong": "0b9e655640506c976bfbda98da87a7e09d579f5f",
+      "wrongTree": "a3921226f3c0663e13bc7525b562a37f245df627",
+      "testPacketHash": "892a7344c9b181d46be532807190279c5340eb0833c60eded8c6f798545ca27b"
+    },
+    {
+      "id": "H5",
+      "base": "1bd19397c28d1241bf24dea5a7a838bd8ecb6cb1",
+      "fix": "80b3ac573b8583554f5e21ff8ecf524da4a454a9",
+      "intent": "Build the therapist week grid on the clinic calendar, with Monday-first columns and clinic-day session grouping.",
+      "historicalTest": "frontend/src/__tests__/clinicWeek.test.ts",
+      "correct": "f03753d37e26c2d4ed9864734fa6527d70a53423",
+      "correctTree": "4ae3001c55f6154c1dff0ee84b8c7ba6ab7b30f9",
+      "wrong": "abad213212b9446f3c187595148600b15af4df9a",
+      "wrongTree": "8b90f1929e45edc7531cde64c3ecae478f2d7366",
+      "testPacketHash": "153cfe5ffeb9dc1334e0ae87d921c48f94994c8606456104c88baee4284cc72f"
+    },
+    {
+      "id": "H6",
+      "base": "790d6006726237705bf8c0ef830475cf31ac2ed2",
+      "fix": "9e97da072333b3df25f5eef3cbc682b65985e240",
+      "intent": "Show the booking connection error again after a failed therapist-profile retry instead of leaving a loading screen.",
+      "historicalTest": "frontend/src/__tests__/bookingPage.test.tsx",
+      "correct": "899833eafb468d308d4616e4d6cfa7ba8a654240",
+      "correctTree": "7eaca453068fa6e1c4926de15a451b833296c46c",
+      "wrong": "492566e1cd7c5060df136e50a809842b63f8840e",
+      "wrongTree": "ffad20c4440386ceddb1a3152ea21bb777187da9",
+      "testPacketHash": "ba441aa8f7bfbf524b7ba23fd9f6f46f50d9daa797e29c56285f4751d8ed38ff"
+    }
+  ]
+}
