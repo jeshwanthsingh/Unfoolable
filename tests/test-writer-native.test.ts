@@ -1,4 +1,4 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync,mkdirSync,rmSync,readFileSync,realpathSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';import {executeWriterNative,classifyWriterNative} from '../apps/server/test-writer-execution.ts';
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync,mkdirSync,rmSync,readFileSync,realpathSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';import {executeWriterNative,classifyWriterNative,nativeVitestAssertion} from '../apps/server/test-writer-execution.ts';
 for(const [label,code,status] of [
  ['pass','import unittest\nclass Tests(unittest.TestCase):\n def test_behavior(self): self.assertEqual(2,2)\n','PASS'],
  ['assertion','import unittest\nclass Tests(unittest.TestCase):\n def test_behavior(self): self.assertEqual(1,2)\n','ASSERTION_FAIL'],
@@ -11,3 +11,9 @@ for(const [label,code,status] of [
 test('native report classifications never admit syntax/setup, skipped or missing test count',()=>{for(const payload of [{testsRun:0,tests:[]},{testsRun:1,tests:[{id:'x',status:'SKIPPED'}]},{testsRun:1,tests:[{id:'x',status:'ERROR'}]},{testsRun:1,tests:[]},{testsRun:2,tests:[{id:'x',status:'PASS'},{id:'x',status:'PASS'}]}])assert.equal(classifyWriterNative('unittest',payload,0).status,'ERROR');assert.equal(classifyWriterNative('vitest',{numTotalTests:1,testResults:[{status:'failed',assertionResults:[{fullName:'x',status:'failed',failureMessages:['ReferenceError: missing']}]}]},1).status,'ERROR');});
 
 test('Vitest setup message is retained for the single BASE-only repair; error prose never masquerades as AssertionError',()=>{const out=classifyWriterNative('vitest',{numTotalTests:0,testResults:[{status:'failed',assertionResults:[],message:'Failed to resolve import missing-helper'}]},1);assert.equal(out.setupError,true);assert.match(out.reason??'',/missing-helper/);assert.equal(classifyWriterNative('vitest',{numTotalTests:1,testResults:[{status:'failed',assertionResults:[{fullName:'case',status:'failed',failureMessages:['TypeError: expected data to exist']}]}]},1).status,'ERROR');});
+
+test('Vitest promise expectation errors count only with a native expectation frame, not arbitrary error prose',()=>{
+ const genuine='Error: promise rejected "SyntaxError: Unexpected end of JSON input" instead of resolving\n    at _Assertion.__VITEST_RESOLVES__ (file:///private/deps/node_modules/@vitest/expect/dist/index.js:1642:17)';
+ assert.equal(nativeVitestAssertion(genuine),true);assert.equal(nativeVitestAssertion('Error: promise rejected "bad" instead of resolving'),false);assert.equal(nativeVitestAssertion('SyntaxError: unexpected input\n    at _Assertion.__VITEST_RESOLVES__ (file:///private/deps/node_modules/@vitest/expect/dist/index.js:1642:17)'),false);
+ assert.equal(classifyWriterNative('vitest',{numTotalTests:1,testResults:[{status:'failed',assertionResults:[{fullName:'real expectation',status:'failed',failureMessages:[genuine]}]}]},1).status,'ASSERTION_FAIL');
+});

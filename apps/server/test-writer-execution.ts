@@ -3,11 +3,17 @@ import {join,dirname} from 'node:path';
 import {oracleSandbox,processRun,oracleScripts} from './oracle-execution.ts';
 import type {NativeWriterFile} from './test-writer-native.ts';
 export type WriterNativeResult={status:'PASS'|'ASSERTION_FAIL'|'ERROR';tests:{id:string;status:string;reason?:string}[];reason:string|null;setupError?:boolean;reportPath:string};
+// Vitest renders failed .resolves/.rejects expectations as Error rather than
+// AssertionError. Require its actual expectation frame; arbitrary project errors
+// and setup/import exceptions remain ERROR.
+export function nativeVitestAssertion(message:string){
+ return /^AssertionError(?: \[[^\]]+\])?:/.test(message)||/^Error: promise (?:rejected .* instead of resolving|resolved .* instead of rejecting)\n/.test(message)&&/\n\s+at _Assertion\.__VITEST_(?:RESOLVES|REJECTS)__ \(file:\/\/[^\n]+\/node_modules\/@vitest\/expect\/dist\/index\.js:\d+:\d+\)/.test(message);
+}
 export function classifyWriterNative(framework:NativeWriterFile['framework'],report:any,code:number|null):Omit<WriterNativeResult,'reportPath'>{
  let tests:WriterNativeResult['tests']=[];
  if(framework==='vitest'){
   if(!report||!Array.isArray(report.testResults)||report.numUnhandledErrors>0)return {status:'ERROR',tests,reason:'Native Vitest report unavailable or unhandled errors'};
-  for(const file of report.testResults){if(!Array.isArray(file.assertionResults)||file.status==='failed'&&!file.assertionResults.length)return {status:'ERROR',tests,setupError:true,reason:'Native file setup failed: '+String(file.message??'No native detail')};for(const t of file.assertionResults){tests.push({id:t.fullName,status:t.status==='passed'?'PASS':t.status==='failed'&&Array.isArray(t.failureMessages)&&t.failureMessages.length>0&&t.failureMessages.every((s:string)=>/^AssertionError(?: \[[^\]]+\])?:/.test(s))?'ASSERTION_FAIL':t.status==='failed'?'ERROR':'SKIPPED',reason:t.failureMessages?.join('\n')});}}
+  for(const file of report.testResults){if(!Array.isArray(file.assertionResults)||file.status==='failed'&&!file.assertionResults.length)return {status:'ERROR',tests,setupError:true,reason:'Native file setup failed: '+String(file.message??'No native detail')};for(const t of file.assertionResults){tests.push({id:t.fullName,status:t.status==='passed'?'PASS':t.status==='failed'&&Array.isArray(t.failureMessages)&&t.failureMessages.length>0&&t.failureMessages.every((s:string)=>nativeVitestAssertion(s))?'ASSERTION_FAIL':t.status==='failed'?'ERROR':'SKIPPED',reason:t.failureMessages?.join('\n')});}}
   if(report.numTotalTests!==tests.length)return {status:'ERROR',tests,reason:'Native collection count mismatch'};
  }else{if(!report||!Array.isArray(report.tests)||report.testsRun!==report.tests.length||report.error)return {status:'ERROR',tests,setupError:!!report?.error,reason:report?.error??'Native report unavailable or count mismatch'};tests=report.tests;}
  if(!tests.length||tests.some(t=>typeof t.id!=='string'||!t.id||!['PASS','ASSERTION_FAIL','ERROR','SKIPPED'].includes(t.status))||new Set(tests.map(t=>t.id)).size!==tests.length)return {status:'ERROR',tests,reason:'Zero, malformed or duplicate native tests'};

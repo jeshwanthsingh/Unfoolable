@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {concurrentPublicArgs} from '../apps/server/writer-concurrent-args.ts';
+const args=['source','add','$URL','--topic','agent security','--json'];
+test('recorded v2 concurrency proposal accepts only canonical recorder-owned scratch tokens',()=>{assert.deepEqual(concurrentPublicArgs([...args,'--state-dir',{$scratch:'state'},'--proof-lab-root',{$scratch:'proof-lab'},'--codex-kit-root',{$scratch:'codex-kit'}]),args);assert.deepEqual(concurrentPublicArgs(args),args);});
+test('concurrency author cannot choose paths or disguise non-string arguments',()=>{for(const extra of [['--state-dir','/Users/private'],['--state-dir',{$scratch:'state',extra:true}],['--state-dir',{$scratch:'proof-lab'}],['--state-dir',{$scratch:'state'},'--state-dir',{$scratch:'state'}],[{arbitrary:true}]])assert.throws(()=>concurrentPublicArgs([...args,...extra]));});

@@ -1,3 +1,4 @@
+import {concurrentPublicArgs} from './writer-concurrent-args.ts';
 import {suiteExclusions} from './oracle-suite-policy.ts';
 import {runCodexJson} from './codex-json.ts';
 import {canonicalContractJson} from './contract-store.ts';
@@ -61,7 +62,7 @@ export async function authorVerifyOnly(input:VerifyBinding,id:string,directory:s
     return {id:q.id,kind:'BOUNDED_CALL',module:q.module,function:q.function,method:q.method,constructorArgs,constructorKwargs,args,kwargs,deadlineSeconds:q.deadlineSeconds,executableFixture:q.executableFixture,resultFields:q.resultFields};
    }
    if(q.kind==='CALL')return {id:q.id,kind:'CALL',module:q.module,function:q.function,args,resultFields:q.resultFields};
-   if(q.kind==='CONCURRENT'){if(q.module!=='research_router.cli'||args.length>20||!args.every(a=>typeof a==='string')||!args.includes('$URL')||q.dbRelativePath!=='state/state/research.db')throw Error('Invalid fixed concurrency technique');const distinctUrls=JSON.parse(q.inputJson).distinctUrls===true;return {id:q.id,kind:'CONCURRENT',module:q.module,args,repetitions:distinctUrls?20:2000,budgetSeconds:120,dbRelativePath:q.dbRelativePath,distinctUrls};}
+   if(q.kind==='CONCURRENT'){const publicArgs=concurrentPublicArgs(args);if(q.module!=='research_router.cli'||q.dbRelativePath!=='state/state/research.db')throw Error('Invalid fixed concurrency technique');const distinctUrls=JSON.parse(q.inputJson).distinctUrls===true;return {id:q.id,kind:'CONCURRENT',module:q.module,args:publicArgs,repetitions:distinctUrls?20:2000,budgetSeconds:120,dbRelativePath:q.dbRelativePath,distinctUrls};}
    if(q.kind==='CLI'){const prepareArgs=JSON.parse(q.prepareArgsJson);if(!Array.isArray(prepareArgs)||prepareArgs.length>3||!prepareArgs.every(Array.isArray))throw Error('Invalid CLI fixture setup');return {id:q.id,kind:'CLI',module:q.module,args,prepareArgs};}
    if(q.kind==='UI'){if(source.runner==='vitest'&&out.observationMode==='NONVISUAL'&&!nonvisualTarget(out.uiFixture,q,c.targetPaths,source.source))throw Error('Nonvisual fixture does not exercise declared target');return {id:q.id,operations:q.operations,fixtureInput:JSON.parse(q.inputJson),waitText:q.waitText};}
    throw Error('Unknown observer technique');
