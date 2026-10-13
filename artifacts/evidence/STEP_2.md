@@ -1,0 +1,6 @@
+# Measured changed-line evidence
+Protected native Python collection is instrumented with coverage.py 7.16.2; JavaScript/TypeScript uses native V8 recording and c8 12.0.0 as a separate trusted converter. diff-cover 10.6.0 compares the coordinator-generated immutable BASE-to-Candidate patch.
+Python and Node real proofs: each executed the one changed executable line, 100%. c8's default detached watchdog was refused by the unchanged sandbox. We kept that denial and instead ran ordinary owned tests with NODE_V8_COVERAGE, then c8 report after cleanup. No bypass or network-rule change.
+Native writer admission still requires assertion-red BASE and two passing Candidate runs. FULL additionally requires nonzero measured changed lines, 100% coverage on both runs, and no changed source missing from the report. The writer's complete boolean no longer decides native coverage. Missing coverage is unknown, never 100%.
+The card displays measured percentage and covered/changed counts. This demonstrates execution, not semantic sufficiency or protection against observation forgery. Writer remains advisory pending both scoring sets.
+Concurrency measurement and mutation integration are not complete yet. No holdout selected or scored.

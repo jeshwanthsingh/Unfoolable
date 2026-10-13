@@ -1,8 +1,9 @@
+import {writerCoverageCommands,finishWriterCoverage,type WriterLineCoverage} from './test-writer-coverage.ts';
 import {mkdirSync,writeFileSync,existsSync,realpathSync,symlinkSync} from 'node:fs';
 import {join,dirname} from 'node:path';
 import {oracleSandbox,processRun,oracleScripts} from './oracle-execution.ts';
 import type {NativeWriterFile} from './test-writer-native.ts';
-export type WriterNativeResult={status:'PASS'|'ASSERTION_FAIL'|'ERROR';tests:{id:string;status:string;reason?:string}[];reason:string|null;setupError?:boolean;reportPath:string};
+export type WriterNativeResult={status:'PASS'|'ASSERTION_FAIL'|'ERROR';tests:{id:string;status:string;reason?:string}[];reason:string|null;setupError?:boolean;reportPath:string;lineCoverage?:WriterLineCoverage};
 // Vitest renders failed .resolves/.rejects expectations as Error rather than
 // AssertionError. Require its actual expectation frame; arbitrary project errors
 // and setup/import exceptions remain ERROR.
@@ -21,7 +22,7 @@ export function classifyWriterNative(framework:NativeWriterFile['framework'],rep
  if(tests.some(t=>t.status==='ASSERTION_FAIL'))return code===1?{status:'ASSERTION_FAIL',tests,reason:tests.filter(t=>t.status==='ASSERTION_FAIL').map(t=>t.reason).join('\n')}:{status:'ERROR',tests,reason:'Assertion report and exit status disagree'};
  return code===0?{status:'PASS',tests,reason:null}:{status:'ERROR',tests,reason:'Native exit disagrees with report'};
 }
-export async function executeWriterNative(file:NativeWriterFile,workspace:string,directory:string,signal:AbortSignal,dependencyRoot?:string):Promise<WriterNativeResult>{
+export async function executeWriterNative(file:NativeWriterFile,workspace:string,directory:string,signal:AbortSignal,dependencyRoot?:string,measurement?:{diff:string}):Promise<WriterNativeResult>{
  mkdirSync(directory,{recursive:true,mode:0o700});directory=realpathSync(directory);workspace=realpathSync(workspace);const scratch=join(directory,'scratch');mkdirSync(scratch,{mode:0o700});const root=realpathSync(join(workspace,file.runnerDirectory));
  if(!file.path||file.path.startsWith('/')||file.path.includes('\\')||file.path.split('/').some(p=>!p||p==='.'||p==='..')||!file.code||Buffer.byteLength(file.code)>65536)throw Error('Invalid one-file writer export');
  const target=join(root,file.path);if(existsSync(target))throw Error('Writer cannot overwrite an exported file');mkdirSync(dirname(target),{recursive:true});writeFileSync(target,file.code,{flag:'wx',mode:0o400});
@@ -34,12 +35,14 @@ export async function executeWriterNative(file:NativeWriterFile,workspace:string
   const config=join(scratch,'vitest.config.mjs');writeFileSync(config,'export default '+JSON.stringify({root,cacheDir:join(scratch,'vite-cache'),server:{host:'127.0.0.1'},resolve:{alias:{'@':join(root,'src')}},test:{include:[file.path],environment:'jsdom',globals:true,setupFiles:[],watch:false,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false,cache:false}})+';\n',{mode:0o400});reads.push(config);
   command=[process.execPath,join(deps,'vitest/vitest.mjs'),'run','--config',config,'--configLoader=native','--reporter=json'];
  }else throw Error('Native pytest requires an approved pytest playbook; no pytest projects in this scoring set');
- const env={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:scratch,TMPDIR:scratch,TZ:'UTC',LANG:'C',LC_ALL:'C',HOST:'127.0.0.1',BIND_ADDRESS:'127.0.0.1',CI:'1',PYTHONDONTWRITEBYTECODE:'1'};
+ if(measurement){const wrapped=writerCoverageCommands(file.framework,command,root,scratch);command=wrapped.command;reads.push(...wrapped.reads);}
+ const env={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:scratch,TMPDIR:scratch,TZ:'UTC',LANG:'C',LC_ALL:'C',HOST:'127.0.0.1',BIND_ADDRESS:'127.0.0.1',CI:'1',PYTHONDONTWRITEBYTECODE:'1',...(measurement&&file.framework!=='unittest'?{NODE_V8_COVERAGE:join(scratch,'v8')}:{})};
  const input=file.framework==='unittest'?JSON.stringify({root,path:file.path})+'\n':'';
  const driver=file.framework==='unittest'?command:['/usr/local/bin/python3',launcher];
  // Parent-owned report is outside both exports and denied-write to executed code. Native stdout is a pipe, not a Candidate-authored result file.
  const profile=oracleSandbox(reads,scratch,true,true,true);const result=await processRun(driver,root,env,profile,file.framework==='unittest'?input:JSON.stringify({cwd:root,argv:command,env})+'\n',signal,{},60000);
  if(!result.cleanup.verified||result.cleanup.ambiguous||result.cleanup.remaining.length)throw Error('Writer native cleanup not certified');
  let classified:Omit<WriterNativeResult,'reportPath'>;try{if(result.limited||result.timedOut||result.interrupted)throw Error('Native writer output limit, deadline or interruption');classified=classifyWriterNative(file.framework,JSON.parse(result.stdout),result.code);}catch(e){classified={status:'ERROR',tests:[],reason:(e as Error).message+'; '+result.stderr.slice(0,6000)};}
- const reportPath=join(directory,'native-report.json');writeFileSync(reportPath,JSON.stringify({framework:file.framework,exitCode:result.code,nativeOutput:result.stdout,stderr:result.stderr,cleanup:result.cleanup,...classified}),{mode:0o400,flag:'wx'});return {...classified,reportPath};
+ const lineCoverage=measurement?await finishWriterCoverage(file.framework,root,scratch,directory,measurement.diff,signal):undefined;
+ const reportPath=join(directory,'native-report.json');writeFileSync(reportPath,JSON.stringify({framework:file.framework,exitCode:result.code,nativeOutput:result.stdout,stderr:result.stderr,cleanup:result.cleanup,...classified,...(lineCoverage?{lineCoverage}:{})}),{mode:0o400,flag:'wx'});return {...classified,reportPath,...(lineCoverage?{lineCoverage}:{})};
 }
