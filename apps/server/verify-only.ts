@@ -1,3 +1,4 @@
+import {createProjectPlaybookStore} from './project-playbooks.ts';
 import {runTestWriter} from './test-writer.ts';
 import {appendTicketEvent} from './ticket-store.ts';
 import {reconcileOwnedProcesses} from './build-processes.ts';
@@ -30,7 +31,7 @@ const fileHash=(path:string)=>createHash('sha256').update(readFileSync(path)).di
 // Historical score utility remains read-only; v1 never uses mandatory per-task scoring.
 export function scoreVerifyOnly(claims:VerifyClaimResult[],evidence:VerifyEvidence|null=null):VerifyResult{const scored=scoreVerifyV2(claims);return {...scored,automatedStatus:scored.status,evidence};}
 export function createVerifyOnly(db:DatabaseSync,config:{dataDir:string;projectRoots:readonly string[]},logger:Logger,author:Author=authorVerifyOnly,execute:typeof executeOracleTest=executeOracleTest,references:References=authorVerifyReferences){
- let closed=false,stopGeneration=0;const operations=new Map<string,{controller:AbortController;promise:Promise<void>}>(),recipes=createProjectRecipeStore(config.dataDir);
+ let closed=false,stopGeneration=0;const operations=new Map<string,{controller:AbortController;promise:Promise<void>}>(),recipes=createProjectRecipeStore(config.dataDir),playbooks=createProjectPlaybookStore(config.dataDir);
  const directory=(id:string)=>join(realpathSync(config.dataDir),'verify-only',id);
  const row=(id:string)=>{const r=db.prepare('SELECT * FROM verify_only_runs WHERE id=?').get(id);if(!r)throw new SpecError('VERIFY_NOT_FOUND','Verification request not found.',404);return r;};
  const ledger=(id:string)=>JSON.parse(String(row(id).ledger_json));
@@ -93,7 +94,8 @@ export function createVerifyOnly(db:DatabaseSync,config:{dataDir:string;projectR
     if(existing.canLand){let roleStarted=false,began=performance.now();const roleId='test-writer:'+id,ticketId=ledger(id).ticketId as string|undefined;
      const event=(kind:import('../../packages/shared/tickets.ts').TicketEventKind,data:Record<string,unknown>)=>{if(ticketId)appendTicketEvent(db,ticketId,kind,{...data,role:'test_writer',attemptId:roleId});};
      const owned={captureDirectory:join(dir,'test-writer'),launchPending:()=>{began=performance.now();roleStarted=false;saveLedger(id,{...ledger(id),testWriterOwnership:{launchPending:true,records:[]}});event('agent_event',{kind:'test_writer_launch_pending'});},processes:(records:import('../../packages/shared/build.ts').ProcessRecord[])=>{saveLedger(id,{...ledger(id),testWriterOwnership:{launchPending:false,records}});if(!roleStarted&&records.length){roleStarted=true;event('agent_started',{generation:db.prepare('SELECT attempt_count FROM tickets WHERE id=?').get(ticketId??'')?.attempt_count??0,threadId:null});}if(ticketId){const snapshot=randomUUID();for(let n=0;n<Math.max(1,Math.ceil(records.length/32));n++)event('processes',{snapshot,chunk:n,records:records.slice(n*32,(n+1)*32)});}},cleanup:(cleanup:import('../../packages/shared/build.ts').CleanupResult)=>{saveLedger(id,{...ledger(id),testWriterOwnership:{...ledger(id).testWriterOwnership,cleanup},cleanupUncertain:!cleanup.verified||cleanup.ambiguous||cleanup.remaining.length>0});event('agent_stopped',{agentWasStarted:true,elapsedMs:performance.now()-began,cleanupVerified:cleanup.verified&&!cleanup.ambiguous&&!cleanup.remaining.length});}};
-     const written=await runTestWriter({repoRoot:input.repoRoot,baseCommit:input.baseCommit,intent:input.intent},workspace,join(dir,'test-writer'),signal,{ownership:owned,candidateCommit:input.candidateCommit});testWriter=written.evidence;e.records.push(...written.records);review.claims=written.claims;
+     const playbook=playbooks.show(projectRoot),playbookCommand=playbook?.approval?JSON.stringify(playbook.definition.tests):undefined;
+     const written=await runTestWriter({repoRoot:input.repoRoot,baseCommit:input.baseCommit,intent:input.intent},workspace,join(dir,'test-writer'),signal,{ownership:owned,candidateCommit:input.candidateCommit,...(playbookCommand?{playbookCommand}:{})});testWriter=written.evidence;e.records.push(...written.records);review.claims=written.claims;
      layers[2]=testWriterLayer(testWriter);
     }else layers[2]!.gaps.push({id:'test-writer-not-run',layer:3,reason:'Existing protected checks did not pass; Test Writer cannot upgrade them.'});
    }

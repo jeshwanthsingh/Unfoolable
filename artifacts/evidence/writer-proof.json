@@ -1,0 +1,57 @@
+{
+  "version": "test-writer-v1",
+  "mode": "NATIVE",
+  "advisoryOnly": true,
+  "baseCommit": "f2faa719153b695a5f8c21bb3116486688d38343",
+  "requestHash": "32b3e7f7111b1759e514e02c805890fe51971133295f17ace7bef787220025e7",
+  "inputHash": "7c5c85de4ba3b4f56decce3e26cd1d5253d8dd194e6e2549c18c41942a7045dd",
+  "usage": {
+    "inputTokens": 3435,
+    "cachedInputTokens": 0,
+    "outputTokens": 140,
+    "totalTokens": 3575
+  },
+  "sessionId": "01a13328-a881-7931-92a3-d8392bd75c5b",
+  "started": true,
+  "coverage": "FULL",
+  "checks": [
+    {
+      "id": "writer-file",
+      "testName": "tests/test_cc_writer_f56c368e_d5b0_4984_8568_c38d42798d66.py",
+      "summary": "Tests that app.behavior() succeeds and returns exactly True.",
+      "status": "ADMITTED",
+      "base": [
+        "FAIL"
+      ],
+      "candidate": "PASS",
+      "candidateRuns": [
+        "PASS",
+        "PASS"
+      ],
+      "reason": null
+    }
+  ],
+  "reason": null,
+  "lineCoverage": {
+    "tool": "coverage.py",
+    "changedLines": 1,
+    "coveredLines": 1,
+    "percent": 100,
+    "unmeasuredPaths": [],
+    "reason": null,
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/writer-proof/attempt-0-candidate-0/execution/measured-coverage.json"
+  },
+  "mutation": {
+    "tool": "mutmut",
+    "generated": 1,
+    "tested": 1,
+    "killed": 1,
+    "survived": 0,
+    "errors": 0,
+    "score": 100,
+    "sampled": false,
+    "survivorLine": null,
+    "reason": null,
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/writer-proof/attempt-0-mutation/mutations.json"
+  }
+}

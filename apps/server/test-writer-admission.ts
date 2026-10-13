@@ -1,3 +1,4 @@
+import {remainingWriterTokens} from './test-writer-context.ts';
 import {runWriterMutations} from './test-writer-mutation.ts';
 import {safeBuildGit} from './build-workspace.ts';
 import {mkdirSync,writeFileSync,readFileSync,existsSync,realpathSync} from 'node:fs';
@@ -13,15 +14,17 @@ export function nativeAdmission(base:WriterNativeResult,candidates:WriterNativeR
  return base.status==='ASSERTION_FAIL'&&candidates.length===2&&candidates.every(r=>r.status==='PASS'&&ids(r)===ids(base));
 }
 const hash=(value:string)=>createHash('sha256').update(value).digest('hex');
-export async function runNativeTestWriter(base:{repoRoot:string;baseCommit:string;intent:string},candidateCommit:string,directory:string,signal:AbortSignal,dependencies:{author?:typeof authorNativeWriter;execute?:typeof executeWriterNative;ownership?:JsonOwnership;mutate?:typeof runWriterMutations}={}){
+export async function runNativeTestWriter(base:{repoRoot:string;baseCommit:string;intent:string},candidateCommit:string,directory:string,signal:AbortSignal,dependencies:{author?:typeof authorNativeWriter;execute?:typeof executeWriterNative;ownership?:JsonOwnership;mutate?:typeof runWriterMutations;playbookCommand?:string}={}){
  mkdirSync(directory,{recursive:true,mode:0o700});const records:{path:string;hash:string}[]=[],evidence:TestWriterEvidence={version:'test-writer-v1',mode:'NATIVE',advisoryOnly:TEST_WRITER_POLICY==='ADVISORY',baseCommit:base.baseCommit,requestHash:hash(base.intent),inputHash:null,usage:null,sessionId:null,started:false,coverage:'NONE',checks:[],reason:null};
  let authored:NativeWriterProposal|null=null;let nextBaseError:string|undefined,mutationFeedback:string|undefined,repairUsed=false,mutationRetryUsed=false;let admittedBackup:TestWriterEvidence|null=null;const costs:(WriterUsage|null)[]=[];const retain=(path:string)=>{if(existsSync(path))records.push({path,hash:hash(readFileSync(path,'utf8'))});};
  try{
   for(let attempt=0;attempt<3;attempt++){
+   const budget=remainingWriterTokens(costs);if(budget<1000){evidence.reason='Writer token budget exhausted or unknown; no further authoring';break;}
+   const changedPaths=(await safeBuildGit(base.repoRoot,['diff','--no-ext-diff','--name-only',base.baseCommit,candidateCommit],262144)).toString().trim().split('\n').filter(Boolean);
    const authorDir=join(directory,'author-'+attempt);const baseError=nextBaseError;nextBaseError=undefined;
    // Reconstruct the capability input explicitly: Candidate identifiers/paths and labels cannot enter it.
    const onlyBase={repoRoot:base.repoRoot,baseCommit:base.baseCommit,intent:base.intent};
-   authored=await verifyStep('Native Test Writer',190000,signal,s=>(dependencies.author??authorNativeWriter)(onlyBase,authorDir,s,dependencies.ownership,baseError,mutationFeedback));costs.push(authored.usage);evidence.started ||= authored.started;evidence.sessionId=authored.sessionId;
+   authored=await verifyStep('Native Test Writer',190000,signal,s=>(dependencies.author??authorNativeWriter)(onlyBase,authorDir,s,dependencies.ownership,baseError,mutationFeedback,{changedPaths,playbookCommand:dependencies.playbookCommand??null,tokenBudget:budget}));costs.push(authored.usage);evidence.started ||= authored.started;evidence.sessionId=authored.sessionId;
    if(attempt===0&&existsSync(join(authorDir,'base-input.json')))evidence.inputHash=hash(readFileSync(join(authorDir,'base-input.json'),'utf8'));
    const row={id:'writer-file',testName:authored.file.path,summary:authored.file.summary,status:'NOT_ADMITTED' as const,base:[] as string[],candidate:'NOT CHECKED',candidateRuns:[] as string[],reason:null as string|null};evidence.checks=[row];
    if(!authored.file.code){row.reason=authored.file.reason||'Writer could not author a native test';break;}
@@ -54,3 +57,5 @@ export async function runNativeTestWriter(base:{repoRoot:string;baseCommit:strin
  if(evidence.coverage!=='FULL'&&!evidence.reason)evidence.reason=evidence.checks[0]?.reason??'Requested behavior not fully covered by admitted writer tests';
  const path=join(directory,'report.json');writeFileSync(path,JSON.stringify(evidence),{flag:'wx',mode:0o400});retain(path);return {evidence,records,claims:[]};
 }
+
+export function writerPolicyForEvidenceSets(old:{correct:number;wrong:number;confirmed:number;falseAccepts:number},fresh:{correct:number;wrong:number;confirmed:number;falseAccepts:number},averageTokens:number|null){return old.correct===11&&old.wrong===8&&fresh.correct===6&&fresh.wrong===6&&old.confirmed*100>=old.correct*60&&fresh.confirmed*100>=fresh.correct*60&&old.falseAccepts===0&&fresh.falseAccepts===0&&averageTokens!==null&&Number.isFinite(averageTokens)&&averageTokens>=0&&averageTokens<40000?'EVIDENCE':'ADVISORY';}
