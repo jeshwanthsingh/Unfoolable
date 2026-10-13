@@ -1,0 +1,5 @@
+# Advisory mutation feedback
+Uses mutmut 3.8.0 and StrykerJS instrumenter 10.0.0 to generate real source mutants on changed production lines only. No project code/config executes during generation. JavaScript's Babel and browserslist discovery is explicitly off.
+Each mutant executes separately in the same protected native runner. The original Candidate is never modified. A bounded sample of up to 12 mutants is disclosed when more were generated. Score excludes no hidden errors: any execution error makes score unknown; zero mutants is unknown. Sampling is advisory, not a completeness claim.
+Both real fixture proofs generated one changed-line mutant and killed it, score 100%. The card shows advisory score, counts, sampling and failure reason. One survivor produces one short BASE-only writer retry; a non-admitted retry cannot erase earlier evidence or weaken existing failures.
+Mutation is NOT a verdict gate. Writer remains advisory pending the two scoring sets. No holdout selected/scored.
