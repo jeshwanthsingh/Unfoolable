@@ -1,0 +1,25 @@
+{
+  "reason": "Full BASE writer read-view refused legitimate credential.go source name; no hidden grader consumed",
+  "records": [
+    {
+      "pid": 77066,
+      "ppid": 1440,
+      "pgid": 77066,
+      "sid": 77066,
+      "birth": "darwin:1791850968:834423",
+      "executable": "/opt/homebrew/Cellar/rtk/0.37.2/bin/rtk",
+      "observedAt": "2026-10-13T00:25:35.817Z",
+      "exitedAt": null
+    },
+    {
+      "pid": 77075,
+      "ppid": 77066,
+      "pgid": 77066,
+      "sid": 77066,
+      "birth": "darwin:1791850968:895314",
+      "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+      "observedAt": "2026-10-13T00:25:35.820Z",
+      "exitedAt": null
+    }
+  ]
+}

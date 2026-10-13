@@ -37,7 +37,7 @@ const protectedSnapshots:Record<string,string>={
  'process-kernel-helper.py':readFileSync(existsSync(sourceProcessHelper)?sourceProcessHelper:resolve('scripts/build-process-info.py'),'utf8'),
  'runtime-representation.txt':runtimeExtension,
 };
-const nativeHostModules=['test-writer','test-writer-session','test-writer-native','test-writer-execution','test-writer-admission','codex-json','oracle-execution','oracle-suite-policy','oracle-tree','oracle-author','oracle-source','verify-only','verify-only-author','verify-only-references','verify-only-admission','verify-only-identity','verify-only-deadline','verify-only-retry','verify-only-authoring','protected-existing-tests','project-recipes'];
+const nativeHostModules=['test-writer','test-writer-base-export','test-writer-session','test-writer-native','test-writer-execution','test-writer-admission','codex-json','oracle-execution','oracle-suite-policy','oracle-tree','oracle-author','oracle-source','verify-only','verify-only-author','verify-only-references','verify-only-admission','verify-only-identity','verify-only-deadline','verify-only-retry','verify-only-authoring','protected-existing-tests','project-recipes'];
 const nativeScripts=['python-observer.py','python-judge.py','ui-observer.mjs','ui-judge.mjs','suite-worker.py','writer-unittest.py','writer-node-reporter.mjs','concurrent-worker.py','concurrent-observation.py','cli-observation-worker.py','timeout-observation.py','timeout-worker.py'];
 export function evaluatorBundle():{files:Record<string,string>;hash:string}{
  const files={...protectedSnapshots};for(const name of nativeHostModules)files[name+'.txt']=hostModule(name);for(const name of nativeScripts)files[name]=readFileSync(join(oracleScripts,name),'utf8');

@@ -1,7 +1,7 @@
 import {mkdirSync,writeFileSync,existsSync} from 'node:fs';
 import {join} from 'node:path';
 import {randomUUID,createHash} from 'node:crypto';
-import {materializeOracleTree} from './oracle-tree.ts';
+import {exportWriterBase} from './test-writer-base-export.ts';
 import {safeBuildGit} from './build-workspace.ts';
 import {runWriterSession} from './test-writer-session.ts';
 import type {JsonOwnership} from './codex-json.ts';
@@ -20,9 +20,9 @@ export async function nativeWriterLayout(repo:string,base:string){
  throw Error('No configured native writer framework');
 }
 export async function authorNativeWriter(base:{repoRoot:string;baseCommit:string;intent:string},directory:string,signal:AbortSignal,ownership?:JsonOwnership,repairBaseError?:string):Promise<NativeWriterProposal>{
- mkdirSync(directory,{recursive:true,mode:0o700});const layout=await nativeWriterLayout(base.repoRoot,base.baseCommit),exportRoot=join(directory,'base-readonly');await materializeOracleTree(base.repoRoot,base.baseCommit,exportRoot);
+ mkdirSync(directory,{recursive:true,mode:0o700});const layout=await nativeWriterLayout(base.repoRoot,base.baseCommit),exportRoot=join(directory,'base-readonly');const readView=await exportWriterBase(base.repoRoot,base.baseCommit,exportRoot);
  const path=layout.framework==='vitest'?'src/__tests__/cc-writer-'+randomUUID()+'.test.tsx':layout.framework==='node'?'cc-writer-'+randomUUID()+'.test.mjs':'tests/test_cc_writer_'+randomUUID().replaceAll('-','_')+'.py';
- const packet={request:base.intent,baseCommit:base.baseCommit,...layout,path,...(repairBaseError?{repairBaseError}:{})};writeFileSync(join(directory,'base-input.json'),JSON.stringify(packet),{mode:0o400,flag:'wx'});
+ const packet={request:base.intent,baseCommit:base.baseCommit,...layout,path,readView,...(repairBaseError?{repairBaseError}:{})};writeFileSync(join(directory,'base-input.json'),JSON.stringify(packet),{mode:0o400,flag:'wx'});
  const result=await runWriterSession(exportRoot,packet,directory,signal,NATIVE_WRITER_PROMPT,schema,ownership);const output=result.output as Record<string,unknown>;
  if(!output||Object.keys(output).sort().join(',')!==Object.keys(properties).sort().join(',')||output.path!==path||typeof output.code!=='string'||Buffer.byteLength(output.code)>65536||typeof output.summary!=='string'||typeof output.complete!=='boolean'||typeof output.reason!=='string')throw Error('Malformed native test-file output');
  if(existsSync(join(exportRoot,layout.runnerDirectory,path)))throw Error('Writer test path already exists in BASE');

@@ -1,3 +1,4 @@
+import {safeBuildGit} from './build-workspace.ts';
 import {mkdirSync,writeFileSync,readFileSync,existsSync,realpathSync} from 'node:fs';
 import {join} from 'node:path';import {createHash} from 'node:crypto';
 import {authorNativeWriter,type NativeWriterProposal} from './test-writer-native.ts';
@@ -25,7 +26,7 @@ export async function runNativeTestWriter(base:{repoRoot:string;baseCommit:strin
    const row={id:'writer-file',testName:authored.file.path,summary:authored.file.summary,status:'NOT_ADMITTED' as const,base:[] as string[],candidate:'NOT CHECKED',candidateRuns:[] as string[],reason:null as string|null};evidence.checks=[row];
    if(!authored.file.code){row.reason=authored.file.reason||'Writer could not author a native test';break;}
    const execute=dependencies.execute??executeWriterNative;
-   const run=async(phase:string,commit:string)=>{const folder=join(directory,'attempt-'+attempt+'-'+phase);mkdirSync(folder,{mode:0o700});const workspace=join(folder,'export');await materializeOracleTree(base.repoRoot,commit,workspace);const deps=authored!.file.framework==='vitest'?realpathSync(join(base.repoRoot,authored!.file.runnerDirectory,'node_modules')):undefined;const result=await execute(authored!.file,workspace,join(folder,'execution'),signal,deps);retain(result.reportPath);return result;};
+   const run=async(phase:string,commit:string)=>{const folder=join(directory,'attempt-'+attempt+'-'+phase);mkdirSync(folder,{mode:0o700});const workspace=join(folder,'export');const sdk=authored!.file.runnerDirectory==='sdk/python';const revision=sdk?(await safeBuildGit(base.repoRoot,['rev-parse',commit+':sdk/python'],1000)).toString().trim():commit;await materializeOracleTree(base.repoRoot,revision,workspace);const executionFile=sdk?{...authored!.file,runnerDirectory:'.'}:authored!.file;const deps=authored!.file.framework==='vitest'?realpathSync(join(base.repoRoot,authored!.file.runnerDirectory,'node_modules')):undefined;const result=await execute(executionFile,workspace,join(folder,'execution'),signal,deps);retain(result.reportPath);return result;};
    const baseline=await run('base',base.baseCommit);row.base.push(baseline.status==='ASSERTION_FAIL'?'FAIL':baseline.status);
    if(baseline.status==='ERROR'&&attempt===0&&(baseline.tests.some(t=>t.status==='ERROR')||/ImportError|ModuleNotFoundError|SyntaxError|NameError|AttributeError|TypeError/.test(baseline.reason??''))){writeFileSync(join(directory,'repair-base-error.txt'),(baseline.reason??'BASE setup error').slice(0,12000),{mode:0o400});continue;}
    if(baseline.status!=='ASSERTION_FAIL'){row.reason='Not admitted: BASE '+baseline.status+'. Requires a real assertion failure; setup errors, skips and zero tests never count.';break;}
