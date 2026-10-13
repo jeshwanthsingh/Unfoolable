@@ -1,0 +1,18 @@
+{
+  "phase": "test-writer",
+  "cases": 19,
+  "correct": 11,
+  "wrong": 8,
+  "confirmed": 4,
+  "falseAccepts": 0,
+  "passedWithGaps": 13,
+  "errors": 2,
+  "failed": 0,
+  "promotionBar": 6,
+  "policy": "ADVISORY",
+  "reason": "4/11 confirmed, below pre-registered 6/11",
+  "reportedTokens": 1423853,
+  "scoringSetSHA256": "ab8e1ce7ca8c322e799c1016389857bc6ec33a7cb28cfac47a09966e62e2ac6c",
+  "measuredCodeCommit": "5ac37f1",
+  "humanTimeMeasured": false
+}

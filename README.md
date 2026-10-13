@@ -60,3 +60,9 @@ The test suite uses four workers because its fixtures launch real protected proc
 New live approvals require a registered owner passkey and a fresh exact-item confirmation. Until owner enrollment, approval stays unavailable. Existing approved playbooks remain reusable. Tests use isolated TEST stores; test approvals are labelled as fixtures. See [approval boundary](docs/APPROVAL_BOUNDARY.md).
 
 Human decisions: run `./cc chat` on localhost and register your platform passkey. Initial enrollment also asks for macOS biometric confirmation. CLI decision commands open an exact-item browser confirmation and cannot decide alone. See [passkey setup and limits](docs/PASSKEYS.md).
+
+### Independent Test Writer v2
+
+The writer reads the full committed BASE through a bounded read-only capability, never the Candidate, Builder conversation or hidden graders. Secret-file names are excluded explicitly; Git link targets remain inert text. For ordinary tasks it returns one native unittest/Vitest/Node test file. Only that file is added to fresh protected BASE/Candidate exports, with BASE test helpers restored. Admission requires a real BASE assertion failure and two consecutive Candidate passes; setup errors allow one repair using BASE output only. Skips and zero tests never pass.
+
+The fixed Round 5 scoring set confirmed 4/11 correct-labelled changes, with 0/8 wrong changes VERIFIED. This missed the 6/11 bar, so the writer is **advisory only**: visible tests and disagreements never alter the verdict. Existing protected checks still block failures. Builder model, runtime, permission profile and human confirmation gates are unchanged. See `artifacts/test-writer-v2/RESULT.md` for costs, gaps and evidence.

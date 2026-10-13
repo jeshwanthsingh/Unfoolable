@@ -1,0 +1,11 @@
+{
+  "phase": "test-writer",
+  "cases": 19,
+  "correct": 11,
+  "wrong": 8,
+  "confirmed": 4,
+  "falseAccepts": 0,
+  "passedWithGaps": 13,
+  "errors": 2,
+  "failed": 0
+}

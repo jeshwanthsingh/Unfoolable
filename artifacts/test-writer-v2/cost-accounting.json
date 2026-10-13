@@ -1,0 +1,135 @@
+{
+  "measuredTokens": 1423853,
+  "allRetainedReportedTokens": 1981499,
+  "sessions": {
+    "01a13299-5107-7420-b47d-8791083d833b": {
+      "path": ".work/test-writer-v2/session-proof-3/cost.json",
+      "totalTokens": 10661
+    },
+    "01a132a5-5140-7e01-ab9a-1e8647c3bb01": {
+      "path": ".work/test-writer-v2/data/verify-only/49a4f9d5-e4da-46f6-8a41-f0317930b2c7/test-writer/author-0/cost.json",
+      "totalTokens": 91834
+    },
+    "01a132a5-f0e9-7112-bd3d-4cbbc792b983": {
+      "path": ".work/test-writer-v2/data/verify-only/49a4f9d5-e4da-46f6-8a41-f0317930b2c7/test-writer/author-1/cost.json",
+      "totalTokens": 117060
+    },
+    "01a132d0-876c-7212-b0a5-5967a9831451": {
+      "path": ".work/test-writer-v2/final-data/verify-only/3561ff0b-8389-40a6-80a7-f14de2615529/test-writer/author-0/cost.json",
+      "totalTokens": 46022
+    },
+    "01a132e8-f01f-7fc1-ade4-9d86c1d7a2a6": {
+      "path": ".work/test-writer-v2/final-data/verify-only/66a39dc9-1d9e-4813-b152-61e4b08cef48/test-writer/author-0/cost.json",
+      "totalTokens": 73557
+    },
+    "01a132e9-c523-7e71-9b14-120bd4553d31": {
+      "path": ".work/test-writer-v2/final-data/verify-only/66a39dc9-1d9e-4813-b152-61e4b08cef48/test-writer/author-1/cost.json",
+      "totalTokens": 94864
+    },
+    "01a132e7-2f69-7ca3-bec3-c7fbfe1ae7ab": {
+      "path": ".work/test-writer-v2/final-data/verify-only/fb7916b6-2c98-4427-bcbf-8827b2fe2f15/test-writer/author-0/cost.json",
+      "totalTokens": 68967
+    },
+    "01a132e4-521e-7f50-9332-8e59f5a78146": {
+      "path": ".work/test-writer-v2/final-data/verify-only/21dc5931-3e4f-432b-8412-59617e549d54/test-writer/author-0/cost.json",
+      "totalTokens": 51773
+    },
+    "01a132cc-56dd-7772-90be-8b43b270bd5e": {
+      "path": ".work/test-writer-v2/final-data/verify-only/6e8fd643-322e-467e-9914-5ea13adfff85/test-writer/author-0/cost.json",
+      "totalTokens": 73296
+    },
+    "01a132cd-01a7-7c60-989a-78c41ce8b24d": {
+      "path": ".work/test-writer-v2/final-data/verify-only/6e8fd643-322e-467e-9914-5ea13adfff85/test-writer/author-1/cost.json",
+      "totalTokens": 92335
+    },
+    "01a132ed-1ef4-7b62-b433-3a3ab4965882": {
+      "path": ".work/test-writer-v2/final-data/verify-only/2eabd36c-c91b-425e-8694-70b6d171bc65/test-writer/author-0/cost.json",
+      "totalTokens": 45819
+    },
+    "01a132d2-8f8d-74a2-bd19-4be963591075": {
+      "path": ".work/test-writer-v2/final-data/verify-only/360cde4f-3f03-4eb7-9146-5670e3cbc1c4/test-writer/author/cost.json",
+      "totalTokens": 64866
+    },
+    "01a132d5-9c92-7a83-95a4-45576bdb9a95": {
+      "path": ".work/test-writer-v2/final-data/verify-only/b76ac470-e9ad-435e-9264-eee3eb6773c5/test-writer/author-0/cost.json",
+      "totalTokens": 43393
+    },
+    "01a132d6-7ca7-7560-9e8b-48a1a33fa8b3": {
+      "path": ".work/test-writer-v2/final-data/verify-only/b76ac470-e9ad-435e-9264-eee3eb6773c5/test-writer/author-1/cost.json",
+      "totalTokens": 66058
+    },
+    "01a132f0-3b42-7001-8d95-60824ea0aab3": {
+      "path": ".work/test-writer-v2/final-data/verify-only/629e3669-8e65-4864-9ca6-cb0b2ca8b263/test-writer/author-0/cost.json",
+      "totalTokens": 69106
+    },
+    "01a132de-c49b-7812-bed6-70776be894c1": {
+      "path": ".work/test-writer-v2/final-data/verify-only/ecea31ef-a53f-49fa-8a73-08a94901307e/test-writer/author-0/cost.json",
+      "totalTokens": 56438
+    },
+    "01a132d8-db66-79d1-933f-a575b59e4054": {
+      "path": ".work/test-writer-v2/final-data/verify-only/07195c02-50cb-4b19-b495-f737ad8a1bbc/test-writer/author-0/cost.json",
+      "totalTokens": 26382
+    },
+    "01a132e5-455f-7e82-8f7e-072c6058a789": {
+      "path": ".work/test-writer-v2/final-data/verify-only/393d174e-fc6a-4475-873f-1d68b6d13906/test-writer/author-0/cost.json",
+      "totalTokens": 44521
+    },
+    "01a132e6-01bb-7a13-910a-6f2b1b500641": {
+      "path": ".work/test-writer-v2/final-data/verify-only/393d174e-fc6a-4475-873f-1d68b6d13906/test-writer/author-1/cost.json",
+      "totalTokens": 51615
+    },
+    "01a132ee-3bf2-7e30-bd42-5a309bfece2b": {
+      "path": ".work/test-writer-v2/final-data/verify-only/5d9d03a8-9318-4e6d-87b3-df9ef0e6f98e/test-writer/author-0/cost.json",
+      "totalTokens": 68324
+    },
+    "01a132e1-5baa-7ae3-8a05-6d53a241da44": {
+      "path": ".work/test-writer-v2/final-data/verify-only/a9843eaa-d34a-4192-941c-56a360870512/test-writer/author-0/cost.json",
+      "totalTokens": 93556
+    },
+    "01a132e2-71b2-7d63-a6c4-84d5d46123f2": {
+      "path": ".work/test-writer-v2/final-data/verify-only/a9843eaa-d34a-4192-941c-56a360870512/test-writer/author-1/cost.json",
+      "totalTokens": 41960
+    },
+    "01a132ca-540d-74d2-92ea-049030b29d4d": {
+      "path": ".work/test-writer-v2/final-data/verify-only/650e103c-acbc-410f-87f5-c481f29af143/test-writer/author-0/cost.json",
+      "totalTokens": 68923
+    },
+    "01a132da-211c-73b3-927b-b9f5aa3acd7f": {
+      "path": ".work/test-writer-v2/final-data/verify-only/d80f72d8-7874-4db9-a561-f95a8742b3aa/test-writer/author-0/cost.json",
+      "totalTokens": 44591
+    },
+    "01a132db-1196-75a1-8108-ac36ef0ca58c": {
+      "path": ".work/test-writer-v2/final-data/verify-only/d80f72d8-7874-4db9-a561-f95a8742b3aa/test-writer/author-1/cost.json",
+      "totalTokens": 51957
+    },
+    "01a132ef-3ffc-7a92-98dd-d0a070998008": {
+      "path": ".work/test-writer-v2/final-data/verify-only/e6e4eb0a-c881-4260-9d23-0630567ed26e/test-writer/author-0/cost.json",
+      "totalTokens": 85530
+    },
+    "01a132a0-6c10-7eb3-b499-3e547fd7032f": {
+      "path": ".work/test-writer-v2/native-proof/author-0/cost.json",
+      "totalTokens": 13085
+    },
+    "01a132b0-0ae8-7bf0-b8fc-91fe40746caa": {
+      "path": ".work/test-writer-v2/scoring-data/verify-only/93e55be8-b209-42e6-ad69-b6d6956f344b/test-writer/author/cost.json",
+      "totalTokens": 45450
+    },
+    "01a132a8-a74e-7833-9e97-15ce7613d4a0": {
+      "path": ".work/test-writer-v2/scoring-data/verify-only/cb3e2f5f-2799-47c4-8eaa-b611ee4dd4f6/test-writer/author-0/cost.json",
+      "totalTokens": 68021
+    },
+    "01a132aa-69c7-7100-bd6b-34b268358708": {
+      "path": ".work/test-writer-v2/scoring-data/verify-only/1e8c098f-8e2a-444f-8838-c9a6f93eb516/test-writer/author-0/cost.json",
+      "totalTokens": 91975
+    },
+    "01a132ab-30fd-7840-85f2-27aadff335b0": {
+      "path": ".work/test-writer-v2/scoring-data/verify-only/1e8c098f-8e2a-444f-8838-c9a6f93eb516/test-writer/author-1/cost.json",
+      "totalTokens": 73692
+    },
+    "01a132ae-3460-77c1-b312-b665e1028c8c": {
+      "path": ".work/test-writer-v2/scoring-data/verify-only/b2019329-f373-4448-8d19-ec683db6111a/test-writer/author-0/cost.json",
+      "totalTokens": 45868
+    }
+  },
+  "note": "Includes native/read probes and void implementation attempts when usage was retained. Partial sessions stopped during void measurements without retained usage remain unavailable; no guess."
+}

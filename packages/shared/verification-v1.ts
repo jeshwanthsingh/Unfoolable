@@ -5,6 +5,12 @@ export type V1Gap={id:string;layer:1|2|3;reason:string};
 export type V1Layer={layer:1|2|3;status:V1Status;checks:{id:string;status:V1Status;reason:string|null;baseStatus?:'PASS'|'FAIL'|'ERROR';candidateStatus?:'PASS'|'FAIL'|'ERROR'}[];gaps:V1Gap[]};
 export type V1Report={version:'verification-v1';testWriter?:TestWriterEvidence;verdict:V1Verdict;canLand:boolean;layers:V1Layer[];gaps:V1Gap[];recipeIds:string[];recipeHash:string;admittedTaskChecksHash:string;candidateTests:{authoritative:false;status:string;paths:string[]}|null;landed:{branch:string;commit:string;createdAt:string}|null};
 
+/** Advisory writer information cannot strengthen or weaken the protected verdict. */
+export function testWriterLayer(evidence:TestWriterEvidence):V1Layer{
+ const contributes=evidence.coverage==='FULL'&&!evidence.advisoryOnly;
+ return {layer:3,status:contributes?'PASS':'NOT CHECKED',checks:evidence.checks.map(c=>({id:c.id,status:c.status==='ADMITTED'?'PASS':'NOT CHECKED',reason:c.reason})),gaps:contributes?[]:[{id:'test-writer-coverage',layer:3,reason:evidence.advisoryOnly?'Test Writer is advisory only; it cannot change the verdict.':evidence.reason??'Focused tests were not fully admitted.'}]};
+}
+
 /** Layers one and two are landing gates. Unchecked optional task checks remain gaps. */
 export function scoreV1(layers:V1Layer[],gaps:V1Gap[]=[]):{verdict:V1Verdict;canLand:boolean}{
  const complete=[1,2,3].every(layer=>layers.filter(l=>l.layer===layer).length===1)&&layers.length===3;
@@ -27,7 +33,7 @@ export function isV1Report(value:unknown):value is V1Report{
  if(!record(value)||!keys(value,['version','verdict','canLand','layers','gaps','recipeIds','recipeHash','admittedTaskChecksHash','candidateTests','landed',...(Object.hasOwn(value,'testWriter')?['testWriter']:[])])||value.version!=='verification-v1'||!['VERIFIED','PASSED WITH GAPS','FAILED','ERROR'].includes(String(value.verdict))||typeof value.canLand!=='boolean'||!Array.isArray(value.layers)||!Array.isArray(value.gaps)||!value.gaps.every(gap)||!Array.isArray(value.recipeIds)||!value.recipeIds.every(nonempty)||!hash(value.recipeHash)||!hash(value.admittedTaskChecksHash))return false;
  if(!value.layers.every(l=>record(l)&&keys(l,['layer','status','checks','gaps'])&&typeof l.layer==='number'&&[1,2,3].includes(l.layer)&&status(l.status)&&Array.isArray(l.checks)&&l.checks.every(c=>record(c)&&keys(c,['id','status','reason',...(Object.hasOwn(c,'baseStatus')?['baseStatus','candidateStatus']:[])])&&(!Object.hasOwn(c,'baseStatus')||(l.layer===2&&['PASS','FAIL','ERROR'].includes(String(c.baseStatus))&&['PASS','FAIL','ERROR'].includes(String(c.candidateStatus))&&(c.baseStatus==='PASS'?c.status===c.candidateStatus:c.baseStatus==='FAIL'?c.status==='NOT CHECKED':c.status==='ERROR')))&&nonempty(c.id)&&status(c.status)&&(c.reason===null||typeof c.reason==='string'))&&Array.isArray(l.gaps)&&l.gaps.every(g=>gap(g)&&g.layer===l.layer)))return false;
  if(value.layers.length!==3||![1,2,3].every(layer=>(value.layers as V1Layer[]).filter(l=>l.layer===layer).length===1))return false;
- if(Object.hasOwn(value,'testWriter')&&!isTestWriterEvidence(value.testWriter))return false;
+ if(Object.hasOwn(value,'testWriter')&&(!isTestWriterEvidence(value.testWriter)||value.testWriter.advisoryOnly&&(value.layers as V1Layer[]).find(l=>l.layer===3)?.status!=='NOT CHECKED'))return false;
  const candidate=value.candidateTests;
  if(candidate!==null&&(!record(candidate)||!keys(candidate,['authoritative','status','paths'])||candidate.authoritative!==false||!nonempty(candidate.status)||!Array.isArray(candidate.paths)||!candidate.paths.every(nonempty)))return false;
  const landed=value.landed;

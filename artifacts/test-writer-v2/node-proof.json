@@ -1,0 +1,27 @@
+[
+  {
+    "name": "pass",
+    "status": "PASS",
+    "tests": [
+      {
+        "id": "behavior",
+        "status": "PASS"
+      }
+    ],
+    "reason": null,
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/node-proof/pass-execution/native-report.json"
+  },
+  {
+    "name": "assertion",
+    "status": "ASSERTION_FAIL",
+    "tests": [
+      {
+        "id": "behavior",
+        "status": "ASSERTION_FAIL",
+        "reason": "AssertionError: Expected values to be strictly equal:\n\n1 !== 2\n"
+      }
+    ],
+    "reason": "AssertionError: Expected values to be strictly equal:\n\n1 !== 2\n",
+    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/node-proof/assertion-execution/native-report.json"
+  }
+]

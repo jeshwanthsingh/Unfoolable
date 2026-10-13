@@ -5,7 +5,7 @@ import {authorNativeWriter,type NativeWriterProposal} from './test-writer-native
 import {executeWriterNative,type WriterNativeResult} from './test-writer-execution.ts';
 import {materializeOracleTree,restoreBaseTests} from './oracle-tree.ts';import {verifyStep} from './verify-only-deadline.ts';
 import type {JsonOwnership} from './codex-json.ts';import type {TestWriterEvidence,WriterUsage} from '../../packages/shared/test-writer.ts';
-export const TEST_WRITER_POLICY:'EVIDENCE'|'ADVISORY'='EVIDENCE';
+export const TEST_WRITER_POLICY:'EVIDENCE'|'ADVISORY'='ADVISORY';
 export function writerPolicyForScore(confirmed:number,falseAccepts:number){return confirmed>=6&&falseAccepts===0?'EVIDENCE':'ADVISORY';}
 export function nativeAdmission(base:WriterNativeResult,candidates:WriterNativeResult[]){
  const ids=(r:WriterNativeResult)=>r.tests.map(t=>t.id).sort().join('\n');
