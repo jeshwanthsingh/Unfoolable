@@ -1,5 +1,5 @@
 import {writerCoverageCommands,finishWriterCoverage,type WriterLineCoverage} from './test-writer-coverage.ts';
-import {mkdirSync,writeFileSync,existsSync,realpathSync,symlinkSync} from 'node:fs';
+import {mkdirSync,writeFileSync,existsSync,realpathSync,symlinkSync,lstatSync} from 'node:fs';
 import {join,dirname} from 'node:path';
 import {oracleSandbox,processRun,oracleScripts} from './oracle-execution.ts';
 import type {NativeWriterFile} from './test-writer-native.ts';
@@ -31,12 +31,13 @@ export async function executeWriterNative(file:NativeWriterFile,workspace:string
  if(file.framework==='unittest'){command=['/usr/local/bin/python3','-I','-B',join(oracleScripts,'writer-unittest.py')];}
  else if(file.framework==='node'){command=[process.execPath,'--test','--test-reporter='+join(oracleScripts,'writer-node-reporter.mjs'),target];}
  else if(file.framework==='vitest'){
-  if(!dependencyRoot)throw Error('Native dependency root unavailable');const deps=realpathSync(dependencyRoot);symlinkSync(deps,join(root,'node_modules'));symlinkSync(deps,join(scratch,'node_modules'));writeFileSync(join(scratch,'package.json'),JSON.stringify({type:'module'}),{mode:0o400});reads.push(deps);
-  const config=join(scratch,'vitest.config.mjs');writeFileSync(config,'export default '+JSON.stringify({root,cacheDir:join(scratch,'vite-cache'),server:{host:'127.0.0.1'},resolve:{alias:{'@':join(root,'src')}},test:{include:[file.path],environment:'jsdom',globals:true,setupFiles:[],watch:false,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false,cache:false}})+';\n',{mode:0o400});reads.push(config);
+  if(!dependencyRoot)throw Error('Native dependency root unavailable');const deps=realpathSync(dependencyRoot);if(!existsSync(join(deps,'jsdom/package.json'))||!existsSync(join(deps,'vitest/vitest.mjs')))throw Error('Exact native Vitest/jsdom dependency unavailable');const link=join(root,'node_modules');if(existsSync(link)){if(!lstatSync(link).isSymbolicLink()||realpathSync(link)!==deps)throw Error('Existing native dependency link is not the approved read-only dependency');}else symlinkSync(deps,link);symlinkSync(deps,join(scratch,'node_modules'));writeFileSync(join(scratch,'package.json'),JSON.stringify({name:'cc-protected-native',type:'module'}),{mode:0o400});writeFileSync(join(scratch,'tsconfig.json'),JSON.stringify({compilerOptions:{}}),{mode:0o400});reads.push(deps);
+  const coverageSetup=join(scratch,'coverage-setup.mjs');if(measurement)writeFileSync(coverageSetup,"import {afterAll} from 'vitest';import {takeCoverage} from 'node:v8';afterAll(()=>takeCoverage());\n",{mode:0o400});
+  const config=join(scratch,'vitest.config.mjs');writeFileSync(config,'export default '+JSON.stringify({root,cacheDir:join(scratch,'vite-cache'),server:{host:'127.0.0.1'},resolve:{alias:{'@':join(root,'src')}},test:{include:[file.path],environment:'jsdom',globals:true,setupFiles:measurement?[coverageSetup]:[],watch:false,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false,cache:false}})+';\n',{mode:0o400});reads.push(config);
   command=[process.execPath,join(deps,'vitest/vitest.mjs'),'run','--config',config,'--configLoader=native','--reporter=json'];
  }else throw Error('Native pytest requires an approved pytest playbook; no pytest projects in this scoring set');
  if(measurement){const wrapped=writerCoverageCommands(file.framework,command,root,scratch);command=wrapped.command;reads.push(...wrapped.reads);}
- const env={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:scratch,TMPDIR:scratch,TZ:'UTC',LANG:'C',LC_ALL:'C',HOST:'127.0.0.1',BIND_ADDRESS:'127.0.0.1',CI:'1',PYTHONDONTWRITEBYTECODE:'1',...(measurement&&file.framework!=='unittest'?{NODE_V8_COVERAGE:join(scratch,'v8')}:{})};
+ const env={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:scratch,TMPDIR:scratch,TZ:'UTC',LANG:'C',LC_ALL:'C',HOST:'127.0.0.1',BIND_ADDRESS:'127.0.0.1',CI:'1',...(file.framework==='vitest'?{VITEST_SKIP_INSTALL_CHECKS:'1'}:{}),PYTHONDONTWRITEBYTECODE:'1',...(measurement&&file.framework!=='unittest'?{NODE_V8_COVERAGE:join(scratch,'v8')}:{})};
  const input=file.framework==='unittest'?JSON.stringify({root,path:file.path})+'\n':'';
  const driver=file.framework==='unittest'?command:['/usr/local/bin/python3',launcher];
  // Parent-owned report is outside both exports and denied-write to executed code. Native stdout is a pipe, not a Candidate-authored result file.

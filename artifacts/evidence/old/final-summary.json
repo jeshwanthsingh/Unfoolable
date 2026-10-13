@@ -1,0 +1,15 @@
+{
+  "mode": "old",
+  "cases": 19,
+  "correct": 11,
+  "wrong": 8,
+  "confirmed": 2,
+  "falseAccepts": 0,
+  "actualPolicy": "ADVISORY",
+  "method": "Final generic measurement repair and one authorized survivor retry; actual app remains advisory",
+  "tokens": 259170,
+  "started": 18,
+  "unknownUsageCases": [],
+  "averageTokensPerStartedCase": 14398.333333333334,
+  "averageTokensPerAllCases": 13640.526315789473
+}

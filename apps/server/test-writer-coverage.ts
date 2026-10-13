@@ -1,7 +1,12 @@
+import {isOracleTestPath} from './oracle-tree.ts';
 import {existsSync,readFileSync,writeFileSync} from 'node:fs';import {join,dirname} from 'node:path';
 import {oracleSandbox,processRun,oracleScripts} from './oracle-execution.ts';
 import type {WriterLineCoverage} from '../../packages/shared/test-writer.ts';
 export type {WriterLineCoverage} from '../../packages/shared/test-writer.ts';
+export function productionWriterDiff(diff:string){
+ const blocks=diff.split(/(?=^diff --git )/m);
+ return blocks.filter(block=>{const header=/^\+\+\+ (.+)$/m.exec(block)?.[1];if(!header||header==='/dev/null')return false;if(!header.startsWith('b/'))throw Error('Quoted diff paths are not supported for measured coverage');const path=header.slice(2);return /\.(?:py|[cm]?[jt]sx?)$/.test(path)&&!isOracleTestPath(path);}).join('');
+}
 export const writerTools=join(oracleScripts,'../../.work/evidence/tools');
 export function writerCoverageCommands(framework:string,command:string[],root:string,scratch:string){
  if(framework==='unittest'){const config=join(scratch,'coverage.ini');writeFileSync(config,'[run]\nsource = '+root+'\ndata_file = '+join(scratch,'.coverage')+'\nparallel = true\npatch = subprocess\n',{mode:0o400});return {command:[join(writerTools,'python/bin/python'),'-I','-B','-m','coverage','run','--rcfile='+config,...command.slice(3)],reads:[join(writerTools,'python')]};}
@@ -15,6 +20,7 @@ export function normalizeDiffCoverage(report:any):Pick<WriterLineCoverage,'chang
 export async function finishWriterCoverage(framework:string,root:string,scratch:string,directory:string,diff:string,signal:AbortSignal):Promise<WriterLineCoverage>{
  const tool=framework==='unittest'?'coverage.py' as const:'c8' as const;
  const unavailable=(reason:string):WriterLineCoverage=>({tool,changedLines:0,coveredLines:0,percent:null,unmeasuredPaths:[],reason,reportPath:null});
+ diff=productionWriterDiff(diff);
  const patch=join(directory,'changed-lines.diff');writeFileSync(patch,diff,{mode:0o400,flag:'wx'});
  const launcher=join(directory,'coverage-launch.py');writeFileSync(launcher,'import json,os,sys\nv=json.loads(sys.stdin.readline())\nos.chdir(v["cwd"])\nos.execve(v["argv"][0],v["argv"],v["env"])\n',{mode:0o400});
  const python=join(writerTools,'python/bin/python'),cover=join(scratch,framework==='unittest'?'coverage.xml':'coverage/lcov.info'),native=join(scratch,'diff-coverage.json');
