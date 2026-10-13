@@ -1,0 +1,75 @@
+{
+  "reason": "Native Vitest config could not read its containing directory; fixing runner startup without broadening protected reads",
+  "records": [
+    {
+      "pid": 86021,
+      "ppid": 1440,
+      "pgid": 86021,
+      "sid": 86021,
+      "birth": "darwin:1791851260:25117",
+      "executable": "/opt/homebrew/Cellar/rtk/0.37.2/bin/rtk",
+      "observedAt": "2026-10-13T00:37:14.643Z",
+      "exitedAt": null
+    },
+    {
+      "pid": 8258,
+      "ppid": 86030,
+      "pgid": 86021,
+      "sid": 86021,
+      "birth": "darwin:1791851807:369446",
+      "executable": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T3/A/repo/frontend/node_modules/@esbuild/darwin-arm64/bin/esbuild",
+      "observedAt": "2026-10-13T00:37:14.645Z",
+      "exitedAt": null
+    },
+    {
+      "pid": 8356,
+      "ppid": 8351,
+      "pgid": 8351,
+      "sid": 8351,
+      "birth": "darwin:1791851829:568234",
+      "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+      "observedAt": "2026-10-13T00:37:14.645Z",
+      "exitedAt": null
+    },
+    {
+      "pid": 8359,
+      "ppid": 8356,
+      "pgid": 8351,
+      "sid": 8351,
+      "birth": "darwin:1791851829:756838",
+      "executable": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T3/A/repo/frontend/node_modules/@esbuild/darwin-arm64/bin/esbuild",
+      "observedAt": "2026-10-13T00:37:14.645Z",
+      "exitedAt": null
+    },
+    {
+      "pid": 86030,
+      "ppid": 86021,
+      "pgid": 86021,
+      "sid": 86021,
+      "birth": "darwin:1791851260:111939",
+      "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+      "observedAt": "2026-10-13T00:37:14.645Z",
+      "exitedAt": null
+    },
+    {
+      "pid": 97591,
+      "ppid": 86030,
+      "pgid": 86021,
+      "sid": 86021,
+      "birth": "darwin:1791851504:306287",
+      "executable": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/T5/A/repo/frontend/node_modules/@esbuild/darwin-arm64/bin/esbuild",
+      "observedAt": "2026-10-13T00:37:14.645Z",
+      "exitedAt": null
+    },
+    {
+      "pid": 8351,
+      "ppid": 86030,
+      "pgid": 8351,
+      "sid": 8351,
+      "birth": "darwin:1791851829:415430",
+      "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+      "observedAt": "2026-10-13T00:37:14.645Z",
+      "exitedAt": null
+    }
+  ]
+}

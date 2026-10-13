@@ -2,14 +2,14 @@ import {mkdirSync,writeFileSync,existsSync,realpathSync,symlinkSync} from 'node:
 import {join,dirname} from 'node:path';
 import {oracleSandbox,processRun,oracleScripts} from './oracle-execution.ts';
 import type {NativeWriterFile} from './test-writer-native.ts';
-export type WriterNativeResult={status:'PASS'|'ASSERTION_FAIL'|'ERROR';tests:{id:string;status:string;reason?:string}[];reason:string|null;reportPath:string};
+export type WriterNativeResult={status:'PASS'|'ASSERTION_FAIL'|'ERROR';tests:{id:string;status:string;reason?:string}[];reason:string|null;setupError?:boolean;reportPath:string};
 export function classifyWriterNative(framework:NativeWriterFile['framework'],report:any,code:number|null):Omit<WriterNativeResult,'reportPath'>{
  let tests:WriterNativeResult['tests']=[];
  if(framework==='vitest'){
   if(!report||!Array.isArray(report.testResults)||report.numUnhandledErrors>0)return {status:'ERROR',tests,reason:'Native Vitest report unavailable or unhandled errors'};
-  for(const file of report.testResults){if(!Array.isArray(file.assertionResults)||file.status==='failed'&&!file.assertionResults.length)return {status:'ERROR',tests,reason:'Native file setup failed'};for(const t of file.assertionResults){tests.push({id:t.fullName,status:t.status==='passed'?'PASS':t.status==='failed'&&t.failureMessages?.every((s:string)=>/AssertionError|expected .*to |expected .*equal/i.test(s))?'ASSERTION_FAIL':t.status==='failed'?'ERROR':'SKIPPED',reason:t.failureMessages?.join('\n')});}}
+  for(const file of report.testResults){if(!Array.isArray(file.assertionResults)||file.status==='failed'&&!file.assertionResults.length)return {status:'ERROR',tests,setupError:true,reason:'Native file setup failed: '+String(file.message??'No native detail')};for(const t of file.assertionResults){tests.push({id:t.fullName,status:t.status==='passed'?'PASS':t.status==='failed'&&Array.isArray(t.failureMessages)&&t.failureMessages.length>0&&t.failureMessages.every((s:string)=>/^AssertionError(?: \[[^\]]+\])?:/.test(s))?'ASSERTION_FAIL':t.status==='failed'?'ERROR':'SKIPPED',reason:t.failureMessages?.join('\n')});}}
   if(report.numTotalTests!==tests.length)return {status:'ERROR',tests,reason:'Native collection count mismatch'};
- }else{if(!report||!Array.isArray(report.tests)||report.testsRun!==report.tests.length||report.error)return {status:'ERROR',tests,reason:report?.error??'Native report unavailable or count mismatch'};tests=report.tests;}
+ }else{if(!report||!Array.isArray(report.tests)||report.testsRun!==report.tests.length||report.error)return {status:'ERROR',tests,setupError:!!report?.error,reason:report?.error??'Native report unavailable or count mismatch'};tests=report.tests;}
  if(!tests.length||tests.some(t=>typeof t.id!=='string'||!t.id||!['PASS','ASSERTION_FAIL','ERROR','SKIPPED'].includes(t.status))||new Set(tests.map(t=>t.id)).size!==tests.length)return {status:'ERROR',tests,reason:'Zero, malformed or duplicate native tests'};
  if(tests.some(t=>t.status==='ERROR'||t.status==='SKIPPED'))return {status:'ERROR',tests,reason:tests.filter(t=>t.status!=='PASS').map(t=>t.id+': '+t.status+' '+(t.reason??'')).join('\n')};
  if(tests.some(t=>t.status==='ASSERTION_FAIL'))return code===1?{status:'ASSERTION_FAIL',tests,reason:tests.filter(t=>t.status==='ASSERTION_FAIL').map(t=>t.reason).join('\n')}:{status:'ERROR',tests,reason:'Assertion report and exit status disagree'};
@@ -24,9 +24,9 @@ export async function executeWriterNative(file:NativeWriterFile,workspace:string
  if(file.framework==='unittest'){command=['/usr/local/bin/python3','-I','-B',join(oracleScripts,'writer-unittest.py')];}
  else if(file.framework==='node'){command=[process.execPath,'--test','--test-reporter='+join(oracleScripts,'writer-node-reporter.mjs'),target];}
  else if(file.framework==='vitest'){
-  if(!dependencyRoot)throw Error('Native dependency root unavailable');const deps=realpathSync(dependencyRoot);symlinkSync(deps,join(root,'node_modules'));reads.push(deps);
-  const config=join(directory,'vitest.config.mjs');writeFileSync(config,'export default '+JSON.stringify({root,cacheDir:join(scratch,'vite-cache'),resolve:{alias:{'@':join(root,'src')}},test:{include:[file.path],environment:'jsdom',globals:true,setupFiles:[],watch:false,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false,cache:false}})+';\n',{mode:0o400});reads.push(config);
-  command=[process.execPath,join(deps,'vitest/vitest.mjs'),'run','--config',config,'--reporter=json'];
+  if(!dependencyRoot)throw Error('Native dependency root unavailable');const deps=realpathSync(dependencyRoot);symlinkSync(deps,join(root,'node_modules'));symlinkSync(deps,join(scratch,'node_modules'));writeFileSync(join(scratch,'package.json'),JSON.stringify({type:'module'}),{mode:0o400});reads.push(deps);
+  const config=join(scratch,'vitest.config.mjs');writeFileSync(config,'export default '+JSON.stringify({root,cacheDir:join(scratch,'vite-cache'),server:{host:'127.0.0.1'},resolve:{alias:{'@':join(root,'src')}},test:{include:[file.path],environment:'jsdom',globals:true,setupFiles:[],watch:false,pool:'forks',maxWorkers:1,minWorkers:1,fileParallelism:false,cache:false}})+';\n',{mode:0o400});reads.push(config);
+  command=[process.execPath,join(deps,'vitest/vitest.mjs'),'run','--config',config,'--configLoader=native','--reporter=json'];
  }else throw Error('Native pytest requires an approved pytest playbook; no pytest projects in this scoring set');
  const env={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:scratch,TMPDIR:scratch,TZ:'UTC',LANG:'C',LC_ALL:'C',HOST:'127.0.0.1',BIND_ADDRESS:'127.0.0.1',CI:'1',PYTHONDONTWRITEBYTECODE:'1'};
  const input=file.framework==='unittest'?JSON.stringify({root,path:file.path})+'\n':'';

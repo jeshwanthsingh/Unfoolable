@@ -1,8 +1,9 @@
 """Native unittest result collector. Only the new writer file is selected."""
-import sys, json, unittest, importlib.util, contextlib, io, traceback
+import sys, json, unittest, importlib.util, contextlib, io, traceback, os
 policy = json.loads(sys.stdin.readline())
 root, path = policy['root'], policy['path']
 sys.path.insert(0, root)
+sys.path.insert(0, os.path.dirname(root+'/'+path))
 class Result(unittest.TestResult):
     def __init__(self):
         super().__init__(); self.records = []; self.subfailures = set()

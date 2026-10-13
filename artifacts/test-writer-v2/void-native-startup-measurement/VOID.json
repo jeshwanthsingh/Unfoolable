@@ -1,0 +1,4 @@
+{
+  "status": "VOID_IMPLEMENTATION",
+  "reason": "Native Vitest config needed scratch directory/package isolation and numeric loopback. Corrected without granting CC source or shared-dependency writes. Measurement stopped with certified owned-process cleanup."
+}
