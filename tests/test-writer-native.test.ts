@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync,mkdirSync,rmSync,readFileSync,realpathSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';import {executeWriterNative,classifyWriterNative} from '../apps/server/test-writer-execution.ts';
+for(const [label,code,status] of [
+ ['pass','import unittest\nclass Tests(unittest.TestCase):\n def test_behavior(self): self.assertEqual(2,2)\n','PASS'],
+ ['assertion','import unittest\nclass Tests(unittest.TestCase):\n def test_behavior(self): self.assertEqual(1,2)\n','ASSERTION_FAIL'],
+ ['import','import not_a_real_module\n','ERROR'],
+ ['skip','import unittest\nclass Tests(unittest.TestCase):\n @unittest.skip("skip")\n def test_behavior(self): pass\n','ERROR'],
+ ['zero','import unittest\n','ERROR'],
+ ['early-exit','import os\nos._exit(0)\n','ERROR'],
+] as const)test('real protected native writer '+label,async()=>{const dir=mkdtempSync(join(tmpdir(),'writer-native-'));try{const root=join(dir,'export');mkdirSync(root);const run=join(dir,'run');const result=await executeWriterNative({framework:'unittest',runnerDirectory:'.',path:'tests/test_writer.py',code,summary:'fixture',complete:true,reason:''},root,run,new AbortController().signal);assert.equal(result.status,status,JSON.stringify(result));assert.ok(result.reportPath.startsWith(realpathSync(run)+'/'));assert.equal(readFileSync(join(root,'tests/test_writer.py'),'utf8'),code);}finally{rmSync(dir,{recursive:true,force:true});}});
+test('native report classifications never admit syntax/setup, skipped or missing test count',()=>{for(const payload of [{testsRun:0,tests:[]},{testsRun:1,tests:[{id:'x',status:'SKIPPED'}]},{testsRun:1,tests:[{id:'x',status:'ERROR'}]},{testsRun:1,tests:[]},{testsRun:2,tests:[{id:'x',status:'PASS'},{id:'x',status:'PASS'}]}])assert.equal(classifyWriterNative('unittest',payload,0).status,'ERROR');assert.equal(classifyWriterNative('vitest',{numTotalTests:1,testResults:[{status:'failed',assertionResults:[{fullName:'x',status:'failed',failureMessages:['ReferenceError: missing']}]}]},1).status,'ERROR');});
