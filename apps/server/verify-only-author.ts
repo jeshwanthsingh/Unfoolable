@@ -36,7 +36,7 @@ function nonvisualTarget(fixture:string,request:Pick<AuthoredRequest,'module'|'f
  return targets.includes(module)&&!!base&&!!imported&&/^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)?$/.test(fn)&&parts.every(part=>new RegExp('\\b'+escaped(part)+'\\b').test(base))&&new RegExp('\\b'+escaped(parts[0]!)+'\\b').test(imported[1]!)&&fixtureInvokes(fixture,fn);
 }
 export async function authorVerifyOnly(input:VerifyBinding,id:string,directory:string,signal:AbortSignal,jsonRunner:typeof runCodexJson=runCodexJson){
- const source=await oracleSource(input.repoRoot,input.baseCommit,input.intent);
+ const source=await oracleSource(input.repoRoot,input.baseCommit,input.intent,{directory:join(directory,'native-inventory'),signal});
  const requiredPath=join(directory,'required-claims.json'),requiredClaims=existsSync(requiredPath)?JSON.parse(readFileSync(requiredPath,'utf8')):null;
  const packet={requiredClaims,intent:input.intent,baseCommit:input.baseCommit,runner:source.runner,runnerDirectory:source.directory,source:source.source};
  const response=await jsonRunner(packet,signal,undefined,prompt,schema,canonicalContractJson,undefined,directory);

@@ -42,5 +42,9 @@ with contextlib.redirect_stdout(out),contextlib.redirect_stderr(err):
  cases=list(flatten(suite));ids=[t.id() for t in cases];exclude_ids={e['testId'] for e in excluded}
  if any(ids.count(i)!=1 for i in exclude_ids):raise ValueError('Declared excluded test missing or duplicated')
  included=[t for t in cases if t.id() not in exclude_ids]
- result=Result();unittest.TestSuite(included).run(result)
+ if policy.get('collectOnly'):
+  print_packet={'collection':ids}
+ else:
+  result=Result();unittest.TestSuite(included).run(result)
+if policy.get('collectOnly'):print(json.dumps(print_packet));sys.exit(0)
 print(json.dumps({'testsRun':result.testsRun,'tests':result.records,'excludedTests':[{**e,'status':'EXCLUDED'} for e in excluded],'stdout':out.getvalue(),'stderr':err.getvalue()}))
