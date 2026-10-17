@@ -15,3 +15,13 @@ test('cap accepts the boundary and rejects either excess',()=>{assert.equal(revi
 test('custom caps and header-like content inside hunks cannot hide changed lines',()=>{assert.equal(reviewRisk(clean(),['src/a'],'--- a\n+++ b\n@@ -1 +1 @@\n---removed\n+++added',{lines:1,files:1}).color,'RED');assert.equal(reviewRisk(clean(),['src/a'],'@@ -1 +1 @@\n+one\n+two',{lines:2,files:1}).color,'GREEN');});
 
 test('unmeasurable binary changes never look like a small green diff',()=>assert.equal(reviewRisk(clean(),['asset.bin'],'GIT binary patch').color,'RED'));
+
+const patch=(body:string)=>'diff --git a/tests/test_new.py b/tests/test_new.py\n--- a/tests/test_new.py\n+++ b/tests/test_new.py\n@@ -1 +1 @@\n'+body;
+test('new test files and purely additive test cases are amber at most',()=>{
+ assert.equal(reviewRisk(clean(),['tests/test_new.py'],patch('+def test_more():\n+  assert value == 1')).color,'AMBER');
+ assert.equal(reviewRisk(clean(),['tests/test_new.py'],patch('+def test_more():\n+  assert value == 1').replace('--- a/tests/test_new.py','--- /dev/null')).color,'AMBER');
+});
+test('modifying/deleting existing tests remains red; independent red flags still win',()=>{
+ assert.equal(reviewRisk(clean(),['tests/test_new.py'],patch('-assert value == 1\n+assert value == 2')).color,'RED');
+ assert.equal(reviewRisk({...clean(),verdict:'FAILED'},['tests/test_new.py'],patch('+assert value == 1')).color,'RED');
+});
