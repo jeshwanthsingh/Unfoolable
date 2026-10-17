@@ -1,0 +1,47 @@
+[
+  {
+    "direction": "instrument",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 800,
+        "height": 450
+      }
+    ],
+    "format": {
+      "duration": "20.000000",
+      "size": "205676"
+    }
+  },
+  {
+    "direction": "glass",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 800,
+        "height": 450
+      }
+    ],
+    "format": {
+      "duration": "20.000000",
+      "size": "289118"
+    }
+  },
+  {
+    "direction": "night",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 800,
+        "height": 450
+      }
+    ],
+    "format": {
+      "duration": "20.000000",
+      "size": "210658"
+    }
+  }
+]

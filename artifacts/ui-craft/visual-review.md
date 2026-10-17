@@ -18,3 +18,6 @@ The existing operational UI remains untouched. These alternatives replay capture
 
 ## Independent verdict pass
 A separate read-only reviewer used ibelick baseline-ui and the principles, viewed all six final recaptures, and scored its five earlier findings resolved: permanent historical label, accessible check-state names in Overview, truthful keyboard instruction, accelerated cadence disclosure, and 44px targets. This finding-specific pass did not claim a screen-reader session or aesthetic certification.
+
+## Final compatibility check
+Console inspection found Three 0.186.1 warns that PCFSoftShadowMap was removed and already falls back to PCFShadowMap. Replace that obsolete name with its actual current fallback (same rendering behavior), then rebuild and refresh final captures/tests. React Three Fiber itself still emits a Three.Clock deprecation warning; that is an upstream compatibility warning, not a runtime failure. One old module-load MIME error occurred during a production rebuild while a prior page remained open; final navigation uses the completed build and is checked separately.

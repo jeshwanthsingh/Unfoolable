@@ -1,0 +1,83 @@
+[
+  {
+    "args": [
+      "run-code",
+      "async page=>{await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('http://127.0.0.1:3237/?craft=instrument');await page.waitForLoadState('networkidle');await page.locator('h1').waitFor();await page.waitForTimeout(1400);await page.evaluate(()=>scrollTo(0,0));}"
+    ],
+    "output": "### Ran Playwright code\n```js\nawait (async page=>{await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('http://127.0.0.1:3237/?craft=instrument');await page.waitForLoadState('networkidle');await page.locator('h1').waitFor();await page.waitForTimeout(1400);await page.evaluate(()=>scrollTo(0,0));})(page);\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n"
+  },
+  {
+    "args": [
+      "video-start",
+      ".work/ui-craft/instrument-raw.webm"
+    ],
+    "output": "### Result\nVideo recording started.\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{await page.getByRole('button',{name:'Replay ticket',exact:true}).click();await page.evaluate(()=>scrollTo(0,0));const frames=[];for(let i=0;i<20;i++){frames.push({second:i,status:await page.locator('.craft-status').innerText(),event:await page.locator('.craft-replay>div').innerText()});await page.waitForTimeout(1000);}if(!frames.some(f=>f.status.includes('building')))throw Error('No recorded building stage');if(!frames.some(f=>f.status.includes('checking')))throw Error('No recorded checking stage');return frames;}"
+    ],
+    "output": "### Result\n[{\"second\":0,\"status\":\"queued\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 1 of 19 · 10/17/2026, 12:27:54 PM\"},{\"second\":1,\"status\":\"Needs you\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 2 of 19 · 10/17/2026, 12:27:54 PM\"},{\"second\":2,\"status\":\"queued\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 3 of 19 · 10/17/2026, 12:28:36 PM\"},{\"second\":3,\"status\":\"building\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 4 of 19 · 10/17/2026, 12:28:42 PM\"},{\"second\":4,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 5 of 19 · 10/17/2026, 12:29:13 PM\"},{\"second\":5,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 6 of 19 · 10/17/2026, 12:30:04 PM\"},{\"second\":6,\"status\":\"Ready for your review\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 7 of 19 · 10/17/2026, 12:30:04 PM\"},{\"second\":7,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 8 of 19 · 10/17/2026, 12:32:25 PM\"},{\"second\":8,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 9 of 19 · 10/17/2026, 12:33:09 PM\"},{\"second\":9,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 10 of 19 · 10/17/2026, 12:33:09 PM\"},{\"second\":10,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 11 of 19 · 10/17/2026, 1:01:35 PM\"},{\"second\":11,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 12 of 19 · 10/17/2026, 1:01:42 PM\"},{\"second\":12,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 13 of 19 · 10/17/2026, 1:01:42 PM\"},{\"second\":13,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 14 of 19 · 10/17/2026, 1:04:55 PM\"},{\"second\":14,\"status\":\"Harness stopped\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 15 of 19 · 10/17/2026, 1:14:34 PM\"},{\"second\":15,\"status\":\"Harness stopped\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 16 of 19 · 10/17/2026, 1:14:34 PM\"},{\"second\":16,\"status\":\"checking\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 17 of 19 · 10/17/2026, 2:15:07 PM\"},{\"second\":17,\"status\":\"checking\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 18 of 19 · 10/17/2026, 2:17:28 PM\"},{\"second\":18,\"status\":\"Ready for your review\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 19 of 19 · 10/17/2026, 2:17:28 PM\"},{\"second\":19,\"status\":\"Ready for your review\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 19 of 19 · 10/17/2026, 2:17:28 PM\"}]\n### Ran Playwright code\n```js\nawait (async page=>{await page.getByRole('button',{name:'Replay ticket',exact:true}).click();await page.evaluate(()=>scrollTo(0,0));const frames=[];for(let i=0;i<20;i++){frames.push({second:i,status:await page.locator('.craft-status').innerText(),event:await page.locator('.craft-replay>div').innerText()});await page.waitForTimeout(1000);}if(!frames.some(f=>f.status.includes('building')))throw Error('No recorded building stage');if(!frames.some(f=>f.status.includes('checking')))throw Error('No recorded checking stage');return frames;})(page);\n```\n"
+  },
+  {
+    "args": [
+      "video-stop"
+    ],
+    "output": "### Result\n- [Video](.work/ui-craft/instrument-raw.webm)\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('http://127.0.0.1:3237/?craft=glass');await page.waitForLoadState('networkidle');await page.locator('h1').waitFor();await page.waitForTimeout(1400);await page.evaluate(()=>scrollTo(0,0));}"
+    ],
+    "output": "### Ran Playwright code\n```js\nawait (async page=>{await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('http://127.0.0.1:3237/?craft=glass');await page.waitForLoadState('networkidle');await page.locator('h1').waitFor();await page.waitForTimeout(1400);await page.evaluate(()=>scrollTo(0,0));})(page);\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n"
+  },
+  {
+    "args": [
+      "video-start",
+      ".work/ui-craft/glass-raw.webm"
+    ],
+    "output": "### Result\nVideo recording started.\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{await page.getByRole('button',{name:'Replay ticket',exact:true}).click();await page.evaluate(()=>scrollTo(0,0));const frames=[];for(let i=0;i<20;i++){frames.push({second:i,status:await page.locator('.craft-status').innerText(),event:await page.locator('.craft-replay>div').innerText()});await page.waitForTimeout(1000);}if(!frames.some(f=>f.status.includes('building')))throw Error('No recorded building stage');if(!frames.some(f=>f.status.includes('checking')))throw Error('No recorded checking stage');return frames;}"
+    ],
+    "output": "### Result\n[{\"second\":0,\"status\":\"queued\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 1 of 19 · 10/17/2026, 12:27:54 PM\"},{\"second\":1,\"status\":\"Needs you\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 2 of 19 · 10/17/2026, 12:27:54 PM\"},{\"second\":2,\"status\":\"queued\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 3 of 19 · 10/17/2026, 12:28:36 PM\"},{\"second\":3,\"status\":\"building\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 4 of 19 · 10/17/2026, 12:28:42 PM\"},{\"second\":4,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 5 of 19 · 10/17/2026, 12:29:13 PM\"},{\"second\":5,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 6 of 19 · 10/17/2026, 12:30:04 PM\"},{\"second\":6,\"status\":\"Ready for your review\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 7 of 19 · 10/17/2026, 12:30:04 PM\"},{\"second\":7,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 8 of 19 · 10/17/2026, 12:32:25 PM\"},{\"second\":8,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 9 of 19 · 10/17/2026, 12:33:09 PM\"},{\"second\":9,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 10 of 19 · 10/17/2026, 12:33:09 PM\"},{\"second\":10,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 11 of 19 · 10/17/2026, 1:01:35 PM\"},{\"second\":11,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 12 of 19 · 10/17/2026, 1:01:42 PM\"},{\"second\":12,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 13 of 19 · 10/17/2026, 1:01:42 PM\"},{\"second\":13,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 14 of 19 · 10/17/2026, 1:04:55 PM\"},{\"second\":14,\"status\":\"Harness stopped\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 15 of 19 · 10/17/2026, 1:14:34 PM\"},{\"second\":15,\"status\":\"Harness stopped\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 16 of 19 · 10/17/2026, 1:14:34 PM\"},{\"second\":16,\"status\":\"checking\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 17 of 19 · 10/17/2026, 2:15:07 PM\"},{\"second\":17,\"status\":\"checking\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 18 of 19 · 10/17/2026, 2:17:28 PM\"},{\"second\":18,\"status\":\"Ready for your review\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 19 of 19 · 10/17/2026, 2:17:28 PM\"},{\"second\":19,\"status\":\"Ready for your review\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 19 of 19 · 10/17/2026, 2:17:28 PM\"}]\n### Ran Playwright code\n```js\nawait (async page=>{await page.getByRole('button',{name:'Replay ticket',exact:true}).click();await page.evaluate(()=>scrollTo(0,0));const frames=[];for(let i=0;i<20;i++){frames.push({second:i,status:await page.locator('.craft-status').innerText(),event:await page.locator('.craft-replay>div').innerText()});await page.waitForTimeout(1000);}if(!frames.some(f=>f.status.includes('building')))throw Error('No recorded building stage');if(!frames.some(f=>f.status.includes('checking')))throw Error('No recorded checking stage');return frames;})(page);\n```\n"
+  },
+  {
+    "args": [
+      "video-stop"
+    ],
+    "output": "### Result\n- [Video](.work/ui-craft/glass-raw.webm)\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('http://127.0.0.1:3237/?craft=night');await page.waitForLoadState('networkidle');await page.locator('h1').waitFor();await page.waitForTimeout(1400);await page.evaluate(()=>scrollTo(0,0));}"
+    ],
+    "output": "### Ran Playwright code\n```js\nawait (async page=>{await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('http://127.0.0.1:3237/?craft=night');await page.waitForLoadState('networkidle');await page.locator('h1').waitFor();await page.waitForTimeout(1400);await page.evaluate(()=>scrollTo(0,0));})(page);\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=night\n- Page Title: Command Center\n- Console: 0 errors, 1 warnings\n### Events\n- New console entries: .playwright-cli/console-2026-10-17T22-11-15-594Z.log#L25\n"
+  },
+  {
+    "args": [
+      "video-start",
+      ".work/ui-craft/night-raw.webm"
+    ],
+    "output": "### Result\nVideo recording started.\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{await page.getByRole('button',{name:'Replay ticket',exact:true}).click();await page.evaluate(()=>scrollTo(0,0));const frames=[];for(let i=0;i<20;i++){frames.push({second:i,status:await page.locator('.craft-status').innerText(),event:await page.locator('.craft-replay>div').innerText()});await page.waitForTimeout(1000);}if(!frames.some(f=>f.status.includes('building')))throw Error('No recorded building stage');if(!frames.some(f=>f.status.includes('checking')))throw Error('No recorded checking stage');return frames;}"
+    ],
+    "output": "### Result\n[{\"second\":0,\"status\":\"queued\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 1 of 19 · 10/17/2026, 12:27:54 PM\"},{\"second\":1,\"status\":\"Needs you\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 2 of 19 · 10/17/2026, 12:27:54 PM\"},{\"second\":2,\"status\":\"queued\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 3 of 19 · 10/17/2026, 12:28:36 PM\"},{\"second\":3,\"status\":\"building\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 4 of 19 · 10/17/2026, 12:28:42 PM\"},{\"second\":4,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 5 of 19 · 10/17/2026, 12:29:13 PM\"},{\"second\":5,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 6 of 19 · 10/17/2026, 12:30:04 PM\"},{\"second\":6,\"status\":\"Ready for your review\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 7 of 19 · 10/17/2026, 12:30:04 PM\"},{\"second\":7,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 8 of 19 · 10/17/2026, 12:32:25 PM\"},{\"second\":8,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 9 of 19 · 10/17/2026, 12:33:09 PM\"},{\"second\":9,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 10 of 19 · 10/17/2026, 12:33:09 PM\"},{\"second\":10,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 11 of 19 · 10/17/2026, 1:01:35 PM\"},{\"second\":11,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 12 of 19 · 10/17/2026, 1:01:42 PM\"},{\"second\":12,\"status\":\"Needs you\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 13 of 19 · 10/17/2026, 1:01:42 PM\"},{\"second\":13,\"status\":\"checking\\n0:22 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 14 of 19 · 10/17/2026, 1:04:55 PM\"},{\"second\":14,\"status\":\"Harness stopped\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 15 of 19 · 10/17/2026, 1:14:34 PM\"},{\"second\":15,\"status\":\"Harness stopped\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 16 of 19 · 10/17/2026, 1:14:34 PM\"},{\"second\":16,\"status\":\"checking\\n0:12 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 17 of 19 · 10/17/2026, 2:15:07 PM\"},{\"second\":17,\"status\":\"checking\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 18 of 19 · 10/17/2026, 2:17:28 PM\"},{\"second\":18,\"status\":\"Ready for your review\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 19 of 19 · 10/17/2026, 2:17:28 PM\"},{\"second\":19,\"status\":\"Ready for your review\\n0:09 · 3 recorded cmds\",\"event\":\"Accelerated replay · 1 event per second\\nEvent 19 of 19 · 10/17/2026, 2:17:28 PM\"}]\n### Ran Playwright code\n```js\nawait (async page=>{await page.getByRole('button',{name:'Replay ticket',exact:true}).click();await page.evaluate(()=>scrollTo(0,0));const frames=[];for(let i=0;i<20;i++){frames.push({second:i,status:await page.locator('.craft-status').innerText(),event:await page.locator('.craft-replay>div').innerText()});await page.waitForTimeout(1000);}if(!frames.some(f=>f.status.includes('building')))throw Error('No recorded building stage');if(!frames.some(f=>f.status.includes('checking')))throw Error('No recorded checking stage');return frames;})(page);\n```\n"
+  },
+  {
+    "args": [
+      "video-stop"
+    ],
+    "output": "### Result\n- [Video](.work/ui-craft/night-raw.webm)\n"
+  }
+]

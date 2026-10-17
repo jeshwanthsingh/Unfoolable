@@ -1,0 +1,109 @@
+{
+  "branch": "codex/ui-craft",
+  "base": "74b07ed4f1e319d5cc00ac9f4ccd0496f8461888",
+  "suite": {
+    "code": 0,
+    "durationSeconds": 331.834,
+    "summary": [
+      "\u2139 tests 931",
+      "\u2139 pass 931",
+      "\u2139 fail 0",
+      "\u2139 cancelled 0",
+      "\u2139 skipped 0",
+      "\u2139 duration_ms 331581.481667"
+    ]
+  },
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "readGuard": {
+    "paths": 65,
+    "readable": 0,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    }
+  },
+  "lifecycle": [
+    {
+      "direction": "instrument",
+      "idleFrames": 0,
+      "simulatedHiddenFrames": 0,
+      "simulatedHiddenReplayPaused": true,
+      "reduced": {
+        "matches": true,
+        "animations": 0
+      }
+    },
+    {
+      "direction": "glass",
+      "idleFrames": 0,
+      "simulatedHiddenFrames": 0,
+      "simulatedHiddenReplayPaused": true,
+      "reduced": {
+        "matches": true,
+        "animations": 0
+      }
+    },
+    {
+      "direction": "night",
+      "idleFrames": 0,
+      "simulatedHiddenFrames": 0,
+      "simulatedHiddenReplayPaused": true,
+      "reduced": {
+        "matches": true,
+        "animations": 0
+      }
+    }
+  ],
+  "browserStates": [
+    {
+      "direction": "instrument",
+      "phoneCanvas": 0,
+      "overflow": false,
+      "keepDisabled": true,
+      "focus": {
+        "name": "Glass Studio",
+        "outline": "solid"
+      },
+      "requestTargets": [
+        44
+      ]
+    },
+    {
+      "direction": "glass",
+      "phoneCanvas": 0,
+      "overflow": false,
+      "keepDisabled": true,
+      "focus": {
+        "name": "Glass Studio",
+        "outline": "solid"
+      },
+      "requestTargets": [
+        44
+      ]
+    },
+    {
+      "direction": "night",
+      "phoneCanvas": 0,
+      "overflow": false,
+      "keepDisabled": true,
+      "focus": {
+        "name": "Glass Studio",
+        "outline": "solid"
+      },
+      "requestTargets": [
+        44
+      ]
+    }
+  ],
+  "currentUiRetained": true,
+  "finalNavigationErrors": [],
+  "newBackendChanges": false,
+  "decisionsInReplay": "DISABLED",
+  "livePasskeyAndKeepBehavior": "UNCHANGED",
+  "paidServicesEnabled": false,
+  "choice": "PENDING USER; no winner selected"
+}

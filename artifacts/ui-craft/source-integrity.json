@@ -1,0 +1,12 @@
+{
+  "apps/web/src/craft/CraftApp.tsx": "92b31457e72667c71a2c9f1e91af557dcd01d4686c10a25cfc581934f12cffa4",
+  "apps/web/src/craft/NightRoom.tsx": "167346bf2b7bdbb7afeb889a0af1d720b5b9aa29ed4e08c7abdc5afe0847c955",
+  "apps/web/src/craft/PrecisionVault.tsx": "1291a3043ffc142d9f4db3748786b1f8c37155fcacea8c1c08a5e66a5a71361a",
+  "apps/web/src/craft/craft.css": "093f02574ed5cb09da9d291f6e53c2856122567007c1f82198dcc92ac941607b",
+  "apps/web/src/craft/projection.ts": "34e0cf41e99b9406ce4ce8ccadec52d82ed9a0e58b0529ba0b561b47b952263a",
+  "apps/web/src/craft/useHistory.ts": "635b039d4351bb11171316caf5c891fc4723ca7f7b794b1b367d0cc875f9e7ab",
+  "apps/web/src/main.tsx": "56c3c32684c821115e7a2f0b37ba127d4d02e9d81471781ab1111efc57762db3",
+  "package-lock.json": "85ef5f9db43ebc42abf171a7ece18f9c4f09f2f152a3a9c35b98e63688dd723d",
+  "package.json": "c3807c2f1e955450acb670fc629f0c32e2388d9588693c9d2439e49f28958475",
+  "tests/ui-craft.test.ts": "6304c4134790c44268f22872bda263b8c4315ba37303782a35806fc31f5ac112"
+}

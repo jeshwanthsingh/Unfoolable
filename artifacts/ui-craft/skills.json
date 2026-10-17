@@ -22,7 +22,8 @@
       "path": ".agents/skills/impeccable",
       "name": "impeccable",
       "license": "Apache-2.0",
-      "skillSHA256": "5fb0d412928c03e62d2536adfd878ad6aad6f9ce343956aa4f7164da06da3459"
+      "skillSHA256": "5fb0d412928c03e62d2536adfd878ad6aad6f9ce343956aa4f7164da06da3459",
+      "version": "4.6.0"
     },
     {
       "repo": "Leonxlnx/taste-skill",

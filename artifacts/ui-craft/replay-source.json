@@ -1,0 +1,12 @@
+{
+  "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+  "eventCount": 135,
+  "eventSHA256": "c172b73ca6a4965d44a78e7cff9fe1843abef33d90ac4debc9326680c2179b71",
+  "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+  "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+  "currentStatusAtCapture": "ready_for_review",
+  "currentRiskAtCapture": "AMBER",
+  "source": "Existing authenticated local ticket API; no mutations",
+  "historicalRed": "Real recorded harness_error, not fabricated current RED review risk",
+  "decisionsInGallery": "disabled; live review unchanged"
+}
