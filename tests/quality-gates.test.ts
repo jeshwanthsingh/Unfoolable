@@ -10,3 +10,6 @@ test('gate proposals use ESLint only with repo config and preserve language boun
  assert.ok(proposeQualityGates(['a.ts','tsconfig.json']).includes('oxlint'));
  const gates=proposeQualityGates(['frontend/a.ts','frontend/eslint.config.mjs','frontend/tsconfig.json']);assert.ok(gates.includes('eslint'));assert.ok(!gates.includes('oxlint'));assert.ok(gates.includes('tsc'));
 });
+
+import {isReviewEvidence} from '../packages/shared/quality-gates.ts';
+test('review boundary rejects malformed diagnostics rather than hiding or inventing a result',()=>{assert.equal(isReviewEvidence({mutationCoverage:'Not measured',qualityGates:{version:'quality-gates-v1',base:'a',candidate:'b',durationMs:1,gates:[{gate:'ruff',status:'PASS',findings:'missing',baselineCount:0,durationMs:1}]}}),false);assert.equal(isReviewEvidence({mutationCoverage:'Not measured'}),true);});

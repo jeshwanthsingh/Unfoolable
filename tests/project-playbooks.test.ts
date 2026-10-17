@@ -46,3 +46,8 @@ for(const [label,changed] of [
 test('tampered playbook definition fails closed',async()=>{
  const f=fixture();try{const draft=await f.store.propose(f.repo,f.base),path=join(f.store.root,(await import('node:fs')).readdirSync(f.store.root)[0]!,'current.json');const r=JSON.parse(readFileSync(path,'utf8'));r.definition.timeoutSeconds=999;writeFileSync(path,JSON.stringify(r));assert.throws(()=>f.store.show(f.repo),{code:'PLAYBOOK_CHANGED'});assert.equal(draft.approval,null);}finally{rmSync(f.root,{recursive:true,force:true});}
 });
+
+test('quality gate proposals invalidate approval and bind the exact tool/rule policy; never auto-approve',async()=>{
+ const f=fixture();try{const initial=await f.store.propose(f.repo,f.base);f.store.approve(f.repo,initial.hash);const proposal=await f.store.proposeGates(f.repo,f.base);assert.equal(proposal.approval,null);assert.notEqual(proposal.hash,initial.hash);assert.ok(proposal.definition.qualityGates?.gates.includes('ruff'));assert.match(proposal.definition.qualityGates!.policyHash,/^[a-f0-9]{64}$/);assert.throws(()=>f.store.requireApproved(f.repo),{code:'PLAYBOOK_REQUIRED'});const approved=f.store.approve(f.repo,proposal.hash);assert.deepEqual(await f.store.proposeGates(f.repo,f.base),approved);}finally{rmSync(f.root,{recursive:true,force:true});}
+});
+test('invalid arbitrary quality tool names are rejected',()=>assert.throws(()=>validatePlaybookDefinition({...definition(),qualityGates:{gates:['shell'],policyHash:'a'.repeat(64)}}),{code:'INVALID_PLAYBOOK'}));

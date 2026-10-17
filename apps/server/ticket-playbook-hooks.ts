@@ -4,7 +4,7 @@ import type {TicketLoopDependencies} from './ticket-loop.ts';import type {create
 export function ticketPlaybookHooks(playbooks:ReturnType<typeof createPlaybookChecks>,nativeCheck:ReturnType<typeof createTicketChecker>):TicketLoopDependencies{
  return {
   ensurePlaybook:async(ticket,signal)=>{
-   await playbooks.store.propose(ticket.repoPath,ticket.baseCommit);
+   await playbooks.store.proposeGates(ticket.repoPath,ticket.baseCommit);
    const approved=playbooks.store.requireApproved(ticket.repoPath);
    await playbooks.admit(approved,ticket.repoPath,ticket.baseCommit,signal);
   },

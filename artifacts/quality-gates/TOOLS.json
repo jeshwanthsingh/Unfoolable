@@ -94,12 +94,15 @@
     {
       "ecosystem": "PyPI",
       "bytes": 36431923,
-      "url": "https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip"
+      "url": "https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip",
+      "sha256": "81c1f9b1378c9a5df99c69167ff63696786f433c50000b71db9dfb95aca89a1b"
     },
     {
       "ecosystem": "npm",
       "bytes": 218455616,
-      "url": "https://osv-vulnerabilities.storage.googleapis.com/npm/all.zip"
+      "url": "https://osv-vulnerabilities.storage.googleapis.com/npm/all.zip",
+      "sha256": "e4883d68e9891de2434c1a3d9f8dd9ba9670b44583e41e9eada1d0c26ba6bc77"
     }
-  ]
+  ],
+  "osvBackend": "osv-scalibr 0.5.3; OSV_SCALIBR_LOCAL_DB_CACHE_DIRECTORY, osv-scalibr/<ecosystem>/all.zip"
 }

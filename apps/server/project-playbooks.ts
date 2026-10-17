@@ -1,3 +1,5 @@
+import {qualityGateNames} from '../../packages/shared/quality-gates.ts';
+import {proposeQualityGates,qualityPolicyHash} from './quality-gates.ts';
 import {requireHuman} from './human-context.ts';
 import {dataMode,fixtureApprovalsEnabled,assertDataEntry} from './data-mode.ts';
 import {createHash, randomUUID} from 'node:crypto';
@@ -33,7 +35,7 @@ function command(value: unknown): PlaybookCommand {
 export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefinition {
   if (!value || typeof value !== 'object' || JSON.stringify(value).length > 32768) return invalid('Invalid or oversized playbook.');
   const d = value as ProjectPlaybookDefinition;
-  const fields = ['version', 'exportFiles', 'setup', 'tests', 'env', 'runner', 'timeoutSeconds', 'knownFailingTests', 'knownFlakyTests', 'notes'];
+  const fields = ['qualityGates', 'version', 'exportFiles', 'setup', 'tests', 'env', 'runner', 'timeoutSeconds', 'knownFailingTests', 'knownFlakyTests', 'notes'];
   if (Object.keys(d).some(k => !fields.includes(k)) || d.version !== 'project-playbook-v1' || !['unittest', 'vitest', 'node-script'].includes(d.runner)) return invalid('Unsupported playbook definition.');
   if (!Array.isArray(d.tests) || d.tests.length < 1 || d.tests.length > 12) return invalid('Provide between one and twelve test commands.');
   if (!Number.isInteger(d.timeoutSeconds) || d.timeoutSeconds < 1 || d.timeoutSeconds > 1800) return invalid('Timeout must be between 1 and 1800 seconds.');
@@ -43,7 +45,8 @@ export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefin
   if ((d.env.HOST && d.env.HOST !== '127.0.0.1') || (d.env.BIND_ADDRESS && d.env.BIND_ADDRESS !== '127.0.0.1')) return invalid('Fixture binds must use loopback.');
   for (const key of ['knownFailingTests', 'knownFlakyTests', 'notes'] as const) if (!Array.isArray(d[key]) || d[key].length > 100 || !d[key].every(x => safeText(x, 1024) && x.trim())) return invalid('Invalid test annotations.');
   if(d.exportFiles !== undefined && (!Array.isArray(d.exportFiles)||!d.exportFiles.length||d.exportFiles.length>100||d.exportFiles.some(p=>!safeText(p,1024)||!safeBuildPath(p)||/[:*?\[\]]/.test(p)||!p||isAbsolute(p)||p.split('/').some(x=>!x||x==='.'||x==='..')||p.includes('\\'))||new Set(d.exportFiles).size!==d.exportFiles.length)) return invalid('Invalid export file whitelist.');
-  return {...(d.exportFiles?{exportFiles:[...d.exportFiles]}:{}),version: d.version, setup: d.setup === null ? null : command(d.setup), tests: d.tests.map(command), env: {...d.env}, runner: d.runner, timeoutSeconds: d.timeoutSeconds, knownFailingTests: [...d.knownFailingTests], knownFlakyTests: [...d.knownFlakyTests], notes: [...d.notes]};
+  if(d.qualityGates!==undefined&&(!d.qualityGates||Object.keys(d.qualityGates).some(k=>!['gates','policyHash'].includes(k))||!Array.isArray(d.qualityGates.gates)||!d.qualityGates.gates.length||new Set(d.qualityGates.gates).size!==d.qualityGates.gates.length||d.qualityGates.gates.some(g=>!qualityGateNames.includes(g))||!/^([a-f0-9]{64})$/.test(d.qualityGates.policyHash)))return invalid('Invalid quality gate policy.');
+  return {...(d.qualityGates?{qualityGates:structuredClone(d.qualityGates)}:{}),...(d.exportFiles?{exportFiles:[...d.exportFiles]}:{}),version: d.version, setup: d.setup === null ? null : command(d.setup), tests: d.tests.map(command), env: {...d.env}, runner: d.runner, timeoutSeconds: d.timeoutSeconds, knownFailingTests: [...d.knownFailingTests], knownFlakyTests: [...d.knownFlakyTests], notes: [...d.notes]};
 }
 
 export function createProjectPlaybookStore(dataDir: string) {
@@ -113,5 +116,12 @@ export function createProjectPlaybookStore(dataDir: string) {
     definition = validatePlaybookDefinition(definition);
     return save(repo, {repoRoot, baseCommit, definition, hash: hash(definition), approval: null, updatedAt: new Date().toISOString()});
   };
-  return {root, show, propose, edit, approve, requireApproved,approvalEnabled:fixtureOnly};
+  const proposeGates=async(repo:string,base:string)=>{
+    const previous=await propose(repo,base),policyHash=qualityPolicyHash();
+    if(previous.definition.qualityGates?.policyHash===policyHash)return previous;
+    const paths=(await safeBuildGit(rootOf(repo),['ls-tree','-r','--name-only',base],1024*1024)).toString().split('\n').filter(p=>!previous.definition.exportFiles||previous.definition.exportFiles.some(e=>p===e||p.startsWith(e+'/')));
+    const definition=validatePlaybookDefinition({...previous.definition,qualityGates:{gates:proposeQualityGates(paths),policyHash}});
+    return save(repo,{...previous,definition,hash:hash(definition),approval:null,updatedAt:new Date().toISOString()});
+  };
+  return {root, show, propose, proposeGates, edit, approve, requireApproved,approvalEnabled:fixtureOnly};
 }

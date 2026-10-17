@@ -1,3 +1,4 @@
+import {qualityPolicyHash} from './quality-gates.ts';
 import {ticketBudget,recordTicketLimits} from './ticket-budget.ts';
 import {watchmanActions,WATCHMAN_LIMIT} from './watchman.ts';
 import {requireHuman,withHumanReceipt} from './human-context.ts';
@@ -32,6 +33,7 @@ export function createTicketService(db:DatabaseSync,config:AppConfig,verifier:Re
    if(check.candidate!==c.commit)return 'Check evidence belongs to another Candidate.';
    if(typeof check.playbookHash==='string'){
     if(playbooks.store.requireApproved(t.repoPath).hash!==check.playbookHash||typeof check.playbookResultPath!=='string'||createHash('sha256').update(readFileSync(check.playbookResultPath)).digest('hex')!==check.playbookResultHash)return 'Playbook or check evidence changed.';
+    const policy=playbooks.store.requireApproved(t.repoPath).definition.qualityGates;if(policy&&policy.policyHash!==qualityPolicyHash())return 'Quality policy changed; approve and recheck.';
     const proof=JSON.parse(readFileSync(check.playbookResultPath,'utf8'));if(proof.candidate!==c.commit||proof.baseCommit!==t.baseCommit||verifyTreeHash(proof.exportPath,proof.trustedLinks??{})!==proof.exportHash)return 'Executed playbook export changed.';
    }
    if(typeof check.verificationId==='string'){

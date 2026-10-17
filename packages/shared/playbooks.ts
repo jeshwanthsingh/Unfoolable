@@ -1,6 +1,7 @@
 export type PlaybookRunner = 'unittest' | 'vitest' | 'node-script';
 export type PlaybookCommand = {argv: string[]; cwd: string; report?: {format: 'cc-checks-v1'; expectedTestIds: string[]}};
 export type ProjectPlaybookDefinition = {
+  qualityGates?: {gates:import('./quality-gates.ts').QualityGateName[];policyHash:string};
   version: 'project-playbook-v1';
   exportFiles?: string[];
   setup: PlaybookCommand | null;
