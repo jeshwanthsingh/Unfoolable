@@ -1,0 +1,39 @@
+START old A2-correct
+RESULT A2-correct PASSED WITH GAPS TOKENS 17896
+START old R4-correct
+RESULT R4-correct PASSED WITH GAPS TOKENS 12917
+START old T5-correct
+RESULT T5-correct VERIFIED TOKENS 12584
+START old R1-correct
+RESULT R1-correct PASSED WITH GAPS TOKENS 14727
+START old T3-correct
+RESULT T3-correct VERIFIED TOKENS 18735
+START old R3-correct
+RESULT R3-correct PASSED WITH GAPS TOKENS 13413
+START old A3-correct
+RESULT A3-correct PASSED WITH GAPS TOKENS 23457
+START old T2-correct
+RESULT T2-correct PASSED WITH GAPS TOKENS 32632
+START old kept-c6263195
+RESULT kept-c6263195 PASSED WITH GAPS TOKENS 13140
+START old kept-cfaaea5b
+RESULT kept-cfaaea5b PASSED WITH GAPS TOKENS 0
+START old kept-37b3646e
+RESULT kept-37b3646e PASSED WITH GAPS TOKENS 12917
+START old A3-wrong-reference
+RESULT A3-wrong-reference PASSED WITH GAPS TOKENS 10804
+START old T2-wrong-reference
+RESULT T2-wrong-reference PASSED WITH GAPS TOKENS 10695
+START old A2-unchanged-base
+RESULT A2-unchanged-base PASSED WITH GAPS TOKENS 6980
+START old R4-unchanged-base
+RESULT R4-unchanged-base PASSED WITH GAPS TOKENS 13023
+START old T5-unchanged-base
+RESULT T5-unchanged-base PASSED WITH GAPS TOKENS 12852
+START old A2-planted-half-fix
+RESULT A2-planted-half-fix PASSED WITH GAPS TOKENS 8919
+START old A2-planted-special-case
+RESULT A2-planted-special-case PASSED WITH GAPS TOKENS 8842
+START old A2-planted-edge-case
+RESULT A2-planted-edge-case PASSED WITH GAPS TOKENS 8847
+{"mode":"old","cases":19,"correct":11,"wrong":8,"confirmed":2,"redWarningsCorrect":0,"redWarningsWrong":6,"falseAccepts":0,"actualPolicy":"ADVISORY","method":"Counterfactual existing scoreV1 with admitted writer advisoryOnly=false; actual app results unchanged","tokens":253380,"started":18,"unknownUsageCases":[],"averageTokensPerStartedCase":14076.666666666666,"averageTokensPerAllCases":13335.78947368421}

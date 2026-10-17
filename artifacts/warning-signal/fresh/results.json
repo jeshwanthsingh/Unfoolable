@@ -1,0 +1,2945 @@
+[
+  {
+    "redWarning": false,
+    "case": "H1-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "PASSED WITH GAPS",
+    "actualVerdict": "PASSED WITH GAPS",
+    "gaps": [
+      {
+        "id": "test-writer-coverage",
+        "layer": 3,
+        "reason": "Test Writer is advisory only; it cannot change the verdict."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout redirects only after server logout succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout keeps the dashboard available when server logout fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout calls the backend before clearing local admin state\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout does not present logout as complete when server revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change clears the current browser only after account-wide revocation succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change preserves the current browser state when password revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should set user.type to \\\"doctor\\\" after login\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should not crash when response.data.user is missing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type after fetching profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type for patient profiles\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should not set global error state on failure (safe for polling)\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore updateProfile should preserve user.type after updating profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore setUser should normalize user type to lowercase\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the visible error on initial fetch failure without stale booking controls\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading restores the error after a failed retry instead of leaving a loader\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the correct doctor and booking controls after a successful retry\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading does not show an older response after the current Doctor request finishes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat does not select any transport when encryption fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit ASCII message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit Hindi message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit CJK message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit emoji message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading stores an approved public therapist response\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading clears a stale therapist and propagates a 404 to the page\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading does not restore an older profile when its response arrives after a 404\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/httpsServices.test.ts\",\"public therapist API errors preserves the HTTP 404 status for the profile not-found UI\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts a therapist who has not started\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner says payouts are blocked, not merely incomplete\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when details failed verification\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when the account is suspended\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent once payouts are active\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent while Razorpay is still reviewing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner links to the payouts tab, not just to settings\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is rendered on the welcome page, not only the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is still rendered on the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner can be dismissed for the visit\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity keeps the same object when the profile has not changed\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity stays stable across repeated fetches\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity ignores a re-signed profileImage URL for the same object\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a genuinely different profile image\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a first profile image appearing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity publishes a new object when the profile genuinely changes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a change nested inside the profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices verification status changing, which gates the redirects\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity returns the fetched profile regardless of whether state was replaced\"]",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [],
+        "layer": 1,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "baseStatus": "FAIL",
+            "candidateStatus": "FAIL",
+            "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+            "reason": "Not applicable to this BASE; Candidate FAIL (informational).",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [],
+        "layer": 2,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "id": "writer-file",
+            "reason": "UNCLEAR: PaymentStepNew is supplied only as handler excerpts, without its component signature, required providers, initialization, or payment controls. The new clinicTime module has no supplied BASE source or specified public API. Testing the booking payload would therefore require guessing how to render and invoke the component or inventing a utility API. Supply the full PaymentStepNew file and its relevant dependencies, or a specified clinicTime public signature.",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "test-writer-coverage",
+            "layer": 3,
+            "reason": "Test Writer is advisory only; it cannot change the verdict."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": {
+      "advisoryOnly": true,
+      "baseCommit": "279c2e5ea4b4447947b3e96ef065558c05459254",
+      "checks": [
+        {
+          "base": [],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "UNCLEAR: PaymentStepNew is supplied only as handler excerpts, without its component signature, required providers, initialization, or payment controls. The new clinicTime module has no supplied BASE source or specified public API. Testing the booking payload would therefore require guessing how to render and invoke the component or inventing a utility API. Supply the full PaymentStepNew file and its relevant dependencies, or a specified clinicTime public signature.",
+          "status": "NOT_ADMITTED",
+          "summary": "Insufficient context to write a reliable public-behavior test.",
+          "testName": "src/__tests__/cc-writer-a9fb067b-8621-45bc-8b24-9f39621e55b9.test.tsx"
+        }
+      ],
+      "coverage": "NONE",
+      "inputHash": "a71307b8cf609352310465cc3e0d6df05a157c6f85bfdaefe08863d5f487510a",
+      "mode": "NATIVE",
+      "reason": "UNCLEAR: PaymentStepNew is supplied only as handler excerpts, without its component signature, required providers, initialization, or payment controls. The new clinicTime module has no supplied BASE source or specified public API. Testing the booking payload would therefore require guessing how to render and invoke the component or inventing a utility API. Supply the full PaymentStepNew file and its relevant dependencies, or a specified clinicTime public signature.",
+      "requestHash": "90363d77558cc8a69792c66e5e17255a640cb69f20e8eae7b6289a500f7ba388",
+      "sessionId": "01a14b28-08e0-76b2-9a48-0a0dd7e9d8c4",
+      "started": true,
+      "usage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 11341,
+        "outputTokens": 156,
+        "totalTokens": 11497
+      },
+      "version": "test-writer-v1",
+      "warnings": []
+    },
+    "elapsedSeconds": 190.53072658399998,
+    "error": null,
+    "base": "279c2e5ea4b4447947b3e96ef065558c05459254",
+    "candidate": "eb5b5b292ab16da93e72367e34d9c0e587c81ce0",
+    "tree": "99078bfcdd809fb1799b447afdec11a87361a5ba"
+  },
+  {
+    "redWarning": false,
+    "case": "H1-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "PASSED WITH GAPS",
+    "actualVerdict": "PASSED WITH GAPS",
+    "gaps": [
+      {
+        "id": "test-writer-coverage",
+        "layer": 3,
+        "reason": "Test Writer is advisory only; it cannot change the verdict."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout redirects only after server logout succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout keeps the dashboard available when server logout fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout calls the backend before clearing local admin state\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout does not present logout as complete when server revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change clears the current browser only after account-wide revocation succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change preserves the current browser state when password revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should set user.type to \\\"doctor\\\" after login\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should not crash when response.data.user is missing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type after fetching profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type for patient profiles\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should not set global error state on failure (safe for polling)\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore updateProfile should preserve user.type after updating profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore setUser should normalize user type to lowercase\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the visible error on initial fetch failure without stale booking controls\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading restores the error after a failed retry instead of leaving a loader\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the correct doctor and booking controls after a successful retry\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading does not show an older response after the current Doctor request finishes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat does not select any transport when encryption fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit ASCII message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit Hindi message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit CJK message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit emoji message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading stores an approved public therapist response\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading clears a stale therapist and propagates a 404 to the page\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading does not restore an older profile when its response arrives after a 404\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/httpsServices.test.ts\",\"public therapist API errors preserves the HTTP 404 status for the profile not-found UI\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts a therapist who has not started\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner says payouts are blocked, not merely incomplete\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when details failed verification\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when the account is suspended\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent once payouts are active\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent while Razorpay is still reviewing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner links to the payouts tab, not just to settings\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is rendered on the welcome page, not only the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is still rendered on the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner can be dismissed for the visit\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity keeps the same object when the profile has not changed\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity stays stable across repeated fetches\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity ignores a re-signed profileImage URL for the same object\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a genuinely different profile image\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a first profile image appearing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity publishes a new object when the profile genuinely changes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a change nested inside the profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices verification status changing, which gates the redirects\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity returns the fetched profile regardless of whether state was replaced\"]",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [],
+        "layer": 1,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "baseStatus": "FAIL",
+            "candidateStatus": "ERROR",
+            "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+            "reason": "Not applicable to this BASE; Candidate ERROR (informational).",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [],
+        "layer": 2,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "id": "writer-file",
+            "reason": "UNCLEAR: PaymentStepNew.tsx is supplied only as excerpts, omitting its export, props, hooks, dependencies and rendered payment controls needed to exercise appointment creation. The new clinicTime.ts file has no supplied API contract or BASE source. Supply the complete payment component or the required clinicTime API/signature so tests can verify timezone-independent booking behavior through a known interface.",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "test-writer-coverage",
+            "layer": 3,
+            "reason": "Test Writer is advisory only; it cannot change the verdict."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": {
+      "advisoryOnly": true,
+      "baseCommit": "279c2e5ea4b4447947b3e96ef065558c05459254",
+      "checks": [
+        {
+          "base": [],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "UNCLEAR: PaymentStepNew.tsx is supplied only as excerpts, omitting its export, props, hooks, dependencies and rendered payment controls needed to exercise appointment creation. The new clinicTime.ts file has no supplied API contract or BASE source. Supply the complete payment component or the required clinicTime API/signature so tests can verify timezone-independent booking behavior through a known interface.",
+          "status": "NOT_ADMITTED",
+          "summary": "Insufficient context to write a behavioral test without guessing.",
+          "testName": "src/__tests__/cc-writer-9f23e983-2001-4d91-939a-6df2b0d9d262.test.tsx"
+        }
+      ],
+      "coverage": "NONE",
+      "inputHash": "4cbb2e04742ee1f730583aa5026904f6b6237e6a46e6384f8f38d06fabc6b88c",
+      "mode": "NATIVE",
+      "reason": "UNCLEAR: PaymentStepNew.tsx is supplied only as excerpts, omitting its export, props, hooks, dependencies and rendered payment controls needed to exercise appointment creation. The new clinicTime.ts file has no supplied API contract or BASE source. Supply the complete payment component or the required clinicTime API/signature so tests can verify timezone-independent booking behavior through a known interface.",
+      "requestHash": "90363d77558cc8a69792c66e5e17255a640cb69f20e8eae7b6289a500f7ba388",
+      "sessionId": "01a14b2b-1daa-7242-95d9-c2d06de8433a",
+      "started": true,
+      "usage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 11349,
+        "outputTokens": 147,
+        "totalTokens": 11496
+      },
+      "version": "test-writer-v1",
+      "warnings": []
+    },
+    "elapsedSeconds": 201.552985875,
+    "error": null,
+    "base": "279c2e5ea4b4447947b3e96ef065558c05459254",
+    "candidate": "76483eabeee6744171552f41cd240d57e41371c1",
+    "tree": "ab72d8f76b174042f587127a42da9e27c24b9fa8"
+  },
+  {
+    "redWarning": false,
+    "case": "H2-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "PASSED WITH GAPS",
+    "actualVerdict": "PASSED WITH GAPS",
+    "gaps": [
+      {
+        "id": "test-writer-coverage",
+        "layer": 3,
+        "reason": "Test Writer is advisory only; it cannot change the verdict."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout redirects only after server logout succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout keeps the dashboard available when server logout fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout calls the backend before clearing local admin state\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout does not present logout as complete when server revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change clears the current browser only after account-wide revocation succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change preserves the current browser state when password revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should set user.type to \\\"doctor\\\" after login\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should not crash when response.data.user is missing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type after fetching profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type for patient profiles\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should not set global error state on failure (safe for polling)\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore updateProfile should preserve user.type after updating profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore setUser should normalize user type to lowercase\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the visible error on initial fetch failure without stale booking controls\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading restores the error after a failed retry instead of leaving a loader\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the correct doctor and booking controls after a successful retry\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading does not show an older response after the current Doctor request finishes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat does not select any transport when encryption fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit ASCII message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit Hindi message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit CJK message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit emoji message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading stores an approved public therapist response\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading clears a stale therapist and propagates a 404 to the page\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading does not restore an older profile when its response arrives after a 404\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/httpsServices.test.ts\",\"public therapist API errors preserves the HTTP 404 status for the profile not-found UI\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts a therapist who has not started\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner says payouts are blocked, not merely incomplete\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when details failed verification\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when the account is suspended\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent once payouts are active\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent while Razorpay is still reviewing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner links to the payouts tab, not just to settings\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is rendered on the welcome page, not only the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is still rendered on the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner can be dismissed for the visit\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity keeps the same object when the profile has not changed\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity stays stable across repeated fetches\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity ignores a re-signed profileImage URL for the same object\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a genuinely different profile image\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a first profile image appearing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity publishes a new object when the profile genuinely changes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a change nested inside the profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices verification status changing, which gates the redirects\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity returns the fetched profile regardless of whether state was replaced\"]",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [],
+        "layer": 1,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "baseStatus": "FAIL",
+            "candidateStatus": "FAIL",
+            "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+            "reason": "Not applicable to this BASE; Candidate FAIL (informational).",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [],
+        "layer": 2,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "id": "writer-file",
+            "reason": "UNCLEAR: The booking page is supplied only as a four-line timeToMinutes excerpt. The pack exposes neither slot generation nor session-duration and clinic-window inputs, and dateutils.ts has no slot eligibility API. Please supply the full booking page and relevant booking component/test fixtures, or specify the required public slot-generation API and signature.",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "test-writer-coverage",
+            "layer": 3,
+            "reason": "Test Writer is advisory only; it cannot change the verdict."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": {
+      "advisoryOnly": true,
+      "baseCommit": "5632ee14d5735e535b18cb8e5b9922c90554e14c",
+      "checks": [
+        {
+          "base": [],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "UNCLEAR: The booking page is supplied only as a four-line timeToMinutes excerpt. The pack exposes neither slot generation nor session-duration and clinic-window inputs, and dateutils.ts has no slot eligibility API. Please supply the full booking page and relevant booking component/test fixtures, or specify the required public slot-generation API and signature.",
+          "status": "NOT_ADMITTED",
+          "summary": "Insufficient context to test slot eligibility without guessing an API or booking-page dependencies.",
+          "testName": "src/__tests__/cc-writer-ebb78331-fe84-4de4-9557-245965ce7612.test.tsx"
+        }
+      ],
+      "coverage": "NONE",
+      "inputHash": "402499fc9c6c070f0e77b58a3672eac31b267186bc7174e7c1c893d33d2ade18",
+      "mode": "NATIVE",
+      "reason": "UNCLEAR: The booking page is supplied only as a four-line timeToMinutes excerpt. The pack exposes neither slot generation nor session-duration and clinic-window inputs, and dateutils.ts has no slot eligibility API. Please supply the full booking page and relevant booking component/test fixtures, or specify the required public slot-generation API and signature.",
+      "requestHash": "e4fed73307985621cf3c95a5f60e7f9d8d5c87aa8e4586925a374c7d39c19d22",
+      "sessionId": "01a14b2e-0f77-70b2-bef2-a0bf7b7e9644",
+      "started": true,
+      "usage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 8197,
+        "outputTokens": 136,
+        "totalTokens": 8333
+      },
+      "version": "test-writer-v1",
+      "warnings": []
+    },
+    "elapsedSeconds": 193.04261366700004,
+    "error": null,
+    "base": "5632ee14d5735e535b18cb8e5b9922c90554e14c",
+    "candidate": "185571fed6730d77b7aca7f793a26341089f0bf2",
+    "tree": "4bb1c5a06708568460f5f7d866f042cfa8b83005"
+  },
+  {
+    "redWarning": false,
+    "case": "H2-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "PASSED WITH GAPS",
+    "actualVerdict": "PASSED WITH GAPS",
+    "gaps": [
+      {
+        "id": "test-writer-coverage",
+        "layer": 3,
+        "reason": "Test Writer is advisory only; it cannot change the verdict."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout redirects only after server logout succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout keeps the dashboard available when server logout fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout calls the backend before clearing local admin state\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout does not present logout as complete when server revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change clears the current browser only after account-wide revocation succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change preserves the current browser state when password revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should set user.type to \\\"doctor\\\" after login\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should not crash when response.data.user is missing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type after fetching profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type for patient profiles\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should not set global error state on failure (safe for polling)\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore updateProfile should preserve user.type after updating profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore setUser should normalize user type to lowercase\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the visible error on initial fetch failure without stale booking controls\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading restores the error after a failed retry instead of leaving a loader\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the correct doctor and booking controls after a successful retry\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading does not show an older response after the current Doctor request finishes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat does not select any transport when encryption fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit ASCII message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit Hindi message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit CJK message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit emoji message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading stores an approved public therapist response\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading clears a stale therapist and propagates a 404 to the page\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading does not restore an older profile when its response arrives after a 404\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/httpsServices.test.ts\",\"public therapist API errors preserves the HTTP 404 status for the profile not-found UI\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts a therapist who has not started\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner says payouts are blocked, not merely incomplete\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when details failed verification\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when the account is suspended\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent once payouts are active\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent while Razorpay is still reviewing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner links to the payouts tab, not just to settings\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is rendered on the welcome page, not only the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is still rendered on the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner can be dismissed for the visit\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity keeps the same object when the profile has not changed\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity stays stable across repeated fetches\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity ignores a re-signed profileImage URL for the same object\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a genuinely different profile image\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a first profile image appearing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity publishes a new object when the profile genuinely changes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a change nested inside the profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices verification status changing, which gates the redirects\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity returns the fetched profile regardless of whether state was replaced\"]",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [],
+        "layer": 1,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "baseStatus": "FAIL",
+            "candidateStatus": "FAIL",
+            "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+            "reason": "Not applicable to this BASE; Candidate FAIL (informational).",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [],
+        "layer": 2,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "id": "writer-file",
+            "reason": "UNCLEAR: The booking page excerpt only supplies a private timeToMinutes helper. The pack omits slot generation, session-duration and published-window data shapes, rendering behavior, and booking-page test setup. dateutils.ts exposes no slot eligibility API, and the request specifies no new API/signature. Testing the requested behavior requires the relevant booking page implementation and its dependencies or an explicit public slot-generation contract.",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "test-writer-coverage",
+            "layer": 3,
+            "reason": "Test Writer is advisory only; it cannot change the verdict."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": {
+      "advisoryOnly": true,
+      "baseCommit": "5632ee14d5735e535b18cb8e5b9922c90554e14c",
+      "checks": [
+        {
+          "base": [],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "UNCLEAR: The booking page excerpt only supplies a private timeToMinutes helper. The pack omits slot generation, session-duration and published-window data shapes, rendering behavior, and booking-page test setup. dateutils.ts exposes no slot eligibility API, and the request specifies no new API/signature. Testing the requested behavior requires the relevant booking page implementation and its dependencies or an explicit public slot-generation contract.",
+          "status": "NOT_ADMITTED",
+          "summary": "Insufficient context to test booking-slot eligibility without guessing.",
+          "testName": "src/__tests__/cc-writer-3daf4e22-48ba-4388-819c-0f2cc986349b.test.tsx"
+        }
+      ],
+      "coverage": "NONE",
+      "inputHash": "71beddc60b443aa64e81a80a88638bc8fa254371ce47316c54a5fa2e06ba42fc",
+      "mode": "NATIVE",
+      "reason": "UNCLEAR: The booking page excerpt only supplies a private timeToMinutes helper. The pack omits slot generation, session-duration and published-window data shapes, rendering behavior, and booking-page test setup. dateutils.ts exposes no slot eligibility API, and the request specifies no new API/signature. Testing the requested behavior requires the relevant booking page implementation and its dependencies or an explicit public slot-generation contract.",
+      "requestHash": "e4fed73307985621cf3c95a5f60e7f9d8d5c87aa8e4586925a374c7d39c19d22",
+      "sessionId": "01a14b30-f998-78d0-abd4-8d674bf80c1c",
+      "started": true,
+      "usage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 8201,
+        "outputTokens": 149,
+        "totalTokens": 8350
+      },
+      "version": "test-writer-v1",
+      "warnings": []
+    },
+    "elapsedSeconds": 192.72366174999996,
+    "error": null,
+    "base": "5632ee14d5735e535b18cb8e5b9922c90554e14c",
+    "candidate": "762615d5765415c8a3878973e84f2f57f1cfc1de",
+    "tree": "ed0d01b97f5f80258bd81e48fa3f9d3401830901"
+  },
+  {
+    "redWarning": false,
+    "case": "H3-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "VERIFIED",
+    "actualVerdict": "PASSED WITH GAPS",
+    "gaps": [
+      {
+        "id": "test-writer-coverage",
+        "layer": 3,
+        "reason": "Test Writer is advisory only; it cannot change the verdict."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout redirects only after server logout succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout keeps the dashboard available when server logout fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout calls the backend before clearing local admin state\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout does not present logout as complete when server revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change clears the current browser only after account-wide revocation succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change preserves the current browser state when password revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should set user.type to \\\"doctor\\\" after login\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should not crash when response.data.user is missing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type after fetching profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type for patient profiles\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should not set global error state on failure (safe for polling)\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore updateProfile should preserve user.type after updating profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore setUser should normalize user type to lowercase\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the visible error on initial fetch failure without stale booking controls\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading restores the error after a failed retry instead of leaving a loader\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the correct doctor and booking controls after a successful retry\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading does not show an older response after the current Doctor request finishes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a window that is not a whole number of sessions drops the partial one\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a window that divides exactly keeps every session\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a session ending exactly at closing is still offered\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a window shorter than one session offers nothing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered every offered start leaves room for the whole session\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered split windows are each measured on their own\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a missing duration yields nothing rather than looping forever\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat does not select any transport when encryption fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit ASCII message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit Hindi message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit CJK message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit emoji message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading stores an approved public therapist response\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading clears a stale therapist and propagates a 404 to the page\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading does not restore an older profile when its response arrives after a 404\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/httpsServices.test.ts\",\"public therapist API errors preserves the HTTP 404 status for the profile not-found UI\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts a therapist who has not started\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner says payouts are blocked, not merely incomplete\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when details failed verification\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when the account is suspended\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent once payouts are active\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent while Razorpay is still reviewing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner links to the payouts tab, not just to settings\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is rendered on the welcome page, not only the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is still rendered on the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner can be dismissed for the visit\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity keeps the same object when the profile has not changed\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity stays stable across repeated fetches\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity ignores a re-signed profileImage URL for the same object\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a genuinely different profile image\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a first profile image appearing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity publishes a new object when the profile genuinely changes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a change nested inside the profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices verification status changing, which gates the redirects\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity returns the fetched profile regardless of whether state was replaced\"]",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [],
+        "layer": 1,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "baseStatus": "FAIL",
+            "candidateStatus": "FAIL",
+            "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+            "reason": "Not applicable to this BASE; Candidate FAIL (informational).",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [],
+        "layer": 2,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "id": "writer-file",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "test-writer-coverage",
+            "layer": 3,
+            "reason": "Test Writer is advisory only; it cannot change the verdict."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": {
+      "advisoryOnly": true,
+      "baseCommit": "ebf3b79b1d7f8f85a657b72a597465c988191e73",
+      "checks": [
+        {
+          "base": [
+            "FAIL"
+          ],
+          "candidate": "PASS",
+          "candidateRuns": [
+            "PASS",
+            "PASS"
+          ],
+          "id": "writer-file",
+          "reason": null,
+          "status": "ADMITTED",
+          "summary": "Tests clinic-instant booking matching, past-slot disabling, five-minute boundaries, midnight rollover, timezone independence, and selection isolation.",
+          "testName": "src/__tests__/cc-writer-a6da1b77-afb9-45d9-943c-afc4a6def2bb.test.tsx"
+        }
+      ],
+      "coverage": "FULL",
+      "inputHash": "3728b6b940f5ec7cd2e0ae06185f387b79246b57e6f4f7cdf79d201db21def5e",
+      "lineCoverage": {
+        "changedLines": 43,
+        "coveredLines": 43,
+        "percent": 100,
+        "reason": null,
+        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/33dbd279-1b63-4d77-91be-0260a79497d8/test-writer/attempt-0-candidate-0/execution/measured-coverage.json",
+        "tool": "c8",
+        "unmeasuredPaths": []
+      },
+      "mode": "NATIVE",
+      "mutation": {
+        "errors": 0,
+        "generated": 21,
+        "killed": 12,
+        "reason": "Sampled up to 12 changed-line mutants; advisory only",
+        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/33dbd279-1b63-4d77-91be-0260a79497d8/test-writer/attempt-0-mutation/mutations.json",
+        "sampled": true,
+        "score": 100,
+        "survived": 0,
+        "survivorLine": null,
+        "tested": 12,
+        "tool": "StrykerJS"
+      },
+      "reason": null,
+      "requestHash": "8cc452bcabdb303f952c3c703df174cdbd8e372c9759cc024c38a362f808b122",
+      "sessionId": "01a14b34-a98b-71e1-af4a-38ed55272887",
+      "started": true,
+      "usage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 11749,
+        "outputTokens": 1493,
+        "totalTokens": 13242
+      },
+      "version": "test-writer-v1",
+      "warnings": []
+    },
+    "elapsedSeconds": 334.418489708,
+    "error": null,
+    "base": "ebf3b79b1d7f8f85a657b72a597465c988191e73",
+    "candidate": "38e75228b59c50a9e40d58581c096a91c6c55159",
+    "tree": "658a738d7a5a1f3b4e5ef61ee4bc89e825dd7f9f"
+  },
+  {
+    "redWarning": true,
+    "case": "H3-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "PASSED WITH GAPS",
+    "actualVerdict": "PASSED WITH GAPS",
+    "gaps": [
+      {
+        "id": "test-writer-coverage",
+        "layer": 3,
+        "reason": "Test Writer is advisory only; it cannot change the verdict."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout redirects only after server logout succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout keeps the dashboard available when server logout fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout calls the backend before clearing local admin state\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout does not present logout as complete when server revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change clears the current browser only after account-wide revocation succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change preserves the current browser state when password revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should set user.type to \\\"doctor\\\" after login\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should not crash when response.data.user is missing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type after fetching profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type for patient profiles\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should not set global error state on failure (safe for polling)\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore updateProfile should preserve user.type after updating profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore setUser should normalize user type to lowercase\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the visible error on initial fetch failure without stale booking controls\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading restores the error after a failed retry instead of leaving a loader\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading shows the correct doctor and booking controls after a successful retry\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/bookingPage.test.tsx\",\"booking page therapist loading does not show an older response after the current Doctor request finishes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a window that is not a whole number of sessions drops the partial one\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a window that divides exactly keeps every session\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a session ending exactly at closing is still offered\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a window shorter than one session offers nothing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered every offered start leaves room for the whole session\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered split windows are each measured on their own\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/buildSlotTimes.test.ts\",\"Only sessions that fit inside the window are offered a missing duration yields nothing rather than looping forever\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat does not select any transport when encryption fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time 09:00 clinic time is 03:30Z whatever the browser zone\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time the Los Angeles booking that started this lands at 09:00, not 21:30\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time a time crossing midnight keeps the clinic calendar date\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/clinicTime.test.ts\",\"A picked slot resolves to clinic time, not browser time every half-hour of the day round-trips back to the time picked\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit ASCII message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit Hindi message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit CJK message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit emoji message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading stores an approved public therapist response\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading clears a stale therapist and propagates a 404 to the page\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading does not restore an older profile when its response arrives after a 404\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/httpsServices.test.ts\",\"public therapist API errors preserves the HTTP 404 status for the profile not-found UI\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts a therapist who has not started\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner says payouts are blocked, not merely incomplete\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when details failed verification\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner prompts when the account is suspended\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent once payouts are active\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent while Razorpay is still reviewing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner stays silent rather than showing an error when status cannot be loaded\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner links to the payouts tab, not just to settings\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is rendered on the welcome page, not only the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner is still rendered on the dashboard\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/payoutSetupBanner.test.tsx\",\"PayoutSetupBanner can be dismissed for the visit\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity keeps the same object when the profile has not changed\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity stays stable across repeated fetches\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity ignores a re-signed profileImage URL for the same object\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a genuinely different profile image\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a first profile image appearing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity publishes a new object when the profile genuinely changes\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices a change nested inside the profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity notices verification status changing, which gates the redirects\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/profileFetchLoop.test.ts\",\"fetchProfile identity returns the fetched profile regardless of whether state was replaced\"]",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [],
+        "layer": 1,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "baseStatus": "FAIL",
+            "candidateStatus": "FAIL",
+            "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+            "reason": "Not applicable to this BASE; Candidate FAIL (informational).",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [],
+        "layer": 2,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "id": "writer-file",
+            "reason": "writer's test disagrees with this change - worth a look",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "test-writer-coverage",
+            "layer": 3,
+            "reason": "Test Writer is advisory only; it cannot change the verdict."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": {
+      "advisoryOnly": true,
+      "baseCommit": "ebf3b79b1d7f8f85a657b72a597465c988191e73",
+      "checks": [
+        {
+          "base": [
+            "FAIL"
+          ],
+          "candidate": "ASSERTION_FAIL",
+          "candidateRuns": [
+            "ASSERTION_FAIL"
+          ],
+          "id": "writer-file",
+          "reason": "writer's test disagrees with this change - worth a look",
+          "status": "NOT_ADMITTED",
+          "summary": "Exercises real slot controls across four browser zones, booked-instant matching, selection isolation, inclusive five-minute cutoff, and clinic midnight/date boundaries.",
+          "testName": "src/__tests__/cc-writer-8d70fb81-d4c4-4834-960a-ee7284b2afb8.test.tsx"
+        }
+      ],
+      "coverage": "NONE",
+      "inputHash": "a9b703fde1c8463e6bd3f6523bd97401d2542926dbde3f43493f8e1d111d6a8c",
+      "mode": "NATIVE",
+      "reason": "writer's test disagrees with this change - worth a look",
+      "requestHash": "8cc452bcabdb303f952c3c703df174cdbd8e372c9759cc024c38a362f808b122",
+      "sessionId": "01a14b39-1cb0-7f71-95ac-9862d370b3af",
+      "started": true,
+      "usage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 11742,
+        "outputTokens": 1511,
+        "totalTokens": 13253
+      },
+      "version": "test-writer-v1",
+      "warnings": [
+        {
+          "assertion": "y/fac2fe51-11cb-4510-aea2-7dd5adae6234/test-writer/attempt-0-candidate-0/export/frontend/src/__tests__/cc-writer-8d70fb81-d4c4-4834-960a-ee7284b2afb8.test.tsx:62:21\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:145:11\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:915:26\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1243:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1209:10)\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:37\n    at Traces.$ (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)\n    at trace (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)\nAssertionError: expected false to be true // Object.is equality\n    at check (/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/fac2fe51-11cb-4510-aea2-7dd5adae6234/test-writer/attempt-0-candidate-0/export/frontend/src/__tests__/cc-writer-8d70fb81-d4c4-4834-960a-ee7284b2afb8.test.tsx:40:27)\n    at /Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/fac2fe51-11cb-4510-aea2-7dd5adae6234/test-writer/attempt-0-candidate-0/export/frontend/src/__tests__/cc-writer-8d70fb81-d4c4-4834-960a-ee7284b2afb8.test.tsx:62:21\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:145:11\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:915:26\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1243:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1209:10)\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:37\n    at Traces.$ (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)\n    at trace (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)\nAssertionError: expected false to be true // Object.is equality\n    at check (/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/fac2fe51-11cb-4510-aea2-7dd5adae6234/test-writer/attempt-0-candidate-0/export/frontend/src/__tests__/cc-writer-8d70fb81-d4c4-4834-960a-ee7284b2afb8.test.tsx:40:27)\n    at /Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/fac2fe51-11cb-4510-aea2-7dd5adae6234/test-writer/attempt-0-candidate-0/export/frontend/src/__tests__/cc-writer-8d70fb81-d4c4-4834-960a-ee7284b2afb8.test.tsx:62:21\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:145:11\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:915:26\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1243:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1209:10)\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:37\n    at Traces.$ (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)\n    at trace (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)",
+          "summary": "Exercises real slot controls across four browser zones, booked-instant matching, selection isolation, inclusive five-minute cutoff, and clinic midnight/date boundaries.",
+          "testName": "src/__tests__/cc-writer-8d70fb81-d4c4-4834-960a-ee7284b2afb8.test.tsx"
+        }
+      ]
+    },
+    "elapsedSeconds": 239.62371412499994,
+    "error": null,
+    "base": "ebf3b79b1d7f8f85a657b72a597465c988191e73",
+    "candidate": "041e05cf87270759caaf598ef3824ac149556c59",
+    "tree": "e8251d15865d0dba7f57bc6bd5bcac8b0545a846"
+  },
+  {
+    "redWarning": false,
+    "case": "H4-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "native-suite",
+        "layer": 1,
+        "reason": "Native suite observations or cleanup unavailable"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "native-suite",
+            "layer": 1,
+            "reason": "Native suite observations or cleanup unavailable"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 46.27000166699989,
+    "error": null,
+    "base": "5c6eaa22b823a426e43ca30b80f3f3882de4a603",
+    "candidate": "1fcbd7c8419088993d2091e1b8ae31999e4c55c9",
+    "tree": "7261698f9a878e0ecedde9f08f5f7e7c815bac8f"
+  },
+  {
+    "redWarning": false,
+    "case": "H4-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "native-suite",
+        "layer": 1,
+        "reason": "Native suite observations or cleanup unavailable"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "native-suite",
+            "layer": 1,
+            "reason": "Native suite observations or cleanup unavailable"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 46.688028374999995,
+    "error": null,
+    "base": "5c6eaa22b823a426e43ca30b80f3f3882de4a603",
+    "candidate": "0b9e655640506c976bfbda98da87a7e09d579f5f",
+    "tree": "a3921226f3c0663e13bc7525b562a37f245df627"
+  },
+  {
+    "redWarning": false,
+    "case": "H5-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "native-suite",
+        "layer": 1,
+        "reason": "Native suite observations or cleanup unavailable"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "native-suite",
+            "layer": 1,
+            "reason": "Native suite observations or cleanup unavailable"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 46.693632540999914,
+    "error": null,
+    "base": "1bd19397c28d1241bf24dea5a7a838bd8ecb6cb1",
+    "candidate": "f03753d37e26c2d4ed9864734fa6527d70a53423",
+    "tree": "4ae3001c55f6154c1dff0ee84b8c7ba6ab7b30f9"
+  },
+  {
+    "redWarning": false,
+    "case": "H5-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "ERROR",
+    "actualVerdict": "ERROR",
+    "gaps": [
+      {
+        "id": "native-suite",
+        "layer": 1,
+        "reason": "Native suite observations or cleanup unavailable"
+      },
+      {
+        "id": "ai-task-checks",
+        "layer": 3,
+        "reason": "Advisory task checks not requested; original intent is not automatically proved."
+      },
+      {
+        "id": "test-writer-not-run",
+        "layer": 3,
+        "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "native-suite",
+            "layer": 1,
+            "reason": "Native suite observations or cleanup unavailable"
+          }
+        ],
+        "layer": 1,
+        "status": "ERROR"
+      },
+      {
+        "checks": [],
+        "gaps": [],
+        "layer": 2,
+        "status": "NOT CHECKED"
+      },
+      {
+        "checks": [],
+        "gaps": [
+          {
+            "id": "ai-task-checks",
+            "layer": 3,
+            "reason": "Advisory task checks not requested; original intent is not automatically proved."
+          },
+          {
+            "id": "test-writer-not-run",
+            "layer": 3,
+            "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": null,
+    "elapsedSeconds": 47.56121012499998,
+    "error": null,
+    "base": "1bd19397c28d1241bf24dea5a7a838bd8ecb6cb1",
+    "candidate": "abad213212b9446f3c187595148600b15af4df9a",
+    "tree": "8b90f1929e45edc7531cde64c3ecae478f2d7366"
+  },
+  {
+    "redWarning": false,
+    "case": "H6-correct",
+    "truth": "CORRECT",
+    "studyVerdict": "PASSED WITH GAPS",
+    "actualVerdict": "PASSED WITH GAPS",
+    "gaps": [
+      {
+        "id": "test-writer-coverage",
+        "layer": 3,
+        "reason": "Test Writer is advisory only; it cannot change the verdict."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout redirects only after server logout succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout keeps the dashboard available when server logout fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout calls the backend before clearing local admin state\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout does not present logout as complete when server revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change clears the current browser only after account-wide revocation succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change preserves the current browser state when password revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should set user.type to \\\"doctor\\\" after login\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should not crash when response.data.user is missing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type after fetching profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type for patient profiles\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should not set global error state on failure (safe for polling)\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore updateProfile should preserve user.type after updating profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore setUser should normalize user type to lowercase\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat does not select any transport when encryption fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit ASCII message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit Hindi message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit CJK message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit emoji message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading stores an approved public therapist response\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading clears a stale therapist and propagates a 404 to the page\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading does not restore an older profile when its response arrives after a 404\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/httpsServices.test.ts\",\"public therapist API errors preserves the HTTP 404 status for the profile not-found UI\"]",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [],
+        "layer": 1,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "baseStatus": "FAIL",
+            "candidateStatus": "FAIL",
+            "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+            "reason": "Not applicable to this BASE; Candidate FAIL (informational).",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [],
+        "layer": 2,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "id": "writer-file",
+            "reason": "UNCLEAR: The changed booking page frontend/src/app/patient/booking/[therapistid]/page.tsx is explicitly omitted. Its loading/error UI, retry control, profile-fetch contract, and required providers are unavailable; no test configuration or installed testing dependencies are supplied. Testing the requested retry behavior would require guessing these contracts.",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "test-writer-coverage",
+            "layer": 3,
+            "reason": "Test Writer is advisory only; it cannot change the verdict."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": {
+      "advisoryOnly": true,
+      "baseCommit": "790d6006726237705bf8c0ef830475cf31ac2ed2",
+      "checks": [
+        {
+          "base": [],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "UNCLEAR: The changed booking page frontend/src/app/patient/booking/[therapistid]/page.tsx is explicitly omitted. Its loading/error UI, retry control, profile-fetch contract, and required providers are unavailable; no test configuration or installed testing dependencies are supplied. Testing the requested retry behavior would require guessing these contracts.",
+          "status": "NOT_ADMITTED",
+          "summary": "Cannot author a reliable booking retry test from the supplied context.",
+          "testName": "src/__tests__/cc-writer-506bb226-82aa-45e2-873c-a214562632c5.test.tsx"
+        }
+      ],
+      "coverage": "NONE",
+      "inputHash": "2bfed7277f99fa1ccf24169607d57e35953e69f0472687c2a796e6313a15b959",
+      "mode": "NATIVE",
+      "reason": "UNCLEAR: The changed booking page frontend/src/app/patient/booking/[therapistid]/page.tsx is explicitly omitted. Its loading/error UI, retry control, profile-fetch contract, and required providers are unavailable; no test configuration or installed testing dependencies are supplied. Testing the requested retry behavior would require guessing these contracts.",
+      "requestHash": "08523b9461622e67e4aa00e51f6b03418cf6314c272cc266922d224d91320aa3",
+      "sessionId": "01a14b3f-8a08-76b1-8447-56a6559de122",
+      "started": true,
+      "usage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 12449,
+        "outputTokens": 133,
+        "totalTokens": 12582
+      },
+      "version": "test-writer-v1",
+      "warnings": []
+    },
+    "elapsedSeconds": 191.89693170800012,
+    "error": null,
+    "base": "790d6006726237705bf8c0ef830475cf31ac2ed2",
+    "candidate": "899833eafb468d308d4616e4d6cfa7ba8a654240",
+    "tree": "7eaca453068fa6e1c4926de15a451b833296c46c"
+  },
+  {
+    "redWarning": false,
+    "case": "H6-wrong",
+    "truth": "WRONG",
+    "studyVerdict": "PASSED WITH GAPS",
+    "actualVerdict": "PASSED WITH GAPS",
+    "gaps": [
+      {
+        "id": "test-writer-coverage",
+        "layer": 3,
+        "reason": "Test Writer is advisory only; it cannot change the verdict."
+      }
+    ],
+    "layers": [
+      {
+        "checks": [
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout redirects only after server logout succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminDashboardLogout.test.tsx\",\"admin dashboard logout keeps the dashboard available when server logout fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout calls the backend before clearing local admin state\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin logout does not present logout as complete when server revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change clears the current browser only after account-wide revocation succeeds\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/adminStore.test.ts\",\"admin password change preserves the current browser state when password revocation fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should set user.type to \\\"doctor\\\" after login\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore loginDoctor should not crash when response.data.user is missing\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type after fetching profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should preserve user.type for patient profiles\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore fetchProfile should not set global error state on failure (safe for polling)\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore updateProfile should preserve user.type after updating profile\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/authStore.test.ts\",\"authStore setUser should normalize user type to lowercase\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat encrypts before HTTP fallback and never includes plaintext in the payload\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat blocks sending with a retryable error when keys are unavailable\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat does not select any transport when encryption fails\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/chatEncryption.test.ts\",\"ciphertext-only frontend chat requests a fresh socket-only ticket for initial connection and reconnect\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit ASCII message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit Hindi message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit CJK message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary round-trips a 2000-code-unit emoji message\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/cryptoBoundary.test.ts\",\"chat encryption size boundary shows that a CJK message beyond the UI limit exceeds the backend byte boundary\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading stores an approved public therapist response\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading clears a stale therapist and propagates a 404 to the page\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/doctorStore.test.ts\",\"doctorStore public profile loading does not restore an older profile when its response arrives after a 404\"]",
+            "reason": null,
+            "status": "PASS"
+          },
+          {
+            "id": "[\"src/__tests__/httpsServices.test.ts\",\"public therapist API errors preserves the HTTP 404 status for the profile not-found UI\"]",
+            "reason": null,
+            "status": "PASS"
+          }
+        ],
+        "gaps": [],
+        "layer": 1,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "baseStatus": "FAIL",
+            "candidateStatus": "FAIL",
+            "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+            "reason": "Not applicable to this BASE; Candidate FAIL (informational).",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [],
+        "layer": 2,
+        "status": "PASS"
+      },
+      {
+        "checks": [
+          {
+            "id": "writer-file",
+            "reason": "UNCLEAR: The changed booking page frontend/src/app/patient/booking/[therapistid]/page.tsx is explicitly omitted. The supplied files do not establish its profile-fetch API, retry control, connection-error UI, loading state, or required providers. Framework setup and installed testing dependencies are also absent. Testing the requested failed-retry behavior would require guessing these contracts.",
+            "status": "NOT CHECKED"
+          }
+        ],
+        "gaps": [
+          {
+            "id": "test-writer-coverage",
+            "layer": 3,
+            "reason": "Test Writer is advisory only; it cannot change the verdict."
+          }
+        ],
+        "layer": 3,
+        "status": "NOT CHECKED"
+      }
+    ],
+    "writer": {
+      "advisoryOnly": true,
+      "baseCommit": "790d6006726237705bf8c0ef830475cf31ac2ed2",
+      "checks": [
+        {
+          "base": [],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "UNCLEAR: The changed booking page frontend/src/app/patient/booking/[therapistid]/page.tsx is explicitly omitted. The supplied files do not establish its profile-fetch API, retry control, connection-error UI, loading state, or required providers. Framework setup and installed testing dependencies are also absent. Testing the requested failed-retry behavior would require guessing these contracts.",
+          "status": "NOT_ADMITTED",
+          "summary": "Cannot write a reliable booking retry test from the supplied context.",
+          "testName": "src/__tests__/cc-writer-ae64904c-9996-4376-a2ba-c6116ed4d661.test.tsx"
+        }
+      ],
+      "coverage": "NONE",
+      "inputHash": "29267a37d90714afd91244afc24fc042a7d8ff3d3092a483be932bcc79942fd2",
+      "mode": "NATIVE",
+      "reason": "UNCLEAR: The changed booking page frontend/src/app/patient/booking/[therapistid]/page.tsx is explicitly omitted. The supplied files do not establish its profile-fetch API, retry control, connection-error UI, loading state, or required providers. Framework setup and installed testing dependencies are also absent. Testing the requested failed-retry behavior would require guessing these contracts.",
+      "requestHash": "08523b9461622e67e4aa00e51f6b03418cf6314c272cc266922d224d91320aa3",
+      "sessionId": "01a14b42-76a2-7ea2-a7a6-6c7b00af81aa",
+      "started": true,
+      "usage": {
+        "cachedInputTokens": 0,
+        "inputTokens": 12447,
+        "outputTokens": 143,
+        "totalTokens": 12590
+      },
+      "version": "test-writer-v1",
+      "warnings": []
+    },
+    "elapsedSeconds": 190.34000366599997,
+    "error": null,
+    "base": "790d6006726237705bf8c0ef830475cf31ac2ed2",
+    "candidate": "492566e1cd7c5060df136e50a809842b63f8840e",
+    "tree": "ffad20c4440386ceddb1a3152ea21bb777187da9"
+  }
+]

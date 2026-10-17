@@ -1,0 +1,108 @@
+{
+  "set": "fresh",
+  "cases": 12,
+  "correct": 6,
+  "wrong": 6,
+  "confirmed": 1,
+  "falseAccepts": 0,
+  "redWrong": 1,
+  "redCorrect": 0,
+  "writerStarted": 8,
+  "tokens": 91343,
+  "averageTokensPerTicket": 7611.916666666667,
+  "averageTokensPerStartedWriter": 11417.875,
+  "unknownUsage": [],
+  "blocked": [
+    {
+      "case": "H4-correct",
+      "error": null,
+      "gaps": [
+        {
+          "id": "native-suite",
+          "layer": 1,
+          "reason": "Native suite observations or cleanup unavailable"
+        },
+        {
+          "id": "ai-task-checks",
+          "layer": 3,
+          "reason": "Advisory task checks not requested; original intent is not automatically proved."
+        },
+        {
+          "id": "test-writer-not-run",
+          "layer": 3,
+          "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+        }
+      ]
+    },
+    {
+      "case": "H4-wrong",
+      "error": null,
+      "gaps": [
+        {
+          "id": "native-suite",
+          "layer": 1,
+          "reason": "Native suite observations or cleanup unavailable"
+        },
+        {
+          "id": "ai-task-checks",
+          "layer": 3,
+          "reason": "Advisory task checks not requested; original intent is not automatically proved."
+        },
+        {
+          "id": "test-writer-not-run",
+          "layer": 3,
+          "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+        }
+      ]
+    },
+    {
+      "case": "H5-correct",
+      "error": null,
+      "gaps": [
+        {
+          "id": "native-suite",
+          "layer": 1,
+          "reason": "Native suite observations or cleanup unavailable"
+        },
+        {
+          "id": "ai-task-checks",
+          "layer": 3,
+          "reason": "Advisory task checks not requested; original intent is not automatically proved."
+        },
+        {
+          "id": "test-writer-not-run",
+          "layer": 3,
+          "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+        }
+      ]
+    },
+    {
+      "case": "H5-wrong",
+      "error": null,
+      "gaps": [
+        {
+          "id": "native-suite",
+          "layer": 1,
+          "reason": "Native suite observations or cleanup unavailable"
+        },
+        {
+          "id": "ai-task-checks",
+          "layer": 3,
+          "reason": "Advisory task checks not requested; original intent is not automatically proved."
+        },
+        {
+          "id": "test-writer-not-run",
+          "layer": 3,
+          "reason": "Existing protected checks did not pass; Test Writer cannot upgrade them."
+        }
+      ]
+    }
+  ],
+  "notStarted": [
+    "H4-correct",
+    "H4-wrong",
+    "H5-correct",
+    "H5-wrong"
+  ],
+  "writerCheckErrors": []
+}

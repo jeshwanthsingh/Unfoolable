@@ -1,0 +1,17 @@
+{
+  "mode": "fresh",
+  "cases": 12,
+  "correct": 6,
+  "wrong": 6,
+  "confirmed": 1,
+  "redWarningsCorrect": 0,
+  "redWarningsWrong": 1,
+  "falseAccepts": 0,
+  "actualPolicy": "ADVISORY",
+  "method": "Counterfactual existing scoreV1 with admitted writer advisoryOnly=false; actual app results unchanged",
+  "tokens": 91343,
+  "started": 8,
+  "unknownUsageCases": [],
+  "averageTokensPerStartedCase": 11417.875,
+  "averageTokensPerAllCases": 7611.916666666667
+}

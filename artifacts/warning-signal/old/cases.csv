@@ -1,0 +1,20 @@
+case,truth,study_verdict,actual_verdict,red_warning,writer_started,tokens,seconds,reason
+A2-correct,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,True,17896,101.42,
+R4-correct,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,True,12917,112.3,"UNCLEAR: The supplied CLI excerpts omit argument-parser construction and the command entry point, and runtime configuration/path definitions are absent. These are needed to invoke source list and source add using supported arguments while isolating all filesystem and database effects in temporary state. Please supply those BASE sections and configuration/path files; otherwise command invocation and safe isolation would require guessing."
+T5-correct,CORRECT,VERIFIED,PASSED WITH GAPS,False,True,12584,237.46,
+R1-correct,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,True,14727,155.29,Concurrency checks are advisory; changed-line coverage has not been measured.
+T3-correct,CORRECT,VERIFIED,PASSED WITH GAPS,False,True,18735,327.68,
+R3-correct,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,True,13413,104.33,"Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count."
+A3-correct,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,True,23457,157.43,Changed-line coverage incomplete or unavailable; author-declared coverage does not count
+T2-correct,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,True,32632,330.65,Mutation retry not admitted; retained the earlier admitted advisory check.
+kept-c6263195,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,True,13140,88.0,"UNCLEAR: The supplied files support duration-helper tests, but CLI argument handling and the RuntimeContext fixture are omitted. Testing the required useful CLI argument error with isolated temporary state requires the platform CLI handlers and runtime configuration requirements, or the complete existing RuntimeContext fixture."
+kept-cfaaea5b,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,False,0,2.5,Approved playbook exports liveness-core.mjs only; requested tracker merge is outside that approved scope. No writer was launched.
+kept-37b3646e,CORRECT,PASSED WITH GAPS,PASSED WITH GAPS,False,True,12917,84.28,"UNCLEAR: The supplied cli.py excerpts omit the top-level parser, CLI entry point and invocation signature, and configuration/path resolution implementation. No executable entry point or existing help test is supplied. Testing research --help without guessing invocation or isolation behavior requires those BASE sections (and preferably tests/test_help.py). Worktree provenance and suite execution also cannot be verified with the supplied context and no tools."
+A3-wrong-reference,WRONG,PASSED WITH GAPS,PASSED WITH GAPS,True,True,10804,48.18,writer's test disagrees with this change - worth a look
+T2-wrong-reference,WRONG,PASSED WITH GAPS,PASSED WITH GAPS,True,True,10695,209.67,writer's test disagrees with this change - worth a look
+A2-unchanged-base,WRONG,PASSED WITH GAPS,PASSED WITH GAPS,True,True,6980,33.79,writer's test disagrees with this change - worth a look
+R4-unchanged-base,WRONG,PASSED WITH GAPS,PASSED WITH GAPS,False,True,13023,109.75,"Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count."
+T5-unchanged-base,WRONG,PASSED WITH GAPS,PASSED WITH GAPS,True,True,12852,213.33,writer's test disagrees with this change - worth a look
+A2-planted-half-fix,WRONG,PASSED WITH GAPS,PASSED WITH GAPS,True,True,8919,41.04,writer's test disagrees with this change - worth a look
+A2-planted-special-case,WRONG,PASSED WITH GAPS,PASSED WITH GAPS,False,True,8842,35.27,"Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count."
+A2-planted-edge-case,WRONG,PASSED WITH GAPS,PASSED WITH GAPS,True,True,8847,40.58,writer's test disagrees with this change - worth a look

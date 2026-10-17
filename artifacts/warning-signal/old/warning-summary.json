@@ -1,0 +1,97 @@
+{
+  "set": "old",
+  "cases": 19,
+  "correct": 11,
+  "wrong": 8,
+  "confirmed": 2,
+  "falseAccepts": 0,
+  "redWrong": 6,
+  "redCorrect": 0,
+  "writerStarted": 18,
+  "tokens": 253380,
+  "averageTokensPerTicket": 13335.78947368421,
+  "averageTokensPerStartedWriter": 14076.666666666666,
+  "unknownUsage": [],
+  "blocked": [],
+  "notStarted": [
+    "kept-cfaaea5b"
+  ],
+  "writerCheckErrors": [
+    {
+      "case": "R1-correct",
+      "checks": [
+        {
+          "base": [
+            "ERROR",
+            "ERROR",
+            "ERROR"
+          ],
+          "candidate": "ERROR",
+          "candidateRuns": [
+            "ERROR"
+          ],
+          "id": "E1",
+          "reason": "Not admitted: BASE ERROR, ERROR, ERROR, Candidate ERROR. Requires meaningful BASE failure and Candidate pass.",
+          "status": "NOT_ADMITTED",
+          "summary": "Repeated same-URL registrations converge successfully on the stored identity; distinct URLs remain distinct.",
+          "testName": "oracle_judge.TestOracle.test_e1"
+        }
+      ],
+      "reason": "Concurrency checks are advisory; changed-line coverage has not been measured."
+    },
+    {
+      "case": "R3-correct",
+      "checks": [
+        {
+          "base": [
+            "ERROR"
+          ],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count.",
+          "status": "NOT_ADMITTED",
+          "summary": "Tests orphan rejection, atomicity, database isolation, exact audit preservation during run updates, and reopen persistence.",
+          "testName": "tests/test_cc_writer_899e3aae_c5ce_445f_a748_dd49772ac61e.py"
+        }
+      ],
+      "reason": "Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count."
+    },
+    {
+      "case": "R4-unchanged-base",
+      "checks": [
+        {
+          "base": [
+            "ERROR"
+          ],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count.",
+          "status": "NOT_ADMITTED",
+          "summary": "Tests topic-scoped persisted listing, unknown topics, read-only filesystem/database behavior, network isolation, and add/list interoperability.",
+          "testName": "tests/test_cc_writer_242cb2d0_3aba_47b1_a0df_fd54c70a83dc.py"
+        }
+      ],
+      "reason": "Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count."
+    },
+    {
+      "case": "A2-planted-special-case",
+      "checks": [
+        {
+          "base": [
+            "ERROR"
+          ],
+          "candidate": "NOT CHECKED",
+          "candidateRuns": [],
+          "id": "writer-file",
+          "reason": "Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count.",
+          "status": "NOT_ADMITTED",
+          "summary": "Tests malformed done-event rejection, valid completion statuses, and isolation from subsequent events.",
+          "testName": "tests/test_cc_writer_f38f487e_52fd_4189_82d2_b4402be14724.py"
+        }
+      ],
+      "reason": "Not admitted: BASE ERROR. Requires a real assertion failure; setup errors, skips and zero tests never count."
+    }
+  ]
+}
