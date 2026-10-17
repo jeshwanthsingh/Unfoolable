@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, symlinkSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, symlinkSync, realpathSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {execFileSync} from 'node:child_process';
@@ -51,3 +51,15 @@ test('quality gate proposals invalidate approval and bind the exact tool/rule po
  const f=fixture();try{const initial=await f.store.propose(f.repo,f.base);f.store.approve(f.repo,initial.hash);const proposal=await f.store.proposeGates(f.repo,f.base);assert.equal(proposal.approval,null);assert.notEqual(proposal.hash,initial.hash);assert.ok(proposal.definition.qualityGates?.gates.includes('ruff'));assert.match(proposal.definition.qualityGates!.policyHash,/^[a-f0-9]{64}$/);assert.throws(()=>f.store.requireApproved(f.repo),{code:'PLAYBOOK_REQUIRED'});const approved=f.store.approve(f.repo,proposal.hash);assert.deepEqual(await f.store.proposeGates(f.repo,f.base),approved);}finally{rmSync(f.root,{recursive:true,force:true});}
 });
 test('invalid arbitrary quality tool names are rejected',()=>assert.throws(()=>validatePlaybookDefinition({...definition(),qualityGates:{gates:['shell'],policyHash:'a'.repeat(64)}}),{code:'INVALID_PLAYBOOK'}));
+
+test('approval follows root commit and remote identity across clean clones; edits and other repos stay unapproved',async()=>{
+ const f=fixture();try{
+  const draft=await f.store.propose(f.repo,f.base);f.store.approve(f.repo,draft.hash);
+  const clone=join(f.root,'clone');execFileSync('git',['clone','--quiet','--no-hardlinks',f.repo,clone]);execFileSync('git',['-C',clone,'remote','remove','origin']);
+  assert.equal(f.store.requireApproved(clone).hash,draft.hash);
+  assert.equal(f.store.requireApproved(clone).repoRoot,realpathSync(clone));
+  f.store.edit(clone,{...draft.definition,timeoutSeconds:181});assert.throws(()=>f.store.requireApproved(f.repo),{code:'PLAYBOOK_REQUIRED'});
+  execFileSync('git',['-C',clone,'remote','add','origin','https://example.invalid/different.git']);assert.equal(f.store.show(clone),null);
+  const other=fixture({'tests/test_other.py':'# different repository'});try{assert.equal(createProjectPlaybookStore(f.data).show(other.repo),null);}finally{rmSync(other.root,{recursive:true,force:true});}
+ }finally{rmSync(f.root,{recursive:true,force:true});}
+});

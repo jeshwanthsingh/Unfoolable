@@ -14,6 +14,7 @@ export type ProjectPlaybookDefinition = {
   notes: string[];
 };
 export type ProjectPlaybook = {
+  repositoryIdentity?: string;
   repoRoot: string;
   baseCommit: string;
   definition: ProjectPlaybookDefinition;

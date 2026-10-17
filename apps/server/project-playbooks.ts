@@ -1,3 +1,4 @@
+import {repositoryIdentity} from './repository-identity.ts';
 import {qualityGateNames} from '../../packages/shared/quality-gates.ts';
 import {proposeQualityGates,qualityPolicyHash} from './quality-gates.ts';
 import {requireHuman} from './human-context.ts';
@@ -52,23 +53,24 @@ export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefin
 export function createProjectPlaybookStore(dataDir: string) {
   dataMode(dataDir);const fixtureOnly=fixtureApprovalsEnabled(dataDir);
   const root = join(realpathSync(dataDir), 'playbooks'); assertDataEntry(root,'directory'); mkdirSync(root, {recursive: true, mode: 0o700});
-  const folder = (repo: string) => join(root, hash(rootOf(repo)));
+  const folder = (repo: string) => join(root, repositoryIdentity(repo));
   const file = (repo: string) => join(folder(repo), 'current.json');
   const show = (repo: string): ProjectPlaybook | null => {
-    const path = file(repo); if (!existsSync(path)) return null;
+    const path = file(repo); if (!existsSync(path)) {const legacy=join(root,hash(rootOf(repo)),'current.json');if(!existsSync(legacy))return null;if(lstatSync(legacy).isSymbolicLink()||lstatSync(join(root,hash(rootOf(repo)))).isSymbolicLink())throw new ProjectPlaybookError('PLAYBOOK_CHANGED','Legacy storage identity changed.');const old=JSON.parse(readFileSync(legacy,'utf8')) as ProjectPlaybook;const definition=validatePlaybookDefinition(old.definition);if(old.repoRoot!==rootOf(repo)||old.hash!==hash(definition))throw new ProjectPlaybookError('PLAYBOOK_CHANGED','Legacy playbook changed.');return {...old,repositoryIdentity:repositoryIdentity(repo),definition,approval:null};}
     if (lstatSync(folder(repo)).isSymbolicLink() || lstatSync(path).isSymbolicLink() || !lstatSync(path).isFile()) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Playbook storage identity changed.');
     const record = JSON.parse(readFileSync(path, 'utf8')) as ProjectPlaybook;
     record.definition = validatePlaybookDefinition(record.definition);
-    if (record.repoRoot !== rootOf(repo) || record.hash !== hash(record.definition) || (record.approval && record.approval.hash !== record.hash)) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Playbook content or approval changed.');
+    if (record.repositoryIdentity !== repositoryIdentity(repo) || record.hash !== hash(record.definition) || (record.approval && record.approval.hash !== record.hash)) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Playbook content or approval changed.');
     if (record.approval) {
       const saved = join(folder(repo), record.hash + '.approved.json');
-      if (!existsSync(saved) || lstatSync(saved).isSymbolicLink() || readFileSync(saved, 'utf8') !== canonicalContractJson(record)) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Immutable playbook approval changed.');
+      if (!existsSync(saved) || lstatSync(saved).isSymbolicLink() || canonicalContractJson({...JSON.parse(readFileSync(saved,'utf8')),repoRoot:record.repoRoot}) !== canonicalContractJson(record)) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Immutable playbook approval changed.');
     }
-    return record;
+    return {...record,repoRoot:rootOf(repo)};
   };
   const save = (repo: string, record: ProjectPlaybook) => {
     const dir = folder(repo); mkdirSync(dir, {recursive: true, mode: 0o700});
     if (lstatSync(dir).isSymbolicLink()) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Playbook storage identity changed.');
+    record={...record,repositoryIdentity:repositoryIdentity(repo)};
     const tmp = join(dir, randomUUID() + '.tmp'); writeFileSync(tmp, canonicalContractJson(record), {flag: 'wx', mode: 0o600}); renameSync(tmp, file(repo)); return record;
   };
   const edit = (repo: string, definition: unknown): ProjectPlaybook => {
@@ -86,9 +88,10 @@ export function createProjectPlaybookStore(dataDir: string) {
     if (existsSync(path)) {
       if (lstatSync(path).isSymbolicLink()) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Immutable approval identity changed.');
       const saved = JSON.parse(readFileSync(path, 'utf8')) as ProjectPlaybook;
-      if (saved.repoRoot !== record.repoRoot || saved.hash !== record.hash || hash(validatePlaybookDefinition(saved.definition)) !== record.hash || saved.approval?.hash !== record.hash) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Immutable approval content changed.');
-      return save(repo, saved);
+      if (saved.repositoryIdentity !== repositoryIdentity(repo) || saved.hash !== record.hash || hash(validatePlaybookDefinition(saved.definition)) !== record.hash || saved.approval?.hash !== record.hash) throw new ProjectPlaybookError('PLAYBOOK_CHANGED', 'Immutable approval content changed.');
+      return save(repo, {...saved,repoRoot:rootOf(repo)});
     }
+    record.repositoryIdentity=repositoryIdentity(repo);
     record.approval = {hash: record.hash, at: new Date().toISOString(),...(!fixtureOnly&&receipt?{actor:'passkey' as const,source:'webauthn' as const,dataMode:'LIVE' as const,confirmationId:receipt.id,credentialId:receipt.credentialId,evidenceHash:receipt.evidenceHash}:{actor:'test-fixture' as const,source:'node:test' as const,dataMode:'TEST' as const})};
     writeFileSync(path, canonicalContractJson(record), {flag: 'wx', mode: 0o400}); return save(repo, record);
   };
