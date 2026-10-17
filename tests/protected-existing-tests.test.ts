@@ -41,3 +41,14 @@ test('native collection uses loader error records rather than interpreting test 
  const bad=fixture("import unittest\ndef load_tests(loader,suite,pattern):raise RuntimeError('setup failure')\n");
  await assert.rejects(collectExistingTests(bad.manifest,bad.workspace,join(bad.dir,'collection'),['tests/test_base.py'],new AbortController().signal),/BASE unittest collection failed/);
 });
+
+
+test('large display preview does not invalidate complete native evidence; actual pipe truncation still fails closed',async()=>{
+ const {oracleOutputPreview}=await import('../apps/server/oracle-execution.ts');
+ const f=fixture(base),path=join(f.dir,'complete-native.json');
+ writeFileSync(path,JSON.stringify({observations:[{id:'protected-existing-suite',returnValue:{testsRun:1,tests:[{id:'test_base.Base.test_one',outcome:'passed'}],excludedTests:[]}}]}));
+ const execution={status:'PASS' as const,...oracleOutputPreview({large:'x'.repeat(40000)}),durationMs:1,cleanup:{verified:true,ambiguous:false,remaining:[],terminalCount:0,reason:null},environment:{observationPath:path}};
+ assert.equal(execution.previewTruncated,true);assert.equal(execution.truncated,false);
+ assert.equal(classifyExistingTests(f.manifest,['test_base.Base.test_one'],execution).status,'PASS');
+ assert.equal(classifyExistingTests(f.manifest,['test_base.Base.test_one'],{...execution,...oracleOutputPreview({},true)}).status,'ERROR');
+});
