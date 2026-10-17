@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "engines": {"node": ">=24.15.0 <25"},
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
   "scripts": {
     "predev": "node scripts/check-node.mjs",
     "dev": "node scripts/dev.mjs",
@@ -14,9 +16,24 @@
     "prestart": "node scripts/check-node.mjs",
     "start": "node dist/server/apps/server/main.js"
   },
-  "dependencies": {"@simplewebauthn/browser":"13.3.0","@simplewebauthn/server":"13.3.3","react":"19.3.0","react-dom":"19.3.0"},
+  "dependencies": {
+    "@git-diff-view/react": "0.1.8",
+    "@git-diff-view/shiki": "0.1.8",
+    "@simplewebauthn/browser": "13.3.0",
+    "@simplewebauthn/server": "13.3.3",
+    "motion": "14.3.0",
+    "pixi.js": "8.22.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "shiki": "4.5.0",
+    "xstate": "5.33.3"
+  },
   "devDependencies": {
-    "@types/node":"24.19.1","@types/react":"19.3.0","@types/react-dom":"19.3.0",
-    "@vitejs/plugin-react":"6.1.2","typescript":"7.0.2","vite":"8.3.2"
+    "@types/node": "24.19.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.2"
   }
 }
