@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+/usr/local/bin/python3 -m venv .work/tools/tree-sitter
+.work/tools/tree-sitter/bin/python -m pip install -r scripts/protected-verification/tree-sitter-requirements.txt

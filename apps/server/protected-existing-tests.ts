@@ -65,7 +65,7 @@ export async function collectExistingTests(manifest:OracleManifest,baseWorkspace
  if(!row||row.exception||!row.returnValue)throw Error(row?.exception?.message??'BASE collection failed');
  const native=row.returnValue;let ids:string[];
  if(manifest.runner==='unittest'){
-  if(!Array.isArray(native.collection)||native.collection.some((id:unknown)=>typeof id!=='string'||id.includes('_FailedTest')))throw Error('BASE unittest collection failed');ids=native.collection;
+  if(!Array.isArray(native.collection)||native.collection.some((id:unknown)=>typeof id!=='string')||!Array.isArray(native.collectionErrors)||native.collectionErrors.length>0)throw Error('BASE unittest collection failed');ids=native.collection;
  }else{
   if(![0,1].includes(native.exitCode)||!Array.isArray(native.report?.testResults)||native.report.numUnhandledErrors>0)throw Error('BASE Vitest collection failed');
   ids=[];for(const file of native.report.testResults){if(!Array.isArray(file.assertionResults)||file.status==='failed'&&!file.assertionResults.length)throw Error('BASE Vitest setup failed');for(const t of file.assertionResults){if(typeof t.fullName!=='string'||typeof file.name!=='string')throw Error('BASE Vitest identity missing');ids.push(vitestTestIdentity(native.root,file.name,t.fullName));}}

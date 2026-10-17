@@ -43,7 +43,7 @@ with contextlib.redirect_stdout(out),contextlib.redirect_stderr(err):
  if any(ids.count(i)!=1 for i in exclude_ids):raise ValueError('Declared excluded test missing or duplicated')
  included=[t for t in cases if t.id() not in exclude_ids]
  if policy.get('collectOnly'):
-  print_packet={'collection':ids}
+  print_packet={'collection':ids,'collectionErrors':unittest.defaultTestLoader.errors}
  else:
   result=Result();unittest.TestSuite(included).run(result)
 if policy.get('collectOnly'):print(json.dumps(print_packet));sys.exit(0)

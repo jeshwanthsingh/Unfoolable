@@ -34,3 +34,10 @@ test('native unittest loader collects dynamic Unicode IDs without executing bodi
  const inventory=await collectExistingTests(f.manifest,f.workspace,join(f.dir,'collection'),['tests/test_base.py'],new AbortController().signal);
  assert.deepEqual(inventory.ids,['test_base.Base.test_हिन्दी_😀']);
 });
+
+test('native collection uses loader error records rather than interpreting test names',async()=>{
+ const good=fixture("import unittest\nclass Base(unittest.TestCase):\n def test_handles_FailedTest(self):pass\n");
+ const collected=await collectExistingTests(good.manifest,good.workspace,join(good.dir,'collection'),['tests/test_base.py'],new AbortController().signal);assert.deepEqual(collected.ids,['test_base.Base.test_handles_FailedTest']);
+ const bad=fixture("import unittest\ndef load_tests(loader,suite,pattern):raise RuntimeError('setup failure')\n");
+ await assert.rejects(collectExistingTests(bad.manifest,bad.workspace,join(bad.dir,'collection'),['tests/test_base.py'],new AbortController().signal),/BASE unittest collection failed/);
+});

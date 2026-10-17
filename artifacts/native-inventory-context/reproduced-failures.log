@@ -1,0 +1,10 @@
+✔ tampered durable Land intent cannot change the verified branch, evidence, tree or BASE parent (12956.776916ms)
+✔ recipe failing this BASE cannot falsely reject a Candidate; BASE-passing recipe still rejects a regression (29353.453292ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 42517.232458

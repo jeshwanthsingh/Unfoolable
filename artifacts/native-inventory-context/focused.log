@@ -1,0 +1,27 @@
+✔ hyphenated nonvisual intent retains its real module within the bounded source packet (187.701083ms)
+✔ native Vitest collection preserves generated Unicode and quoted titles (13729.158208ms)
+✔ BASE-only suite excludes a malicious Candidate-only test and records authoritative native identity (1946.931917ms)
+✔ zero collected BASE tests never pass (1790.777959ms)
+✔ a named native skip becomes a gap and never a passed record (1786.669375ms)
+✔ native assertion failures remain FAIL, runtime test errors remain ERROR (3575.762416ms)
+✔ authorized credential exclusion is named without executing its body (1794.367375ms)
+✔ frontend native suite needs no browser or UI component and preserves exact test names (13952.678083ms)
+✔ unittest failing subtests preserve BASE identity and never escape failure classification (2325.906417ms)
+✔ Vitest native file and full-name identities distinguish repeated titles (3.194083ms)
+✔ native unittest loader collects dynamic Unicode IDs without executing bodies (2324.633042ms)
+✔ native collection uses loader error records rather than interpreting test names (3984.070875ms)
+✔ tree-sitter selects relevant Python definitions and imports with UTF-8 byte-accurate excerpts (87.957209ms)
+✔ tree-sitter supports TSX exported arrows and classes without evaluating repository code (70.092083ms)
+✔ syntax errors and definitions larger than the available budget fail closed (95.101666ms)
+✔ large immutable BASE files contribute relevant excerpts instead of disappearing from context (196.637917ms)
+✔ combined writer token budget includes repairs and mutation retries; unknown usage cannot buy another attempt (0.799625ms)
+✔ Round A promotion requires BOTH complete sets, sixty percent, zero false accepts, and measured cost under 40k (0.118542ms)
+✔ fixed context exposes BASE files and changed filenames, never Candidate contents or protected files (202.693875ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33619.511583

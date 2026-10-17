@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-17",
+  "branch": "codex/native-inventory-context",
+  "base": "1c5f1ab",
+  "step1Commit": "774d81f",
+  "tests": {
+    "passed": 870,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 310.548898458
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "negativeControls": {
+    "total": 12,
+    "FAIL": 5,
+    "INCONCLUSIVE": 7,
+    "PASS": 0
+  },
+  "focusedTests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "interruptedRun": {
+    "passed": 868,
+    "failed": 2,
+    "isolatedRerunPassed": 2,
+    "details": "Deadline/cleanup failures did not reproduce in isolation or fresh full suite; exact original cause not established."
+  },
+  "optionalPynguin": "NOT RUN",
+  "writerPolicy": "ADVISORY (unchanged)",
+  "holdoutRerun": false
+}

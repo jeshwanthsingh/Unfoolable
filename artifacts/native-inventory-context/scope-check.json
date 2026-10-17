@@ -1,0 +1,32 @@
+{
+  "unchangedBoundaries": [
+    {
+      "path": "apps/server/test-writer-native.ts",
+      "unchanged": true,
+      "sha256": "7f0cef28738bae514c92aecf03f706b434abc8577f98000207caa60f9c8d7840"
+    },
+    {
+      "path": "apps/server/test-writer-admission.ts",
+      "unchanged": true,
+      "sha256": "db088707a8b2a2e617cf7742c2b5c0000efbcf2e8d261db5d025e10f33f739fd"
+    },
+    {
+      "path": "apps/server/test-writer-session.ts",
+      "unchanged": true,
+      "sha256": "1301abb8623579a47c12ce7c87e48ef7d6adc7e3eaaa553b3f0e380ff193c076"
+    },
+    {
+      "path": "packages/shared/verification-v1.ts",
+      "unchanged": true,
+      "sha256": "386a4b65879bc046b9b1a912d507c69e966a971c8bf98069c91de764d4aed618"
+    },
+    {
+      "path": "apps/server/oracle-execution.ts",
+      "unchanged": true,
+      "sha256": "702c90ffe7d4d71217e0eb13f7a5127974a60fe4fcc876c1b36d3c54da4c03aa"
+    }
+  ],
+  "writerTokenCap": 40000,
+  "newModelCalls": 0,
+  "holdoutRerun": false
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "library": "tree-sitter",
+    "version": "0.25.2",
+    "license": "MIT",
+    "licenseSha256": "1af0790543fffac99dd3bd290bf83ca963f4f8029065eb6f35638f4df863ae8e"
+  },
+  {
+    "library": "tree-sitter-python",
+    "version": "0.25.0",
+    "license": "MIT",
+    "licenseSha256": "d724405ce238a22c0d35769c5a36b386ad5958192efe8bbb304fb2896254575f"
+  },
+  {
+    "library": "tree-sitter-javascript",
+    "version": "0.25.0",
+    "license": "MIT",
+    "licenseSha256": "2e0110e07abef7c2548b26ec9d6969775617ca539a0dc8dbeeb14d6452c711d1"
+  },
+  {
+    "library": "tree-sitter-typescript",
+    "version": "0.23.2",
+    "license": "MIT",
+    "licenseSha256": "49bf33cf78ef5897e4e161ce1517df7de1ae5042a65b6bcfd44401e0fc606559"
+  }
+]
