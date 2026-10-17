@@ -10,4 +10,6 @@ test('test tampering, gate findings and protected failure are red',()=>{
  assert.equal(reviewRisk({...clean(),qualityGates:{...clean().qualityGates,gates:[{gate:'ruff',status:'FAIL',findings:[],baselineCount:0,durationMs:1}]}},[],'').color,'RED');
  assert.equal(reviewRisk({...clean(),verdict:'FAILED'},[],'').color,'RED');
 });
-test('cap accepts the boundary and rejects either excess',()=>{assert.equal(reviewRisk(clean(),['src/a'],Array(400).fill('+line').join('\n')).color,'GREEN');assert.equal(reviewRisk(clean(),['src/a'],Array(401).fill('+line').join('\n')).color,'RED');assert.equal(reviewRisk(clean(),Array.from({length:16},(_,i)=>'src/'+i),'').color,'RED');});
+test('cap accepts the boundary and rejects either excess',()=>{assert.equal(reviewRisk(clean(),['src/a'],'@@ -1 +1 @@\n'+Array(400).fill('+line').join('\n')).color,'GREEN');assert.equal(reviewRisk(clean(),['src/a'],'@@ -1 +1 @@\n'+Array(401).fill('+line').join('\n')).color,'RED');assert.equal(reviewRisk(clean(),Array.from({length:16},(_,i)=>'src/'+i),'').color,'RED');});
+
+test('custom caps and header-like content inside hunks cannot hide changed lines',()=>{assert.equal(reviewRisk(clean(),['src/a'],'--- a\n+++ b\n@@ -1 +1 @@\n---removed\n+++added',{lines:1,files:1}).color,'RED');assert.equal(reviewRisk(clean(),['src/a'],'@@ -1 +1 @@\n+one\n+two',{lines:2,files:1}).color,'GREEN');});

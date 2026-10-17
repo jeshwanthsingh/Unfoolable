@@ -63,3 +63,5 @@ test('approval follows root commit and remote identity across clean clones; edit
   const other=fixture({'tests/test_other.py':'# different repository'});try{assert.equal(createProjectPlaybookStore(f.data).show(other.repo),null);}finally{rmSync(other.root,{recursive:true,force:true});}
  }finally{rmSync(f.root,{recursive:true,force:true});}
 });
+
+test('diff cap changes are hashed, unapproved and validated',async()=>{const f=fixture();try{const d=await f.store.propose(f.repo,f.base);f.store.approve(f.repo,d.hash);const edited=f.store.edit(f.repo,{...d.definition,diffCap:{lines:200,files:5}});assert.notEqual(edited.hash,d.hash);assert.equal(edited.approval,null);assert.deepEqual(edited.definition.diffCap,{lines:200,files:5});for(const diffCap of [{lines:0,files:1},{lines:400,files:-1},{lines:Infinity,files:1}])assert.throws(()=>validatePlaybookDefinition({...d.definition,diffCap}),{code:'INVALID_PLAYBOOK'});}finally{rmSync(f.root,{recursive:true,force:true});}});

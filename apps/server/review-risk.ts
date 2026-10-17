@@ -2,9 +2,9 @@ import {writerWarnings,isTestWriterEvidence} from '../../packages/shared/test-wr
 import {isQualityEvidence,isTamperingEvidence} from '../../packages/shared/quality-gates.ts';
 import type {ReviewRisk} from '../../packages/shared/review-risk.ts';
 export function reviewRisk(check:Record<string,unknown>|undefined,paths:string[],diff:string,cap={lines:400,files:15}):ReviewRisk {
- const changedLines=diff.split('\n').filter(l=>(l.startsWith('+')&&!l.startsWith('+++'))||(l.startsWith('-')&&!l.startsWith('---'))).length;
+ let changedLines=0,inHunk=false;for(const line of diff.split('\n')){if(line.startsWith('diff --git '))inHunk=false;else if(line.startsWith('@@ '))inHunk=true;else if(inHunk&&(line.startsWith('+')||line.startsWith('-')))changedLines++;}
  const reasons:string[]=[];
- if(paths.some(p=>/(^|\/)(tests?|__tests__|\.github|\.circleci)(\/|$)|(^|\/)[^/]*[._-](test|spec)\.[^/]+$|(^|\/)(playbook[^/]*|.*lock[^/]*|Jenkinsfile|\.gitlab-ci\.yml)$/i.test(p)))reasons.push('Tests, playbook, CI or lockfiles changed');
+ if(paths.some(p=>/(^|\/)(test_[^/]+|[^/]+_test)\.[^/]+$/.test(p)||/(^|\/)(tests?|__tests__|\.github|\.circleci)(\/|$)|(^|\/)[^/]*[._-](test|spec)\.[^/]+$|(^|\/)(playbook[^/]*|.*lock[^/]*|Jenkinsfile|\.gitlab-ci\.yml)$/i.test(p)))reasons.push('Tests, playbook, CI or lockfiles changed');
  if(changedLines>cap.lines||paths.length>cap.files)reasons.push('Diff exceeds '+cap.lines+' lines or '+cap.files+' files');
  if(isTamperingEvidence(check?.testTampering)&&check.testTampering.status!=='CLEAR')reasons.push(check.testTampering.status==='FLAGGED'?'Test-tampering flag':'Test-tampering check unavailable');
  if(isTestWriterEvidence(check?.testWriter)&&writerWarnings(check.testWriter).length)reasons.push('Independent test fails on this change');
