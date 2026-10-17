@@ -1,3 +1,4 @@
+import {reviewTestEdits} from './test-edit-review.ts';
 import {createDiffReviewStore,reviewDigest} from './diff-review.ts';
 import {reviewRisk} from './review-risk.ts';
 import {qualityPolicyHash} from './quality-gates.ts';
@@ -48,7 +49,7 @@ export function createTicketService(db:DatabaseSync,config:AppConfig,verifier:Re
  }
  function show(id:string){const t=ticket(id),events=listTicketEvents(db,id),recorded=events.filter(e=>e.kind==='check_result').at(-1)?.data,playbook=playbooks.store.show(t.repoPath),reason=evidenceProblem(t,candidate(id),recorded),pending=t.status==='checking'&&events.filter(e=>e.kind==='retry_requested').at(-1)?.data.mode==='recheck';
   const check=reason||pending?{...recorded,verdict:'NOT CHECKED',gaps:[...((recorded?.gaps as string[])??[]),pending?'Rechecking the same Candidate; previous results cannot authorize Keep.':reason!],failures:(recorded?.failures as string[])??[]}:recorded;
-  const c=candidate(id),risk=reviewRisk(check,c?.paths??[],c?readFileSync(c.diffPath,'utf8'):'',playbook?.definition.diffCap);
+  const c=candidate(id),risk=reviewRisk(check,c?.paths??[],c?readFileSync(c.diffPath,'utf8'):'',playbook?.definition.diffCap,c?reviewTestEdits(c.repo,t.baseCommit,c.commit,c.paths):undefined);
   const reviewBinding=reviewDigest({candidate:c??null,check:recorded??null,risk,playbook:playbook?.hash??null}),reviewPaths=c?.paths??[],viewedPaths=reviewPaths.filter(path=>diffReviews.viewed(id,reviewBinding,path)),diffReviewRequired=risk.color!=='GREEN'&&viewedPaths.length<reviewPaths.length;
   return {reviewBinding,reviewPaths,viewedPaths,diffReviewRequired,risk,ticket:t,events,budget:ticketBudget(db,id),watchman:{limit:WATCHMAN_LIMIT,blocked:watchmanActions(db,id)},stats:ticketStats(db,id),...(check?{check}:{}),...(playbook?{playbook}:{}),diffAvailable:!!candidate(id),evidenceStale:!!reason,staleReason:reason,recheckAvailable:!!reason&&['ready_for_review','interrupted','harness_error','needs_you'].includes(t.status),keepAvailable:t.status==='ready_for_review'&&!reason&&!diffReviewRequired};
  }

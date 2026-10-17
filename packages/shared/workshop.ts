@@ -23,8 +23,8 @@ export function projectTicketEvents(id:string,events:TicketEvent[]):WorkshopTick
   if(e.kind==='submitted')ticket.send({type:'queued'});
   if(e.kind==='retry_requested'){blocked=0;blockedIds.clear();approval.send({type:'unavailable'});}
   if(e.kind==='state_changed'&&ticketStatuses.includes(e.data.to as TicketStatus)){
-   const status=e.data.to as TicketStatus;ticket.send({type:status});approval.send({type:['ready_for_review','needs_you'].includes(status)?'waiting':'unavailable'});
-   if(['building','fixing','checking'].includes(status)){verdict=null;lockNames.forEach((_,i)=>setLock(i,status==='checking'? 'turning':'greyed',status==='checking'?'Check run started; group result pending':'No current check result'));}
+   const status=e.data.to as TicketStatus;ticket.send({type:status});approval.send({type:['kept','discarded'].includes(status)?'decided':['ready_for_review','needs_you'].includes(status)?'waiting':'unavailable'});
+   if(['building','fixing','checking'].includes(status)){verdict=null;lockNames.forEach((_,i)=>setLock(i,status==='checking'&&i===0?'turning':'greyed',status==='checking'?'Check run started; group result pending, no separate group start recorded':'No current check result'));}
    else if(['interrupted','harness_error','cancelled','needs_you'].includes(status))lockNames.forEach((_,i)=>{if(locks[i]!.getSnapshot().value==='turning')setLock(i,'greyed','Run stopped without a group result');});
   }
   if(e.kind==='agent_event'&&e.data.kind==='blocked_action'){
@@ -33,15 +33,15 @@ export function projectTicketEvents(id:string,events:TicketEvent[]):WorkshopTick
   if(e.kind==='check_result'){
    const c=e.data;verdict=typeof c.verdict==='string'?c.verdict:null;
    lockNames.forEach((_,i)=>setLock(i,'greyed','No group evidence recorded'));
-   setLock(0,verdict==='VERIFIED'||verdict==='PASSED WITH GAPS'?'open':verdict==='FAILED'?'closed':'greyed',verdict==='FAILED'?'Protected check failure recorded':verdict==='VERIFIED'||verdict==='PASSED WITH GAPS'?'Protected checks passed; inspect listed gaps':'Not checked or harness error');
+   setLock(0,verdict==='VERIFIED'||verdict==='PASSED WITH GAPS'?'open':'greyed',verdict==='FAILED'?'Overall failure recorded; protected-group result not separately recorded':verdict==='VERIFIED'||verdict==='PASSED WITH GAPS'?'Protected checks passed; inspect listed gaps':'Not checked or harness error');
    if(isQualityEvidence(c.qualityGates)){const g=c.qualityGates.gates;setLock(1,g.some(x=>x.status==='FAIL')?'closed':g.length&&g.every(x=>x.status==='PASS')?'open':'greyed',g.map(x=>x.gate+': '+x.status).join(' · ')||'No gates');}
    if(isTamperingEvidence(c.testTampering))setLock(2,c.testTampering.status==='CLEAR'?'open':c.testTampering.status==='FLAGGED'?'closed':'greyed',c.testTampering.status);
-   if(isTestWriterEvidence(c.testWriter)){const w=c.testWriter;setLock(3,writerWarnings(w).length?'closed':w.checks.length&&w.checks.every(x=>x.status==='ADMITTED')?'open':'greyed',writerWarnings(w).length?'Independent test disagrees':w.reason??'Advisory; not all tests admitted');setLock(4,'greyed',w.lineCoverage?.percent!=null?'Changed-line coverage '+w.lineCoverage.percent.toFixed(1)+'%; mutation advisory':'Not measured; no pass threshold');}
+   if(isTestWriterEvidence(c.testWriter)){const w=c.testWriter;setLock(3,writerWarnings(w).length?'closed':w.checks.length&&w.checks.every(x=>x.status==='ADMITTED')?'open':'greyed',writerWarnings(w).length?'Independent test disagrees':w.reason??'Advisory evidence; inspect admission details');setLock(4,'greyed',w.lineCoverage?.percent!=null?'Changed-line coverage '+w.lineCoverage.percent.toFixed(1)+'%; mutation advisory':'Not measured; no pass threshold');}
   }
   if(e.kind==='decision')approval.send({type:'decided'});
  }
  const status=ticket.getSnapshot().value as WorkshopTicket['status'];
- const result:WorkshopTicket={id,status,station:stationFor(status),agent:['building','fixing','checking'].includes(status)?(blocked?'blocked':'working'):status==='needs_you'||status==='ready_for_review'?'needs you':'stopped',blocked,sequence,locks:lockNames.map((name,i)=>({name,state:locks[i]!.getSnapshot().value as LockState,reason:reasons[i]!})),approval:approval.getSnapshot().value as WorkshopTicket['approval'],verdict};
+ const result:WorkshopTicket={id,status,station:stationFor(status),agent:['building','fixing','checking'].includes(status)?(blocked?'blocked':'working'):approval.getSnapshot().value==='waiting'?'needs you':'stopped',blocked,sequence,locks:lockNames.map((name,i)=>({name,state:locks[i]!.getSnapshot().value as LockState,reason:reasons[i]!})),approval:approval.getSnapshot().value as WorkshopTicket['approval'],verdict};
  ticket.stop();approval.stop();locks.forEach(l=>l.stop());return result;
 }
-export function vaultMayOpen(state:WorkshopTicket,keepAvailable:boolean,evidenceStale=false){return state.status==='ready_for_review'&&['VERIFIED','PASSED WITH GAPS'].includes(state.verdict??'')&&keepAvailable&&!evidenceStale;}
+export function vaultMayOpen(state:WorkshopTicket,keepAvailable:boolean,evidenceStale=false){return state.approval==='waiting'&&state.status==='ready_for_review'&&['VERIFIED','PASSED WITH GAPS'].includes(state.verdict??'')&&keepAvailable&&!evidenceStale;}

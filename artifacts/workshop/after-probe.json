@@ -1,0 +1,1222 @@
+{
+  "phase": "after",
+  "targets": [
+    {
+      "label": "~/.ssh",
+      "path": "/Users/jeshwanthsingh/.ssh",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/.codex",
+      "path": "/Users/jeshwanthsingh/.codex",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/.config",
+      "path": "/Users/jeshwanthsingh/.config",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/.aws",
+      "path": "/Users/jeshwanthsingh/.aws",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/.gnupg",
+      "path": "/Users/jeshwanthsingh/.gnupg",
+      "kind": "directory",
+      "present": false
+    },
+    {
+      "label": "~/Library/Keychains",
+      "path": "/Users/jeshwanthsingh/Library/Keychains",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/Library/Application Support/Google/Chrome",
+      "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/Library/Application Support/Google/Chrome Beta",
+      "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome Beta",
+      "kind": "directory",
+      "present": false
+    },
+    {
+      "label": "~/Library/Application Support/Chromium",
+      "path": "/Users/jeshwanthsingh/Library/Application Support/Chromium",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/Library/Application Support/Microsoft Edge",
+      "path": "/Users/jeshwanthsingh/Library/Application Support/Microsoft Edge",
+      "kind": "directory",
+      "present": false
+    },
+    {
+      "label": "~/Library/Application Support/BraveSoftware/Brave-Browser",
+      "path": "/Users/jeshwanthsingh/Library/Application Support/BraveSoftware/Brave-Browser",
+      "kind": "directory",
+      "present": false
+    },
+    {
+      "label": "~/Library/Application Support/Arc",
+      "path": "/Users/jeshwanthsingh/Library/Application Support/Arc",
+      "kind": "directory",
+      "present": false
+    },
+    {
+      "label": "~/Library/Application Support/Firefox",
+      "path": "/Users/jeshwanthsingh/Library/Application Support/Firefox",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/Library/Safari",
+      "path": "/Users/jeshwanthsingh/Library/Safari",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/Library/Containers/com.apple.Safari",
+      "path": "/Users/jeshwanthsingh/Library/Containers/com.apple.Safari",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "~/Library/Group Containers/group.com.apple.Safari",
+      "path": "/Users/jeshwanthsingh/Library/Group Containers/group.com.apple.Safari",
+      "kind": "directory",
+      "present": false
+    },
+    {
+      "label": "~/.codex/auth.json",
+      "path": "/Users/jeshwanthsingh/.codex/auth.json",
+      "kind": "file",
+      "present": true
+    },
+    {
+      "label": "~/.bench-private",
+      "path": "/Users/jeshwanthsingh/.bench-private",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "CC database",
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
+      "kind": "file",
+      "present": true
+    },
+    {
+      "label": "CC playbooks",
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "CC checker",
+      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
+      "kind": "file",
+      "present": true
+    },
+    {
+      "label": "Other Projects/AI-Powered-Digital-Closet",
+      "path": "/Users/jeshwanthsingh/Projects/AI-Powered-Digital-Closet",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Aegis",
+      "path": "/Users/jeshwanthsingh/Projects/Aegis",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Email-Recruiter",
+      "path": "/Users/jeshwanthsingh/Projects/Email-Recruiter",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/JobPipeline",
+      "path": "/Users/jeshwanthsingh/Projects/JobPipeline",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Milestone5",
+      "path": "/Users/jeshwanthsingh/Projects/Milestone5",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-admin-logout",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-logout",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-admin-review",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-review",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-auth-session",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-auth-session",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-chat-cache-test-db",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-cache-test-db",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-chat-followup",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-followup",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-chat-security",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-security",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-docker-secrets",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-docker-secrets",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-hide-suspended",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-hide-suspended",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-payment-order-debug",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-payment-order-debug",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-pr69-visibility-split",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr69-visibility-split",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-pr85-delivery",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-delivery",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-pr85-integrated",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-integrated",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-pr85-retryable",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-retryable",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-pr85-review",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-review",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-pr85-simplify",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-simplify",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-pr88-followup",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr88-followup",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-qa-payment-ff5d34f",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-payment-ff5d34f",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-qa-pr51",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr51",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-qa-pr54",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr54",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-qa-pr89-pr94",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr89-pr94",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-razorpay",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-razorpay",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-suspended-payment-finalization",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-suspended-payment-finalization",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/Therapy2-upstream-review",
+      "path": "/Users/jeshwanthsingh/Projects/Therapy2-upstream-review",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/auto_email_sender",
+      "path": "/Users/jeshwanthsingh/Projects/auto_email_sender",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/career-ops",
+      "path": "/Users/jeshwanthsingh/Projects/career-ops",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/codex-kit",
+      "path": "/Users/jeshwanthsingh/Projects/codex-kit",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/coding-agent-crash-tests",
+      "path": "/Users/jeshwanthsingh/Projects/coding-agent-crash-tests",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/covid-data-exploration",
+      "path": "/Users/jeshwanthsingh/Projects/covid-data-exploration",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/csc415-filesystem-jeshwanthsingh",
+      "path": "/Users/jeshwanthsingh/Projects/csc415-filesystem-jeshwanthsingh",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/digital_closet",
+      "path": "/Users/jeshwanthsingh/Projects/digital_closet",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/hackwithbay",
+      "path": "/Users/jeshwanthsingh/Projects/hackwithbay",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/jeshwanth.com",
+      "path": "/Users/jeshwanthsingh/Projects/jeshwanth.com",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/natively-cluely-ai-assistant",
+      "path": "/Users/jeshwanthsingh/Projects/natively-cluely-ai-assistant",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/proof-lab",
+      "path": "/Users/jeshwanthsingh/Projects/proof-lab",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/research-router",
+      "path": "/Users/jeshwanthsingh/Projects/research-router",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/seismic-ml-analysis",
+      "path": "/Users/jeshwanthsingh/Projects/seismic-ml-analysis",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Other Projects/terraform-aws-automation",
+      "path": "/Users/jeshwanthsingh/Projects/terraform-aws-automation",
+      "kind": "directory",
+      "present": true
+    },
+    {
+      "label": "Mid-session new repository",
+      "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-d551afba-1b39-4e4e-a3d6-a71269dff34e",
+      "kind": "directory",
+      "present": false
+    }
+  ],
+  "modelReport": {
+    "rows": [
+      {
+        "label": "~/.ssh",
+        "path": "/Users/jeshwanthsingh/.ssh",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.codex",
+        "path": "/Users/jeshwanthsingh/.codex",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.config",
+        "path": "/Users/jeshwanthsingh/.config",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.aws",
+        "path": "/Users/jeshwanthsingh/.aws",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.gnupg",
+        "path": "/Users/jeshwanthsingh/.gnupg",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Keychains",
+        "path": "/Users/jeshwanthsingh/Library/Keychains",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Application Support/Google/Chrome",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Application Support/Google/Chrome Beta",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome Beta",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Application Support/Chromium",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Chromium",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Application Support/Microsoft Edge",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Microsoft Edge",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Application Support/BraveSoftware/Brave-Browser",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/BraveSoftware/Brave-Browser",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Application Support/Arc",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Arc",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Application Support/Firefox",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Firefox",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Safari",
+        "path": "/Users/jeshwanthsingh/Library/Safari",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Containers/com.apple.Safari",
+        "path": "/Users/jeshwanthsingh/Library/Containers/com.apple.Safari",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Group Containers/group.com.apple.Safari",
+        "path": "/Users/jeshwanthsingh/Library/Group Containers/group.com.apple.Safari",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/.codex/auth.json",
+        "path": "/Users/jeshwanthsingh/.codex/auth.json",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.bench-private",
+        "path": "/Users/jeshwanthsingh/.bench-private",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "CC database",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "CC playbooks",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "CC checker",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/AI-Powered-Digital-Closet",
+        "path": "/Users/jeshwanthsingh/Projects/AI-Powered-Digital-Closet",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Aegis",
+        "path": "/Users/jeshwanthsingh/Projects/Aegis",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Email-Recruiter",
+        "path": "/Users/jeshwanthsingh/Projects/Email-Recruiter",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/JobPipeline",
+        "path": "/Users/jeshwanthsingh/Projects/JobPipeline",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Milestone5",
+        "path": "/Users/jeshwanthsingh/Projects/Milestone5",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-admin-logout",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-logout",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-admin-review",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-review",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-auth-session",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-auth-session",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-chat-cache-test-db",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-cache-test-db",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-chat-followup",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-followup",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-chat-security",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-security",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-docker-secrets",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-docker-secrets",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-hide-suspended",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-hide-suspended",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-payment-order-debug",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-payment-order-debug",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr69-visibility-split",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr69-visibility-split",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-delivery",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-delivery",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-integrated",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-integrated",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-retryable",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-retryable",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-review",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-review",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-simplify",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-simplify",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr88-followup",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr88-followup",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-qa-payment-ff5d34f",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-payment-ff5d34f",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-qa-pr51",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr51",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-qa-pr54",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr54",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-qa-pr89-pr94",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr89-pr94",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-razorpay",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-razorpay",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-suspended-payment-finalization",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-suspended-payment-finalization",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-upstream-review",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-upstream-review",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/auto_email_sender",
+        "path": "/Users/jeshwanthsingh/Projects/auto_email_sender",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/career-ops",
+        "path": "/Users/jeshwanthsingh/Projects/career-ops",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/codex-kit",
+        "path": "/Users/jeshwanthsingh/Projects/codex-kit",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/coding-agent-crash-tests",
+        "path": "/Users/jeshwanthsingh/Projects/coding-agent-crash-tests",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/covid-data-exploration",
+        "path": "/Users/jeshwanthsingh/Projects/covid-data-exploration",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/csc415-filesystem-jeshwanthsingh",
+        "path": "/Users/jeshwanthsingh/Projects/csc415-filesystem-jeshwanthsingh",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/digital_closet",
+        "path": "/Users/jeshwanthsingh/Projects/digital_closet",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/hackwithbay",
+        "path": "/Users/jeshwanthsingh/Projects/hackwithbay",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/jeshwanth.com",
+        "path": "/Users/jeshwanthsingh/Projects/jeshwanth.com",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/natively-cluely-ai-assistant",
+        "path": "/Users/jeshwanthsingh/Projects/natively-cluely-ai-assistant",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/proof-lab",
+        "path": "/Users/jeshwanthsingh/Projects/proof-lab",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/research-router",
+        "path": "/Users/jeshwanthsingh/Projects/research-router",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/seismic-ml-analysis",
+        "path": "/Users/jeshwanthsingh/Projects/seismic-ml-analysis",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/terraform-aws-automation",
+        "path": "/Users/jeshwanthsingh/Projects/terraform-aws-automation",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Mid-session new repository",
+        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-d551afba-1b39-4e4e-a3d6-a71269dff34e",
+        "readable": false,
+        "errno": 1
+      }
+    ],
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "secretContentsEmitted": false
+  },
+  "kernelReport": {
+    "rows": [
+      {
+        "label": "~/.ssh",
+        "path": "/Users/jeshwanthsingh/.ssh",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.codex",
+        "path": "/Users/jeshwanthsingh/.codex",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.config",
+        "path": "/Users/jeshwanthsingh/.config",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.aws",
+        "path": "/Users/jeshwanthsingh/.aws",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.gnupg",
+        "path": "/Users/jeshwanthsingh/.gnupg",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Keychains",
+        "path": "/Users/jeshwanthsingh/Library/Keychains",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Application Support/Google/Chrome",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Application Support/Google/Chrome Beta",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome Beta",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Application Support/Chromium",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Chromium",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Application Support/Microsoft Edge",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Microsoft Edge",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Application Support/BraveSoftware/Brave-Browser",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/BraveSoftware/Brave-Browser",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Application Support/Arc",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Arc",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/Library/Application Support/Firefox",
+        "path": "/Users/jeshwanthsingh/Library/Application Support/Firefox",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Safari",
+        "path": "/Users/jeshwanthsingh/Library/Safari",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Containers/com.apple.Safari",
+        "path": "/Users/jeshwanthsingh/Library/Containers/com.apple.Safari",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/Library/Group Containers/group.com.apple.Safari",
+        "path": "/Users/jeshwanthsingh/Library/Group Containers/group.com.apple.Safari",
+        "readable": false,
+        "errno": 2
+      },
+      {
+        "label": "~/.codex/auth.json",
+        "path": "/Users/jeshwanthsingh/.codex/auth.json",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "~/.bench-private",
+        "path": "/Users/jeshwanthsingh/.bench-private",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "CC database",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "CC playbooks",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "CC checker",
+        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/AI-Powered-Digital-Closet",
+        "path": "/Users/jeshwanthsingh/Projects/AI-Powered-Digital-Closet",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Aegis",
+        "path": "/Users/jeshwanthsingh/Projects/Aegis",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Email-Recruiter",
+        "path": "/Users/jeshwanthsingh/Projects/Email-Recruiter",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/JobPipeline",
+        "path": "/Users/jeshwanthsingh/Projects/JobPipeline",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Milestone5",
+        "path": "/Users/jeshwanthsingh/Projects/Milestone5",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-admin-logout",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-logout",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-admin-review",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-review",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-auth-session",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-auth-session",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-chat-cache-test-db",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-cache-test-db",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-chat-followup",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-followup",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-chat-security",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-security",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-docker-secrets",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-docker-secrets",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-hide-suspended",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-hide-suspended",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-payment-order-debug",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-payment-order-debug",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr69-visibility-split",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr69-visibility-split",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-delivery",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-delivery",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-integrated",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-integrated",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-retryable",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-retryable",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-review",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-review",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr85-simplify",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-simplify",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-pr88-followup",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr88-followup",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-qa-payment-ff5d34f",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-payment-ff5d34f",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-qa-pr51",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr51",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-qa-pr54",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr54",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-qa-pr89-pr94",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr89-pr94",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-razorpay",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-razorpay",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-suspended-payment-finalization",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-suspended-payment-finalization",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/Therapy2-upstream-review",
+        "path": "/Users/jeshwanthsingh/Projects/Therapy2-upstream-review",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/auto_email_sender",
+        "path": "/Users/jeshwanthsingh/Projects/auto_email_sender",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/career-ops",
+        "path": "/Users/jeshwanthsingh/Projects/career-ops",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/codex-kit",
+        "path": "/Users/jeshwanthsingh/Projects/codex-kit",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/coding-agent-crash-tests",
+        "path": "/Users/jeshwanthsingh/Projects/coding-agent-crash-tests",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/covid-data-exploration",
+        "path": "/Users/jeshwanthsingh/Projects/covid-data-exploration",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/csc415-filesystem-jeshwanthsingh",
+        "path": "/Users/jeshwanthsingh/Projects/csc415-filesystem-jeshwanthsingh",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/digital_closet",
+        "path": "/Users/jeshwanthsingh/Projects/digital_closet",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/hackwithbay",
+        "path": "/Users/jeshwanthsingh/Projects/hackwithbay",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/jeshwanth.com",
+        "path": "/Users/jeshwanthsingh/Projects/jeshwanth.com",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/natively-cluely-ai-assistant",
+        "path": "/Users/jeshwanthsingh/Projects/natively-cluely-ai-assistant",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/proof-lab",
+        "path": "/Users/jeshwanthsingh/Projects/proof-lab",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/research-router",
+        "path": "/Users/jeshwanthsingh/Projects/research-router",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/seismic-ml-analysis",
+        "path": "/Users/jeshwanthsingh/Projects/seismic-ml-analysis",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Other Projects/terraform-aws-automation",
+        "path": "/Users/jeshwanthsingh/Projects/terraform-aws-automation",
+        "readable": false,
+        "errno": 1
+      },
+      {
+        "label": "Mid-session new repository",
+        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-d551afba-1b39-4e4e-a3d6-a71269dff34e",
+        "readable": false,
+        "errno": 1
+      }
+    ],
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "secretContentsEmitted": false
+  },
+  "provider": {
+    "threadId": "01a14bd0-d97c-7b40-9ca9-2d46a85787d1",
+    "turnId": "01a14bd0-ddc0-7ad2-b359-3cd8bd84f16c",
+    "bindings": [
+      {
+        "attemptId": "de770952-b86a-4fb2-bdd2-306494aac0ee",
+        "generation": 1,
+        "transportId": "83eac549-9e3a-43e6-ad18-7ce6c1d6aade",
+        "threadId": "01a14bd0-d97c-7b40-9ca9-2d46a85787d1",
+        "turnId": "01a14bd0-ddc0-7ad2-b359-3cd8bd84f16c"
+      }
+    ],
+    "cleanup": {
+      "verified": true,
+      "ambiguous": false,
+      "remaining": [],
+      "terminalCount": 0,
+      "reason": null
+    },
+    "summary": "Probe ran exactly once: 0 of 65 protected targets were readable. All five owned-workspace checks passed."
+  },
+  "workspace": "/Users/jeshwanthsingh/.cc-work/9ced2c4cbd9badb25537f93a18e9a79d2a9e583b0ea773e5c9dd88a15efbdada/a5a2767c-1859-4d35-9f15-f3a32d542d6e/worktrees/de770952-b86a-4fb2-bdd2-306494aac0ee",
+  "scriptSHA256": "427e329dea3e58217837472be66fc1fe1cc33580d601c2fd5eec8adae2f5fb23"
+}

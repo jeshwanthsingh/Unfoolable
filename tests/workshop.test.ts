@@ -10,4 +10,6 @@ test('real blocked commands count once, retry resets, waiting is never busy',()=
 test('replay is ordered and future or unrelated prose cannot open the vault',()=>{
  const p=projectTicketEvents('t',[ev(9,'state_changed',{to:'ready_for_review'}),ev(1,'submitted'),ev(3,'agent_event',{text:'PASS',kind:'completed'})]);assert.equal(p.status,'ready_for_review');assert.equal(p.verdict,null);assert.equal(vaultMayOpen(p,true),false);
 });
-test('check failures close lock; unmeasured coverage remains grey',()=>{const p=projectTicketEvents('t',[ev(1,'check_result',{verdict:'FAILED'})]);assert.equal(p.locks[0]!.state,'closed');assert.equal(p.locks[4]!.state,'greyed');});
+test('overall failure does not invent per-group results; real gate failure closes only that lock',()=>{const p=projectTicketEvents('t',[ev(1,'check_result',{verdict:'FAILED',qualityGates:{version:'quality-gates-v1',base:'b',candidate:'c',durationMs:1,gates:[{gate:'ruff',status:'FAIL',findings:[],baselineCount:0,durationMs:1}]}})]);assert.equal(p.locks[0]!.state,'greyed');assert.equal(p.locks[1]!.state,'closed');assert.equal(p.locks[4]!.state,'greyed');});
+
+test('group starts are never invented and terminal decisions stay decided',()=>{const p=projectTicketEvents('t',[ev(1,'state_changed',{to:'checking'})]);assert.equal(p.locks[0]!.state,'turning');assert.ok(p.locks.slice(1).every(l=>l.state==='greyed'));assert.equal(projectTicketEvents('t',[ev(1,'decision'),ev(2,'state_changed',{to:'kept'})]).approval,'decided');});

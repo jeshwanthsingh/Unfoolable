@@ -4,9 +4,10 @@ import {stations,type WorkshopTicket} from '../../../packages/shared/workshop.ts
 export function WorkshopRoom({tickets,selected,onSelect,onStation}:{tickets:{title:string;state:WorkshopTicket}[];selected:string|null;onSelect:(id:string)=>void;onStation:(station:number)=>void}){
  const host=useRef<HTMLDivElement>(null),previous=useRef(new Map<string,{x:number;y:number}>()),[error,setError]=useState(false);
  useEffect(()=>{if(!host.current)return;let disposed=false,destroy:(()=>void)|undefined;
- void (async()=>{const {Application,Graphics,Text,Sprite,Assets}=await import('pixi.js');if(disposed)return;
+ void (async()=>{const {Application,Graphics,Text,Sprite,Assets,EventsTicker,Ticker}=await import('pixi.js');if(disposed)return;
   const app=new Application();await app.init({width:900,height:590,backgroundAlpha:0,antialias:true,autoStart:false,preference:'webgl'});
-  if(disposed){app.destroy(true,{children:true});return;}destroy=()=>{app.stop();app.destroy(true,{children:true,texture:false});};host.current!.replaceChildren(app.canvas);app.canvas.setAttribute('aria-hidden','true');
+  if(disposed){app.destroy(true,{children:true});return;}destroy=()=>{app.stop();app.destroy(true,{children:true,texture:false});};// Static objects use native pointer events; Pixi's synthetic stationary-pointer ticker is unnecessary.
+  EventsTicker.removeTickerListener();Ticker.system.stop();host.current!.replaceChildren(app.canvas);app.canvas.setAttribute('aria-hidden','true');
   const positions=[[135,155],[445,155],[755,155],[600,415],[270,415]] as const;
   const brass=0xbba073,ink=0x242b2c;
   const floor=new Graphics().roundRect(24,35,852,510,22).fill(0x1a2021).stroke({color:0x49483e,width:2});app.stage.addChild(floor);
@@ -25,12 +26,12 @@ export function WorkshopRoom({tickets,selected,onSelect,onStation}:{tickets:{tit
    label(state.id.slice(0,4),to.x,to.y+25,9);if(state.id===selected){label(title.slice(0,46),450,568,13);}
   });
   const active=tickets.find(t=>['working','blocked'].includes(t.state.agent))??tickets.find(t=>t.state.id===selected)??tickets.find(t=>t.state.agent==='needs you');
-  if(active){const [x,y]=positions[active.state.station]!,bot=new Graphics().roundRect(x+64,y-52,25,25,7).fill(active.state.agent==='blocked'?0xb97c51:0x9caeaa).stroke({color:brass,width:2}).circle(x+71,y-42,2).circle(x+82,y-42,2).fill(0x1a2021);app.stage.addChild(bot);label(active.state.agent+(active.state.blocked?' · '+active.state.blocked+' blocked':''),x,y-88,12,0xddd0b3);}
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;let started=performance.now();
-  const render=()=>{const t=reduced?1:Math.min(1,(performance.now()-started)/600);for(const m of moves)m.sprite.position.set(m.from.x+(m.to.x-m.from.x)*t,m.from.y+(m.to.y-m.from.y)*t);app.renderer.render(app.stage);if(t>=1)app.ticker.stop();};
-  app.ticker.add(render);render();if(!document.hidden&&!reduced)app.start();
-  const visibility=()=>{app.stop();if(!document.hidden){started=performance.now()-600;render();}};document.addEventListener('visibilitychange',visibility);
-  destroy=()=>{document.removeEventListener('visibilitychange',visibility);app.stop();app.destroy(true,{children:true,texture:false});};
+  if(active){const [x,y]=positions[active.state.station]!,bot=new Graphics().roundRect(x+64,y-52,25,25,7).fill(active.state.agent==='blocked'?0xb97c51:0x9caeaa).stroke({color:brass,width:2}).circle(x+71,y-42,2).circle(x+82,y-42,2).fill(0x1a2021);app.stage.addChild(bot);if(active.state.agent==='needs you')app.stage.addChild(new Graphics().roundRect(x-48,y-103,96,24,7).fill(0x454331).stroke({color:brass,width:1}));label(active.state.agent+(active.state.blocked?' · '+active.state.blocked+' blocked':''),x,y-88,12,0xddd0b3);}
+  const motionQuery=matchMedia('(prefers-reduced-motion: reduce)'),reduced=motionQuery.matches;let started=performance.now();
+  const render=()=>{const t=motionQuery.matches?1:Math.min(1,(performance.now()-started)/600);for(const m of moves)m.sprite.position.set(m.from.x+(m.to.x-m.from.x)*t,m.from.y+(m.to.y-m.from.y)*t);app.renderer.render(app.stage);if(t>=1){app.ticker.stop();Ticker.system.stop();}};
+  app.ticker.add(render);render();if(!document.hidden&&!reduced&&moves.some(m=>m.from.x!==m.to.x||m.from.y!==m.to.y))app.start();
+  const visibility=()=>{app.stop();Ticker.system.stop();if(!document.hidden){started=performance.now()-600;render();}};document.addEventListener('visibilitychange',visibility);const motionChanged=()=>{if(motionQuery.matches){app.stop();started=performance.now()-600;render();}};motionQuery.addEventListener('change',motionChanged);
+  destroy=()=>{document.removeEventListener('visibilitychange',visibility);motionQuery.removeEventListener('change',motionChanged);app.stop();app.destroy(true,{children:true,texture:false});};
  })().catch(()=>{if(!disposed)setError(true);});return()=>{disposed=true;destroy?.();};
  },[tickets,selected,onSelect,onStation]);
  return <><div className="workshop-canvas" ref={host}/>{error&&<p role="status">Canvas unavailable. All tickets and stations remain available below.</p>}</>;

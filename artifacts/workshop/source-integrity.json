@@ -1,0 +1,21 @@
+{
+  "apps/server/review-risk.ts": "13c2d8ad0a3ffda56c1907212dc182d1a8c36d9f319eccc81d60e2aea0a0d030",
+  "apps/server/test-edit-review.ts": "e34b564a57123c6ac4adbedcd10fc28beb23f0c5c9e4cf55fd9757f64bf3c830",
+  "apps/server/ticket-service.ts": "33d7480c1f56fd28248765a66b0381ec3361d6196769f3966116aba59a511059",
+  "apps/web/public/workshop/License.txt": "56ce0eb29a36999588ea71567cf1cb3a4ff0cfe3cf50818da87e25913415b467",
+  "apps/web/public/workshop/crate_E.png": "2ab3d6014bba714b60041c1e1507776ec9067220628a5cc9d076a7b92af00414",
+  "apps/web/src/App.tsx": "cd2d300eb0aa970bef038bcc8f7eff43cca6e6e08958f4685083b60c3b546af2",
+  "apps/web/src/FileDiff.tsx": "8670d1d967086e7d18d23949927f3af454bf3cc74646f3f0a8591cf9f4dc4391",
+  "apps/web/src/TicketPanel.tsx": "0753793797bb5139d7e1f6e96410be9e7c1438b81f11a10b0fe4b83ff6a50254",
+  "apps/web/src/Vault.tsx": "fb43f98d46ec7a5dd45614001705555fbbb62644b1f7efcebb524d2c5d0842fc",
+  "apps/web/src/Workshop.tsx": "f6e883d7a9b60478dc3eca58a585fb1fd66bfdf5c7b330e577be37c33d77c274",
+  "apps/web/src/WorkshopRoom.tsx": "26b10a27104c8b2f12662b1a8fee18003a1b385792c8891c11dae08efda9fd48",
+  "apps/web/src/workshop.css": "0b92971ce070d48b0a50a9d381c9647070fe967f202ebf0565c4c2627756c55c",
+  "package-lock.json": "b878c2f00e29324e8189e593fddb3c91430899fc1e43cb4507e523f7d4e99fc9",
+  "package.json": "f1699062260ce30f8183e0a74a3fdebe59a66ea0fcc05e5b53aa295cd578f2c1",
+  "packages/shared/workshop.ts": "ef116cf4bbc2f78196ea79d39d707d8bdbddb8dbd9318995b1583c5194ac1ddc",
+  "tests/review-risk.test.ts": "249c1271b9d6784433b0af4be111eeca5b4a14ad1c4987622f8086a5714b2e66",
+  "tests/test-edit-review.test.ts": "8c52b94aafa039318d0bfa69c856a56f117676b4657d59e7e80acc13991e85e2",
+  "tests/workshop.test.ts": "28f2d47f0fb262efde970339fe04eadba222b9fefb72dff0095fe3cfae851d82",
+  "tsconfig.json": "e941dc36688d5f691d1384ef84429285a917eea1ee165e55e70d964864cf217a"
+}

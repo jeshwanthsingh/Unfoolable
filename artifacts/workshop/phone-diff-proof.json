@@ -1,0 +1,23 @@
+[
+  {
+    "args": [
+      "open",
+      "about:blank",
+      "--browser=chrome"
+    ],
+    "output": "### Browser `workshop-phone` opened with pid 52772.\n### Ran Playwright code\n```js\nawait page.goto('about:blank');\n```\n### Page\n- Page URL: about:blank\n### Snapshot\n- [Snapshot](.playwright-cli/page-2026-10-17T22-04-21-563Z.yml)\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{await page.setViewportSize({width:390,height:844});await page.goto('http://127.0.0.1:3236/');await page.evaluate(()=>sessionStorage.setItem('cc-ticket-key','aa'.repeat(32)));await page.reload();await page.getByRole('list',{name:'Recorded tickets'}).getByRole('button').first().click();await page.getByRole('region',{name:'Changed files'}).getByRole('button').first().click();await page.locator('.file-diff').scrollIntoViewIfNeeded();await page.locator('.file-diff table').waitFor({timeout:15000});if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('Phone overflow');await page.screenshot({path:'artifacts/workshop/highlighted-diff-390.png'});return {width:390,canvas:await page.locator('canvas').count(),table:await page.locator('.file-diff table').count(),overflow:false};}"
+    ],
+    "output": "### Result\n{\"width\":390,\"canvas\":0,\"table\":1,\"overflow\":false}\n### Ran Playwright code\n```js\nawait (async page=>{await page.setViewportSize({width:390,height:844});await page.goto('http://127.0.0.1:3236/');await page.evaluate(()=>sessionStorage.setItem('cc-ticket-key','aa'.repeat(32)));await page.reload();await page.getByRole('list',{name:'Recorded tickets'}).getByRole('button').first().click();await page.getByRole('region',{name:'Changed files'}).getByRole('button').first().click();await page.locator('.file-diff').scrollIntoViewIfNeeded();await page.locator('.file-diff table').waitFor({timeout:15000});if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('Phone overflow');await page.screenshot({path:'artifacts/workshop/highlighted-diff-390.png'});return {width:390,canvas:await page.locator('canvas').count(),table:await page.locator('.file-diff table').count(),overflow:false};})(page);\n```\n### Page\n- Page URL: http://127.0.0.1:3236/\n- Page Title: Command Center\n"
+  },
+  {
+    "args": [
+      "close"
+    ],
+    "output": "Browser 'workshop-phone' closed\n\n"
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "suite": {
+    "code": 0,
+    "durationSeconds": 323.669,
+    "summary": [
+      "\u2139 tests 923",
+      "\u2139 pass 923",
+      "\u2139 fail 0",
+      "\u2139 cancelled 0",
+      "\u2139 skipped 0",
+      "\u2139 duration_ms 322396.672541"
+    ]
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "focusedWorkshopTests": 8,
+  "nativeProbe": {
+    "denied": 65,
+    "readable": 0,
+    "ownedGitSQLiteWrites": true
+  },
+  "negativeControls": {
+    "FAIL": 5,
+    "INCONCLUSIVE": 7,
+    "PASS": 0,
+    "coreUnchanged": true
+  },
+  "browser": {
+    "desktop": 1440,
+    "tablet": 768,
+    "phone": 390,
+    "reducedMotion": "PASS",
+    "canvasClick": "PASS",
+    "highlightedDiff": "PASS",
+    "idleFrames": 0,
+    "simulatedVisibilityPause": "PASS",
+    "nativeVisibility": "NOT OBSERVABLE IN HEADLESS SESSION"
+  },
+  "noKeepDiscard": true,
+  "noBillingEnabled": true
+}

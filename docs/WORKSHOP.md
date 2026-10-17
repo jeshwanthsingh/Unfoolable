@@ -1,6 +1,6 @@
 # Interactive Workshop + Vault
 
-The Workshop presents the existing append-only ticket log. XState replays recorded events; no timer advances domain state. Pixi crates move only after station changes. The marker describes working, needs-you, stopped, or observed sandbox denials. Movement settles in 600 ms, then the ticker stops. Hidden tabs do not render. Below 1000px, phones/tablets never import Pixi; keyboard-accessible station and ticket buttons remain.
+The Workshop presents the existing append-only ticket log. XState replays recorded events; no timer advances domain state. Pixi crates move only after station changes. The marker describes working, needs-you, stopped, or observed sandbox denials. Movement settles in 600 ms, then the ticker stops. Pixi's synthetic stationary-pointer ticker is removed; native pointer clicks remain enabled. This is CC's only Pixi application; its shared system scheduler is also stopped at rest (automatic GPU housekeeping does not keep the page awake). Renderer resources are destroyed when the scene is replaced. Hidden tabs do not render. Below 1000px, phones/tablets never import Pixi; keyboard-accessible station and ticket buttons remain.
 
 The SVG Vault shows recorded check results, not a second verifier. Coverage/mutation is advisory with no invented passing threshold. Its door requires the server's current keepAvailable and non-stale evidence. Exact-file diff receipts and fresh passkeys remain enforced by the server. Replay cannot perform decisions.
 
@@ -19,6 +19,8 @@ The SVG Vault shows recorded check results, not a second verifier. Coverage/muta
 Art: Kenney Isometric Miniature Prototype v1.0 (2019), CC0, https://kenney.nl/assets/isometric-miniature-prototype . Only Angle/crate_E.png is used; original license retained beside it. Archive SHA256: 8f35b991d0bad7ebad586c74522a8285cd33b2ef68b78429b0c9d254d22757a5. Room geometry and worker marker are original Pixi primitives. No Munder code/assets.
 
 skipLibCheck bypasses upstream Pixi/XState declaration conflicts with exact optional properties; application code remains strict, including exactOptionalPropertyTypes. Diff viewer/Shiki are lazy-loaded on file-open. Pixi is desktop-only. These dependencies add larger lazy chunks; no remote font/CDN/paid service.
+
+New cases in existing test files are compared with native ast-grep against frozen Git objects; insertions inside existing test bodies stay RED. Missing/unsupported AST evidence fails conservatively to RED. This reuses CC's installed MIT ast-grep 0.51.0 tool; no Candidate code executes during risk classification.
 
 ## Use
 

@@ -25,3 +25,9 @@ test('modifying/deleting existing tests remains red; independent red flags still
  assert.equal(reviewRisk(clean(),['tests/test_new.py'],patch('-assert value == 1\n+assert value == 2')).color,'RED');
  assert.equal(reviewRisk({...clean(),verdict:'FAILED'},['tests/test_new.py'],patch('+assert value == 1')).color,'RED');
 });
+
+test('empty new test file is additive; header-like deletions in hunks still red',()=>{assert.equal(reviewRisk(clean(),['tests/test_new.py'],'diff --git a/tests/test_new.py b/tests/test_new.py\nnew file mode 100644\nindex 0000000..e69de29').color,'AMBER');assert.equal(reviewRisk(clean(),['tests/test_new.py'],patch('--- removed content')).color,'RED');});
+
+test('a test-named file in CI cannot evade the independent CI red rule',()=>assert.equal(reviewRisk(clean(),['.github/workflows/test_ci.py'],patch('+assert True').replaceAll('tests/test_new.py','.github/workflows/test_ci.py')).color,'RED'));
+
+test('AST-detected insertion into an existing test remains red even without deleted lines',()=>assert.equal(reviewRisk(clean(),['tests/test_new.py'],patch('+  return'),undefined,{'tests/test_new.py':false}).color,'RED'));
