@@ -19,3 +19,5 @@
 .ticket-events time, .ticket-columns time { font-size: 12px; }
 @media (max-width: 700px) { .ticket-columns { grid-template-columns: 1fr; } }
 @media (min-width: 1001px) { .command-shell.ticket-shell { grid-template-columns: 210px minmax(0, 1fr); } }
+
+.review-risk{border-left:4px solid;padding:.75rem 1rem;background:var(--surface-elevated,#20232a)}.review-risk small{display:block;margin-top:.35rem}.review-risk-green{border-color:#66c598}.review-risk-amber{border-color:#e8ba64}.review-risk-red{border-color:#ee8d89}

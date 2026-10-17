@@ -1,0 +1,2 @@
+import type {ReviewRisk} from '../../../packages/shared/review-risk.ts';
+export function ReviewRiskBadge({risk}:{risk?:ReviewRisk|undefined}){if(!risk)return null;return <p className={'review-risk review-risk-'+risk.color.toLowerCase()} role={risk.color==='RED'?'alert':'status'}><strong>{risk.color}</strong> · {risk.reason} <small>{risk.changedLines} changed lines · {risk.files} files</small></p>;}
