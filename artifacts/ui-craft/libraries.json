@@ -1,0 +1,17 @@
+[
+  {
+    "name": "@react-three/fiber",
+    "version": "9.8.2",
+    "license": "MIT"
+  },
+  {
+    "name": "three",
+    "version": "0.186.1",
+    "license": "MIT"
+  },
+  {
+    "name": "@types/three",
+    "version": "0.186.0",
+    "license": "MIT"
+  }
+]

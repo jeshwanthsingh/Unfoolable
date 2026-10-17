@@ -20,6 +20,7 @@
     "@git-diff-view/core": "0.1.8",
     "@git-diff-view/react": "0.1.8",
     "@git-diff-view/shiki": "0.1.8",
+    "@react-three/fiber": "9.8.2",
     "@simplewebauthn/browser": "13.3.0",
     "@simplewebauthn/server": "13.3.3",
     "motion": "14.3.0",
@@ -27,12 +28,14 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "shiki": "4.5.0",
+    "three": "0.186.1",
     "xstate": "5.33.3"
   },
   "devDependencies": {
     "@types/node": "24.19.1",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "@types/three": "0.186.0",
     "@vitejs/plugin-react": "6.1.2",
     "typescript": "7.0.2",
     "vite": "8.3.2"
