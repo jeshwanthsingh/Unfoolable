@@ -1,0 +1,55 @@
+{
+  "installed": [
+    {
+      "repo": "anthropics/skills",
+      "ref": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "path": "skills/frontend-design",
+      "name": "anthropic-frontend-design",
+      "license": "Apache-2.0",
+      "skillSHA256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
+    },
+    {
+      "repo": "anthropics/skills",
+      "ref": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "path": "skills/webapp-testing",
+      "name": "webapp-testing",
+      "license": "Apache-2.0",
+      "skillSHA256": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2"
+    },
+    {
+      "repo": "pbakaus/impeccable",
+      "ref": "08d5b470495d242ca0470f4aeae1956c3a074f83",
+      "path": ".agents/skills/impeccable",
+      "name": "impeccable",
+      "license": "Apache-2.0",
+      "skillSHA256": "5fb0d412928c03e62d2536adfd878ad6aad6f9ce343956aa4f7164da06da3459"
+    },
+    {
+      "repo": "Leonxlnx/taste-skill",
+      "ref": "f624f37a8c650b9cc550253104925efe4c8de246",
+      "path": "skills/taste-skill",
+      "name": "taste-skill",
+      "license": "MIT",
+      "skillSHA256": "ee847084e58f5a81a46120912be9cd15f083570a6ca8f3d1a30372a720633043"
+    },
+    {
+      "repo": "ibelick/ui-skills",
+      "ref": "747a47fdb6b405e5cbf268f7c410123930455157",
+      "path": "skills/baseline-ui",
+      "name": "ui-skills-reviewer",
+      "license": "MIT",
+      "skillSHA256": "fea3322f36d58fdafafce2aef56e4556dd2ac7b20876b7dff7d8be7f25fa597f"
+    }
+  ],
+  "missing": {
+    "repo": "openai/skills",
+    "commit": "49f948faa9258a0c61caceaf225e179651397431",
+    "requested": "frontend-skill",
+    "reason": "No matching skill in official recursive tree; no substitute installed"
+  },
+  "notes": [
+    "Impeccable context launcher not executable; read existing context directly.",
+    "Taste current scope excludes app screens; applied its critique guidance as requested, not marketing layouts.",
+    "Existing React/CSS primitives and user-defined directions override skill defaults for Tailwind, fonts, and randomized design selection."
+  ]
+}
