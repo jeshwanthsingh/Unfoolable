@@ -1,0 +1,488 @@
+[
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 1440,
+      "height": 1000
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 1440, height: 1000 });\n```\n### Page\n- Page URL: about:blank"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:3237/?craft=instrument"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:3237/?craft=instrument');\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-18-256Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "text": "Full original request"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for Full original request\n### Ran Playwright code\n```js\nawait page.getByText(\"Full original request\").first().waitFor({ state: 'visible' });\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-19-066Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 1
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 1 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 1 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-20-085Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error('Overflow');const keep=Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Keep');if(!keep?.disabled)throw Error('Historical Keep unlocked');return {direction:'instrument',width:1440,canvas:document.querySelectorAll('canvas').length};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"instrument\",\n  \"width\": 1440,\n  \"canvas\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error(\\'Overflow\\');const keep=Array.from(document.querySelectorAll(\\'button\\')).find(b=>b.textContent===\\'Keep\\');if(!keep?.disabled)throw Error(\\'Historical Keep unlocked\\');return {direction:\\'instrument\\',width:1440,canvas:document.querySelectorAll(\\'canvas\\').length};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_take_screenshot",
+    "args": {
+      "scale": "css",
+      "type": "png",
+      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/ui-craft/mcp-motion/before/instrument-1440.png"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n- [Screenshot of viewport](artifacts/ui-craft/mcp-motion/before/instrument-1440.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as artifacts/ui-craft/mcp-motion/before/instrument-1440.png\nawait page.screenshot({\n  path: 'artifacts/ui-craft/mcp-motion/before/instrument-1440.png',\n  scale: 'css',\n  type: 'png'\n});\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 390,
+      "height": 844
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 390, height: 844 });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:3237/?craft=instrument"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:3237/?craft=instrument');\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-20-743Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "text": "Full original request"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for Full original request\n### Ran Playwright code\n```js\nawait page.getByText(\"Full original request\").first().waitFor({ state: 'visible' });\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-21-554Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 1
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 1 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 1 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-22-580Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error('Overflow');const keep=Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Keep');if(!keep?.disabled)throw Error('Historical Keep unlocked');return {direction:'instrument',width:390,canvas:document.querySelectorAll('canvas').length};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"instrument\",\n  \"width\": 390,\n  \"canvas\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error(\\'Overflow\\');const keep=Array.from(document.querySelectorAll(\\'button\\')).find(b=>b.textContent===\\'Keep\\');if(!keep?.disabled)throw Error(\\'Historical Keep unlocked\\');return {direction:\\'instrument\\',width:390,canvas:document.querySelectorAll(\\'canvas\\').length};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_take_screenshot",
+    "args": {
+      "scale": "css",
+      "type": "png",
+      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/ui-craft/mcp-motion/before/instrument-390.png"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n- [Screenshot of viewport](artifacts/ui-craft/mcp-motion/before/instrument-390.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as artifacts/ui-craft/mcp-motion/before/instrument-390.png\nawait page.screenshot({\n  path: 'artifacts/ui-craft/mcp-motion/before/instrument-390.png',\n  scale: 'css',\n  type: 'png'\n});\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 1440,
+      "height": 1000
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 1440, height: 1000 });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:3237/?craft=glass"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:3237/?craft=glass');\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-23-273Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "text": "Full original request"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for Full original request\n### Ran Playwright code\n```js\nawait page.getByText(\"Full original request\").first().waitFor({ state: 'visible' });\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-24-071Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 1
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 1 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 1 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-25-083Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error('Overflow');const keep=Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Keep');if(!keep?.disabled)throw Error('Historical Keep unlocked');return {direction:'glass',width:1440,canvas:document.querySelectorAll('canvas').length};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"glass\",\n  \"width\": 1440,\n  \"canvas\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error(\\'Overflow\\');const keep=Array.from(document.querySelectorAll(\\'button\\')).find(b=>b.textContent===\\'Keep\\');if(!keep?.disabled)throw Error(\\'Historical Keep unlocked\\');return {direction:\\'glass\\',width:1440,canvas:document.querySelectorAll(\\'canvas\\').length};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_take_screenshot",
+    "args": {
+      "scale": "css",
+      "type": "png",
+      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/ui-craft/mcp-motion/before/glass-1440.png"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n- [Screenshot of viewport](artifacts/ui-craft/mcp-motion/before/glass-1440.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as artifacts/ui-craft/mcp-motion/before/glass-1440.png\nawait page.screenshot({\n  path: 'artifacts/ui-craft/mcp-motion/before/glass-1440.png',\n  scale: 'css',\n  type: 'png'\n});\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 390,
+      "height": 844
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 390, height: 844 });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:3237/?craft=glass"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:3237/?craft=glass');\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-25-738Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "text": "Full original request"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for Full original request\n### Ran Playwright code\n```js\nawait page.getByText(\"Full original request\").first().waitFor({ state: 'visible' });\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-26-546Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 1
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 1 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 1 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-27-557Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error('Overflow');const keep=Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Keep');if(!keep?.disabled)throw Error('Historical Keep unlocked');return {direction:'glass',width:390,canvas:document.querySelectorAll('canvas').length};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"glass\",\n  \"width\": 390,\n  \"canvas\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error(\\'Overflow\\');const keep=Array.from(document.querySelectorAll(\\'button\\')).find(b=>b.textContent===\\'Keep\\');if(!keep?.disabled)throw Error(\\'Historical Keep unlocked\\');return {direction:\\'glass\\',width:390,canvas:document.querySelectorAll(\\'canvas\\').length};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_take_screenshot",
+    "args": {
+      "scale": "css",
+      "type": "png",
+      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/ui-craft/mcp-motion/before/glass-390.png"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n- [Screenshot of viewport](artifacts/ui-craft/mcp-motion/before/glass-390.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as artifacts/ui-craft/mcp-motion/before/glass-390.png\nawait page.screenshot({\n  path: 'artifacts/ui-craft/mcp-motion/before/glass-390.png',\n  scale: 'css',\n  type: 'png'\n});\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 1440,
+      "height": 1000
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 1440, height: 1000 });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:3237/?craft=night"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:3237/?craft=night');\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=night\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-28-180Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "text": "Full original request"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for Full original request\n### Ran Playwright code\n```js\nawait page.getByText(\"Full original request\").first().waitFor({ state: 'visible' });\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=night\n- Page Title: Command Center\n- Console: 0 errors, 1 warnings\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-29-008Z.yml)\n### Events\n- New console entries: artifacts/ui-craft/mcp-motion/before/console-2026-10-17T22-42-28-140Z.log#L1"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 1
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 1 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 1 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=night\n- Page Title: Command Center\n- Console: 0 errors, 1 warnings\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-30-019Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error('Overflow');const keep=Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Keep');if(!keep?.disabled)throw Error('Historical Keep unlocked');return {direction:'night',width:1440,canvas:document.querySelectorAll('canvas').length};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"night\",\n  \"width\": 1440,\n  \"canvas\": 1\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error(\\'Overflow\\');const keep=Array.from(document.querySelectorAll(\\'button\\')).find(b=>b.textContent===\\'Keep\\');if(!keep?.disabled)throw Error(\\'Historical Keep unlocked\\');return {direction:\\'night\\',width:1440,canvas:document.querySelectorAll(\\'canvas\\').length};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_take_screenshot",
+    "args": {
+      "scale": "css",
+      "type": "png",
+      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/ui-craft/mcp-motion/before/night-1440.png"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n- [Screenshot of viewport](artifacts/ui-craft/mcp-motion/before/night-1440.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as artifacts/ui-craft/mcp-motion/before/night-1440.png\nawait page.screenshot({\n  path: 'artifacts/ui-craft/mcp-motion/before/night-1440.png',\n  scale: 'css',\n  type: 'png'\n});\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 390,
+      "height": 844
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 390, height: 844 });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:3237/?craft=night"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:3237/?craft=night');\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=night\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-30-681Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "text": "Full original request"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for Full original request\n### Ran Playwright code\n```js\nawait page.getByText(\"Full original request\").first().waitFor({ state: 'visible' });\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=night\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-31-490Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 1
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 1 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 1 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=night\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/before/page-2026-10-17T22-42-32-505Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error('Overflow');const keep=Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Keep');if(!keep?.disabled)throw Error('Historical Keep unlocked');return {direction:'night',width:390,canvas:document.querySelectorAll('canvas').length};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"night\",\n  \"width\": 390,\n  \"canvas\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error(\\'Overflow\\');const keep=Array.from(document.querySelectorAll(\\'button\\')).find(b=>b.textContent===\\'Keep\\');if(!keep?.disabled)throw Error(\\'Historical Keep unlocked\\');return {direction:\\'night\\',width:390,canvas:document.querySelectorAll(\\'canvas\\').length};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_take_screenshot",
+    "args": {
+      "scale": "css",
+      "type": "png",
+      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/ui-craft/mcp-motion/before/night-390.png"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n- [Screenshot of viewport](artifacts/ui-craft/mcp-motion/before/night-390.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as artifacts/ui-craft/mcp-motion/before/night-390.png\nawait page.screenshot({\n  path: 'artifacts/ui-craft/mcp-motion/before/night-390.png',\n  scale: 'css',\n  type: 'png'\n});\n```"
+      }
+    ]
+  }
+]

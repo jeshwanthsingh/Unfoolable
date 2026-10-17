@@ -1,3 +1,4 @@
+import {stationSpring,stationTravelMs} from './workshop-motion.ts';
 import {useEffect,useRef,useState} from 'react';
 import {stations,type WorkshopTicket} from '../../../packages/shared/workshop.ts';
 // Pixi is dynamically imported only on wide screens. No ticker remains active at rest.
@@ -27,10 +28,10 @@ export function WorkshopRoom({tickets,selected,onSelect,onStation}:{tickets:{tit
   });
   const active=tickets.find(t=>['working','blocked'].includes(t.state.agent))??tickets.find(t=>t.state.id===selected)??tickets.find(t=>t.state.agent==='needs you');
   if(active){const [x,y]=positions[active.state.station]!,bot=new Graphics().roundRect(x+64,y-52,25,25,7).fill(active.state.agent==='blocked'?0xb97c51:0x9caeaa).stroke({color:brass,width:2}).circle(x+71,y-42,2).circle(x+82,y-42,2).fill(0x1a2021);app.stage.addChild(bot);if(active.state.agent==='needs you')app.stage.addChild(new Graphics().roundRect(x-48,y-103,96,24,7).fill(0x454331).stroke({color:brass,width:1}));label(active.state.agent+(active.state.blocked?' · '+active.state.blocked+' blocked':''),x,y-88,12,0xddd0b3);}
-  const motionQuery=matchMedia('(prefers-reduced-motion: reduce)'),reduced=motionQuery.matches;let started=performance.now();
-  const render=()=>{const t=motionQuery.matches?1:Math.min(1,(performance.now()-started)/600);for(const m of moves)m.sprite.position.set(m.from.x+(m.to.x-m.from.x)*t,m.from.y+(m.to.y-m.from.y)*t);app.renderer.render(app.stage);if(t>=1){app.ticker.stop();Ticker.system.stop();}};
+  const motionQuery=matchMedia('(prefers-reduced-motion: reduce)'),reduced=motionQuery.matches;let started=performance.now();const trajectory=stationSpring();
+  const render=()=>{const sample=trajectory.next(performance.now()-started),t=motionQuery.matches?1:sample.value;for(const m of moves)m.sprite.position.set(m.from.x+(m.to.x-m.from.x)*t,m.from.y+(m.to.y-m.from.y)*t);app.renderer.render(app.stage);if(motionQuery.matches||sample.done){app.ticker.stop();Ticker.system.stop();}};
   app.ticker.add(render);render();if(!document.hidden&&!reduced&&moves.some(m=>m.from.x!==m.to.x||m.from.y!==m.to.y))app.start();
-  const visibility=()=>{app.stop();Ticker.system.stop();if(!document.hidden){started=performance.now()-600;render();}};document.addEventListener('visibilitychange',visibility);const motionChanged=()=>{if(motionQuery.matches){app.stop();started=performance.now()-600;render();}};motionQuery.addEventListener('change',motionChanged);
+  const visibility=()=>{app.stop();Ticker.system.stop();if(!document.hidden){started=performance.now()-stationTravelMs;render();}};document.addEventListener('visibilitychange',visibility);const motionChanged=()=>{if(motionQuery.matches){app.stop();started=performance.now()-stationTravelMs;render();}};motionQuery.addEventListener('change',motionChanged);
   destroy=()=>{document.removeEventListener('visibilitychange',visibility);motionQuery.removeEventListener('change',motionChanged);app.stop();app.destroy(true,{children:true,texture:false});};
  })().catch(()=>{if(!disposed)setError(true);});return()=>{disposed=true;destroy?.();};
  },[tickets,selected,onSelect,onStation]);

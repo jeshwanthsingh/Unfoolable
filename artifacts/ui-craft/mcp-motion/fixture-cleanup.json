@@ -1,0 +1,23 @@
+[
+  {
+    "port": 3237,
+    "script": ".work/ui-craft/server.mjs",
+    "ownership": {
+      "pid": 21866,
+      "ppid": 21857,
+      "pgid": 21857,
+      "sid": 21857,
+      "birth": "darwin:1792276852:189446",
+      "executable": "/opt/homebrew/Cellar/node/24.8.0/bin/node",
+      "observedAt": "2026-10-17T22:49:41.158Z",
+      "exitedAt": null
+    },
+    "cleanup": {
+      "verified": true,
+      "ambiguous": false,
+      "remaining": [],
+      "terminalCount": 0,
+      "reason": null
+    }
+  }
+]

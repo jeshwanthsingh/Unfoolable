@@ -1,0 +1,10 @@
+✔ evaluator_issue escalates before any Builder correction (4392.217792ms)
+✔ mixed mandatory and optional intent cannot demote an authored obligation to ADVISORY (2357.366459ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4585.845041

@@ -25,3 +25,7 @@ Five requested skills installed globally with pinned commit and skill hashes in 
 `artifacts/ui-craft/` includes fifteen-point critique, four capture rounds (three refinement batches), the independent review, genuine historical stop/attention states, a genuinely empty running filter, final desktop/phone states, side-by-side images and 20-second replays. Browser evidence is from a read-only loopback fixture using captured real local ticket records; fixture mutations are rejected. It is not a new production service. No current ticket has real RED review risk; red-state captures show b15600b3’s recorded harness error, explicitly labelled historical rather than inventing RED risk. The replay contains no Fixer event, so none is fabricated.
 
 Idle RAF/reduced-motion checks are real browser execution; hidden lifecycle is an explicitly simulated visibility event, not a claimed native background-tab test. No screen-reader session or human aesthetic certification is claimed. Choose a direction before any production rollout.
+
+## MCP and motion addendum
+
+See `artifacts/ui-craft/mcp-motion/REVIEW.md` for the actual Playwright MCP six-view loops, pinned Emil motion skills, native reduced-motion regression/fix and final checks. Earlier videos document the original UI-2 timing; the addendum captures and protocol logs document the refined motion. All three choices and the current UI remain available.

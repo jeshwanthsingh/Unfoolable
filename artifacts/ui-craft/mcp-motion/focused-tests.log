@@ -1,0 +1,28 @@
+✔ craft replay derives stations only from events and never grants an approval (297.554667ms)
+✔ craft projection deduplicates and excludes unrelated events (5.222833ms)
+✔ historical stop has no successful result implied (5.633416ms)
+✔ craft rejects incomplete provider data (2.13425ms)
+✔ recorded command and duration counts do not advance on wall-clock time (2.015ms)
+✔ gallery cannot submit a Keep or Discard and retains a live-review link (1.3315ms)
+✔ 3D scene is demand-rendered and never imported on phone (1.581417ms)
+✔ overview exposes named checks and replay cadence without pretending controls exist (5.514666ms)
+✔ station travel is a finite non-linear spring with no overshoot (4.616875ms)
+✔ station spring starts responding promptly rather than travelling linearly (0.86675ms)
+✔ a fresh interrupted trajectory can start at the current pose and reaches its target (0.532875ms)
+✔ reduced-motion store tracks native preference changes and unsubscribes (32.088667ms)
+✔ station movement uses real state events only, not prose or time (71.556167ms)
+✔ unknown history never invents a running ticket; duplicate events dedupe (9.876125ms)
+✔ stopped checking has no perpetually turning locks (1.468375ms)
+✔ locks reflect actual groups and door additionally requires current server permission (1.950125ms)
+✔ real blocked commands count once, retry resets, waiting is never busy (1.783959ms)
+✔ replay is ordered and future or unrelated prose cannot open the vault (4.217833ms)
+✔ overall failure does not invent per-group results; real gate failure closes only that lock (4.154958ms)
+✔ group starts are never invented and terminal decisions stay decided (1.445958ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3088.522958

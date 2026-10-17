@@ -1,3 +1,4 @@
+import {stationSpring} from '../workshop-motion.ts';
 import {Canvas,useFrame,useThree} from '@react-three/fiber';
 import {useEffect,useRef,useMemo} from 'react';
 import {Group,Vector3,PCFShadowMap} from 'three';
@@ -5,9 +6,9 @@ import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js'
 const benches=[[-3.2,0,-1.7],[-.4,0,-1.7],[2.7,0,-1.7],[2.7,0,1.4],[-2.7,0,1.4]] as const;
 function Box({position,size,color}:{position:[number,number,number];size:[number,number,number];color:string}){const geometry=useMemo(()=>new RoundedBoxGeometry(...size,2,.025),[size[0],size[1],size[2]]);useEffect(()=>()=>geometry.dispose(),[geometry]);return <mesh position={position} castShadow receiveShadow><primitive object={geometry} attach="geometry"/><meshStandardMaterial color={color} roughness={.65}/></mesh>;}
 function Robot({station,reduced}:{station:number;reduced:boolean}){
- const ref=useRef<Group>(null),target=useRef(new Vector3()),velocity=useRef(new Vector3()),invalidate=useThree(s=>s.invalidate);
- useEffect(()=>{const b=benches[station]??benches[0]!;target.current.set(b[0],.75,b[2]+.8);if(reduced&&ref.current)ref.current.position.copy(target.current);invalidate();},[station,reduced,invalidate]);
- useFrame((_,delta)=>{if(!ref.current)return;const p=ref.current.position,dt=Math.min(delta,.035);if(reduced){p.copy(target.current);return;}const force=target.current.clone().sub(p).multiplyScalar(65).addScaledVector(velocity.current,-16);velocity.current.addScaledVector(force,dt);p.addScaledVector(velocity.current,dt);if(p.distanceTo(target.current)>.002||velocity.current.length()>.002)invalidate();else{p.copy(target.current);velocity.current.set(0,0,0);}});
+ const ref=useRef<Group>(null),target=useRef(new Vector3()),from=useRef(new Vector3()),trajectory=useRef(stationSpring()),started=useRef(0),invalidate=useThree(s=>s.invalidate);
+ useEffect(()=>{const b=benches[station]??benches[0]!;target.current.set(b[0],.75,b[2]+.8);if(ref.current)from.current.copy(ref.current.position);trajectory.current=stationSpring();started.current=performance.now();if(reduced&&ref.current)ref.current.position.copy(target.current);invalidate();},[station,reduced,invalidate]);
+ useFrame(()=>{if(!ref.current)return;const p=ref.current.position;if(reduced){p.copy(target.current);return;}const sample=trajectory.current.next(performance.now()-started.current);p.lerpVectors(from.current,target.current,sample.value);if(!sample.done)invalidate();else p.copy(target.current);});
  return <group ref={ref} position={[-3.2,.75,-.9]}><Box position={[0,0,0]} size={[.34,.44,.26]} color="#b9b7ac"/><Box position={[0,.34,0]} size={[.42,.3,.3]} color="#d4d0bd"/><Box position={[0,.35,.16]} size={[.29,.08,.02]} color="#272e33"/>{[-.09,.09].map(x=><mesh key={x} position={[x,.35,.18]}><sphereGeometry args={[.025,8,8]}/><meshBasicMaterial color="#f0c990"/></mesh>)}<Box position={[-.11,-.3,0]} size={[.12,.17,.18]} color="#424844"/><Box position={[.11,-.3,0]} size={[.12,.17,.18]} color="#424844"/></group>;
 }
 export default function NightRoom({station,reduced,visible,onSelect}:{station:number;reduced:boolean;visible:boolean;onSelect:()=>void}){

@@ -1,0 +1,12 @@
+{
+  "code": 1,
+  "durationSeconds": 1042.47,
+  "summary": [
+    "\u2139 tests 935",
+    "\u2139 pass 900",
+    "\u2139 fail 35",
+    "\u2139 cancelled 0",
+    "\u2139 skipped 0",
+    "\u2139 duration_ms 1041939.510291"
+  ]
+}

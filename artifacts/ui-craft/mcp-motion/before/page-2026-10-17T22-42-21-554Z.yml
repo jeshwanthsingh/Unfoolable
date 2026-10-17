@@ -1,0 +1,108 @@
+- generic [ref=f1e4]:
+  - link "Skip to ticket" [ref=f1e5] [cursor=pointer]:
+    - /url: "#craft-main"
+  - banner [ref=f1e6]:
+    - link "Command Center" [ref=f1e7] [cursor=pointer]:
+      - /url: /
+    - navigation "Design directions" [ref=f1e12]:
+      - link "Instrument" [ref=f1e13] [cursor=pointer]:
+        - /url: /?craft=instrument&ticket=b15600b3-6803-4ae8-b6ac-d6d8948b78bc
+        - generic [ref=f1e14]: A
+      - link "Glass Studio" [ref=f1e15] [cursor=pointer]:
+        - /url: /?craft=glass&ticket=b15600b3-6803-4ae8-b6ac-d6d8948b78bc
+        - generic [ref=f1e16]: B
+      - link "Night Workshop" [ref=f1e17] [cursor=pointer]:
+        - /url: /?craft=night&ticket=b15600b3-6803-4ae8-b6ac-d6d8948b78bc
+        - generic [ref=f1e18]: C
+  - generic [ref=f1e19]:
+    - complementary [ref=f1e20]:
+      - list "Ticket histories" [ref=f1e21]:
+        - listitem [ref=f1e22]:
+          - 'button "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registration behavior unchanged. Add a unittest checking that phrase in the source add help output. Ready for your review" [ref=f1e23] [cursor=pointer]':
+            - strong [ref=f1e24]: "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registration behavior unchanged. Add a unittest checking that phrase in the source add help output."
+            - generic [ref=f1e25]: Ready for your review
+        - listitem [ref=f1e26]:
+          - 'button "Using committed HEAD in an isolated worktree, add this exact epilog to the top-level research --help output: \"Changes stay local until you choose to share them.\" Preserve existing commands and arguments. Add a focused unittest confirming help exits 0 and contains that text without loading config, using network, or writing state. Run the focused test and the existing unittest suite. Leave the source working tree unchanged. Done means: Top-level research --help includes the exact epilog and existing commands and arguments remain unchanged. A focused unittest verifies exit code 0, the epilog text, and no config loading, network use, or state writes. The focused test and existing unittest suite pass. Work is based on committed HEAD in an isolated worktree, with the source working tree unchanged. Ready for your review" [ref=f1e27] [cursor=pointer]':
+            - strong [ref=f1e28]: "Using committed HEAD in an isolated worktree, add this exact epilog to the top-level research --help output: \"Changes stay local until you choose to share them.\" Preserve existing commands and arguments. Add a focused unittest confirming help exits 0 and contains that text without loading config, using network, or writing state. Run the focused test and the existing unittest suite. Leave the source working tree unchanged. Done means: Top-level research --help includes the exact epilog and existing commands and arguments remain unchanged. A focused unittest verifies exit code 0, the epilog text, and no config loading, network use, or state writes. The focused test and existing unittest suite pass. Work is based on committed HEAD in an isolated worktree, with the source working tree unchanged."
+            - generic [ref=f1e29]: Ready for your review
+        - listitem [ref=f1e30]:
+          - 'button "Update top-level research --help with the concise description \"Local research sources and topic workflows.\" Add a focused unittest proving --help exits 0 without configuration, network access, or state writes. Preserve existing arguments, commands, and exit behavior. Run the focused test and full unittest suite. Work only from committed HEAD in an isolated worktree; do not modify the source repository or its uncommitted work. Done means: Top-level research --help displays the exact requested description. A focused unittest verifies exit code 0 without configuration, network access, or state writes. The focused test and full unittest suite pass. Existing arguments, commands, and exit behavior remain unchanged. Changes are confined to an isolated worktree based on committed HEAD, leaving the source repository and its uncommitted work untouched. kept" [ref=f1e31] [cursor=pointer]':
+            - strong [ref=f1e32]: "Update top-level research --help with the concise description \"Local research sources and topic workflows.\" Add a focused unittest proving --help exits 0 without configuration, network access, or state writes. Preserve existing arguments, commands, and exit behavior. Run the focused test and full unittest suite. Work only from committed HEAD in an isolated worktree; do not modify the source repository or its uncommitted work. Done means: Top-level research --help displays the exact requested description. A focused unittest verifies exit code 0 without configuration, network access, or state writes. The focused test and full unittest suite pass. Existing arguments, commands, and exit behavior remain unchanged. Changes are confined to an isolated worktree based on committed HEAD, leaving the source repository and its uncommitted work untouched."
+            - generic [ref=f1e33]: kept
+        - listitem [ref=f1e34]:
+          - 'button "Add a top-level `research --version` option that prints the package version and exits successfully without requiring configuration, network access, or state files. Add focused tests and preserve existing commands. Done means: `research --version` prints the package version and exits with status 0 without configuration, network access, or state files. Focused tests cover this behavior, and existing commands retain their behavior. Ready for your review" [ref=f1e35] [cursor=pointer]':
+            - strong [ref=f1e36]: "Add a top-level `research --version` option that prints the package version and exits successfully without requiring configuration, network access, or state files. Add focused tests and preserve existing commands. Done means: `research --version` prints the package version and exits with status 0 without configuration, network access, or state files. Focused tests cover this behavior, and existing commands retain their behavior."
+            - generic [ref=f1e37]: Ready for your review
+        - listitem [ref=f1e38]:
+          - button "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiving additions. kept" [ref=f1e39] [cursor=pointer]:
+            - strong [ref=f1e40]: Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiving additions.
+            - generic [ref=f1e41]: kept
+        - listitem [ref=f1e42]:
+          - button "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing the tracker or archiving additions. Keep valid merges working. Test using copies of the script and synthetic Markdown under .cc-runtime/tmp because paths are anchored to import.meta.url. Do not run operational scripts against personal data or proof-lab. discarded" [ref=f1e43] [cursor=pointer]:
+            - strong [ref=f1e44]: Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing the tracker or archiving additions. Keep valid merges working. Test using copies of the script and synthetic Markdown under .cc-runtime/tmp because paths are anchored to import.meta.url. Do not run operational scripts against personal data or proof-lab.
+            - generic [ref=f1e45]: discarded
+        - listitem [ref=f1e46]:
+          - button "Reject oversized --since durations in the research-router CLI with a useful argument error instead of raising OverflowError. Keep normal supported duration filters working. Add a focused regression test. Do not perform network operations. kept" [ref=f1e47] [cursor=pointer]:
+            - strong [ref=f1e48]: Reject oversized --since durations in the research-router CLI with a useful argument error instead of raising OverflowError. Keep normal supported duration filters working. Add a focused regression test. Do not perform network operations.
+            - generic [ref=f1e49]: kept
+    - main [ref=f1e50]:
+      - generic [ref=f1e51]:
+        - generic [ref=f1e52]:
+          - text: Instrument
+          - paragraph [ref=f1e53]: Recorded history · read only
+        - status [ref=f1e54]:
+          - generic [ref=f1e56]: Ready for your review
+      - group "Ticket presentation" [ref=f1e57]:
+        - button "Overview" [pressed] [ref=f1e58] [cursor=pointer]
+        - button "Vault & decision" [ref=f1e59] [cursor=pointer]
+      - generic [ref=f1e60]:
+        - generic [ref=f1e61]:
+          - 'img "Historical Vault locked. Protected tests: Passed. Quality gates: Not checked. Test-tampering: Passed. Independent test: Passed. Coverage & mutation: Not checked. Replay cannot authorize Keep." [ref=f1e62]':
+            - generic [ref=f1e63]:
+              - generic [ref=f1e123]:
+                - generic [ref=f1e125]: Tests
+                - generic [ref=f1e126]: Passed
+              - generic [ref=f1e127]:
+                - generic [ref=f1e129]: Gates
+                - generic [ref=f1e130]: Not checked
+              - generic [ref=f1e131]:
+                - generic [ref=f1e133]: Integrity
+                - generic [ref=f1e134]: Passed
+              - generic [ref=f1e135]:
+                - generic [ref=f1e137]: Writer
+                - generic [ref=f1e138]: Passed
+              - generic [ref=f1e139]:
+                - generic [ref=f1e141]: Coverage
+                - generic [ref=f1e142]: Not checked
+              - generic [ref=f1e149]: Evidence under lock
+          - paragraph [ref=f1e150]: 3 of 5 groups have passing evidence
+        - generic [ref=f1e151]:
+          - paragraph [ref=f1e152]: Ticket b15600b3
+          - 'heading "Improve research source add --help: describe --title as \"Override the source title\"." [level=1] [ref=f1e153]'
+          - group [ref=f1e154]:
+            - generic "Full original request" [ref=f1e155] [cursor=pointer]
+          - paragraph [ref=f1e156]: PASSED WITH GAPS
+          - generic [ref=f1e157]:
+            - generic [ref=f1e158]:
+              - strong [ref=f1e159]: Your decision stays yours.
+              - paragraph [ref=f1e160]: Historical replay. Live review still requires current evidence and Touch ID.
+            - generic [ref=f1e161]:
+              - button "Discard" [disabled] [ref=f1e162]
+              - button "Keep" [disabled] [ref=f1e163]
+            - link "Open live review" [ref=f1e164] [cursor=pointer]:
+              - /url: /?ticket=b15600b3-6803-4ae8-b6ac-d6d8948b78bc
+      - generic [ref=f1e165]:
+        - generic [ref=f1e166]:
+          - strong [ref=f1e167]: Accelerated replay · 1 event per second
+          - generic [ref=f1e168]: Event 19 of 19 · 10/17/2026, 2:17:28 PM
+        - button "Replay ticket" [ref=f1e169] [cursor=pointer]
+        - button "Latest" [ref=f1e170] [cursor=pointer]
+        - button "Needs you" [ref=f1e171] [cursor=pointer]
+        - button "Recorded stop" [ref=f1e172] [cursor=pointer]
+        - button "Sound off" [ref=f1e173] [cursor=pointer]
+      - generic [ref=f1e174]:
+        - generic [ref=f1e175]: Recorded event
+        - slider "Recorded event" [ref=f1e176] [cursor=pointer]: "18"
+      - group [ref=f1e177]:
+        - generic "Inspect recorded evidence" [ref=f1e178] [cursor=pointer]
+  - contentinfo [ref=f1e179]: Three directions. The same recorded work. No live actions in this gallery.

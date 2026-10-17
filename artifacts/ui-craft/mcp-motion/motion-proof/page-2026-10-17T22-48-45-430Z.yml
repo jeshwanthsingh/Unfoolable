@@ -1,0 +1,920 @@
+- generic [ref=f3e3]:
+  - link "Skip to workspace" [ref=f3e4] [cursor=pointer]:
+    - /url: "#workspace"
+  - complementary [ref=f3e5]:
+    - generic [ref=f3e7]:
+      - heading "Command Center" [level=1] [ref=f3e8]
+      - generic [ref=f3e9]: LOCAL ENGINEERING WORKSHOP
+    - navigation "Workspace navigation" [ref=f3e10]:
+      - button "Jarvis chat" [ref=f3e11] [cursor=pointer]
+      - button "Tickets" [ref=f3e12] [cursor=pointer]
+      - button "Workbench" [ref=f3e13] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f3e14]: ⌘
+        - text: Workbench
+      - button "Projects" [ref=f3e15] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f3e16]: ▱
+        - text: Projects
+      - button "Current Mission · Experimental" [disabled] [ref=f3e17]:
+        - generic [aria-hidden] [ref=f3e18]: ◇
+        - text: Current Mission · Experimental
+      - button "Verify a Candidate" [ref=f3e19] [cursor=pointer]
+    - group [ref=f3e20]:
+      - generic "Local system status" [ref=f3e21] [cursor=pointer]
+    - paragraph [ref=f3e22]: ON THIS MACHINEv0.0.1 · Tickets
+  - main "Workspace" [ref=f3e23]:
+    - generic [ref=f3e24]:
+      - generic [ref=f3e25]: CC / JARVIS
+      - generic [ref=f3e26]: LOCAL FIRST
+    - generic [ref=f3e29]:
+      - region "Engineering Workshop" [ref=f3e30]:
+        - generic [ref=f3e31]:
+          - text: ON THIS MACHINE / WORKSHOP
+          - heading "A place for the work." [level=2] [ref=f3e32]
+          - paragraph [ref=f3e33]: Recorded events move the work. You decide what stays.
+        - navigation "Workshop stations" [ref=f3e35]:
+          - button "01 Inbox 0" [ref=f3e36] [cursor=pointer]:
+            - generic [ref=f3e37]: "01"
+            - text: Inbox
+            - generic [ref=f3e38]: "0"
+          - button "02 Builder bench 0" [ref=f3e39] [cursor=pointer]:
+            - generic [ref=f3e40]: "02"
+            - text: Builder bench
+            - generic [ref=f3e41]: "0"
+          - button "03 Checker vault 0" [ref=f3e42] [cursor=pointer]:
+            - generic [ref=f3e43]: "03"
+            - text: Checker vault
+            - generic [ref=f3e44]: "0"
+          - button "04 Fixer 0" [ref=f3e45] [cursor=pointer]:
+            - generic [ref=f3e46]: "04"
+            - text: Fixer
+            - generic [ref=f3e47]: "0"
+          - button "05 My desk 7" [ref=f3e205] [cursor=pointer]:
+            - generic [ref=f3e49]: "05"
+            - text: My desk
+            - generic [ref=f3e50]: "7"
+        - list "Recorded tickets" [ref=f3e206]:
+          - listitem [ref=f3e207]:
+            - 'button "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio My desk · ready for review b15600b3" [active] [ref=f3e208] [cursor=pointer]':
+              - generic [ref=f3e210]:
+                - strong [ref=f3e211]: "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio"
+                - generic [ref=f3e212]: My desk · ready for review
+              - code [ref=f3e213]: b15600b3
+          - listitem [ref=f3e214]:
+            - button "Add local-changes epilog to research --help My desk · ready for review f5fe8c34" [ref=f3e215] [cursor=pointer]:
+              - generic [ref=f3e217]:
+                - strong [ref=f3e218]: Add local-changes epilog to research --help
+                - generic [ref=f3e219]: My desk · ready for review
+              - code [ref=f3e220]: f5fe8c34
+          - listitem [ref=f3e221]:
+            - button "Improve research CLI help and add configuration-free help test My desk · kept 37b3646e" [ref=f3e222] [cursor=pointer]:
+              - generic [ref=f3e224]:
+                - strong [ref=f3e225]: Improve research CLI help and add configuration-free help test
+                - generic [ref=f3e226]: My desk · kept
+              - code [ref=f3e227]: 37b3646e
+          - listitem [ref=f3e228]:
+            - button "Add top-level research --version option My desk · ready for review e56f790f" [ref=f3e229] [cursor=pointer]:
+              - generic [ref=f3e231]:
+                - strong [ref=f3e232]: Add top-level research --version option
+                - generic [ref=f3e233]: My desk · ready for review
+              - code [ref=f3e234]: e56f790f
+          - listitem [ref=f3e235]:
+            - button "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiv My desk · kept cfaaea5b" [ref=f3e236] [cursor=pointer]:
+              - generic [ref=f3e238]:
+                - strong [ref=f3e239]: Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiv
+                - generic [ref=f3e240]: My desk · kept
+              - code [ref=f3e241]: cfaaea5b
+          - listitem [ref=f3e242]:
+            - button "Reject invalid tracker destination headers My desk · discarded b3991162" [ref=f3e243] [cursor=pointer]:
+              - generic [ref=f3e245]:
+                - strong [ref=f3e246]: Reject invalid tracker destination headers
+                - generic [ref=f3e247]: My desk · discarded
+              - code [ref=f3e248]: b3991162
+          - listitem [ref=f3e249]:
+            - button "Bound oversized since durations My desk · kept c6263195" [ref=f3e250] [cursor=pointer]:
+              - generic [ref=f3e252]:
+                - strong [ref=f3e253]: Bound oversized since durations
+                - generic [ref=f3e254]: My desk · kept
+              - code [ref=f3e255]: c6263195
+        - generic [ref=f3e52]:
+          - generic [ref=f3e53]: 7 of 7 tickets · motion settles after each event
+          - button "Replay recorded events" [ref=f3e258] [cursor=pointer]
+      - complementary "Chat and review" [ref=f3e54]:
+        - button "← Jarvis chat" [ref=f3e259] [cursor=pointer]
+        - generic [ref=f3e260]:
+          - group [ref=f3e261]:
+            - generic "Passkey protection" [ref=f3e262] [cursor=pointer]
+          - article "Ticket detail" [ref=f3e264]:
+            - 'heading "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio" [level=3] [ref=f3e265]'
+            - region "Checker vault" [ref=f3e266]:
+              - 'img "Vault locked: Keep is not available" [ref=f3e268]':
+                - 'generic "Protected tests: open — Protected checks passed; inspect listed gaps" [ref=f3e276]'
+                - 'generic "Quality gates: greyed — ruff: PASS · pyright: PASS · bandit: PASS · opengrep: PASS · gitleaks: PASS · detect-secrets: PASS · osv: NOT APPLICABLE" [ref=f3e279]'
+                - 'generic "Test-tampering: open — CLEAR" [ref=f3e282]'
+                - 'generic "Independent test: open — Advisory evidence; inspect admission details" [ref=f3e285]'
+                - 'generic "Coverage & mutation: greyed — Changed-line coverage 100.0%; mutation advisory" [ref=f3e288]'
+                - generic [ref=f3e291]: EVIDENCE UNDER LOCK
+              - generic [ref=f3e292]:
+                - text: CHECKER VAULT
+                - heading "PASSED WITH GAPS" [level=3] [ref=f3e293]
+                - paragraph [ref=f3e294]: AMBER · New tests or test cases added; inspect the diff.
+                - list [ref=f3e295]:
+                  - listitem [ref=f3e296]:
+                    - group [ref=f3e297]:
+                      - generic "Protected tests Passed" [ref=f3e298] [cursor=pointer]:
+                        - strong [ref=f3e300]: Protected tests
+                        - generic [ref=f3e301]: Passed
+                  - listitem [ref=f3e302]:
+                    - group [ref=f3e303]:
+                      - generic "Quality gates Not checked / not applicable" [ref=f3e304] [cursor=pointer]:
+                        - strong [ref=f3e306]: Quality gates
+                        - generic [ref=f3e307]: Not checked / not applicable
+                  - listitem [ref=f3e308]:
+                    - group [ref=f3e309]:
+                      - generic "Test-tampering Passed" [ref=f3e310] [cursor=pointer]:
+                        - strong [ref=f3e312]: Test-tampering
+                        - generic [ref=f3e313]: Passed
+                  - listitem [ref=f3e314]:
+                    - group [ref=f3e315]:
+                      - generic "Independent test Passed" [ref=f3e316] [cursor=pointer]:
+                        - strong [ref=f3e318]: Independent test
+                        - generic [ref=f3e319]: Passed
+                  - listitem [ref=f3e320]:
+                    - group [ref=f3e321]:
+                      - generic "Coverage & mutation Not checked / not applicable" [ref=f3e322] [cursor=pointer]:
+                        - strong [ref=f3e324]: Coverage & mutation
+                        - generic [ref=f3e325]: Not checked / not applicable
+                - paragraph [ref=f3e326]: Keep still requires current evidence, any required file review, and your passkey.
+            - paragraph [ref=f3e327]:
+              - strong [ref=f3e328]: ready_for_review
+              - text: · Attempt 1
+            - group [ref=f3e329]:
+              - generic "Request and frozen revision" [ref=f3e330] [cursor=pointer]
+            - region "Action budget" [ref=f3e331]:
+              - paragraph [ref=f3e332]: "Budget: 0/80 commands · 15 active minutes · usage unknown/100000 reported Codex tokens"
+            - region "Independent Test Writer" [ref=f3e333]:
+              - heading "Independent Test Writer" [level=4] [ref=f3e334]
+              - paragraph [ref=f3e335]: Advisory only — these tests never change the verdict.
+              - paragraph [ref=f3e336]: 1/1 focused tests admitted · Admitted checks executed all measured changed lines
+              - paragraph [ref=f3e337]: "Changed lines covered: 100.0% (1/1)"
+              - paragraph [ref=f3e338]: "Mutation score: unknown · 0/0 killed (advisory only) · Mutation generation failed:"
+              - paragraph [ref=f3e339]: "Codex cost: 12,999 reported tokens"
+              - list [ref=f3e340]:
+                - listitem [ref=f3e341]:
+                  - strong [ref=f3e342]: tests/test_cc_writer_7391b4fb_eadc_4335_9aa1_9b13d2a4bad3.py
+                  - text: · Checks successful source add help output and the --title override description; existing tests retain registration regression coverage.
+                  - paragraph [ref=f3e343]: "Admitted: assertion failure on BASE and passing checks on this Candidate."
+            - region "Watchman" [ref=f3e344]:
+              - paragraph [ref=f3e345]: "Watchman: 0 blocked tool commands · pause above 10"
+            - region "Project playbook" [ref=f3e346]:
+              - heading "Project playbook · Approved" [level=4] [ref=f3e347]
+              - paragraph [ref=f3e348]: This exact playbook is approved. Checks still require BASE admission.
+              - paragraph [ref=f3e349]: Proposal only; commands have not run. BASE admission is required before results count.
+              - generic [ref=f3e350]:
+                - term [ref=f3e351]: Diff review cap
+                - definition [ref=f3e352]: 400 changed lines / 15 files · changes require passkey approval
+                - term [ref=f3e353]: Quality gates
+                - definition [ref=f3e354]: ruff, pyright, bandit, opengrep, gitleaks, detect-secrets, osv
+                - term [ref=f3e355]: Runner
+                - definition [ref=f3e356]: unittest
+                - term [ref=f3e357]: Timeout per command
+                - definition [ref=f3e358]: 180 seconds
+                - term [ref=f3e359]: Setup
+                - definition [ref=f3e360]: None
+                - term [ref=f3e361]: Test commands
+                - definition [ref=f3e362]:
+                  - list [ref=f3e363]:
+                    - listitem [ref=f3e364]:
+                      - code [ref=f3e365]: "{\"argv\":[\"python3\",\"-m\",\"unittest\",\"discover\",\"-s\",\"tests\",\"-v\"],\"cwd\":\".\"}"
+                - term [ref=f3e366]: Environment
+                - definition [ref=f3e367]:
+                  - generic [ref=f3e368]: "{ \"BIND_ADDRESS\": \"127.0.0.1\", \"CI\": \"1\", \"HOST\": \"127.0.0.1\" }"
+                - term [ref=f3e369]: Known failing tests
+                - definition [ref=f3e370]: None
+                - term [ref=f3e371]: Known flaky tests
+                - definition [ref=f3e372]: None
+              - group [ref=f3e373]:
+                - generic "Playbook identity and definition" [ref=f3e374] [cursor=pointer]
+            - status [ref=f3e375]:
+              - strong [ref=f3e376]: AMBER
+              - text: · New tests or test cases added; inspect the diff.
+              - generic [ref=f3e377]: 9 changed lines · 2 files
+            - heading "PASSED WITH GAPS" [level=4] [ref=f3e378]
+            - paragraph [ref=f3e379]: "GAP: Existing verifier: test-writer-coverage: Test Writer is advisory only; it cannot change the verdict."
+            - paragraph [ref=f3e380]: "GAP: Project playbook checks are regression guards; new intent is not independently proved."
+            - paragraph [ref=f3e381]: "GAP: osv: not applicable — BASE check could not run cleanly: No supported dependency lockfile"
+            - generic [ref=f3e382]:
+              - generic [ref=f3e383]:
+                - term [ref=f3e384]: Submit to review
+                - definition [ref=f3e385]: 129.7 s
+              - generic [ref=f3e386]:
+                - term [ref=f3e387]: Agent work
+                - definition [ref=f3e388]: 52.7 s
+              - generic [ref=f3e389]:
+                - term [ref=f3e390]: Needs-you stops
+                - definition [ref=f3e391]: "2"
+              - generic [ref=f3e392]:
+                - term [ref=f3e393]: Fix attempts
+                - definition [ref=f3e394]: "0"
+            - status [ref=f3e395]: Open every changed file before Keep · 0/2 viewed.
+            - region "Changed files" [ref=f3e396]:
+              - button "Open · research_router/cli.py" [ref=f3e397] [cursor=pointer]
+              - button "Open · tests/test_source_add.py" [ref=f3e398] [cursor=pointer]
+            - button "Inspect diff" [ref=f3e399] [cursor=pointer]
+            - region "Review checks" [ref=f3e400]:
+              - paragraph [ref=f3e401]:
+                - strong [ref=f3e402]: Locked checks
+                - text: · Overall PASSED WITH GAPS; protected test details remain on the ticket.
+              - group [ref=f3e403]:
+                - generic [ref=f3e404] [cursor=pointer]:
+                  - strong [ref=f3e405]: Quality gates
+                  - text: · 6 pass · 0 fail · 1 not applicable
+              - group [ref=f3e406]:
+                - generic [ref=f3e407] [cursor=pointer]:
+                  - strong [ref=f3e408]: Test-tampering
+                  - text: · CLEAR
+              - paragraph [ref=f3e409]:
+                - strong [ref=f3e410]: Independent test warning
+                - text: · No warning recorded — not proof of correctness
+              - paragraph [ref=f3e411]:
+                - strong [ref=f3e412]: Mutation & coverage
+                - text: · Changed lines 100.0% · mutation not measured
+            - generic [ref=f3e413]:
+              - button "Keep candidate" [disabled] [ref=f3e414]
+              - button "Discard candidate" [ref=f3e415] [cursor=pointer]
+            - heading "Events" [level=4] [ref=f3e416]
+            - list [ref=f3e417]:
+              - listitem [ref=f3e418]:
+                - time [ref=f3e419]: 2026-10-17T19:27:54.892Z
+                - strong [ref=f3e420]: submitted
+                - group [ref=f3e421]:
+                  - generic "Event details" [ref=f3e422] [cursor=pointer]
+              - listitem [ref=f3e423]:
+                - time [ref=f3e424]: 2026-10-17T19:27:54.893Z
+                - strong [ref=f3e425]: agent_event
+                - group [ref=f3e426]:
+                  - generic "Event details" [ref=f3e427] [cursor=pointer]
+              - listitem [ref=f3e428]:
+                - time [ref=f3e429]: 2026-10-17T19:27:54.942Z
+                - strong [ref=f3e430]: state_changed
+                - group [ref=f3e431]:
+                  - generic "Event details" [ref=f3e432] [cursor=pointer]
+              - listitem [ref=f3e433]:
+                - time [ref=f3e434]: 2026-10-17T19:27:54.942Z
+                - strong [ref=f3e435]: needs_you
+                - group [ref=f3e436]:
+                  - generic "Event details" [ref=f3e437] [cursor=pointer]
+              - listitem [ref=f3e438]:
+                - time [ref=f3e439]: 2026-10-17T19:28:36.360Z
+                - strong [ref=f3e440]: retry_requested
+                - group [ref=f3e441]:
+                  - generic "Event details" [ref=f3e442] [cursor=pointer]
+              - listitem [ref=f3e443]:
+                - time [ref=f3e444]: 2026-10-17T19:28:36.360Z
+                - strong [ref=f3e445]: state_changed
+                - group [ref=f3e446]:
+                  - generic "Event details" [ref=f3e447] [cursor=pointer]
+              - listitem [ref=f3e448]:
+                - time [ref=f3e449]: 2026-10-17T19:28:42.862Z
+                - strong [ref=f3e450]: state_changed
+                - group [ref=f3e451]:
+                  - generic "Event details" [ref=f3e452] [cursor=pointer]
+              - listitem [ref=f3e453]:
+                - time [ref=f3e454]: 2026-10-17T19:28:43.104Z
+                - strong [ref=f3e455]: agent_event
+                - group [ref=f3e456]:
+                  - generic "Event details" [ref=f3e457] [cursor=pointer]
+              - listitem [ref=f3e458]:
+                - time [ref=f3e459]: 2026-10-17T19:28:43.105Z
+                - strong [ref=f3e460]: agent_event
+                - group [ref=f3e461]:
+                  - generic "Event details" [ref=f3e462] [cursor=pointer]
+              - listitem [ref=f3e463]:
+                - time [ref=f3e464]: 2026-10-17T19:28:43.106Z
+                - strong [ref=f3e465]: agent_launch_requested
+                - group [ref=f3e466]:
+                  - generic "Event details" [ref=f3e467] [cursor=pointer]
+              - listitem [ref=f3e468]:
+                - time [ref=f3e469]: 2026-10-17T19:28:43.725Z
+                - strong [ref=f3e470]: processes
+                - group [ref=f3e471]:
+                  - generic "Event details" [ref=f3e472] [cursor=pointer]
+              - listitem [ref=f3e473]:
+                - time [ref=f3e474]: 2026-10-17T19:28:43.794Z
+                - strong [ref=f3e475]: processes
+                - group [ref=f3e476]:
+                  - generic "Event details" [ref=f3e477] [cursor=pointer]
+              - listitem [ref=f3e478]:
+                - time [ref=f3e479]: 2026-10-17T19:28:48.320Z
+                - strong [ref=f3e480]: processes
+                - group [ref=f3e481]:
+                  - generic "Event details" [ref=f3e482] [cursor=pointer]
+              - listitem [ref=f3e483]:
+                - time [ref=f3e484]: 2026-10-17T19:28:49.209Z
+                - strong [ref=f3e485]: processes
+                - group [ref=f3e486]:
+                  - generic "Event details" [ref=f3e487] [cursor=pointer]
+              - listitem [ref=f3e488]:
+                - time [ref=f3e489]: 2026-10-17T19:28:49.414Z
+                - strong [ref=f3e490]: processes
+                - group [ref=f3e491]:
+                  - generic "Event details" [ref=f3e492] [cursor=pointer]
+              - listitem [ref=f3e493]:
+                - time [ref=f3e494]: 2026-10-17T19:28:49.910Z
+                - strong [ref=f3e495]: processes
+                - group [ref=f3e496]:
+                  - generic "Event details" [ref=f3e497] [cursor=pointer]
+              - listitem [ref=f3e498]:
+                - time [ref=f3e499]: 2026-10-17T19:28:50.104Z
+                - strong [ref=f3e500]: processes
+                - group [ref=f3e501]:
+                  - generic "Event details" [ref=f3e502] [cursor=pointer]
+              - listitem [ref=f3e503]:
+                - time [ref=f3e504]: 2026-10-17T19:28:50.135Z
+                - strong [ref=f3e505]: agent_started
+                - group [ref=f3e506]:
+                  - generic "Event details" [ref=f3e507] [cursor=pointer]
+              - listitem [ref=f3e508]:
+                - time [ref=f3e509]: 2026-10-17T19:28:50.135Z
+                - strong [ref=f3e510]: agent_bound
+                - group [ref=f3e511]:
+                  - generic "Event details" [ref=f3e512] [cursor=pointer]
+              - listitem [ref=f3e513]:
+                - time [ref=f3e514]: 2026-10-17T19:28:50.138Z
+                - strong [ref=f3e515]: agent_event
+                - group [ref=f3e516]:
+                  - generic "Event details" [ref=f3e517] [cursor=pointer]
+              - listitem [ref=f3e518]:
+                - time [ref=f3e519]: 2026-10-17T19:28:53.043Z
+                - strong [ref=f3e520]: processes
+                - group [ref=f3e521]:
+                  - generic "Event details" [ref=f3e522] [cursor=pointer]
+              - listitem [ref=f3e523]:
+                - time [ref=f3e524]: 2026-10-17T19:28:53.393Z
+                - strong [ref=f3e525]: agent_event
+                - group [ref=f3e526]:
+                  - generic "Event details" [ref=f3e527] [cursor=pointer]
+              - listitem [ref=f3e528]:
+                - time [ref=f3e529]: 2026-10-17T19:28:53.395Z
+                - strong [ref=f3e530]: agent_event
+                - group [ref=f3e531]:
+                  - generic "Event details" [ref=f3e532] [cursor=pointer]
+              - listitem [ref=f3e533]:
+                - time [ref=f3e534]: 2026-10-17T19:28:53.398Z
+                - strong [ref=f3e535]: agent_event
+                - group [ref=f3e536]:
+                  - generic "Event details" [ref=f3e537] [cursor=pointer]
+              - listitem [ref=f3e538]:
+                - time [ref=f3e539]: 2026-10-17T19:28:53.402Z
+                - strong [ref=f3e540]: agent_event
+                - group [ref=f3e541]:
+                  - generic "Event details" [ref=f3e542] [cursor=pointer]
+              - listitem [ref=f3e543]:
+                - time [ref=f3e544]: 2026-10-17T19:28:53.525Z
+                - strong [ref=f3e545]: processes
+                - group [ref=f3e546]:
+                  - generic "Event details" [ref=f3e547] [cursor=pointer]
+              - listitem [ref=f3e548]:
+                - time [ref=f3e549]: 2026-10-17T19:28:55.264Z
+                - strong [ref=f3e550]: agent_event
+                - group [ref=f3e551]:
+                  - generic "Event details" [ref=f3e552] [cursor=pointer]
+              - listitem [ref=f3e553]:
+                - time [ref=f3e554]: 2026-10-17T19:28:55.264Z
+                - strong [ref=f3e555]: agent_event
+                - group [ref=f3e556]:
+                  - generic "Event details" [ref=f3e557] [cursor=pointer]
+              - listitem [ref=f3e558]:
+                - time [ref=f3e559]: 2026-10-17T19:28:55.265Z
+                - strong [ref=f3e560]: agent_event
+                - group [ref=f3e561]:
+                  - generic "Event details" [ref=f3e562] [cursor=pointer]
+              - listitem [ref=f3e563]:
+                - time [ref=f3e564]: 2026-10-17T19:28:55.266Z
+                - strong [ref=f3e565]: agent_event
+                - group [ref=f3e566]:
+                  - generic "Event details" [ref=f3e567] [cursor=pointer]
+              - listitem [ref=f3e568]:
+                - time [ref=f3e569]: 2026-10-17T19:28:55.266Z
+                - strong [ref=f3e570]: agent_event
+                - group [ref=f3e571]:
+                  - generic "Event details" [ref=f3e572] [cursor=pointer]
+              - listitem [ref=f3e573]:
+                - time [ref=f3e574]: 2026-10-17T19:28:57.850Z
+                - strong [ref=f3e575]: processes
+                - group [ref=f3e576]:
+                  - generic "Event details" [ref=f3e577] [cursor=pointer]
+              - listitem [ref=f3e578]:
+                - time [ref=f3e579]: 2026-10-17T19:28:58.033Z
+                - strong [ref=f3e580]: processes
+                - group [ref=f3e581]:
+                  - generic "Event details" [ref=f3e582] [cursor=pointer]
+              - listitem [ref=f3e583]:
+                - time [ref=f3e584]: 2026-10-17T19:28:58.145Z
+                - strong [ref=f3e585]: agent_event
+                - group [ref=f3e586]:
+                  - generic "Event details" [ref=f3e587] [cursor=pointer]
+              - listitem [ref=f3e588]:
+                - time [ref=f3e589]: 2026-10-17T19:28:58.229Z
+                - strong [ref=f3e590]: processes
+                - group [ref=f3e591]:
+                  - generic "Event details" [ref=f3e592] [cursor=pointer]
+              - listitem [ref=f3e593]:
+                - time [ref=f3e594]: 2026-10-17T19:28:58.427Z
+                - strong [ref=f3e595]: processes
+                - group [ref=f3e596]:
+                  - generic "Event details" [ref=f3e597] [cursor=pointer]
+              - listitem [ref=f3e598]:
+                - time [ref=f3e599]: 2026-10-17T19:28:58.534Z
+                - strong [ref=f3e600]: agent_event
+                - group [ref=f3e601]:
+                  - generic "Event details" [ref=f3e602] [cursor=pointer]
+              - listitem [ref=f3e603]:
+                - time [ref=f3e604]: 2026-10-17T19:28:58.541Z
+                - strong [ref=f3e605]: agent_event
+                - group [ref=f3e606]:
+                  - generic "Event details" [ref=f3e607] [cursor=pointer]
+              - listitem [ref=f3e608]:
+                - time [ref=f3e609]: 2026-10-17T19:28:58.651Z
+                - strong [ref=f3e610]: processes
+                - group [ref=f3e611]:
+                  - generic "Event details" [ref=f3e612] [cursor=pointer]
+              - listitem [ref=f3e613]:
+                - time [ref=f3e614]: 2026-10-17T19:29:00.982Z
+                - strong [ref=f3e615]: processes
+                - group [ref=f3e616]:
+                  - generic "Event details" [ref=f3e617] [cursor=pointer]
+              - listitem [ref=f3e618]:
+                - time [ref=f3e619]: 2026-10-17T19:29:01.004Z
+                - strong [ref=f3e620]: agent_event
+                - group [ref=f3e621]:
+                  - generic "Event details" [ref=f3e622] [cursor=pointer]
+              - listitem [ref=f3e623]:
+                - time [ref=f3e624]: 2026-10-17T19:29:01.005Z
+                - strong [ref=f3e625]: agent_event
+                - group [ref=f3e626]:
+                  - generic "Event details" [ref=f3e627] [cursor=pointer]
+              - listitem [ref=f3e628]:
+                - time [ref=f3e629]: 2026-10-17T19:29:01.454Z
+                - strong [ref=f3e630]: processes
+                - group [ref=f3e631]:
+                  - generic "Event details" [ref=f3e632] [cursor=pointer]
+              - listitem [ref=f3e633]:
+                - time [ref=f3e634]: 2026-10-17T19:29:01.455Z
+                - strong [ref=f3e635]: agent_event
+                - group [ref=f3e636]:
+                  - generic "Event details" [ref=f3e637] [cursor=pointer]
+              - listitem [ref=f3e638]:
+                - time [ref=f3e639]: 2026-10-17T19:29:01.461Z
+                - strong [ref=f3e640]: agent_event
+                - group [ref=f3e641]:
+                  - generic "Event details" [ref=f3e642] [cursor=pointer]
+              - listitem [ref=f3e643]:
+                - time [ref=f3e644]: 2026-10-17T19:29:03.996Z
+                - strong [ref=f3e645]: agent_event
+                - group [ref=f3e646]:
+                  - generic "Event details" [ref=f3e647] [cursor=pointer]
+              - listitem [ref=f3e648]:
+                - time [ref=f3e649]: 2026-10-17T19:29:04.010Z
+                - strong [ref=f3e650]: agent_event
+                - group [ref=f3e651]:
+                  - generic "Event details" [ref=f3e652] [cursor=pointer]
+              - listitem [ref=f3e653]:
+                - time [ref=f3e654]: 2026-10-17T19:29:06.567Z
+                - strong [ref=f3e655]: processes
+                - group [ref=f3e656]:
+                  - generic "Event details" [ref=f3e657] [cursor=pointer]
+              - listitem [ref=f3e658]:
+                - time [ref=f3e659]: 2026-10-17T19:29:10.597Z
+                - strong [ref=f3e660]: processes
+                - group [ref=f3e661]:
+                  - generic "Event details" [ref=f3e662] [cursor=pointer]
+              - listitem [ref=f3e663]:
+                - time [ref=f3e664]: 2026-10-17T19:29:12.978Z
+                - strong [ref=f3e665]: processes
+                - group [ref=f3e666]:
+                  - generic "Event details" [ref=f3e667] [cursor=pointer]
+              - listitem [ref=f3e668]:
+                - time [ref=f3e669]: 2026-10-17T19:29:12.978Z
+                - strong [ref=f3e670]: processes
+                - group [ref=f3e671]:
+                  - generic "Event details" [ref=f3e672] [cursor=pointer]
+              - listitem [ref=f3e673]:
+                - time [ref=f3e674]: 2026-10-17T19:29:12.979Z
+                - strong [ref=f3e675]: agent_stopped
+                - group [ref=f3e676]:
+                  - generic "Event details" [ref=f3e677] [cursor=pointer]
+              - listitem [ref=f3e678]:
+                - time [ref=f3e679]: 2026-10-17T19:29:13.188Z
+                - strong [ref=f3e680]: candidate_frozen
+                - group [ref=f3e681]:
+                  - generic "Event details" [ref=f3e682] [cursor=pointer]
+              - listitem [ref=f3e683]:
+                - time [ref=f3e684]: 2026-10-17T19:29:13.188Z
+                - strong [ref=f3e685]: state_changed
+                - group [ref=f3e686]:
+                  - generic "Event details" [ref=f3e687] [cursor=pointer]
+              - listitem [ref=f3e688]:
+                - time [ref=f3e689]: 2026-10-17T19:29:13.189Z
+                - strong [ref=f3e690]: verification_started
+                - group [ref=f3e691]:
+                  - generic "Event details" [ref=f3e692] [cursor=pointer]
+              - listitem [ref=f3e693]:
+                - time [ref=f3e694]: 2026-10-17T19:30:04.567Z
+                - strong [ref=f3e695]: check_result
+                - group [ref=f3e696]:
+                  - generic "Event details" [ref=f3e697] [cursor=pointer]
+              - listitem [ref=f3e698]:
+                - time [ref=f3e699]: 2026-10-17T19:30:04.624Z
+                - strong [ref=f3e700]: cleanup
+                - group [ref=f3e701]:
+                  - generic "Event details" [ref=f3e702] [cursor=pointer]
+              - listitem [ref=f3e703]:
+                - time [ref=f3e704]: 2026-10-17T19:30:04.624Z
+                - strong [ref=f3e705]: state_changed
+                - group [ref=f3e706]:
+                  - generic "Event details" [ref=f3e707] [cursor=pointer]
+              - listitem [ref=f3e708]:
+                - time [ref=f3e709]: 2026-10-17T19:32:25.172Z
+                - strong [ref=f3e710]: state_changed
+                - group [ref=f3e711]:
+                  - generic "Event details" [ref=f3e712] [cursor=pointer]
+              - listitem [ref=f3e713]:
+                - time [ref=f3e714]: 2026-10-17T19:32:25.173Z
+                - strong [ref=f3e715]: retry_requested
+                - group [ref=f3e716]:
+                  - generic "Event details" [ref=f3e717] [cursor=pointer]
+              - listitem [ref=f3e718]:
+                - time [ref=f3e719]: 2026-10-17T19:32:25.175Z
+                - strong [ref=f3e720]: verification_started
+                - group [ref=f3e721]:
+                  - generic "Event details" [ref=f3e722] [cursor=pointer]
+              - listitem [ref=f3e723]:
+                - time [ref=f3e724]: 2026-10-17T19:33:09.295Z
+                - strong [ref=f3e725]: check_result
+                - group [ref=f3e726]:
+                  - generic "Event details" [ref=f3e727] [cursor=pointer]
+              - listitem [ref=f3e728]:
+                - time [ref=f3e729]: 2026-10-17T19:33:09.319Z
+                - strong [ref=f3e730]: state_changed
+                - group [ref=f3e731]:
+                  - generic "Event details" [ref=f3e732] [cursor=pointer]
+              - listitem [ref=f3e733]:
+                - time [ref=f3e734]: 2026-10-17T19:33:09.319Z
+                - strong [ref=f3e735]: needs_you
+                - group [ref=f3e736]:
+                  - generic "Event details" [ref=f3e737] [cursor=pointer]
+              - listitem [ref=f3e738]:
+                - time [ref=f3e739]: 2026-10-17T20:01:35.925Z
+                - strong [ref=f3e740]: state_changed
+                - group [ref=f3e741]:
+                  - generic "Event details" [ref=f3e742] [cursor=pointer]
+              - listitem [ref=f3e743]:
+                - time [ref=f3e744]: 2026-10-17T20:01:35.926Z
+                - strong [ref=f3e745]: retry_requested
+                - group [ref=f3e746]:
+                  - generic "Event details" [ref=f3e747] [cursor=pointer]
+              - listitem [ref=f3e748]:
+                - time [ref=f3e749]: 2026-10-17T20:01:35.927Z
+                - strong [ref=f3e750]: verification_started
+                - group [ref=f3e751]:
+                  - generic "Event details" [ref=f3e752] [cursor=pointer]
+              - listitem [ref=f3e753]:
+                - time [ref=f3e754]: 2026-10-17T20:01:42.087Z
+                - strong [ref=f3e755]: state_changed
+                - group [ref=f3e756]:
+                  - generic "Event details" [ref=f3e757] [cursor=pointer]
+              - listitem [ref=f3e758]:
+                - time [ref=f3e759]: 2026-10-17T20:01:42.087Z
+                - strong [ref=f3e760]: check_result
+                - group [ref=f3e761]:
+                  - generic "Event details" [ref=f3e762] [cursor=pointer]
+              - listitem [ref=f3e763]:
+                - time [ref=f3e764]: 2026-10-17T20:01:42.087Z
+                - strong [ref=f3e765]: cleanup
+                - group [ref=f3e766]:
+                  - generic "Event details" [ref=f3e767] [cursor=pointer]
+              - listitem [ref=f3e768]:
+                - time [ref=f3e769]: 2026-10-17T20:04:55.459Z
+                - strong [ref=f3e770]: state_changed
+                - group [ref=f3e771]:
+                  - generic "Event details" [ref=f3e772] [cursor=pointer]
+              - listitem [ref=f3e773]:
+                - time [ref=f3e774]: 2026-10-17T20:04:55.460Z
+                - strong [ref=f3e775]: retry_requested
+                - group [ref=f3e776]:
+                  - generic "Event details" [ref=f3e777] [cursor=pointer]
+              - listitem [ref=f3e778]:
+                - time [ref=f3e779]: 2026-10-17T20:04:55.462Z
+                - strong [ref=f3e780]: verification_started
+                - group [ref=f3e781]:
+                  - generic "Event details" [ref=f3e782] [cursor=pointer]
+              - listitem [ref=f3e783]:
+                - time [ref=f3e784]: 2026-10-17T20:08:44.461Z
+                - strong [ref=f3e785]: agent_event
+                - group [ref=f3e786]:
+                  - generic "Event details" [ref=f3e787] [cursor=pointer]
+              - listitem [ref=f3e788]:
+                - time [ref=f3e789]: 2026-10-17T20:08:45.391Z
+                - strong [ref=f3e790]: agent_started
+                - group [ref=f3e791]:
+                  - generic "Event details" [ref=f3e792] [cursor=pointer]
+              - listitem [ref=f3e793]:
+                - time [ref=f3e794]: 2026-10-17T20:08:45.391Z
+                - strong [ref=f3e795]: processes
+                - group [ref=f3e796]:
+                  - generic "Event details" [ref=f3e797] [cursor=pointer]
+              - listitem [ref=f3e798]:
+                - time [ref=f3e799]: 2026-10-17T20:08:46.341Z
+                - strong [ref=f3e800]: processes
+                - group [ref=f3e801]:
+                  - generic "Event details" [ref=f3e802] [cursor=pointer]
+              - listitem [ref=f3e803]:
+                - time [ref=f3e804]: 2026-10-17T20:08:47.443Z
+                - strong [ref=f3e805]: processes
+                - group [ref=f3e806]:
+                  - generic "Event details" [ref=f3e807] [cursor=pointer]
+              - listitem [ref=f3e808]:
+                - time [ref=f3e809]: 2026-10-17T20:08:48.339Z
+                - strong [ref=f3e810]: processes
+                - group [ref=f3e811]:
+                  - generic "Event details" [ref=f3e812] [cursor=pointer]
+              - listitem [ref=f3e813]:
+                - time [ref=f3e814]: 2026-10-17T20:08:49.670Z
+                - strong [ref=f3e815]: processes
+                - group [ref=f3e816]:
+                  - generic "Event details" [ref=f3e817] [cursor=pointer]
+              - listitem [ref=f3e818]:
+                - time [ref=f3e819]: 2026-10-17T20:08:50.721Z
+                - strong [ref=f3e820]: processes
+                - group [ref=f3e821]:
+                  - generic "Event details" [ref=f3e822] [cursor=pointer]
+              - listitem [ref=f3e823]:
+                - time [ref=f3e824]: 2026-10-17T20:08:51.777Z
+                - strong [ref=f3e825]: processes
+                - group [ref=f3e826]:
+                  - generic "Event details" [ref=f3e827] [cursor=pointer]
+              - listitem [ref=f3e828]:
+                - time [ref=f3e829]: 2026-10-17T20:08:53.427Z
+                - strong [ref=f3e830]: processes
+                - group [ref=f3e831]:
+                  - generic "Event details" [ref=f3e832] [cursor=pointer]
+              - listitem [ref=f3e833]:
+                - time [ref=f3e834]: 2026-10-17T20:08:57.972Z
+                - strong [ref=f3e835]: agent_stopped
+                - group [ref=f3e836]:
+                  - generic "Event details" [ref=f3e837] [cursor=pointer]
+              - listitem [ref=f3e838]:
+                - time [ref=f3e839]: 2026-10-17T20:14:34.012Z
+                - strong [ref=f3e840]: state_changed
+                - group [ref=f3e841]:
+                  - generic "Event details" [ref=f3e842] [cursor=pointer]
+              - listitem [ref=f3e843]:
+                - time [ref=f3e844]: 2026-10-17T20:14:34.012Z
+                - strong [ref=f3e845]: check_result
+                - group [ref=f3e846]:
+                  - generic "Event details" [ref=f3e847] [cursor=pointer]
+              - listitem [ref=f3e848]:
+                - time [ref=f3e849]: 2026-10-17T20:14:34.013Z
+                - strong [ref=f3e850]: cleanup
+                - group [ref=f3e851]:
+                  - generic "Event details" [ref=f3e852] [cursor=pointer]
+              - listitem [ref=f3e853]:
+                - time [ref=f3e854]: 2026-10-17T21:15:07.023Z
+                - strong [ref=f3e855]: state_changed
+                - group [ref=f3e856]:
+                  - generic "Event details" [ref=f3e857] [cursor=pointer]
+              - listitem [ref=f3e858]:
+                - time [ref=f3e859]: 2026-10-17T21:15:07.023Z
+                - strong [ref=f3e860]: retry_requested
+                - group [ref=f3e861]:
+                  - generic "Event details" [ref=f3e862] [cursor=pointer]
+              - listitem [ref=f3e863]:
+                - time [ref=f3e864]: 2026-10-17T21:15:07.024Z
+                - strong [ref=f3e865]: verification_started
+                - group [ref=f3e866]:
+                  - generic "Event details" [ref=f3e867] [cursor=pointer]
+              - listitem [ref=f3e868]:
+                - time [ref=f3e869]: 2026-10-17T21:16:24.727Z
+                - strong [ref=f3e870]: agent_event
+                - group [ref=f3e871]:
+                  - generic "Event details" [ref=f3e872] [cursor=pointer]
+              - listitem [ref=f3e873]:
+                - time [ref=f3e874]: 2026-10-17T21:16:24.912Z
+                - strong [ref=f3e875]: agent_started
+                - group [ref=f3e876]:
+                  - generic "Event details" [ref=f3e877] [cursor=pointer]
+              - listitem [ref=f3e878]:
+                - time [ref=f3e879]: 2026-10-17T21:16:24.913Z
+                - strong [ref=f3e880]: processes
+                - group [ref=f3e881]:
+                  - generic "Event details" [ref=f3e882] [cursor=pointer]
+              - listitem [ref=f3e883]:
+                - time [ref=f3e884]: 2026-10-17T21:16:25.234Z
+                - strong [ref=f3e885]: processes
+                - group [ref=f3e886]:
+                  - generic "Event details" [ref=f3e887] [cursor=pointer]
+              - listitem [ref=f3e888]:
+                - time [ref=f3e889]: 2026-10-17T21:16:25.433Z
+                - strong [ref=f3e890]: processes
+                - group [ref=f3e891]:
+                  - generic "Event details" [ref=f3e892] [cursor=pointer]
+              - listitem [ref=f3e893]:
+                - time [ref=f3e894]: 2026-10-17T21:16:25.643Z
+                - strong [ref=f3e895]: processes
+                - group [ref=f3e896]:
+                  - generic "Event details" [ref=f3e897] [cursor=pointer]
+              - listitem [ref=f3e898]:
+                - time [ref=f3e899]: 2026-10-17T21:16:25.888Z
+                - strong [ref=f3e900]: processes
+                - group [ref=f3e901]:
+                  - generic "Event details" [ref=f3e902] [cursor=pointer]
+              - listitem [ref=f3e903]:
+                - time [ref=f3e904]: 2026-10-17T21:16:26.105Z
+                - strong [ref=f3e905]: processes
+                - group [ref=f3e906]:
+                  - generic "Event details" [ref=f3e907] [cursor=pointer]
+              - listitem [ref=f3e908]:
+                - time [ref=f3e909]: 2026-10-17T21:16:26.289Z
+                - strong [ref=f3e910]: processes
+                - group [ref=f3e911]:
+                  - generic "Event details" [ref=f3e912] [cursor=pointer]
+              - listitem [ref=f3e913]:
+                - time [ref=f3e914]: 2026-10-17T21:16:26.516Z
+                - strong [ref=f3e915]: processes
+                - group [ref=f3e916]:
+                  - generic "Event details" [ref=f3e917] [cursor=pointer]
+              - listitem [ref=f3e918]:
+                - time [ref=f3e919]: 2026-10-17T21:16:26.702Z
+                - strong [ref=f3e920]: processes
+                - group [ref=f3e921]:
+                  - generic "Event details" [ref=f3e922] [cursor=pointer]
+              - listitem [ref=f3e923]:
+                - time [ref=f3e924]: 2026-10-17T21:16:26.892Z
+                - strong [ref=f3e925]: processes
+                - group [ref=f3e926]:
+                  - generic "Event details" [ref=f3e927] [cursor=pointer]
+              - listitem [ref=f3e928]:
+                - time [ref=f3e929]: 2026-10-17T21:16:27.112Z
+                - strong [ref=f3e930]: processes
+                - group [ref=f3e931]:
+                  - generic "Event details" [ref=f3e932] [cursor=pointer]
+              - listitem [ref=f3e933]:
+                - time [ref=f3e934]: 2026-10-17T21:16:27.296Z
+                - strong [ref=f3e935]: processes
+                - group [ref=f3e936]:
+                  - generic "Event details" [ref=f3e937] [cursor=pointer]
+              - listitem [ref=f3e938]:
+                - time [ref=f3e939]: 2026-10-17T21:16:27.512Z
+                - strong [ref=f3e940]: processes
+                - group [ref=f3e941]:
+                  - generic "Event details" [ref=f3e942] [cursor=pointer]
+              - listitem [ref=f3e943]:
+                - time [ref=f3e944]: 2026-10-17T21:16:27.716Z
+                - strong [ref=f3e945]: processes
+                - group [ref=f3e946]:
+                  - generic "Event details" [ref=f3e947] [cursor=pointer]
+              - listitem [ref=f3e948]:
+                - time [ref=f3e949]: 2026-10-17T21:16:27.899Z
+                - strong [ref=f3e950]: processes
+                - group [ref=f3e951]:
+                  - generic "Event details" [ref=f3e952] [cursor=pointer]
+              - listitem [ref=f3e953]:
+                - time [ref=f3e954]: 2026-10-17T21:16:28.113Z
+                - strong [ref=f3e955]: processes
+                - group [ref=f3e956]:
+                  - generic "Event details" [ref=f3e957] [cursor=pointer]
+              - listitem [ref=f3e958]:
+                - time [ref=f3e959]: 2026-10-17T21:16:28.320Z
+                - strong [ref=f3e960]: processes
+                - group [ref=f3e961]:
+                  - generic "Event details" [ref=f3e962] [cursor=pointer]
+              - listitem [ref=f3e963]:
+                - time [ref=f3e964]: 2026-10-17T21:16:28.518Z
+                - strong [ref=f3e965]: processes
+                - group [ref=f3e966]:
+                  - generic "Event details" [ref=f3e967] [cursor=pointer]
+              - listitem [ref=f3e968]:
+                - time [ref=f3e969]: 2026-10-17T21:16:28.717Z
+                - strong [ref=f3e970]: processes
+                - group [ref=f3e971]:
+                  - generic "Event details" [ref=f3e972] [cursor=pointer]
+              - listitem [ref=f3e973]:
+                - time [ref=f3e974]: 2026-10-17T21:16:28.902Z
+                - strong [ref=f3e975]: processes
+                - group [ref=f3e976]:
+                  - generic "Event details" [ref=f3e977] [cursor=pointer]
+              - listitem [ref=f3e978]:
+                - time [ref=f3e979]: 2026-10-17T21:16:29.118Z
+                - strong [ref=f3e980]: processes
+                - group [ref=f3e981]:
+                  - generic "Event details" [ref=f3e982] [cursor=pointer]
+              - listitem [ref=f3e983]:
+                - time [ref=f3e984]: 2026-10-17T21:16:29.303Z
+                - strong [ref=f3e985]: processes
+                - group [ref=f3e986]:
+                  - generic "Event details" [ref=f3e987] [cursor=pointer]
+              - listitem [ref=f3e988]:
+                - time [ref=f3e989]: 2026-10-17T21:16:29.522Z
+                - strong [ref=f3e990]: processes
+                - group [ref=f3e991]:
+                  - generic "Event details" [ref=f3e992] [cursor=pointer]
+              - listitem [ref=f3e993]:
+                - time [ref=f3e994]: 2026-10-17T21:16:29.728Z
+                - strong [ref=f3e995]: processes
+                - group [ref=f3e996]:
+                  - generic "Event details" [ref=f3e997] [cursor=pointer]
+              - listitem [ref=f3e998]:
+                - time [ref=f3e999]: 2026-10-17T21:16:29.907Z
+                - strong [ref=f3e1000]: processes
+                - group [ref=f3e1001]:
+                  - generic "Event details" [ref=f3e1002] [cursor=pointer]
+              - listitem [ref=f3e1003]:
+                - time [ref=f3e1004]: 2026-10-17T21:16:30.127Z
+                - strong [ref=f3e1005]: processes
+                - group [ref=f3e1006]:
+                  - generic "Event details" [ref=f3e1007] [cursor=pointer]
+              - listitem [ref=f3e1008]:
+                - time [ref=f3e1009]: 2026-10-17T21:16:30.322Z
+                - strong [ref=f3e1010]: processes
+                - group [ref=f3e1011]:
+                  - generic "Event details" [ref=f3e1012] [cursor=pointer]
+              - listitem [ref=f3e1013]:
+                - time [ref=f3e1014]: 2026-10-17T21:16:30.531Z
+                - strong [ref=f3e1015]: processes
+                - group [ref=f3e1016]:
+                  - generic "Event details" [ref=f3e1017] [cursor=pointer]
+              - listitem [ref=f3e1018]:
+                - time [ref=f3e1019]: 2026-10-17T21:16:30.730Z
+                - strong [ref=f3e1020]: processes
+                - group [ref=f3e1021]:
+                  - generic "Event details" [ref=f3e1022] [cursor=pointer]
+              - listitem [ref=f3e1023]:
+                - time [ref=f3e1024]: 2026-10-17T21:16:30.914Z
+                - strong [ref=f3e1025]: processes
+                - group [ref=f3e1026]:
+                  - generic "Event details" [ref=f3e1027] [cursor=pointer]
+              - listitem [ref=f3e1028]:
+                - time [ref=f3e1029]: 2026-10-17T21:16:31.129Z
+                - strong [ref=f3e1030]: processes
+                - group [ref=f3e1031]:
+                  - generic "Event details" [ref=f3e1032] [cursor=pointer]
+              - listitem [ref=f3e1033]:
+                - time [ref=f3e1034]: 2026-10-17T21:16:31.331Z
+                - strong [ref=f3e1035]: processes
+                - group [ref=f3e1036]:
+                  - generic "Event details" [ref=f3e1037] [cursor=pointer]
+              - listitem [ref=f3e1038]:
+                - time [ref=f3e1039]: 2026-10-17T21:16:31.535Z
+                - strong [ref=f3e1040]: processes
+                - group [ref=f3e1041]:
+                  - generic "Event details" [ref=f3e1042] [cursor=pointer]
+              - listitem [ref=f3e1043]:
+                - time [ref=f3e1044]: 2026-10-17T21:16:31.730Z
+                - strong [ref=f3e1045]: processes
+                - group [ref=f3e1046]:
+                  - generic "Event details" [ref=f3e1047] [cursor=pointer]
+              - listitem [ref=f3e1048]:
+                - time [ref=f3e1049]: 2026-10-17T21:16:31.918Z
+                - strong [ref=f3e1050]: processes
+                - group [ref=f3e1051]:
+                  - generic "Event details" [ref=f3e1052] [cursor=pointer]
+              - listitem [ref=f3e1053]:
+                - time [ref=f3e1054]: 2026-10-17T21:16:32.229Z
+                - strong [ref=f3e1055]: processes
+                - group [ref=f3e1056]:
+                  - generic "Event details" [ref=f3e1057] [cursor=pointer]
+              - listitem [ref=f3e1058]:
+                - time [ref=f3e1059]: 2026-10-17T21:16:32.441Z
+                - strong [ref=f3e1060]: processes
+                - group [ref=f3e1061]:
+                  - generic "Event details" [ref=f3e1062] [cursor=pointer]
+              - listitem [ref=f3e1063]:
+                - time [ref=f3e1064]: 2026-10-17T21:16:32.646Z
+                - strong [ref=f3e1065]: processes
+                - group [ref=f3e1066]:
+                  - generic "Event details" [ref=f3e1067] [cursor=pointer]
+              - listitem [ref=f3e1068]:
+                - time [ref=f3e1069]: 2026-10-17T21:16:32.894Z
+                - strong [ref=f3e1070]: processes
+                - group [ref=f3e1071]:
+                  - generic "Event details" [ref=f3e1072] [cursor=pointer]
+              - listitem [ref=f3e1073]:
+                - time [ref=f3e1074]: 2026-10-17T21:16:33.112Z
+                - strong [ref=f3e1075]: processes
+                - group [ref=f3e1076]:
+                  - generic "Event details" [ref=f3e1077] [cursor=pointer]
+              - listitem [ref=f3e1078]:
+                - time [ref=f3e1079]: 2026-10-17T21:16:34.070Z
+                - strong [ref=f3e1080]: agent_stopped
+                - group [ref=f3e1081]:
+                  - generic "Event details" [ref=f3e1082] [cursor=pointer]
+              - listitem [ref=f3e1083]:
+                - time [ref=f3e1084]: 2026-10-17T21:17:28.737Z
+                - strong [ref=f3e1085]: check_result
+                - group [ref=f3e1086]:
+                  - generic "Event details" [ref=f3e1087] [cursor=pointer]
+              - listitem [ref=f3e1088]:
+                - time [ref=f3e1089]: 2026-10-17T21:17:28.739Z
+                - strong [ref=f3e1090]: state_changed
+                - group [ref=f3e1091]:
+                  - generic "Event details" [ref=f3e1092] [cursor=pointer]

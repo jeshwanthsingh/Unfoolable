@@ -1,0 +1,5 @@
+{
+  "observedAt": "2026-10-17T22:59:21.005714+00:00",
+  "uptime": "15:59  up 1 day,  3:39, 1 user, load averages: 190.35 171.08 97.77",
+  "observation": "Full-suite rerun under high host load; existing debug fixtures reported failures. No test deadlines changed. Timing-pressure hypothesis is not a proven root cause."
+}

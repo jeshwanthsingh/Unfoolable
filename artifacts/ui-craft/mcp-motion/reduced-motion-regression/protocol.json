@@ -1,0 +1,277 @@
+[
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 1440,
+      "height": 1000
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 1440, height: 1000 });\n```\n### Page\n- Page URL: about:blank"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:3237/?craft=instrument"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:3237/?craft=instrument');\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-05-578Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "text": "Full original request"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for Full original request\n### Ran Playwright code\n```js\nawait page.getByText(\"Full original request\").first().waitFor({ state: 'visible' });\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-06-383Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 1
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 1 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 1 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-07-405Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "async()=>{const wait=ms=>new Promise(r=>setTimeout(r,ms));const before=window.__ccFrames;await wait(600);if(window.__ccFrames!==before)throw Error('Idle rendering');document.querySelector('.craft-play').click();await wait(100);if(!document.querySelector('.craft-play').textContent.includes('Pause'))throw Error('Replay did not start');document.querySelector('.craft-play').click();await wait(450);const settled=window.__ccFrames;await wait(600);if(window.__ccFrames!==settled)throw Error('Spring did not settle');return {direction:'instrument',idleFrames:0,framesDuringTransition:settled-before,framesAfterSettle:0};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"instrument\",\n  \"idleFrames\": 0,\n  \"framesDuringTransition\": 10,\n  \"framesAfterSettle\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('async()=>{const wait=ms=>new Promise(r=>setTimeout(r,ms));const before=window.__ccFrames;await wait(600);if(window.__ccFrames!==before)throw Error(\\'Idle rendering\\');document.querySelector(\\'.craft-play\\').click();await wait(100);if(!document.querySelector(\\'.craft-play\\').textContent.includes(\\'Pause\\'))throw Error(\\'Replay did not start\\');document.querySelector(\\'.craft-play\\').click();await wait(450);const settled=window.__ccFrames;await wait(600);if(window.__ccFrames!==settled)throw Error(\\'Spring did not settle\\');return {direction:\\'instrument\\',idleFrames:0,framesDuringTransition:settled-before,framesAfterSettle:0};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_emulate_media",
+    "args": {
+      "reducedMotion": "reduce"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.emulateMedia({ reducedMotion: 'reduce' });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "async()=>{const wait=ms=>new Promise(r=>setTimeout(r,ms));if(!matchMedia('(prefers-reduced-motion: reduce)').matches)throw Error('Native reduced-motion media absent');const latest=Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Latest');latest.click();await wait(100);if(document.getAnimations().some(a=>a.playState==='running'))throw Error('Reduced animation active');return {direction:'instrument',nativeReducedMotion:true,activeAnimations:0};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"instrument\",\n  \"nativeReducedMotion\": true,\n  \"activeAnimations\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('async()=>{const wait=ms=>new Promise(r=>setTimeout(r,ms));if(!matchMedia(\\'(prefers-reduced-motion: reduce)\\').matches)throw Error(\\'Native reduced-motion media absent\\');const latest=Array.from(document.querySelectorAll(\\'button\\')).find(b=>b.textContent===\\'Latest\\');latest.click();await wait(100);if(document.getAnimations().some(a=>a.playState===\\'running\\'))throw Error(\\'Reduced animation active\\');return {direction:\\'instrument\\',nativeReducedMotion:true,activeAnimations:0};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_emulate_media",
+    "args": {
+      "reducedMotion": "no-preference"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.emulateMedia({ reducedMotion: 'no-preference' });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{window.__ccClicks=0;const original=AudioContext.prototype.createOscillator;AudioContext.prototype.createOscillator=function(...args){window.__ccClicks++;return original.apply(this,args);};if(!Array.from(document.querySelectorAll('button')).some(b=>b.textContent==='Sound off'))throw Error('Sound not muted by default');return {mutedByDefault:true};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"mutedByDefault\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{window.__ccClicks=0;const original=AudioContext.prototype.createOscillator;AudioContext.prototype.createOscillator=function(...args){window.__ccClicks++;return original.apply(this,args);};if(!Array.from(document.querySelectorAll(\\'button\\')).some(b=>b.textContent===\\'Sound off\\'))throw Error(\\'Sound not muted by default\\');return {mutedByDefault:true};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_click",
+    "args": {
+      "target": "button:text-is(\"Sound off\")"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.locator('button:text-is(\"Sound off\")').click();\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-11-580Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_click",
+    "args": {
+      "target": "button:text-is(\"Needs you\")"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.locator('button:text-is(\"Needs you\")').click();\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-12-156Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_click",
+    "args": {
+      "target": "button:text-is(\"Latest\")"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.locator('button:text-is(\"Latest\")').click();\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-12-741Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{if(window.__ccClicks!==1)throw Error('Expected one passing-lock click, got '+window.__ccClicks);return {passingLockOscillatorCount:window.__ccClicks,sound:'opt-in only; scheduled Web Audio, no subjective listening claim'};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"passingLockOscillatorCount\": 1,\n  \"sound\": \"opt-in only; scheduled Web Audio, no subjective listening claim\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(window.__ccClicks!==1)throw Error(\\'Expected one passing-lock click, got \\'+window.__ccClicks);return {passingLockOscillatorCount:window.__ccClicks,sound:\\'opt-in only; scheduled Web Audio, no subjective listening claim\\'};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_click",
+    "args": {
+      "target": "button:text-is(\"Sound on\")"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.locator('button:text-is(\"Sound on\")').click();\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=instrument\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-14-331Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 1440,
+      "height": 1000
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 1440, height: 1000 });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:3237/?craft=glass"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:3237/?craft=glass');\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-14-578Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "text": "Full original request"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for Full original request\n### Ran Playwright code\n```js\nawait page.getByText(\"Full original request\").first().waitFor({ state: 'visible' });\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-15-381Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 1
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 1 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 1 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:3237/?craft=glass\n- Page Title: Command Center\n### Snapshot\n- [Snapshot](artifacts/ui-craft/mcp-motion/motion-proof/page-2026-10-17T22-45-16-393Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "async()=>{const wait=ms=>new Promise(r=>setTimeout(r,ms));const before=window.__ccFrames;await wait(600);if(window.__ccFrames!==before)throw Error('Idle rendering');document.querySelector('.craft-play').click();await wait(100);if(!document.querySelector('.craft-play').textContent.includes('Pause'))throw Error('Replay did not start');document.querySelector('.craft-play').click();await wait(450);const settled=window.__ccFrames;await wait(600);if(window.__ccFrames!==settled)throw Error('Spring did not settle');return {direction:'glass',idleFrames:0,framesDuringTransition:settled-before,framesAfterSettle:0};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"direction\": \"glass\",\n  \"idleFrames\": 0,\n  \"framesDuringTransition\": 1,\n  \"framesAfterSettle\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('async()=>{const wait=ms=>new Promise(r=>setTimeout(r,ms));const before=window.__ccFrames;await wait(600);if(window.__ccFrames!==before)throw Error(\\'Idle rendering\\');document.querySelector(\\'.craft-play\\').click();await wait(100);if(!document.querySelector(\\'.craft-play\\').textContent.includes(\\'Pause\\'))throw Error(\\'Replay did not start\\');document.querySelector(\\'.craft-play\\').click();await wait(450);const settled=window.__ccFrames;await wait(600);if(window.__ccFrames!==settled)throw Error(\\'Spring did not settle\\');return {direction:\\'glass\\',idleFrames:0,framesDuringTransition:settled-before,framesAfterSettle:0};}');\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_emulate_media",
+    "args": {
+      "reducedMotion": "reduce"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.emulateMedia({ reducedMotion: 'reduce' });\n```"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "async()=>{const wait=ms=>new Promise(r=>setTimeout(r,ms));if(!matchMedia('(prefers-reduced-motion: reduce)').matches)throw Error('Native reduced-motion media absent');const latest=Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='Latest');latest.click();await wait(100);if(document.getAnimations().some(a=>a.playState==='running'))throw Error('Reduced animation active');return {direction:'glass',nativeReducedMotion:true,activeAnimations:0};}"
+    },
+    "isError": true,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Error\nError: Reduced animation active\n    at eval (eval at <anonymous> (eval at evaluate (:368:30)), <anonymous>:1:362)\n    at async eval (eval at evaluate (:368:30), <anonymous>:4:30)\n    at async <anonymous>:394:30"
+      }
+    ]
+  }
+]

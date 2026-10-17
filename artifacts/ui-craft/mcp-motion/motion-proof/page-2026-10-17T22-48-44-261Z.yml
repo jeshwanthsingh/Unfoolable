@@ -1,0 +1,279 @@
+- generic [ref=f3e3]:
+  - link "Skip to workspace" [ref=f3e4] [cursor=pointer]:
+    - /url: "#workspace"
+  - complementary [ref=f3e5]:
+    - generic [ref=f3e7]:
+      - heading "Command Center" [level=1] [ref=f3e8]
+      - generic [ref=f3e9]: LOCAL ENGINEERING WORKSHOP
+    - navigation "Workspace navigation" [ref=f3e10]:
+      - button "Jarvis chat" [ref=f3e11] [cursor=pointer]
+      - button "Tickets" [ref=f3e12] [cursor=pointer]
+      - button "Workbench" [ref=f3e13] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f3e14]: ⌘
+        - text: Workbench
+      - button "Projects" [ref=f3e15] [cursor=pointer]:
+        - generic [aria-hidden] [ref=f3e16]: ▱
+        - text: Projects
+      - button "Current Mission · Experimental" [disabled] [ref=f3e17]:
+        - generic [aria-hidden] [ref=f3e18]: ◇
+        - text: Current Mission · Experimental
+      - button "Verify a Candidate" [ref=f3e19] [cursor=pointer]
+    - group [ref=f3e20]:
+      - generic "Local system status" [ref=f3e21] [cursor=pointer]
+    - paragraph [ref=f3e22]: ON THIS MACHINEv0.0.1 · Tickets
+  - main "Workspace" [active] [ref=f3e23]:
+    - generic [ref=f3e24]:
+      - generic [ref=f3e25]: CC / JARVIS
+      - generic [ref=f3e26]: LOCAL FIRST
+    - generic [ref=f3e29]:
+      - region "Engineering Workshop" [ref=f3e30]:
+        - generic [ref=f3e31]:
+          - text: ON THIS MACHINE / WORKSHOP
+          - heading "A place for the work." [level=2] [ref=f3e32]
+          - paragraph [ref=f3e33]: Recorded events move the work. You decide what stays.
+        - navigation "Workshop stations" [ref=f3e35]:
+          - button "01 Inbox 0" [ref=f3e36] [cursor=pointer]:
+            - generic [ref=f3e37]: "01"
+            - text: Inbox
+            - generic [ref=f3e38]: "0"
+          - button "02 Builder bench 0" [ref=f3e39] [cursor=pointer]:
+            - generic [ref=f3e40]: "02"
+            - text: Builder bench
+            - generic [ref=f3e41]: "0"
+          - button "03 Checker vault 0" [ref=f3e42] [cursor=pointer]:
+            - generic [ref=f3e43]: "03"
+            - text: Checker vault
+            - generic [ref=f3e44]: "0"
+          - button "04 Fixer 0" [ref=f3e45] [cursor=pointer]:
+            - generic [ref=f3e46]: "04"
+            - text: Fixer
+            - generic [ref=f3e47]: "0"
+          - button "05 My desk 7" [ref=f3e205] [cursor=pointer]:
+            - generic [ref=f3e49]: "05"
+            - text: My desk
+            - generic [ref=f3e50]: "7"
+        - list "Recorded tickets" [ref=f3e206]:
+          - listitem [ref=f3e207]:
+            - 'button "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio My desk · ready for review b15600b3" [ref=f3e208] [cursor=pointer]':
+              - generic [ref=f3e210]:
+                - strong [ref=f3e211]: "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio"
+                - generic [ref=f3e212]: My desk · ready for review
+              - code [ref=f3e213]: b15600b3
+          - listitem [ref=f3e214]:
+            - button "Add local-changes epilog to research --help My desk · ready for review f5fe8c34" [ref=f3e215] [cursor=pointer]:
+              - generic [ref=f3e217]:
+                - strong [ref=f3e218]: Add local-changes epilog to research --help
+                - generic [ref=f3e219]: My desk · ready for review
+              - code [ref=f3e220]: f5fe8c34
+          - listitem [ref=f3e221]:
+            - button "Improve research CLI help and add configuration-free help test My desk · kept 37b3646e" [ref=f3e222] [cursor=pointer]:
+              - generic [ref=f3e224]:
+                - strong [ref=f3e225]: Improve research CLI help and add configuration-free help test
+                - generic [ref=f3e226]: My desk · kept
+              - code [ref=f3e227]: 37b3646e
+          - listitem [ref=f3e228]:
+            - button "Add top-level research --version option My desk · ready for review e56f790f" [ref=f3e229] [cursor=pointer]:
+              - generic [ref=f3e231]:
+                - strong [ref=f3e232]: Add top-level research --version option
+                - generic [ref=f3e233]: My desk · ready for review
+              - code [ref=f3e234]: e56f790f
+          - listitem [ref=f3e235]:
+            - button "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiv My desk · kept cfaaea5b" [ref=f3e236] [cursor=pointer]:
+              - generic [ref=f3e238]:
+                - strong [ref=f3e239]: Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiv
+                - generic [ref=f3e240]: My desk · kept
+              - code [ref=f3e241]: cfaaea5b
+          - listitem [ref=f3e242]:
+            - button "Reject invalid tracker destination headers My desk · discarded b3991162" [ref=f3e243] [cursor=pointer]:
+              - generic [ref=f3e245]:
+                - strong [ref=f3e246]: Reject invalid tracker destination headers
+                - generic [ref=f3e247]: My desk · discarded
+              - code [ref=f3e248]: b3991162
+          - listitem [ref=f3e249]:
+            - button "Bound oversized since durations My desk · kept c6263195" [ref=f3e250] [cursor=pointer]:
+              - generic [ref=f3e252]:
+                - strong [ref=f3e253]: Bound oversized since durations
+                - generic [ref=f3e254]: My desk · kept
+              - code [ref=f3e255]: c6263195
+        - generic [ref=f3e52]: 7 of 7 tickets · motion settles after each event
+      - complementary "Chat and review" [ref=f3e54]:
+        - region "Jarvis chat" [ref=f3e55]:
+          - generic [ref=f3e56]:
+            - generic [ref=f3e57]:
+              - heading "Jarvis" [level=2] [ref=f3e58]
+              - paragraph [ref=f3e59]: Describe the work. Review the draft. You decide when it starts.
+            - generic "Codex usage limits" [ref=f3e60]:
+              - generic [ref=f3e61]:
+                - text: 5% used · 7 day window · resets
+                - time [ref=f3e62]: 10/24/2026, 2:14:19 PM
+          - button "STOP ALL" [ref=f3e63] [cursor=pointer]
+          - paragraph [ref=f3e64]: Stops running work and pauses the queue. Retry requires your passkey.
+          - region "Human confirmation" [ref=f3e65]:
+            - heading "Human confirmation" [level=3] [ref=f3e66]
+            - paragraph [ref=f3e67]: Passkey registered. Decisions require platform verification.
+            - paragraph [ref=f3e68]: Each confirmation is tied to one item and its current evidence, expires after two minutes, and is used once.
+          - region [ref=f3e69]:
+            - heading "Needs you now" [level=3] [ref=f3e70]
+            - region "Exact-item decision" [ref=f3e71]:
+              - heading "Candidate review" [level=3] [ref=f3e72]
+              - paragraph [ref=f3e73]: "Add local-changes epilog to research --help. Recorded changes in 2 files: research_router/cli.py, tests/test_help.py."
+              - status [ref=f3e74]:
+                - strong [ref=f3e75]: AMBER
+                - text: · New tests or test cases added; inspect the diff.
+                - generic [ref=f3e76]: 55 changed lines · 2 files
+              - paragraph [ref=f3e77]: Keep is locked until you open every changed file in the ticket diff.
+              - paragraph [ref=f3e78]:
+                - text: "Check verdict:"
+                - strong [ref=f3e79]: NOT CHECKED
+              - paragraph [ref=f3e80]:
+                - text: "Exact item:"
+                - code [ref=f3e81]: f5fe8c34-2808-41b5-8802-48c557750042
+              - link "Inspect ticket and diff" [ref=f3e82] [cursor=pointer]:
+                - /url: /?ticket=f5fe8c34-2808-41b5-8802-48c557750042
+              - region "Review checks" [ref=f3e83]:
+                - paragraph [ref=f3e84]:
+                  - strong [ref=f3e85]: Locked checks
+                  - text: · Overall NOT CHECKED; protected test details remain on the ticket.
+                - group [ref=f3e86]:
+                  - generic [ref=f3e87] [cursor=pointer]:
+                    - strong [ref=f3e88]: Quality gates
+                    - text: · Not checked — approve a gate playbook first
+                - group [ref=f3e89]:
+                  - generic [ref=f3e90] [cursor=pointer]:
+                    - strong [ref=f3e91]: Test-tampering
+                    - text: · Not checked
+                - paragraph [ref=f3e92]:
+                  - strong [ref=f3e93]: Independent test warning
+                  - text: · No warning recorded — not proof of correctness
+                - paragraph [ref=f3e94]:
+                  - strong [ref=f3e95]: Mutation & coverage
+                  - text: · Not measured
+              - generic [ref=f3e96]:
+                - button "Recheck candidate" [ref=f3e97] [cursor=pointer]
+                - button "Discard candidate" [ref=f3e98] [cursor=pointer]
+            - region "Exact-item decision" [ref=f3e99]:
+              - heading "Candidate review" [level=3] [ref=f3e100]
+              - paragraph [ref=f3e101]: "Add top-level research --version option. Recorded changes in 2 files: research_router/cli.py, tests/test_cli_version.py."
+              - status [ref=f3e102]:
+                - strong [ref=f3e103]: AMBER
+                - text: · New tests or test cases added; inspect the diff.
+                - generic [ref=f3e104]: 67 changed lines · 2 files
+              - paragraph [ref=f3e105]: Keep is locked until you open every changed file in the ticket diff.
+              - paragraph [ref=f3e106]:
+                - text: "Check verdict:"
+                - strong [ref=f3e107]: NOT CHECKED
+              - paragraph [ref=f3e108]:
+                - text: "Exact item:"
+                - code [ref=f3e109]: e56f790f-beb4-4c80-8bee-88bd26aa75eb
+              - link "Inspect ticket and diff" [ref=f3e110] [cursor=pointer]:
+                - /url: /?ticket=e56f790f-beb4-4c80-8bee-88bd26aa75eb
+              - region "Review checks" [ref=f3e111]:
+                - paragraph [ref=f3e112]:
+                  - strong [ref=f3e113]: Locked checks
+                  - text: · Overall NOT CHECKED; protected test details remain on the ticket.
+                - group [ref=f3e114]:
+                  - generic [ref=f3e115] [cursor=pointer]:
+                    - strong [ref=f3e116]: Quality gates
+                    - text: · Not checked — approve a gate playbook first
+                - group [ref=f3e117]:
+                  - generic [ref=f3e118] [cursor=pointer]:
+                    - strong [ref=f3e119]: Test-tampering
+                    - text: · Not checked
+                - paragraph [ref=f3e120]:
+                  - strong [ref=f3e121]: Independent test warning
+                  - text: · No warning recorded — not proof of correctness
+                - paragraph [ref=f3e122]:
+                  - strong [ref=f3e123]: Mutation & coverage
+                  - text: · Not measured
+              - generic [ref=f3e124]:
+                - button "Recheck candidate" [ref=f3e125] [cursor=pointer]
+                - button "Discard candidate" [ref=f3e126] [cursor=pointer]
+            - region "Exact-item decision" [ref=f3e127]:
+              - heading "Candidate review" [level=3] [ref=f3e128]
+              - paragraph [ref=f3e129]: "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio. Recorded changes in 2 files: research_router/cli.py, tests/test_source_add.py."
+              - status [ref=f3e130]:
+                - strong [ref=f3e131]: AMBER
+                - text: · New tests or test cases added; inspect the diff.
+                - generic [ref=f3e132]: 9 changed lines · 2 files
+              - paragraph [ref=f3e133]: Keep is locked until you open every changed file in the ticket diff.
+              - paragraph [ref=f3e134]:
+                - text: "Check verdict:"
+                - strong [ref=f3e135]: PASSED WITH GAPS
+              - paragraph [ref=f3e136]:
+                - text: "Exact item:"
+                - code [ref=f3e137]: b15600b3-6803-4ae8-b6ac-d6d8948b78bc
+              - link "Inspect ticket and diff" [ref=f3e138] [cursor=pointer]:
+                - /url: /?ticket=b15600b3-6803-4ae8-b6ac-d6d8948b78bc
+              - region "Review checks" [ref=f3e139]:
+                - paragraph [ref=f3e140]:
+                  - strong [ref=f3e141]: Locked checks
+                  - text: · Overall PASSED WITH GAPS; protected test details remain on the ticket.
+                - group [ref=f3e142]:
+                  - generic [ref=f3e143] [cursor=pointer]:
+                    - strong [ref=f3e144]: Quality gates
+                    - text: · 6 pass · 0 fail · 1 not applicable
+                - group [ref=f3e145]:
+                  - generic [ref=f3e146] [cursor=pointer]:
+                    - strong [ref=f3e147]: Test-tampering
+                    - text: · CLEAR
+                - paragraph [ref=f3e148]:
+                  - strong [ref=f3e149]: Independent test warning
+                  - text: · No warning recorded — not proof of correctness
+                - paragraph [ref=f3e150]:
+                  - strong [ref=f3e151]: Mutation & coverage
+                  - text: · Changed lines 100.0% · mutation not measured
+              - generic [ref=f3e152]:
+                - button "Keep candidate" [disabled] [ref=f3e153]
+                - button "Discard candidate" [ref=f3e154] [cursor=pointer]
+          - region "Recent conversation" [ref=f3e155]:
+            - heading "Conversation" [level=3] [ref=f3e156]
+            - list "Chat messages" [ref=f3e157]:
+              - listitem [ref=f3e158]:
+                - generic [ref=f3e159]:
+                  - strong [ref=f3e160]: Jarvis
+                  - time [ref=f3e161]: 10/17/2026, 12:32:26 PM
+                - paragraph [ref=f3e162]: "b15600b3 · Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio: Protected checks started."
+              - listitem [ref=f3e163]:
+                - generic [ref=f3e164]:
+                  - strong [ref=f3e165]: Jarvis
+                  - time [ref=f3e166]: 10/17/2026, 12:33:10 PM
+                - paragraph [ref=f3e167]: "b15600b3 · Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio: Needs you."
+              - listitem [ref=f3e168]:
+                - generic [ref=f3e169]:
+                  - strong [ref=f3e170]: Jarvis
+                  - time [ref=f3e171]: 10/17/2026, 1:01:35 PM
+                - paragraph [ref=f3e172]: "b15600b3 · Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio: Protected checks started."
+              - listitem [ref=f3e173]:
+                - generic [ref=f3e174]:
+                  - strong [ref=f3e175]: Jarvis
+                  - time [ref=f3e176]: 10/17/2026, 1:01:42 PM
+                - paragraph [ref=f3e177]: "b15600b3 · Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio: Needs you."
+              - listitem [ref=f3e178]:
+                - generic [ref=f3e179]:
+                  - strong [ref=f3e180]: Jarvis
+                  - time [ref=f3e181]: 10/17/2026, 1:04:55 PM
+                - paragraph [ref=f3e182]: "b15600b3 · Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio: Protected checks started."
+              - listitem [ref=f3e183]:
+                - generic [ref=f3e184]:
+                  - strong [ref=f3e185]: Jarvis
+                  - time [ref=f3e186]: 10/17/2026, 1:14:34 PM
+                - paragraph [ref=f3e187]: "b15600b3 · Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio: Harness error; this is not a code-check failure."
+              - listitem [ref=f3e188]:
+                - generic [ref=f3e189]:
+                  - strong [ref=f3e190]: Jarvis
+                  - time [ref=f3e191]: 10/17/2026, 2:15:07 PM
+                - paragraph [ref=f3e192]: "b15600b3 · Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio: Protected checks started."
+              - listitem [ref=f3e193]:
+                - generic [ref=f3e194]:
+                  - strong [ref=f3e195]: Jarvis
+                  - time [ref=f3e196]: 10/17/2026, 2:17:29 PM
+                - paragraph [ref=f3e197]: "b15600b3 · Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio: Ready for your review. Checks: PASSED WITH GAPS."
+          - group [ref=f3e198]:
+            - generic "History" [ref=f3e199] [cursor=pointer]
+          - generic [ref=f3e200]:
+            - generic [ref=f3e201]:
+              - text: Message Jarvis
+              - textbox "Message Jarvis" [ref=f3e202]:
+                - /placeholder: What would you like to work on?
+            - button "Send message" [disabled] [ref=f3e203]
+            - paragraph [ref=f3e204]: Messages never Keep, Discard, approve, or start a ticket. Use the exact-item buttons.
