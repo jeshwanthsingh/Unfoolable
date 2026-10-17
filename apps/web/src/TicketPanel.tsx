@@ -57,9 +57,9 @@ async function request(key:string,path:string,signal?:AbortSignal,body?:unknown)
  return value;
 }
 function elapsed(ms:number|null){return ms===null?'Not recorded':(ms/1000).toFixed(1)+' s';}
-export function TicketPanel(){
+export function TicketPanel({initialTicketId}:{initialTicketId?:string}={}){
  const [key]=useState(bootstrapTicketOperator);
- const [selected,setSelected]=useState<string|null>(()=>new URLSearchParams(window.location.search).get('ticket'));
+ const [selected,setSelected]=useState<string|null>(()=>initialTicketId??new URLSearchParams(window.location.search).get('ticket'));
  const [tickets,setTickets]=useState<Ticket[]>([]),[summary,setSummary]=useState<Summary|null>(null),[detail,setDetail]=useState<Detail|null>(null);
  const [error,setError]=useState<string|null>(null),[busy,setBusy]=useState(false),[revision,setRevision]=useState(0),[loading,setLoading]=useState(true);
  const candidateCommit=detail?.ticket.candidateCommits.at(-1);

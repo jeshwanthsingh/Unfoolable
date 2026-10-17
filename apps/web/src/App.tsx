@@ -1,6 +1,5 @@
 import {isVerifyView,type VerifyView} from '../../../packages/shared/verify-only.ts';
-import {ChatPanel} from './ChatPanel.tsx';
-import {TicketPanel} from './TicketPanel.tsx';
+import {Workshop} from './Workshop.tsx';
 import {VerifyOnlyPanel} from './VerifyOnlyPanel.tsx';
 import {useEffect,useRef,useState} from 'react';
 import {APP_VERSION} from '../../../packages/shared/health.ts';
@@ -33,8 +32,8 @@ export function App(){
   <nav aria-label="Workspace navigation"><button aria-current={view.kind==='chat'?'page':undefined} onClick={()=>setView({kind:'chat'})}>Jarvis chat</button><button aria-current={view.kind==='tickets'?'page':undefined} onClick={()=>setView({kind:'tickets'})}>Tickets</button><button aria-current={view.kind==='home'?'page':undefined} onClick={()=>setView({kind:'home'})}><span aria-hidden="true">⌘</span>Workbench</button><button aria-current={view.kind==='projects'||view.kind==='project'?'page':undefined} onClick={()=>setView({kind:'projects'})}><span aria-hidden="true">▱</span>Projects</button><button aria-current={view.kind==='mission'?'page':undefined} disabled={!last} onClick={()=>{const p=projects.find(p=>p.id===last?.projectId);if(p&&last)openMission(p,last);}}><span aria-hidden="true">◇</span>Current Mission · Experimental</button><button aria-current={view.kind==='verify-only'?'page':undefined} onClick={()=>setView({kind:'verify-only'})}>Verify a Candidate</button>{view.kind!=='tickets'&&view.kind!=='chat'&&<a href="#needs-you"><span aria-hidden="true">!</span>Needs You</a>}</nav>
   <div className="rail-system"><SystemStatus/></div><p className="rail-foot">ON THIS MACHINE<br/>v{APP_VERSION} · Tickets</p>
  </aside><main id="workspace" className="workspace-main" ref={main} tabIndex={-1} aria-label="Workspace"><div className="workspace-topline"><span>CC / {view.kind==='chat'?'JARVIS':view.kind==='tickets'?'TICKETS':view.kind==='home'?'WORKBENCH':view.kind==='projects'?'PROJECTS':view.kind==='verify-only'?'VERIFY ONLY':view.project.displayName}</span><span>LOCAL FIRST <i aria-hidden="true"/></span></div><div className="view-entry" key={view.kind+('project'in view?view.project.id:'')+('mission'in view?view.mission.id:'')}>
-  {view.kind==='chat'&&<ChatPanel/>}
-  {view.kind==='tickets'&&<TicketPanel/>}
+  {view.kind==='chat'&&<Workshop/>}
+  {view.kind==='tickets'&&<Workshop/>}
   {view.kind==='home'&&<Home state={state} viewedId={viewedId} onProject={project=>setView({kind:'project',project})} onMission={openMission} onProjects={()=>setView({kind:'projects'})} onRetry={reload} revision={revision}/>}
   {view.kind==='verify-only'&&<VerifyOnlyPanel initialRequestId={view.requestId}/>}
   {view.kind==='projects'&&<ProjectsPanel state={state} onProject={project=>setView({kind:'project',project})} onReload={reload}/>}
