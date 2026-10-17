@@ -1,0 +1,98 @@
+{
+  "version": "quality-gates-v1",
+  "base": "41dbef56f71c1592f243129e11ce1a4fee718b36",
+  "candidate": "b4b29ada0dfbc98042727a55fdf7a0c1db6d3736",
+  "gates": [
+    {
+      "gate": "ruff",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 2,
+          "rule": "F401",
+          "message": "`os` imported but unused"
+        }
+      ],
+      "baselineCount": 2,
+      "durationMs": 1875.4380420000002
+    },
+    {
+      "gate": "pyright",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 4,
+          "rule": "reportReturnType",
+          "message": "Type \"Literal['wrong']\" is not assignable to return type \"int\"\n  \"Literal['wrong']\" is not assignable to \"int\""
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 2511.9935829999995
+    },
+    {
+      "gate": "bandit",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 6,
+          "rule": "B307",
+          "message": "Use of possibly insecure function - consider using safer ast.literal_eval."
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 2177.0343330000005
+    },
+    {
+      "gate": "opengrep",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 6,
+          "rule": "Users.jeshwanthsingh.Projects.ai-lab.command-center.scripts.quality-gates.python-eval",
+          "message": "Dynamic eval executes untrusted input"
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 5259.528166
+    },
+    {
+      "gate": "gitleaks",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 7,
+          "rule": "generic-api-key",
+          "message": "Potential secret (value redacted)"
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 2302.635708
+    },
+    {
+      "gate": "detect-secrets",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 7,
+          "rule": "Base64 High Entropy String",
+          "message": "Potential secret (value redacted)"
+        },
+        {
+          "path": "app.py",
+          "line": 7,
+          "rule": "Secret Keyword",
+          "message": "Potential secret (value redacted)"
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 2165.4959580000013
+    }
+  ],
+  "durationMs": 16441.808583
+}

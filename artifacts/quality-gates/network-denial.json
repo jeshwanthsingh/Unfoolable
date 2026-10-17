@@ -1,0 +1,10 @@
+{
+  "blocked": true,
+  "cleanup": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  }
+}

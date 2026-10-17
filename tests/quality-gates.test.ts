@@ -13,3 +13,16 @@ test('gate proposals use ESLint only with repo config and preserve language boun
 
 import {isReviewEvidence} from '../packages/shared/quality-gates.ts';
 test('review boundary rejects malformed diagnostics rather than hiding or inventing a result',()=>{assert.equal(isReviewEvidence({mutationCoverage:'Not measured',qualityGates:{version:'quality-gates-v1',base:'a',candidate:'b',durationMs:1,gates:[{gate:'ruff',status:'PASS',findings:'missing',baselineCount:0,durationMs:1}]}}),false);assert.equal(isReviewEvidence({mutationCoverage:'Not measured'}),true);});
+
+import {ticketPlaybookHooks} from '../apps/server/ticket-playbook-hooks.ts';
+test('passing project/quality gates cannot overwrite NOT CHECKED from the protected checker',async()=>{
+ const playbook={hash:'approved',definition:{runner:'unittest'}};
+ const project={verdict:'PASSED WITH GAPS',gaps:[],failures:[]};
+ const checks:any={store:{requireApproved:()=>playbook},check:async()=>project};
+ const native:any=async()=>({verdict:'NOT CHECKED',gaps:['Required project recipe unavailable'],failures:[]});
+ const hooks=ticketPlaybookHooks(checks,native);
+ const result=await hooks.check!({repoPath:'fixture',baseCommit:'base'} as any,{repo:'fixture',commit:'candidate'} as any,new AbortController().signal);
+ assert.equal(result.verdict,'NOT CHECKED');assert.ok(result.gaps.some(g=>g.includes('recipe unavailable')));
+});
+
+test('changed-line filtering accepts Unicode paths and refuses unsupported quoted paths instead of silently passing',()=>{const unicode=changedLines('+++ b/café.py\n@@ -1 +1 @@\n');assert.ok(unicode.get('café.py')?.has(1));assert.throws(()=>changedLines('+++ "b/quoted-path.py"\n@@ -1 +1 @@\n'),/explicit review/);});

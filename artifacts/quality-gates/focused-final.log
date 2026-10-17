@@ -1,0 +1,26 @@
+✔ offline native Python gates catch new lint/type/secret/security defects and ignore old warnings (16545.948334ms)
+✔ native JS fallback and TypeScript catch new problems; OSV reads the predownloaded database offline (18480.036042ms)
+✔ a configured ESLint repo uses its BASE rules with the installed TypeScript parser (3011.48375ms)
+✔ quality sandbox denies real outbound network attempts with tracked cleanup (938.971ms)
+✔ quality gates count only new diagnostics on changed lines, never old warnings (0.8855ms)
+✔ gate proposals use ESLint only with repo config and preserve language boundaries (0.605042ms)
+✔ review boundary rejects malformed diagnostics rather than hiding or inventing a result (0.154542ms)
+✔ passing project/quality gates cannot overwrite NOT CHECKED from the protected checker (0.2475ms)
+✔ changed-line filtering accepts Unicode paths and refuses unsupported quoted paths instead of silently passing (0.837084ms)
+✔ new skips, vacuous tests, deleted assertions and changed expectations raise review flags (0.882875ms)
+✔ existing skips/assertions unchanged never raise new flags (0.551209ms)
+✔ real offline ast-grep catches Python/JS skips and deleted or changed expectations (2125.147666ms)
+✔ stale Keep blocked; recheck same Candidate refreshes evidence and permits explicit Keep without Builder (404.868542ms)
+✔ failed check-only run never fixes/rebuilds or enables Keep (298.431041ms)
+✔ restart while rechecking interrupts and never dispatches Builder or replays checks (49.194459ms)
+✔ NOT CHECKED cannot authorize Keep when the protected verifier is unavailable (313.956ms)
+✔ independent candidate failures are advisory and cannot change the verdict (0.896875ms)
+✔ red warning is an alert before Keep in both review surfaces, never hidden in disclosure (1.416291ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39126.268667

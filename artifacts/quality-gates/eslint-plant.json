@@ -1,0 +1,22 @@
+{
+  "version": "quality-gates-v1",
+  "base": "5bf5d50e59fbcdf0944ea8dad160a8b3541dfb9e",
+  "candidate": "375d86d31d20bbbf165c71f42a9f86f20fa2c85a",
+  "gates": [
+    {
+      "gate": "eslint",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "src/value.ts",
+          "line": 2,
+          "rule": "no-unused-vars",
+          "message": "'unusedThing' is assigned a value but never used."
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 2768.7576250000056
+    }
+  ],
+  "durationMs": 2929.391791000002
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "args": [
+      "open",
+      "http://127.0.0.1:65040",
+      "--browser=chrome"
+    ],
+    "stdout": "### Browser `quality-872047bc` opened with pid 7138.\n### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:65040');\n```\n### Page\n- Page URL: http://127.0.0.1:65040/\n- Page Title: Quality gate review fixture\n### Snapshot\n- [Snapshot](.playwright-cli/page-2026-10-17T19-44-29-546Z.yml)\n"
+  },
+  {
+    "args": [
+      "resize",
+      "1440",
+      "1000"
+    ],
+    "stdout": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 1440, height: 1000 });\n```\n"
+  },
+  {
+    "args": [
+      "snapshot"
+    ],
+    "stdout": "### Page\n- Page URL: http://127.0.0.1:65040/\n- Page Title: Quality gate review fixture\n### Snapshot\n```yaml\n- main [ref=e2]:\n  - region \"Exact-item decision\" [ref=e3]:\n    - heading \"Candidate review\" [level=3] [ref=e4]\n    - paragraph [ref=e5]: Review layout fixture — synthetic data, no live decisions.\n    - paragraph [ref=e6]:\n      - text: \"Check verdict:\"\n      - strong [ref=e7]: PASSED WITH GAPS\n    - paragraph [ref=e8]:\n      - text: \"Exact item:\"\n      - code [ref=e9]: synthetic-ticket\n    - link \"Inspect ticket and diff\" [ref=e10] [cursor=pointer]:\n      - /url: /?ticket=synthetic-ticket\n    - region \"Review checks\" [ref=e11]:\n      - paragraph [ref=e12]:\n        - strong [ref=e13]: Locked checks\n        - text: · Overall PASSED WITH GAPS; protected test details remain on the ticket.\n      - group [ref=e14]:\n        - generic [ref=e15] [cursor=pointer]:\n          - strong [ref=e16]: Quality gates\n          - text: · 6 pass · 0 fail · 1 not applicable\n      - group [ref=e17]:\n        - generic [ref=e18] [cursor=pointer]:\n          - strong [ref=e19]: Test-tampering\n          - text: · 1 review flags — look closely\n        - alert [ref=e20]: tests/test_value.py:4 · Assertion deleted or expectation changed\n      - paragraph [ref=e21]:\n        - strong [ref=e22]: Independent test warning\n        - text: · 1 failing assertions\n      - paragraph [ref=e23]:\n        - strong [ref=e24]: Mutation & coverage\n        - text: · Not measured\n    - alert [ref=e25]:\n      - strong [ref=e26]: Independent test fails on this change - look closely\n      - paragraph [ref=e27]: The appointment should show the exact cancellation reason immediately.\n      - paragraph [ref=e28]: This is advisory. It does not change the check verdict.\n      - group [ref=e29]:\n        - generic \"Failing assertion · test_cancel_reason\" [ref=e30] [cursor=pointer]\n    - generic [ref=e31]:\n      - button \"Keep candidate\" [ref=e32] [cursor=pointer]\n      - button \"Discard candidate\" [ref=e33] [cursor=pointer]\n```\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{const alert=page.getByRole('alert').filter({hasText:'Independent test fails'});await page.getByText('Test-tampering',{exact:true}).waitFor();await page.getByText('Quality gates',{exact:true}).waitFor();await alert.waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};}"
+    ],
+    "stdout": "### Result\n{\"width\":1440,\"warning\":\"Independent test fails on this change - look closely\\n\\nThe appointment should show the exact cancellation reason immediately.\\n\\nThis is advisory. It does not change the check verdict.\\n\\nFailing assertion · test_cancel_reason\"}\n### Ran Playwright code\n```js\nawait (async page=>{const alert=page.getByRole('alert').filter({hasText:'Independent test fails'});await page.getByText('Test-tampering',{exact:true}).waitFor();await page.getByText('Quality gates',{exact:true}).waitFor();await alert.waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};})(page);\n```\n"
+  },
+  {
+    "args": [
+      "screenshot",
+      "--filename=quality-1440.png"
+    ],
+    "stdout": "### Result\n- [Screenshot of viewport](./quality-1440.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as ./quality-1440.png\nawait page.screenshot({\n  path: './quality-1440.png',\n  scale: 'css',\n  type: 'png'\n});\n```\n"
+  },
+  {
+    "args": [
+      "resize",
+      "390",
+      "1000"
+    ],
+    "stdout": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 390, height: 1000 });\n```\n"
+  },
+  {
+    "args": [
+      "snapshot"
+    ],
+    "stdout": "### Page\n- Page URL: http://127.0.0.1:65040/\n- Page Title: Quality gate review fixture\n### Snapshot\n```yaml\n- main [ref=e2]:\n  - region \"Exact-item decision\" [ref=e3]:\n    - heading \"Candidate review\" [level=3] [ref=e4]\n    - paragraph [ref=e5]: Review layout fixture — synthetic data, no live decisions.\n    - paragraph [ref=e6]:\n      - text: \"Check verdict:\"\n      - strong [ref=e7]: PASSED WITH GAPS\n    - paragraph [ref=e8]:\n      - text: \"Exact item:\"\n      - code [ref=e9]: synthetic-ticket\n    - link \"Inspect ticket and diff\" [ref=e10] [cursor=pointer]:\n      - /url: /?ticket=synthetic-ticket\n    - region \"Review checks\" [ref=e11]:\n      - paragraph [ref=e12]:\n        - strong [ref=e13]: Locked checks\n        - text: · Overall PASSED WITH GAPS; protected test details remain on the ticket.\n      - group [ref=e14]:\n        - generic [ref=e15] [cursor=pointer]:\n          - strong [ref=e16]: Quality gates\n          - text: · 6 pass · 0 fail · 1 not applicable\n      - group [ref=e17]:\n        - generic [ref=e18] [cursor=pointer]:\n          - strong [ref=e19]: Test-tampering\n          - text: · 1 review flags — look closely\n        - alert [ref=e20]: tests/test_value.py:4 · Assertion deleted or expectation changed\n      - paragraph [ref=e21]:\n        - strong [ref=e22]: Independent test warning\n        - text: · 1 failing assertions\n      - paragraph [ref=e23]:\n        - strong [ref=e24]: Mutation & coverage\n        - text: · Not measured\n    - alert [ref=e25]:\n      - strong [ref=e26]: Independent test fails on this change - look closely\n      - paragraph [ref=e27]: The appointment should show the exact cancellation reason immediately.\n      - paragraph [ref=e28]: This is advisory. It does not change the check verdict.\n      - group [ref=e29]:\n        - generic \"Failing assertion · test_cancel_reason\" [ref=e30] [cursor=pointer]\n    - generic [ref=e31]:\n      - button \"Keep candidate\" [ref=e32] [cursor=pointer]\n      - button \"Discard candidate\" [ref=e33] [cursor=pointer]\n```\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{const alert=page.getByRole('alert').filter({hasText:'Independent test fails'});await page.getByText('Test-tampering',{exact:true}).waitFor();await page.getByText('Quality gates',{exact:true}).waitFor();await alert.waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};}"
+    ],
+    "stdout": "### Result\n{\"width\":390,\"warning\":\"Independent test fails on this change - look closely\\n\\nThe appointment should show the exact cancellation reason immediately.\\n\\nThis is advisory. It does not change the check verdict.\\n\\nFailing assertion · test_cancel_reason\"}\n### Ran Playwright code\n```js\nawait (async page=>{const alert=page.getByRole('alert').filter({hasText:'Independent test fails'});await page.getByText('Test-tampering',{exact:true}).waitFor();await page.getByText('Quality gates',{exact:true}).waitFor();await alert.waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};})(page);\n```\n"
+  },
+  {
+    "args": [
+      "screenshot",
+      "--filename=quality-390.png"
+    ],
+    "stdout": "### Result\n- [Screenshot of viewport](./quality-390.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as ./quality-390.png\nawait page.screenshot({\n  path: './quality-390.png',\n  scale: 'css',\n  type: 'png'\n});\n```\n"
+  },
+  {
+    "args": [
+      "close"
+    ],
+    "stdout": "Browser 'quality-872047bc' closed\n\n"
+  }
+]

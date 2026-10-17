@@ -1,0 +1,205 @@
+{
+  "ticket": {
+    "id": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+    "title": "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio",
+    "requestText": "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registration behavior unchanged. Add a unittest checking that phrase in the source add help output.",
+    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/quality-gates/real-research-router",
+    "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+    "status": "needs_you",
+    "attemptCount": 1,
+    "candidateCommits": [
+      "b9512392f9285cb039fb00695df0efcd760d668b"
+    ],
+    "checkVerdict": "NOT CHECKED",
+    "createdAt": "2026-10-17T19:27:54.892Z",
+    "updatedAt": "2026-10-17T19:33:09.319Z"
+  },
+  "stats": {
+    "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+    "submitToReviewMs": 129732,
+    "agentWorkingMs": 29874.107041999996,
+    "agentTimeIncomplete": false,
+    "needsYouStops": 2,
+    "fixAttempts": 0,
+    "finalVerdict": "NOT CHECKED",
+    "decision": null
+  },
+  "displayedVerdict": "NOT CHECKED",
+  "keepAvailable": false,
+  "staleReason": null,
+  "checks": [
+    {
+      "at": "2026-10-17T19:30:04.567Z",
+      "mode": "build",
+      "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+      "verdict": "PASSED WITH GAPS",
+      "gaps": [
+        "Existing verifier: No project recipe has been admitted and approved; this mandatory layer is unavailable.",
+        "Existing verifier: Advisory task checks not requested; original intent is not automatically proved.",
+        "Existing verifier: Existing protected checks did not pass; Test Writer cannot upgrade them.",
+        "Project playbook checks are regression guards; new intent is not independently proved.",
+        "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+      ],
+      "qualityGates": {
+        "version": "quality-gates-v1",
+        "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+        "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+        "gates": [
+          {
+            "gate": "ruff",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 45,
+            "durationMs": 2179.167665999994
+          },
+          {
+            "gate": "pyright",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 2,
+            "durationMs": 3886.4918340000004
+          },
+          {
+            "gate": "bandit",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 14,
+            "durationMs": 2819.830332999991
+          },
+          {
+            "gate": "opengrep",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 0,
+            "durationMs": 6897.305458999996
+          },
+          {
+            "gate": "gitleaks",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 0,
+            "durationMs": 2751.830166999993
+          },
+          {
+            "gate": "detect-secrets",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 9,
+            "durationMs": 7010.4128749999945
+          },
+          {
+            "gate": "osv",
+            "status": "NOT APPLICABLE",
+            "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+            "findings": [],
+            "baselineCount": 0,
+            "durationMs": 2.3358750000043074
+          }
+        ],
+        "durationMs": 27492.730832999994
+      },
+      "testTampering": {
+        "status": "CLEAR",
+        "flags": [],
+        "durationMs": 4543.81695800001
+      },
+      "extraMs": 32036.547791000005
+    },
+    {
+      "at": "2026-10-17T19:33:09.295Z",
+      "mode": "recheck",
+      "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+      "verdict": "NOT CHECKED",
+      "gaps": [
+        "Existing verifier: No project recipe has been admitted and approved; this mandatory layer is unavailable.",
+        "Existing verifier: Advisory task checks not requested; original intent is not automatically proved.",
+        "Existing verifier: Existing protected checks did not pass; Test Writer cannot upgrade them.",
+        "Project playbook checks are regression guards; new intent is not independently proved.",
+        "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+      ],
+      "qualityGates": {
+        "version": "quality-gates-v1",
+        "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+        "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+        "gates": [
+          {
+            "gate": "ruff",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 45,
+            "durationMs": 1874.9906669999982
+          },
+          {
+            "gate": "pyright",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 2,
+            "durationMs": 3209.7552499999947
+          },
+          {
+            "gate": "bandit",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 14,
+            "durationMs": 2486.591542000002
+          },
+          {
+            "gate": "opengrep",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 0,
+            "durationMs": 5521.114541000003
+          },
+          {
+            "gate": "gitleaks",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 0,
+            "durationMs": 2494.6682500000024
+          },
+          {
+            "gate": "detect-secrets",
+            "status": "PASS",
+            "findings": [],
+            "baselineCount": 9,
+            "durationMs": 5809.3422500000015
+          },
+          {
+            "gate": "osv",
+            "status": "NOT APPLICABLE",
+            "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+            "findings": [],
+            "baselineCount": 0,
+            "durationMs": 3.294916999991983
+          }
+        ],
+        "durationMs": 22851.293750000004
+      },
+      "testTampering": {
+        "status": "CLEAR",
+        "flags": [],
+        "durationMs": 3868.162875000009
+      },
+      "extraMs": 26719.456625000013
+    }
+  ],
+  "decisions": [
+    {
+      "kind": "retry_requested",
+      "at": "2026-10-17T19:28:36.360Z",
+      "action": null
+    },
+    {
+      "kind": "retry_requested",
+      "at": "2026-10-17T19:32:25.173Z",
+      "action": null
+    }
+  ],
+  "playbookApproval": {
+    "actor": "passkey",
+    "at": "2026-10-17T19:28:36.358Z",
+    "dataMode": "LIVE",
+    "hash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
+    "source": "webauthn"
+  }
+}

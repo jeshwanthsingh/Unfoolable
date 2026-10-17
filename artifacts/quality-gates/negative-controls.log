@@ -1,0 +1,13 @@
+observation-pipe-forgery-review-on INCONCLUSIVE
+R1-review-off FAIL
+native-judge-skipped INCONCLUSIVE
+native-judge-zero-collected INCONCLUSIVE
+skipped-existing-test-restored FAIL
+deleted-existing-test-restored FAIL
+edited-existing-test-restored FAIL
+early-exit-0 INCONCLUSIVE
+symlink-escape INCONCLUSIVE
+dependency-change INCONCLUSIVE
+oversized-output FAIL
+timeout INCONCLUSIVE
+Control artifacts: /Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/quality-gates/negative-controls

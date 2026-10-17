@@ -21,7 +21,7 @@ export function ticketPlaybookHooks(playbooks:ReturnType<typeof createPlaybookCh
    if(playbooks.store.requireApproved(ticket.repoPath).hash!==approved.hash)throw new ProjectPlaybookError('PLAYBOOK_CHANGED','Playbook approval changed during native checking.');
    if(native.verdict==='FAILED')return {...native,playbookHash:approved.hash};
    const project=await playbooks.check(approved,candidate.repo,ticket.baseCommit,candidate.commit,signal);
-   return {...native,...project,gaps:[...native.gaps.map(g=>'Existing verifier: '+g),...project.gaps],failures:[...native.failures,...project.failures]};
+   return {...native,...project,verdict:project.verdict==='FAILED'?'FAILED':native.verdict==='NOT CHECKED'?'NOT CHECKED':project.verdict,gaps:[...native.gaps.map(g=>'Existing verifier: '+g),...project.gaps],failures:[...native.failures,...project.failures]};
   }
  };
 }

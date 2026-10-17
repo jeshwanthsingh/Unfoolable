@@ -37,7 +37,7 @@ export function createTicketService(db:DatabaseSync,config:AppConfig,verifier:Re
     const proof=JSON.parse(readFileSync(check.playbookResultPath,'utf8'));if(proof.candidate!==c.commit||proof.baseCommit!==t.baseCommit||verifyTreeHash(proof.exportPath,proof.trustedLinks??{})!==proof.exportHash)return 'Executed playbook export changed.';
    }
    if(typeof check.verificationId==='string'){
-    const v=verifier.view(check.verificationId);if(v.result?.status==='STALE')return v.error??'Protected check evidence is stale.';if(v.abandonedAt||v.result?.status==='CANCELLED')return 'Protected checks were cancelled.';if(['VERIFIED','PASSED WITH GAPS'].includes(String(check.verdict))&&v.result?.status!=='PASS')return 'Protected checks are no longer passing.';
+    const v=verifier.view(check.verificationId);if(v.result?.status==='STALE')return v.error??'Protected check evidence is stale.';if(v.abandonedAt||v.result?.status==='CANCELLED')return 'Protected checks were cancelled.';if(v.result?.status!=='PASS')return 'Protected checks are no longer passing.';
     if(v.result?.evidence?.hash!==check.evidenceHash||v.input.candidateCommit!==c.commit||v.input.baseCommit!==t.baseCommit||v.input.candidateTree!==c.tree)return 'Check evidence changed or is bound to another artifact.';
    }
   }catch(problem){if(problem instanceof ProjectPlaybookError&&problem.code==='PLAYBOOK_REQUIRED')return 'Approve the current playbook, then recheck; previous evidence is stale.';return 'Bound check evidence or playbook approval is unavailable.';}
