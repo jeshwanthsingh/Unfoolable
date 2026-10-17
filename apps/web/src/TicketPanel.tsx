@@ -1,3 +1,5 @@
+import {IndependentTestWarnings} from './WriterWarning.tsx';
+import {writerWarnings} from '../../../packages/shared/test-writer.ts';
 import {isTestWriterEvidence,type TestWriterEvidence} from '../../../packages/shared/test-writer.ts';
 import {TICKET_LIMITS} from '../../../packages/shared/ticket-budget.ts';
 import {useEffect,useState} from 'react';
@@ -115,7 +117,7 @@ export function TicketPanel(){
  <dl className="ticket-stats"><div><dt>Submit to review</dt><dd>{elapsed(detail.stats.submitToReviewMs)}</dd></div><div><dt>Agent work</dt><dd>{elapsed(detail.stats.agentWorkingMs)}{detail.stats.agentTimeIncomplete?' (incomplete)':''}</dd></div><div><dt>Needs-you stops</dt><dd>{detail.stats.needsYouStops}</dd></div><div><dt>Fix attempts</dt><dd>{detail.stats.fixAttempts}</dd></div></dl>
  {detail.diffAvailable&&<button className="secondary-button" disabled={diffRequested} onClick={()=>setDiffRequested(true)}>{diffRequested&&!diff?'Loading diff…':'Inspect diff'}</button>}{diffError&&<p role="alert">{diffError}</p>}{diff&&<details open><summary>Candidate diff</summary><a href={diff.url} download={detail.ticket.id+'.diff'}>Download diff</a><pre>{diff.text}</pre></details>}
  {detail.evidenceStale&&<p role="status">Checks are stale: {detail.staleReason}</p>}{detail.recheckAvailable&&<button className="secondary-button" disabled={busy} onClick={()=>void action('recheck')}>Recheck</button>}
- {detail.ticket.status==='ready_for_review'&&<div className="ticket-actions"><button className="primary-button" disabled={busy||detail.evidenceStale||detail.keepAvailable===false||!detail.ticket.candidateCommits.length} onClick={()=>void action('keep')}>Keep candidate</button><button className="secondary-button" disabled={busy} onClick={()=>void action('discard')}>Discard candidate</button></div>}
+ <IndependentTestWarnings warnings={writerWarnings(detail.check?.testWriter)}/>{detail.ticket.status==='ready_for_review'&&<div className="ticket-actions"><button className="primary-button" disabled={busy||detail.evidenceStale||detail.keepAvailable===false||!detail.ticket.candidateCommits.length} onClick={()=>void action('keep')}>Keep candidate</button><button className="secondary-button" disabled={busy} onClick={()=>void action('discard')}>Discard candidate</button></div>}
  {['needs_you','interrupted','harness_error'].includes(detail.ticket.status)&&!(detail.ticket.status==='needs_you'&&detail.playbook?.approval?.hash!==detail.playbook?.hash)&&<button className="secondary-button" disabled={busy} onClick={()=>void action('retry')}>Retry ticket</button>}
  <h4>Events</h4><ol className="ticket-events">{detail.events.map(event=><li key={event.sequence}><time dateTime={event.createdAt}>{event.createdAt}</time> <strong>{event.kind}</strong><details><summary>Event details</summary><pre>{JSON.stringify(event.data,null,2)}</pre></details></li>)}</ol>
  </>}</article></div></section>;

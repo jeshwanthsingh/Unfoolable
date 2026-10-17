@@ -1,0 +1,2 @@
+import {INDEPENDENT_TEST_WARNING,type WriterWarning} from '../../../packages/shared/test-writer.ts';
+export function IndependentTestWarnings({warnings}:{warnings:WriterWarning[]}){return <>{warnings.map((warning,index)=><section key={index} className="independent-test-warning" role="alert"><strong>{INDEPENDENT_TEST_WARNING}</strong><p>{warning.summary}</p><p>This is advisory. It does not change the check verdict.</p><details><summary>Failing assertion · {warning.testName}</summary><pre>{warning.assertion}</pre></details></section>)}</>;}

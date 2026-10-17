@@ -58,3 +58,14 @@ test('status matching does not swallow an engineering request about status or fu
 test('restart retires an untouched misrouted status draft without a model or ticket',async()=>{const f=fixture();try{const m=f.service.store.appendMessage({role:'user',text:'what needs me ?'}),d=f.service.store.createDraft(m.sequence,{status:'QUESTION',question:'Which repo?'});await f.reload();assert.equal(f.service.store.draft(d.id)!.status,'CANCELLED');assert.equal(f.calls.draft.length,0);assert.equal(f.calls.create,0);await f.reload();assert.equal(f.service.store.messages().filter(m=>m.draftId===d.id).length,1);}finally{await f.close();}});
 
 test('paused live approval fails before reserving a card or recording a decision',async()=>{const f=fixture();try{f.seed('needs_you');const book:ProjectPlaybook={repoRoot:'/repo',baseCommit:base,hash:'hash1',approval:null,updatedAt:'now',definition:{version:'project-playbook-v1',setup:null,tests:[{argv:['python3','-m','unittest'],cwd:'.'}],env:{},runner:'unittest',timeoutSeconds:60,knownFailingTests:[],knownFlakyTests:[],notes:['Fixture only']}};f.setBook(book);f.tickets.playbookApprovalEnabled=()=>false;f.service.project();const c=f.service.store.cards().find(c=>c.actions.includes('approve_playbook'))!;await assert.rejects(f.service.action(c.id,{binding:c.binding,action:'approve_playbook'}),{code:'HUMAN_APPROVAL_REQUIRED'});assert.equal(f.service.store.card(c.id)!.status,'PENDING');assert.equal(f.service.store.card(c.id)!.resolution,null);assert.deepEqual(f.calls.approve,[]);assert.equal(f.service.store.messages().filter(m=>m.kind==='decision').length,0);}finally{await f.close();}});
+
+test('current chat review carries the advisory warning and never reuses it on a stale card',async()=>{
+ const f=fixture();try{
+ f.tickets.playbookApprovalEnabled=()=>false;const ticket=f.seed('ready_for_review'),show=f.tickets.show.bind(f.tickets);
+ const warning={testName:'test_reason',summary:'Cancellation preserves the exact reason.',assertion:'Expected reason; received undefined'};
+ const evidence={version:'test-writer-v1',baseCommit:base,requestHash:'r',inputHash:null,usage:null,sessionId:null,started:true,coverage:'NONE',checks:[],reason:null,warnings:[warning]};
+ f.tickets.show=((id:string)=>{const value=show(id);return {...value,check:{...value.check,testWriter:evidence}};}) as typeof f.tickets.show;
+ const first=await f.service.view();const card=first.cards.find(c=>c.targetId===ticket.id&&c.status==='PENDING')!;assert.deepEqual(card.warnings,[warning]);assert.equal(card.verdict,'VERIFIED');assert.ok(card.actions.includes('keep'));assert.equal(f.calls.decide.length,0);
+ f.flags.set(ticket.id,{stale:true,checkIdentity:'changed'});const next=await f.service.view();assert.equal(next.cards.find(c=>c.id===card.id)?.status,'STALE');assert.equal(next.cards.find(c=>c.id===card.id)?.warnings,undefined);
+ }finally{await f.close();}
+});

@@ -1,3 +1,4 @@
+import {writerWarnings,isTestWriterEvidence} from '../../packages/shared/test-writer.ts';
 import type {DatabaseSync} from 'node:sqlite';
 import type {createTicketService} from './ticket-service.ts';
 import type {createChatCodex} from './chat-codex.ts';
@@ -18,7 +19,7 @@ export function createChatService(db:DatabaseSync,tickets:ReturnType<typeof crea
  const project=()=>{projectChatEvents(db,store);cards.sync();};const timer=setInterval(project,1000);timer.unref();
  const repos=()=>[...new Map([...listProjects(db).map(p=>({displayName:p.displayName,repoPath:p.repoRoot})),...tickets.list().tickets.map(t=>({displayName:t.repoPath.split('/').at(-1)!,repoPath:t.repoPath}))].map(r=>[r.repoPath,r])).values()];
  function draft(id:string,version:unknown,statuses:ChatDraft['status'][]){const d=store.draft(id);if(!d||!Number.isSafeInteger(version)||d.version!==version||!statuses.includes(d.status))throw new SpecError('STALE_DRAFT','This draft changed or was already decided. Refresh it before acting.');return d;}
- async function view(){project();const fuel=await runtime.fuel();return {...store.view(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled(),fuel:{status:fuel.unknown?'unknown':'known',windows:fuel.windows}};}
+ async function view(){project();const fuel=await runtime.fuel();const snapshot=store.view();return {...snapshot,cards:snapshot.cards.map(card=>{if(card.kind!=='ticket'||card.status!=='PENDING'||cards.current(card)!==card.binding)return card;const evidence=tickets.show(card.targetId).check?.testWriter;return {...card,warnings:writerWarnings(isTestWriterEvidence(evidence)?evidence:undefined)};}),playbookApprovalsEnabled:tickets.playbookApprovalEnabled(),fuel:{status:fuel.unknown?'unknown':'known',windows:fuel.windows}};}
  async function message(text:unknown){
   if(!validText(text,20000))throw new SpecError('INVALID_MESSAGE','Enter a message of 1–20,000 characters.',400);
   if(drafting)throw new SpecError('DRAFT_IN_PROGRESS','One draft is already being prepared.');const original=store.appendMessage({role:'user',text});project();

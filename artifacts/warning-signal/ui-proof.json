@@ -1,0 +1,60 @@
+[
+  {
+    "args": [
+      "open",
+      "http://127.0.0.1:60753",
+      "--browser=chrome"
+    ],
+    "stdout": "### Browser `warning-d48dae9b` opened with pid 5495.\n### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:60753');\n```\n### Page\n- Page URL: http://127.0.0.1:60753/\n- Page Title: Warning proof\n### Snapshot\n- [Snapshot](.playwright-cli/page-2026-10-17T17-51-09-382Z.yml)\n"
+  },
+  {
+    "args": [
+      "resize",
+      "1440",
+      "1000"
+    ],
+    "stdout": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 1440, height: 1000 });\n```\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{const alert=page.getByRole('alert');await alert.waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};}"
+    ],
+    "stdout": "### Result\n{\"width\":1440,\"warning\":\"Independent test fails on this change - look closely\\n\\nThe appointment should show the exact cancellation reason immediately.\\n\\nThis is advisory. It does not change the check verdict.\\n\\nFailing assertion · test_cancel_reason\"}\n### Ran Playwright code\n```js\nawait (async page=>{const alert=page.getByRole('alert');await alert.waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};})(page);\n```\n"
+  },
+  {
+    "args": [
+      "screenshot",
+      "--filename=warning-1440.png"
+    ],
+    "stdout": "### Result\n- [Screenshot of viewport](./warning-1440.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as ./warning-1440.png\nawait page.screenshot({\n  path: './warning-1440.png',\n  scale: 'css',\n  type: 'png'\n});\n```\n"
+  },
+  {
+    "args": [
+      "resize",
+      "390",
+      "1000"
+    ],
+    "stdout": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 390, height: 1000 });\n```\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{const alert=page.getByRole('alert');await alert.waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};}"
+    ],
+    "stdout": "### Result\n{\"width\":390,\"warning\":\"Independent test fails on this change - look closely\\n\\nThe appointment should show the exact cancellation reason immediately.\\n\\nThis is advisory. It does not change the check verdict.\\n\\nFailing assertion · test_cancel_reason\"}\n### Ran Playwright code\n```js\nawait (async page=>{const alert=page.getByRole('alert');await alert.waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};})(page);\n```\n"
+  },
+  {
+    "args": [
+      "screenshot",
+      "--filename=warning-390.png"
+    ],
+    "stdout": "### Result\n- [Screenshot of viewport](./warning-390.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as ./warning-390.png\nawait page.screenshot({\n  path: './warning-390.png',\n  scale: 'css',\n  type: 'png'\n});\n```\n"
+  },
+  {
+    "args": [
+      "close"
+    ],
+    "stdout": "Browser 'warning-d48dae9b' closed\n\n"
+  }
+]
