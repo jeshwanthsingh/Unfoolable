@@ -1,0 +1,11 @@
+rules:
+  - id: python-eval
+    languages: [python]
+    message: Dynamic eval executes untrusted input
+    severity: ERROR
+    pattern: eval(...)
+  - id: js-eval
+    languages: [javascript, typescript]
+    message: Dynamic eval executes untrusted input
+    severity: ERROR
+    pattern: eval(...)

@@ -1,0 +1,91 @@
+{
+  "version": "quality-gates-v1",
+  "base": "76c04f30369ed0502aed25fc2ed39c665a711759",
+  "candidate": "cd387a0c51e8201b52e33e7eef384ed252b57def",
+  "gates": [
+    {
+      "gate": "ruff",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 1,
+          "rule": "I001",
+          "message": "Import block is un-sorted or un-formatted"
+        },
+        {
+          "path": "app.py",
+          "line": 1,
+          "rule": "F401",
+          "message": "`os` imported but unused"
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 1937.256625
+    },
+    {
+      "gate": "pyright",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 3,
+          "rule": "reportReturnType",
+          "message": "Type \"Literal['wrong']\" is not assignable to return type \"int\"\n  \"Literal['wrong']\" is not assignable to \"int\""
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 2417.5590420000003
+    },
+    {
+      "gate": "bandit",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 5,
+          "rule": "B307",
+          "message": "Use of possibly insecure function - consider using safer ast.literal_eval."
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 2224.013459
+    },
+    {
+      "gate": "opengrep",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "app.py",
+          "line": 5,
+          "rule": "Users.jeshwanthsingh.Projects.ai-lab.command-center.scripts.quality-gates.python-eval",
+          "message": "Dynamic eval executes untrusted input"
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 5585.17075
+    },
+    {
+      "gate": "gitleaks",
+      "status": "PASS",
+      "findings": [],
+      "baselineCount": 0,
+      "durationMs": 2403.037708
+    },
+    {
+      "gate": "detect-secrets",
+      "status": "PASS",
+      "findings": [],
+      "baselineCount": 0,
+      "durationMs": 4752.356875000001
+    },
+    {
+      "gate": "osv",
+      "status": "PASS",
+      "findings": [],
+      "baselineCount": 0,
+      "durationMs": 2070.776750000001
+    }
+  ],
+  "durationMs": 21527.702083
+}

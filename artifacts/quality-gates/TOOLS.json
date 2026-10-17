@@ -1,0 +1,105 @@
+{
+  "tools": [
+    {
+      "name": "ruff",
+      "version": "0.17.1",
+      "license": "MIT"
+    },
+    {
+      "name": "pyright",
+      "version": "1.1.414",
+      "license": "MIT"
+    },
+    {
+      "name": "bandit",
+      "version": "1.9.4",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "detect-secrets",
+      "version": "1.5.0",
+      "license": "Apache-2.0",
+      "licenseUrl": "https://github.com/Yelp/detect-secrets/blob/master/LICENSE"
+    },
+    {
+      "name": "oxlint",
+      "version": "1.88.0",
+      "license": "MIT"
+    },
+    {
+      "name": "@ast-grep/cli",
+      "version": "0.51.0",
+      "license": "MIT"
+    },
+    {
+      "name": "eslint",
+      "version": "10.13.0",
+      "license": "MIT"
+    },
+    {
+      "name": "typescript-eslint",
+      "version": "8.71.2",
+      "license": "MIT"
+    },
+    {
+      "name": "typescript",
+      "version": "6.0.3",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "pyright",
+      "version": "1.1.414",
+      "license": "MIT"
+    },
+    {
+      "name": "opengrep",
+      "version": "1.31.0",
+      "license": "LGPL-2.1",
+      "licenseUrl": "https://github.com/opengrep/opengrep/blob/main/LICENSE"
+    },
+    {
+      "name": "gitleaks",
+      "version": "8.30.1",
+      "license": "MIT",
+      "licenseUrl": "https://github.com/gitleaks/gitleaks/blob/master/LICENSE"
+    },
+    {
+      "name": "osv-scanner",
+      "version": "2.7.0",
+      "license": "Apache-2.0",
+      "licenseUrl": "https://github.com/google/osv-scanner/blob/main/LICENSE"
+    }
+  ],
+  "downloads": [
+    {
+      "name": "opengrep",
+      "url": "https://github.com/opengrep/opengrep/releases/download/v1.31.0/opengrep_osx_arm64",
+      "sha256": "035dd8fd2410fe68513916df0c2895257fffafcd5314b4a118484ce8db62bedb",
+      "publishedChecksumVerified": false
+    },
+    {
+      "name": "osv-scanner",
+      "url": "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_darwin_arm64",
+      "sha256": "d4926ef8da134332543be276dff157e4c170f99ad91fc48e89448a8816bdf70b",
+      "publishedChecksumVerified": false
+    },
+    {
+      "name": "gitleaks.tar.gz",
+      "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_darwin_arm64.tar.gz",
+      "sha256": "b40ab0ae55c505963e365f271a8d3846efbc170aa17f2607f13df610a9aeb6a5",
+      "publishedChecksumVerified": true
+    }
+  ],
+  "osvDatabases": [
+    {
+      "ecosystem": "PyPI",
+      "bytes": 36431923,
+      "url": "https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip"
+    },
+    {
+      "ecosystem": "npm",
+      "bytes": 218455616,
+      "url": "https://osv-vulnerabilities.storage.googleapis.com/npm/all.zip"
+    }
+  ]
+}
