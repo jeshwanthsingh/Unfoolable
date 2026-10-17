@@ -1,0 +1,35 @@
+[
+  {
+    "name": "emil-animate",
+    "repository": "emilkowalski/skills",
+    "commit": "2d228630ba1446365f614a108cb8252f1feda202",
+    "license": "MIT",
+    "skillSHA256": "b8ede161270458e6ae2e45e8a1985373515d4c63de5568ddb0f9012d7634356c"
+  },
+  {
+    "name": "emil-review-animations",
+    "repository": "emilkowalski/skills",
+    "commit": "2d228630ba1446365f614a108cb8252f1feda202",
+    "license": "MIT",
+    "skillSHA256": "6ff590d29e436766135aa3d137be1fac2a867165c7257fc315b189361f1873af"
+  },
+  {
+    "name": "emil-animation-performance",
+    "repository": "emilkowalski/skills",
+    "commit": "2d228630ba1446365f614a108cb8252f1feda202",
+    "license": "MIT",
+    "skillSHA256": "ceb9dd3fe912615830f725a0120ccf8d012d15a6218001a5cd6c15d38e39a957"
+  },
+  {
+    "name": "@playwright/mcp",
+    "version": "0.0.83",
+    "license": "Apache-2.0",
+    "scope": "ignored local development tools only"
+  },
+  {
+    "name": "@modelcontextprotocol/sdk",
+    "version": "1.32.1",
+    "license": "MIT",
+    "scope": "ignored local development tools only"
+  }
+]
