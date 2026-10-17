@@ -1,0 +1,24 @@
+{
+  "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+  "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+  "attemptCount": 1,
+  "status": "harness_error",
+  "verdict": "NOT CHECKED",
+  "gaps": [
+    "Protected evaluator changed.",
+    "Latest checks did not produce fresh evidence."
+  ],
+  "risk": {
+    "color": "RED",
+    "reason": "Tests, playbook, CI or lockfiles changed",
+    "files": 2,
+    "changedLines": 9,
+    "cap": {
+      "lines": 400,
+      "files": 15
+    }
+  },
+  "keepAvailable": false,
+  "recheckPendingHumanConfirmation": true,
+  "decisionEvents": 0
+}

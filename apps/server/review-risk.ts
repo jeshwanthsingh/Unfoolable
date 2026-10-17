@@ -3,7 +3,7 @@ import {isQualityEvidence,isTamperingEvidence} from '../../packages/shared/quali
 import type {ReviewRisk} from '../../packages/shared/review-risk.ts';
 export function reviewRisk(check:Record<string,unknown>|undefined,paths:string[],diff:string,cap={lines:400,files:15}):ReviewRisk {
  let changedLines=0,inHunk=false;for(const line of diff.split('\n')){if(line.startsWith('diff --git '))inHunk=false;else if(line.startsWith('@@ '))inHunk=true;else if(inHunk&&(line.startsWith('+')||line.startsWith('-')))changedLines++;}
- const reasons:string[]=[];
+ const reasons:string[]=[];if(/GIT binary patch|^Binary files /m.test(diff))reasons.push('Binary diff cannot be measured as changed text lines');
  if(paths.some(p=>/(^|\/)(test_[^/]+|[^/]+_test)\.[^/]+$/.test(p)||/(^|\/)(tests?|__tests__|\.github|\.circleci)(\/|$)|(^|\/)[^/]*[._-](test|spec)\.[^/]+$|(^|\/)(playbook[^/]*|.*lock[^/]*|Jenkinsfile|\.gitlab-ci\.yml)$/i.test(p)))reasons.push('Tests, playbook, CI or lockfiles changed');
  if(changedLines>cap.lines||paths.length>cap.files)reasons.push('Diff exceeds '+cap.lines+' lines or '+cap.files+' files');
  if(isTamperingEvidence(check?.testTampering)&&check.testTampering.status!=='CLEAR')reasons.push(check.testTampering.status==='FLAGGED'?'Test-tampering flag':'Test-tampering check unavailable');

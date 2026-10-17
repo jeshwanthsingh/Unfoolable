@@ -1,0 +1,25 @@
+{
+  "exit": 0,
+  "seconds": 314.34,
+  "tests": 907,
+  "passed": 907,
+  "failed": 0,
+  "skipped": 0,
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "browserWidths": [
+    1440,
+    390
+  ],
+  "newDependencies": 0,
+  "negativeControls": {
+    "total": 12,
+    "PASS": 0,
+    "FAIL": 5,
+    "INCONCLUSIVE": 7
+  },
+  "readGuard": {
+    "targets": 65,
+    "readable": 0
+  }
+}

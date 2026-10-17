@@ -1,3 +1,7 @@
+import {createHash} from 'node:crypto';
+import {renameSync} from 'node:fs';
+import {canonicalContractJson} from '../apps/server/contract-store.ts';
+import {repositoryIdentity,readRepositoryIdentities} from '../apps/server/repository-identity.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, symlinkSync, realpathSync} from 'node:fs';
@@ -65,3 +69,9 @@ test('approval follows root commit and remote identity across clean clones; edit
 });
 
 test('diff cap changes are hashed, unapproved and validated',async()=>{const f=fixture();try{const d=await f.store.propose(f.repo,f.base);f.store.approve(f.repo,d.hash);const edited=f.store.edit(f.repo,{...d.definition,diffCap:{lines:200,files:5}});assert.notEqual(edited.hash,d.hash);assert.equal(edited.approval,null);assert.deepEqual(edited.definition.diffCap,{lines:200,files:5});for(const diffCap of [{lines:0,files:1},{lines:400,files:-1},{lines:Infinity,files:1}])assert.throws(()=>validatePlaybookDefinition({...d.definition,diffCap}),{code:'INVALID_PLAYBOOK'});}finally{rmSync(f.root,{recursive:true,force:true});}});
+
+test('legacy path-only approval needs fresh confirmation and creates identity storage before approval',async()=>{const f=fixture();try{const d=await f.store.propose(f.repo,f.base);f.store.approve(f.repo,d.hash);const current=join(f.store.root,repositoryIdentity(f.repo)),legacy=join(f.store.root,createHash('sha256').update(canonicalContractJson(realpathSync(f.repo))).digest('hex'));renameSync(current,legacy);assert.equal(f.store.show(f.repo)?.approval,null);const approved=f.store.approve(f.repo,d.hash);assert.equal(approved.repositoryIdentity,repositoryIdentity(f.repo));assert.ok(approved.approval);assert.deepEqual(f.store.show(f.repo),approved);}finally{rmSync(f.root,{recursive:true,force:true});}});
+
+test('a real origin named NO_REMOTE cannot collide with absence of a remote',()=>{const f=fixture();try{const absent=repositoryIdentity(f.repo);f.git(['remote','add','origin','NO_REMOTE']);assert.notEqual(repositoryIdentity(f.repo),absent);}finally{rmSync(f.root,{recursive:true,force:true});}});
+
+test('display identity snapshots never survive into a later authorization read',()=>{const f=fixture();try{const before=repositoryIdentity(f.repo);readRepositoryIdentities(()=>{assert.equal(repositoryIdentity(f.repo),before);f.git(['remote','add','origin','https://example.invalid/changed.git']);assert.equal(repositoryIdentity(f.repo),before);});assert.notEqual(repositoryIdentity(f.repo),before);}finally{rmSync(f.root,{recursive:true,force:true});}});

@@ -1,0 +1,72 @@
+[
+  {
+    "args": [
+      "open",
+      "http://127.0.0.1:50592",
+      "--browser=chrome"
+    ],
+    "stdout": "### Browser `honest-bbd5b066` opened with pid 21250.\n### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:50592');\n```\n### Page\n- Page URL: http://127.0.0.1:50592/\n- Page Title: Quality gate review fixture\n### Snapshot\n- [Snapshot](.playwright-cli/page-2026-10-17T20-05-51-217Z.yml)\n"
+  },
+  {
+    "args": [
+      "resize",
+      "1440",
+      "1000"
+    ],
+    "stdout": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 1440, height: 1000 });\n```\n"
+  },
+  {
+    "args": [
+      "snapshot"
+    ],
+    "stdout": "### Page\n- Page URL: http://127.0.0.1:50592/\n- Page Title: Quality gate review fixture\n### Snapshot\n```yaml\n- main [ref=e2]:\n  - region \"Exact-item decision\" [ref=e3]:\n    - heading \"Candidate review\" [level=3] [ref=e4]\n    - paragraph [ref=e5]: Review layout fixture — synthetic data, no live decisions.\n    - alert [ref=e6]:\n      - strong [ref=e7]: RED\n      - text: · Tests changed; independent test warning.\n      - generic [ref=e8]: 9 changed lines · 2 files\n    - paragraph [ref=e9]: Keep is locked until you open every changed file in the ticket diff.\n    - paragraph [ref=e10]:\n      - text: \"Check verdict:\"\n      - strong [ref=e11]: PASSED WITH GAPS\n    - paragraph [ref=e12]:\n      - text: \"Exact item:\"\n      - code [ref=e13]: synthetic-ticket\n    - link \"Inspect ticket and diff\" [ref=e14] [cursor=pointer]:\n      - /url: /?ticket=synthetic-ticket\n    - region \"Review checks\" [ref=e15]:\n      - paragraph [ref=e16]:\n        - strong [ref=e17]: Locked checks\n        - text: · Overall PASSED WITH GAPS; protected test details remain on the ticket.\n      - group [ref=e18]:\n        - generic [ref=e19] [cursor=pointer]:\n          - strong [ref=e20]: Quality gates\n          - text: · 6 pass · 0 fail · 1 not applicable\n      - group [ref=e21]:\n        - generic [ref=e22] [cursor=pointer]:\n          - strong [ref=e23]: Test-tampering\n          - text: · 1 review flags — look closely\n        - alert [ref=e24]: tests/test_value.py:4 · Assertion deleted or expectation changed\n      - paragraph [ref=e25]:\n        - strong [ref=e26]: Independent test warning\n        - text: · 1 failing assertions\n      - paragraph [ref=e27]:\n        - strong [ref=e28]: Mutation & coverage\n        - text: · Not measured\n    - alert [ref=e29]:\n      - strong [ref=e30]: Independent test fails on this change - look closely\n      - paragraph [ref=e31]: The appointment should show the exact cancellation reason immediately.\n      - paragraph [ref=e32]: This is advisory. It does not change the check verdict.\n      - group [ref=e33]:\n        - generic \"Failing assertion · test_cancel_reason\" [ref=e34] [cursor=pointer]\n    - generic [ref=e35]:\n      - button \"Keep candidate\" [disabled] [ref=e36]\n      - button \"Discard candidate\" [ref=e37] [cursor=pointer]\n```\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{const alert=page.getByRole('alert').filter({hasText:'Independent test fails'});await page.getByText('Test-tampering',{exact:true}).waitFor();await page.getByText('Quality gates',{exact:true}).waitFor();await alert.waitFor();if(!await page.getByRole('button',{name:'Keep candidate'}).isDisabled())throw Error('Keep not locked');await page.getByText('RED',{exact:true}).waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};}"
+    ],
+    "stdout": "### Result\n{\"width\":1440,\"warning\":\"Independent test fails on this change - look closely\\n\\nThe appointment should show the exact cancellation reason immediately.\\n\\nThis is advisory. It does not change the check verdict.\\n\\nFailing assertion · test_cancel_reason\"}\n### Ran Playwright code\n```js\nawait (async page=>{const alert=page.getByRole('alert').filter({hasText:'Independent test fails'});await page.getByText('Test-tampering',{exact:true}).waitFor();await page.getByText('Quality gates',{exact:true}).waitFor();await alert.waitFor();if(!await page.getByRole('button',{name:'Keep candidate'}).isDisabled())throw Error('Keep not locked');await page.getByText('RED',{exact:true}).waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};})(page);\n```\n"
+  },
+  {
+    "args": [
+      "screenshot",
+      "--filename=honest-1440.png"
+    ],
+    "stdout": "### Result\n- [Screenshot of viewport](./honest-1440.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as ./honest-1440.png\nawait page.screenshot({\n  path: './honest-1440.png',\n  scale: 'css',\n  type: 'png'\n});\n```\n"
+  },
+  {
+    "args": [
+      "resize",
+      "390",
+      "1000"
+    ],
+    "stdout": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 390, height: 1000 });\n```\n"
+  },
+  {
+    "args": [
+      "snapshot"
+    ],
+    "stdout": "### Page\n- Page URL: http://127.0.0.1:50592/\n- Page Title: Quality gate review fixture\n### Snapshot\n```yaml\n- main [ref=e2]:\n  - region \"Exact-item decision\" [ref=e3]:\n    - heading \"Candidate review\" [level=3] [ref=e4]\n    - paragraph [ref=e5]: Review layout fixture — synthetic data, no live decisions.\n    - alert [ref=e6]:\n      - strong [ref=e7]: RED\n      - text: · Tests changed; independent test warning.\n      - generic [ref=e8]: 9 changed lines · 2 files\n    - paragraph [ref=e9]: Keep is locked until you open every changed file in the ticket diff.\n    - paragraph [ref=e10]:\n      - text: \"Check verdict:\"\n      - strong [ref=e11]: PASSED WITH GAPS\n    - paragraph [ref=e12]:\n      - text: \"Exact item:\"\n      - code [ref=e13]: synthetic-ticket\n    - link \"Inspect ticket and diff\" [ref=e14] [cursor=pointer]:\n      - /url: /?ticket=synthetic-ticket\n    - region \"Review checks\" [ref=e15]:\n      - paragraph [ref=e16]:\n        - strong [ref=e17]: Locked checks\n        - text: · Overall PASSED WITH GAPS; protected test details remain on the ticket.\n      - group [ref=e18]:\n        - generic [ref=e19] [cursor=pointer]:\n          - strong [ref=e20]: Quality gates\n          - text: · 6 pass · 0 fail · 1 not applicable\n      - group [ref=e21]:\n        - generic [ref=e22] [cursor=pointer]:\n          - strong [ref=e23]: Test-tampering\n          - text: · 1 review flags — look closely\n        - alert [ref=e24]: tests/test_value.py:4 · Assertion deleted or expectation changed\n      - paragraph [ref=e25]:\n        - strong [ref=e26]: Independent test warning\n        - text: · 1 failing assertions\n      - paragraph [ref=e27]:\n        - strong [ref=e28]: Mutation & coverage\n        - text: · Not measured\n    - alert [ref=e29]:\n      - strong [ref=e30]: Independent test fails on this change - look closely\n      - paragraph [ref=e31]: The appointment should show the exact cancellation reason immediately.\n      - paragraph [ref=e32]: This is advisory. It does not change the check verdict.\n      - group [ref=e33]:\n        - generic \"Failing assertion · test_cancel_reason\" [ref=e34] [cursor=pointer]\n    - generic [ref=e35]:\n      - button \"Keep candidate\" [disabled] [ref=e36]\n      - button \"Discard candidate\" [ref=e37] [cursor=pointer]\n```\n"
+  },
+  {
+    "args": [
+      "run-code",
+      "async page=>{const alert=page.getByRole('alert').filter({hasText:'Independent test fails'});await page.getByText('Test-tampering',{exact:true}).waitFor();await page.getByText('Quality gates',{exact:true}).waitFor();await alert.waitFor();if(!await page.getByRole('button',{name:'Keep candidate'}).isDisabled())throw Error('Keep not locked');await page.getByText('RED',{exact:true}).waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};}"
+    ],
+    "stdout": "### Result\n{\"width\":390,\"warning\":\"Independent test fails on this change - look closely\\n\\nThe appointment should show the exact cancellation reason immediately.\\n\\nThis is advisory. It does not change the check verdict.\\n\\nFailing assertion · test_cancel_reason\"}\n### Ran Playwright code\n```js\nawait (async page=>{const alert=page.getByRole('alert').filter({hasText:'Independent test fails'});await page.getByText('Test-tampering',{exact:true}).waitFor();await page.getByText('Quality gates',{exact:true}).waitFor();await alert.waitFor();if(!await page.getByRole('button',{name:'Keep candidate'}).isDisabled())throw Error('Keep not locked');await page.getByText('RED',{exact:true}).waitFor();if(!await alert.isVisible())throw Error('warning not visible');const a=await alert.boundingBox(),b=await page.getByRole('button',{name:'Keep candidate'}).boundingBox();if(a.y+a.height>b.y)throw Error('warning not before Keep');if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('overflow');return {width:page.viewportSize().width,warning:await alert.innerText()};})(page);\n```\n"
+  },
+  {
+    "args": [
+      "screenshot",
+      "--filename=honest-390.png"
+    ],
+    "stdout": "### Result\n- [Screenshot of viewport](./honest-390.png)\n### Ran Playwright code\n```js\n// Screenshot viewport and save it as ./honest-390.png\nawait page.screenshot({\n  path: './honest-390.png',\n  scale: 'css',\n  type: 'png'\n});\n```\n"
+  },
+  {
+    "args": [
+      "close"
+    ],
+    "stdout": "Browser 'honest-bbd5b066' closed\n\n"
+  }
+]
