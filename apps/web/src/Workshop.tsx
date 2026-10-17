@@ -3,6 +3,7 @@ import {projectTicketEvents,stations} from '../../../packages/shared/workshop.ts
 import {ticketEventKinds,type TicketEvent} from '../../../packages/shared/tickets.ts';
 import {ChatPanel} from './ChatPanel.tsx';import {TicketPanel,bootstrapTicketOperator} from './TicketPanel.tsx';
 import './workshop.css';
+import {Vault} from './Vault.tsx';
 const Room=lazy(()=>import('./WorkshopRoom.tsx').then(m=>({default:m.WorkshopRoom})));
 type LoggedTicket={id:string;title:string;events:TicketEvent[]};
 const object=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object';
@@ -23,5 +24,5 @@ export function Workshop(){
  <ul className="workshop-tickets" aria-label="Recorded tickets">{tickets.filter(t=>station===null||t.state.station===station).map(({title,state})=><li key={state.id}><button aria-current={selected===state.id?'true':undefined} onClick={()=>choose(state.id)}><span className={'ticket-dot '+state.agent.replaceAll(' ','-')}/><span><strong>{title}</strong><small>{stations[state.station]} · {state.status.replaceAll('_',' ')}{state.blocked?' · Watchman '+state.blocked+' blocked':''}</small></span><code>{state.id.slice(0,8)}</code></button></li>)}</ul>{!tickets.length&&<p>No recorded tickets yet.</p>}
  <footer className="workshop-controls"><span>Most recent {logged.length} tickets · motion settles after each event</span>{selected&&<button onClick={()=>setReplay(replay===null?0:null)}>{replay===null?'Replay recorded events':'Return to live'}</button>}</footer>
 
- </section><aside className="workshop-console" aria-label="Chat and review">{selected&&replay===null?<><button className="secondary-button" onClick={()=>setSelected(null)}>← Jarvis chat</button><TicketPanel key={selected} initialTicketId={selected}/></>:<ChatPanel/>}</aside></div>;
+ {replay!==null&&tickets[0]&&<Vault state={tickets[0].state} replay/>}</section><aside className="workshop-console" aria-label="Chat and review">{selected&&replay===null?<><button className="secondary-button" onClick={()=>setSelected(null)}>← Jarvis chat</button><TicketPanel key={selected} initialTicketId={selected}/></>:<ChatPanel/>}</aside></div>;
 }
