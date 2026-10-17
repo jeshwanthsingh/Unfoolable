@@ -2,12 +2,14 @@
   "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
   "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
   "attemptCount": 1,
-  "status": "harness_error",
-  "verdict": "NOT CHECKED",
+  "status": "ready_for_review",
+  "verdict": "PASSED WITH GAPS",
   "gaps": [
-    "Protected evaluator changed.",
-    "Latest checks did not produce fresh evidence."
+    "Existing verifier: test-writer-coverage: Test Writer is advisory only; it cannot change the verdict.",
+    "Project playbook checks are regression guards; new intent is not independently proved.",
+    "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
   ],
+  "failures": [],
   "risk": {
     "color": "RED",
     "reason": "Tests, playbook, CI or lockfiles changed",
@@ -19,6 +21,96 @@
     }
   },
   "keepAvailable": false,
-  "recheckPendingHumanConfirmation": true,
-  "decisionEvents": 0
+  "diffReviewRequired": true,
+  "reviewPaths": [
+    "research_router/cli.py",
+    "tests/test_source_add.py"
+  ],
+  "viewedPaths": [],
+  "recheckPendingHumanConfirmation": false,
+  "verificationId": "24edeba3-38b9-4152-b372-0ef8d99395c8",
+  "qualityGates": {
+    "version": "quality-gates-v1",
+    "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+    "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+    "gates": [
+      {
+        "gate": "ruff",
+        "status": "PASS",
+        "findings": [],
+        "baselineCount": 45,
+        "durationMs": 2042.5675000000047
+      },
+      {
+        "gate": "pyright",
+        "status": "PASS",
+        "findings": [],
+        "baselineCount": 2,
+        "durationMs": 3905.5688329999975
+      },
+      {
+        "gate": "bandit",
+        "status": "PASS",
+        "findings": [],
+        "baselineCount": 14,
+        "durationMs": 2366.116167
+      },
+      {
+        "gate": "opengrep",
+        "status": "PASS",
+        "findings": [],
+        "baselineCount": 0,
+        "durationMs": 5790.278834000026
+      },
+      {
+        "gate": "gitleaks",
+        "status": "PASS",
+        "findings": [],
+        "baselineCount": 0,
+        "durationMs": 2541.8246250000084
+      },
+      {
+        "gate": "detect-secrets",
+        "status": "PASS",
+        "findings": [],
+        "baselineCount": 9,
+        "durationMs": 5250.768207999994
+      },
+      {
+        "gate": "osv",
+        "status": "NOT APPLICABLE",
+        "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+        "findings": [],
+        "baselineCount": 0,
+        "durationMs": 1.5272919999842998
+      }
+    ],
+    "durationMs": 23126.601416999998
+  },
+  "decisionEvents": 0,
+  "protectedExistingTests": {
+    "PASS": 172,
+    "FAIL": 0,
+    "ERROR": 0,
+    "NOT CHECKED": 0
+  },
+  "protectedResultStatus": "PASS",
+  "recipeResults": [
+    {
+      "id": "041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa",
+      "status": "NOT CHECKED",
+      "baseStatus": "FAIL",
+      "candidateStatus": "FAIL",
+      "reason": "Not applicable to this BASE; Candidate FAIL (informational)."
+    },
+    {
+      "id": "818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33",
+      "status": "NOT CHECKED",
+      "baseStatus": "FAIL",
+      "candidateStatus": "FAIL",
+      "reason": "Not applicable to this BASE; Candidate FAIL (informational)."
+    }
+  ],
+  "builderLaunchEvents": 1,
+  "finalEventAt": "2026-10-17T21:17:28.739Z"
 }

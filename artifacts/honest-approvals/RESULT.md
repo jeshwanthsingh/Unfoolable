@@ -19,7 +19,13 @@ Branch: codex/honest-approvals; base: 149096a. Local work only.
 - Final negative-control results are saved beside this report.
 
 ## Live ticket
-Candidate b9512392f9285cb039fb00695df0efcd760d668b is unchanged. No Builder or Keep/Discard was requested. A legacy migration directory bug was fixed and regression-tested; a fresh real passkey approval was subsequently persisted. The earlier recheck failed closed because evaluator source changed while C0 was being implemented. A final frozen-source recheck needs a fresh Touch ID confirmation; TICKET.json records the current state, not an inferred success.
+Fresh user Touch ID Recheck completed on frozen source. Ticket b15600b3-6803-4ae8-b6ac-d6d8948b78bc is ready_for_review, PASSED WITH GAPS, with no recorded failures. Candidate b9512392f9285cb039fb00695df0efcd760d668b and Builder attempt count 1 are unchanged. No Keep/Discard decision was recorded.
+
+Risk is RED because a test file changed: 9 added/deleted lines across research_router/cli.py and tests/test_source_add.py. Neither file has been marked viewed; Keep is intentionally locked until the user opens both. Discard remains available through the existing passkey flow.
+
+Six quality gates passed with no new findings. OSV is not applicable because BASE has no supported dependency lockfile. The remaining gaps explicitly state that the Test Writer is advisory and regression guards do not independently prove the new intent. TICKET.json contains the exact protected-test counts and recipe applicability results.
+
+A legacy approval migration directory bug was fixed and regression-tested, then a fresh real passkey approval was persisted. Earlier in-development rechecks failed closed when the protected evaluator changed; the successful final run used the unchanged frozen implementation throughout.
 
 ## Limits
 Opening each diff records access, not proof of reading or understanding. Local-only copies with the same root history deliberately share repo identity, as requested. No sandbox, protected-check or passkey bypass was added. No paid API, push, merge or deployment was enabled.
