@@ -8,3 +8,6 @@
 @media(max-width:480px){.vault{grid-template-columns:1fr;padding:14px}.vault-face{max-width:190px;margin:auto}.vault-readout{width:100%}}
 
 .file-diff{max-width:100%;overflow:auto;border:1px solid #4c5148;border-radius:8px}.file-diff table{width:100%}.file-diff pre{white-space:pre-wrap;overflow-wrap:anywhere}
+
+.rail-system summary{cursor:pointer;font-size:12px;padding:12px 0;color:#c6b992}.review-passkey{font-size:12px;margin:12px 0}.review-passkey summary{cursor:pointer}.workshop-console .ticket-columns{margin-top:14px}.workshop-console .ticket-panel h3{line-height:1.4}.workshop-console .vault{margin-top:14px}
+@media(max-width:600px){.ticket-shell .control-rail{padding:12px 16px;gap:12px}.ticket-shell .control-rail nav{display:flex;overflow-x:auto;gap:8px;flex-wrap:nowrap;padding-bottom:6px}.ticket-shell .control-rail nav button{white-space:nowrap;flex-shrink:0;max-width:none;padding:9px 12px;font-size:12px}.ticket-shell .rail-foot{display:none}.ticket-shell .rail-system{margin:0;padding:0;border:0}.ticket-shell .rail-system summary{padding:0}.workshop .station-nav{display:none}.workshop-heading p{font-size:12px}.workshop-tickets{margin:12px 0}.workshop-console .ticket-panel h3{font-size:18px}}
