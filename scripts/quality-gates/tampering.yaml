@@ -1,0 +1,37 @@
+{"id": "skip-python", "language": "Python", "message": "skip-python", "severity": "warning", "rule": {"pattern": "unittest.skip($$$ARGS)"}}
+---
+{"id": "skipif-python", "language": "Python", "message": "skipif-python", "severity": "warning", "rule": {"pattern": "unittest.skipIf($$$ARGS)"}}
+---
+{"id": "pytest-skip", "language": "Python", "message": "pytest-skip", "severity": "warning", "rule": {"pattern": "pytest.mark.skip($$$ARGS)"}}
+---
+{"id": "pytest-skipif", "language": "Python", "message": "pytest-skipif", "severity": "warning", "rule": {"pattern": "pytest.mark.skipif($$$ARGS)"}}
+---
+{"id": "assert-true-python", "language": "Python", "message": "assert-true-python", "severity": "warning", "rule": {"pattern": "assert True"}}
+---
+{"id": "assertion-python", "language": "Python", "message": "assertion-python", "severity": "warning", "rule": {"pattern": "assert $EXPR"}}
+---
+{"id": "unittest-assertion", "language": "Python", "message": "unittest-assertion", "severity": "warning", "rule": {"pattern": "self.$METHOD($$$ARGS)"}, "constraints": {"METHOD": {"regex": "^assert"}}}
+---
+{"id": "test-skip-javascript", "language": "JavaScript", "message": "test-skip-javascript", "severity": "warning", "rule": {"pattern": "test.skip($$$ARGS)"}}
+---
+{"id": "it-skip-javascript", "language": "JavaScript", "message": "it-skip-javascript", "severity": "warning", "rule": {"pattern": "it.skip($$$ARGS)"}}
+---
+{"id": "describe-skip-javascript", "language": "JavaScript", "message": "describe-skip-javascript", "severity": "warning", "rule": {"pattern": "describe.skip($$$ARGS)"}}
+---
+{"id": "expectation-javascript", "language": "JavaScript", "message": "expectation-javascript", "severity": "warning", "rule": {"pattern": "expect($$$VALUE).$METHOD($$$ARGS)"}}
+---
+{"id": "test-skip-typescript", "language": "TypeScript", "message": "test-skip-typescript", "severity": "warning", "rule": {"pattern": "test.skip($$$ARGS)"}}
+---
+{"id": "it-skip-typescript", "language": "TypeScript", "message": "it-skip-typescript", "severity": "warning", "rule": {"pattern": "it.skip($$$ARGS)"}}
+---
+{"id": "describe-skip-typescript", "language": "TypeScript", "message": "describe-skip-typescript", "severity": "warning", "rule": {"pattern": "describe.skip($$$ARGS)"}}
+---
+{"id": "expectation-typescript", "language": "TypeScript", "message": "expectation-typescript", "severity": "warning", "rule": {"pattern": "expect($$$VALUE).$METHOD($$$ARGS)"}}
+---
+{"id": "test-skip-tsx", "language": "Tsx", "message": "test-skip-tsx", "severity": "warning", "rule": {"pattern": "test.skip($$$ARGS)"}}
+---
+{"id": "it-skip-tsx", "language": "Tsx", "message": "it-skip-tsx", "severity": "warning", "rule": {"pattern": "it.skip($$$ARGS)"}}
+---
+{"id": "describe-skip-tsx", "language": "Tsx", "message": "describe-skip-tsx", "severity": "warning", "rule": {"pattern": "describe.skip($$$ARGS)"}}
+---
+{"id": "expectation-tsx", "language": "Tsx", "message": "expectation-tsx", "severity": "warning", "rule": {"pattern": "expect($$$VALUE).$METHOD($$$ARGS)"}}
