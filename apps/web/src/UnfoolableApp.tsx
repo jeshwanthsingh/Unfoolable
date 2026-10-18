@@ -1,3 +1,4 @@
+import {connectionWords} from './connection-words.ts';
 import {plainError} from './plain-error.ts';
 import {useEffect,useRef,useState} from 'react';
 import {bootstrapTicketOperator} from './TicketPanel.tsx';
@@ -31,14 +32,15 @@ export function UnfoolableApp(){
  const drafts=data.chat?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status)&&!pendingCancels.includes(d.id))??[];
  const otherCards=data.chat?.cards.filter(c=>c.status==='PENDING'&&c.kind!=='ticket')??[];
  const offline=Boolean(data.error);
- return <div className="unfoolable" data-look={look} data-theme={theme}>
+ return <div className="unfoolable" data-look={look} data-theme={theme} data-offline={offline}>
  <a className="unfool-skip" href="#unfool-main">Skip to work</a><main id="unfool-main" className="unfool-column">
+ {(!key||offline||data.backOnline)&&<aside className="unfool-connection" role="status"><p>{!key?"Unfoolable can't start tasks right now. Run: unfool":connectionWords(offline,data.observedAt,data.backOnline)}</p>{(!key||offline)&&<button onClick={()=>void navigator.clipboard.writeText('unfool').then(()=>setNotice('Copied')).catch(()=>setNotice('Type unfool in your terminal.'))}>Copy</button>}</aside>}
  <header className="unfool-header"><div><h1>Unfoolable</h1><p>AI does the work. Nothing fools the check.</p></div><button aria-expanded={settings} onClick={()=>setSettings(v=>!v)}>Settings</button></header>
  {settings&&<section className="unfool-settings" aria-label="Settings"><h2>Settings</h2><label>Appearance<select value={theme} onChange={e=>setTheme(e.target.value==='dark'?'dark':'light')}><option value="light">Light</option><option value="dark">Dark</option></select></label><label>Look<select value={look} onChange={e=>setLook(e.target.value as Look)}><option value="assay">Assay</option><option value="compact">Compact</option><option value="spacious">Spacious</option></select></label><label className="unfool-toggle"><input type="checkbox" checked={sound} onChange={e=>setSound(e.target.checked)}/>Sound when a result arrives</label><button onClick={()=>showProof('confirmation')}>Touch ID settings</button><details><summary>Labs: watch it work</summary><p>Technical views and historical replays.</p><a href="/?labs=1">Original working screens</a><a href="/?labs=1&craft=instrument">Instrument replay</a><a href="/?labs=1&craft=glass">Glass Studio replay</a><a href="/?labs=1&craft=night">Night Workshop replay</a></details></section>}
  <form className="unfool-ask" onSubmit={event=>{event.preventDefault();if(!text.trim()){setNotice('Describe what you want to work on.');ask.current?.focus();return;}const submitted=text;void mutate('/api/chat/messages',{text:submitted},false,'Your request was sent.').then(ok=>{if(ok)setText(current=>current===submitted?'':current);});}}><label htmlFor="unfool-request">What should we work on?</label><div><textarea ref={ask} id="unfool-request" name="request" autoComplete="off" rows={2} maxLength={16000} value={text} onChange={e=>setText(e.target.value)} placeholder="Describe a change, or ask what's happening…"/><button disabled={busy||!key||offline}>Ask</button></div></form>
  <p className="unfool-summary">{offline?'Your saved work will return when the connection recovers.':data.loading?'Opening your saved work…':awaySummary(data.tickets)}</p><div className="unfool-notice" role="status">{notice}</div>
- {(!key||offline)&&<aside className="unfool-connection" role="status"><p>Unfoolable can't start tasks right now. Run: unfool</p><button onClick={()=>void navigator.clipboard.writeText('unfool').then(()=>setNotice('Copied'))}>Copy</button></aside>}
- {offline&&<p role="alert" className="unfool-error">{words.offline}<button onClick={()=>setRevision(v=>v+1)}>Try again</button></p>}
+ 
+ 
  {error&&<p role="alert" className="unfool-error">{error}<button onClick={()=>showProof(proof??'conversation')}>See the proof</button></p>}
  {drafts.map(draft=><UnfoolableDraft key={draft.id+':'+draft.version} draft={draft} busy={busy||offline} onAction={(action,fields)=>{if(action==='cancel'){setPendingCancels(v=>[...v,draft.id]);setNotice('Confirm cancellation with Touch ID.');}void mutate('/api/chat/drafts/'+encodeURIComponent(draft.id)+'/'+action,{version:draft.version,...fields},true,action==='start'?'Started':action==='edit'?'Saved':'Cancelled').then(ok=>{if(action==='cancel'&&!ok)setPendingCancels(v=>v.filter(id=>id!==draft.id));});}}/>)}
  {otherCards.length>0&&<section className="unfool-attention"><h2>Needs you</h2><p>Needs your OK before continuing.</p><button onClick={()=>showProof('conversation')}>See the proof</button></section>}
