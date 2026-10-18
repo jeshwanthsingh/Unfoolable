@@ -62,3 +62,97 @@ No new npm dependency, font or art. Existing Hallmark design and the versions/li
 Installed web-design-guidelines, interface-review, better-accessibility and Emil review-animations were consulted for stable focus, native dialogs, reduced motion and finite event-driven motion. The existing web-interface-guidelines text was fetched into ignored `.work/ui4/` for this round. Reviews and their practical limits are recorded in `artifacts/ui4/REVIEW.md`. No new skill package was installed.
 
 The local `~/.local/bin/unfool` wrapper delegates to this repository's launcher; it adds no dependency, service or billing. Node's HTTP/SSE and SQLite primitives implement the live stream. Existing Motion remains responsible for the finite hallmark strike.
+
+## UI-5 complete installed skill inventory (2026-10-18)
+
+Scope: user Codex skills, codex-kit, agent skill links, repository skill directories and installed plugin skill packages. A content hash identifies local files when an upstream version is not recorded. Installed does not mean used. Unknown provenance/license is explicitly unverified; no license is inferred from a name. System/runtime skills supplied by Codex are listed in the runtime inventory below.
+
+| Skill | Installed location/source | Local SHA256 prefix | License / use evidence |
+|---|---|---|---|
+| frontend-design | `/Users/jeshwanthsingh/.codex/skills/anthropic-frontend-design` | `d91970639e9f5c37` | See pinned upstream tables above |
+| better-accessibility | `/Users/jeshwanthsingh/.codex/skills/better-accessibility` | `df0cafe0e75a0854` | See pinned upstream tables above |
+| better-colors | `/Users/jeshwanthsingh/.codex/skills/better-colors` | `e74f1c413a4094dc` | See pinned upstream tables above |
+| better-interface | `/Users/jeshwanthsingh/.codex/skills/better-interface` | `23416fef4d08e041` | MIT; installed UI-5 to support interface-review |
+| better-typography | `/Users/jeshwanthsingh/.codex/skills/better-typography` | `e60ca6467ba60e68` | See pinned upstream tables above |
+| better-ui | `/Users/jeshwanthsingh/.codex/skills/better-ui` | `fb9807bb5c59a3ca` | See pinned upstream tables above |
+| break | `/Users/jeshwanthsingh/.codex/skills/break` | `6b231897f10477fe` | See pinned upstream tables above |
+| deep-code-review | `/Users/jeshwanthsingh/.codex/skills/deep-code-review` | `595de77d776e8836` | Not recorded locally; use not evidenced by this repository |
+| animate | `/Users/jeshwanthsingh/.codex/skills/emil-animate` | `b8ede161270458e6` | MIT; UI-5 motion design/review; prior Emil use recorded above |
+| animation-performance | `/Users/jeshwanthsingh/.codex/skills/emil-animation-performance` | `ceb9dd3fe9126158` | MIT; UI-5 motion design/review; prior Emil use recorded above |
+| emil-design-eng | `/Users/jeshwanthsingh/.codex/skills/emil-design-eng` | `ffbe68e6007fb42c` | MIT; UI-5 motion design/review; prior Emil use recorded above |
+| review-animations | `/Users/jeshwanthsingh/.codex/skills/emil-review-animations` | `6ff590d29e436766` | MIT; UI-5 motion design/review; prior Emil use recorded above |
+| impeccable | `/Users/jeshwanthsingh/.codex/skills/impeccable` | `5fb0d412928c03e6` | See pinned upstream tables above |
+| interface-review | `/Users/jeshwanthsingh/.codex/skills/interface-review` | `8977988d63d7c17b` | See pinned upstream tables above |
+| job-search-os | `/Users/jeshwanthsingh/.codex/skills/job-search-os` | `301ffa262cf21756` | Not recorded locally; use not evidenced by this repository |
+| minimalist-ui | `/Users/jeshwanthsingh/.codex/skills/minimalist-ui` | `769ab38eed137bb2` | See pinned upstream tables above |
+| "playwright" | `/Users/jeshwanthsingh/.codex/skills/playwright` | `0ffaabcc8e099062` | Not recorded locally; use not evidenced by this repository |
+| design-taste-frontend | `/Users/jeshwanthsingh/.codex/skills/taste-skill` | `ee847084e58f5a81` | See pinned upstream tables above |
+| baseline-ui | `/Users/jeshwanthsingh/.codex/skills/ui-skills-reviewer` | `fea3322f36d58fda` | See pinned upstream tables above |
+| variant | `/Users/jeshwanthsingh/.codex/skills/variant` | `2d8eef43768e01d7` | See pinned upstream tables above |
+| verified-job-scout | `/Users/jeshwanthsingh/.codex/skills/verified-job-scout` | `7a27680038e507a5` | Not recorded locally; use not evidenced by this repository |
+| web-design-guidelines | `/Users/jeshwanthsingh/.codex/skills/web-design-guidelines` | `f4647ca866a3accf` | See pinned upstream tables above |
+| webapp-testing | `/Users/jeshwanthsingh/.codex/skills/webapp-testing` | `51b7349e77ec63b7` | See pinned upstream tables above |
+| workflow-orchestration | `/Users/jeshwanthsingh/.codex/skills/workflow-orchestration` | `a5e470040e7960af` | Not recorded locally; use not evidenced by this repository |
+| advisor-mode | `/Users/jeshwanthsingh/Projects/codex-kit/skills/advisor-mode` | `8995bb32bd69e23d` | Not recorded locally; use not evidenced by this repository |
+| architecture-review | `/Users/jeshwanthsingh/Projects/codex-kit/skills/architecture-review` | `4c570b0dcda24428` | Not recorded locally; use not evidenced by this repository |
+| code-review | `/Users/jeshwanthsingh/Projects/codex-kit/skills/code-review` | `e3a036bbf01b7916` | Not recorded locally; use not evidenced by this repository |
+| debug-loop | `/Users/jeshwanthsingh/Projects/codex-kit/skills/debug-loop` | `f7d4b71e454f76f2` | Not recorded locally; use not evidenced by this repository |
+| graphify | `/Users/jeshwanthsingh/Projects/codex-kit/skills/graphify` | `545bff01c9d140c4` | Not recorded locally; use not evidenced by this repository |
+| performance-review | `/Users/jeshwanthsingh/Projects/codex-kit/skills/performance-review` | `857b5e840d5d05ae` | Not recorded locally; use not evidenced by this repository |
+| planning | `/Users/jeshwanthsingh/Projects/codex-kit/skills/planning` | `44b01f0b573c3f18` | Not recorded locally; use not evidenced by this repository |
+| playwright-cli | `/Users/jeshwanthsingh/Projects/codex-kit/skills/playwright-cli` | `9bba755285a4c9ad` | Not recorded locally; use not evidenced by this repository |
+| proof-lab-context | `/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-context` | `0a900304cda143d8` | Not recorded locally; use not evidenced by this repository |
+| proof-lab-recall | `/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-recall` | `d1e0139d74f647f1` | Not recorded locally; use not evidenced by this repository |
+| qa-test-design | `/Users/jeshwanthsingh/Projects/codex-kit/skills/qa-test-design` | `d814f1ae6666b561` | Not recorded locally; use not evidenced by this repository |
+| release-check | `/Users/jeshwanthsingh/Projects/codex-kit/skills/release-check` | `1d634acf8e0b61d1` | Not recorded locally; use not evidenced by this repository |
+| security-review | `/Users/jeshwanthsingh/Projects/codex-kit/skills/security-review` | `b58568264e4416c9` | Not recorded locally; use not evidenced by this repository |
+| token-discipline | `/Users/jeshwanthsingh/Projects/codex-kit/skills/token-discipline` | `1e5691c77edbb691` | Not recorded locally; use not evidenced by this repository |
+| advisor-mode | `/Users/jeshwanthsingh/.agents/skills/advisor-mode` | `8995bb32bd69e23d` | Not recorded locally; use not evidenced by this repository |
+| architecture-review | `/Users/jeshwanthsingh/.agents/skills/architecture-review` | `4c570b0dcda24428` | Not recorded locally; use not evidenced by this repository |
+| code-review | `/Users/jeshwanthsingh/.agents/skills/code-review` | `e3a036bbf01b7916` | Not recorded locally; use not evidenced by this repository |
+| debug-loop | `/Users/jeshwanthsingh/.agents/skills/debug-loop` | `f7d4b71e454f76f2` | Not recorded locally; use not evidenced by this repository |
+| graphify | `/Users/jeshwanthsingh/.agents/skills/graphify` | `545bff01c9d140c4` | Not recorded locally; use not evidenced by this repository |
+| performance-review | `/Users/jeshwanthsingh/.agents/skills/performance-review` | `857b5e840d5d05ae` | Not recorded locally; use not evidenced by this repository |
+| planning | `/Users/jeshwanthsingh/.agents/skills/planning` | `44b01f0b573c3f18` | Not recorded locally; use not evidenced by this repository |
+| playwright-cli | `/Users/jeshwanthsingh/.agents/skills/playwright-cli` | `9bba755285a4c9ad` | Not recorded locally; use not evidenced by this repository |
+| proof-lab-context | `/Users/jeshwanthsingh/.agents/skills/proof-lab-context` | `0a900304cda143d8` | Not recorded locally; use not evidenced by this repository |
+| proof-lab-recall | `/Users/jeshwanthsingh/.agents/skills/proof-lab-recall` | `d1e0139d74f647f1` | Not recorded locally; use not evidenced by this repository |
+| qa-test-design | `/Users/jeshwanthsingh/.agents/skills/qa-test-design` | `d814f1ae6666b561` | Not recorded locally; use not evidenced by this repository |
+| release-check | `/Users/jeshwanthsingh/.agents/skills/release-check` | `1d634acf8e0b61d1` | Not recorded locally; use not evidenced by this repository |
+| security-review | `/Users/jeshwanthsingh/.agents/skills/security-review` | `b58568264e4416c9` | Not recorded locally; use not evidenced by this repository |
+| token-discipline | `/Users/jeshwanthsingh/.agents/skills/token-discipline` | `1e5691c77edbb691` | Not recorded locally; use not evidenced by this repository |
+
+Missing requested skills installed: `emil-design-eng` from emilkowalski/skills@2d228630ba1446365f614a108cb8252f1feda202 (MIT); supporting `better-interface` from jakubkrehel/skills@4c66b1fa86e9ab70187b43d7da9b6fdb29f2ef63 (MIT). Other requested skills and Playwright MCP were already present. The three existing Emil skill files were preserved. New skills are discoverable on the next Codex turn; their installed instructions are read directly for this work.
+
+UI-5 use: Emil animate/design-eng chooses finite event-triggered springs; animation-performance checks compositor-only work/idle; review-animations audits three recordings; better-ui handles controls; variant compares live-line density in the existing three styles (no new picker); break checks long filenames/empty streams; interface-review + better-interface and web-design-guidelines review the changed surfaces. User brief wins over skill defaults (instant reduced motion, no redesign or extra variants).
+
+### Repository and supporting tools
+
+| Tool | Version | License | Used rounds |
+|---|---|---|---|
+| @git-diff-view/core | 0.1.8 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @git-diff-view/react | 0.1.8 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @git-diff-view/shiki | 0.1.8 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @react-three/fiber | 9.8.2 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @simplewebauthn/browser | 13.3.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @simplewebauthn/server | 13.3.3 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| motion | 14.3.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| pixi.js | 8.22.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| react | 19.3.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| react-dom | 19.3.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| shiki | 4.5.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| three | 0.186.1 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| xstate | 5.33.3 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @types/node | 24.19.1 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @types/react | 19.3.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @types/react-dom | 19.3.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @types/three | 0.186.0 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| @vitejs/plugin-react | 6.1.2 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| typescript | 7.0.2 | Apache-2.0 | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| vite | 8.3.2 | MIT | Installed; UI-5 only uses React, Motion, TypeScript and Vite directly; historical use above |
+| Playwright MCP | 0.0.83 | Apache-2.0 | UI-2 through UI-5, screenshot/recording review |
+| Instrument Sans | pinned Google Fonts revision above | SIL OFL-1.1 | UI-3 onward |
+| Litestream | 0.5.17 | Apache-2.0 | Cleanup; unchanged in UI-5 |
+| Python stdlib | system Python | PSF | Inventory and ignored test glue |
+
+Plugin-packaged skills retain their package versions in the installed path. Codex-provided tools (exec/file operations, browser control and collaboration) have no independently published local library license/version; they are host capabilities, not new dependencies. Actual historical invocation cannot be recovered for every installed skill; those entries deliberately say not evidenced.
