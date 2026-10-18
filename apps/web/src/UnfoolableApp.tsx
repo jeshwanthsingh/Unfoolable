@@ -1,3 +1,4 @@
+import {plainError} from './plain-error.ts';
 import {useEffect,useRef,useState} from 'react';
 import {bootstrapTicketOperator} from './TicketPanel.tsx';
 import {confirmedDecision} from './human-confirmation-client.ts';
@@ -11,6 +12,7 @@ import './unfoolable.css';
 type Look='assay'|'compact'|'spacious';
 function saved(key:string,fallback:string){try{return localStorage.getItem(key)??fallback;}catch{return fallback;}}
 export function UnfoolableApp(){
+ const [pendingCancels,setPendingCancels]=useState<string[]>([]);
  const [key]=useState(bootstrapTicketOperator),[revision,setRevision]=useState(0),[text,setText]=useState(''),[busy,setBusy]=useState(false),[notice,setNotice]=useState(''),[error,setError]=useState<string|null>(null),[settings,setSettings]=useState(false),[proof,setProof]=useState<string|null>(()=>new URLSearchParams(location.search).has('confirm')?'confirmation':new URLSearchParams(location.search).get('ticket'));
  const [theme,setTheme]=useState<'light'|'dark'>(()=>saved('unfool-theme','light')==='dark'?'dark':'light'),[look,setLook]=useState<Look>(()=>{const v=saved('unfool-look','assay');return v==='compact'||v==='spacious'?v:'assay';}),[sound,setSound]=useState(false),[clock,setClock]=useState(Date.now());
  const data=useUnfoolableData(key,revision),ask=useRef<HTMLTextAreaElement>(null);
@@ -19,13 +21,13 @@ export function UnfoolableApp(){
  useEffect(()=>{if(!hasWorking)return;setClock(Date.now());const timer=setInterval(()=>{if(!document.hidden)setClock(Date.now());},60000);return()=>clearInterval(timer);},[hasWorking]);
  function showProof(id:string){setProof(id);const url=new URL(location.href);if(id!=='conversation'&&id!=='confirmation')url.searchParams.set('ticket',id);history.replaceState(history.state,'',url.pathname+url.search);}
  function closeProof(){setProof(null);const url=new URL(location.href);url.searchParams.delete('ticket');history.replaceState(history.state,'',url.pathname+url.search);}
- async function mutate(path:string,body:unknown,decision:boolean,success:string){if(!key||busy)return;setBusy(true);setError(null);setNotice('');try{await(decision?confirmedDecision(key,path,body):localRequest(key,path,body));setNotice(success);setRevision(v=>v+1);return true;}catch(cause){setError((cause as Error).message);return false;}finally{setBusy(false);}}
+ async function mutate(path:string,body:unknown,decision:boolean,success:string){if(!key||busy)return;setBusy(true);setError(null);setNotice('');try{await(decision?confirmedDecision(key,path,body):localRequest(key,path,body));setNotice(success);setRevision(v=>v+1);return true;}catch(cause){setError((cause as Error).message===plainError('OPERATOR_REQUIRED')?plainError('OPERATOR_REQUIRED'):decision?'Your choice could not be saved. Confirm it again.':"Your request couldn't be sent. Try again.");return false;}finally{setBusy(false);}}
  function ticketAction(detail:Detail,kind:'keep'|'discard'|'recheck'|'retry'){
   if(kind==='keep'&&(!mayAccept(detail)||data.error))return;
   void mutate('/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{},true,kind==='keep'?'Accepted':kind==='discard'?'Rejected':kind==='recheck'?'Checking again.':'Starting again.');
  }
  const selected=proof?data.details[proof]:undefined;
- const drafts=data.chat?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status))??[];
+ const drafts=data.chat?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status)&&!pendingCancels.includes(d.id))??[];
  const otherCards=data.chat?.cards.filter(c=>c.status==='PENDING'&&c.kind!=='ticket')??[];
  const offline=Boolean(data.error);
  return <div className="unfoolable" data-look={look} data-theme={theme}>
@@ -34,10 +36,10 @@ export function UnfoolableApp(){
  {settings&&<section className="unfool-settings" aria-label="Settings"><h2>Settings</h2><label>Appearance<select value={theme} onChange={e=>setTheme(e.target.value==='dark'?'dark':'light')}><option value="light">Light</option><option value="dark">Dark</option></select></label><label>Look<select value={look} onChange={e=>setLook(e.target.value as Look)}><option value="assay">Assay</option><option value="compact">Compact</option><option value="spacious">Spacious</option></select></label><label className="unfool-toggle"><input type="checkbox" checked={sound} onChange={e=>setSound(e.target.checked)}/>Sound when a result arrives</label><button onClick={()=>showProof('confirmation')}>Touch ID settings</button><details><summary>Labs: watch it work</summary><p>Technical views and historical replays.</p><a href="/?labs=1">Original working screens</a><a href="/?labs=1&craft=instrument">Instrument replay</a><a href="/?labs=1&craft=glass">Glass Studio replay</a><a href="/?labs=1&craft=night">Night Workshop replay</a></details></section>}
  <form className="unfool-ask" onSubmit={event=>{event.preventDefault();if(!text.trim()){setNotice('Describe what you want to work on.');ask.current?.focus();return;}const submitted=text;void mutate('/api/chat/messages',{text:submitted},false,'Your request was sent.').then(ok=>{if(ok)setText(current=>current===submitted?'':current);});}}><label htmlFor="unfool-request">What should we work on?</label><div><textarea ref={ask} id="unfool-request" name="request" autoComplete="off" rows={2} maxLength={16000} value={text} onChange={e=>setText(e.target.value)} placeholder="Describe a change, or ask what's happening…"/><button disabled={busy||!key||offline}>Ask</button></div></form>
  <p className="unfool-summary">{offline?'Your saved work will return when the connection recovers.':data.loading?'Opening your saved work…':awaySummary(data.tickets)}</p><div className="unfool-notice" role="status">{notice}</div>
- {!key&&<p>Open Unfoolable from your terminal to connect this private screen.</p>}
+ {(!key||offline)&&<aside className="unfool-connection" role="status"><p>Unfoolable can't start tasks right now. Run: unfool</p><button onClick={()=>void navigator.clipboard.writeText('unfool').then(()=>setNotice('Copied'))}>Copy</button></aside>}
  {offline&&<p role="alert" className="unfool-error">{words.offline}<button onClick={()=>setRevision(v=>v+1)}>Try again</button></p>}
- {error&&<p role="alert" className="unfool-error">Your choice wasn't saved. Open Proof and try again.<button onClick={()=>showProof(proof??'conversation')}>See the proof</button></p>}
- {drafts.map(draft=><UnfoolableDraft key={draft.id+':'+draft.version} draft={draft} busy={busy||offline} onAction={(action,fields)=>void mutate('/api/chat/drafts/'+encodeURIComponent(draft.id)+'/'+action,{version:draft.version,...fields},true,action==='start'?'Started':action==='edit'?'Saved':'Cancelled')}/>)}
+ {error&&<p role="alert" className="unfool-error">{error}<button onClick={()=>showProof(proof??'conversation')}>See the proof</button></p>}
+ {drafts.map(draft=><UnfoolableDraft key={draft.id+':'+draft.version} draft={draft} busy={busy||offline} onAction={(action,fields)=>{if(action==='cancel'){setPendingCancels(v=>[...v,draft.id]);setNotice('Confirm cancellation with Touch ID.');}void mutate('/api/chat/drafts/'+encodeURIComponent(draft.id)+'/'+action,{version:draft.version,...fields},true,action==='start'?'Started':action==='edit'?'Saved':'Cancelled').then(ok=>{if(action==='cancel'&&!ok)setPendingCancels(v=>v.filter(id=>id!==draft.id));});}}/>)}
  {otherCards.length>0&&<section className="unfool-attention"><h2>Needs you</h2><p>Needs your OK before continuing.</p><button onClick={()=>showProof('conversation')}>See the proof</button></section>}
  {data.loading?<p role="status">Opening your work…</p>:!offline&&key&&!data.tickets.length&&!drafts.length?<section className="unfool-empty"><Hallmark mark="waiting"/><h2>{words.empty}</h2></section>:null}
  <ol className="unfool-tasks" aria-label="Your work">{data.tickets.map(ticket=>{const detail=data.details[ticket.id],state=taskPresentation(ticket,detail,clock),review=ticket.status==='ready_for_review',stuck=['needs_you','interrupted','harness_error'].includes(ticket.status),canRetry=stuck&&!(ticket.status==='needs_you'&&detail?.playbook?.approval?.hash!==detail?.playbook?.hash);

@@ -1,10 +1,11 @@
+import {plainError} from './plain-error.ts';
 import {useEffect,useState} from 'react';
 import {isTicket,isDetail,type Detail} from './TicketPanel.tsx';
 import {isChatView,type ChatView} from '../../../packages/shared/chat.ts';
 import type {Ticket} from '../../../packages/shared/tickets.ts';
 export async function localRequest(key:string,path:string,body?:unknown,signal?:AbortSignal):Promise<unknown>{
  const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'X-CC-Operator':key,...(body===undefined?{}:{'Content-Type':'application/json'})},cache:'no-store',...(body===undefined?{}:{body:JSON.stringify(body)}),...(signal?{signal}:{})});
- const value:unknown=await response.json();if(!response.ok)throw Error(typeof value==='object'&&value!==null&&'error' in value?JSON.stringify(value.error):'Request failed ('+response.status+').');return value;
+ const value:unknown=await response.json();if(!response.ok)throw Error(plainError(typeof value==='object'&&value!==null&&'error' in value&&typeof value.error==='object'&&value.error!==null&&'code' in value.error?String(value.error.code):undefined));return value;
 }
 export function useUnfoolableData(key:string|null,revision:number){
  const [tickets,setTickets]=useState<Ticket[]>([]),[details,setDetails]=useState<Record<string,Detail>>({}),[chat,setChat]=useState<ChatView|null>(null),[error,setError]=useState<string|null>(null),[loading,setLoading]=useState(true);
