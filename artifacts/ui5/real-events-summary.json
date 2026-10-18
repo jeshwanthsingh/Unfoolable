@@ -1,0 +1,345 @@
+[
+  {
+    "sequence": 775,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:00.602Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 6296
+      }
+    }
+  },
+  {
+    "sequence": 779,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:03.145Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 13142
+      }
+    }
+  },
+  {
+    "sequence": 784,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:04.981Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 20261
+      }
+    }
+  },
+  {
+    "sequence": 790,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:07.479Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 29008
+      }
+    }
+  },
+  {
+    "sequence": 794,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:09.654Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 39496
+      }
+    }
+  },
+  {
+    "sequence": 798,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:12.495Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 50096
+      }
+    }
+  },
+  {
+    "sequence": 804,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:14.246Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 60796
+      }
+    }
+  },
+  {
+    "sequence": 809,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:18.290Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 71788
+      }
+    }
+  },
+  {
+    "sequence": 811,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:19.638Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 82869
+      }
+    }
+  },
+  {
+    "sequence": 812,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:49:21.809Z",
+    "data": {
+      "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+      "generation": 1,
+      "kind": "usage_observed",
+      "binding": {
+        "attemptId": "38ea7276-a116-4f5e-8a33-8f27443789f0",
+        "generation": 1,
+        "transportId": "35ef1639-c42c-41df-99f9-7ee3101069dc",
+        "threadId": "01a15134-310a-79d0-96e1-aa3267c1872d",
+        "turnId": "01a15134-32b3-7972-9705-223d839ad264"
+      },
+      "data": {
+        "reportedTotal": 94070
+      }
+    }
+  },
+  {
+    "sequence": 884,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:51:42.009Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "tests"
+      }
+    }
+  },
+  {
+    "sequence": 885,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:51:46.585Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "tests",
+        "passed": 172,
+        "total": 172
+      }
+    }
+  },
+  {
+    "sequence": 886,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:51:49.591Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "quality"
+      }
+    }
+  },
+  {
+    "sequence": 887,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:51:52.228Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "quality"
+      }
+    }
+  },
+  {
+    "sequence": 888,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:51:56.042Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "quality"
+      }
+    }
+  },
+  {
+    "sequence": 889,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:51:59.043Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "quality"
+      }
+    }
+  },
+  {
+    "sequence": 890,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:52:13.654Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "passwords"
+      }
+    }
+  },
+  {
+    "sequence": 891,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:52:16.720Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "passwords"
+      }
+    }
+  },
+  {
+    "sequence": 892,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:52:22.697Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "quality"
+      }
+    }
+  },
+  {
+    "sequence": 893,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:52:23.102Z",
+    "data": {
+      "kind": "check_progress",
+      "data": {
+        "phase": "proof"
+      }
+    }
+  },
+  {
+    "sequence": 894,
+    "kind": "agent_event",
+    "created_at": "2026-10-18T22:52:23.104Z",
+    "data": {
+      "attemptId": "test-writer:93f1102a-6e0b-4a96-a944-3e4166b19d9e",
+      "kind": "usage_observed",
+      "data": {
+        "reportedTotal": 13313
+      }
+    }
+  },
+  {
+    "sequence": 896,
+    "kind": "needs_you",
+    "created_at": "2026-10-18T22:52:23.107Z",
+    "data": {
+      "reason": "Stopped because Codex reported more than 100000 tokens for this ticket.",
+      "kind": "ACTION_BUDGET",
+      "budget": {
+        "limits": {
+          "maxCommands": 80,
+          "maxMinutes": 15,
+          "maxCodexTokens": 100000
+        },
+        "commands": 7,
+        "reportedCodexTokens": 107383
+      },
+      "cleanupUncertain": false
+    }
+  }
+]

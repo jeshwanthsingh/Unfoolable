@@ -286,3 +286,5 @@ These remain unchanged; source/download and checksum provenance is in `artifacts
 | opengrep | 1.31.0 | LGPL-2.1 |
 | gitleaks | 8.30.1 | MIT |
 | osv-scanner | 2.7.0 | Apache-2.0 |
+
+UI-5 recording post-processing uses the existing Homebrew FFmpeg 8.0 (GPL-3.0-or-later build: --enable-gpl, --enable-version3), source https://ffmpeg.org/. No FFmpeg library is bundled into the application. It extracts contact sheets and trims clearly labelled historical review clips.

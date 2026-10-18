@@ -1,0 +1,15 @@
+{
+  "code": 0,
+  "testedCommit": "217e8ba73cf19a9b5ba75122cf0a8752eea2973a",
+  "sourceSha256": "ea29c6bb37957113bfd26e40d357991c70675da078cda21380da8e801c037157",
+  "sourceUnchangedDuringRun": true,
+  "durationSeconds": 348.956,
+  "summary": [
+    "ℹ tests 989",
+    "ℹ pass 989",
+    "ℹ fail 0",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ duration_ms 348556.894333"
+  ]
+}

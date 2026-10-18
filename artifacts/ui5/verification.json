@@ -1,0 +1,55 @@
+{
+  "node": "24.21.0",
+  "negativeControls": {
+    "total": 12,
+    "nonPass": 12,
+    "maliciousPasses": 0,
+    "coreUnchanged": true
+  },
+  "builderProbe": {
+    "targets": 67,
+    "readable": [],
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    }
+  },
+  "build": {
+    "passed": true,
+    "existingWarning": "Large chunks in Labs and lazy diff renderer"
+  },
+  "realTask": {
+    "id": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+    "status": "needs_you",
+    "verdict": "NOT CHECKED",
+    "reason": "Existing 100000-token budget; 107383 reported tokens",
+    "oldTests": {
+      "passed": 172,
+      "total": 172
+    },
+    "acceptRejectUntouched": true
+  },
+  "fullSuite": {
+    "code": 0,
+    "testedCommit": "217e8ba73cf19a9b5ba75122cf0a8752eea2973a",
+    "sourceSha256": "ea29c6bb37957113bfd26e40d357991c70675da078cda21380da8e801c037157",
+    "sourceUnchangedDuringRun": true,
+    "durationSeconds": 348.956,
+    "summary": [
+      "\u2139 tests 989",
+      "\u2139 pass 989",
+      "\u2139 fail 0",
+      "\u2139 cancelled 0",
+      "\u2139 skipped 0",
+      "\u2139 duration_ms 348556.894333"
+    ]
+  },
+  "documentationTask": {
+    "draftId": "335df101-5a13-41be-b373-53223821fe03",
+    "status": "WAITING_FOR_HUMAN_START",
+    "sameLimits": true
+  }
+}
