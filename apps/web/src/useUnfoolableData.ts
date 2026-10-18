@@ -1,23 +1,13 @@
-import {plainError} from './plain-error.ts';
-import {useEffect,useState} from 'react';
-import {isTicket,isDetail,type Detail} from './TicketPanel.tsx';
-import {isChatView,type ChatView} from '../../../packages/shared/chat.ts';
-import type {Ticket} from '../../../packages/shared/tickets.ts';
-export async function localRequest(key:string,path:string,body?:unknown,signal?:AbortSignal):Promise<unknown>{
- const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'X-CC-Operator':key,...(body===undefined?{}:{'Content-Type':'application/json'})},cache:'no-store',...(body===undefined?{}:{body:JSON.stringify(body)}),...(signal?{signal}:{})});
- const value:unknown=await response.json();if(!response.ok)throw Error(plainError(typeof value==='object'&&value!==null&&'error' in value&&typeof value.error==='object'&&value.error!==null&&'code' in value.error?String(value.error.code):undefined));return value;
-}
-export function useUnfoolableData(key:string|null,revision:number){
- const [tickets,setTickets]=useState<Ticket[]>([]),[details,setDetails]=useState<Record<string,Detail>>({}),[chat,setChat]=useState<ChatView|null>(null),[error,setError]=useState<string|null>(null),[loading,setLoading]=useState(true);
- useEffect(()=>{if(!key){setLoading(false);return;}const controller=new AbortController();let running=false;
-  async function refresh(){if(running||document.hidden)return;running=true;try{
-   const [list,conversation]=await Promise.all([localRequest(key!,'/api/tickets',undefined,controller.signal),localRequest(key!,'/api/chat',undefined,controller.signal)]);
-   if(!list||typeof list!=='object'||!('tickets' in list)||!Array.isArray(list.tickets)||!list.tickets.every(isTicket)||!isChatView(conversation))throw Error('Stored task data could not be confirmed.');
-   const items=list.tickets;const found=await Promise.all(items.map(t=>localRequest(key!,'/api/tickets/'+encodeURIComponent(t.id),undefined,controller.signal)));
-   if(!found.every(isDetail))throw Error('Stored task details could not be confirmed.');
-   if(!controller.signal.aborted){setTickets([...items].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)||b.id.localeCompare(a.id)));setDetails(Object.fromEntries(found.map(d=>[d.ticket.id,d])));setChat(conversation);setError(null);}
-  }catch(cause){if(!controller.signal.aborted)setError((cause as Error).message);}finally{running=false;if(!controller.signal.aborted)setLoading(false);}}
-  void refresh();const timer=setInterval(()=>void refresh(),2000);const visible=()=>{if(!document.hidden)void refresh();};document.addEventListener('visibilitychange',visible);return()=>{controller.abort();clearInterval(timer);document.removeEventListener('visibilitychange',visible);};
- },[key,revision]);
- return {tickets,details,chat,error,loading};
+import {useCallback,useEffect,useRef,useState} from 'react';
+import {isDetail,type Detail} from './TicketPanel.tsx';import {isChatView,type ChatView} from '../../../packages/shared/chat.ts';import type {Ticket} from '../../../packages/shared/tickets.ts';import {plainError} from './plain-error.ts';
+export type DeskTicket=Pick<Ticket,'id'|'title'|'status'|'checkVerdict'|'createdAt'|'updatedAt'>&{revision:number;summary:{result:string|null;gaps:number;wrong:boolean};plainTitle?:string};
+export async function localRequest(key:string,path:string,body?:unknown,signal?:AbortSignal):Promise<unknown>{const r=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'X-CC-Operator':key,...(body===undefined?{}:{'Content-Type':'application/json'})},cache:'no-store',...(body===undefined?{}:{body:JSON.stringify(body)}),...(signal?{signal}:{})});const v:unknown=await r.json();if(!r.ok){const code=typeof v==='object'&&v!==null&&'error' in v&&typeof v.error==='object'&&v.error!==null&&'code'in v.error?String(v.error.code):undefined;throw Error(plainError(code));}return v;}
+export function useUnfoolableData(key:string|null,_revision:number){
+ const [tickets,setTickets]=useState<DeskTicket[]>([]),[details,setDetails]=useState<Record<string,Detail>>({}),[chat,setChat]=useState<ChatView|null>(null),[error,setError]=useState<string|null>(null),[loading,setLoading]=useState(true),[observedAt,setObservedAt]=useState<string|null>(null),[backOnline,setBackOnline]=useState(false);
+ const revisions=useRef(new Map<string,number>()),cache=useRef(new Map<string,{revision:number;detail:Detail}>()),pending=useRef(new Map<string,Promise<void>>());
+ const loadDetail=useCallback(async(id:string,force=false)=>{if(!key)return;const revision=revisions.current.get(id)??0,cached=cache.current.get(id);if(!force&&cached?.revision===revision){setDetails(v=>v[id]===cached.detail?v:{...v,[id]:cached.detail});return;}const inFlight=pending.current.get(id);if(inFlight)return inFlight;const job=(async()=>{const v=await localRequest(key,'/api/tickets/'+encodeURIComponent(id));if(!isDetail(v))throw Error('The saved details could not be read. Try again.');cache.current.set(id,{revision,detail:v});setDetails(old=>({...old,[id]:v}));})().finally(()=>pending.current.delete(id));pending.current.set(id,job);return job;},[key]);
+ useEffect(()=>{if(!key){setLoading(false);return;}const controller=new AbortController();let retry:ReturnType<typeof setTimeout>|undefined,failed=false;
+ async function connect(){try{const r=await fetch('/api/desk/events',{headers:{'X-CC-Operator':key!},signal:controller.signal,cache:'no-store'});if(!r.ok||!r.body)throw Error(plainError(r.status===403?'OPERATOR_REQUIRED':undefined));const reader=r.body.getReader(),decoder=new TextDecoder();let buffer='';while(!controller.signal.aborted){const next=await reader.read();if(next.done)throw Error('Connection closed');buffer+=decoder.decode(next.value,{stream:true});let end;while((end=buffer.indexOf('\n\n'))>=0){const frame=buffer.slice(0,end);buffer=buffer.slice(end+2);const line=frame.split('\n').find(l=>l.startsWith('data: '));if(!line)continue;const snapshot=JSON.parse(line.slice(6));if(!Array.isArray(snapshot.tickets)||!isChatView(snapshot.chat)||typeof snapshot.observedAt!=='string')throw Error('Saved work could not be read.');if(controller.signal.aborted)return;for(const t of snapshot.tickets){if(typeof t.id!=='string'||typeof t.title!=='string'||typeof t.revision!=='number')throw Error('Saved work could not be read.');revisions.current.set(t.id,t.revision);}setTickets(snapshot.tickets);setChat(snapshot.chat);setObservedAt(snapshot.observedAt);setLoading(false);setError(null);if(failed){setBackOnline(true);failed=false;}}}}catch(cause){if(controller.signal.aborted)return;failed=true;setError(cause instanceof Error?cause.message:'Offline');setLoading(false);retry=setTimeout(()=>void connect(),1500);}}
+ void connect();return()=>{controller.abort();if(retry)clearTimeout(retry);};
+ },[key]);return {tickets,details,chat,error,loading,observedAt,backOnline,loadDetail};
 }

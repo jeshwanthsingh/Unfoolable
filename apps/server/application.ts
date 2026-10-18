@@ -1,3 +1,4 @@
+import {createDeskStream} from './desk-stream.ts';
 import {createHumanConfirmation,requiresHuman,type HumanOperation} from './human-confirmation.ts';
 import {withHumanReceipt,enterHumanReceipt} from './human-context.ts';
 import {fixtureApprovalsEnabled} from './data-mode.ts';
@@ -98,6 +99,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(m=/^\/api\/verification-runs\/([^/]+)\/claims\/([^/]+)\/decision$/.exec(path)){const row=database.connection.prepare('SELECT * FROM verification_runs WHERE id=?').get(m[1]!);if(!row)throw new SpecError('RUN_NOT_FOUND','Verification run unavailable.',404);return {scope:{item:'claim:'+m[1]!+':'+m[2]!,action:'decision'},state:row};}
   throw new SpecError('INVALID_DECISION','Unsupported human decision.',400);
  }
+ const desk=createDeskStream(database.connection,()=>({...chat.store.view(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled()}));
  const human=createHumanConfirmation(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
  const json=(res:ServerResponse,status:number,body:import('../../packages/shared/chat.ts').ChatDraft|SpecView|DebugView|Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
@@ -114,6 +116,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res);return;}
    if(pathname==='/api/stop-all'&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);await projectBody(req,'stop all');json(res,200,await stopAll() as Record<string,unknown>);return;}
    if(stopping&&mutating)throw new SpecError('STOP_IN_PROGRESS','STOP ALL is cleaning up owned work. Wait before starting or resuming.',409);
    if(pathname.startsWith('/api/human')){
@@ -168,7 +171,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  let closing:Promise<void>|undefined;
  const close=()=>{
   if(closing)return closing;
-  logger({event:'shutdown.started'});analyses.close();contracts.close();planning.close();
+  logger({event:'shutdown.started'});desk.close();analyses.close();contracts.close();planning.close();
   closing=chat.close().then(()=>tickets.close()).then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}

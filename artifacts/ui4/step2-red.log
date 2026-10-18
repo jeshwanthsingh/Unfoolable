@@ -1,0 +1,111 @@
+✖ main screen has no polling or eager per-ticket details (1.201542ms)
+✖ Proof does not secretly mount a polling ticket screen (0.39075ms)
+✖ stream snapshot is lightweight and event identity is stable while idle (0.758459ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 66.390875
+
+✖ failing tests:
+
+test at tests/ui4-stream.test.ts:2:1
+✖ main screen has no polling or eager per-ticket details (1.201542ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /setInterval|items.map\(t=>localRequest/. Input:
+  
+  "import {plainError} from './plain-error.ts';\n" +
+    "import {useEffect,useState} from 'react';\n" +
+    "import {isTicket,isDetail,type Detail} from './TicketPanel.tsx';\n" +
+    "import {isChatView,type ChatView} from '../../../packages/shared/chat.ts';\n" +
+    "import type {Ticket} from '../../../packages/shared/tickets.ts';\n" +
+    'export async function localRequest(key:string,path:string,body?:unknown,signal?:AbortSignal):Promise<unknown>{\n' +
+    " const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'X-CC-Operator':key,...(body===undefined?{}:{'Content-Type':'application/json'})},cache:'no-store',...(body===undefined?{}:{body:JSON.stringify(body)}),...(signal?{signal}:{})});\n" +
+    " const value:unknown=await response.json();if(!response.ok)throw Error(plainError(typeof value==='object'&&value!==null&&'error' in value&&typeof value.error==='object'&&value.error!==null&&'code' in value.error?String(value.error.code):undefined));return value;\n" +
+    '}\n' +
+    'export function useUnfoolableData(key:string|null,revision:number){\n' +
+    ' const [tickets,setTickets]=useState<Ticket[]>([]),[details,setDetails]=useState<Record<string,Detail>>({}),[chat,setChat]=useState<ChatView|null>(null),[error,setError]=useState<string|null>(null),[loading,setLoading]=useState(true);\n' +
+    ' useEffect(()=>{if(!key){setLoading(false);return;}const controller=new AbortController();let running=false;\n' +
+    '  async function refresh(){if(running||document.hidden)return;running=true;try{\n' +
+    "   const [list,conversation]=await Promise.all([localRequest(key!,'/api/tickets',undefined,controller.signal),localRequest(key!,'/api/chat',undefined,controller.signal)]);\n" +
+    "   if(!list||typeof list!=='object'||!('tickets' in list)||!Array.isArray(list.tickets)||!list.tickets.every(isTicket)||!isChatView(conversation))throw Error('Stored task data could not be confirmed.');\n" +
+    "   const items=list.tickets;const found=await Promise.all(items.map(t=>localRequest(key!,'/api/tickets/'+encodeURIComponent(t.id),undefined,controller.signal)));\n" +
+    "   if(!found.every(isDetail))throw Error('Stored task details could not be confirmed.');\n" +
+    '   if(!controller.signal.aborted){setTickets([...items].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)||b.id.localeCompare(a.id)));setDetails(Object.fromEntries(found.map(d=>[d.ticket.id,d])));setChat(conversation);setError(null);}\n' +
+    '  }catch(cause){if(!controller.signal.aborted)setError((cause as Error).message);}finally{running=false;if(!controller.signal.aborted)setLoading(false);}}\n' +
+    "  void refresh();const timer=setInterval(()=>void refresh(),2000);const visible=()=>{if(!document.hidden)void refresh();};document.addEventListener('visibilitychange',visible);return()=>{controller.abort();clearInterval(timer);document.removeEventListener('visibilitychange',visible);};\n" +
+    ' },[key,revision]);\n' +
+    ' return {tickets,details,chat,error,loading};\n' +
+    '}\n'
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:2:140)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "import {plainError} from './plain-error.ts';\nimport {useEffect,useState} from 'react';\nimport {isTicket,isDetail,type Detail} from './TicketPanel.tsx';\nimport {isChatView,type ChatView} from '../../../packages/shared/chat.ts';\nimport type {Ticket} from '../../../packages/shared/tickets.ts';\nexport async function localRequest(key:string,path:string,body?:unknown,signal?:AbortSignal):Promise<unknown>{\n const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'X-CC-Operator':key,...(body===undefined?{}:{'Content-Type':'application/json'})},cache:'no-store',...(body===undefined?{}:{body:JSON.stringify(body)}),...(signal?{signal}:{})});\n const value:unknown=await response.json();if(!response.ok)throw Error(plainError(typeof value==='object'&&value!==null&&'error' in value&&typeof value.error==='object'&&value.error!==null&&'code' in value.error?String(value.error.code):undefined));return value;\n}\nexport function useUnfoolableData(key:string|null,revision:number){\n const [tickets,setTickets]=useState<Ticket[]>([]),[details,setDetails]=useState<Record<string,Detail>>({}),[chat,setChat]=useState<ChatView|null>(null),[error,setError]=useState<string|null>(null),[loading,setLoading]=useState(true);\n useEffect(()=>{if(!key){setLoading(false);return;}const controller=new AbortController();let running=false;\n  async function refresh(){if(running||document.hidden)return;running=true;try{\n   const [list,conversation]=await Promise.all([localRequest(key!,'/api/tickets',undefined,controller.signal),localRequest(key!,'/api/chat',undefined,controller.signal)]);\n   if(!list||typeof list!=='object'||!('tickets' in list)||!Array.isArray(list.tickets)||!list.tickets.every(isTicket)||!isChatView(conversation))throw Error('Stored task data could not be confirmed.');\n   const items=list.tickets;const found=await Promise.all(items.map(t=>localRequest(key!,'/api/tickets/'+encodeURIComponent(t.id),undefined,controller.signal)));\n   if(!found.every(isDetail))throw Error('Stored task details could not be confirmed.');\n   if(!controller.signal.aborted){setTickets([...items].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)||b.id.localeCompare(a.id)));setDetails(Object.fromEntries(found.map(d=>[d.ticket.id,d])));setChat(conversation);setError(null);}\n  }catch(cause){if(!controller.signal.aborted)setError((cause as Error).message);}finally{running=false;if(!controller.signal.aborted)setLoading(false);}}\n  void refresh();const timer=setInterval(()=>void refresh(),2000);const visible=()=>{if(!document.hidden)void refresh();};document.addEventListener('visibilitychange',visible);return()=>{controller.abort();clearInterval(timer);document.removeEventListener('visibilitychange',visible);};\n },[key,revision]);\n return {tickets,details,chat,error,loading};\n}\n",
+    expected: /setInterval|items.map\(t=>localRequest/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at tests/ui4-stream.test.ts:3:1
+✖ Proof does not secretly mount a polling ticket screen (0.39075ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /<TicketPanel/. Input:
+  
+  "import {lazy,Suspense,useEffect,useRef,useState} from 'react';\n" +
+    "import type {Detail} from './TicketPanel.tsx';\n" +
+    "import {TicketPanel} from './TicketPanel.tsx';\n" +
+    "import {ChatPanel} from './ChatPanel.tsx';\n" +
+    "import {PasskeyPanel} from './PasskeyPanel.tsx';\n" +
+    "import {Hallmark} from './Hallmark.tsx';\n" +
+    "import {aiNotePreview,proofLines} from './unfoolable-model.ts';\n" +
+    "import {localRequest} from './useUnfoolableData.ts';\n" +
+    "const FileDiff=lazy(()=>import('./FileDiff.tsx').then(m=>({default:m.FileDiff})));\n" +
+    "export function UnfoolableProof({detail,operatorKey,theme,onClose,onRefresh,confirmation=false,requestError}:{requestError?:string|null;detail?:Detail;operatorKey:string;theme:'light'|'dark';onClose:()=>void;onRefresh:()=>void;confirmation?:boolean}){\n" +
+    ' const dialog=useRef<HTMLDialogElement>(null),returnFocus=useRef<Element|null>(null),[file,setFile]=useState<{path:string;diff:string}|null>(null),[error,setError]=useState(false),[busy,setBusy]=useState(false);\n' +
+    ' useEffect(()=>{returnFocus.current=document.activeElement;dialog.current?.showModal();return()=>{dialog.current?.close();if(returnFocus.current instanceof HTMLElement)returnFocus.current.focus();};},[]);\n' +
+    " async function openFile(path:string){if(!detail||busy)return;setBusy(true);setError(false);try{const result=await localRequest(operatorKey,'/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/diff-view',{candidateCommit:detail.ticket.candidateCommits.at(-1),reviewBinding:detail.reviewBinding,path});if(!result||typeof result!=='object'||!('path' in result)||typeof result.path!=='string'||!('diff' in result)||typeof result.diff!=='string')throw Error('Invalid file review');setFile({path:result.path,diff:result.diff});onRefresh();}catch{setError(true);}finally{setBusy(false);}}\n" +
+    ' return <dialog ref={dialog} className="unfool-proof" aria-labelledby="proof-title" onCancel={event=>{event.preventDefault();onClose();}}><div className="proof-header"><h2 id="proof-title">Proof</h2><button onClick={onClose}>Close</button></div>\n' +
+    ' {detail?<><h3>{detail.ticket.title}</h3><ul className="proof-checklist">{proofLines(detail).map(line=><li key={line.text}><Hallmark mark={line.mark}/><span>{line.text}</span></li>)}</ul>\n' +
+    ' <section><h3>What the AI says it did</h3><p className="unfool-muted">Written by the AI, not a check result.</p><p className="proof-ai-note">{aiNotePreview(detail.events)}</p></section>\n' +
+    ` <section><h3>What changed</h3><p>{detail.diffReviewRequired?'Open each changed file before accepting.':'You can inspect each changed file here.'}</p><ul className="proof-files">{detail.reviewPaths?.map(path=><li key={path}><button disabled={busy} onClick={()=>void openFile(path)}><span>{path}</span><span>{detail.viewedPaths?.includes(path)?'Opened':'Open'}</span></button></li>)}</ul>{!detail.reviewPaths?.length&&<p>No file list is available in this record.</p>}{error&&<p role="alert">That file couldn't open. Refresh the proof and try again.</p>}{file&&<section className="proof-patch" aria-label="Opened changes"><h4>{file.path}</h4><Suspense fallback={<p>Opening the changes…</p>}><FileDiff path={file.path} diff={file.diff} theme={theme}/></Suspense></section>}</section>\n` +
+    ` <details className="proof-technical"><summary>Technical details</summary>{requestError&&<p role="alert">{requestError}</p>}<h4>Original AI note</h4><p className="proof-ai-note">{String(detail.events.filter(e=>e.kind==='agent_stopped'&&typeof e.data.summary==='string').at(-1)?.data.summary??'No separate AI summary was recorded.')}</p><p>Original request</p><blockquote>{detail.ticket.requestText}</blockquote><TicketPanel initialTicketId={detail.ticket.id}/><details><summary>Complete stored response</summary><pre>{JSON.stringify(detail,null,2)}</pre></details></details></>:<><p>{confirmation?'Confirm your choice with Touch ID.':'Your conversation and settings are here.'}</p><details className="proof-technical" open={confirmation}><summary>Technical details</summary>{requestError&&<p role="alert">{requestError}</p>}{confirmation?<PasskeyPanel operatorKey={operatorKey}/>:<ChatPanel/>}</details></>}\n` +
+    ' </dialog>;\n' +
+    '}\n'
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:3:138)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `import {lazy,Suspense,useEffect,useRef,useState} from 'react';\nimport type {Detail} from './TicketPanel.tsx';\nimport {TicketPanel} from './TicketPanel.tsx';\nimport {ChatPanel} from './ChatPanel.tsx';\nimport {PasskeyPanel} from './PasskeyPanel.tsx';\nimport {Hallmark} from './Hallmark.tsx';\nimport {aiNotePreview,proofLines} from './unfoolable-model.ts';\nimport {localRequest} from './useUnfoolableData.ts';\nconst FileDiff=lazy(()=>import('./FileDiff.tsx').then(m=>({default:m.FileDiff})));\nexport function UnfoolableProof({detail,operatorKey,theme,onClose,onRefresh,confirmation=false,requestError}:{requestError?:string|null;detail?:Detail;operatorKey:string;theme:'light'|'dark';onClose:()=>void;onRefresh:()=>void;confirmation?:boolean}){\n const dialog=useRef<HTMLDialogElement>(null),returnFocus=useRef<Element|null>(null),[file,setFile]=useState<{path:string;diff:string}|null>(null),[error,setError]=useState(false),[busy,setBusy]=useState(false);\n useEffect(()=>{returnFocus.current=document.activeElement;dialog.current?.showModal();return()=>{dialog.current?.close();if(returnFocus.current instanceof HTMLElement)returnFocus.current.focus();};},[]);\n async function openFile(path:string){if(!detail||busy)return;setBusy(true);setError(false);try{const result=await localRequest(operatorKey,'/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/diff-view',{candidateCommit:detail.ticket.candidateCommits.at(-1),reviewBinding:detail.reviewBinding,path});if(!result||typeof result!=='object'||!('path' in result)||typeof result.path!=='string'||!('diff' in result)||typeof result.diff!=='string')throw Error('Invalid file review');setFile({path:result.path,diff:result.diff});onRefresh();}catch{setError(true);}finally{setBusy(false);}}\n return <dialog ref={dialog} className="unfool-proof" aria-labelledby="proof-title" onCancel={event=>{event.preventDefault();onClose();}}><div className="proof-header"><h2 id="proof-title">Proof</h2><button onClick={onClose}>Close</button></div>\n {detail?<><h3>{detail.ticket.title}</h3><ul className="proof-checklist">{proofLines(detail).map(line=><li key={line.text}><Hallmark mark={line.mark}/><span>{line.text}</span></li>)}</ul>\n <section><h3>What the AI says it did</h3><p className="unfool-muted">Written by the AI, not a check result.</p><p className="proof-ai-note">{aiNotePreview(detail.events)}</p></section>\n <section><h3>What changed</h3><p>{detail.diffReviewRequired?'Open each changed file before accepting.':'You can inspect each changed file here.'}</p><ul className="proof-files">{detail.reviewPaths?.map(path=><li key={path}><button disabled={busy} onClick={()=>void openFile(path)}><span>{path}</span><span>{detail.viewedPaths?.includes(path)?'Opened':'Open'}</span></button></li>)}</ul>{!detail.reviewPaths?.length&&<p>No file list is available in this record.</p>}{error&&<p role="alert">That file couldn't open. Refresh the proof and try again.</p>}{file&&<section className="proof-patch" aria-label="Opened changes"><h4>{file.path}</h4><Suspense fallback={<p>Opening the changes…</p>}><FileDiff path={file.path} diff={file.diff} theme={theme}/></Suspense></section>}</section>\n <details className="proof-technical"><summary>Technical details</summary>{requestError&&<p role="alert">{requestError}</p>}<h4>Original AI note</h4><p className="proof-ai-note">{String(detail.events.filter(e=>e.kind==='agent_stopped'&&typeof e.data.summary==='string').at(-1)?.data.summary??'No separate AI summary was recorded.')}</p><p>Original request</p><blockquote>{detail.ticket.requestText}</blockquote><TicketPanel initialTicketId={detail.ticket.id}/><details><summary>Complete stored response</summary><pre>{JSON.stringify(detail,null,2)}</pre></details></details></>:<><p>{confirmation?'Confirm your choice with Touch ID.':'Your conversation and settings are here.'}</p><details className="proof-technical" open={confirmation}><summary>Technical details</summary>{requestError&&<p role="alert">{requestError}</p>}{confirmation?<PasskeyPanel operatorKey={operatorKey}/>:<ChatPanel/>}</details></>}\n </dialog>;\n}\n`,
+    expected: /<TicketPanel/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at tests/ui4-stream.test.ts:4:1
+✖ stream snapshot is lightweight and event identity is stable while idle (0.758459ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts' imported from /Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts
+      at finalizeResolution (node:internal/modules/esm/resolve:272:11)
+      at moduleResolve (node:internal/modules/esm/resolve:879:10)
+      at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+      at #resolve (node:internal/modules/esm/loader:687:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+      at node:internal/modules/esm/loader:636:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts'
+  }

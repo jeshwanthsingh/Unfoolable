@@ -2,7 +2,7 @@ import type {Detail} from './TicketPanel.tsx';
 import type {Ticket,TicketEvent} from '../../../packages/shared/tickets.ts';
 export type Mark='checked'|'closer'|'wrong'|'working'|'stuck'|'waiting';
 export const words={empty:'Nothing here yet. What should we work on?',gaps:"Done, but one part couldn't be checked.",wrong:"Something's wrong: a test was quietly changed.",failed:"Something's wrong: a check failed. Look at the changes.",stuck:'Stuck. Try again or reject it.',needs:'Needs your OK before continuing.',offline:"Can't connect. Start Unfoolable, then try again.",unchecked:"This change hasn't been checked yet."} as const;
-export function taskPresentation(ticket:Ticket,detail?:Detail,now=Date.now()):{mark:Mark;sentence:string}{
+export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkVerdict'>,detail?:Detail,now=Date.now()):{mark:Mark;sentence:string}{
  if(ticket.status==='kept'){
   const result=detail?.check?.verdict??ticket.checkVerdict;
   if(detail?.risk?.color==='RED'||detail?.check?.testTampering?.status==='FLAGGED'||detail?.check?.testWriter?.warnings?.length)return {mark:'wrong',sentence:'Accepted earlier. A warning remains; see the proof.'};
@@ -21,7 +21,15 @@ export function taskPresentation(ticket:Ticket,detail?:Detail,now=Date.now()):{m
   return {mark:'stuck',sentence};
  }
  if(ticket.status==='queued')return {mark:'waiting',sentence:'Waiting to start.'};
- if(!detail)return ticket.status==='needs_you'?{mark:'closer',sentence:words.needs}:{mark:'waiting',sentence:'Loading the latest result.'};
+ if(!detail){
+  const summary='summary' in ticket?ticket.summary as {result?:string;wrong?:boolean}:undefined;
+  if(summary?.wrong)return {mark:'wrong',sentence:words.wrong};
+  if(summary?.result==='FAILED')return {mark:'wrong',sentence:words.failed};
+  if(ticket.status==='needs_you')return {mark:'closer',sentence:words.needs};
+  if(summary?.result==='VERIFIED')return {mark:'checked',sentence:'Checked. The recorded tests passed.'};
+  if(summary?.result==='PASSED WITH GAPS')return {mark:'closer',sentence:words.gaps};
+  return {mark:'waiting',sentence:'Loading the latest result.'};
+ }
  if(detail.check?.testTampering?.status==='FLAGGED')return {mark:'wrong',sentence:words.wrong};
  if(detail.check?.testWriter?.warnings?.length)return {mark:'wrong',sentence:"Something's wrong: an independent test failed."};
  if(detail.risk?.color==='RED')return {mark:'wrong',sentence:'Something needs a closer look before you accept.'};
@@ -37,7 +45,7 @@ export function mayAccept(detail:Detail):boolean{
  return ['VERIFIED','PASSED WITH GAPS'].includes(detail.check?.verdict??detail.ticket.checkVerdict??'')&&detail.ticket.status==='ready_for_review'&&detail.keepAvailable===true&&!detail.evidenceStale&&!detail.diffReviewRequired&&detail.ticket.candidateCommits.length>0;
 }
 export function latestCheckEvent(events:TicketEvent[]):number{return events.filter(e=>e.kind==='check_result').at(-1)?.sequence??0;}
-export function awaySummary(tickets:Ticket[],now=Date.now()):string{
+export function awaySummary(tickets:Pick<Ticket,'status'|'updatedAt'>[],now=Date.now()):string{
  const day=new Date(now);day.setHours(0,0,0,0);
  const today=tickets.filter(t=>Date.parse(t.updatedAt)>=day.getTime());
  const waiting=tickets.filter(t=>['ready_for_review','needs_you','harness_error','interrupted'].includes(t.status)).length;

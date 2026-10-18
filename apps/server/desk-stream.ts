@@ -1,0 +1,14 @@
+import {createHash} from 'node:crypto';import type {DatabaseSync} from 'node:sqlite';import type {ServerResponse} from 'node:http';import type {ChatView} from '../../packages/shared/chat.ts';
+export function deskCursor(db:DatabaseSync):string{
+ const row=db.prepare(`SELECT (SELECT coalesce(max(sequence),0) FROM ticket_events) AS tickets,(SELECT coalesce(max(sequence),0) FROM chat_messages) AS messages,(SELECT coalesce(sum(version),0) FROM chat_drafts) AS drafts,(SELECT group_concat(id||status||binding,'') FROM chat_cards) AS cards`).get();return createHash('sha256').update(JSON.stringify(row)).digest('hex');
+}
+export function deskSnapshot(db:DatabaseSync,chat:ChatView){
+ const rows=db.prepare(`SELECT t.id,t.title,t.status,t.check_verdict,t.created_at,t.updated_at,(SELECT max(sequence) FROM ticket_events e WHERE e.ticket_id=t.id) AS revision,(SELECT data_json FROM ticket_events e WHERE e.ticket_id=t.id AND kind='check_result' ORDER BY sequence DESC LIMIT 1) AS result FROM tickets t ORDER BY t.created_at DESC,t.id DESC`).all();
+ return {tickets:rows.map(r=>{const check=r.result?JSON.parse(String(r.result)):null;return {id:String(r.id),title:String(r.title),status:String(r.status),checkVerdict:r.check_verdict,createdAt:String(r.created_at),updatedAt:String(r.updated_at),revision:Number(r.revision??0),summary:{result:check?.verdict??null,gaps:check?.gaps?.length??0,wrong:check?.testTampering?.status==='FLAGGED'||!!check?.testWriter?.warnings?.length}};}),chat:{...('playbookApprovalsEnabled' in chat?{playbookApprovalsEnabled:chat.playbookApprovalsEnabled}:{}),messages:chat.messages.slice(-20),drafts:chat.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status)),cards:chat.cards.filter(c=>c.status==='PENDING'&&c.kind!=='ticket')},observedAt:new Date().toISOString()};
+}
+export function createDeskStream(db:DatabaseSync,chat:()=>ChatView){
+ const clients=new Set<ServerResponse>();let cursor='',closed=false;let sequence=0;
+ const packet=()=>{const next=deskCursor(db);if(next===cursor)return;cursor=next;const body='id: '+cursor+'\nevent: desk\ndata: '+JSON.stringify(deskSnapshot(db,chat()))+'\n\n';for(const res of clients){if(!res.write(body)){res.destroy();clients.delete(res);}}};
+ const timer=setInterval(()=>{if(!clients.size||closed)return;try{packet();if(++sequence%40===0)for(const r of clients)r.write(': connected\n\n');}catch{for(const r of clients)r.end();clients.clear();}},500);timer.unref();
+ return {connect(res:ServerResponse){if(closed){res.writeHead(503);res.end();return;}res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache, no-transform','Connection':'keep-alive','X-Accel-Buffering':'no'});res.write('retry: 1500\nid: '+deskCursor(db)+'\nevent: desk\ndata: '+JSON.stringify(deskSnapshot(db,chat()))+'\n\n');clients.add(res);cursor=deskCursor(db);res.once('close',()=>clients.delete(res));},close(){closed=true;clearInterval(timer);for(const r of clients)r.end();clients.clear();}};
+}

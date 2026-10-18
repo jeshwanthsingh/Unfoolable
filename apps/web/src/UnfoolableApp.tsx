@@ -26,6 +26,7 @@ export function UnfoolableApp(){
   if(kind==='keep'&&(!mayAccept(detail)||data.error))return;
   void mutate('/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{},true,kind==='keep'?'Accepted':kind==='discard'?'Rejected':kind==='recheck'?'Checking again.':'Starting again.');
  }
+ useEffect(()=>{if(proof&&!['conversation','confirmation'].includes(proof))void data.loadDetail(proof).catch(()=>setError('The details could not open. Try again.'));},[proof,data.loadDetail,data.tickets.find(t=>t.id===proof)?.revision]);
  const selected=proof?data.details[proof]:undefined;
  const drafts=data.chat?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status)&&!pendingCancels.includes(d.id))??[];
  const otherCards=data.chat?.cards.filter(c=>c.status==='PENDING'&&c.kind!=='ticket')??[];
@@ -41,12 +42,13 @@ export function UnfoolableApp(){
  {error&&<p role="alert" className="unfool-error">{error}<button onClick={()=>showProof(proof??'conversation')}>See the proof</button></p>}
  {drafts.map(draft=><UnfoolableDraft key={draft.id+':'+draft.version} draft={draft} busy={busy||offline} onAction={(action,fields)=>{if(action==='cancel'){setPendingCancels(v=>[...v,draft.id]);setNotice('Confirm cancellation with Touch ID.');}void mutate('/api/chat/drafts/'+encodeURIComponent(draft.id)+'/'+action,{version:draft.version,...fields},true,action==='start'?'Started':action==='edit'?'Saved':'Cancelled').then(ok=>{if(action==='cancel'&&!ok)setPendingCancels(v=>v.filter(id=>id!==draft.id));});}}/>)}
  {otherCards.length>0&&<section className="unfool-attention"><h2>Needs you</h2><p>Needs your OK before continuing.</p><button onClick={()=>showProof('conversation')}>See the proof</button></section>}
+ {proof&&!selected&&!['conversation','confirmation'].includes(proof)&&<p role="status">Opening the proof…</p>}
  {data.loading?<p role="status">Opening your work…</p>:!offline&&key&&!data.tickets.length&&!drafts.length?<section className="unfool-empty"><Hallmark mark="waiting"/><h2>{words.empty}</h2></section>:null}
  <ol className="unfool-tasks" aria-label="Your work">{data.tickets.map(ticket=>{const detail=data.details[ticket.id],state=taskPresentation(ticket,detail,clock),review=ticket.status==='ready_for_review',stuck=['needs_you','interrupted','harness_error'].includes(ticket.status),canRetry=stuck&&!(ticket.status==='needs_you'&&detail?.playbook?.approval?.hash!==detail?.playbook?.hash);
  return <li key={ticket.id} className="unfool-task" data-status={state.mark}><Hallmark mark={state.mark} event={detail?latestCheckEvent(detail.events):0} sound={sound} ready={detail!==undefined} progress={detail?.events.at(-1)?.sequence??0}/><div className="unfool-task-body"><h2>{ticket.title}</h2><p className="unfool-status">{state.sentence}</p>
  {detail&&<div className="unfool-actions">{review&&(detail.evidenceStale&&detail.recheckAvailable?<button disabled={busy||offline} onClick={()=>ticketAction(detail,'recheck')}>Try again</button>:mayAccept(detail)?<button disabled={busy||offline} onClick={()=>ticketAction(detail,'keep')}>Accept</button>:<button onClick={()=>showProof(ticket.id)}>Look at the changes</button>)}{canRetry&&<button disabled={busy||offline} onClick={()=>ticketAction(detail,'retry')}>Try again</button>}{(review||stuck)&&<button disabled={busy||offline} onClick={()=>ticketAction(detail,'discard')}>Reject</button>}</div>}
  <button className="unfool-proof-link" onClick={()=>showProof(ticket.id)}>See the proof</button></div></li>;})}</ol>
  <footer className="unfool-footer"><button onClick={()=>showProof('conversation')}>Conversation</button><button className="unfool-stop" disabled={!key||busy} onClick={()=>void mutate('/api/stop-all',{},false,'Stopped. Starting again needs your OK.')}>Stop all</button></footer>
- </main>{proof&&key&&(selected||['conversation','confirmation'].includes(proof))&&<UnfoolableProof key={proof} {...(selected?{detail:selected}:{})} operatorKey={key} theme={theme} onClose={closeProof} onRefresh={()=>setRevision(v=>v+1)} confirmation={proof==='confirmation'} requestError={error}/>}
+ </main>{proof&&key&&(selected||['conversation','confirmation'].includes(proof))&&<UnfoolableProof key={proof} {...(selected?{detail:selected}:{})} operatorKey={key} {...(data.chat?{chatView:data.chat}:{})} theme={theme} onClose={closeProof} onRefresh={()=>{if(proof)void data.loadDetail(proof,true);}} confirmation={proof==='confirmation'} requestError={error}/>}
  </div>;
 }
