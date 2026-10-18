@@ -1,3 +1,4 @@
+import {WatchWork} from './WatchWork.tsx';
 import {LiveActivity} from './LiveActivity.tsx';
 import {UnfoolableTasks} from './UnfoolableTasks.tsx';
 import {wordPreview} from '../../../packages/shared/display-title.ts';
@@ -21,6 +22,7 @@ export function UnfoolableApp(){
  const [key]=useState(bootstrapTicketOperator),[revision,setRevision]=useState(0),[text,setText]=useState(''),[busy,setBusy]=useState(false),[notice,setNotice]=useState(''),[error,setError]=useState<string|null>(null),[settings,setSettings]=useState(false),[proof,setProof]=useState<string|null>(()=>new URLSearchParams(location.search).has('confirm')?'confirmation':new URLSearchParams(location.search).get('ticket'));
  const [appearance,setAppearance]=useState<'system'|'light'|'dark'>(()=>{const v=saved('unfool-theme','system');return v==='light'||v==='dark'?v:'system';}),[systemDark,setSystemDark]=useState(()=>matchMedia('(prefers-color-scheme: dark)').matches),[look,setLook]=useState<Look>(()=>{const v=saved('unfool-look','assay');return v==='compact'||v==='spacious'?v:'assay';}),[sound,setSound]=useState(false),[clock,setClock]=useState(Date.now());
  const theme=appearance==='system'?(systemDark?'dark':'light'):appearance;
+ const [watch,setWatch]=useState<string|null>(null);
  const pendingRequest=useRef(false);
  useEffect(()=>{const media=matchMedia('(prefers-color-scheme: dark)');const change=()=>setSystemDark(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);
  const data=useUnfoolableData(key,revision),ask=useRef<HTMLTextAreaElement>(null);
@@ -35,6 +37,8 @@ export function UnfoolableApp(){
   void mutate('/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{},true,kind==='keep'?'Accepted':kind==='discard'?'Rejected':kind==='recheck'?'Checking again.':'Starting again.');
  }
  useEffect(()=>{if(proof&&!['conversation','confirmation'].includes(proof))void data.loadDetail(proof).catch(()=>setError('The details could not open. Try again.'));},[proof,data.loadDetail,data.tickets.find(t=>t.id===proof)?.detailRevision??data.tickets.find(t=>t.id===proof)?.revision]);
+ const watched=data.tickets.find(t=>t.id===watch);
+ useEffect(()=>{if(watch)void data.loadDetail(watch).catch(()=>setError('The steps could not open. Try again.'));},[watch,data.loadDetail,watched?.detailRevision]);
  const selected=proof?data.details[proof]:undefined;
  const drafts=data.chat?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status)&&!pendingCancels.includes(d.id))??[];
  const otherCards=data.chat?.cards.filter(c=>c.status==='PENDING'&&c.kind!=='ticket')??[];
@@ -56,8 +60,8 @@ export function UnfoolableApp(){
  <UnfoolableTasks tickets={data.tickets} renderTicket={ticket=>{const detail=data.details[ticket.id],state=taskPresentation(ticket,detail,clock),review=ticket.status==='ready_for_review',stuck=['needs_you','interrupted','harness_error'].includes(ticket.status),canRetry=stuck&&!(ticket.status==='needs_you'&&detail?.playbook?.approval?.hash!==detail?.playbook?.hash);
  return <li key={ticket.id} className="unfool-task" data-ticket-id={ticket.id} data-status={state.mark}><Hallmark mark={state.mark} {...(state.tone?{tone:state.tone}:{})} event={detail?latestCheckEvent(detail.events):ticket.checkSequence??0} sound={sound} ready={!data.loading} progress={detail?.events.at(-1)?.sequence??ticket.revision}/><div className="unfool-task-body"><h2 tabIndex={0} title={ticket.title} aria-label={ticket.title}><span aria-hidden="true">{wordPreview(ticket.plainTitle??ticket.title)}</span><span aria-hidden="true" className="unfool-full-title">{ticket.title}</span></h2>{ticket.titleAuthor==='AI'&&<small className="unfool-muted">Title written by the AI</small>}{ticket.activity?<LiveActivity ticket={ticket}/>:<p className="unfool-status">{state.sentence}</p>}
  {!detail&&review&&<div className="unfool-actions"><button onClick={()=>showProof(ticket.id)}>Look at the changes</button></div>}{detail&&<div className="unfool-actions">{review&&(detail.evidenceStale&&detail.recheckAvailable?<button disabled={busy||offline} onClick={()=>ticketAction(detail,'recheck')}>Check again</button>:mayAccept(detail)?<button disabled={busy||offline} onClick={()=>ticketAction(detail,'keep')}>Accept</button>:<button onClick={()=>showProof(ticket.id)}>Look at the changes</button>)}{canRetry&&<button disabled={busy||offline} onClick={()=>ticketAction(detail,'retry')}>Try again</button>}{(review||stuck)&&<button disabled={busy||offline} onClick={()=>ticketAction(detail,'discard')}>Reject</button>}</div>}
- <button className="unfool-proof-link" onClick={()=>showProof(ticket.id)}>See the proof</button></div></li>;}}/>
+ {['building','fixing','checking'].includes(ticket.status)&&<button className="unfool-watch-link" onClick={()=>setWatch(ticket.id)}>Watch it work</button>}<button className="unfool-proof-link" onClick={()=>showProof(ticket.id)}>See the proof</button></div></li>;}}/>
  <footer className="unfool-footer"><button onClick={()=>showProof('conversation')}>Conversation</button><button className="unfool-stop" disabled={!key||busy} onClick={()=>void mutate('/api/stop-all',{},false,'Stopped. Starting again needs your OK.')}>Stop all</button></footer>
- </main>{proof&&key&&(selected||['conversation','confirmation'].includes(proof))&&<UnfoolableProof key={proof} {...(selected?{detail:selected}:{})} operatorKey={key} decisionPending={busy} {...(selected?{onDecision:(kind:'keep'|'discard'|'recheck'|'retry')=>ticketAction(selected,kind)}:{})} {...(data.chat?{chatView:data.chat}:{})} theme={theme} onClose={closeProof} onRefresh={()=>{if(proof)void data.loadDetail(proof,true);}} confirmation={proof==='confirmation'} requestError={error}/>}
+ </main>{watched&&<WatchWork ticket={watched} {...(data.details[watched.id]?{detail:data.details[watched.id]}:{})} onClose={()=>setWatch(null)} onProof={()=>{setWatch(null);showProof(watched.id);}}/>}{proof&&key&&(selected||['conversation','confirmation'].includes(proof))&&<UnfoolableProof key={proof} {...(selected?{detail:selected}:{})} operatorKey={key} decisionPending={busy} {...(selected?{onDecision:(kind:'keep'|'discard'|'recheck'|'retry')=>ticketAction(selected,kind)}:{})} {...(data.chat?{chatView:data.chat}:{})} theme={theme} onClose={closeProof} onRefresh={()=>{if(proof)void data.loadDetail(proof,true);}} confirmation={proof==='confirmation'} requestError={error}/>}
  </div>;
 }

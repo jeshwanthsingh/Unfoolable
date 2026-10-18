@@ -37,3 +37,8 @@ test('no motion can start without a new recent event; mount, replay, search and 
  assert.equal(motionReason(old,{...old,status:'needs_you',revision:2},true,1000),'attention');
  assert.equal(motionReason(undefined,{...old,id:'new'},true,1000),'arrival');
 });
+
+import {readFileSync} from 'node:fs';
+test('watch view is a native read-only modal and restores focus and scroll',()=>{
+ const s=readFileSync('apps/web/src/WatchWork.tsx','utf8');assert.match(s,/showModal\(/);assert.match(s,/scrollTo/);assert.match(s,/preventScroll:true/);assert.match(s,/onCancel/);assert.doesNotMatch(s,/confirmedDecision|localRequest|setInterval|requestAnimationFrame/);
+});
