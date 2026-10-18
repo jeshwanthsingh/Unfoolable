@@ -30,4 +30,4 @@ Proof contains: what passed, what failed, what wasn't checked; What the AI says 
 
 No technical system vocabulary on the main screen: candidate, BASE, playbook, verdict, harness, mutation, tripwire, Watchman, worktree, admission, gate, evidence. No uppercase labels, middle-dot metadata separators or arrow-suffixed buttons. Technical terms are allowed in collapsed Technical details.
 
-The screenshot-only comprehension test found two ambiguities: pending tasks may be below the fold, and Accepted does not mean merged. Summary now explicitly says “waiting across all tasks”; accepted work says “Saved separately; not merged into your project.”
+The screenshot-only comprehension test found two ambiguities: pending tasks may be below the fold, and Accepted does not mean merged. Summary now explicitly says “waiting; scroll to see all”; accepted work says “Saved separately; not merged into your project.”

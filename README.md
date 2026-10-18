@@ -4,6 +4,12 @@ AI does the work. Nothing fools the check. The repository remains named `command
 
 A local workspace for registered Git projects and frozen-Candidate verification. The primary v1 verifies committed code using protected existing tests and reusable approved project recipes. AI task checks are an optional advisory bonus, not a mandatory planning or landing gate.
 
+## Main screen
+
+Run `./unfool chat` (or `./cc chat`) to open your private screen. Ask for work, review the proposed task, then choose Start. Task rows show recorded progress and check results in plain words. Accept and Reject keep the existing exact-item Touch ID protection; incomplete or flagged work still requires opening every changed file first.
+
+See the proof opens the check summary and highlighted file review. Original engineering records remain under Technical details. Settings offers light/dark appearance and three Hallmark looks; Assay is the default. Original working tools and historical visual experiments remain in Labs. No checker, Builder or approval policy changed in this design.
+
 ## Verification v1
 
 1. Run BASE versions of existing unittest/Vitest tests against the exported Candidate. Candidate-edited tests are non-authoritative diagnostics.

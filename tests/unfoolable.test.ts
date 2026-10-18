@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readlinkSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {taskPresentation,mayAccept,awaySummary,latestCheckEvent,proofLines,words} from '../apps/web/src/unfoolable-model.ts';
+import {taskPresentation,mayAccept,awaySummary,latestCheckEvent,proofLines,words,aiNotePreview} from '../apps/web/src/unfoolable-model.ts';
 import type {Ticket,TicketEvent} from '../packages/shared/tickets.ts';
 import type {Detail} from '../apps/web/src/TicketPanel.tsx';
 const ticket:Ticket={id:'one',title:'Fix a label',requestText:'Fix a label',repoPath:'/fixture',baseCommit:'a'.repeat(40),status:'ready_for_review',attemptCount:1,candidateCommits:['b'.repeat(40)],checkVerdict:'VERIFIED',createdAt:'2026-10-18T10:00:00Z',updatedAt:'2026-10-18T10:00:00Z'};
@@ -10,20 +10,25 @@ const detail=(patch:Partial<Detail>={}):Detail=>({ticket,events:[],stats:{submit
 test('hallmarks follow actual stored outcomes, with no implied success from missing detail',()=>{
  assert.equal(taskPresentation(ticket).mark,'waiting');
  assert.equal(taskPresentation(ticket,detail()).mark,'checked');
+ assert.equal(taskPresentation({...ticket,status:'kept',checkVerdict:'PASSED WITH GAPS'},detail({check:{verdict:'PASSED WITH GAPS',gaps:['unchecked'],failures:[]}})).mark,'closer');
  assert.equal(taskPresentation(ticket,detail({check:{verdict:'PASSED WITH GAPS',gaps:['not checked'],failures:[]}})).mark,'closer');
  assert.equal(taskPresentation(ticket,detail({check:{verdict:'FAILED',gaps:[],failures:['failed']}})).mark,'wrong');
+ assert.equal(taskPresentation({...ticket,status:'needs_you',checkVerdict:'FAILED'},detail({check:{verdict:'FAILED',gaps:[],failures:['failed']}})).mark,'wrong');
  assert.equal(taskPresentation(ticket,detail({check:{verdict:'NOT CHECKED',gaps:[],failures:[]}})).mark,'closer');
  assert.equal(taskPresentation(ticket,detail({evidenceStale:true})).mark,'closer');
+ assert.equal(taskPresentation({...ticket,status:'kept'},detail({risk:{color:'RED',reason:'Existing test changed',files:1,changedLines:1,cap:{lines:400,files:15}}})).mark,'wrong');
 });
 test('working time starts from the recorded transition; stopped work does not look busy',()=>{
  const working={...ticket,status:'building' as const};
  assert.equal(taskPresentation(working,detail(),Date.parse(ticket.updatedAt)+120000).sentence,'Working on it for 2 minutes.');
  for(const status of ['harness_error','interrupted','cancelled'] as const)assert.equal(taskPresentation({...ticket,status},detail()).mark,'stuck');
+ assert.doesNotMatch(taskPresentation({...ticket,status:'cancelled'},detail()).sentence,/Try again|reject/);
  assert.equal(taskPresentation({...ticket,status:'queued'},detail()).mark,'waiting');
  assert.equal(taskPresentation({...ticket,status:'needs_you'},detail()).mark,'closer');
 });
 test('Accept requires fresh passing server availability and every file opened',()=>{
  assert.equal(mayAccept(detail()),true);
+ for(const verdict of ['FAILED','NOT CHECKED'] as const)assert.equal(mayAccept(detail({check:{verdict,gaps:[],failures:[]}})),false);
  for(const patch of [{keepAvailable:false},{evidenceStale:true},{diffReviewRequired:true},{ticket:{...ticket,status:'building' as const}},{ticket:{...ticket,candidateCommits:[]}}])assert.equal(mayAccept(detail(patch)),false);
 });
 test('tampering and independent-test warnings remain conspicuous',()=>{
@@ -35,8 +40,8 @@ test('proof never invents test totals, password checks or tampering success',()=
  assert.equal(lines.some(l=>/password/.test(l.text)),false);assert.equal(lines.some(l=>/172/.test(l.text)),false);
 });
 test('the away summary counts real current states in its stated time window',()=>{
- assert.equal(awaySummary([ticket,{...ticket,id:'two',status:'kept'}],Date.parse('2026-10-18T12:00:00Z')),'1 decided today. 1 waiting across all tasks.');
- assert.match(awaySummary([ticket],Date.parse('2026-10-20T12:00:00Z')),/1 waiting across all tasks/);
+ assert.equal(awaySummary([ticket,{...ticket,id:'two',status:'kept'}],Date.parse('2026-10-18T12:00:00Z')),'1 decided today. 1 waiting; scroll to see all.');
+ assert.match(awaySummary([ticket],Date.parse('2026-10-20T12:00:00Z')),/1 waiting; scroll to see all/);
  assert.equal(awaySummary([],Date.now()),'Nothing needs a decision right now.');
 });
 test('strike identity comes only from recorded check results',()=>{
@@ -47,6 +52,7 @@ test('main authored statuses are plain, short and free of technical labels',()=>
  const forbidden=/\b(candidate|base|playbook|verdict|harness|mutation|tripwire|watchman|worktree|admission|gate|evidence)\b/i;
  const statuses=[...Object.values(words),...(['building','checking','fixing','queued','kept','discarded','needs_you','ready_for_review','harness_error','interrupted','cancelled'] as const).map(status=>taskPresentation({...ticket,status},detail()).sentence)];
  for(const line of statuses){assert.doesNotMatch(line,forbidden);assert.doesNotMatch(line,/ · |^[A-Z][A-Z\s]+$/);assert.ok(line.split(/\s+/).length<=12,line);}
+ assert.equal(aiNotePreview([{sequence:1,ticketId:'one',kind:'agent_stopped',data:{summary:'Candidate passed the BASE gate.'},createdAt:ticket.updatedAt}]),'Read the original AI note in Technical details.');
  const source=readFileSync('apps/web/src/UnfoolableApp.tsx','utf8');for(const match of source.matchAll(/<button\b[^>]*>([^<{]+)<\/button>/g))assert.doesNotMatch(match[1]!,/→| · |^[A-Z][A-Z\s]+$/);
 });
 test('Hallmark design bans gradients, glass blur and soft-shadow card lists',()=>{
