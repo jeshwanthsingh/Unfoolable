@@ -1,0 +1,14 @@
+{
+  "mainBefore": "19581aaa1c85574b09863a01fbf80122190cc6d4",
+  "mainFastForwardedTo": "2a6e9399652255939e666af5b3468587646b1468",
+  "tag": "v0.1.0",
+  "tagCommit": "2a6e9399652255939e666af5b3468587646b1468",
+  "nonAncestorBranches": [
+    "codex/glass-main",
+    "codex/verification-v1-scoping"
+  ],
+  "historyRewritten": false,
+  "branchesDeleted": false,
+  "pushed": false,
+  "note": "Subsequent WIP cleanup commits advance main; the requested v0.1.0 tag remains on 2a6e939."
+}
