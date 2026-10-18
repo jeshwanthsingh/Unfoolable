@@ -40,7 +40,7 @@ export function createPlaybookChecks(dataDir:string){const store=createProjectPl
   if(store.requireApproved(playbook.repoRoot).hash!==playbook.hash)throw new ProjectPlaybookError('PLAYBOOK_CHANGED','Playbook approval changed during checking.');
   const policy=playbook.definition.qualityGates;
   if(policy&&policy.policyHash!==qualityPolicyHash())throw new ProjectPlaybookError('PLAYBOOK_CHANGED','Quality tools or rules changed; approve the new proposal before checking.');
-  if(policy)progress?.({phase:'passwords'});const qualityGates=policy?await runQualityGates(repo,baseCommit,candidate,policy.gates,join(folder,'quality'),signal,playbook.definition.exportFiles,playbook.definition.runner==='vitest'?[...new Set(playbook.definition.tests.map(c=>c.cwd))].map(cwd=>({cwd,path:join(playbook.repoRoot,cwd,'node_modules')})):[]):undefined;
+  const qualityGates=policy?await runQualityGates(repo,baseCommit,candidate,policy.gates,join(folder,'quality'),signal,playbook.definition.exportFiles,playbook.definition.runner==='vitest'?[...new Set(playbook.definition.tests.map(c=>c.cwd))].map(cwd=>({cwd,path:join(playbook.repoRoot,cwd,'node_modules')})):[],gate=>progress?.({phase:['gitleaks','detect-secrets'].includes(gate)?'passwords':'quality'})):undefined;
   const testTampering=policy?await runTestTampering(repo,baseCommit,candidate,join(folder,'tampering'),signal,playbook.definition.exportFiles):undefined;
   if(qualityGates?.gates.some(g=>g.status==='ERROR')||testTampering?.status==='ERROR')throw Error('Quality gate or test-tampering runner failed after BASE admission.');
   for(const gate of qualityGates?.gates??[])if(gate.status==='FAIL')failures.push(...gate.findings.map(f=>gate.gate+': '+f.path+':'+f.line+' '+f.message));

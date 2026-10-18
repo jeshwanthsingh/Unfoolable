@@ -31,7 +31,7 @@ function records(gate:QualityGateName,text:string,workspace:string):QualityFindi
  if(gate==='osv')return (v.results??[]).flatMap((x:any)=>(x.packages??[]).flatMap((p:any)=>(p.vulnerabilities??[]).map((v:any)=>row(x.source.path,1,v.id,p.package.name+': vulnerable dependency'))));
  throw Error('Unsupported quality report');
 }
-export async function runQualityGates(repo:string,base:string,candidate:string,gates:QualityGateName[],directory:string,signal:AbortSignal,exportFiles?:string[],dependencyRoots:{cwd:string;path:string}[]=[]):Promise<QualityGateEvidence>{
+export async function runQualityGates(repo:string,base:string,candidate:string,gates:QualityGateName[],directory:string,signal:AbortSignal,exportFiles?:string[],dependencyRoots:{cwd:string;path:string}[]=[],onStart?:(gate:QualityGateName)=>void):Promise<QualityGateEvidence>{
  const start=performance.now();mkdirSync(directory,{recursive:true,mode:0o700});const baseDir=join(directory,'base'),candidateDir=join(directory,'candidate');await materializeOracleTree(repo,base,baseDir,exportFiles);await materializeOracleTree(repo,candidate,candidateDir,exportFiles);
  const changed=changedLines((await safeBuildGit(repo,['-c','core.quotePath=false','diff','--no-ext-diff','--unified=0',base,candidate,'--'],4*1024*1024)).toString());
  const allPaths=[...new Set((await safeBuildGit(repo,['-c','core.quotePath=false','ls-tree','-r','--name-only',base],1024*1024)).toString().split('\n').concat((await safeBuildGit(repo,['-c','core.quotePath=false','ls-tree','-r','--name-only',candidate],1024*1024)).toString().split('\n')))].filter(p=>!exportFiles||exportFiles.some(e=>p===e||p.startsWith(e+'/')));
@@ -41,7 +41,7 @@ export async function runQualityGates(repo:string,base:string,candidate:string,g
  const basePaths=(await safeBuildGit(repo,['-c','core.quotePath=false','ls-tree','-r','--name-only',base],1024*1024)).toString().split('\n');
  for(const path of basePaths.filter(p=>/(^|\/)(eslint\.config\.[cm]?[jt]s|\.eslintrc[^/]*|tsconfig[^/]*\.json)$/.test(p)))if(existsSync(join(candidateDir,path)))writeFileSync(join(candidateDir,path),await safeBuildGit(repo,['show',base+':'+path],1024*1024));
  const results:QualityGateResult[]=[];
- for(const gate of gates){const began=performance.now();let baseline:QualityFinding[]=[];let baseAdmitted=false;try{
+ for(const gate of gates){onStart?.(gate);const began=performance.now();let baseline:QualityFinding[]=[];let baseAdmitted=false;try{
   const execute=async(workspace:string)=>{const scratch=join(directory,gate+'-'+randomUUID());mkdirSync(scratch);const report=join(scratch,'report.json');const ignore=join(scratch,'empty-ignore');writeFileSync(ignore,'');const pythonTargets=[...changed.keys()].filter(p=>p.endsWith('.py')),jsTargets=[...changed.keys()].filter(p=>/\.[cm]?[jt]sx?$/.test(p));const pythonFiles=(pythonTargets.some(p=>existsSync(join(workspace,p)))?pythonTargets:pythonTargets.length?allPaths:[]).filter(p=>p.endsWith('.py')&&existsSync(join(workspace,p)));const jsFiles=(jsTargets.some(p=>existsSync(join(workspace,p)))?jsTargets:jsTargets.length?allPaths:[]).filter(p=>/\.[cm]?[jt]sx?$/.test(p)&&existsSync(join(workspace,p)));let argv:string[];
    switch(gate){
     case 'ruff':if(!pythonFiles.length)throw Error('No changed Python files');argv=[py('ruff'),'check','--isolated','--no-cache','--output-format=json',...pythonFiles.map(p=>join(workspace,p))];break;
