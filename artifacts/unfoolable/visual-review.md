@@ -25,3 +25,13 @@ No old-test total is fabricated: the current detail API does not expose a comple
 ## Reserved for later
 
 No new checker, agent role, approval mechanism, task state, progress estimate or phone authentication transport. No art pack, fake events in production, or external font service.
+
+## Pass 3: interaction and comprehension
+
+Actual MCP checks passed at 1440, 768, 390 and 320px: no page or modal horizontal overflow; native modal traps Tab, Escape closes it, and focus returns to Look at the changes. One opened file did not unlock Accept; every file opened did. Clicking Accept, Reject or draft Start requested the existing exact passkey operation; the isolated server refused it and no decision endpoint ran. Typing “keep it” remained a chat message. New stored result struck once and settled; idle requested zero animation frames; reduced-motion preference produced a static mark.
+
+The screenshot-only read-only session correctly distinguished incomplete checks, stale checks and accepted work. It found two ambiguities: the summary counted a pending row below the fold, and Accepted might mean merged. Changed the wording to “waiting across all tasks” and “Saved separately; not merged into your project.” Raw user-authored task titles remain intact in Proof.
+
+Code review found a minute timer being reset by frequent polling; it now depends on whether work exists rather than the changing response array. Optional audio errors cannot interrupt the result, and the audio context closes promptly. Existing project and verification deep links remain usable; secondary views are lazily loaded.
+
+Measured AA ratios: light body 11.267, secondary 5.675, error text 4.518; all mark/well pairs exceed 3. Dark body 12.728, secondary 7.602, error 7.871. Contrast is documented in contrast.json. Visible text and different outlines duplicate color meanings. Accessible names/roles were inspected via MCP snapshots; an actual VoiceOver session was not performed.

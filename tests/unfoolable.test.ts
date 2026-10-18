@@ -1,6 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,readlinkSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import {taskPresentation,mayAccept,awaySummary,latestCheckEvent,proofLines,words} from '../apps/web/src/unfoolable-model.ts';
 import type {Ticket,TicketEvent} from '../packages/shared/tickets.ts';
 import type {Detail} from '../apps/web/src/TicketPanel.tsx';
@@ -34,8 +35,8 @@ test('proof never invents test totals, password checks or tampering success',()=
  assert.equal(lines.some(l=>/password/.test(l.text)),false);assert.equal(lines.some(l=>/172/.test(l.text)),false);
 });
 test('the away summary counts real current states in its stated time window',()=>{
- assert.equal(awaySummary([ticket,{...ticket,id:'two',status:'kept'}],Date.parse('2026-10-18T12:00:00Z')),'1 decided today. 1 waiting for you.');
- assert.match(awaySummary([ticket],Date.parse('2026-10-20T12:00:00Z')),/1 waiting for you/);
+ assert.equal(awaySummary([ticket,{...ticket,id:'two',status:'kept'}],Date.parse('2026-10-18T12:00:00Z')),'1 decided today. 1 waiting across all tasks.');
+ assert.match(awaySummary([ticket],Date.parse('2026-10-20T12:00:00Z')),/1 waiting across all tasks/);
  assert.equal(awaySummary([],Date.now()),'Nothing needs a decision right now.');
 });
 test('strike identity comes only from recorded check results',()=>{
@@ -57,3 +58,5 @@ test('proof uses native modal focus handling and finite reduced-motion aware str
 });
 
 test('offline and initial loading never assert an empty or decision-free account',()=>{const source=readFileSync('apps/web/src/UnfoolableApp.tsx','utf8');assert.match(source,/offline\?'Your saved work will return/);assert.match(source,/!offline&&key&&!data.tickets.length/);});
+
+test('unfool retains the same executable and exposes branded help without a server',()=>{assert.equal(readlinkSync('unfool'),'cc');const help=execFileSync('./unfool',['--help'],{encoding:'utf8'});assert.match(help,/Unfoolable/);assert.match(help,/Aliases: unfool and cc/);});

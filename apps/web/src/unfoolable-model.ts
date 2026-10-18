@@ -3,7 +3,7 @@ import type {Ticket,TicketEvent} from '../../../packages/shared/tickets.ts';
 export type Mark='checked'|'closer'|'wrong'|'working'|'stuck'|'waiting';
 export const words={empty:'Nothing here yet. What should we work on?',gaps:"Done, but one part couldn't be checked.",wrong:"Something's wrong: a test was quietly changed.",failed:"Something's wrong: a check failed. Look at the changes.",stuck:'Stuck. Try again or reject it.',needs:'Needs your OK before continuing.',offline:"Can't connect. Start Unfoolable, then try again.",unchecked:"This change hasn't been checked yet."} as const;
 export function taskPresentation(ticket:Ticket,detail?:Detail,now=Date.now()):{mark:Mark;sentence:string}{
- if(ticket.status==='kept')return {mark:'checked',sentence:'Accepted. Saved on its own branch.'};
+ if(ticket.status==='kept')return {mark:'checked',sentence:'Accepted. Saved separately; not merged into your project.'};
  if(ticket.status==='discarded')return {mark:'stuck',sentence:'Rejected. Your files were left alone.'};
  if(['building','fixing','checking'].includes(ticket.status)){
   const start=detail?.events.filter(e=>e.kind==='state_changed'&&e.data.to===ticket.status).at(-1)?.createdAt??ticket.updatedAt;
@@ -37,7 +37,7 @@ export function awaySummary(tickets:Ticket[],now=Date.now()):string{
  const today=tickets.filter(t=>Date.parse(t.updatedAt)>=day.getTime());
  const waiting=tickets.filter(t=>['ready_for_review','needs_you','harness_error','interrupted'].includes(t.status)).length;
  const done=today.filter(t=>['kept','discarded'].includes(t.status)).length;
- return waiting||done?`${done} decided today. ${waiting} waiting for you.`:'Nothing needs a decision right now.';
+ return waiting||done?`${done} decided today. ${waiting} waiting across all tasks.`:'Nothing needs a decision right now.';
 }
 export type ProofLine={text:string;mark:Mark};
 export function proofLines(detail:Detail):ProofLine[]{

@@ -29,3 +29,5 @@ Buttons keep their names: Ask, Start, Edit, Cancel, Accept, Reject, Look at the 
 Proof contains: what passed, what failed, what wasn't checked; What the AI says it did (explicitly labelled as written by the AI); What changed; collapsed Technical details. Technical details retain exact hashes, check records, process history and original error text. Main-screen errors explain recovery without apologies or raw technical messages.
 
 No technical system vocabulary on the main screen: candidate, BASE, playbook, verdict, harness, mutation, tripwire, Watchman, worktree, admission, gate, evidence. No uppercase labels, middle-dot metadata separators or arrow-suffixed buttons. Technical terms are allowed in collapsed Technical details.
+
+The screenshot-only comprehension test found two ambiguities: pending tasks may be below the fold, and Accepted does not mean merged. Summary now explicitly says “waiting across all tasks”; accepted work says “Saved separately; not merged into your project.”
