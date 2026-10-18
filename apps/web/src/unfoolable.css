@@ -119,3 +119,9 @@ html[data-unfool-theme=dark]{background:#1A1E22;color-scheme:dark}
 .hallmark-well[data-tone=checked],.hallmark-well[data-mark=accepted]{color:var(--uf-green)}.hallmark-well[data-tone=closer],.hallmark-well[data-mark=needs],.hallmark-well[data-mark=recheck]{color:var(--uf-amber)}.hallmark-well[data-tone=wrong]{color:var(--uf-red)}.unfool-task-body h2{position:relative;overflow:visible;display:block}.unfool-task-body h2>span:first-child{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.unfool-full-title{display:none;position:absolute;top:100%;left:0;z-index:4;background:var(--uf-surface);border:1px solid var(--uf-border);padding:12px;max-width:100%;overflow-wrap:anywhere}.unfool-task-body h2:focus-visible .unfool-full-title{display:block}
 
 .unfool-search{display:grid;gap:8px;margin:24px 0}.unfool-search input{width:100%}.unfool-group-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;list-style:none;margin:40px 0 24px}.unfool-group-heading h2{font-size:17px;font-weight:500;margin:0}.unfool-group-heading h2 span{font-variant-numeric:tabular-nums;color:var(--uf-muted);margin-left:8px}.unfool-more{list-style:none;margin:0 0 32px 72px}
+
+/* Live work is a receipt of events, never a time-based progress estimate. */
+.unfool-track{display:flex;gap:12px;list-style:none;padding:0;margin:12px 0 0;max-width:320px;font-size:13px;color:var(--uf-muted)}
+.unfool-track li{flex:1;min-width:0}.unfool-track-rail{display:block;height:2px;margin-bottom:6px;background:currentColor;opacity:.2;transform-origin:left}
+.unfool-track li[data-stage=done] .unfool-track-rail{opacity:1}.unfool-track li[data-stage=running] .unfool-track-rail{opacity:.65}
+.unfool-test-count{font-variant-numeric:tabular-nums;font-size:14px}.unfool-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}

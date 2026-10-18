@@ -9,9 +9,9 @@ export function ticketPlaybookHooks(playbooks:ReturnType<typeof createPlaybookCh
    await playbooks.admit(approved,ticket.repoPath,ticket.baseCommit,signal);
   },
   prepareBuild:async(ticket,owned,signal)=>prepareTicketDependencies(owned,playbooks.store.requireApproved(ticket.repoPath).definition,signal),
-  check:async(ticket,candidate,signal)=>{
+  check:async(ticket,candidate,signal,progress)=>{
    const approved=playbooks.store.requireApproved(ticket.repoPath);
-   if(approved.definition.runner==='node-script')return playbooks.check(approved,candidate.repo,ticket.baseCommit,candidate.commit,signal);
+   if(approved.definition.runner==='node-script')return playbooks.check(approved,candidate.repo,ticket.baseCommit,candidate.commit,signal,progress);
    if(approved.definition.runner==='vitest'&&approved.definition.tests.some(c=>c.cwd==='frontend')){
     const path=join(candidate.repo,'frontend','node_modules');
     if(!existsSync(path))symlinkSync(realpathSync(join(ticket.repoPath,'frontend','node_modules')),path);
@@ -20,7 +20,7 @@ export function ticketPlaybookHooks(playbooks:ReturnType<typeof createPlaybookCh
    const native=await nativeCheck(ticket,candidate,signal);
    if(playbooks.store.requireApproved(ticket.repoPath).hash!==approved.hash)throw new ProjectPlaybookError('PLAYBOOK_CHANGED','Playbook approval changed during native checking.');
    if(native.verdict==='FAILED')return {...native,playbookHash:approved.hash};
-   const project=await playbooks.check(approved,candidate.repo,ticket.baseCommit,candidate.commit,signal);
+   const project=await playbooks.check(approved,candidate.repo,ticket.baseCommit,candidate.commit,signal,progress);
    return {...native,...project,verdict:project.verdict==='FAILED'?'FAILED':native.verdict==='NOT CHECKED'?'NOT CHECKED':project.verdict,gaps:[...native.gaps.map(g=>'Existing verifier: '+g),...project.gaps],failures:[...native.failures,...project.failures]};
   }
  };
