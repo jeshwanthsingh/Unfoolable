@@ -18,3 +18,7 @@ These project rules apply the Karpathy-style guidelines requested by Jesh; this 
 - Keep sound optional and off by default. A quiet lock click is feedback for an observed passing lock, not proof that a Mission is complete.
 - Reduced motion snaps positional movement. Hidden/idle rendering must stop. Do not add entry/exit animation to frequent keyboard navigation just for decoration.
 - Historical replay cannot authorize Keep, Discard or any decision. The existing live evidence/passkey flow remains authoritative.
+
+## UI-3 Unfoolable
+
+Jesh selected the Hallmark brief: docs/WORDS.md and docs/DESIGN.md govern the new main screen. Glass, Workshop and historical prototypes are secondary Labs only. Preserve all server safety, passkey, diff-review and stale-item behavior. Technical language belongs in Proof > Technical details. No fake progress.

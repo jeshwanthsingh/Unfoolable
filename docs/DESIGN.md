@@ -1,0 +1,53 @@
+# Unfoolable: hallmark
+
+Mode: Operate. One person asks for work, sees what happened, inspects the proof, then decides. A verifier, not an agent spectacle.
+
+## The idea
+
+An assay office strikes a hallmark into metal after checking it. Here, a recorded check result strikes an original shield into a small pewter well. The mark is the only hero. Nothing moves without a new stored event.
+
+## Composition
+
+One left-aligned column, centered, maximum 720px. Name and quiet Settings control; one labelled request box and Ask; a factual current-task summary; newest-first task rows. A 56px well anchors each row, followed by title, one status sentence, at most two decisions and See the proof. No dashboard grid, sidebar, canvas, decorative statistics or rounded shadow cards.
+
+```text
+Unfoolable                              Settings
+AI does the work. Nothing fools the check.
+What should we work on?                     Ask
+2 waiting for you today.
+[mark] Make cancellation reasons visible
+       Done, but one part couldn't be checked.
+       Look at the changes   Reject
+       See the proof
+```
+
+## Tokens
+
+Pewter #E8EBED surface, steel #C9CED3 wells, graphite #2A2F35 text. Proof green #2F7A57, ochre #B5762A, signal red #B8432F are marks, never decoration. Dark: surface #1A1E22, wells #2A3036, text #DCE1E5, lifted mark colors. Measure AA against rendered surfaces; deepen ochre in light mode if needed. Instrument Sans variable regular is the only UI family. 15/17/22/34px scale, generous line-height, tabular counts. Text measures below 80 characters.
+
+Spacing: 8, 12, 16, 24, 32, 48, 64px. Input corners 8px; wells 14px with a subtle inset shadow and highlight; rows have no background, border or shadow. Focus is a visible graphite/text-colored outline.
+
+## Shapes and motion
+
+Checked: solid shield and tick. Look closer: open ring within a shield. Wrong: broken-notched shield. Working: empty well and a finite arc whose angle changes only on new progress events. Stuck: short dash. Text repeats every meaning; color is redundant.
+
+A new recorded check-result event (not initial load or polling repetition) triggers a 180ms zero-bounce spring press, transform only. A static inset well supplies depth. Optional soft metallic Web Audio click is muted by default, enabled by an explicit setting. Hidden tabs and reduced motion produce a static mark. No frame loop or autonomous spinner.
+
+## Proof and safety
+
+A native modal dialog is a right sheet on desktop and bottom sheet on phone. Escape closes it and focus returns. Plain checklist first, then the AI's own statement labelled as such, then What changed with per-file review, then collapsed Technical details containing every existing check/event/statistic. No check claim without an actual record. Exact-item passkey client and server policy remain unchanged. Diff review still records the current binding for each file. Merely opening Proof never counts as reviewing every file. Stale records never unlock Accept.
+
+Settings holds theme, sound and Look. Labs links retain the original operational and replay surfaces as secondary tools. Three density variants: Assay (balanced, default), Compact (more tasks visible, squared well), Spacious (larger type, softer neutral pewter, circular well). Each preserves all meanings and actions. The brief explicitly authorizes selecting a default and retaining the other two, overriding variant's usual stop/delete workflow.
+
+## Self-review before building
+
+- Initial thought: floating proof card. Rejected: another SaaS card. Use a full-height native sheet and quiet list instead.
+- Initial thought: status pill above each title. Rejected: redundant label/eyebrow. The well and sentence do the work.
+- Initial thought: brushed texture gradient. Rejected: banned decorative gradient. Material comes from flat pewter and inset well.
+- Initial thought: animated queue. Rejected: no event means no movement; no imaginary progress.
+- Taste's marketing imagery, serif, bento and entrance prescriptions conflict with this Operate brief. Use only its subject-specific idea and anti-slop review. No photos, mock activity or decorative assets.
+- No Linear appearance. The product method here is to remove choices until the next action is clear. The specifically named Linear-method skill was not found; do not claim it was used.
+
+## Verification
+
+Pure presentation tests cover truthful states, unknown counts, action availability and vocabulary. Browser review covers all requested states at 1440/390 in both themes, all density variants, keyboard/focus, pending confirmation, offline recovery, reduced motion and idle frames. Three screenshot review passes precede completion. Existing security and application tests remain authoritative.
