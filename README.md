@@ -1,4 +1,6 @@
-# Command Center
+# Unfoolable
+
+AI does the work. Nothing fools the check. The repository remains named `command-center`; `./unfool` and `./cc` both open the same local tool.
 
 A local workspace for registered Git projects and frozen-Candidate verification. The primary v1 verifies committed code using protected existing tests and reusable approved project recipes. AI task checks are an optional advisory bonus, not a mandatory planning or landing gate.
 

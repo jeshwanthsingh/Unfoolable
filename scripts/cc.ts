@@ -9,7 +9,7 @@ const port=process.env.COMMAND_CENTER_PORT??active.port??3210;
 const data=resolve(root,process.env.COMMAND_CENTER_DATA_DIR??active.dataDir??'data');
 const base='http://localhost:'+port;
 const shellQuote=(value:string)=>"'"+value.replaceAll("'","'\"'\"'")+"'";
-const usage='Usage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all';
+const usage='Unfoolable — AI does the work. Nothing fools the check.\nUsage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all';
 async function main(){
  const args=process.argv.slice(2),resource=args.shift(),command=args.shift();
  if(resource!=='ticket'&&resource!=='playbook'&&resource!=='chat'&&resource!=='stop-all')throw Error(usage);
