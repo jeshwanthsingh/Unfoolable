@@ -64,3 +64,15 @@ test('a long real stream retains its recorded stage without exporting raw comman
  const put=db.prepare('INSERT INTO ticket_events VALUES(?,?,?,?,?)');put.run(1,'a','state_changed',JSON.stringify({to:'building'}),'now');for(let n=2;n<250;n++)put.run(n,'a','agent_event',JSON.stringify({kind:'tool.started',data:{type:'commandExecution',command:'private raw command',actions:[]}}),'now');
  try{const t=deskSnapshot(db,{messages:[],drafts:[],cards:[]}).tickets[0]!;assert.equal(t.activity?.stages[0],'running');assert.doesNotMatch(JSON.stringify(t),/private raw command/);assert.ok(t.activity!.steps.length<=40);}finally{db.close();}
 });
+
+import {observedOldTestCount} from '../apps/server/playbook-checks.ts';
+test('old-test progress excludes new tests and unadmitted BASE tests',()=>{
+ const baseline=[{tests:[{id:'old',status:'PASS' as const},{id:'skipped',status:'SKIPPED' as const}]},{tests:[{id:'second',status:'PASS' as const}]}];
+ const results=[{tests:[{id:'old',status:'PASS' as const},{id:'new',status:'PASS' as const},{id:'skipped',status:'PASS' as const}]}];
+ assert.deepEqual(observedOldTestCount(results,baseline),{passed:1,total:2});assert.deepEqual(observedOldTestCount([...results,{tests:[{id:'second',status:'FAIL'}]}],baseline),{passed:1,total:2});
+});
+test('production serves the exact installed font but no arbitrary font path or escaping symlink',async()=>{
+ const {serveWeb}=await import('../apps/server/static.ts');const {mkdtempSync,mkdirSync,writeFileSync,symlinkSync,rmSync}=await import('node:fs');const {tmpdir}=await import('node:os');const {join}=await import('node:path');
+ const dir=mkdtempSync(join(tmpdir(),'ui5-font-')),root=join(dir,'web');mkdirSync(join(root,'fonts'),{recursive:true});const file=join(root,'fonts/InstrumentSans.ttf');writeFileSync(file,'synthetic font bytes');let headers:Record<string,string>={};const response={writeHead(_code:number,h:Record<string,string>){headers=h;},end(){}};
+ try{assert.equal(serveWeb('/fonts/InstrumentSans.ttf',root,response as any),true);assert.equal(headers['Content-Type'],'font/ttf');for(const path of ['/fonts/other.ttf','/fonts/../../private','/fonts/OFL.txt'])assert.equal(serveWeb(path,root,response as any),false);rmSync(file);const outside=join(dir,'outside');writeFileSync(outside,'private');symlinkSync(outside,file);assert.equal(serveWeb('/fonts/InstrumentSans.ttf',root,response as any),false);}finally{rmSync(dir,{recursive:true,force:true});}
+});
