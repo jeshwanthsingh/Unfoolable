@@ -10,7 +10,7 @@ export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkV
  }
  if(ticket.status==='discarded')return {mark:'rejected',sentence:'Rejected. Your files were left alone.'};
  if(['building','fixing','checking'].includes(ticket.status)){
-  const start=detail?.events.filter(e=>e.kind==='state_changed'&&e.data.to===ticket.status).at(-1)?.createdAt??ticket.updatedAt;
+  const start=detail?.events.filter(e=>e.kind==='state_changed'&&e.data.to===ticket.status).at(-1)?.createdAt??('startedAt' in ticket&&typeof ticket.startedAt==='string'?ticket.startedAt:ticket.updatedAt);
   const minutes=Math.max(0,Math.floor((now-Date.parse(start))/60000));
   return {mark:'working',sentence:ticket.status==='checking'?'Checking the change before you decide.':minutes<1?'Working on it for less than a minute.':`Working on it for ${minutes} ${minutes===1?'minute':'minutes'}.`};
  }
@@ -28,7 +28,7 @@ export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkV
   if(ticket.status==='needs_you')return {mark:'needs',sentence:words.needs};
   if(summary?.result==='VERIFIED')return {mark:'checked',sentence:'Checked. The recorded tests passed.'};
   if(summary?.result==='PASSED WITH GAPS')return {mark:'closer',sentence:words.gaps};
-  return {mark:'waiting',sentence:'Loading the latest result.'};
+  return summary?{mark:'recheck',sentence:'Needs a fresh check.'}:{mark:'waiting',sentence:'Loading the latest result.'};
  }
  if(detail.check?.testTampering?.status==='FLAGGED')return {mark:'wrong',sentence:words.wrong};
  if(detail.check?.testWriter?.warnings?.length)return {mark:'wrong',sentence:"Something's wrong: an independent test failed."};
