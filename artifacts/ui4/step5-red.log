@@ -1,0 +1,126 @@
+✖ accepted, rejected, needs you and fresh-check states do not share other shapes (1.400416ms)
+✖ short titles keep whole words, eight word plain titles are persisted separately in events (0.671167ms)
+✖ styles are plainly named; history has one Show all events control (0.676ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 88.428916
+
+✖ failing tests:
+
+test at tests/ui4-words.test.ts:2:1
+✖ accepted, rejected, needs you and fresh-check states do not share other shapes (1.400416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'checked'
+  - 'accepted'
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-words.test.ts:2:181)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'checked',
+    expected: 'accepted',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui4-words.test.ts:3:1
+✖ short titles keep whole words, eight word plain titles are persisted separately in events (0.671167ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeshwanthsingh/Projects/ai-lab/command-center/packages/shared/display-title.ts' imported from /Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-words.test.ts
+      at finalizeResolution (node:internal/modules/esm/resolve:272:11)
+      at moduleResolve (node:internal/modules/esm/resolve:879:10)
+      at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+      at #resolve (node:internal/modules/esm/loader:687:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+      at node:internal/modules/esm/loader:636:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/packages/shared/display-title.ts'
+  }
+
+test at tests/ui4-words.test.ts:4:1
+✖ styles are plainly named; history has one Show all events control (0.676ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Style 1/. Input:
+  
+  "import {sendsRequest} from './request-input.ts';\n" +
+    "import {connectionWords} from './connection-words.ts';\n" +
+    "import {plainError} from './plain-error.ts';\n" +
+    "import {useEffect,useRef,useState} from 'react';\n" +
+    "import {bootstrapTicketOperator} from './TicketPanel.tsx';\n" +
+    "import {confirmedDecision} from './human-confirmation-client.ts';\n" +
+    "import {useUnfoolableData,localRequest} from './useUnfoolableData.ts';\n" +
+    "import {awaySummary,latestCheckEvent,mayAccept,taskPresentation,words} from './unfoolable-model.ts';\n" +
+    "import {Hallmark} from './Hallmark.tsx';\n" +
+    "import {UnfoolableProof} from './UnfoolableProof.tsx';\n" +
+    "import {UnfoolableDraft} from './UnfoolableDraft.tsx';\n" +
+    "import type {Detail} from './TicketPanel.tsx';\n" +
+    "import './unfoolable.css';\n" +
+    "type Look='assay'|'compact'|'spacious';\n" +
+    'function saved(key:string,fallback:string){try{return localStorage.getItem(key)??fallback;}catch{return fallback;}}\n' +
+    'export function UnfoolableApp(){\n' +
+    ' const [pendingCancels,setPendingCancels]=useState<string[]>([]);\n' +
+    " const [key]=useState(bootstrapTicketOperator),[revision,setRevision]=useState(0),[text,setText]=useState(''),[busy,setBusy]=useState(false),[notice,setNotice]=useState(''),[error,setError]=useState<string|null>(null),[settings,setSettings]=useState(false),[proof,setProof]=useState<string|null>(()=>new URLSearchParams(location.search).has('confirm')?'confirmation':new URLSearchParams(location.search).get('ticket'));\n" +
+    " const [appearance,setAppearance]=useState<'system'|'light'|'dark'>(()=>{const v=saved('unfool-theme','system');return v==='light'||v==='dark'?v:'system';}),[systemDark,setSystemDark]=useState(()=>matchMedia('(prefers-color-scheme: dark)').matches),[look,setLook]=useState<Look>(()=>{const v=saved('unfool-look','assay');return v==='compact'||v==='spacious'?v:'assay';}),[sound,setSound]=useState(false),[clock,setClock]=useState(Date.now());\n" +
+    " const theme=appearance==='system'?(systemDark?'dark':'light'):appearance;\n" +
+    ' const pendingRequest=useRef(false);\n' +
+    " useEffect(()=>{const media=matchMedia('(prefers-color-scheme: dark)');const change=()=>setSystemDark(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);\n" +
+    ' const data=useUnfoolableData(key,revision),ask=useRef<HTMLTextAreaElement>(null);\n' +
+    " const hasWorking=data.tickets.some(t=>['building','fixing'].includes(t.status));\n" +
+    ` useEffect(()=>{document.documentElement.dataset.unfoolTheme=theme;document.documentElement.style.colorScheme=theme;document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='light'?'#E8EBED':'#1A1E22');try{localStorage.setItem('unfool-theme',appearance);localStorage.setItem('unfool-look',look);}catch{/* Preferences are optional. */}},[theme,look,appearance]);\n` +
+    ' useEffect(()=>{if(!hasWorking)return;setClock(Date.now());const timer=setInterval(()=>{if(!document.hidden)setClock(Date.now());},60000);return()=>clearInterval(timer);},[hasWorking]);\n' +
+    " function showProof(id:string){setProof(id);const url=new URL(location.href);if(id!=='conversation'&&id!=='confirmation')url.searchParams.set('ticket',id);history.replaceState(history.state,'',url.pathname+url.search);}\n" +
+    " function closeProof(){setProof(null);const url=new URL(location.href);url.searchParams.delete('ticket');history.replaceState(history.state,'',url.pathname+url.search);}\n" +
+    ` async function mutate(path:string,body:unknown,decision:boolean,success:string){if(!key||pendingRequest.current)return;pendingRequest.current=true;setBusy(true);setError(null);setNotice('');try{await(decision?confirmedDecision(key,path,body):localRequest(key,path,body));setNotice(success);setRevision(v=>v+1);return true;}catch(cause){setError((cause as Error).message===plainError('OPERATOR_REQUIRED')?plainError('OPERATOR_REQUIRED'):decision?'Your choice could not be saved. Confirm it again.':"Your request couldn't be sent. Try again.");return false;}finally{pendingRequest.current=false;setBusy(false);}}\n` +
+    " function ticketAction(detail:Detail,kind:'keep'|'discard'|'recheck'|'retry'){\n" +
+    "  if(kind==='keep'&&(!mayAccept(detail)||data.error))return;\n" +
+    "  void mutate('/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{},true,kind==='keep'?'Accepted':kind==='discard'?'Rejected':kind==='recheck'?'Checking again.':'Starting again.');\n" +
+    ' }\n' +
+    " useEffect(()=>{if(proof&&!['conversation','confirmation'].includes(proof))void data.loadDetail(proof).catch(()=>setError('The details could not open. Try again.'));},[proof,data.loadDetail,data.tickets.find(t=>t.id===proof)?.revision]);\n" +
+    ' const selected=proof?data.details[proof]:undefined;\n' +
+    " const drafts=data.chat?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status)&&!pendingCancels.includes(d.id))??[];\n" +
+    " const otherCards=data.chat?.cards.filter(c=>c.status==='PENDING'&&c.kind!=='ticket')??[];\n" +
+    ' const offline=Boolean(data.error);\n' +
+    ' return <div className="unfoolable" data-look={look} data-theme={theme} data-offline={offline}>\n' +
+    ' <a className="unfool-skip" href="#unfool-main">Skip to work</a><main id="unfool-main" className="unfool-column">\n' +
+    ` {(!key||offline||data.backOnline)&&<aside className="unfool-connection" role="status"><p>{!key?"Unfoolable can't start tasks right now. Run: unfool":connectionWords(offline,data.observedAt,data.backOnline)}</p>{(!key||offline)&&<button onClick={()=>void navigator.clipboard.writeText('unfool').then(()=>setNotice('Copied')).catch(()=>setNotice('Type unfool in your terminal.'))}>Copy</button>}</aside>}\n` +
+    ' <header className="unfool-header"><div><h1>Unfoolable</h1><p>AI does the work. Nothing fools the check.</p></div><button aria-expanded={settings} onClick={()=>setSettings(v=>!v)}>Settings</button></header>\n' +
+    ` {settings&&<section className="unfool-settings" aria-label="Settings"><h2>Settings</h2><label>Appearance<select value={appearance} onChange={e=>setAppearance(e.target.value as 'system'|'light'|'dark')}><option value="system">Match my system</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label>Look<select value={look} onChange={e=>setLook(e.target.value as Look)}><option value="assay">Assay</option><option value="compact">Compact</option><option value="spacious">Spacious</option></select></label><label className="unfool-toggle"><input type="checkbox" checked={sound} onChange={e=>setSound(e.target.checked)}/>Sound when a result arrives</label><button onClick={()=>showProof('confirmation')}>Touch ID settings</button><details><summary>Labs: watch it work</summary><p>Technical views and historical replays.</p><a href="/?labs=1">Original working screens</a><a href="/?labs=1&craft=instrument">Instrument replay</a><a href="/?labs=1&craft=glass">Glass Studio replay</a><a href="/?labs=1&craft=night">Night Workshop replay</a></details></section>}\n` +
+    ` <form className="unfool-ask" onSubmit={event=>{event.preventDefault();if(!text.trim()){setNotice('Describe what you want to work on.');ask.current?.focus();return;}const submitted=text;void mutate('/api/chat/messages',{text:submitted},false,'Your request was sent.').then(ok=>{if(ok)setText(current=>current===submitted?'':current);});}}><label htmlFor="unfool-request">What should we work on?</label><div><textarea ref={ask} id="unfool-request" name="request" autoComplete="off" onKeyDown={event=>{if(sendsRequest(event.key,event.shiftKey,event.nativeEvent.isComposing)){event.preventDefault();event.currentTarget.form?.requestSubmit();}}} rows={2} maxLength={16000} value={text} onChange={e=>setText(e.target.value)} placeholder="Describe a change, or ask what's happening…"/><button disabled={busy||!key||offline} aria-busy={busy}>{busy?'Sending...':'Ask'}</button></div></form>\n` +
+    ` <p className="unfool-summary">{offline?'Your saved work will return when the connection recovers.':data.loading?'Opening your saved work…':awaySummary(data.tickets)}</p><div className="unfool-notice" role="status">{notice}</div>\n` +
+    ' \n' +
+    ' \n' +
+    ` {error&&<p role="alert" className="unfool-error">{error}<button onClick={()=>showProof(proof??'conversation')}>See the proof</button></p>}\n` +
+    " {drafts.map(draft=><UnfoolableDraft key={draft.id+':'+draft.version} draft={draft} busy={busy||offline} onAction={(action,fields)=>{if(action==='cancel'){setPendingCancels(v=>[...v,draft.id]);setNotice('Confirm cancellation with Touch ID.');}void mutate('/api/chat/drafts/'+encodeURIComponent(draft.id)+'/'+action,{version:draft.version,...fields},true,action==='start'?'Started':action==='edit'?'Saved':'Cancelled').then(ok=>{if(action==='cancel'&&!ok)setPendingCancels(v=>v.filter(id=>id!==draft.id));});}}/>)}\n" +
+    ` {otherCards.length>0&&<section className="unfool-attention"><h2>Needs you</h2><p>Needs your OK before continuing.</p><button onClick={()=>showProof('conversation')}>See the proof</button></section>}\n` +
+    ` {proof&&!selected&&!['conversation','confirmation'].includes(proof)&&<p role="status">Opening the proof…</p>}\n` +
+    ' {data.loading?<p role="status">Opening your work…</p>:!offline&&key&&!data.tickets.length&&!drafts.length?<section className="unfool-empty"><Hallmark mark="waiting"/><h2>{words.empty}</h2></section>:null}\n' +
+    ` <ol className="unfool-tasks" aria-label="Your work">{data.tickets.map(ticket=>{const detail=data.details[ticket.id],state=taskPresentation(ticket,detail,clock),review=ticket.status==='ready_for_review',stuck=['needs_you','interrupted','harness_error'].includes(ticket.status),canRetry=stuck&&!(ticket.status==='needs_you'&&detail?.playbook?.approval?.hash!==detail?.playbook?.hash);\n` +
+    ' return <li key={ticket.id} className="unfool-task" data-status={state.mark}><Hallmark mark={state.mark} event={detail?latestCheckEvent(detail.events):0} sound={sound} ready={detail!==undefined} progress={detail?.events.at(-1)?.sequence??0}/><div className="unfool-task-body"><h2>{ticket.title}</h2><p className="unfool-status">{state.sentence}</p>\n' +
+    ` {detail&&<div className="unfool-actions">{review&&(detail.evidenceStale&&detail.recheckAvailable?<button disabled={busy||offline} onClick={()=>ticketAction(detail,'recheck')}>Try`... 1195 more characters
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-words.test.ts:4:148)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `import {sendsRequest} from './request-input.ts';\nimport {connectionWords} from './connection-words.ts';\nimport {plainError} from './plain-error.ts';\nimport {useEffect,useRef,useState} from 'react';\nimport {bootstrapTicketOperator} from './TicketPanel.tsx';\nimport {confirmedDecision} from './human-confirmation-client.ts';\nimport {useUnfoolableData,localRequest} from './useUnfoolableData.ts';\nimport {awaySummary,latestCheckEvent,mayAccept,taskPresentation,words} from './unfoolable-model.ts';\nimport {Hallmark} from './Hallmark.tsx';\nimport {UnfoolableProof} from './UnfoolableProof.tsx';\nimport {UnfoolableDraft} from './UnfoolableDraft.tsx';\nimport type {Detail} from './TicketPanel.tsx';\nimport './unfoolable.css';\ntype Look='assay'|'compact'|'spacious';\nfunction saved(key:string,fallback:string){try{return localStorage.getItem(key)??fallback;}catch{return fallback;}}\nexport function UnfoolableApp(){\n const [pendingCancels,setPendingCancels]=useState<string[]>([]);\n const [key]=useState(bootstrapTicketOperator),[revision,setRevision]=useState(0),[text,setText]=useState(''),[busy,setBusy]=useState(false),[notice,setNotice]=useState(''),[error,setError]=useState<string|null>(null),[settings,setSettings]=useState(false),[proof,setProof]=useState<string|null>(()=>new URLSearchParams(location.search).has('confirm')?'confirmation':new URLSearchParams(location.search).get('ticket'));\n const [appearance,setAppearance]=useState<'system'|'light'|'dark'>(()=>{const v=saved('unfool-theme','system');return v==='light'||v==='dark'?v:'system';}),[systemDark,setSystemDark]=useState(()=>matchMedia('(prefers-color-scheme: dark)').matches),[look,setLook]=useState<Look>(()=>{const v=saved('unfool-look','assay');return v==='compact'||v==='spacious'?v:'assay';}),[sound,setSound]=useState(false),[clock,setClock]=useState(Date.now());\n const theme=appearance==='system'?(systemDark?'dark':'light'):appearance;\n const pendingRequest=useRef(false);\n useEffect(()=>{const media=matchMedia('(prefers-color-scheme: dark)');const change=()=>setSystemDark(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);\n const data=useUnfoolableData(key,revision),ask=useRef<HTMLTextAreaElement>(null);\n const hasWorking=data.tickets.some(t=>['building','fixing'].includes(t.status));\n useEffect(()=>{document.documentElement.dataset.unfoolTheme=theme;document.documentElement.style.colorScheme=theme;document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='light'?'#E8EBED':'#1A1E22');try{localStorage.setItem('unfool-theme',appearance);localStorage.setItem('unfool-look',look);}catch{/* Preferences are optional. */}},[theme,look,appearance]);\n useEffect(()=>{if(!hasWorking)return;setClock(Date.now());const timer=setInterval(()=>{if(!document.hidden)setClock(Date.now());},60000);return()=>clearInterval(timer);},[hasWorking]);\n function showProof(id:string){setProof(id);const url=new URL(location.href);if(id!=='conversation'&&id!=='confirmation')url.searchParams.set('ticket',id);history.replaceState(history.state,'',url.pathname+url.search);}\n function closeProof(){setProof(null);const url=new URL(location.href);url.searchParams.delete('ticket');history.replaceState(history.state,'',url.pathname+url.search);}\n async function mutate(path:string,body:unknown,decision:boolean,success:string){if(!key||pendingRequest.current)return;pendingRequest.current=true;setBusy(true);setError(null);setNotice('');try{await(decision?confirmedDecision(key,path,body):localRequest(key,path,body));setNotice(success);setRevision(v=>v+1);return true;}catch(cause){setError((cause as Error).message===plainError('OPERATOR_REQUIRED')?plainError('OPERATOR_REQUIRED'):decision?'Your choice could not be saved. Confirm it again.':"Your request couldn't be sent. Try again.");return false;}finally{pendingRequest.current=false;setBusy(false);}}\n function ticketAction(detail:Detail,kind:'keep'|'discard'|'recheck'|'retry'){\n  if(kind==='keep'&&(!mayAccept(detail)||data.error))return;\n  void mutate('/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{},true,kind==='keep'?'Accepted':kind==='discard'?'Rejected':kind==='recheck'?'Checking again.':'Starting again.');\n }\n useEffect(()=>{if(proof&&!['conversation','confirmation'].includes(proof))void data.loadDetail(proof).catch(()=>setError('The details could not open. Try again.'));},[proof,data.loadDetail,data.tickets.find(t=>t.id===proof)?.revision]);\n const selected=proof?data.details[proof]:undefined;\n const drafts=data.chat?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status)&&!pendingCancels.includes(d.id))??[];\n const otherCards=data.chat?.cards.filter(c=>c.status==='PENDING'&&c.kind!=='ticket')??[];\n const offline=Boolean(data.error);\n return <div className="unfoolable" data-look={look} data-theme={theme} data-offline={offline}>\n <a className="unfool-skip" href="#unfool-main">Skip to work</a><main id="unfool-main" className="unfool-column">\n {(!key||offline||data.backOnline)&&<aside className="unfool-connection" role="status"><p>{!key?"Unfoolable can't start tasks right now. Run: unfool":connectionWords(offline,data.observedAt,data.backOnline)}</p>{(!key||offline)&&<button onClick={()=>void navigator.clipboard.writeText('unfool').then(()=>setNotice('Copied')).catch(()=>setNotice('Type unfool in your terminal.'))}>Copy</button>}</aside>}\n <header className="unfool-header"><div><h1>Unfoolable</h1><p>AI does the work. Nothing fools the check.</p></div><button aria-expanded={settings} onClick={()=>setSettings(v=>!v)}>Settings</button></header>\n {settings&&<section className="unfool-settings" aria-label="Settings"><h2>Settings</h2><label>Appearance<select value={appearance} onChange={e=>setAppearance(e.target.value as 'system'|'light'|'dark')}><option value="system">Match my system</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label>Look<select value={look} onChange={e=>setLook(e.target.value as Look)}><option value="assay">Assay</option><option value="compact">Compact</option><option value="spacious">Spacious</option></select></label><label className="unfool-toggle"><input type="checkbox" checked={sound} onChange={e=>setSound(e.target.checked)}/>Sound when a result arrives</label><button onClick={()=>showProof('confirmation')}>Touch ID settings</button><details><summary>Labs: watch it work</summary><p>Technical views and historical replays.</p><a href="/?labs=1">Original working screens</a><a href="/?labs=1&craft=instrument">Instrument replay</a><a href="/?labs=1&craft=glass">Glass Studio replay</a><a href="/?labs=1&craft=night">Night Workshop replay</a></details></section>}\n <form className="unfool-ask" onSubmit={event=>{event.preventDefault();if(!text.trim()){setNotice('Describe what you want to work on.');ask.current?.focus();return;}const submitted=text;void mutate('/api/chat/messages',{text:submitted},false,'Your request was sent.').then(ok=>{if(ok)setText(current=>current===submitted?'':current);});}}><label htmlFor="unfool-request">What should we work on?</label><div><textarea ref={ask} id="unfool-request" name="request" autoComplete="off" onKeyDown={event=>{if(sendsRequest(event.key,event.shiftKey,event.nativeEvent.isComposing)){event.preventDefault();event.currentTarget.form?.requestSubmit();}}} rows={2} maxLength={16000} value={text} onChange={e=>setText(e.target.value)} placeholder="Describe a change, or ask what's happening…"/><button disabled={busy||!key||offline} aria-busy={busy}>{busy?'Sending...':'Ask'}</button></div></form>\n <p className="unfool-summary">{offline?'Your saved work will return when the connection recovers.':data.loading?'Opening your saved work…':awaySummary(data.tickets)}</p><div className="unfool-notice" role="status">{notice}</div>\n \n \n {error&&<p role="alert" className="unfool-error">{error}<button onClick={()=>showProof(proof??'conversation')}>See the proof</button></p>}\n {drafts.map(draft=><UnfoolableDraft key={draft.id+':'+draft.version} draft={draft} busy={busy||offline} onAction={(action,fields)=>{if(action==='cancel'){setPendingCancels(v=>[...v,draft.id]);setNotice('Confirm cancellation with Touch ID.');}void mutate('/api/chat/drafts/'+encodeURIComponent(draft.id)+'/'+action,{version:draft.version,...fields},true,action==='start'?'Started':action==='edit'?'Saved':'Cancelled').then(ok=>{if(action==='cancel'&&!ok)setPendingCancels(v=>v.filter(id=>id!==draft.id));});}}/>)}\n {otherCards.length>0&&<section className="unfool-attention"><h2>Needs you</h2><p>Needs your OK before continuing.</p><button onClick={()=>showProof('conversation')}>See the proof</button></section>}\n {proof&&!selected&&!['conversation','confirmation'].includes(proof)&&<p role="status">Opening the proof…</p>}\n {data.loading?<p role="status">Opening your work…</p>:!offline&&key&&!data.tickets.length&&!drafts.length?<section className="unfool-empty"><Hallmark mark="waiting"/><h2>{words.empty}</h2></section>:null}\n <ol className="unfool-tasks" aria-label="Your work">{data.tickets.map(ticket=>{const detail=data.details[ticket.id],state=taskPresentation(ticket,detail,clock),review=ticket.status==='ready_for_review',stuck=['needs_you','interrupted','harness_error'].includes(ticket.status),canRetry=stuck&&!(ticket.status==='needs_you'&&detail?.playbook?.approval?.hash!==detail?.playbook?.hash);\n return <li key={ticket.id} className="unfool-task" data-status={state.mark}><Hallmark mark={state.mark} event={detail?latestCheckEvent(detail.events):0} sound={sound} ready={detail!==undefined} progress={detail?.events.at(-1)?.sequence??0}/><div className="unfool-task-body"><h2>{ticket.title}</h2><p className="unfool-status">{state.sentence}</p>\n {detail&&<div className="unfool-actions">{review&&(detail.evidenceStale&&detail.recheckAvailable?<button disabled={busy||offline} onClick={()=>ticketAction(detail,'recheck')}>Try`... 1195 more characters,
+    expected: /Style 1/,
+    operator: 'match',
+    diff: 'simple'
+  }

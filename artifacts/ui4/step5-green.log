@@ -1,0 +1,23 @@
+✔ accepted, rejected, needs you and fresh-check states do not share other shapes (0.460541ms)
+✔ short titles keep whole words, eight word plain titles are persisted separately in events (1.840625ms)
+✔ styles are plainly named; history has one Show all events control (0.517166ms)
+✔ hallmarks follow actual stored outcomes, with no implied success from missing detail (0.593084ms)
+✔ working time starts from the recorded transition; stopped work does not look busy (0.248416ms)
+✔ Accept requires fresh passing server availability and every file opened (0.083041ms)
+✔ tampering and independent-test warnings remain conspicuous (0.096292ms)
+✔ proof never invents test totals, password checks or tampering success (0.068666ms)
+✔ the away summary counts real current states in its stated time window (0.752625ms)
+✔ strike identity comes only from recorded check results (0.070375ms)
+✔ main authored statuses are plain, short and free of technical labels (0.53725ms)
+✔ Hallmark design bans gradients, glass blur and soft-shadow card lists (0.325ms)
+✔ proof uses native modal focus handling and finite reduced-motion aware strike (0.43525ms)
+✔ offline and initial loading never assert an empty or decision-free account (0.130708ms)
+✔ unfool retains the same executable and exposes branded help without a server (62.408709ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 137.602875

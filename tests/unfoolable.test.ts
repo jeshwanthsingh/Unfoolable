@@ -10,13 +10,13 @@ const detail=(patch:Partial<Detail>={}):Detail=>({ticket,events:[],stats:{submit
 test('hallmarks follow actual stored outcomes, with no implied success from missing detail',()=>{
  assert.equal(taskPresentation(ticket).mark,'waiting');
  assert.equal(taskPresentation(ticket,detail()).mark,'checked');
- assert.equal(taskPresentation({...ticket,status:'kept',checkVerdict:'PASSED WITH GAPS'},detail({check:{verdict:'PASSED WITH GAPS',gaps:['unchecked'],failures:[]}})).mark,'closer');
+ assert.equal(taskPresentation({...ticket,status:'kept',checkVerdict:'PASSED WITH GAPS'},detail({check:{verdict:'PASSED WITH GAPS',gaps:['unchecked'],failures:[]}})).tone,'closer');
  assert.equal(taskPresentation(ticket,detail({check:{verdict:'PASSED WITH GAPS',gaps:['not checked'],failures:[]}})).mark,'closer');
  assert.equal(taskPresentation(ticket,detail({check:{verdict:'FAILED',gaps:[],failures:['failed']}})).mark,'wrong');
  assert.equal(taskPresentation({...ticket,status:'needs_you',checkVerdict:'FAILED'},detail({check:{verdict:'FAILED',gaps:[],failures:['failed']}})).mark,'wrong');
  assert.equal(taskPresentation(ticket,detail({check:{verdict:'NOT CHECKED',gaps:[],failures:[]}})).mark,'closer');
- assert.equal(taskPresentation(ticket,detail({evidenceStale:true})).mark,'closer');
- assert.equal(taskPresentation({...ticket,status:'kept'},detail({risk:{color:'RED',reason:'Existing test changed',files:1,changedLines:1,cap:{lines:400,files:15}}})).mark,'wrong');
+ assert.equal(taskPresentation(ticket,detail({evidenceStale:true})).mark,'recheck');
+ assert.equal(taskPresentation({...ticket,status:'kept'},detail({risk:{color:'RED',reason:'Existing test changed',files:1,changedLines:1,cap:{lines:400,files:15}}})).tone,'wrong');
 });
 test('working time starts from the recorded transition; stopped work does not look busy',()=>{
  const working={...ticket,status:'building' as const};
@@ -24,7 +24,7 @@ test('working time starts from the recorded transition; stopped work does not lo
  for(const status of ['harness_error','interrupted','cancelled'] as const)assert.equal(taskPresentation({...ticket,status},detail()).mark,'stuck');
  assert.doesNotMatch(taskPresentation({...ticket,status:'cancelled'},detail()).sentence,/Try again|reject/);
  assert.equal(taskPresentation({...ticket,status:'queued'},detail()).mark,'waiting');
- assert.equal(taskPresentation({...ticket,status:'needs_you'},detail()).mark,'closer');
+ assert.equal(taskPresentation({...ticket,status:'needs_you'},detail()).mark,'needs');
 });
 test('Accept requires fresh passing server availability and every file opened',()=>{
  assert.equal(mayAccept(detail()),true);

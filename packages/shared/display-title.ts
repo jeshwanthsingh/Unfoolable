@@ -1,0 +1,2 @@
+export function wordPreview(text:string,limit=82):string{if(text.length<=limit)return text;const words=text.trim().split(/\s+/);let result='';for(const word of words){if(result&&result.length+word.length+1>limit)break;result+=(result?' ':'')+word;if(result.length>=limit)break;}return result+'...';}
+export function plainTitle(text:string):string{return text.replace(/[^\p{L}\p{N}\s'-]/gu,' ').replace(/\s+/g,' ').trim().split(' ').slice(0,8).join(' ')||'Requested change';}

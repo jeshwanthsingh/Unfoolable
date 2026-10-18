@@ -1,14 +1,14 @@
 import type {Detail} from './TicketPanel.tsx';
 import type {Ticket,TicketEvent} from '../../../packages/shared/tickets.ts';
-export type Mark='checked'|'closer'|'wrong'|'working'|'stuck'|'waiting';
+export type Mark='checked'|'closer'|'wrong'|'working'|'stuck'|'waiting'|'accepted'|'rejected'|'needs'|'recheck';
 export const words={empty:'Nothing here yet. What should we work on?',gaps:"Done, but one part couldn't be checked.",wrong:"Something's wrong: a test was quietly changed.",failed:"Something's wrong: a check failed. Look at the changes.",stuck:'Stuck. Try again or reject it.',needs:'Needs your OK before continuing.',offline:"Can't connect. Start Unfoolable, then try again.",unchecked:"This change hasn't been checked yet."} as const;
-export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkVerdict'>,detail?:Detail,now=Date.now()):{mark:Mark;sentence:string}{
+export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkVerdict'>,detail?:Detail,now=Date.now()):{mark:Mark;sentence:string;tone?:'checked'|'closer'|'wrong'}{
  if(ticket.status==='kept'){
   const result=detail?.check?.verdict??ticket.checkVerdict;
-  if(detail?.risk?.color==='RED'||detail?.check?.testTampering?.status==='FLAGGED'||detail?.check?.testWriter?.warnings?.length)return {mark:'wrong',sentence:'Accepted earlier. A warning remains; see the proof.'};
-  return result==='VERIFIED'&&!detail?.evidenceStale?{mark:'checked',sentence:'Accepted. Saved separately; not merged into your project.'}:{mark:'closer',sentence:'Accepted with unchecked parts. Saved separately, not merged.'};
+  if(detail?.risk?.color==='RED'||detail?.check?.testTampering?.status==='FLAGGED'||detail?.check?.testWriter?.warnings?.length)return {mark:'accepted',tone:'wrong',sentence:'Accepted earlier. A warning remains; see the proof.'};
+  return result==='VERIFIED'&&!detail?.evidenceStale?{mark:'accepted',tone:'checked',sentence:'Saved as a separate copy. Your main code is unchanged.'}:{mark:'accepted',tone:'closer',sentence:'Saved a separate copy with unchecked parts. Main code is unchanged.'};
  }
- if(ticket.status==='discarded')return {mark:'stuck',sentence:'Rejected. Your files were left alone.'};
+ if(ticket.status==='discarded')return {mark:'rejected',sentence:'Rejected. Your files were left alone.'};
  if(['building','fixing','checking'].includes(ticket.status)){
   const start=detail?.events.filter(e=>e.kind==='state_changed'&&e.data.to===ticket.status).at(-1)?.createdAt??ticket.updatedAt;
   const minutes=Math.max(0,Math.floor((now-Date.parse(start))/60000));
@@ -25,7 +25,7 @@ export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkV
   const summary='summary' in ticket?ticket.summary as {result?:string;wrong?:boolean}:undefined;
   if(summary?.wrong)return {mark:'wrong',sentence:words.wrong};
   if(summary?.result==='FAILED')return {mark:'wrong',sentence:words.failed};
-  if(ticket.status==='needs_you')return {mark:'closer',sentence:words.needs};
+  if(ticket.status==='needs_you')return {mark:'needs',sentence:words.needs};
   if(summary?.result==='VERIFIED')return {mark:'checked',sentence:'Checked. The recorded tests passed.'};
   if(summary?.result==='PASSED WITH GAPS')return {mark:'closer',sentence:words.gaps};
   return {mark:'waiting',sentence:'Loading the latest result.'};
@@ -33,10 +33,10 @@ export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkV
  if(detail.check?.testTampering?.status==='FLAGGED')return {mark:'wrong',sentence:words.wrong};
  if(detail.check?.testWriter?.warnings?.length)return {mark:'wrong',sentence:"Something's wrong: an independent test failed."};
  if(detail.risk?.color==='RED')return {mark:'wrong',sentence:'Something needs a closer look before you accept.'};
- if(detail.evidenceStale)return {mark:'closer',sentence:'Checks need refreshing. Try again before accepting.'};
+ if(detail.evidenceStale)return {mark:'recheck',sentence:'Needs a fresh check.'};
  const result=detail.check?.verdict??ticket.checkVerdict;
  if(result==='FAILED')return {mark:'wrong',sentence:words.failed};
- if(ticket.status==='needs_you')return {mark:'closer',sentence:words.needs};
+ if(ticket.status==='needs_you')return {mark:'needs',sentence:words.needs};
  if(result==='PASSED WITH GAPS')return {mark:'closer',sentence:words.gaps};
  if(result==='VERIFIED')return {mark:'checked',sentence:'Checked. The recorded tests passed.'};
  return {mark:'closer',sentence:words.unchecked};

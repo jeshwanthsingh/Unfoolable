@@ -1,3 +1,4 @@
+import {plainTitle} from '../../packages/shared/display-title.ts';
 import {randomUUID} from 'node:crypto';
 import {isAbsolute} from 'node:path';
 import type {DatabaseSync} from 'node:sqlite';
@@ -18,7 +19,7 @@ export function appendTicketEvent(db:DatabaseSync,id:string,kind:TicketEventKind
 }
 export function createTicket(db:DatabaseSync,input:{title:string;requestText:string;repoPath:string;baseCommit:string},onCreated?:(ticket:Ticket)=>void):Ticket{
  if(!text(input.title,200)||!text(input.requestText,65536)||!text(input.repoPath,4096)||!isAbsolute(input.repoPath)||!sha(input.baseCommit))throw new Error('Invalid ticket input');
- return transaction(db,()=>{const id=randomUUID(),now=new Date().toISOString();db.prepare("INSERT INTO tickets(id,title,request_text,repo_path,base_commit,status,created_at,updated_at) VALUES(?,?,?,?,?,'queued',?,?)").run(id,input.title,input.requestText,input.repoPath,input.baseCommit,now,now);appendTicketEvent(db,id,'submitted',{});const created=requireTicket(db,id);onCreated?.(created);return created;});
+ return transaction(db,()=>{const id=randomUUID(),now=new Date().toISOString();db.prepare("INSERT INTO tickets(id,title,request_text,repo_path,base_commit,status,created_at,updated_at) VALUES(?,?,?,?,?,'queued',?,?)").run(id,input.title,input.requestText,input.repoPath,input.baseCommit,now,now);appendTicketEvent(db,id,'submitted',{plainTitle:plainTitle(input.title),titleAuthor:'user'});const created=requireTicket(db,id);onCreated?.(created);return created;});
 }
 export function updateTicket(db:DatabaseSync,id:string,patch:{attemptCount?:number;candidateCommits?:string[];checkVerdict?:TicketCheckVerdict|null}):Ticket{
  const t=requireTicket(db,id);if(['ready_for_review','kept','discarded','cancelled'].includes(t.status))throw new Error('Ticket candidate is frozen or terminal');if(Object.keys(patch).some(k=>!['attemptCount','candidateCommits','checkVerdict'].includes(k)))throw new Error('Invalid ticket update field');
