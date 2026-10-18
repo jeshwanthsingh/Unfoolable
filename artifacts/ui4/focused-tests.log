@@ -1,0 +1,44 @@
+✔ chat draft preserves request formatting and validates explicit bounded shape (2.099625ms)
+✔ fuel uses account window numbers only; missing or malformed limits stay unknown (1.222083ms)
+✔ usage is actual provider totals or unavailable, never estimated from text (0.334667ms)
+✔ fresh structured draft returns exact output and reported usage; fuel opens no model turn (2200.382416ms)
+✔ a tool operation rejects drafting rather than accepting an edited workspace (930.899375ms)
+✔ unknown repo output is retained as rejected evidence, never accepted as a ticket (908.522459ms)
+✔ deadline and shutdown cancel owned drafts; fuel failure remains unknown (2065.665083ms)
+✔ same-chunk initialization response and malformed frame reject promptly without another RPC or hanging cleanup (899.47675ms)
+✔ concurrent fuel requests share one read-only process and failed reads are cached as unknown (1801.898125ms)
+✔ provider rejection records its method and sanitized reason rather than discarding diagnostics (900.229958ms)
+✔ read-only chat starts outside the denied Projects ancestor without changing its deny profile (1.165583ms)
+✔ tasks group by real state and date; search is not limited to visible rows (12.187792ms)
+✔ 500 matching tasks are all searchable but the first page is bounded (1.157667ms)
+✔ Enter submits, Shift Enter and composition preserve editing (2.322ms)
+✔ proof locks the background and opens the requested file in view (0.325ms)
+✔ new installs follow system appearance; sending is synchronously guarded (0.129416ms)
+✔ async Ask acknowledges before drafting finishes and stores exactly one message (510.192708ms)
+✔ an ERROR draft cannot look like a ready Start card (0.820875ms)
+✔ operator and infrastructure failures are plain and never become clarification (4.095125ms)
+✔ one command ensures coordinator before reading private capability, including bare unfool (0.945542ms)
+✔ draft question is real, error is not labelled clarification, cancellation is tracked optimistically (0.661416ms)
+✔ a cold launcher starts and reuses one owned coordinator (339.395208ms)
+✔ confirmed isolated draft cancellation is durable and stale Start stays rejected (397.331542ms)
+✔ failed drafting explains preparation failure and invalid local connection shows the startup instruction (0.161042ms)
+✔ offline retains last successful observation, announces recovery and never invents a time (70.007208ms)
+✔ main screen has no polling or eager per-ticket details (1.996792ms)
+✔ Proof does not secretly mount a polling ticket screen (0.147708ms)
+✔ stream snapshot is lightweight and event identity is stable while idle (12.917458ms)
+✔ authenticated stream sends one snapshot, stays quiet while idle and closes cleanly (1914.69225ms)
+✔ live result strikes and phase timing do not require opening Proof (0.240625ms)
+✔ a second browser cannot swallow an event for the first browser (602.0465ms)
+✔ real coordinator serves 500 light tasks and health stays responsive without loading full proofs (163.809542ms)
+✔ accepted, rejected, needs you and fresh-check states do not share other shapes (0.620042ms)
+✔ short titles keep whole words, eight word plain titles are persisted separately in events (1.779ms)
+✔ styles are plainly named; history has one Show all events control (0.215625ms)
+✔ a loaded light summary never says Loading when no detail request is running (0.15175ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9985.078

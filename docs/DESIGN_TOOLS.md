@@ -53,3 +53,12 @@ No new npm dependency. React / React DOM 19.3.0 (MIT), Motion 14.3.0 (MIT), Type
 Instrument Sans TTF SHA256: b24f1812584816958afcf22e22d08e44318c5e51651e25d2438efdde389b33b1. Its OFL.txt is preserved verbatim, including upstream whitespace. Browser fetches the font from localhost. No other font family is introduced.
 
 Credential scan: existing Gitleaks 8.30.1, MIT, protected offline invocation. No new security platform installed.
+
+
+## Round UI-4 — reliability and interaction
+
+No new npm dependency, font or art. Existing Hallmark design and the versions/licenses above are retained. Official Playwright MCP 0.0.83 (Apache-2.0), MCP SDK 1.32.1 (MIT), isolated sandboxed Chrome and Node 24.21.0 were used for verification. Homebrew Node 24.8.0 hosted the existing MCP transport. Existing Gitleaks 8.30.1 (MIT) scans changed text offline.
+
+Installed web-design-guidelines, interface-review, better-accessibility and Emil review-animations were consulted for stable focus, native dialogs, reduced motion and finite event-driven motion. The existing web-interface-guidelines text was fetched into ignored `.work/ui4/` for this round. Reviews and their practical limits are recorded in `artifacts/ui4/REVIEW.md`. No new skill package was installed.
+
+The local `~/.local/bin/unfool` wrapper delegates to this repository's launcher; it adds no dependency, service or billing. Node's HTTP/SSE and SQLite primitives implement the live stream. Existing Motion remains responsible for the finite hallmark strike.

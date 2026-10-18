@@ -1,0 +1,58 @@
+✔ main screen has no polling or eager per-ticket details (0.676458ms)
+✔ Proof does not secretly mount a polling ticket screen (0.217916ms)
+✔ stream snapshot is lightweight and event identity is stable while idle (16.11775ms)
+✔ authenticated stream sends one snapshot, stays quiet while idle and closes cleanly (1760.822875ms)
+✔ live result strikes and phase timing do not require opening Proof (0.547917ms)
+✔ a second browser cannot swallow an event for the first browser (602.622625ms)
+✔ real coordinator serves 500 light tasks and health stays responsive without loading full proofs (154.38075ms)
+✖ light summaries retain stored warnings and do not invalidate Proof on routine process updates (0.696042ms)
+✔ accepted, rejected, needs you and fresh-check states do not share other shapes (0.443667ms)
+✔ short titles keep whole words, eight word plain titles are persisted separately in events (2.504959ms)
+✔ styles are plainly named; history has one Show all events control (0.515583ms)
+✔ a loaded light summary never says Loading when no detail request is running (0.064208ms)
+✖ light quality warnings use a truthful generic warning, including after acceptance (1.067959ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 11
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2636.949333
+
+✖ failing tests:
+
+test at tests/ui4-stream.test.ts:19:1
+✖ light summaries retain stored warnings and do not invalidate Proof on routine process updates (0.696042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:19:855)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui4-words.test.ts:9:1
+✖ light quality warnings use a truthful generic warning, including after acceptance (1.067959ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /closer look/. Input:
+  
+  "Something's wrong: a test was quietly changed."
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-words.test.ts:9:305)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Something's wrong: a test was quietly changed.",
+    expected: /closer look/,
+    operator: 'match',
+    diff: 'simple'
+  }

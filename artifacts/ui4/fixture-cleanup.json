@@ -1,0 +1,23 @@
+[
+  {
+    "port": 3237,
+    "script": ".work/ui4/server.mjs",
+    "ownership": {
+      "pid": 54656,
+      "ppid": 54602,
+      "pgid": 54602,
+      "sid": 54602,
+      "birth": "darwin:1792357205:286051",
+      "executable": "/opt/homebrew/Cellar/node/24.8.0/bin/node",
+      "observedAt": "2026-10-18T21:21:37.864Z",
+      "exitedAt": null
+    },
+    "cleanup": {
+      "verified": true,
+      "ambiguous": false,
+      "remaining": [],
+      "terminalCount": 0,
+      "reason": null
+    }
+  }
+]

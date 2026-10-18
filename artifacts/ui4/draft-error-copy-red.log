@@ -1,0 +1,37 @@
+✖ failed drafting explains preparation failure and invalid local connection shows the startup instruction (1.466791ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 95.501125
+
+✖ failing tests:
+
+test at tests/ui4-launcher.test.ts:16:1
+✖ failed drafting explains preparation failure and invalid local connection shows the startup instruction (1.466791ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /request couldn.t be prepared/. Input:
+  
+  "import {useState} from 'react';\n" +
+    "import type {ChatDraft} from '../../../packages/shared/chat.ts';\n" +
+    "export function UnfoolableDraft({draft,busy,onAction}:{draft:ChatDraft;busy:boolean;onAction:(action:'start'|'edit'|'cancel',fields?:Record<string,string>)=>void}){\n" +
+    ' const [editing,setEditing]=useState(false);\n' +
+    ` return <section className="unfool-draft" aria-label="Proposed task"><h2>{draft.title||(draft.status==='ERROR'?'Request needs another try':'One thing to clarify')}</h2>{draft.question&&draft.status==='QUESTION'?<><p>{draft.question}</p><p>Reply above, or choose Edit to complete the request.</p></>:<p>{draft.requestText}</p>}\n` +
+    ` {editing?<form onSubmit={event=>{event.preventDefault();const data=new FormData(event.currentTarget);onAction('edit',Object.fromEntries(['title','repoPath','requestText','doneMeans'].map(k=>[k,String(data.get(k)??'')])));setEditing(false);}}><label>Title<input name="title" defaultValue={draft.title} maxLength={200} required/></label><label>Project folder<input name="repoPath" defaultValue={draft.repoPath} required/></label><label>What should change?<textarea name="requestText" defaultValue={draft.requestText} required maxLength={16000}/></label><label>What does done look like?<textarea name="doneMeans" defaultValue={draft.doneMeans} required maxLength={16000}/></label><div className="unfool-actions"><button disabled={busy}>Save</button><button type="button" onClick={()=>setEditing(false)}>Cancel</button></div></form>:<><p className="unfool-muted">Nothing starts until you choose Start.</p><div className="unfool-actions"><button disabled={busy||draft.status!=='DRAFT'} onClick={()=>onAction('start')}>Start</button><button disabled={busy} onClick={()=>setEditing(true)}>Edit</button><button disabled={busy} onClick={()=>onAction('cancel')}>Cancel</button></div></>}\n` +
+    ' </section>;\n' +
+    '}\n'
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-launcher.test.ts:16:124)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `import {useState} from 'react';\nimport type {ChatDraft} from '../../../packages/shared/chat.ts';\nexport function UnfoolableDraft({draft,busy,onAction}:{draft:ChatDraft;busy:boolean;onAction:(action:'start'|'edit'|'cancel',fields?:Record<string,string>)=>void}){\n const [editing,setEditing]=useState(false);\n return <section className="unfool-draft" aria-label="Proposed task"><h2>{draft.title||(draft.status==='ERROR'?'Request needs another try':'One thing to clarify')}</h2>{draft.question&&draft.status==='QUESTION'?<><p>{draft.question}</p><p>Reply above, or choose Edit to complete the request.</p></>:<p>{draft.requestText}</p>}\n {editing?<form onSubmit={event=>{event.preventDefault();const data=new FormData(event.currentTarget);onAction('edit',Object.fromEntries(['title','repoPath','requestText','doneMeans'].map(k=>[k,String(data.get(k)??'')])));setEditing(false);}}><label>Title<input name="title" defaultValue={draft.title} maxLength={200} required/></label><label>Project folder<input name="repoPath" defaultValue={draft.repoPath} required/></label><label>What should change?<textarea name="requestText" defaultValue={draft.requestText} required maxLength={16000}/></label><label>What does done look like?<textarea name="doneMeans" defaultValue={draft.doneMeans} required maxLength={16000}/></label><div className="unfool-actions"><button disabled={busy}>Save</button><button type="button" onClick={()=>setEditing(false)}>Cancel</button></div></form>:<><p className="unfool-muted">Nothing starts until you choose Start.</p><div className="unfool-actions"><button disabled={busy||draft.status!=='DRAFT'} onClick={()=>onAction('start')}>Start</button><button disabled={busy} onClick={()=>setEditing(true)}>Edit</button><button disabled={busy} onClick={()=>onAction('cancel')}>Cancel</button></div></>}\n </section>;\n}\n`,
+    expected: /request couldn.t be prepared/,
+    operator: 'match',
+    diff: 'simple'
+  }

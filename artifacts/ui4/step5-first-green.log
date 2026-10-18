@@ -1,0 +1,67 @@
+✔ accepted, rejected, needs you and fresh-check states do not share other shapes (0.929334ms)
+✔ short titles keep whole words, eight word plain titles are persisted separately in events (3.078709ms)
+✔ styles are plainly named; history has one Show all events control (0.39125ms)
+✖ hallmarks follow actual stored outcomes, with no implied success from missing detail (2.495416ms)
+✖ working time starts from the recorded transition; stopped work does not look busy (0.308166ms)
+✔ Accept requires fresh passing server availability and every file opened (0.129084ms)
+✔ tampering and independent-test warnings remain conspicuous (0.113709ms)
+✔ proof never invents test totals, password checks or tampering success (0.725167ms)
+✔ the away summary counts real current states in its stated time window (2.876458ms)
+✔ strike identity comes only from recorded check results (0.146583ms)
+✔ main authored statuses are plain, short and free of technical labels (0.618041ms)
+✔ Hallmark design bans gradients, glass blur and soft-shadow card lists (0.165916ms)
+✔ proof uses native modal focus handling and finite reduced-motion aware strike (0.185875ms)
+✔ offline and initial loading never assert an empty or decision-free account (0.100292ms)
+✔ unfool retains the same executable and exposes branded help without a server (60.985792ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 13
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 175.415
+
+✖ failing tests:
+
+test at tests/unfoolable.test.ts:10:1
+✖ hallmarks follow actual stored outcomes, with no implied success from missing detail (2.495416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'accepted'
+  - 'closer'
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/unfoolable.test.ts:13:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'accepted',
+    expected: 'closer',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/unfoolable.test.ts:21:1
+✖ working time starts from the recorded transition; stopped work does not look busy (0.308166ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'needs' !== 'closer'
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/unfoolable.test.ts:27:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'needs',
+    expected: 'closer',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

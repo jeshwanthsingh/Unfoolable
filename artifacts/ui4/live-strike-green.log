@@ -1,0 +1,13 @@
+✔ main screen has no polling or eager per-ticket details (1.585291ms)
+✔ Proof does not secretly mount a polling ticket screen (0.427916ms)
+✔ stream snapshot is lightweight and event identity is stable while idle (9.6405ms)
+✔ authenticated stream sends one snapshot, stays quiet while idle and closes cleanly (1941.8225ms)
+✔ live result strikes and phase timing do not require opening Proof (0.352209ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2053.78625

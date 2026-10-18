@@ -1,0 +1,12 @@
+✔ accepted, rejected, needs you and fresh-check states do not share other shapes (0.594459ms)
+✔ short titles keep whole words, eight word plain titles are persisted separately in events (4.153125ms)
+✔ styles are plainly named; history has one Show all events control (0.419291ms)
+✔ a loaded light summary never says Loading when no detail request is running (0.088292ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 87.795708

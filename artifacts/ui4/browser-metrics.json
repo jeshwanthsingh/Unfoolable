@@ -1,0 +1,48 @@
+{
+  "stability": [
+    {
+      "idleSeconds": 120,
+      "idleRequests": 0,
+      "scrollStable": true,
+      "focusStable": true,
+      "idleAnimationFrames": 0
+    },
+    {
+      "runningSeconds": 120,
+      "scrollStable": true,
+      "focusStable": true
+    },
+    {
+      "lastKnownListRetained": true
+    },
+    {
+      "reducedMotion": true
+    }
+  ],
+  "transport": "official Playwright MCP 0.0.83",
+  "fixtureOnly": true,
+  "before": {
+    "sourceCommit": "0bf21c7",
+    "seconds": 10,
+    "apiRequests": 45,
+    "fullDetailRequests": 35,
+    "source": "before-requests-verified/protocol.json"
+  },
+  "after": {
+    "streamConnections": 1,
+    "idleSeconds": 120,
+    "idleApiRequestsAfterConnection": 0,
+    "proofOpenRequests": 1,
+    "cachedProofReopenRequests": 0,
+    "idleAnimationFrames": 0,
+    "sizes": [
+      1440,
+      390
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "source": "browser-verified/protocol.json; stability/protocol.json"
+  }
+}

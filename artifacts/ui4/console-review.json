@@ -1,0 +1,9 @@
+{
+  "scopes": [
+    "real-flow-final",
+    "real-flow",
+    "stability"
+  ],
+  "uncaughtOrAbortErrorLines": 0,
+  "note": "Checked saved console logs only; expected offline fixture errors are separate."
+}

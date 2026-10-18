@@ -1,0 +1,13 @@
+{
+  "tool": "gitleaks 8.30.1",
+  "files": 137,
+  "findings": 0,
+  "network": "DENIED",
+  "cleanup": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  }
+}

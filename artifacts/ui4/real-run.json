@@ -1,0 +1,37 @@
+{
+  "ticket": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+  "title": "Clarify source platform option help",
+  "status": "ready_for_review",
+  "verdict": "PASSED WITH GAPS",
+  "gaps": [
+    "Existing verifier: test-writer-coverage: Test Writer is advisory only; it cannot change the verdict.",
+    "Project playbook checks are regression guards; new intent is not independently proved.",
+    "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+  ],
+  "failures": [],
+  "candidate": "c8ba349fe00655f74c718736dc4adf03992d95e5",
+  "changedFiles": [
+    "research_router/cli.py"
+  ],
+  "states": [
+    {
+      "at": "2026-10-18T21:11:19.705Z",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "at": "2026-10-18T21:12:01.901Z",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "at": "2026-10-18T21:14:39.367Z",
+      "from": "checking",
+      "to": "ready_for_review"
+    }
+  ],
+  "finalHumanDecision": null,
+  "startConfirmedByUser": true,
+  "finalAcceptRejectNotClicked": true,
+  "note": "Source checkout was dirty; existing clean-copy path was used. Corrected --platform request explicitly approved by user. Initial mistaken --tags and launch failures retained."
+}

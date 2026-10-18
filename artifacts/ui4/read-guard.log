@@ -1,0 +1,1 @@
+{"phase":"after","targets":65,"readable":[],"ownedChecks":{"git_status":true,"git_diff":true,"git_log":true,"sqlite_temp":true,"own_write":true}}

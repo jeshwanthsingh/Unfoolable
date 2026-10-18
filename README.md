@@ -6,7 +6,7 @@ A local workspace for registered Git projects and frozen-Candidate verification.
 
 ## Main screen
 
-Run `./unfool chat` (or `./cc chat`) to open your private screen. Ask for work, review the proposed task, then choose Start. Task rows show recorded progress and check results in plain words. Accept and Reject keep the existing exact-item Touch ID protection; incomplete or flagged work still requires opening every changed file first.
+Run `unfool` (or `./cc chat` from this repository) to start the local coordinator, web screen and event stream, then open your private screen. A healthy existing coordinator is reused. Ask for work, review the proposed task, then choose Start. Task rows show recorded progress and check results in plain words. Accept and Reject keep the existing exact-item Touch ID protection; incomplete or flagged work still requires opening every changed file first.
 
 See the proof opens the check summary and highlighted file review. Original engineering records remain under Technical details. Settings offers light/dark appearance and three Hallmark looks; Assay is the default. Original working tools and historical visual experiments remain in Labs. No checker, Builder or approval policy changed in this design.
 

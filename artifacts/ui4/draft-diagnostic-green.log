@@ -1,0 +1,9 @@
+✔ provider rejection records its method and sanitized reason rather than discarding diagnostics (995.654542ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1089.937959

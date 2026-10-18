@@ -1,0 +1,21 @@
+✔ main screen has no polling or eager per-ticket details (0.542292ms)
+✔ Proof does not secretly mount a polling ticket screen (0.253875ms)
+✔ stream snapshot is lightweight and event identity is stable while idle (9.840166ms)
+✔ authenticated stream sends one snapshot, stays quiet while idle and closes cleanly (1747.881667ms)
+✔ live result strikes and phase timing do not require opening Proof (0.62ms)
+✔ a second browser cannot swallow an event for the first browser (603.049958ms)
+✔ real coordinator serves 500 light tasks and health stays responsive without loading full proofs (146.884125ms)
+✔ light summaries retain stored warnings and do not invalidate Proof on routine process updates (0.508958ms)
+✔ accepted, rejected, needs you and fresh-check states do not share other shapes (0.630875ms)
+✔ short titles keep whole words, eight word plain titles are persisted separately in events (2.559791ms)
+✔ styles are plainly named; history has one Show all events control (0.219458ms)
+✔ a loaded light summary never says Loading when no detail request is running (0.069583ms)
+✔ light quality warnings use a truthful generic warning, including after acceptance (0.123333ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2575.539333
