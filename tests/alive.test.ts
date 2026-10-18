@@ -24,3 +24,16 @@ test('paths are bounded relative metadata, activity excludes secrets and is boun
  const events=Array.from({length:200},(_,i)=>e(i+1,'agent_event',{kind:'tool.completed',data:{type:'fileChange',changes:[{path:'file'+i+'.py'},{path:'/Users/private/secret.txt'},{path:'../escape'},{path:'password=secret'}]}}));
  const a=projectActivity(events,'building');assert.ok(a.steps.length<=40);assert.ok(a.files.length<=40);assert.doesNotMatch(JSON.stringify(a),/Users|secret|escape/);
 });
+
+import {motionReason} from '../apps/web/src/event-motion.ts';
+test('no motion can start without a new recent event; mount, replay, search and idle stay still',()=>{
+ const old={id:'one',status:'building',revision:1,updatedAt:new Date(1000).toISOString()};
+ assert.equal(motionReason(undefined,old,false,1000),null);
+ assert.equal(motionReason(old,{...old},true,1000),null);
+ assert.equal(motionReason(old,{...old,status:'kept',revision:1},true,1000),null);
+ assert.equal(motionReason(old,{...old,status:'kept',revision:2},true,100000),null);
+ assert.equal(motionReason(old,{...old,status:'kept',revision:2},true,1000),'accepted');
+ assert.equal(motionReason(old,{...old,status:'discarded',revision:2},true,1000),'rejected');
+ assert.equal(motionReason(old,{...old,status:'needs_you',revision:2},true,1000),'attention');
+ assert.equal(motionReason(undefined,{...old,id:'new'},true,1000),'arrival');
+});
