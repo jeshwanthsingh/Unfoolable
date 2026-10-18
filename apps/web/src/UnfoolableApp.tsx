@@ -33,7 +33,7 @@ export function UnfoolableApp(){
   if(kind==='keep'&&(!mayAccept(detail)||data.error))return;
   void mutate('/api/tickets/'+encodeURIComponent(detail.ticket.id)+'/'+kind,kind==='keep'||kind==='recheck'?{candidateCommit:detail.ticket.candidateCommits.at(-1)}:{},true,kind==='keep'?'Accepted':kind==='discard'?'Rejected':kind==='recheck'?'Checking again.':'Starting again.');
  }
- useEffect(()=>{if(proof&&!['conversation','confirmation'].includes(proof))void data.loadDetail(proof).catch(()=>setError('The details could not open. Try again.'));},[proof,data.loadDetail,data.tickets.find(t=>t.id===proof)?.revision]);
+ useEffect(()=>{if(proof&&!['conversation','confirmation'].includes(proof))void data.loadDetail(proof).catch(()=>setError('The details could not open. Try again.'));},[proof,data.loadDetail,data.tickets.find(t=>t.id===proof)?.detailRevision??data.tickets.find(t=>t.id===proof)?.revision]);
  const selected=proof?data.details[proof]:undefined;
  const drafts=data.chat?.drafts.filter(d=>['DRAFT','QUESTION','ERROR'].includes(d.status)&&!pendingCancels.includes(d.id))??[];
  const otherCards=data.chat?.cards.filter(c=>c.status==='PENDING'&&c.kind!=='ticket')??[];

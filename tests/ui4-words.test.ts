@@ -4,3 +4,6 @@ test('short titles keep whole words, eight word plain titles are persisted separ
 test('styles are plainly named; history has one Show all events control',()=>{const s=readFileSync('apps/web/src/UnfoolableApp.tsx','utf8');assert.match(s,/Style 1/);assert.doesNotMatch(s,/>Assay<|>Compact<|>Spacious</);const proof=readFileSync('apps/web/src/UnfoolableProof.tsx','utf8');assert.match(proof,/Show all events/);});
 
 test('a loaded light summary never says Loading when no detail request is running',()=>{assert.equal(taskPresentation({status:'ready_for_review',updatedAt:'now',checkVerdict:'NOT CHECKED',summary:{result:'NOT CHECKED'}} as any).mark,'recheck');});
+
+
+test('light quality warnings use a truthful generic warning, including after acceptance',async()=>{const {taskPresentation}=await import('../apps/web/src/unfoolable-model.ts');const t={status:'ready_for_review',updatedAt:'now',checkVerdict:'VERIFIED',summary:{wrong:true,warning:'review'}} as any;assert.match(taskPresentation(t).sentence,/closer look/);assert.doesNotMatch(taskPresentation(t).sentence,/test was quietly changed/);assert.equal(taskPresentation({...t,status:'kept'}).tone,'wrong');});
