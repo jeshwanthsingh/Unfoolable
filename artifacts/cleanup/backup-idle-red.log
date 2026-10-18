@@ -1,0 +1,26 @@
+test_application_digest_ignores_replication_metadata (__main__.BackupTests.test_application_digest_ignores_replication_metadata) ... ok
+test_archive_paths_reject_traversal (__main__.BackupTests.test_archive_paths_reject_traversal) ... ok
+test_backup_store_must_be_inside_existing_denied_root (__main__.BackupTests.test_backup_store_must_be_inside_existing_denied_root) ... ok
+test_friendly_link_resolves_to_protected_store (__main__.BackupTests.test_friendly_link_resolves_to_protected_store) ... ok
+test_live_database_and_lock_files_are_not_raw_copied (__main__.BackupTests.test_live_database_and_lock_files_are_not_raw_copied) ... ok
+test_restore_rejects_existing_destination (__main__.BackupTests.test_restore_rejects_existing_destination) ... ok
+test_unchanged_application_does_not_recopied_large_sidecars (__main__.BackupTests.test_unchanged_application_does_not_recopied_large_sidecars) ... ERROR
+
+======================================================================
+ERROR: test_unchanged_application_does_not_recopied_large_sidecars (__main__.BackupTests.test_unchanged_application_does_not_recopied_large_sidecars)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/backup_helpers_test.py", line 55, in test_unchanged_application_does_not_recopied_large_sidecars
+    result = backup.snapshot({"dataDir": str(data), "backupDir": str(store)})
+  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/backup.py", line 156, in snapshot
+    sources = [('data', data)] + [('external/' + str(i), p) for i, p in enumerate(external_roots(data))]
+                                                                                  ~~~~~~~~~~~~~~^^^^^^
+  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/backup.py", line 129, in external_roots
+    for (raw,) in db.execute("SELECT data_json FROM ticket_events WHERE kind='candidate_frozen'"):
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: ticket_events
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.047s
+
+FAILED (errors=1)

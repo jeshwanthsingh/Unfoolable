@@ -7,7 +7,7 @@ Litestream **0.5.17**, Apache-2.0, continuously replicates the live SQLite WAL t
 `~/UnfoolableBackups` links to `~/.config/unfoolable/backups`. This is deliberate: the existing Builder profile denies `~/.config`, including access through the friendly link. Merely making a directory mode 0700 would not protect it from a same-user Builder. The sandbox rules are unchanged.
 
 - SQLite replication: approximately one-second synchronization, seven-day snapshot retention, while the Mac is awake and the user service is running.
-- Complete file checkpoint: every five minutes when tickets are idle; keep the latest three successful archives. A checkpoint may take longer than five minutes. Busy tickets delay files, not SQLite replication.
+- Complete file checkpoint: every five minutes when tickets are idle; keep the latest three successful archives. Unchanged application state reuses its last checkpoint instead of repeatedly copying gigabytes of old proofs. A checkpoint may take longer than five minutes. Busy tickets delay files, not SQLite replication.
 - Copies include the operator capability, LIVE data marker, passkey registration in SQLite, playbook approvals, oracle definitions, proof files and referenced private Candidate directories. Live database/WAL/lock files are not raw-copied.
 - File checkpoints require unchanged logical application tables and a matching, integrity-checked Litestream restore. A changed file or database rejects the checkpoint and retains the previous one. In-flight work is not paused to obtain a checkpoint.
 

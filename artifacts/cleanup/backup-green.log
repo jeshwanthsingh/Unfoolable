@@ -4,8 +4,9 @@ test_backup_store_must_be_inside_existing_denied_root (__main__.BackupTests.test
 test_friendly_link_resolves_to_protected_store (__main__.BackupTests.test_friendly_link_resolves_to_protected_store) ... ok
 test_live_database_and_lock_files_are_not_raw_copied (__main__.BackupTests.test_live_database_and_lock_files_are_not_raw_copied) ... ok
 test_restore_rejects_existing_destination (__main__.BackupTests.test_restore_rejects_existing_destination) ... ok
+test_unchanged_application_does_not_recopied_large_sidecars (__main__.BackupTests.test_unchanged_application_does_not_recopied_large_sidecars) ... ok
 
 ----------------------------------------------------------------------
-Ran 6 tests in 0.010s
+Ran 7 tests in 0.018s
 
 OK

@@ -153,6 +153,10 @@ def snapshot(c):
         if active:
             return {'skipped': 'File checkpoint waits for idle; SQLite replication continues'}
         before = database_identity(db_path)
+        application_hash = hashlib.sha256(json.dumps(before, sort_keys=True).encode()).hexdigest()
+        previous = backup / 'last-success.json'
+        if previous.exists() and json.loads(previous.read_text()).get('applicationIdentitySha256') == application_hash:
+            return {'skipped': 'No application changes since last complete checkpoint'}
         sources = [('data', data)] + [('external/' + str(i), p) for i, p in enumerate(external_roots(data))]
         checkpoint = 'snapshot-' + time.strftime('%Y%m%dT%H%M%SZ', time.gmtime()) + '-' + uuid.uuid4().hex[:8]
         scratch = ROOT / '.work/cleanup' / checkpoint
@@ -194,7 +198,7 @@ def snapshot(c):
             shutil.copyfile(archive, published.with_suffix('.partial'))
             published.with_suffix('.partial').chmod(0o600)
             published.with_suffix('.partial').replace(published)
-            status = {'archive': published.name, 'archiveSha256': digest(published), 'createdAt': manifest['createdAt'], 'files': len(entries), 'bytes': published.stat().st_size, 'sourceRoots': len(sources)}
+            status = {'archive': published.name, 'archiveSha256': digest(published), 'createdAt': manifest['createdAt'], 'files': len(entries), 'bytes': published.stat().st_size, 'sourceRoots': len(sources), 'applicationIdentitySha256': application_hash}
             write_json(backup / 'last-success.json', status)
             for old in sorted(backup.glob('snapshot-*.tar.gz'))[:-c['fileSnapshotsKept']]: old.unlink()
             return status

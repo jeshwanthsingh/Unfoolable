@@ -36,7 +36,7 @@ npm run typecheck
 npm run build
 ```
 
-Run HTTP/process tests outside an enclosing sandbox, with appropriate Codex escalation when needed. Preserve assertions, timeouts and process-ownership checks. UI-4 passed 976 tests; cleanup adds one Node wrapper covering six isolated Python backup-helper tests. See `artifacts/cleanup/full-suite.json` for the fresh final result.
+Run HTTP/process tests outside an enclosing sandbox, with appropriate Codex escalation when needed. Preserve assertions, timeouts and process-ownership checks. UI-4 passed 976 tests; cleanup adds one Node wrapper covering seven isolated Python backup-helper tests. See `artifacts/cleanup/full-suite.json` for the fresh final result.
 
 Repeatable security evidence:
 

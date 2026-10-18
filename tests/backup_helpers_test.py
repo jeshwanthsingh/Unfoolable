@@ -42,6 +42,19 @@ class BackupTests(unittest.TestCase):
         self.assertFalse(backup.exclude_data_file(Path("playbooks/current.json")))
         self.assertFalse(backup.exclude_data_file(Path("ticket-operator.key")))
 
+    def test_unchanged_application_does_not_recopied_large_sidecars(self):
+        import hashlib
+        import json
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); data = root / "data"; store = root / "backups"
+            data.mkdir(); store.mkdir()
+            db = sqlite3.connect(data / "command-center.sqlite")
+            db.execute("CREATE TABLE tickets(status)"); db.commit(); db.close()
+            identity = hashlib.sha256(json.dumps(backup.database_identity(data / "command-center.sqlite"), sort_keys=True).encode()).hexdigest()
+            (store / "last-success.json").write_text(json.dumps({"applicationIdentitySha256": identity}))
+            result = backup.snapshot({"dataDir": str(data), "backupDir": str(store)})
+            self.assertEqual(result["skipped"], "No application changes since last complete checkpoint")
+
     def test_restore_rejects_existing_destination(self):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaises(FileExistsError): backup.restore_bundle(Path(d), {}, Path(d))
