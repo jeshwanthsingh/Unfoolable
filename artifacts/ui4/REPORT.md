@@ -1,6 +1,6 @@
 # UI-4 — reliability, speed and clarity
 
-Implemented on local branch `codex/ui-reliability`, from Unfoolable `0bf 21c 7`. Source tested at `639dcecd 173c 732b 441f 368a 35c 748726c 8c 388f`; the final documentation/evidence commit does not alter that source. No push, merge or deployment. No new npm dependency or paid API.
+Implemented on local branch `codex/ui-reliability`, from Unfoolable `0bf21c7`. Source tested at `639dcecd173c732b441f368a35c748726c8c388f`; the final documentation/evidence commit does not alter that source. No push, merge or deployment. No new npm dependency or paid API.
 
 ## What changed
 
@@ -35,7 +35,7 @@ Durations differ deliberately; no baseline extrapolation. Actual protocols: `bef
 
 ## Real task
 
-Ticket `e 4f 4596f-7d 5e-4d 88-8952-2e 321f 3621d 8`: “Clarify source platform option help”. Your Touch ID Start was confirmed. It reached ready_for_review in about 3 minutes 20 seconds with no correction, changing only `research_router/cli.py`. Frozen commit `c 8ba 349fe 00655f 74c 718736dc 4adf 03992d 95e 5`.
+Ticket `e4f4596f-7d5e-4d88-8952-2e321f3621d8`: “Clarify source platform option help”. Your Touch ID Start was confirmed. It reached ready_for_review in about 3 minutes 20 seconds with no correction, changing only `research_router/cli.py`. Frozen commit `c8ba349fe00655f74c718736dc4adf03992d95e5`.
 
 Result **PASSED WITH GAPS**, no failed checks. Gaps: the Test Writer is advisory; regression checks do not independently prove the requested wording; OSV had no supported lockfile. The source checkout was dirty, so existing clean-copy behavior protected it. Accept/Reject were never clicked; no final confirmation was created.
 
