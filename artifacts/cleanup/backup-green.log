@@ -1,0 +1,11 @@
+test_application_digest_ignores_replication_metadata (__main__.BackupTests.test_application_digest_ignores_replication_metadata) ... ok
+test_archive_paths_reject_traversal (__main__.BackupTests.test_archive_paths_reject_traversal) ... ok
+test_backup_store_must_be_inside_existing_denied_root (__main__.BackupTests.test_backup_store_must_be_inside_existing_denied_root) ... ok
+test_friendly_link_resolves_to_protected_store (__main__.BackupTests.test_friendly_link_resolves_to_protected_store) ... ok
+test_live_database_and_lock_files_are_not_raw_copied (__main__.BackupTests.test_live_database_and_lock_files_are_not_raw_copied) ... ok
+test_restore_rejects_existing_destination (__main__.BackupTests.test_restore_rejects_existing_destination) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.010s
+
+OK

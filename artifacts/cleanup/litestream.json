@@ -1,0 +1,9 @@
+{
+  "version": "v0.5.17",
+  "license": "Apache-2.0",
+  "source": "https://github.com/benbjohnson/litestream/releases/download/v0.5.17/litestream-0.5.17-darwin-arm64.tar.gz",
+  "archiveSha256": "e211f68ff7658d19f193f2914417afdf8f89a053ff8f263e5d6b3b1d3bbc7b08",
+  "publishedChecksumVerified": true,
+  "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/backup-tools/v0.5.17/litestream",
+  "homebrew": "not used; Xcode license not accepted"
+}
