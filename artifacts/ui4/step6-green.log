@@ -1,0 +1,10 @@
+✔ tasks group by real state and date; search is not limited to visible rows (3.019ms)
+✔ 500 matching tasks are all searchable but the first page is bounded (0.574ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 61.984
