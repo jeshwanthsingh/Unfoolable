@@ -55,3 +55,5 @@ test('Hallmark design bans gradients, glass blur and soft-shadow card lists',()=
 test('proof uses native modal focus handling and finite reduced-motion aware strike',()=>{
  const proof=readFileSync('apps/web/src/UnfoolableProof.tsx','utf8'),mark=readFileSync('apps/web/src/Hallmark.tsx','utf8');assert.match(proof,/showModal\(/);assert.match(proof,/returnFocus/);assert.match(proof,/onCancel/);assert.match(mark,/document.hidden\|\|reduce/);assert.match(mark,/duration:\.18,bounce:0/);assert.doesNotMatch(mark,/requestAnimationFrame|setInterval/);
 });
+
+test('offline and initial loading never assert an empty or decision-free account',()=>{const source=readFileSync('apps/web/src/UnfoolableApp.tsx','utf8');assert.match(source,/offline\?'Your saved work will return/);assert.match(source,/!offline&&key&&!data.tickets.length/);});

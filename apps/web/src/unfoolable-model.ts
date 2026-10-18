@@ -10,13 +10,18 @@ export function taskPresentation(ticket:Ticket,detail?:Detail,now=Date.now()):{m
   const minutes=Math.max(0,Math.floor((now-Date.parse(start))/60000));
   return {mark:'working',sentence:ticket.status==='checking'?'Checking the change before you decide.':minutes<1?'Working on it for less than a minute.':`Working on it for ${minutes} ${minutes===1?'minute':'minutes'}.`};
  }
- if(['harness_error','interrupted','cancelled'].includes(ticket.status))return {mark:'stuck',sentence:words.stuck};
+ if(['harness_error','interrupted','cancelled'].includes(ticket.status)){
+  const reason=detail?.events.filter(e=>['needs_you','state_changed'].includes(e.kind)).map(e=>String(e.data.reason??'')).join(' ').toLowerCase()??'';
+  const sentence=/ownership|start|launch/.test(reason)?"Stuck: the worker couldn't start. Try again or reject it.":/timeout|deadline/.test(reason)?'Stuck: work took too long. Try again or reject it.':/denied|permission|sandbox/.test(reason)?'Stuck: access was blocked. Try again or reject it.':words.stuck;
+  return {mark:'stuck',sentence};
+ }
  if(ticket.status==='needs_you')return {mark:'closer',sentence:words.needs};
  if(ticket.status==='queued')return {mark:'waiting',sentence:'Waiting to start.'};
  if(!detail)return {mark:'waiting',sentence:'Loading the latest result.'};
  if(detail.evidenceStale)return {mark:'closer',sentence:'Checks need refreshing. Try again before accepting.'};
  if(detail.check?.testTampering?.status==='FLAGGED')return {mark:'wrong',sentence:words.wrong};
- if(detail.risk?.color==='RED'||detail.check?.testWriter?.warnings?.length)return {mark:'wrong',sentence:'Something needs a closer look before you accept.'};
+ if(detail.check?.testWriter?.warnings?.length)return {mark:'wrong',sentence:"Something's wrong: an independent test failed."};
+ if(detail.risk?.color==='RED')return {mark:'wrong',sentence:'Something needs a closer look before you accept.'};
  const result=detail.check?.verdict??ticket.checkVerdict;
  if(result==='FAILED')return {mark:'wrong',sentence:words.failed};
  if(result==='PASSED WITH GAPS')return {mark:'closer',sentence:words.gaps};

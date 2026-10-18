@@ -45,3 +45,9 @@ Installed skill file hashes identify the exact local guidance consulted, includi
 - emil-review-animations: SHA256 `6ff590d29e436766135aa3d137be1fac2a867165c7257fc315b189361f1873af`.
 - emil-animation-performance: SHA256 `ceb9dd3fe912615830f725a0120ccf8d012d15a6218001a5cd6c15d38e39a957`.
 - webapp-testing: SHA256 `51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2`.
+
+## Application and verification runtime
+
+No new npm dependency. React / React DOM 19.3.0 (MIT), Motion 14.3.0 (MIT), TypeScript 7.0.2 (Apache-2.0), Vite 8.3.2 (MIT), @git-diff-view core/react/shiki 0.1.8 (MIT), Shiki 4.5.0 (MIT), @simplewebauthn browser 13.3.0 / server 13.3.3 (MIT). Existing XState 5.33.3, PixiJS 8.22.0, Three 0.186.1 and React Three Fiber 9.8.2 (all MIT) remain in secondary Labs; they create no canvas on the main screen. Node 24.21.0 (Node license: MIT plus bundled third-party notices) runs app checks; Homebrew Node 24.8.0 runs the existing MCP transport only. Playwright's server reports its bundled engine as 1.64.0-alpha-1790635538000 (Apache-2.0); Chrome is the locally installed browser, isolated profile and sandbox on. Bundled Pillow 12.3.0 assembles review contact sheets only; no new installation or shipped dependency.
+
+Instrument Sans TTF SHA256: b24f1812584816958afcf22e22d08e44318c5e51651e25d2438efdde389b33b1. Its OFL.txt is preserved verbatim, including upstream whitespace. Browser fetches the font from localhost. No other font family is introduced.
