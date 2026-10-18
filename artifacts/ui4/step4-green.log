@@ -1,0 +1,12 @@
+✔ Enter submits, Shift Enter and composition preserve editing (1.916667ms)
+✔ proof locks the background and opens the requested file in view (0.188458ms)
+✔ new installs follow system appearance; sending is synchronously guarded (0.11375ms)
+✔ async Ask acknowledges before drafting finishes and stores exactly one message (261.778584ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 653.335042
