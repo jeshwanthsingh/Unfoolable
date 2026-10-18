@@ -1,0 +1,54 @@
+{
+  "base": "cd98243",
+  "files": [
+    {
+      "path": "apps/web/src/human-confirmation-client.ts",
+      "baseSha256": "6920d1e08bc3ca12e5040b5ad30503429f1d089724693f27678b2ed8f8cdebd6",
+      "currentSha256": "6920d1e08bc3ca12e5040b5ad30503429f1d089724693f27678b2ed8f8cdebd6",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/human-confirmation.ts",
+      "baseSha256": "24288a745af3e8d05ef5668bb11ea60b8a6360a77629c78a83dca7f758f26891",
+      "currentSha256": "24288a745af3e8d05ef5668bb11ea60b8a6360a77629c78a83dca7f758f26891",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/diff-review.ts",
+      "baseSha256": "89c49f6fa15d2d7f7d63b40a819ef924754ecea022587c2930ff29ccdb28e740",
+      "currentSha256": "89c49f6fa15d2d7f7d63b40a819ef924754ecea022587c2930ff29ccdb28e740",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-service.ts",
+      "baseSha256": "33d7480c1f56fd28248765a66b0381ec3361d6196769f3966116aba59a511059",
+      "currentSha256": "33d7480c1f56fd28248765a66b0381ec3361d6196769f3966116aba59a511059",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-runtime.ts",
+      "baseSha256": "626c9115cbd9af13da1de7d685d9177f36bbb37788aca5c970dbb03597814ce7",
+      "currentSha256": "626c9115cbd9af13da1de7d685d9177f36bbb37788aca5c970dbb03597814ce7",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/oracle-execution.ts",
+      "baseSha256": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd",
+      "currentSha256": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-queue.ts",
+      "baseSha256": "448b862a501c7968dca9261bdf553a41cfa666cd6c7bdfddfb2722251edc577d",
+      "currentSha256": "448b862a501c7968dca9261bdf553a41cfa666cd6c7bdfddfb2722251edc577d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/watchman.ts",
+      "baseSha256": "cd0a82a2b3dca16445d78c88d9946f5656b330ed52014e8fa8ba4dedd25fb11f",
+      "currentSha256": "cd0a82a2b3dca16445d78c88d9946f5656b330ed52014e8fa8ba4dedd25fb11f",
+      "unchanged": true
+    }
+  ],
+  "serverOrSharedChanges": []
+}

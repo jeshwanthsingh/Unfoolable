@@ -1,0 +1,41 @@
+- generic [ref=f11e3]:
+  - link "Skip to work" [ref=f11e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f11e5]:
+    - generic [ref=f11e6]:
+      - generic [ref=f11e7]:
+        - heading "Unfoolable" [level=1] [ref=f11e8]
+        - paragraph [ref=f11e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f11e10] [cursor=pointer]
+    - generic [ref=f11e11]:
+      - generic [ref=f11e12]: What should we work on?
+      - generic [ref=f11e13]:
+        - textbox "What should we work on?" [ref=f11e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f11e15] [cursor=pointer]
+    - paragraph [ref=f11e16]: Opening your saved work…
+    - status
+    - status [ref=f11e17]: Opening your work…
+    - list "Your work"
+    - generic [ref=f11e18]:
+      - button "Conversation" [ref=f11e19] [cursor=pointer]
+      - button "Stop all" [ref=f11e20] [cursor=pointer]
+  - dialog [ref=f11e21]:
+    - generic [ref=f11e22]:
+      - heading "Proof" [level=2] [ref=f11e23]
+      - button "Close" [active] [ref=f11e24] [cursor=pointer]
+    - paragraph [ref=f11e25]: Confirm your choice with Touch ID.
+    - group [ref=f11e26]:
+      - generic "Technical details" [ref=f11e27] [cursor=pointer]
+      - region "Human confirmation" [ref=f11e28]:
+        - heading "Human confirmation" [level=3] [ref=f11e29]
+        - paragraph [ref=f11e30]: Passkey registered. Decisions require platform verification.
+        - paragraph [ref=f11e31]: Each confirmation is tied to one item and its current evidence, expires after two minutes, and is used once.
+        - region "Pending exact decision" [ref=f11e32]:
+          - heading "Confirm this decision" [level=4] [ref=f11e33]
+          - paragraph [ref=f11e34]:
+            - code [ref=f11e35]: /api/tickets/fixture/retry
+          - generic [ref=f11e36]: "{}"
+          - group [ref=f11e37]:
+            - generic "Evidence and expiry" [ref=f11e38] [cursor=pointer]
+          - button "Confirm with passkey" [ref=f11e39] [cursor=pointer]

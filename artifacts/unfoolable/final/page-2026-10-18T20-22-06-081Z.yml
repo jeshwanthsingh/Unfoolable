@@ -1,0 +1,30 @@
+- generic [ref=f45e3]:
+  - link "Skip to work" [ref=f45e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f45e5]:
+    - generic [ref=f45e6]:
+      - generic [ref=f45e7]:
+        - heading "Unfoolable" [level=1] [ref=f45e8]
+        - paragraph [ref=f45e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f45e10] [cursor=pointer]
+    - generic [ref=f45e11]:
+      - generic [ref=f45e12]: What should we work on?
+      - generic [ref=f45e13]:
+        - textbox "What should we work on?" [ref=f45e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f45e15] [cursor=pointer]
+    - paragraph [ref=f45e16]: 0 decided today. 1 waiting; scroll to see all.
+    - status
+    - list "Your work" [ref=f45e17]:
+      - listitem [ref=f45e18]:
+        - img "Look closer" [ref=f45e19]
+        - generic [ref=f45e24]:
+          - heading "Keep the exact cancellation reason visible immediately after a successful request, without changing any other appointment with a very long project name with a very long project name with a very long project name with a very long project name with a very long project name" [level=2] [ref=f45e25]
+          - paragraph [ref=f45e26]: Done, but one part couldn't be checked.
+          - generic [ref=f45e27]:
+            - button "Look at the changes" [ref=f45e28] [cursor=pointer]
+            - button "Reject" [ref=f45e29] [cursor=pointer]
+          - button "See the proof" [ref=f45e30] [cursor=pointer]
+    - generic [ref=f45e31]:
+      - button "Conversation" [ref=f45e32] [cursor=pointer]
+      - button "Stop all" [ref=f45e33] [cursor=pointer]

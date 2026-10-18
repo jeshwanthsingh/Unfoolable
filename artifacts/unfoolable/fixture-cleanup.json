@@ -1,0 +1,23 @@
+[
+  {
+    "port": 3237,
+    "script": ".work/unfoolable/server.mjs",
+    "ownership": {
+      "pid": 3171,
+      "ppid": 3157,
+      "pgid": 3157,
+      "sid": 3157,
+      "birth": "darwin:1792353888:882181",
+      "executable": "/opt/homebrew/Cellar/node/24.8.0/bin/node",
+      "observedAt": "2026-10-18T20:25:54.665Z",
+      "exitedAt": null
+    },
+    "cleanup": {
+      "verified": true,
+      "ambiguous": false,
+      "remaining": [],
+      "terminalCount": 0,
+      "reason": null
+    }
+  }
+]

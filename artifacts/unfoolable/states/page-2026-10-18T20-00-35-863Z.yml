@@ -1,0 +1,22 @@
+- generic [ref=f34e3]:
+  - link "Skip to work" [ref=f34e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f34e5]:
+    - generic [ref=f34e6]:
+      - generic [ref=f34e7]:
+        - heading "Unfoolable" [level=1] [ref=f34e8]
+        - paragraph [ref=f34e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f34e10] [cursor=pointer]
+    - generic [ref=f34e11]:
+      - generic [ref=f34e12]: What should we work on?
+      - generic [ref=f34e13]:
+        - textbox "What should we work on?" [ref=f34e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f34e15] [cursor=pointer]
+    - paragraph [ref=f34e16]: Nothing needs a decision right now.
+    - status
+    - status [ref=f34e17]: Opening your work…
+    - list "Your work"
+    - generic [ref=f34e18]:
+      - button "Conversation" [ref=f34e19] [cursor=pointer]
+      - button "Stop all" [ref=f34e20] [cursor=pointer]

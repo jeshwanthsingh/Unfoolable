@@ -1,0 +1,66 @@
+- generic [ref=f44e3]:
+  - link "Skip to work" [ref=f44e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f44e5]:
+    - generic [ref=f44e6]:
+      - generic [ref=f44e7]:
+        - heading "Unfoolable" [level=1] [ref=f44e8]
+        - paragraph [ref=f44e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f44e10] [cursor=pointer]
+    - generic [ref=f44e11]:
+      - generic [ref=f44e12]: What should we work on?
+      - generic [ref=f44e13]:
+        - textbox "What should we work on?" [ref=f44e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f44e15] [cursor=pointer]
+    - paragraph [ref=f44e16]: 0 decided today. 1 waiting; scroll to see all.
+    - status
+    - list "Your work" [ref=f44e17]:
+      - listitem [ref=f44e18]:
+        - img "Look closer" [ref=f44e19]
+        - generic [ref=f44e24]:
+          - heading "Show the cancellation reason" [level=2] [ref=f44e25]
+          - paragraph [ref=f44e26]: Done, but one part couldn't be checked.
+          - generic [ref=f44e27]:
+            - button "Look at the changes" [ref=f44e28] [cursor=pointer]
+            - button "Reject" [ref=f44e29] [cursor=pointer]
+          - button "See the proof" [ref=f44e30] [cursor=pointer]
+    - generic [ref=f44e31]:
+      - button "Conversation" [ref=f44e32] [cursor=pointer]
+      - button "Stop all" [ref=f44e33] [cursor=pointer]
+  - dialog [ref=f44e34]:
+    - generic [ref=f44e35]:
+      - heading "Proof" [level=2] [ref=f44e36]
+      - button "Close" [active] [ref=f44e37] [cursor=pointer]
+    - heading "Show the cancellation reason" [level=3] [ref=f44e38]
+    - list [ref=f44e39]:
+      - listitem [ref=f44e40]:
+        - img "Look closer" [ref=f44e41]
+        - generic [ref=f44e46]: The recorded checks passed with unchecked parts.
+      - listitem [ref=f44e47]:
+        - img "Checked" [ref=f44e48]
+        - generic [ref=f44e53]: No new password-like strings were found.
+      - listitem [ref=f44e54]:
+        - img "Checked" [ref=f44e55]
+        - generic [ref=f44e60]: No tests were secretly changed.
+      - listitem [ref=f44e61]:
+        - img "Look closer" [ref=f44e62]
+        - generic [ref=f44e67]: Some requested behavior wasn't independently checked.
+    - generic [ref=f44e68]:
+      - heading "What the AI says it did" [level=3] [ref=f44e69]
+      - paragraph [ref=f44e70]: Written by the AI, not a check result.
+      - paragraph [ref=f44e71]: "Updated `source add --help` to describe `--title` as “Override the source title” and added a unittest asserting that phrase."
+    - generic [ref=f44e72]:
+      - heading "What changed" [level=3] [ref=f44e73]
+      - paragraph [ref=f44e74]: Open each changed file before accepting.
+      - list [ref=f44e75]:
+        - listitem [ref=f44e76]:
+          - button "research_router/cli.py Open" [ref=f44e77] [cursor=pointer]:
+            - generic [ref=f44e78]: research_router/cli.py
+            - generic [ref=f44e79]: Open
+        - listitem [ref=f44e80]:
+          - button "tests/test_source_add.py Open" [ref=f44e81] [cursor=pointer]:
+            - generic [ref=f44e82]: tests/test_source_add.py
+            - generic [ref=f44e83]: Open
+    - group [ref=f44e84]:
+      - generic "Technical details" [ref=f44e85] [cursor=pointer]

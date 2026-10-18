@@ -1,0 +1,2 @@
+[      31ms] [ERROR] Failed to load resource: the server responded with a status of 503 (Service Unavailable) @ http://localhost:3237/api/tickets:0
+[      31ms] [ERROR] Failed to load resource: the server responded with a status of 503 (Service Unavailable) @ http://localhost:3237/api/chat:0

@@ -18,7 +18,7 @@ The main screen says what happened and what you can do. Status lines contain at 
 | Needs you | Needs your OK before continuing. |
 | Waiting | Waiting to start. |
 | Accepted / rejected | Accepted / Rejected |
-| Stopped | Stopped. Try again when you're ready. |
+| Stopped | Stopped. No change was accepted. |
 | Offline | Can't connect. Start Unfoolable, then try again. |
 | Unchecked | This change hasn't been checked yet. |
 

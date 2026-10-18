@@ -1,0 +1,30 @@
+- generic [ref=f18e3]:
+  - link "Skip to work" [ref=f18e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f18e5]:
+    - generic [ref=f18e6]:
+      - generic [ref=f18e7]:
+        - heading "Unfoolable" [level=1] [ref=f18e8]
+        - paragraph [ref=f18e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f18e10] [cursor=pointer]
+    - generic [ref=f18e11]:
+      - generic [ref=f18e12]: What should we work on?
+      - generic [ref=f18e13]:
+        - textbox "What should we work on?" [ref=f18e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f18e15] [cursor=pointer]
+    - paragraph [ref=f18e16]: 0 decided today. 1 waiting; scroll to see all.
+    - status
+    - list "Your work" [ref=f18e17]:
+      - listitem [ref=f18e18]:
+        - img "Stuck" [ref=f18e19]
+        - generic [ref=f18e22]:
+          - heading "Show the cancellation reason" [level=2] [ref=f18e23]
+          - paragraph [ref=f18e24]: "Stuck: the worker couldn't start. Try again or reject it."
+          - generic [ref=f18e25]:
+            - button "Try again" [ref=f18e26] [cursor=pointer]
+            - button "Reject" [ref=f18e27] [cursor=pointer]
+          - button "See the proof" [ref=f18e28] [cursor=pointer]
+    - generic [ref=f18e29]:
+      - button "Conversation" [ref=f18e30] [cursor=pointer]
+      - button "Stop all" [ref=f18e31] [cursor=pointer]

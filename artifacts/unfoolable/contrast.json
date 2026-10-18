@@ -1,0 +1,146 @@
+[
+  {
+    "theme": "light",
+    "role": "body",
+    "foreground": "#2A2F35",
+    "background": "#E8EBED",
+    "ratio": 11.267,
+    "minimum": 4.5,
+    "passed": true
+  },
+  {
+    "theme": "light",
+    "role": "secondary",
+    "foreground": "#535C66",
+    "background": "#E8EBED",
+    "ratio": 5.675,
+    "minimum": 4.5,
+    "passed": true
+  },
+  {
+    "theme": "light",
+    "role": "error text",
+    "foreground": "#B8432F",
+    "background": "#E8EBED",
+    "ratio": 4.518,
+    "minimum": 4.5,
+    "passed": true
+  },
+  {
+    "theme": "light",
+    "role": "green mark",
+    "foreground": "#2F7A57",
+    "background": "#C9CED3",
+    "ratio": 3.278,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "light",
+    "role": "ochre mark",
+    "foreground": "#8A581C",
+    "background": "#C9CED3",
+    "ratio": 3.794,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "light",
+    "role": "red mark",
+    "foreground": "#B8432F",
+    "background": "#C9CED3",
+    "ratio": 3.414,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "light",
+    "role": "input boundary",
+    "foreground": "#747E87",
+    "background": "#F4F6F7",
+    "ratio": 3.816,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "light",
+    "role": "focus",
+    "foreground": "#2A2F35",
+    "background": "#E8EBED",
+    "ratio": 11.267,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "dark",
+    "role": "body",
+    "foreground": "#DCE1E5",
+    "background": "#1A1E22",
+    "ratio": 12.728,
+    "minimum": 4.5,
+    "passed": true
+  },
+  {
+    "theme": "dark",
+    "role": "secondary",
+    "foreground": "#A6B0B8",
+    "background": "#1A1E22",
+    "ratio": 7.602,
+    "minimum": 4.5,
+    "passed": true
+  },
+  {
+    "theme": "dark",
+    "role": "error text",
+    "foreground": "#F39B89",
+    "background": "#1A1E22",
+    "ratio": 7.871,
+    "minimum": 4.5,
+    "passed": true
+  },
+  {
+    "theme": "dark",
+    "role": "green mark",
+    "foreground": "#83C6A1",
+    "background": "#2A3036",
+    "ratio": 6.705,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "dark",
+    "role": "ochre mark",
+    "foreground": "#DEB36D",
+    "background": "#2A3036",
+    "ratio": 6.843,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "dark",
+    "role": "red mark",
+    "foreground": "#F39B89",
+    "background": "#2A3036",
+    "ratio": 6.263,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "dark",
+    "role": "input boundary",
+    "foreground": "#8D98A3",
+    "background": "#22282E",
+    "ratio": 5.069,
+    "minimum": 3,
+    "passed": true
+  },
+  {
+    "theme": "dark",
+    "role": "focus",
+    "foreground": "#DCE1E5",
+    "background": "#1A1E22",
+    "ratio": 12.728,
+    "minimum": 3,
+    "passed": true
+  }
+]

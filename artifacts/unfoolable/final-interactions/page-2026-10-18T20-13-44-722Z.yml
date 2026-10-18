@@ -1,0 +1,172 @@
+- generic [ref=f3e3]:
+  - link "Skip to work" [ref=f3e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f3e5]:
+    - generic [ref=f3e6]:
+      - generic [ref=f3e7]:
+        - heading "Unfoolable" [level=1] [ref=f3e8]
+        - paragraph [ref=f3e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f3e10] [cursor=pointer]
+    - generic [ref=f3e11]:
+      - generic [ref=f3e12]: What should we work on?
+      - generic [ref=f3e13]:
+        - textbox "What should we work on?" [ref=f3e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f3e15] [cursor=pointer]
+    - paragraph [ref=f3e16]: 0 decided today. 3 waiting; scroll to see all.
+    - status
+    - list "Your work" [ref=f3e21]:
+      - listitem [ref=f3e22]:
+        - img "Look closer" [ref=f3e23]
+        - generic [ref=f3e28]:
+          - 'heading "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio" [level=2] [ref=f3e29]'
+          - paragraph [ref=f3e30]: Done, but one part couldn't be checked.
+          - generic [ref=f3e31]:
+            - button "Look at the changes" [ref=f3e32] [cursor=pointer]
+            - button "Reject" [ref=f3e33] [cursor=pointer]
+          - button "See the proof" [ref=f3e34] [cursor=pointer]
+      - listitem [ref=f3e35]:
+        - img "Look closer" [ref=f3e36]
+        - generic [ref=f3e41]:
+          - heading "Add local-changes epilog to research --help" [level=2] [ref=f3e42]
+          - paragraph [ref=f3e43]: Checks need refreshing. Try again before accepting.
+          - generic [ref=f3e44]:
+            - button "Try again" [ref=f3e45] [cursor=pointer]
+            - button "Reject" [ref=f3e46] [cursor=pointer]
+          - button "See the proof" [ref=f3e47] [cursor=pointer]
+      - listitem [ref=f3e48]:
+        - img "Checked" [ref=f3e49]
+        - generic [ref=f3e54]:
+          - heading "Improve research CLI help and add configuration-free help test" [level=2] [ref=f3e55]
+          - paragraph [ref=f3e56]: Accepted. Saved separately; not merged into your project.
+          - button "See the proof" [ref=f3e57] [cursor=pointer]
+      - listitem [ref=f3e58]:
+        - img "Look closer" [ref=f3e59]
+        - generic [ref=f3e64]:
+          - heading "Add top-level research --version option" [level=2] [ref=f3e65]
+          - paragraph [ref=f3e66]: Checks need refreshing. Try again before accepting.
+          - generic [ref=f3e67]:
+            - button "Try again" [ref=f3e68] [cursor=pointer]
+            - button "Reject" [ref=f3e69] [cursor=pointer]
+          - button "See the proof" [ref=f3e70] [cursor=pointer]
+      - listitem [ref=f3e71]:
+        - img "Checked" [ref=f3e72]
+        - generic [ref=f3e77]:
+          - heading "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiv" [level=2] [ref=f3e78]
+          - paragraph [ref=f3e79]: Accepted. Saved separately; not merged into your project.
+          - button "See the proof" [ref=f3e80] [cursor=pointer]
+      - listitem [ref=f3e81]:
+        - img "Stuck" [ref=f3e82]
+        - generic [ref=f3e85]:
+          - heading "Reject invalid tracker destination headers" [level=2] [ref=f3e86]
+          - paragraph [ref=f3e87]: Rejected. Your files were left alone.
+          - button "See the proof" [ref=f3e88] [cursor=pointer]
+      - listitem [ref=f3e89]:
+        - img "Checked" [ref=f3e90]
+        - generic [ref=f3e95]:
+          - heading "Bound oversized since durations" [level=2] [ref=f3e96]
+          - paragraph [ref=f3e97]: Accepted. Saved separately; not merged into your project.
+          - button "See the proof" [ref=f3e98] [cursor=pointer]
+    - generic [ref=f3e18]:
+      - button "Conversation" [ref=f3e19] [cursor=pointer]
+      - button "Stop all" [ref=f3e20] [cursor=pointer]
+  - dialog [ref=f3e99]:
+    - generic [ref=f3e100]:
+      - heading "Proof" [level=2] [ref=f3e101]
+      - button "Close" [ref=f3e102] [cursor=pointer]
+    - 'heading "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio" [level=3] [ref=f3e103]'
+    - list [ref=f3e104]:
+      - listitem [ref=f3e105]:
+        - img "Look closer" [ref=f3e106]
+        - generic [ref=f3e111]: The recorded checks passed with unchecked parts.
+      - listitem [ref=f3e112]:
+        - img "Checked" [ref=f3e113]
+        - generic [ref=f3e118]: No new password-like strings were found.
+      - listitem [ref=f3e119]:
+        - img "Checked" [ref=f3e120]
+        - generic [ref=f3e125]: No tests were secretly changed.
+      - listitem [ref=f3e126]:
+        - img "Look closer" [ref=f3e127]
+        - generic [ref=f3e132]: Some requested behavior wasn't independently checked.
+    - generic [ref=f3e133]:
+      - heading "What the AI says it did" [level=3] [ref=f3e134]
+      - paragraph [ref=f3e135]: Written by the AI, not a check result.
+      - paragraph [ref=f3e136]: "Updated `source add --help` to describe `--title` as “Override the source title” and added a unittest asserting that phrase. Checks: all 12 source-add tests passed; `git diff --check` passed. Fixtures stayed under `.cc-runtime/tmp`. Parsing and registration code are unchanged. No concerns identified."
+    - generic [ref=f3e137]:
+      - heading "What changed" [level=3] [ref=f3e138]
+      - paragraph [ref=f3e139]: Open each changed file before accepting.
+      - list [ref=f3e140]:
+        - listitem [ref=f3e141]:
+          - button "research_router/cli.py Opened" [ref=f3e151] [cursor=pointer]:
+            - generic [ref=f3e143]: research_router/cli.py
+            - generic [ref=f3e144]: Opened
+        - listitem [ref=f3e145]:
+          - button "tests/test_source_add.py Open" [ref=f3e146] [cursor=pointer]:
+            - generic [ref=f3e147]: tests/test_source_add.py
+            - generic [ref=f3e148]: Open
+      - region "Opened changes" [ref=f3e152]:
+        - heading "research_router/cli.py" [level=4] [ref=f3e153]
+        - generic "Highlighted diff for research_router/cli.py" [ref=f3e154]:
+          - table [ref=f3e160]:
+            - rowgroup [ref=f3e164]:
+              - row "@@ -168,7 +168,7 @@ def build_parser() -> argparse.ArgumentParser:" [ref=f3e165]:
+                - cell [ref=f3e166]
+                - cell "@@ -168,7 +168,7 @@ def build_parser() -> argparse.ArgumentParser:" [ref=f3e168]
+              - row [ref=f3e170]:
+                - cell "168 168" [ref=f3e171]:
+                  - generic [ref=f3e172]:
+                    - generic [ref=f3e173]: "168"
+                    - generic [ref=f3e175]: "168"
+                - cell "add_parser = source_subcommands.add_parser(\"add\", help=\"Manually index a URL or local file\")" [ref=f3e176]
+              - row [ref=f3e181]:
+                - cell "169 169" [ref=f3e182]:
+                  - generic [ref=f3e183]:
+                    - generic [ref=f3e184]: "169"
+                    - generic [ref=f3e186]: "169"
+                - cell "add_parser.add_argument(\"source_input\", metavar=\"url-or-file\")" [ref=f3e187]
+              - row [ref=f3e192]:
+                - cell "170 170" [ref=f3e193]:
+                  - generic [ref=f3e194]:
+                    - generic [ref=f3e195]: "170"
+                    - generic [ref=f3e197]: "170"
+                - cell "add_parser.add_argument(\"--topic\", required=True)" [ref=f3e198]
+              - row [ref=f3e203]:
+                - cell "171" [ref=f3e204]
+                - cell "- add_parser.add_argument(\"--title\")" [ref=f3e209]:
+                  - generic [ref=f3e210]:
+                    - generic [ref=f3e211]: "-"
+                    - generic [ref=f3e214]:
+                      - text: add_parser.add_argument("--title"
+                      - generic [ref=f3e215]: )
+              - row [ref=f3e216]:
+                - cell "171" [ref=f3e217]
+                - cell "+ add_parser.add_argument(\"--title\", help=\"Override the source title\")" [ref=f3e222]:
+                  - generic [ref=f3e223]:
+                    - generic [ref=f3e224]: +
+                    - generic [ref=f3e227]:
+                      - text: add_parser.add_argument("--title"
+                      - generic [ref=f3e228]: ","
+                      - generic [ref=f3e229]: help
+                      - generic [ref=f3e230]: =
+                      - generic [ref=f3e231]: "\"Override the source title\""
+                      - generic [ref=f3e232]: )
+              - row [ref=f3e233]:
+                - cell "172 172" [ref=f3e234]:
+                  - generic [ref=f3e235]:
+                    - generic [ref=f3e236]: "172"
+                    - generic [ref=f3e238]: "172"
+                - cell "add_parser.add_argument(\"--platform\")" [ref=f3e239]
+              - row [ref=f3e244]:
+                - cell "173 173" [ref=f3e245]:
+                  - generic [ref=f3e246]:
+                    - generic [ref=f3e247]: "173"
+                    - generic [ref=f3e249]: "173"
+                - cell "add_parser.add_argument(\"--author\")" [ref=f3e250]
+              - row [ref=f3e255]:
+                - cell "174 174" [ref=f3e256]:
+                  - generic [ref=f3e257]:
+                    - generic [ref=f3e258]: "174"
+                    - generic [ref=f3e260]: "174"
+                - cell "add_parser.add_argument(\"--published-at\")" [ref=f3e261]
+    - group [ref=f3e149]:
+      - generic "Technical details" [ref=f3e150] [cursor=pointer]

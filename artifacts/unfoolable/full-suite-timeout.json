@@ -1,0 +1,12 @@
+{
+  "code": 1,
+  "durationSeconds": 351.294,
+  "summary": [
+    "ℹ tests 947",
+    "ℹ pass 946",
+    "ℹ fail 1",
+    "ℹ cancelled 0",
+    "ℹ skipped 0",
+    "ℹ duration_ms 351061.373583"
+  ]
+}

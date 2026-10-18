@@ -1,0 +1,8 @@
+{
+  "url": "http://localhost:3225/",
+  "servedBuildMatches": true,
+  "titleUnfoolable": true,
+  "sha256": "bada3d4680d3309ce72122ccfbf39a08ce482c14def15da32c1d0e0ee72a1053",
+  "queuedOrRunningTicketsBeforeStartup": 0,
+  "activeWorkflowsBeforeStartup": 0
+}

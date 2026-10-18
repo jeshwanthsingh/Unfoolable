@@ -1,0 +1,471 @@
+- generic [ref=f46e3]:
+  - link "Skip to work" [ref=f46e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f46e5]:
+    - generic [ref=f46e6]:
+      - generic [ref=f46e7]:
+        - heading "Unfoolable" [level=1] [ref=f46e8]
+        - paragraph [ref=f46e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f46e10] [cursor=pointer]
+    - generic [ref=f46e11]:
+      - generic [ref=f46e12]: What should we work on?
+      - generic [ref=f46e13]:
+        - textbox "What should we work on?" [ref=f46e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f46e15] [cursor=pointer]
+    - paragraph [ref=f46e16]: 0 decided today. 50 waiting for you.
+    - status
+    - list "Your work" [ref=f46e21]:
+      - listitem [ref=f46e22]:
+        - img "Look closer" [ref=f46e23]
+        - generic [ref=f46e28]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e29]
+          - paragraph [ref=f46e30]: Done, but one part couldn't be checked.
+          - generic [ref=f46e31]:
+            - button "Look at the changes" [ref=f46e32] [cursor=pointer]
+            - button "Reject" [ref=f46e33] [cursor=pointer]
+          - button "See the proof" [ref=f46e34] [cursor=pointer]
+      - listitem [ref=f46e35]:
+        - img "Look closer" [ref=f46e36]
+        - generic [ref=f46e41]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e42]
+          - paragraph [ref=f46e43]: Done, but one part couldn't be checked.
+          - generic [ref=f46e44]:
+            - button "Look at the changes" [ref=f46e45] [cursor=pointer]
+            - button "Reject" [ref=f46e46] [cursor=pointer]
+          - button "See the proof" [ref=f46e47] [cursor=pointer]
+      - listitem [ref=f46e48]:
+        - img "Look closer" [ref=f46e49]
+        - generic [ref=f46e54]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e55]
+          - paragraph [ref=f46e56]: Done, but one part couldn't be checked.
+          - generic [ref=f46e57]:
+            - button "Look at the changes" [ref=f46e58] [cursor=pointer]
+            - button "Reject" [ref=f46e59] [cursor=pointer]
+          - button "See the proof" [ref=f46e60] [cursor=pointer]
+      - listitem [ref=f46e61]:
+        - img "Look closer" [ref=f46e62]
+        - generic [ref=f46e67]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e68]
+          - paragraph [ref=f46e69]: Done, but one part couldn't be checked.
+          - generic [ref=f46e70]:
+            - button "Look at the changes" [ref=f46e71] [cursor=pointer]
+            - button "Reject" [ref=f46e72] [cursor=pointer]
+          - button "See the proof" [ref=f46e73] [cursor=pointer]
+      - listitem [ref=f46e74]:
+        - img "Look closer" [ref=f46e75]
+        - generic [ref=f46e80]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e81]
+          - paragraph [ref=f46e82]: Done, but one part couldn't be checked.
+          - generic [ref=f46e83]:
+            - button "Look at the changes" [ref=f46e84] [cursor=pointer]
+            - button "Reject" [ref=f46e85] [cursor=pointer]
+          - button "See the proof" [ref=f46e86] [cursor=pointer]
+      - listitem [ref=f46e87]:
+        - img "Look closer" [ref=f46e88]
+        - generic [ref=f46e93]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e94]
+          - paragraph [ref=f46e95]: Done, but one part couldn't be checked.
+          - generic [ref=f46e96]:
+            - button "Look at the changes" [ref=f46e97] [cursor=pointer]
+            - button "Reject" [ref=f46e98] [cursor=pointer]
+          - button "See the proof" [ref=f46e99] [cursor=pointer]
+      - listitem [ref=f46e100]:
+        - img "Look closer" [ref=f46e101]
+        - generic [ref=f46e106]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e107]
+          - paragraph [ref=f46e108]: Done, but one part couldn't be checked.
+          - generic [ref=f46e109]:
+            - button "Look at the changes" [ref=f46e110] [cursor=pointer]
+            - button "Reject" [ref=f46e111] [cursor=pointer]
+          - button "See the proof" [ref=f46e112] [cursor=pointer]
+      - listitem [ref=f46e113]:
+        - img "Look closer" [ref=f46e114]
+        - generic [ref=f46e119]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e120]
+          - paragraph [ref=f46e121]: Done, but one part couldn't be checked.
+          - generic [ref=f46e122]:
+            - button "Look at the changes" [ref=f46e123] [cursor=pointer]
+            - button "Reject" [ref=f46e124] [cursor=pointer]
+          - button "See the proof" [ref=f46e125] [cursor=pointer]
+      - listitem [ref=f46e126]:
+        - img "Look closer" [ref=f46e127]
+        - generic [ref=f46e132]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e133]
+          - paragraph [ref=f46e134]: Done, but one part couldn't be checked.
+          - generic [ref=f46e135]:
+            - button "Look at the changes" [ref=f46e136] [cursor=pointer]
+            - button "Reject" [ref=f46e137] [cursor=pointer]
+          - button "See the proof" [ref=f46e138] [cursor=pointer]
+      - listitem [ref=f46e139]:
+        - img "Look closer" [ref=f46e140]
+        - generic [ref=f46e145]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e146]
+          - paragraph [ref=f46e147]: Done, but one part couldn't be checked.
+          - generic [ref=f46e148]:
+            - button "Look at the changes" [ref=f46e149] [cursor=pointer]
+            - button "Reject" [ref=f46e150] [cursor=pointer]
+          - button "See the proof" [ref=f46e151] [cursor=pointer]
+      - listitem [ref=f46e152]:
+        - img "Look closer" [ref=f46e153]
+        - generic [ref=f46e158]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e159]
+          - paragraph [ref=f46e160]: Done, but one part couldn't be checked.
+          - generic [ref=f46e161]:
+            - button "Look at the changes" [ref=f46e162] [cursor=pointer]
+            - button "Reject" [ref=f46e163] [cursor=pointer]
+          - button "See the proof" [ref=f46e164] [cursor=pointer]
+      - listitem [ref=f46e165]:
+        - img "Look closer" [ref=f46e166]
+        - generic [ref=f46e171]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e172]
+          - paragraph [ref=f46e173]: Done, but one part couldn't be checked.
+          - generic [ref=f46e174]:
+            - button "Look at the changes" [ref=f46e175] [cursor=pointer]
+            - button "Reject" [ref=f46e176] [cursor=pointer]
+          - button "See the proof" [ref=f46e177] [cursor=pointer]
+      - listitem [ref=f46e178]:
+        - img "Look closer" [ref=f46e179]
+        - generic [ref=f46e184]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e185]
+          - paragraph [ref=f46e186]: Done, but one part couldn't be checked.
+          - generic [ref=f46e187]:
+            - button "Look at the changes" [ref=f46e188] [cursor=pointer]
+            - button "Reject" [ref=f46e189] [cursor=pointer]
+          - button "See the proof" [ref=f46e190] [cursor=pointer]
+      - listitem [ref=f46e191]:
+        - img "Look closer" [ref=f46e192]
+        - generic [ref=f46e197]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e198]
+          - paragraph [ref=f46e199]: Done, but one part couldn't be checked.
+          - generic [ref=f46e200]:
+            - button "Look at the changes" [ref=f46e201] [cursor=pointer]
+            - button "Reject" [ref=f46e202] [cursor=pointer]
+          - button "See the proof" [ref=f46e203] [cursor=pointer]
+      - listitem [ref=f46e204]:
+        - img "Look closer" [ref=f46e205]
+        - generic [ref=f46e210]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e211]
+          - paragraph [ref=f46e212]: Done, but one part couldn't be checked.
+          - generic [ref=f46e213]:
+            - button "Look at the changes" [ref=f46e214] [cursor=pointer]
+            - button "Reject" [ref=f46e215] [cursor=pointer]
+          - button "See the proof" [ref=f46e216] [cursor=pointer]
+      - listitem [ref=f46e217]:
+        - img "Look closer" [ref=f46e218]
+        - generic [ref=f46e223]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e224]
+          - paragraph [ref=f46e225]: Done, but one part couldn't be checked.
+          - generic [ref=f46e226]:
+            - button "Look at the changes" [ref=f46e227] [cursor=pointer]
+            - button "Reject" [ref=f46e228] [cursor=pointer]
+          - button "See the proof" [ref=f46e229] [cursor=pointer]
+      - listitem [ref=f46e230]:
+        - img "Look closer" [ref=f46e231]
+        - generic [ref=f46e236]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e237]
+          - paragraph [ref=f46e238]: Done, but one part couldn't be checked.
+          - generic [ref=f46e239]:
+            - button "Look at the changes" [ref=f46e240] [cursor=pointer]
+            - button "Reject" [ref=f46e241] [cursor=pointer]
+          - button "See the proof" [ref=f46e242] [cursor=pointer]
+      - listitem [ref=f46e243]:
+        - img "Look closer" [ref=f46e244]
+        - generic [ref=f46e249]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e250]
+          - paragraph [ref=f46e251]: Done, but one part couldn't be checked.
+          - generic [ref=f46e252]:
+            - button "Look at the changes" [ref=f46e253] [cursor=pointer]
+            - button "Reject" [ref=f46e254] [cursor=pointer]
+          - button "See the proof" [ref=f46e255] [cursor=pointer]
+      - listitem [ref=f46e256]:
+        - img "Look closer" [ref=f46e257]
+        - generic [ref=f46e262]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e263]
+          - paragraph [ref=f46e264]: Done, but one part couldn't be checked.
+          - generic [ref=f46e265]:
+            - button "Look at the changes" [ref=f46e266] [cursor=pointer]
+            - button "Reject" [ref=f46e267] [cursor=pointer]
+          - button "See the proof" [ref=f46e268] [cursor=pointer]
+      - listitem [ref=f46e269]:
+        - img "Look closer" [ref=f46e270]
+        - generic [ref=f46e275]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e276]
+          - paragraph [ref=f46e277]: Done, but one part couldn't be checked.
+          - generic [ref=f46e278]:
+            - button "Look at the changes" [ref=f46e279] [cursor=pointer]
+            - button "Reject" [ref=f46e280] [cursor=pointer]
+          - button "See the proof" [ref=f46e281] [cursor=pointer]
+      - listitem [ref=f46e282]:
+        - img "Look closer" [ref=f46e283]
+        - generic [ref=f46e288]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e289]
+          - paragraph [ref=f46e290]: Done, but one part couldn't be checked.
+          - generic [ref=f46e291]:
+            - button "Look at the changes" [ref=f46e292] [cursor=pointer]
+            - button "Reject" [ref=f46e293] [cursor=pointer]
+          - button "See the proof" [ref=f46e294] [cursor=pointer]
+      - listitem [ref=f46e295]:
+        - img "Look closer" [ref=f46e296]
+        - generic [ref=f46e301]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e302]
+          - paragraph [ref=f46e303]: Done, but one part couldn't be checked.
+          - generic [ref=f46e304]:
+            - button "Look at the changes" [ref=f46e305] [cursor=pointer]
+            - button "Reject" [ref=f46e306] [cursor=pointer]
+          - button "See the proof" [ref=f46e307] [cursor=pointer]
+      - listitem [ref=f46e308]:
+        - img "Look closer" [ref=f46e309]
+        - generic [ref=f46e314]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e315]
+          - paragraph [ref=f46e316]: Done, but one part couldn't be checked.
+          - generic [ref=f46e317]:
+            - button "Look at the changes" [ref=f46e318] [cursor=pointer]
+            - button "Reject" [ref=f46e319] [cursor=pointer]
+          - button "See the proof" [ref=f46e320] [cursor=pointer]
+      - listitem [ref=f46e321]:
+        - img "Look closer" [ref=f46e322]
+        - generic [ref=f46e327]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e328]
+          - paragraph [ref=f46e329]: Done, but one part couldn't be checked.
+          - generic [ref=f46e330]:
+            - button "Look at the changes" [ref=f46e331] [cursor=pointer]
+            - button "Reject" [ref=f46e332] [cursor=pointer]
+          - button "See the proof" [ref=f46e333] [cursor=pointer]
+      - listitem [ref=f46e334]:
+        - img "Look closer" [ref=f46e335]
+        - generic [ref=f46e340]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e341]
+          - paragraph [ref=f46e342]: Done, but one part couldn't be checked.
+          - generic [ref=f46e343]:
+            - button "Look at the changes" [ref=f46e344] [cursor=pointer]
+            - button "Reject" [ref=f46e345] [cursor=pointer]
+          - button "See the proof" [ref=f46e346] [cursor=pointer]
+      - listitem [ref=f46e347]:
+        - img "Look closer" [ref=f46e348]
+        - generic [ref=f46e353]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e354]
+          - paragraph [ref=f46e355]: Done, but one part couldn't be checked.
+          - generic [ref=f46e356]:
+            - button "Look at the changes" [ref=f46e357] [cursor=pointer]
+            - button "Reject" [ref=f46e358] [cursor=pointer]
+          - button "See the proof" [ref=f46e359] [cursor=pointer]
+      - listitem [ref=f46e360]:
+        - img "Look closer" [ref=f46e361]
+        - generic [ref=f46e366]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e367]
+          - paragraph [ref=f46e368]: Done, but one part couldn't be checked.
+          - generic [ref=f46e369]:
+            - button "Look at the changes" [ref=f46e370] [cursor=pointer]
+            - button "Reject" [ref=f46e371] [cursor=pointer]
+          - button "See the proof" [ref=f46e372] [cursor=pointer]
+      - listitem [ref=f46e373]:
+        - img "Look closer" [ref=f46e374]
+        - generic [ref=f46e379]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e380]
+          - paragraph [ref=f46e381]: Done, but one part couldn't be checked.
+          - generic [ref=f46e382]:
+            - button "Look at the changes" [ref=f46e383] [cursor=pointer]
+            - button "Reject" [ref=f46e384] [cursor=pointer]
+          - button "See the proof" [ref=f46e385] [cursor=pointer]
+      - listitem [ref=f46e386]:
+        - img "Look closer" [ref=f46e387]
+        - generic [ref=f46e392]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e393]
+          - paragraph [ref=f46e394]: Done, but one part couldn't be checked.
+          - generic [ref=f46e395]:
+            - button "Look at the changes" [ref=f46e396] [cursor=pointer]
+            - button "Reject" [ref=f46e397] [cursor=pointer]
+          - button "See the proof" [ref=f46e398] [cursor=pointer]
+      - listitem [ref=f46e399]:
+        - img "Look closer" [ref=f46e400]
+        - generic [ref=f46e405]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e406]
+          - paragraph [ref=f46e407]: Done, but one part couldn't be checked.
+          - generic [ref=f46e408]:
+            - button "Look at the changes" [ref=f46e409] [cursor=pointer]
+            - button "Reject" [ref=f46e410] [cursor=pointer]
+          - button "See the proof" [ref=f46e411] [cursor=pointer]
+      - listitem [ref=f46e412]:
+        - img "Look closer" [ref=f46e413]
+        - generic [ref=f46e418]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e419]
+          - paragraph [ref=f46e420]: Done, but one part couldn't be checked.
+          - generic [ref=f46e421]:
+            - button "Look at the changes" [ref=f46e422] [cursor=pointer]
+            - button "Reject" [ref=f46e423] [cursor=pointer]
+          - button "See the proof" [ref=f46e424] [cursor=pointer]
+      - listitem [ref=f46e425]:
+        - img "Look closer" [ref=f46e426]
+        - generic [ref=f46e431]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e432]
+          - paragraph [ref=f46e433]: Done, but one part couldn't be checked.
+          - generic [ref=f46e434]:
+            - button "Look at the changes" [ref=f46e435] [cursor=pointer]
+            - button "Reject" [ref=f46e436] [cursor=pointer]
+          - button "See the proof" [ref=f46e437] [cursor=pointer]
+      - listitem [ref=f46e438]:
+        - img "Look closer" [ref=f46e439]
+        - generic [ref=f46e444]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e445]
+          - paragraph [ref=f46e446]: Done, but one part couldn't be checked.
+          - generic [ref=f46e447]:
+            - button "Look at the changes" [ref=f46e448] [cursor=pointer]
+            - button "Reject" [ref=f46e449] [cursor=pointer]
+          - button "See the proof" [ref=f46e450] [cursor=pointer]
+      - listitem [ref=f46e451]:
+        - img "Look closer" [ref=f46e452]
+        - generic [ref=f46e457]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e458]
+          - paragraph [ref=f46e459]: Done, but one part couldn't be checked.
+          - generic [ref=f46e460]:
+            - button "Look at the changes" [ref=f46e461] [cursor=pointer]
+            - button "Reject" [ref=f46e462] [cursor=pointer]
+          - button "See the proof" [ref=f46e463] [cursor=pointer]
+      - listitem [ref=f46e464]:
+        - img "Look closer" [ref=f46e465]
+        - generic [ref=f46e470]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e471]
+          - paragraph [ref=f46e472]: Done, but one part couldn't be checked.
+          - generic [ref=f46e473]:
+            - button "Look at the changes" [ref=f46e474] [cursor=pointer]
+            - button "Reject" [ref=f46e475] [cursor=pointer]
+          - button "See the proof" [ref=f46e476] [cursor=pointer]
+      - listitem [ref=f46e477]:
+        - img "Look closer" [ref=f46e478]
+        - generic [ref=f46e483]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e484]
+          - paragraph [ref=f46e485]: Done, but one part couldn't be checked.
+          - generic [ref=f46e486]:
+            - button "Look at the changes" [ref=f46e487] [cursor=pointer]
+            - button "Reject" [ref=f46e488] [cursor=pointer]
+          - button "See the proof" [ref=f46e489] [cursor=pointer]
+      - listitem [ref=f46e490]:
+        - img "Look closer" [ref=f46e491]
+        - generic [ref=f46e496]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e497]
+          - paragraph [ref=f46e498]: Done, but one part couldn't be checked.
+          - generic [ref=f46e499]:
+            - button "Look at the changes" [ref=f46e500] [cursor=pointer]
+            - button "Reject" [ref=f46e501] [cursor=pointer]
+          - button "See the proof" [ref=f46e502] [cursor=pointer]
+      - listitem [ref=f46e503]:
+        - img "Look closer" [ref=f46e504]
+        - generic [ref=f46e509]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e510]
+          - paragraph [ref=f46e511]: Done, but one part couldn't be checked.
+          - generic [ref=f46e512]:
+            - button "Look at the changes" [ref=f46e513] [cursor=pointer]
+            - button "Reject" [ref=f46e514] [cursor=pointer]
+          - button "See the proof" [ref=f46e515] [cursor=pointer]
+      - listitem [ref=f46e516]:
+        - img "Look closer" [ref=f46e517]
+        - generic [ref=f46e522]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e523]
+          - paragraph [ref=f46e524]: Done, but one part couldn't be checked.
+          - generic [ref=f46e525]:
+            - button "Look at the changes" [ref=f46e526] [cursor=pointer]
+            - button "Reject" [ref=f46e527] [cursor=pointer]
+          - button "See the proof" [ref=f46e528] [cursor=pointer]
+      - listitem [ref=f46e529]:
+        - img "Look closer" [ref=f46e530]
+        - generic [ref=f46e535]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e536]
+          - paragraph [ref=f46e537]: Done, but one part couldn't be checked.
+          - generic [ref=f46e538]:
+            - button "Look at the changes" [ref=f46e539] [cursor=pointer]
+            - button "Reject" [ref=f46e540] [cursor=pointer]
+          - button "See the proof" [ref=f46e541] [cursor=pointer]
+      - listitem [ref=f46e542]:
+        - img "Look closer" [ref=f46e543]
+        - generic [ref=f46e548]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e549]
+          - paragraph [ref=f46e550]: Done, but one part couldn't be checked.
+          - generic [ref=f46e551]:
+            - button "Look at the changes" [ref=f46e552] [cursor=pointer]
+            - button "Reject" [ref=f46e553] [cursor=pointer]
+          - button "See the proof" [ref=f46e554] [cursor=pointer]
+      - listitem [ref=f46e555]:
+        - img "Look closer" [ref=f46e556]
+        - generic [ref=f46e561]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e562]
+          - paragraph [ref=f46e563]: Done, but one part couldn't be checked.
+          - generic [ref=f46e564]:
+            - button "Look at the changes" [ref=f46e565] [cursor=pointer]
+            - button "Reject" [ref=f46e566] [cursor=pointer]
+          - button "See the proof" [ref=f46e567] [cursor=pointer]
+      - listitem [ref=f46e568]:
+        - img "Look closer" [ref=f46e569]
+        - generic [ref=f46e574]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e575]
+          - paragraph [ref=f46e576]: Done, but one part couldn't be checked.
+          - generic [ref=f46e577]:
+            - button "Look at the changes" [ref=f46e578] [cursor=pointer]
+            - button "Reject" [ref=f46e579] [cursor=pointer]
+          - button "See the proof" [ref=f46e580] [cursor=pointer]
+      - listitem [ref=f46e581]:
+        - img "Look closer" [ref=f46e582]
+        - generic [ref=f46e587]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e588]
+          - paragraph [ref=f46e589]: Done, but one part couldn't be checked.
+          - generic [ref=f46e590]:
+            - button "Look at the changes" [ref=f46e591] [cursor=pointer]
+            - button "Reject" [ref=f46e592] [cursor=pointer]
+          - button "See the proof" [ref=f46e593] [cursor=pointer]
+      - listitem [ref=f46e594]:
+        - img "Look closer" [ref=f46e595]
+        - generic [ref=f46e600]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e601]
+          - paragraph [ref=f46e602]: Done, but one part couldn't be checked.
+          - generic [ref=f46e603]:
+            - button "Look at the changes" [ref=f46e604] [cursor=pointer]
+            - button "Reject" [ref=f46e605] [cursor=pointer]
+          - button "See the proof" [ref=f46e606] [cursor=pointer]
+      - listitem [ref=f46e607]:
+        - img "Look closer" [ref=f46e608]
+        - generic [ref=f46e613]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e614]
+          - paragraph [ref=f46e615]: Done, but one part couldn't be checked.
+          - generic [ref=f46e616]:
+            - button "Look at the changes" [ref=f46e617] [cursor=pointer]
+            - button "Reject" [ref=f46e618] [cursor=pointer]
+          - button "See the proof" [ref=f46e619] [cursor=pointer]
+      - listitem [ref=f46e620]:
+        - img "Look closer" [ref=f46e621]
+        - generic [ref=f46e626]:
+          - heading "Keep saved sources in order" [level=2] [ref=f46e627]
+          - paragraph [ref=f46e628]: Done, but one part couldn't be checked.
+          - generic [ref=f46e629]:
+            - button "Look at the changes" [ref=f46e630] [cursor=pointer]
+            - button "Reject" [ref=f46e631] [cursor=pointer]
+          - button "See the proof" [ref=f46e632] [cursor=pointer]
+      - listitem [ref=f46e633]:
+        - img "Look closer" [ref=f46e634]
+        - generic [ref=f46e639]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e640]
+          - paragraph [ref=f46e641]: Done, but one part couldn't be checked.
+          - generic [ref=f46e642]:
+            - button "Look at the changes" [ref=f46e643] [cursor=pointer]
+            - button "Reject" [ref=f46e644] [cursor=pointer]
+          - button "See the proof" [ref=f46e645] [cursor=pointer]
+      - listitem [ref=f46e646]:
+        - img "Look closer" [ref=f46e647]
+        - generic [ref=f46e652]:
+          - heading "Preserve the cancellation reason" [level=2] [ref=f46e653]
+          - paragraph [ref=f46e654]: Done, but one part couldn't be checked.
+          - generic [ref=f46e655]:
+            - button "Look at the changes" [ref=f46e656] [cursor=pointer]
+            - button "Reject" [ref=f46e657] [cursor=pointer]
+          - button "See the proof" [ref=f46e658] [cursor=pointer]
+      - listitem [ref=f46e659]:
+        - img "Look closer" [ref=f46e660]
+        - generic [ref=f46e665]:
+          - heading "Make the retry message clearer" [level=2] [ref=f46e666]
+          - paragraph [ref=f46e667]: Done, but one part couldn't be checked.
+          - generic [ref=f46e668]:
+            - button "Look at the changes" [ref=f46e669] [cursor=pointer]
+            - button "Reject" [ref=f46e670] [cursor=pointer]
+          - button "See the proof" [ref=f46e671] [cursor=pointer]
+    - generic [ref=f46e18]:
+      - button "Conversation" [ref=f46e19] [cursor=pointer]
+      - button "Stop all" [ref=f46e20] [cursor=pointer]

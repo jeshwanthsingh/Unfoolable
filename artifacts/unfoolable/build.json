@@ -1,0 +1,6 @@
+{
+  "command": "npm run build",
+  "exitCode": 0,
+  "includes": "strict typecheck, server TypeScript compile, Vite production bundle",
+  "warning": "Existing lazy diff/highlighting and Labs chunks exceed Vite size recommendation; no new npm dependency."
+}

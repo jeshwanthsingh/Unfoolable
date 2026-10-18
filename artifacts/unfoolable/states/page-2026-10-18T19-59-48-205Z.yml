@@ -1,0 +1,27 @@
+- generic [ref=f12e3]:
+  - link "Skip to work" [ref=f12e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f12e5]:
+    - generic [ref=f12e6]:
+      - generic [ref=f12e7]:
+        - heading "Unfoolable" [level=1] [ref=f12e8]
+        - paragraph [ref=f12e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f12e10] [cursor=pointer]
+    - generic [ref=f12e11]:
+      - generic [ref=f12e12]: What should we work on?
+      - generic [ref=f12e13]:
+        - textbox "What should we work on?" [ref=f12e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [disabled] [ref=f12e15]
+    - paragraph [ref=f12e16]: Nothing needs a decision right now.
+    - status
+    - alert [ref=f12e17]:
+      - text: Can't connect. Start Unfoolable, then try again.
+      - button "Try again" [ref=f12e18] [cursor=pointer]
+    - generic [ref=f12e19]:
+      - img "Waiting" [ref=f12e20]
+      - heading "Nothing here yet. What should we work on?" [level=2] [ref=f12e23]
+    - list "Your work"
+    - generic [ref=f12e24]:
+      - button "Conversation" [ref=f12e25] [cursor=pointer]
+      - button "Stop all" [ref=f12e26] [cursor=pointer]

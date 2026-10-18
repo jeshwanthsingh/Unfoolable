@@ -1,0 +1,20 @@
+✔ hallmarks follow actual stored outcomes, with no implied success from missing detail (0.775167ms)
+✔ working time starts from the recorded transition; stopped work does not look busy (0.434ms)
+✔ Accept requires fresh passing server availability and every file opened (0.10425ms)
+✔ tampering and independent-test warnings remain conspicuous (0.110334ms)
+✔ proof never invents test totals, password checks or tampering success (0.658083ms)
+✔ the away summary counts real current states in its stated time window (2.409667ms)
+✔ strike identity comes only from recorded check results (0.097625ms)
+✔ main authored statuses are plain, short and free of technical labels (1.110917ms)
+✔ Hallmark design bans gradients, glass blur and soft-shadow card lists (0.246125ms)
+✔ proof uses native modal focus handling and finite reduced-motion aware strike (0.392042ms)
+✔ offline and initial loading never assert an empty or decision-free account (0.091083ms)
+✔ unfool retains the same executable and exposes branded help without a server (67.725958ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 170.127125

@@ -1,0 +1,72 @@
+- generic [ref=f7e3]:
+  - link "Skip to work" [ref=f7e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f7e5]:
+    - generic [ref=f7e6]:
+      - generic [ref=f7e7]:
+        - heading "Unfoolable" [level=1] [ref=f7e8]
+        - paragraph [ref=f7e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f7e10] [cursor=pointer]
+    - generic [ref=f7e11]:
+      - generic [ref=f7e12]: What should we work on?
+      - generic [ref=f7e13]:
+        - textbox "What should we work on?" [ref=f7e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f7e15] [cursor=pointer]
+    - paragraph [ref=f7e16]: Nothing needs a decision right now.
+    - status [ref=f7e17]
+    - list "Your work" [ref=f7e18]:
+      - listitem [ref=f7e19]:
+        - img "Look closer" [ref=f7e20]
+        - generic [ref=f7e26]:
+          - 'heading "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio" [level=2] [ref=f7e27]'
+          - paragraph [ref=f7e28]: Done, but one part couldn't be checked.
+          - generic [ref=f7e29]:
+            - button "Look at the changes" [ref=f7e30] [cursor=pointer]
+            - button "Reject" [ref=f7e31] [cursor=pointer]
+          - button "See the proof" [ref=f7e32] [cursor=pointer]
+      - listitem [ref=f7e33]:
+        - img "Look closer" [ref=f7e34]
+        - generic [ref=f7e40]:
+          - heading "Add local-changes epilog to research --help" [level=2] [ref=f7e41]
+          - paragraph [ref=f7e42]: Checks need refreshing. Try again before accepting.
+          - generic [ref=f7e43]:
+            - button "Try again" [ref=f7e44] [cursor=pointer]
+            - button "Reject" [ref=f7e45] [cursor=pointer]
+          - button "See the proof" [ref=f7e46] [cursor=pointer]
+      - listitem [ref=f7e47]:
+        - img "Checked" [ref=f7e48]
+        - generic [ref=f7e53]:
+          - heading "Improve research CLI help and add configuration-free help test" [level=2] [ref=f7e54]
+          - paragraph [ref=f7e55]: Accepted. Saved on its own branch.
+          - button "See the proof" [ref=f7e56] [cursor=pointer]
+      - listitem [ref=f7e57]:
+        - img "Look closer" [ref=f7e58]
+        - generic [ref=f7e64]:
+          - heading "Add top-level research --version option" [level=2] [ref=f7e65]
+          - paragraph [ref=f7e66]: Checks need refreshing. Try again before accepting.
+          - generic [ref=f7e67]:
+            - button "Try again" [ref=f7e68] [cursor=pointer]
+            - button "Reject" [ref=f7e69] [cursor=pointer]
+          - button "See the proof" [ref=f7e70] [cursor=pointer]
+      - listitem [ref=f7e71]:
+        - img "Checked" [ref=f7e72]
+        - generic [ref=f7e77]:
+          - heading "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiv" [level=2] [ref=f7e78]
+          - paragraph [ref=f7e79]: Accepted. Saved on its own branch.
+          - button "See the proof" [ref=f7e80] [cursor=pointer]
+      - listitem [ref=f7e81]:
+        - img "Stuck" [ref=f7e82]
+        - generic [ref=f7e85]:
+          - heading "Reject invalid tracker destination headers" [level=2] [ref=f7e86]
+          - paragraph [ref=f7e87]: Rejected. Your files were left alone.
+          - button "See the proof" [ref=f7e88] [cursor=pointer]
+      - listitem [ref=f7e89]:
+        - img "Checked" [ref=f7e90]
+        - generic [ref=f7e95]:
+          - heading "Bound oversized since durations" [level=2] [ref=f7e96]
+          - paragraph [ref=f7e97]: Accepted. Saved on its own branch.
+          - button "See the proof" [ref=f7e98] [cursor=pointer]
+    - generic [ref=f7e99]:
+      - button "Conversation" [ref=f7e100] [cursor=pointer]
+      - button "Stop all" [ref=f7e101] [cursor=pointer]

@@ -1,0 +1,49 @@
+- generic [ref=f35e3]:
+  - link "Skip to work" [ref=f35e4] [cursor=pointer]:
+    - /url: "#unfool-main"
+  - main [ref=f35e5]:
+    - generic [ref=f35e6]:
+      - generic [ref=f35e7]:
+        - heading "Unfoolable" [level=1] [ref=f35e8]
+        - paragraph [ref=f35e9]: AI does the work. Nothing fools the check.
+      - button "Settings" [ref=f35e10] [cursor=pointer]
+    - generic [ref=f35e11]:
+      - generic [ref=f35e12]: What should we work on?
+      - generic [ref=f35e13]:
+        - textbox "What should we work on?" [ref=f35e14]:
+          - /placeholder: Describe a change, or ask what's happening…
+        - button "Ask" [ref=f35e15] [cursor=pointer]
+    - paragraph [ref=f35e16]: 0 decided today. 1 waiting; scroll to see all.
+    - status
+    - list "Your work" [ref=f35e40]:
+      - listitem [ref=f35e41]:
+        - img "Look closer" [ref=f35e42]
+        - generic [ref=f35e47]:
+          - heading "Show the cancellation reason" [level=2] [ref=f35e48]
+          - paragraph [ref=f35e49]: Done, but one part couldn't be checked.
+          - generic [ref=f35e50]:
+            - button "Look at the changes" [ref=f35e51] [cursor=pointer]
+            - button "Reject" [ref=f35e52] [cursor=pointer]
+          - button "See the proof" [ref=f35e53] [cursor=pointer]
+    - generic [ref=f35e18]:
+      - button "Conversation" [ref=f35e19] [cursor=pointer]
+      - button "Stop all" [ref=f35e20] [cursor=pointer]
+  - dialog [ref=f35e21]:
+    - generic [ref=f35e22]:
+      - heading "Proof" [level=2] [ref=f35e23]
+      - button "Close" [active] [ref=f35e24] [cursor=pointer]
+    - paragraph [ref=f35e25]: Confirm your choice with Touch ID.
+    - group [ref=f35e26]:
+      - generic "Technical details" [ref=f35e27] [cursor=pointer]
+      - region "Human confirmation" [ref=f35e28]:
+        - heading "Human confirmation" [level=3] [ref=f35e29]
+        - paragraph [ref=f35e30]: Passkey registered. Decisions require platform verification.
+        - paragraph [ref=f35e31]: Each confirmation is tied to one item and its current evidence, expires after two minutes, and is used once.
+        - region "Pending exact decision" [ref=f35e32]:
+          - heading "Confirm this decision" [level=4] [ref=f35e33]
+          - paragraph [ref=f35e34]:
+            - code [ref=f35e35]: /api/tickets/fixture/retry
+          - generic [ref=f35e36]: "{}"
+          - group [ref=f35e37]:
+            - generic "Evidence and expiry" [ref=f35e38] [cursor=pointer]
+          - button "Confirm with passkey" [ref=f35e39] [cursor=pointer]

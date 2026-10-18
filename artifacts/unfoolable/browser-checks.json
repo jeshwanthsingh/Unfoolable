@@ -1,0 +1,85 @@
+{
+  "transport": "official Playwright MCP 0.0.83 via stdio SDK",
+  "calls": 150,
+  "errors": 0,
+  "observations": [
+    {
+      "focus": "Close",
+      "dialog": true
+    },
+    {
+      "escape": true,
+      "focusRestored": true
+    },
+    {
+      "oneFileStillLocked": true
+    },
+    {
+      "highlighted": true
+    },
+    {
+      "passkeyRequired": true,
+      "operation": {
+        "path": "/api/tickets/b15600b3-6803-4ae8-b6ac-d6d8948b78bc/keep",
+        "body": {
+          "candidateCommit": "b9512392f9285cb039fb00695df0efcd760d668b"
+        }
+      }
+    },
+    {
+      "rejectPasskeyRequired": true
+    },
+    {
+      "focus": "Close",
+      "dialog": true
+    },
+    {
+      "escape": true,
+      "focusRestored": true
+    },
+    {
+      "focus": "Close",
+      "dialog": true
+    },
+    {
+      "escape": true,
+      "focusRestored": true
+    },
+    {
+      "focus": "Close",
+      "dialog": true
+    },
+    {
+      "escape": true,
+      "focusRestored": true
+    },
+    {
+      "draftStartRequiresPasskey": true
+    },
+    {
+      "typedTextCannotDecide": true
+    },
+    {
+      "frames": 0,
+      "animations": 0
+    },
+    {
+      "idleFrames": 0
+    },
+    {
+      "newResultStruck": true
+    },
+    {
+      "settled": true
+    },
+    {
+      "reducedMotionStatic": true
+    },
+    {
+      "keyboardFocus": "Skip to work",
+      "outline": "solid"
+    }
+  ],
+  "realBiometricDecisionPerformed": false,
+  "fixtureDecisionEndpoints": "REFUSED"
+}
