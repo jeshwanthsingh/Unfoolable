@@ -4,7 +4,7 @@
 
 Personal local Mac app; repository remains `command-center`. UI-4 is the Hallmark light/dark interface. A request becomes a reviewed draft, then an isolated Codex build, protected checks and at most two fixes, then an explicit human decision. Existing tests and project checks are authoritative within their documented limits; the Test Writer is advisory. Older Mission orchestration and visual experiments remain in Labs, not the default screen.
 
-`main` was fast-forwarded from Breakout 0 to `2a6e939`, preserving history. Tag `v0.1.0` marks exactly that UI-4 commit. Later local cleanup WIP commits advance main. No push, merge commit, deployment, branch deletion or new paid API. Two older branches are not ancestors: `codex/glass-main`, `codex/verification-v1-scoping`; leave them alone.
+`main` was fast-forwarded from Breakout 0 to `2a6e939`, preserving history. Tag `v0.1.0` marks exactly that UI-4 commit. Later local cleanup WIP commits advance main. No push, merge commit, deployment, branch deletion or new paid API. The existing package/health version remains 0.0.1; the Git tag does not change runtime behavior. Two older branches are not ancestors: `codex/glass-main`, `codex/verification-v1-scoping`; leave them alone.
 
 Application behavior, Builder model/runtime, sandbox, checks, Touch ID and decision policy are unchanged by cleanup. Builder remains codex-cli 0.160.0 / gpt-6.1-sol, using the existing ChatGPT entitlement. Do not change them as incidental cleanup.
 
@@ -31,7 +31,8 @@ Use pinned Node 24 in this shell; do not replace other projects' runtimes:
 ```sh
 export PATH="$HOME/.local/share/fnm/node-versions/v24.21.0/installation/bin:$PATH"
 mkdir -p .work/tripwires/native/owned
-TMPDIR="$PWD/.work/tripwires/native/owned" npm test
+export TMPDIR="$PWD/.work/tripwires/native/owned"
+npm test
 npm run typecheck
 npm run build
 ```

@@ -1,0 +1,14 @@
+{
+  "independentPasskeyRecordEquality": true,
+  "independentConfirmationRecordEquality": true,
+  "approvedPlaybookFiles": 4,
+  "allApprovedPlaybooksByteIdentical": true,
+  "proofStoreFilesAndLinks": 101724,
+  "allManifestEntriesVerifiedByRestore": 151279,
+  "sourceApplicationTablesStillEqual": true,
+  "restoredServerStarted": false,
+  "physicalTouchIDAfterRestore": "NOT TESTED; private authenticator key intentionally remains on the Mac",
+  "backupDoesNotReauthorizeOldEvidence": true,
+  "backupDirectoryMode": "0o700",
+  "archiveMode": "0o600"
+}

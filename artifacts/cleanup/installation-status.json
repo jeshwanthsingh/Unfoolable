@@ -1,0 +1,25 @@
+{
+  "applicationSourceChanges": [],
+  "litestream": {
+    "version": "0.5.17",
+    "pid": 65148,
+    "uptime_seconds": 716,
+    "started_at": "2026-10-18T21:57:58.838435Z",
+    "database_count": 1
+  },
+  "networkSocketsListed": false,
+  "destination": "local file replica only",
+  "backupPath": "/Users/jeshwanthsingh/UnfoolableBackups",
+  "physicalBackupPath": "/Users/jeshwanthsingh/.config/unfoolable/backups",
+  "health": {
+    "status": "ok",
+    "version": "0.0.1",
+    "coordinator": "online",
+    "database": {
+      "status": "ready",
+      "schemaVersion": 17
+    }
+  },
+  "noCloudConfigured": true,
+  "noNewBillingConfigured": true
+}

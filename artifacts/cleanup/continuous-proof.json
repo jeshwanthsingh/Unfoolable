@@ -1,0 +1,26 @@
+{
+  "fixtureOnly": true,
+  "initialRows": 1,
+  "postStartRows": 2,
+  "restoredRows": 2,
+  "integrityCheck": "full passed",
+  "binary": "Litestream 0.5.17",
+  "destination": "local file replica",
+  "ownership": {
+    "pid": 26786,
+    "ppid": 26668,
+    "pgid": 26786,
+    "sid": 26786,
+    "birth": "darwin:1792361314:845215",
+    "executable": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/backup-tools/v0.5.17/litestream",
+    "observedAt": "2026-10-18T22:08:34.876Z",
+    "exitedAt": null
+  },
+  "cleanup": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  }
+}
