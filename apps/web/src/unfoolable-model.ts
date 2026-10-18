@@ -2,7 +2,9 @@ import type {Detail} from './TicketPanel.tsx';
 import type {Ticket,TicketEvent} from '../../../packages/shared/tickets.ts';
 export type Mark='checked'|'closer'|'wrong'|'working'|'stuck'|'waiting'|'accepted'|'rejected'|'needs'|'recheck';
 export const words={empty:'Nothing here yet. What should we work on?',gaps:"Done, but one part couldn't be checked.",wrong:"Something's wrong: a test was quietly changed.",failed:"Something's wrong: a check failed. Look at the changes.",stuck:'Stuck. Try again or reject it.',needs:'Needs your OK before continuing.',offline:"Can't connect. Start Unfoolable, then try again.",unchecked:"This change hasn't been checked yet."} as const;
-export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkVerdict'>,detail?:Detail,now=Date.now()):{mark:Mark;sentence:string;tone?:'checked'|'closer'|'wrong'}{
+export function currentResultDetail(ticket:{checkSequence?:number},detail?:Detail):Detail|undefined{return detail&&latestCheckEvent(detail.events)>=(ticket.checkSequence??0)?detail:undefined;}
+export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkVerdict'>&{checkSequence?:number},detail?:Detail,now=Date.now()):{mark:Mark;sentence:string;tone?:'checked'|'closer'|'wrong'}{
+ detail=currentResultDetail(ticket,detail);
  if(ticket.status==='kept'){
   const result=detail?.check?.verdict??ticket.checkVerdict;
   if(('summary' in ticket&&!!(ticket.summary as {wrong?:boolean})?.wrong)||detail?.risk?.color==='RED'||detail?.check?.testTampering?.status==='FLAGGED'||detail?.check?.testWriter?.warnings?.length)return {mark:'accepted',tone:'wrong',sentence:'Accepted earlier. A warning remains; see the proof.'};

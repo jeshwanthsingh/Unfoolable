@@ -76,3 +76,9 @@ test('production serves the exact installed font but no arbitrary font path or e
  const dir=mkdtempSync(join(tmpdir(),'ui5-font-')),root=join(dir,'web');mkdirSync(join(root,'fonts'),{recursive:true});const file=join(root,'fonts/InstrumentSans.ttf');writeFileSync(file,'synthetic font bytes');let headers:Record<string,string>={};const response={writeHead(_code:number,h:Record<string,string>){headers=h;},end(){}};
  try{assert.equal(serveWeb('/fonts/InstrumentSans.ttf',root,response as any),true);assert.equal(headers['Content-Type'],'font/ttf');for(const path of ['/fonts/other.ttf','/fonts/../../private','/fonts/OFL.txt'])assert.equal(serveWeb(path,root,response as any),false);rmSync(file);const outside=join(dir,'outside');writeFileSync(outside,'private');symlinkSync(outside,file);assert.equal(serveWeb('/fonts/InstrumentSans.ttf',root,response as any),false);}finally{rmSync(dir,{recursive:true,force:true});}
 });
+
+test('a cached passing result cannot color a newer failed result or expose its Accept action',async()=>{
+ const {currentResultDetail,taskPresentation}=await import('../apps/web/src/unfoolable-model.ts');const old={events:[e(1,'check_result',{verdict:'VERIFIED'})],ticket:{status:'ready_for_review',candidateCommits:['old'],checkVerdict:'VERIFIED'},check:{verdict:'VERIFIED'},keepAvailable:true} as any;
+ const current={status:'ready_for_review',updatedAt:'now',checkVerdict:'FAILED',checkSequence:2,summary:{result:'FAILED',wrong:false}} as const;
+ assert.equal(taskPresentation(current,old).mark,'wrong');assert.equal(currentResultDetail(current,old),undefined);assert.equal(taskPresentation(current,currentResultDetail(current,old)).mark,'wrong');assert.equal(currentResultDetail({checkSequence:1},old),old);
+});
