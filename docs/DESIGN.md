@@ -70,3 +70,12 @@ Generic-default review: rejected white rounded cards, extra shadows, decorative 
 Verification per step: baseline screenshots on real unchanged data; failing focused presentation tests; narrow typecheck/build; MCP screenshots after each visual batch. Three review passes, each at 1440/390 light/dark; keyboard, contrast, overflow, duplicate navigation/archive restore, Proof and unchanged Accept/Touch ID checks. Finish with the complete suite, 67-path native probe, twelve negative controls and credential audit. Local WIP commits only.
 
 Skills: frontend-design sets the plan; Jakub's better-* and make-interfaces-feel-better audit hierarchy/interactions; Emil audits finite purposeful motion; web-design-guidelines audits accessibility. Taste and Impeccable stay quarantined by Jesh's explicit choice.
+
+
+## UI-7: a recognizable seal at reading size
+
+Before: the open inner curve reads like C, the wordmark dominates, and the input is a textarea beside a button. After: simplify each original seal, make the current workload the greeting, and put one Ask control inside a growing input. Keep the near-white/deep-neutral surfaces and Instrument Sans. Use a 720px reading column, 20px semibold task names, 15px statuses, 13px metadata and 40px controls. A faint amber wash identifies requests needing a decision; a finite green acknowledgement requires a real Accept event.
+
+Generic-default review: no hero marketing copy, dashboard statistics, gradients, floating cards or new icon pack. The distinctive object remains the drawn seal, now tested at 24px and 48px. The greeting is local time plus recorded counts, never AI. Only display metadata is backfilled; original requests, ticket state, checks and approvals stay unchanged.
+
+Verification: after each numbered visual batch capture official Playwright MCP screenshots at 1440px and 390px in light/dark, with viewport scale 1, device scale factor 1 and no CSS zoom. Three critique/refinement passes use the same frozen real snapshot. Test presentation behavior, run the full suite, typecheck/build, 67-path real probe and twelve negative controls. No approval is exercised by screenshots.
