@@ -1,3 +1,7 @@
+import {createPhoneAuth} from './phone-auth.ts';
+import {createPhoneRoutes} from './phone-routes.ts';
+import {readFileSync} from 'node:fs';
+import {join} from 'node:path';
 import {phoneOrigin} from './phone-access.ts';
 import {archivedDraftIds,changeDraftArchive} from './draft-archive.ts';
 import {skillProposal,installSkill} from './skill-imports.ts';
@@ -92,6 +96,9 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const stopAll=()=>{if(stopping)return stopping;const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
  function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
   const path=op.path;let m:RegExpExecArray|null;
+  if(m=/^\/api\/phone\/pairs\/([^/]+)\/approve$/.exec(path))return {scope:{item:'phone-pair:'+m[1]!,action:'approve'},state:phone.pairEvidence(m[1]!)};
+  if(m=/^\/api\/phone\/devices\/([^/]+)\/remove$/.exec(path))return {scope:{item:'phone-device:'+m[1]!,action:'remove'},state:phone.removeEvidence(m[1]!)};
+  if(path==='/api/stop-all')return {scope:{item:'running-agents',action:'stop'},state:database.connection.prepare("SELECT id,status,attempt_count,candidate_commits FROM tickets WHERE status IN('building','fixing','checking','queued') ORDER BY id").all()};
   if(m=/^\/api\/skills\/([a-f0-9]{64})\/install$/.exec(path))return {scope:{item:'skill:'+m[1]!,action:'install'},state:skillProposal(config.dataDir,m[1]!)};
   if(m=/^\/api\/tickets\/([^/]+)\/(keep|discard|retry|recheck|continue)$/.exec(path))return {scope:{item:'ticket:'+m[1]!,action:m[2]!},state:tickets.show(m[1]!)};
   if(m=/^\/api\/chat\/cards\/([^/]+)\/action$/.exec(path)){const state=chat.decisionEvidence(m[1]!,reserved?String(op.body.action):undefined),c=state.card;const action=String(op.body.action);let item=c.kind==='ticket'?'ticket:'+c.targetId:'permission:'+c.targetId;if(action==='approve_playbook'){const b=tickets.show(c.targetId).playbook;if(!b)throw new SpecError('PLAYBOOK_REQUIRED','Playbook unavailable.');item='playbook:'+b.repoRoot;}return {scope:{item,action},state};}
@@ -104,6 +111,8 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   throw new SpecError('INVALID_DECISION','Unsupported human decision.',400);
  }
  const desk=createDeskStream(database.connection,()=>({...chat.store.view(),notice:chat.problem(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled()}));
+ const phone=createPhoneAuth(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
+ const phoneRoutes=createPhoneRoutes(phone,config.dataDir);
  const human=createHumanConfirmation(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
  const json=(res:ServerResponse,status:number,body:import('../../packages/shared/chat.ts').ChatDraft|SpecView|DebugView|Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
@@ -121,10 +130,10 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
-   if(remote&&pathname.startsWith('/api/'))throw new SpecError('PHONE_PAIRING_REQUIRED','Pair this phone with your Mac first.',401);
+   if(remote&&pathname.startsWith('/api/')){if(await phoneRoutes.remote(req,res,pathname,privateOrigin!))return;phone.session(phone.token(req.headers.cookie));req.headers['x-cc-operator']=readFileSync(join(config.dataDir,'ticket-operator.key'),'utf8');}
    if(pathname==='/api/chat/archive'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable first.',403);if(req.method==='GET'){json(res,200,{archivedDraftIds:archivedDraftIds(database.connection)});return;}if(req.method==='POST'){json(res,200,changeDraftArchive(database.connection,await projectBody(req,'draft visibility')));return;}}
-   if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res);return;}
-   if(pathname==='/api/stop-all'&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);await projectBody(req,'stop all');json(res,200,await stopAll() as Record<string,unknown>);return;}
+   if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res,remote?()=>{try{phone.session(phone.token(req.headers.cookie));return true;}catch{return false;}}:undefined);return;}
+   if(pathname==='/api/stop-all'&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);const body=await projectBody(req,'stop all');if(remote){const receipt=phone.consume(phone.token(req.headers.cookie),req.headers['x-cc-confirmation'],{path:pathname,body});receipt.revalidate();}json(res,200,await stopAll() as Record<string,unknown>);return;}
    if(stopping&&mutating)throw new SpecError('STOP_IN_PROGRESS','STOP ALL is cleaning up owned work. Wait before starting or resuming.',409);
    const skillInstall=/^\/api\/skills\/([a-f0-9]{64})\/install$/.exec(pathname);
    if(skillInstall&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local command first.',403);const body=await projectBody(req,'skill approval');enterHumanReceipt(human.consume(req.headers['x-cc-confirmation'],{path:pathname,body}));const inspected=skillProposal(config.dataDir,skillInstall[1]!);if(Object.keys(body).some(k=>!['name','score','reportHash'].includes(k))||body.name!==inspected.name||body.score!==inspected.risk.score||body.reportHash!==inspected.reportHash)throw new SpecError('INVALID_REQUEST','Confirm the exact inspected skill and risk report.',400);json(res,200,installSkill(config.dataDir,skillInstall[1]!));return;}
@@ -141,10 +150,11 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
     }
     throw new SpecError('NOT_FOUND','Passkey route not found.',404);
    }
-   if(mutating&&requiresHuman(pathname)&&(!fixtureApprovalsEnabled(config.dataDir)||options.enforcePasskeys)){
+   if(mutating&&requiresHuman(pathname)&&(remote||!fixtureApprovalsEnabled(config.dataDir)||options.enforcePasskeys)){
     if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);
-    const body=await projectBody(req,'human decision',160000);enterHumanReceipt(human.consume(req.headers['x-cc-confirmation'],{path:pathname,body}));
+    const body=await projectBody(req,'human decision',160000);enterHumanReceipt(remote?phone.consume(phone.token(req.headers.cookie),req.headers['x-cc-confirmation'],{path:pathname,body}):human.consume(req.headers['x-cc-confirmation'],{path:pathname,body}));
    }
+   if(!remote&&pathname.startsWith('/api/phone/')){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable on your Mac first.',403);if(await phoneRoutes.owner(req,res,pathname))return;}
    const chatResponse=await chatRoute(req,pathname,chat,tickets);if(chatResponse){json(res,chatResponse.status,chatResponse.body);return;}
    const ticketResponse=await ticketRoute(req,pathname,tickets);if(ticketResponse){if('text' in ticketResponse){res.writeHead(ticketResponse.status,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});res.end(ticketResponse.text);}else json(res,ticketResponse.status,ticketResponse.body);return;}
    const verifyResponse=await verifyOnlyRoute(req,pathname,verifyOnly);if(verifyResponse){json(res,verifyResponse.status,verifyResponse.body);return;}
@@ -192,5 +202,5 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
  });};
- return {server,database,start,close,stopAll,workflow,tickets,chat};
+ return {server,database,start,close,stopAll,workflow,tickets,chat,phone};
 }

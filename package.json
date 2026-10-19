@@ -25,10 +25,12 @@
     "@simplewebauthn/server": "13.3.3",
     "motion": "14.3.0",
     "pixi.js": "8.22.0",
+    "qrcode-generator": "2.0.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "shiki": "4.5.0",
     "three": "0.186.1",
+    "web-push": "3.6.7",
     "xstate": "5.33.3"
   },
   "devDependencies": {

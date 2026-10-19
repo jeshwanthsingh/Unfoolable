@@ -1,3 +1,4 @@
+import {phoneMode,phoneLocked} from './phone-client.ts';
 import {startAuthentication} from '@simplewebauthn/browser';
 
 type PendingOperation={path:string;body:unknown};
@@ -5,12 +6,13 @@ export type HumanRequest={id:string;status?:string;options:Parameters<typeof sta
 function record(value:unknown):value is Record<string,unknown>{return typeof value==='object'&&value!==null;}
 export async function humanRequest(key:string,path:string,body?:unknown,confirmation?:string):Promise<unknown>{
  const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'X-CC-Operator':key,...(body===undefined?{}:{'Content-Type':'application/json'}),...(confirmation?{'X-CC-Confirmation':confirmation}:{})},cache:'no-store',...(body===undefined?{}:{body:JSON.stringify(body)})});
+ phoneLocked(response);
  const value:unknown=await response.json();
  if(!response.ok)throw Error(record(value)&&record(value.error)&&typeof value.error.message==='string'?value.error.message:'Human confirmation request failed ('+response.status+').');
  return value;
 }
 export function passkeyOrigin(key:string):void{
- if(window.location.hostname!=='localhost'){
+ if(!phoneMode()&&window.location.hostname!=='localhost'){
   const next=new URL(window.location.href);next.hostname='localhost';next.hash='operator='+encodeURIComponent(key);
   window.location.replace(next.href);throw Error('Opening the private localhost passkey page. Confirm there with Touch ID.');
  }

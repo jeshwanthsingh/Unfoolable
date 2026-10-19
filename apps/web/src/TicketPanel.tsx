@@ -1,3 +1,4 @@
+import {phoneMode} from './phone-client.ts';
 import {lazy,Suspense} from 'react';
 const FileDiff=lazy(()=>import('./FileDiff.tsx').then(m=>({default:m.FileDiff})));
 import {Vault} from './Vault.tsx';
@@ -19,6 +20,7 @@ import {PasskeyPanel} from './PasskeyPanel.tsx';
 
 const storageKey='cc-ticket-key';
 export function bootstrapTicketOperator():string|null{
+ if(phoneMode())return 'phone-session';
  const hash=new URLSearchParams(window.location.hash.slice(1));
  const supplied=hash.get('operator');
  if(hash.has('operator')){
