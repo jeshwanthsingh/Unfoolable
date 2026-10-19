@@ -76,3 +76,13 @@ export function aiNotePreview(events:TicketEvent[]):string{
  const first=note.split(/\n\s*\n/)[0]??note;
  return /\b(candidate|base|playbook|verdict|harness|mutation|tripwire|watchman|worktree|admission|gate|evidence)\b/i.test(first)?'Read the original AI note in Technical details.':first;
 }
+
+/** Read-only header copy; waiting and working are deliberately different. */
+export function liveDeskStatus(tickets:readonly {status:string}[],drafts:readonly {status:string;existingTicketId?:string}[]=[]):string{
+ const working=tickets.filter(t=>['building','checking','fixing'].includes(t.status)).length;
+ if(working)return `${working} working`;
+ const needs=tickets.filter(t=>['ready_for_review','needs_you','harness_error','interrupted'].includes(t.status)).length+drafts.filter(d=>!d.existingTicketId&&['DRAFT','QUESTION'].includes(d.status)).length;
+ if(needs)return `${needs} ${needs===1?'needs':'need'} you`;
+ const queued=tickets.filter(t=>t.status==='queued').length;
+ return queued?`${queued} waiting to start`:'All quiet';
+}
