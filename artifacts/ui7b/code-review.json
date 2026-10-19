@@ -1,0 +1,27 @@
+{
+  "verdict": "accept",
+  "blockers": [],
+  "nonBlocking": [
+    "Checked and Accepted remain the closest pair at 24px; final blind AI reviewer could distinguish the tray. Human recognition remains unmeasured.",
+    "The exact requested unchecked sentence wraps across four phone lines."
+  ],
+  "scope": "Only frontend presentation, tests and documentation. No backend, shared domain, dependency, protected-check or permission-profile changes.",
+  "checked": [
+    "Single Needs you membership drives heading, grouping and greeting; drafts excluded.",
+    "Full page render exercises every ticket state with and without draft states.",
+    "Request cancellation/confirmation handlers unchanged.",
+    "Proof file-review API, Accept eligibility and event-bound strike unchanged.",
+    "Card hierarchy is CSS/data-primary only; buttons retain their original handlers.",
+    "Snapshot review server is loopback-only and read-only; live application and data untouched."
+  ],
+  "narrowVerification": "48 focused tests passed; strict typecheck, production build and full suite passed.",
+  "browser": "1440/390 light/dark at native scale, no overflow, first-only filled action, cards match page, visible focus, archive/restore, protected Accept lock and reduced motion verified.",
+  "fullSuite": {
+    "passed": 1024,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "seconds": 337.913,
+    "sourceUnchangedDuringRun": true
+  }
+}

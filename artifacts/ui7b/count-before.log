@@ -1,0 +1,28 @@
+✖ rendered greeting equals rendered Needs you heading for every state, drafts, empty and paged lists (495.139584ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 700.751916
+
+✖ failing tests:
+
+test at .work/ui7b/count-before.test.ts:5:1
+✖ rendered greeting equals rendered Needs you heading for every state, drafts, empty and paged lists (495.139584ms)
+  AssertionError [ERR_ASSERTION]: {"states":[],"drafts":["DRAFT","QUESTION","ERROR","STARTED","STARTING","CANCELLED"]}
+
+  3 !== 0
+
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ui7b/count-before.test.ts:18:11)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

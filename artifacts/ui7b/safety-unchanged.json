@@ -1,0 +1,40 @@
+{
+  "base": "f5d3e7d",
+  "noServerSharedScriptDependencyChanges": true,
+  "sections": {
+    "apps/web/src/UnfoolableApp.tsx": {
+      "unchangedSection": "async function mutate(",
+      "sha256": "3858de4fb2ef0c6f6650ecda7bfacf34a97740d64cacb9dcedaba0f352061c99"
+    },
+    "apps/web/src/UnfoolableProof.tsx": {
+      "unchangedSection": "async function openFile(",
+      "sha256": "1b0a8ad1466b0a5601f814823b4fd617bae21c575c887316ec36a68840aa9c95"
+    },
+    "apps/web/src/unfoolable-model.ts": {
+      "entireFileUnchanged": true,
+      "sha256": "06e1c9da061cdbb4050bcd2e27ef05a7f7fcaae17e8c3c250a491551620ad3df"
+    },
+    "apps/web/src/Hallmark.tsx": {
+      "unchangedSection": "useEffect(",
+      "sha256": "bc478b13f589bb6cc41cd69c2c2a1c122b40d4f296cc5c6474d48284b5167bee"
+    },
+    "apps/server/oracle-execution.ts": {
+      "entireFileUnchanged": true,
+      "sha256": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd"
+    },
+    "apps/server/build-runtime.ts": {
+      "entireFileUnchanged": true,
+      "sha256": "626c9115cbd9af13da1de7d685d9177f36bbb37788aca5c970dbb03597814ce7"
+    },
+    "apps/server/ticket-store.ts": {
+      "entireFileUnchanged": true,
+      "sha256": "11ed73ceaefcff21bc15c704fe3fcd9c4083613d60a3f7270e05d28c09836404"
+    },
+    "apps/web/src/event-motion.ts": {
+      "entireFileUnchanged": true,
+      "sha256": "0c628012c569321180e73b832c8152a5cc85f136dbcb6b6aecbdfd896edc7351"
+    }
+  },
+  "noLiveDecisionsPerformed": true,
+  "noSandboxOrScoringChanges": true
+}

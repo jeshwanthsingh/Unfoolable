@@ -37,4 +37,14 @@ UI-6 removes AI-title attribution from the list, retaining it in Proof. Gaps nam
 
 ## UI-7 greeting and composer
 
-Local time supplies “Good morning.” / “Good afternoon.” / “Good evening.” Counts come from stored ticket and draft states; queued work is explicitly waiting to start. No AI writes the greeting. Composer placeholder: “Describe a change...” with Ask inside the field. Existing tickets keep their exact original request and title; appended display titles are at most eight words and labelled AI-written in Proof.
+Local time supplies “Good morning.” / “Good afternoon.” / “Good evening.” Counts come from the same stored ticket membership used by the Needs you list; separate drafts do not count. Queued work is explicitly waiting to start. No AI writes the greeting. Composer placeholder: “Describe a change...” with Ask inside the field. Existing tickets keep their exact original request and title; appended display titles are at most eight words and labelled AI-written in Proof.
+
+## UI-7b review copy
+
+For rows in Needs you, these override the older general examples above. The wording is centralized in `apps/web/src/review-copy.ts` and does not change check results or decision eligibility.
+
+- Not independently checked: “Ready for you. We couldn't check this one automatically, so take a look.”
+- Checked and safe: “Checked. Safe to keep.”
+- Budget stopped: “Paused. It ran out of time.”
+
+Needs-you cards never begin with “Done.” Actual failures and fresh-check reasons retain their specific explanations. The requested unchecked sentence intentionally exceeds the earlier twelve-word guideline. Draft disclosure follows the waiting list; drafts are excluded from its count.

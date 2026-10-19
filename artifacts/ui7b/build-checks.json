@@ -1,0 +1,21 @@
+{
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exit": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "exit": 0,
+    "knownWarning": "Existing lazy Labs and diff syntax chunks over 500 kB; no bundling policy changed"
+  },
+  "focusedTests": {
+    "passed": 48,
+    "failed": 0
+  },
+  "preFixPageRegression": {
+    "base": "f5d3e7d",
+    "failed": true,
+    "message": "Rendered greeting 3 differs from Needs you heading 0 for separate drafts"
+  },
+  "sourceCommit": "c61808a65d1c6a7c8d146a21414dc54864de0d19"
+}
