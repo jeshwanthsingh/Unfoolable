@@ -1,0 +1,74 @@
+{
+  "id": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+  "title": "Add local setup guidance to README",
+  "request": "In README.md, add the sentence \"Run research doctor to check your local setup.\" immediately after the Setup heading. Make only this small documentation change; do not change code, tests, or dependencies.\n\nDone means:\nREADME.md contains the exact requested sentence immediately after the Setup heading, with no other changes.",
+  "state": "ready_for_review",
+  "verdict": "PASSED WITH GAPS",
+  "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+  "candidate": {
+    "commit": "4d894feea8eaf6613f25d13897e2fcc10a1a85fa",
+    "tree": "ae1d25d576dcf05a341a9eeba4dc210b0b14d3bd",
+    "files": [
+      "README.md"
+    ]
+  },
+  "states": [
+    {
+      "at": "2026-10-19T18:03:04.748Z",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "at": "2026-10-19T18:03:39.425Z",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "at": "2026-10-19T18:07:15.641Z",
+      "from": "checking",
+      "to": "ready_for_review"
+    }
+  ],
+  "budget": {
+    "activeMilliseconds": 250893,
+    "extended": false,
+    "reportedWriterTokens": 12622,
+    "limits": {
+      "maxCommands": 80,
+      "maxMinutes": 15,
+      "maxCodexTokens": 120000,
+      "maxWriterTokens": 40000
+    },
+    "commands": 2,
+    "reportedCodexTokens": 26049
+  },
+  "tests": {
+    "total": 172,
+    "passed": 172,
+    "other": []
+  },
+  "gaps": [
+    "Existing verifier: test-writer-coverage: Test Writer is advisory only; it cannot change the verdict.",
+    "Project playbook checks are regression guards; new intent is not independently proved.",
+    "ruff: not applicable — BASE check could not run cleanly: No changed Python files",
+    "pyright: not applicable — BASE check could not run cleanly: No changed Python files",
+    "bandit: not applicable — BASE check could not run cleanly: No changed Python files",
+    "osv: not applicable — BASE check could not run cleanly: No supported dependency lockfile"
+  ],
+  "failures": [],
+  "writer": {
+    "reason": "UNCLEAR: README.md is omitted from the supplied BASE files. Its original contents are required to verify the exact insertion immediately after the Setup heading with no other changes.",
+    "usage": {
+      "cachedInputTokens": 0,
+      "inputTokens": 12527,
+      "outputTokens": 95,
+      "totalTokens": 12622
+    }
+  },
+  "confirmation": {
+    "id": "5d3ac9cd-f19a-4e4f-8df6-dc578ec60534",
+    "status": "CONSUMED"
+  },
+  "acceptRejectUntouched": true,
+  "sourceHeadAfter": "f7f198123955f6113cb583020d06bb47dc89817f"
+}

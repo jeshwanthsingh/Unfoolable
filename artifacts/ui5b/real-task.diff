@@ -1,0 +1,12 @@
+diff --git a/README.md b/README.md
+index 59a2cba..49b93b9 100644
+--- a/README.md
++++ b/README.md
+@@ -30,6 +30,7 @@ Step 1 implements only the foundation:
+ - basic tests
+ 
+ ## Setup
++Run research doctor to check your local setup.
+ 
+ ```bash
+ cd /Users/jeshwanthsingh/Projects/research-router

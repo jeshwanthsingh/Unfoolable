@@ -1,0 +1,33 @@
+{
+  "edited": true,
+  "waitingTimeOmitted": true,
+  "ask": {
+    "source": ".work/ui5b/videos/ask/1440/page@d02def2eafbeef64a9eee5072427e441.webm",
+    "start": 0,
+    "end": 2,
+    "submittedOnceOnDesktop": true
+  },
+  "liveCuts": [
+    [
+      164,
+      168
+    ],
+    [
+      179,
+      183
+    ],
+    [
+      208,
+      212
+    ],
+    [
+      410,
+      426
+    ]
+  ],
+  "note": "Both cameras recorded the same actual ticket. The phone film starts with a scaled desktop Ask excerpt, then the phone camera. No simulated events, replay, repeated Start or Accept/Reject. Raw recordings remain in ignored .work/ui5b/videos.",
+  "durationSecondsByWidth": {
+    "1440": 30,
+    "390": 29.2
+  }
+}

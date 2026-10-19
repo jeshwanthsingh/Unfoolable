@@ -1,0 +1,63 @@
+{
+  "sourceCommit": "164173522b51187b5f2bd5500ee8b3336c40b102",
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0
+  },
+  "productionBuild": {
+    "command": "npm run build",
+    "exitCode": 0,
+    "warnings": [
+      "Existing bundle chunks exceed 500 kB"
+    ]
+  },
+  "nativeReadProbe": {
+    "targets": 67,
+    "readable": 0,
+    "ownedGitAndSQLitePassed": true,
+    "evidence": "after-probe.json"
+  },
+  "negativeControls": {
+    "total": 12,
+    "PASS": 0,
+    "FAIL": 5,
+    "INCONCLUSIVE": 7,
+    "evidence": "negative-controls.json"
+  },
+  "crashRegression": {
+    "beforeChildExit": 1,
+    "afterFocusedSuite": {
+      "tests": 25,
+      "pass": 25,
+      "fail": 0
+    },
+    "evidence": [
+      "crash-before.log",
+      "crash-after.log"
+    ]
+  },
+  "secrets": {
+    "unresolved": 0,
+    "intentionalSyntheticFixture": 1,
+    "evidence": "gitleaks-tracked-scan.json"
+  },
+  "longWork": "caffeinate -dims",
+  "fullSuite": {
+    "code": 0,
+    "testedCommit": "164173522b51187b5f2bd5500ee8b3336c40b102",
+    "sourceSha256": "83ababbdf7abd33be6c110bbd8fd6f4d0a312d7755f8c34b909a317f50281eac",
+    "sourceUnchangedDuringRun": true,
+    "durationSeconds": 354.173,
+    "summary": [
+      "\u2139 tests 1001",
+      "\u2139 pass 1001",
+      "\u2139 fail 0",
+      "\u2139 cancelled 0",
+      "\u2139 skipped 0",
+      "\u2139 duration_ms 353727.241042"
+    ]
+  },
+  "billingEnabled": false,
+  "builderModelAndRuntimeChanged": false,
+  "pushedMergedDeployed": false
+}

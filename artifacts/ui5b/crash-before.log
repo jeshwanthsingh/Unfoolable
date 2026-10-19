@@ -1,0 +1,78 @@
+✖ repository lookup failure is a plain typed error, never a fabricated identity (2.055583ms)
+✖ chat timer survives repository lookup failure, shows one plain error and recovers (1125.846459ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1294.117041
+
+✖ failing tests:
+
+test at tests/repository-crash.test.ts:2:1
+✖ repository lookup failure is a plain typed error, never a fabricated identity (2.055583ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  Error: ENOENT: no such file or directory, lstat '/private/var/folders/lh/v76gk1b54fd_h9yp9md2431w0000gn/T/cc-missing-project-1792431911735'
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/repository-crash.test.ts:2:160)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: ENOENT: no such file or directory, lstat '/private/var/folders/lh/v76gk1b54fd_h9yp9md2431w0000gn/T/cc-missing-project-1792431911735'
+        at realpathSync (node:fs:2862:29)
+        at repositoryIdentity (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/repository-identity.ts:11:13)
+        at file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/repository-crash.test.ts:2:171
+        at getActual (node:assert:611:5)
+        at strict.throws (node:assert:759:24)
+        at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/repository-crash.test.ts:2:160)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1402:25)
+        at Test.start (node:internal/test_runner/test:1262:17)
+        at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17),
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/repository-crash.test.ts:3:1
+✖ chat timer survives repository lookup failure, shows one plain error and recovers (1125.846459ms)
+  AssertionError [ERR_ASSERTION]: file:///private/var/folders/lh/v76gk1b54fd_h9yp9md2431w0000gn/T/cc-repo-crash-nMKsU0/probe.mjs:3
+  const d=openDatabase("/var/folders/lh/v76gk1b54fd_h9yp9md2431w0000gn/T/cc-repo-crash-nMKsU0/data",()=>{}),t=createTicket(d.connection,{title:'Fixture',requestText:'Fixture',repoPath:"/var/folders/lh/v76gk1b54fd_h9yp9md2431w0000gn/T/cc-repo-crash-nMKsU0",baseCommit:'a'.repeat(40)});let broken=true;const tickets={list:()=>({tickets:[t]}),show:()=>{if(broken)throw Error('Repository identity unavailable');return {ticket:t,events:[],keepAvailable:false,recheckAvailable:false,evidenceStale:false};},playbookApprovalEnabled:()=>false};const c=createChatService(d.connection,tickets,{fuel:async()=>({unknown:true,windows:[]}),close:async()=>{}},async()=>{});
+                                                                                                                                                                                                                                                                                                                                                                        ^
+  
+  Error: Repository identity unavailable
+      at Object.show (file:///private/var/folders/lh/v76gk1b54fd_h9yp9md2431w0000gn/T/cc-repo-crash-nMKsU0/probe.mjs:3:365)
+      at ticketBinding (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/chat-cards.ts:9:52)
+      at Object.sync (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/chat-cards.ts:17:175)
+      at file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/chat-service.ts:23:84
+      at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:65:14)
+      at readRepositoryIdentities (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/repository-identity.ts:8:76)
+      at Timeout.project [as _onTimeout] (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/chat-service.ts:23:20)
+      at listOnTimeout (node:internal/timers:685:17)
+      at process.processTimers (node:internal/timers:618:7)
+  
+  Node.js v24.21.0
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/repository-crash.test.ts:7:137)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

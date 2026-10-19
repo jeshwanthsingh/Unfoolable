@@ -1,0 +1,10 @@
+{
+  "ticket": {
+    "id": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+    "title": "Add local setup guidance to README",
+    "status": "ready_for_review",
+    "check_verdict": "PASSED WITH GAPS"
+  },
+  "acceptRejectUntouched": true,
+  "recording": "Unedited real task; waiting time included"
+}

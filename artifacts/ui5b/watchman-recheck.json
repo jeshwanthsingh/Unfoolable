@@ -1,0 +1,26 @@
+{
+  "initialSuite": {
+    "tests": 1001,
+    "passed": 1000,
+    "failed": 1,
+    "failure": "watchman-native expected 11 blocked actions, observed 12",
+    "durationSeconds": 427.483
+  },
+  "isolatedReproduction": {
+    "tests": 1,
+    "passed": 1,
+    "failed": 0,
+    "durationMilliseconds": 7135.673334
+  },
+  "sourceOrTestChanged": false,
+  "interpretation": "Exact-count native test passed in isolation and the unchanged full-suite rerun. Timing sensitivity during interruption/cleanup is suspected, not proven. No source or assertion changed; original failure retained.",
+  "fullSuiteRerun": {
+    "tests": 1001,
+    "passed": 1001,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "durationSeconds": 354.173,
+    "sameSourceHashAsFirstRun": true
+  }
+}

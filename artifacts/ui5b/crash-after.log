@@ -1,0 +1,33 @@
+✔ clear chat request persists a draft with usage and no question; only exact Start creates a ticket (34.804375ms)
+✔ unclear request asks one question, then creates draft retaining both usage records (20.255333ms)
+✔ a second clarification is rejected and never starts work (18.891667ms)
+✔ simultaneous Start clicks reserve one ticket creation and bind its id transactionally (18.036875ms)
+✔ draft edits invalidate old Start and Cancel buttons (16.459292ms)
+✔ typed keep/discard/recheck/playbook approve/allow/deny only show cards, never invoke actions or AI (24.954584ms)
+✔ status questions read real ticket states and do not call a model (19.80775ms)
+✔ changed ticket state, candidate evidence or stale checks reject exact pending review buttons (51.357583ms)
+✔ bound playbook approval button is one-shot and changed playbooks invalidate old cards (18.009625ms)
+✔ ticket updates project once per real event across service reload (15.179542ms)
+✔ Keep posts actual repository/local branch and quoted manual inspect/merge commands without merging (72.504916ms)
+✔ permission buttons require the exact live generation/transport and are rejected after cancellation (16.223917ms)
+✔ long actual Candidate paths cannot overflow the bounded review card or stop chat projection (16.797542ms)
+✔ harness error card reports the latest failure and typed Retry never starts work (16.805208ms)
+✔ changed harness failure rejects the old Retry binding (15.498375ms)
+✔ two Retry clicks reserve exactly one retry while cleanup awaits (17.055416ms)
+✔ harness status explains current failure instead of an older playbook stop (16.802042ms)
+✔ status variants ignore case, spacing and punctuation without calling the drafter (24.171458ms)
+✔ status matching does not swallow an engineering request about status or fuel (17.06875ms)
+✔ restart retires an untouched misrouted status draft without a model or ticket (19.479917ms)
+✔ paused live approval fails before reserving a card or recording a decision (15.68225ms)
+✔ current chat review carries the advisory warning and never reuses it on a stale card (16.326667ms)
+✔ repository lookup failure is a plain typed error, never a fabricated identity (1.394041ms)
+✔ chat timer survives repository lookup failure, shows one plain error and recovers (2320.185417ms)
+✔ Git remote lookup error is not mistaken for an approved no-remote identity (590.222667ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3047.503333
