@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {deskGreeting} from '../apps/web/src/desk-greeting.ts';
+test('greeting states both real attention and work counts',()=>{const result=deskGreeting([{status:'ready_for_review'},{status:'needs_you'},{status:'building'}],[],new Date('2026-10-19T14:00:00'));assert.equal(result.greeting,'Good afternoon.');assert.equal(result.summary,'2 things need you. 1 is working.');});
+test('greeting distinguishes quiet, work, waiting and duplicate drafts',()=>{assert.equal(deskGreeting([]).summary,'All quiet.');assert.equal(deskGreeting([{status:'checking'}]).summary,'Working on 1 thing.');assert.equal(deskGreeting([{status:'queued'}]).summary,'Nothing needs you. 1 is waiting to start.');assert.equal(deskGreeting([],[{status:'DRAFT',existingTicketId:'x'}]).summary,'All quiet.');assert.equal(deskGreeting([],[{status:'QUESTION'}]).summary,'1 thing needs you.');});
+test('greeting uses local-hour boundaries without AI',()=>{assert.equal(deskGreeting([],[],new Date('2026-10-19T09:00:00')).greeting,'Good morning.');assert.equal(deskGreeting([],[],new Date('2026-10-19T19:00:00')).greeting,'Good evening.');});
