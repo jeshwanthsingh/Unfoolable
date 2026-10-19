@@ -14,3 +14,5 @@ const tools=params.has('labs')||['home','projects','project','mission','verify-o
 const phone=phoneMode(),pairToken=phone?new URLSearchParams(location.hash.slice(1)).get('pair')??'':'';if(phone&&location.hash)history.replaceState(history.state,'',location.pathname+location.search);
 const app=tools&&!phone?<Suspense fallback={<p>Opening tools…</p>}>{params.has('craft')?<CraftApp/>:<LegacyApp/>}</Suspense>:<UnfoolableApp/>;
 createRoot(root).render(<StrictMode>{phone?<PhoneGate pairToken={pairToken}>{app}</PhoneGate>:app}</StrictMode>);
+
+if('serviceWorker' in navigator&&location.protocol==='https:')void navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(()=>{/* Home Screen support stays optional; no cached work is served. */});

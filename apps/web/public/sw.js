@@ -1,0 +1,4 @@
+// Network-only: never cache work, pairing tokens, passkeys, approvals or API responses.
+self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
+self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
+self.addEventListener('fetch',event=>{if(event.request.mode==='navigate')event.respondWith(fetch(event.request).catch(()=>new Response('<!doctype html><html lang="en"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Unfoolable</title><main style="font:17px/1.6 system-ui;max-width:30em;margin:80px auto;padding:24px"><h1>Unfoolable</h1><p>Can’t reach your Mac right now.</p><p>Check that your Mac is awake and Tailscale is connected on both devices, then reopen the app.</p></main></html>',{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}})));});
