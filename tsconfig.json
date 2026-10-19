@@ -6,5 +6,5 @@
     "noUnusedLocals":true,"noUnusedParameters":true,"verbatimModuleSyntax":true,
     "rewriteRelativeImportExtensions":true,"noEmit":true,"types":["node","vite/client"]
   },
-  "include":["apps/**/*.ts","apps/**/*.tsx","packages/**/*.ts","tests/**/*.ts","scripts/debug-smoke.ts","scripts/debug-fixture-adapters.ts"]
+  "include":["apps/**/*.ts","apps/**/*.tsx","packages/**/*.ts","tests/**/*.ts","scripts/debug-smoke.ts","scripts/debug-fixture-adapters.ts","scripts/cc.ts"]
 }

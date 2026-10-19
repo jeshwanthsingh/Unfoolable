@@ -290,3 +290,9 @@ These remain unchanged; source/download and checksum provenance is in `artifacts
 UI-5 recording post-processing uses the existing Homebrew FFmpeg 8.0 (GPL-3.0-or-later build: --enable-gpl, --enable-version3), source https://ffmpeg.org/. No FFmpeg library is bundled into the application. It extracts contact sheets and trims clearly labelled historical review clips.
 
 UI-5 local verification helpers (not bundled): Node 24.21.0 (MIT), Python 3.14.4 (PSF), Git 2.51.0 (GPL-2.0), RTK 0.37.2 (Apache-2.0; official rtk-ai/rtk v0.37.2), installed Codex CLI 0.160.0 (Apache-2.0). Codex model/runtime configuration was not changed. FFmpeg edits both explicitly labelled recorded-event reviews and genuine live-run clips; it never fabricates task events.
+
+## UI-5b skill safety
+
+NVIDIA SkillSpector 2.12.0, official source https://github.com/NVIDIA/SkillSpector at `95a52d89fa16f608f0b18ccee76b0918ea4b7eef`, Apache-2.0. Installed only in ignored `.work/skill-tools/venv` with existing Python 3.13.0 (PSF). Static `--no-llm`, credential-free environment, network denied; OSV offline fallback accepted, so live vulnerability data is unavailable. No AI provider/account/billing was configured. Upstream dependencies include optional-capability AI SDKs, but no inference is requested or permitted by the scan environment. Exact installed package versions/licenses and per-skill results are in `artifacts/ui5b/`.
+
+Quarantine keeps original files. Installed Codex 0.160.0 required exact `SKILL.md` enablement overrides: folder-only overrides documented by newer Codex did not disable two loaded plugin skills. This difference was observed via `skills/list`; exact-file overrides returned `enabled: false`. Inactive cached skills are listed separately from loaded catalog entries. Restart Codex to refresh a previously loaded skill catalog.

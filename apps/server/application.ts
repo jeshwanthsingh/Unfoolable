@@ -1,3 +1,4 @@
+import {skillProposal,installSkill} from './skill-imports.ts';
 import {createDeskStream} from './desk-stream.ts';
 import {createHumanConfirmation,requiresHuman,type HumanOperation} from './human-confirmation.ts';
 import {withHumanReceipt,enterHumanReceipt} from './human-context.ts';
@@ -89,6 +90,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const stopAll=()=>{if(stopping)return stopping;const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
  function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
   const path=op.path;let m:RegExpExecArray|null;
+  if(m=/^\/api\/skills\/([a-f0-9]{64})\/install$/.exec(path))return {scope:{item:'skill:'+m[1]!,action:'install'},state:skillProposal(config.dataDir,m[1]!)};
   if(m=/^\/api\/tickets\/([^/]+)\/(keep|discard|retry|recheck|continue)$/.exec(path))return {scope:{item:'ticket:'+m[1]!,action:m[2]!},state:tickets.show(m[1]!)};
   if(m=/^\/api\/chat\/cards\/([^/]+)\/action$/.exec(path)){const state=chat.decisionEvidence(m[1]!,reserved?String(op.body.action):undefined),c=state.card;const action=String(op.body.action);let item=c.kind==='ticket'?'ticket:'+c.targetId:'permission:'+c.targetId;if(action==='approve_playbook'){const b=tickets.show(c.targetId).playbook;if(!b)throw new SpecError('PLAYBOOK_REQUIRED','Playbook unavailable.');item='playbook:'+b.repoRoot;}return {scope:{item,action},state};}
   if(m=/^\/api\/chat\/drafts\/([^/]+)\/(start|edit|cancel)$/.exec(path)){const d=chat.store.draft(m[1]!);if(!d)throw new SpecError('DRAFT_NOT_FOUND','Draft not found.',404);return {scope:{item:'draft:'+m[1]!,action:m[2]!},state:d};}
@@ -119,6 +121,8 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res);return;}
    if(pathname==='/api/stop-all'&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);await projectBody(req,'stop all');json(res,200,await stopAll() as Record<string,unknown>);return;}
    if(stopping&&mutating)throw new SpecError('STOP_IN_PROGRESS','STOP ALL is cleaning up owned work. Wait before starting or resuming.',409);
+   const skillInstall=/^\/api\/skills\/([a-f0-9]{64})\/install$/.exec(pathname);
+   if(skillInstall&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local command first.',403);const body=await projectBody(req,'skill approval');enterHumanReceipt(human.consume(req.headers['x-cc-confirmation'],{path:pathname,body}));const inspected=skillProposal(config.dataDir,skillInstall[1]!);if(Object.keys(body).some(k=>!['name','score','reportHash'].includes(k))||body.name!==inspected.name||body.score!==inspected.risk.score||body.reportHash!==inspected.reportHash)throw new SpecError('INVALID_REQUEST','Confirm the exact inspected skill and risk report.',400);json(res,200,installSkill(config.dataDir,skillInstall[1]!));return;}
    if(pathname.startsWith('/api/human')){
     if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);
     if(req.method==='GET'&&pathname==='/api/human'){json(res,200,{registered:human.registered()});return;}

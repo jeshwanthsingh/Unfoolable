@@ -1,0 +1,1045 @@
+[
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/computer-history/1.0.1001501/skills/computer-history",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/computer-history/1.0.1001501/skills/computer-history"
+    ],
+    "id": "ded2fc2bdf2a11e3"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-building",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-building"
+    ],
+    "id": "4b33aab091d2d836"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-hosting",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-hosting"
+    ],
+    "id": "5924ae6435d9d245"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/visualize/1.0.50/skills/visualize",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/visualize/1.0.50/skills/visualize"
+    ],
+    "id": "454149c62d6a3a83"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/browse-collections",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/browse-collections"
+    ],
+    "id": "d93ee2c0558f8b3f"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/build-playlists",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/build-playlists"
+    ],
+    "id": "a281a9e7145daca6"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/manage-library",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/manage-library"
+    ],
+    "id": "50be80275547d2e0"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/now-playing",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/now-playing"
+    ],
+    "id": "941173802261673a"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/search-spotify",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/search-spotify"
+    ],
+    "id": "d41aa66db1d82f73"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/higgsfield",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/higgsfield"
+    ],
+    "id": "aa818c8712ff551a"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/website-builder",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/website-builder"
+    ],
+    "id": "de68e0ec3810fa8e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/cloud-environment/0.1.2/skills/runtime",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/cloud-environment/0.1.2/skills/runtime"
+    ],
+    "id": "5fe3ad20a9628d85"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/coderabbit/1.1.4/skills/coderabbit-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/coderabbit/1.1.4/skills/coderabbit-review"
+    ],
+    "id": "dcb7869c1f36ab21"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/defense-factory/0.1.1/skills/open-defense-factory",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/defense-factory/0.1.1/skills/open-defense-factory"
+    ],
+    "id": "a21056626fa34bf7"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-docs",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-docs"
+    ],
+    "id": "fec4dea21d0f584c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive"
+    ],
+    "id": "db03af2c454bb9f6"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive-comments",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive-comments"
+    ],
+    "id": "b4f4bfbbd80072be"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-sheets",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-sheets"
+    ],
+    "id": "23473934cef525f9"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-slides",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-slides"
+    ],
+    "id": "769a09bb7ea58a43"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-analytics-dashboard",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-analytics-dashboard"
+    ],
+    "id": "965ee96cda9a8a04"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-annual-impact-report",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-annual-impact-report"
+    ],
+    "id": "73b42ac8137f060b"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-brand-guidelines",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-brand-guidelines"
+    ],
+    "id": "ba0105374d2493dd"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-business-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-business-review"
+    ],
+    "id": "ec48a5397d6de5f5"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-calder-architecture",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-calder-architecture"
+    ],
+    "id": "9c97b4628ad5832f"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-creative-campaign-brief",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-creative-campaign-brief"
+    ],
+    "id": "62c79653285fc6ed"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-design-report",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-design-report"
+    ],
+    "id": "f9649816aedc3a64"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-experiment-analysis",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-experiment-analysis"
+    ],
+    "id": "0e500741be9ae4de"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-financial-budget",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-financial-budget"
+    ],
+    "id": "8accb001db7d0cf6"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-growth-strategy",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-growth-strategy"
+    ],
+    "id": "252d3d57e13efe20"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-investment-committee-memo",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-investment-committee-memo"
+    ],
+    "id": "a0a2d1db8f4c7a7b"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-legal-memorandum",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-legal-memorandum"
+    ],
+    "id": "98259dedb69a2b43"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-market-trends-report",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-market-trends-report"
+    ],
+    "id": "11b3aed769809f08"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-minimal-letterhead",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-minimal-letterhead"
+    ],
+    "id": "e6929c6d769a0c4e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-next-generation-os",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-next-generation-os"
+    ],
+    "id": "67726257f04b80cf"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-operating-calendar",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-operating-calendar"
+    ],
+    "id": "c8332ea0a9d23c3d"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-photography-portfolio",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-photography-portfolio"
+    ],
+    "id": "57aeae250b4a0e9c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-pitch",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-pitch"
+    ],
+    "id": "57dbd5b5d3d6a429"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-strategy",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-strategy"
+    ],
+    "id": "09619629e17c2ab0"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-kickoff",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-kickoff"
+    ],
+    "id": "23db718b0b1f75b5"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-tracker",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-tracker"
+    ],
+    "id": "ef3b7fe616ffcd56"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-sales-pipeline",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-sales-pipeline"
+    ],
+    "id": "8caec33b0de8287a"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-state-of-art",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-state-of-art"
+    ],
+    "id": "9daeeb50d53c065d"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-strategy-memorandum",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-strategy-memorandum"
+    ],
+    "id": "45d5970931d4a1df"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-system-design",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-system-design"
+    ],
+    "id": "590adbf263a3f75e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-three-statement-forecast",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-three-statement-forecast"
+    ],
+    "id": "37623891c6b16110"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-weekly-business-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-weekly-business-review"
+    ],
+    "id": "71caf86991c38987"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/maintain-space",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/maintain-space"
+    ],
+    "id": "cfa43f719edea3e7"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/manage-schedules",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/manage-schedules"
+    ],
+    "id": "5cc8e475c92a880f"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/organize-space",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/organize-space"
+    ],
+    "id": "ec360d94bdce875c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/write-page",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/write-page"
+    ],
+    "id": "0ecbec4611d72388"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/plugin-management/0.1.0/skills/plugin-management",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/plugin-management/0.1.0/skills/plugin-management"
+    ],
+    "id": "eaa2632c48bd1379"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/sites/1.0.2-remix-a.1/skills/sites",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/sites/1.0.2-remix-a.1/skills/sites"
+    ],
+    "id": "3a84202fe6cdae03"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/brainstorming",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/brainstorming"
+    ],
+    "id": "08008dad354d0c9f"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/diagnosing-superpowers",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/diagnosing-superpowers"
+    ],
+    "id": "2b25da3a54c42b03"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/dispatching-parallel-agents",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/dispatching-parallel-agents"
+    ],
+    "id": "bcb519b6430392dc"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/executing-plans",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/executing-plans"
+    ],
+    "id": "4be1c1ef4284ee59"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/finishing-a-development-branch",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/finishing-a-development-branch"
+    ],
+    "id": "4accc662fb83854e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/receiving-code-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/receiving-code-review"
+    ],
+    "id": "92861325c8b99876"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/requesting-code-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/requesting-code-review"
+    ],
+    "id": "72e8d27b39a0fdf2"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/subagent-driven-development",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/subagent-driven-development"
+    ],
+    "id": "d224aafbdbbc716c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/systematic-debugging",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/systematic-debugging"
+    ],
+    "id": "9ceb26a67a46186c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/test-driven-development",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/test-driven-development"
+    ],
+    "id": "97241e9f1e1a1b87"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-git-worktrees",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-git-worktrees"
+    ],
+    "id": "6094aaca59db4fa0"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-superpowers",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-superpowers"
+    ],
+    "id": "ad3a46b0abdbc976"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/verification-before-completion",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/verification-before-completion"
+    ],
+    "id": "bde1dcc5754ed34c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-plans",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-plans"
+    ],
+    "id": "0776776a56300716"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-skills",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-skills"
+    ],
+    "id": "17ad8340d60d8642"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/create-pet",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/create-pet"
+    ],
+    "id": "a9bbd63dfc2f4ca9"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/pets",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/pets"
+    ],
+    "id": "437efa455f00a8a6"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/update-pet",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/update-pet"
+    ],
+    "id": "45e7b239ff0d5e12"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/write-like-me/0.1.1/skills/write-like-me",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/write-like-me/0.1.1/skills/write-like-me"
+    ],
+    "id": "d6cac48343d8e2bc"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-app-intents",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-app-intents"
+    ],
+    "id": "cadfcabccda2ff10"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-debugger-agent",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-debugger-agent"
+    ],
+    "id": "924ead96d8ad66d4"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-liquid-glass",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-liquid-glass"
+    ],
+    "id": "54152281a2518392"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-performance-audit",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-performance-audit"
+    ],
+    "id": "e87f96e9d148df81"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-ui-patterns",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-ui-patterns"
+    ],
+    "id": "d0c5825280e1786d"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-view-refactor",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-view-refactor"
+    ],
+    "id": "8968b682bf1ae10c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-branded-presentation",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-branded-presentation"
+    ],
+    "id": "afb759432831c14c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-resize-for-all-social-media",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-resize-for-all-social-media"
+    ],
+    "id": "97a2fd8690db67b3"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-translate-design",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-translate-design"
+    ],
+    "id": "852b096e5414506c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/coderabbit/b7ed91c86dc6604b8217892f05c8866518c82852/skills/coderabbit-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/coderabbit/b7ed91c86dc6604b8217892f05c8866518c82852/skills/coderabbit-review"
+    ],
+    "id": "b560bf6d17bd9175"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-address-comments",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-address-comments"
+    ],
+    "id": "d1e29b8f536ca717"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-fix-ci",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-fix-ci"
+    ],
+    "id": "fdded93de3cc14e4"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/github",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/github"
+    ],
+    "id": "11caf32940b418cc"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/yeet",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/yeet"
+    ],
+    "id": "3f8bf6b8687b3453"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail"
+    ],
+    "id": "39318d1406bc407f"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail-inbox-triage",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail-inbox-triage"
+    ],
+    "id": "6f63cd9ef142289c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/cli",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/cli"
+    ],
+    "id": "f1a6b1401919a117"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/community-evals",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/community-evals"
+    ],
+    "id": "5870315d96a9d508"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/datasets",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/datasets"
+    ],
+    "id": "1730c0c191b5b9a8"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/gradio",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/gradio"
+    ],
+    "id": "a0114cdf9c9db453"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/jobs",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/jobs"
+    ],
+    "id": "aa32c12022533673"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/llm-trainer",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/llm-trainer"
+    ],
+    "id": "c2a9d4d8653f0a93"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/paper-publisher",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/paper-publisher"
+    ],
+    "id": "0a2a5d3e41f6f50e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/papers",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/papers"
+    ],
+    "id": "a2cc340a2bc367d9"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/trackio",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/trackio"
+    ],
+    "id": "fbf61b123f1cce6b"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/transformers.js",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/transformers.js"
+    ],
+    "id": "3ae032dde7606358"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/vision-trainer",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/vision-trainer"
+    ],
+    "id": "f949b3d522f7b275"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/documents/26.1017.11052/skills/documents",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/documents/26.1017.11052/skills/documents"
+    ],
+    "id": "76c71405bc6769ca"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/pdf/26.1017.11052/skills/pdf",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/pdf/26.1017.11052/skills/pdf"
+    ],
+    "id": "c73d064b3e81dedf"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/presentations/26.1017.11052/skills/presentations",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/presentations/26.1017.11052/skills/presentations"
+    ],
+    "id": "3cfd0ea984fe3c2e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/excel-live-control",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/excel-live-control"
+    ],
+    "id": "ad8b7abc09492d64"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/spreadsheets",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/spreadsheets"
+    ],
+    "id": "dac385cd9ace8be4"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/template-creator/26.1017.11052/skills/template-creator",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/template-creator/26.1017.11052/skills/template-creator"
+    ],
+    "id": "726de4aeac822a94"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/.system/imagegen",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/.system/imagegen"
+    ],
+    "id": "d7542c15cbc32f7e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/.system/openai-docs",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/.system/openai-docs"
+    ],
+    "id": "0e4c042981f5b548"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/.system/review-agent",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/.system/review-agent"
+    ],
+    "id": "f20d8eccfb7fa0b1"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/.system/skill-creator",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/.system/skill-creator"
+    ],
+    "id": "2a9cef905a396572"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/.system/skill-installer",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/.system/skill-installer"
+    ],
+    "id": "7169456d502a8ffd"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/anthropic-frontend-design",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/anthropic-frontend-design"
+    ],
+    "id": "a58d70124ef02e98"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/better-accessibility",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/better-accessibility"
+    ],
+    "id": "1e8bebf8aeea7754"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/better-colors",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/better-colors"
+    ],
+    "id": "bb5254a4c0a10622"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/better-interface",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/better-interface"
+    ],
+    "id": "f764f2cf58d1c5c8"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/better-typography",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/better-typography"
+    ],
+    "id": "d5de6cb8bf7f3af5"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/better-ui",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/better-ui"
+    ],
+    "id": "5caff242d595717f"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/break",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/break"
+    ],
+    "id": "842098913b5b270f"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/deep-code-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/deep-code-review"
+    ],
+    "id": "17589f90b500fff8"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/emil-animate",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/emil-animate"
+    ],
+    "id": "30426ec6c2c8d6ee"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/emil-animation-performance",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/emil-animation-performance"
+    ],
+    "id": "1f6a328cd9a09712"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/emil-design-eng",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/emil-design-eng"
+    ],
+    "id": "42d0834c81902cbb"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/emil-review-animations",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/emil-review-animations"
+    ],
+    "id": "012f47622aaa72eb"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/impeccable",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/impeccable"
+    ],
+    "id": "f1f7bd4ae5ec6925"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/interface-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/interface-review"
+    ],
+    "id": "f24b779a6ec5f114"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/job-search-os",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/job-search-os"
+    ],
+    "id": "3eea9597632871ba"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/minimalist-ui",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/minimalist-ui"
+    ],
+    "id": "68132ec2ce37c780"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/playwright",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/playwright"
+    ],
+    "id": "1343f8b4a97bc487"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/taste-skill",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/taste-skill"
+    ],
+    "id": "ab6216768602a7d5"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/ui-skills-reviewer",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/ui-skills-reviewer"
+    ],
+    "id": "4291357df4f72648"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/variant",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/variant"
+    ],
+    "id": "2a6e033a446c1a9c"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/verified-job-scout",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/verified-job-scout"
+    ],
+    "id": "1b25f50130ad2b15"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/web-design-guidelines",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/web-design-guidelines"
+    ],
+    "id": "82a695c725e1ef09"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/webapp-testing",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/webapp-testing"
+    ],
+    "id": "6addb814b9dd7631"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/.codex/skills/workflow-orchestration",
+    "aliases": [
+      "/Users/jeshwanthsingh/.codex/skills/workflow-orchestration"
+    ],
+    "id": "80398cbce3175e80"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/advisor-mode",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/advisor-mode",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/advisor-mode"
+    ],
+    "id": "dbe4a500a95a7f8e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/architecture-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/architecture-review",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/architecture-review"
+    ],
+    "id": "bcf67a731cc7d778"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/code-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/code-review",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/code-review"
+    ],
+    "id": "f6420045b326205d"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/debug-loop",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/debug-loop",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/debug-loop"
+    ],
+    "id": "b05497af365ddfca"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/graphify",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/graphify",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/graphify"
+    ],
+    "id": "870f1d55d27f4c6b"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/performance-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/performance-review",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/performance-review"
+    ],
+    "id": "83fa1a8b06645c81"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/planning",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/planning",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/planning"
+    ],
+    "id": "a9b5aa4a7ee19fea"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/playwright-cli",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/playwright-cli",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/playwright-cli"
+    ],
+    "id": "f30f230d97711081"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-context",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/proof-lab-context",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-context"
+    ],
+    "id": "7d3ad7d41fcec06e"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-recall",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/proof-lab-recall",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-recall"
+    ],
+    "id": "836cebfe26a17821"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/qa-test-design",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/qa-test-design",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/qa-test-design"
+    ],
+    "id": "998c520df5b371ed"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/release-check",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/release-check",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/release-check"
+    ],
+    "id": "eeb7a50a9fdb8ea5"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/security-review",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/security-review",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/security-review"
+    ],
+    "id": "3c0fdfd9880572e0"
+  },
+  {
+    "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/token-discipline",
+    "aliases": [
+      "/Users/jeshwanthsingh/.agents/skills/token-discipline",
+      "/Users/jeshwanthsingh/Projects/codex-kit/skills/token-discipline"
+    ],
+    "id": "2d3c33e2f02bf967"
+  }
+]
