@@ -22,9 +22,11 @@ export function taskPresentation(ticket:Pick<Ticket,'status'|'updatedAt'|'checkV
   const sentence=/ownership|start|launch/.test(reason)?"Stuck: the worker couldn't start. Try again or reject it.":/timeout|deadline/.test(reason)?'Stuck: work took too long. Try again or reject it.':/denied|permission|sandbox/.test(reason)?'Stuck: access was blocked. Try again or reject it.':words.stuck;
   return {mark:'stuck',sentence};
  }
+ if(ticket.status==='needs_you'&&detail?.events.filter(e=>e.kind==='needs_you').at(-1)?.data.kind==='ACTION_BUDGET')return {mark:'stuck',sentence:'Stopped: used its full budget. Continue with more?'};
  if(ticket.status==='queued')return {mark:'waiting',sentence:'Waiting to start.'};
  if(!detail){
   const summary='summary' in ticket?ticket.summary as {result?:string;wrong?:boolean;warning?:string}:undefined;
+  if(summary&&'budgetStopped' in summary&&summary.budgetStopped)return {mark:'stuck',sentence:'Stopped: used its full budget. Continue with more?'};
   if(summary?.wrong)return {mark:'wrong',sentence:summary.warning==='review'?'Something needs a closer look before you accept.':summary.warning==='independent'?"Something's wrong: an independent test failed.":words.wrong};
   if(summary?.result==='FAILED')return {mark:'wrong',sentence:words.failed};
   if(ticket.status==='needs_you')return {mark:'needs',sentence:words.needs};

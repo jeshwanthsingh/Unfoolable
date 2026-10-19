@@ -9,7 +9,7 @@ import {confirmedDecision} from './human-confirmation-client.ts';
 import {PasskeyPanel} from './PasskeyPanel.tsx';
 import {groupChatCards} from '../../../packages/shared/chat-presentation.ts';
 
-const actionLabels:Record<ChatAction,string>={keep:'Keep candidate',discard:'Discard candidate',recheck:'Recheck candidate',retry:'Retry',approve_playbook:'Approve playbook',allow:'Allow permission',deny:'Deny permission'};
+const actionLabels:Record<ChatAction,string>={keep:'Keep candidate',discard:'Discard candidate',recheck:'Recheck candidate',retry:'Retry',continue:'Continue with extra budget',approve_playbook:'Approve playbook',allow:'Allow permission',deny:'Deny permission'};
 function record(value:unknown):value is Record<string,unknown>{return typeof value==='object'&&value!==null;}
 async function request(key:string,path:string,body?:unknown,signal?:AbortSignal):Promise<unknown>{
  const response=await fetch(path,{method:body===undefined?'GET':'POST',headers:{'X-CC-Operator':key,...(body===undefined?{}:{'Content-Type':'application/json'})},cache:'no-store',...(body===undefined?{}:{body:JSON.stringify(body)}),...(signal?{signal}:{})});
