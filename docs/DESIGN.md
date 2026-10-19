@@ -81,3 +81,5 @@ Generic-default review: no hero marketing copy, dashboard statistics, gradients,
 Verification: after each numbered visual batch capture official Playwright MCP screenshots at 1440px and 390px in light/dark, with viewport scale 1, device scale factor 1 and no CSS zoom. Three critique/refinement passes use the same frozen real snapshot. Test presentation behavior, run the full suite, typecheck/build, 67-path real probe and twelve negative controls. No approval is exercised by screenshots.
 
 UI-7 review refinements: the native-size seal sheet exposed a C-like refresh glyph, replaced by opposing arrows; desktop review exposed a helper capped narrowly enough to fit beside its button, fixed with a full flex row; the attention tint now has separation rather than forming a continuous slab. Plain titles are also used for focus/hover, with original requests retained in Proof.
+
+Favicon cache check: the existing static server caches SVGs as immutable. The favicon URL now carries its content hash, preventing an old cached logo after an upgrade; the glyph and serving policy are unchanged.
