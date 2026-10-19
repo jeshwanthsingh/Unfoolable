@@ -1,0 +1,57 @@
+{
+  "sourceCommit": "1ec06b5",
+  "focusedTests": {
+    "passed": 44,
+    "failed": 0
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "browser": {
+    "contexts": 4,
+    "zoom": 1,
+    "deviceScale": 1,
+    "minimumSecondaryContrast": 6.328317511073678,
+    "horizontalOverflow": false,
+    "idleRunningAnimations": 0,
+    "inputGrows": true,
+    "unreviewedAcceptBlocked": true,
+    "nativeReducedMotion": "PASS",
+    "sameDataHash": "29c14696118a0a7e10860776fba68877f2d6358648e96351116650d3d6337419"
+  },
+  "protectedPaths": {
+    "tested": 67,
+    "readable": 0
+  },
+  "negativeControls": {
+    "tested": 12,
+    "pass": 0
+  },
+  "fullSuite": {
+    "code": 0,
+    "testedCommit": "1ec06b5350f7bacd8edeefc3797ddb32faf18850",
+    "sourceSha256": "c3e83b3bca312a72b9c8bbfd51f9c834d05c86f04cf1e46bc0eb3b8b56875d65",
+    "sourceUnchangedDuringRun": true,
+    "durationSeconds": 347.838,
+    "summary": [
+      "\u2139 tests 1020",
+      "\u2139 pass 1020",
+      "\u2139 fail 0",
+      "\u2139 cancelled 0",
+      "\u2139 skipped 0",
+      "\u2139 duration_ms 347441.357333"
+    ]
+  },
+  "credentials": "PASS, zero unresolved findings after exact synthetic-fixture triage",
+  "priorFullSuite": {
+    "passed": 1019,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 342.454
+  },
+  "faviconRegression": {
+    "failedBefore": true,
+    "passedAfter": true,
+    "contentHashInUrl": true
+  },
+  "faviconBrowser": "PASS, built page uses content-addressed icon URL"
+}

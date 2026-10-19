@@ -1,0 +1,6 @@
+[
+  {
+    "type": "text",
+    "text": "### Result\n{\n  \"reduce\": true,\n  \"running\": 0,\n  \"transition\": \"0s\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const reduce=matchMedia(\\'(prefers-reduced-motion: reduce)\\').matches,running=document.getAnimations().filter(a=>a.playState===\\'running\\').length,transition=getComputedStyle(document.querySelector(\\'button\\')).transitionDuration;if(!reduce||running||transition!==\\'0s\\')throw Error(JSON.stringify({reduce,running,transition}));return {reduce,running,transition};}');\n```"
+  }
+]

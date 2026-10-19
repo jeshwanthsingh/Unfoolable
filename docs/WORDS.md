@@ -34,3 +34,7 @@ No technical system vocabulary on the main screen: candidate, BASE, playbook, ve
 The screenshot-only comprehension test found two ambiguities: pending tasks may be below the fold, and Accepted does not mean merged. UI-6 shows the real working/waiting count in the slim header, previews three waiting tasks, and leaves the rest behind “more waiting”. Accepted work says “Saved as a separate copy. Your main code is unchanged.”
 
 UI-6 removes AI-title attribution from the list, retaining it in Proof. Gaps name the recorded omission; unknown details are not invented. Give it more time invokes the existing exact-item Continue action and Touch ID. The main note says “Uses a bit more of your Codex allowance. Needs Touch ID.” Exact amounts remain in Proof. Archive/restore only changes a browser-local display preference; it never cancels or deletes a request.
+
+## UI-7 greeting and composer
+
+Local time supplies “Good morning.” / “Good afternoon.” / “Good evening.” Counts come from stored ticket and draft states; queued work is explicitly waiting to start. No AI writes the greeting. Composer placeholder: “Describe a change...” with Ask inside the field. Existing tickets keep their exact original request and title; appended display titles are at most eight words and labelled AI-written in Proof.

@@ -1,0 +1,53 @@
+{
+  "decisionAndMotionSections": [
+    {
+      "file": "apps/web/src/UnfoolableApp.tsx",
+      "section": "async function mutate(",
+      "unchanged": true,
+      "sha256": "3858de4fb2ef0c6f6650ecda7bfacf34a97740d64cacb9dcedaba0f352061c99"
+    },
+    {
+      "file": "apps/web/src/UnfoolableProof.tsx",
+      "section": "async function openFile(",
+      "unchanged": true,
+      "sha256": "1b0a8ad1466b0a5601f814823b4fd617bae21c575c887316ec36a68840aa9c95"
+    },
+    {
+      "file": "apps/web/src/unfoolable-model.ts",
+      "section": "export function mayAccept(",
+      "unchanged": true,
+      "sha256": "26fbc8391caeb9b45009502ce9adcb084d6cf771948728bc3515b35877e44163"
+    },
+    {
+      "file": "apps/web/src/Hallmark.tsx",
+      "section": "useEffect(()=>{",
+      "unchanged": true,
+      "sha256": "bc478b13f589bb6cc41cd69c2c2a1c122b40d4f296cc5c6474d48284b5167bee"
+    }
+  ],
+  "core": [
+    {
+      "file": "apps/server/oracle-execution.ts",
+      "unchanged": true
+    },
+    {
+      "file": "apps/server/build-runtime.ts",
+      "unchanged": true
+    },
+    {
+      "file": "apps/server/human-confirmation.ts",
+      "unchanged": true
+    },
+    {
+      "file": "apps/server/ticket-store.ts",
+      "unchanged": true
+    },
+    {
+      "file": "apps/web/src/event-motion.ts",
+      "unchanged": true
+    }
+  ],
+  "newAppDependencies": false,
+  "schemaChanges": false,
+  "onlyDataMutation": "Seven append-only AI display titles; immutable ticket rows unchanged"
+}
