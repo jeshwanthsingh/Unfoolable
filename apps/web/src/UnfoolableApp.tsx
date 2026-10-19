@@ -27,7 +27,7 @@ export function UnfoolableApp(){
  useEffect(()=>{const media=matchMedia('(prefers-color-scheme: dark)');const change=()=>setSystemDark(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);
  const data=useUnfoolableData(key,revision),ask=useRef<HTMLTextAreaElement>(null);
  const hasWorking=data.tickets.some(t=>['building','fixing'].includes(t.status));
- useEffect(()=>{document.documentElement.dataset.unfoolTheme=theme;document.documentElement.style.colorScheme=theme;document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='light'?'#E8EBED':'#1A1E22');try{localStorage.setItem('unfool-theme',appearance);localStorage.setItem('unfool-look',look);}catch{/* Preferences are optional. */}},[theme,look,appearance]);
+ useEffect(()=>{document.documentElement.dataset.unfoolTheme=theme;document.documentElement.style.colorScheme=theme;document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='light'?'#FAFBFC':'#151719');try{localStorage.setItem('unfool-theme',appearance);localStorage.setItem('unfool-look',look);}catch{/* Preferences are optional. */}},[theme,look,appearance]);
  useEffect(()=>{if(!hasWorking)return;setClock(Date.now());const timer=setInterval(()=>{if(!document.hidden)setClock(Date.now());},60000);return()=>clearInterval(timer);},[hasWorking]);
  function showProof(id:string){setProof(id);const url=new URL(location.href);if(id!=='conversation'&&id!=='confirmation')url.searchParams.set('ticket',id);history.replaceState(history.state,'',url.pathname+url.search);}
  function closeProof(){setProof(null);const url=new URL(location.href);url.searchParams.delete('ticket');history.replaceState(history.state,'',url.pathname+url.search);}

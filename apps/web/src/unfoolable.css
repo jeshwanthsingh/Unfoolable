@@ -1,10 +1,10 @@
 @font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans.ttf') format('truetype');font-weight:400 700;font-style:normal;font-display:swap}
-html[data-unfool-theme]{background:#E8EBED;color-scheme:light}
-html[data-unfool-theme=dark]{background:#1A1E22;color-scheme:dark}
-.unfoolable{--uf-surface:#E8EBED;--uf-well:#C9CED3;--uf-text:#2A2F35;--uf-muted:#535C66;--uf-green:#2F7A57;--uf-amber:#8A581C;--uf-red:#B8432F;--uf-input:#F4F6F7;--uf-border:#747E87;min-height:100dvh;background:var(--uf-surface);color:var(--uf-text);font:400 17px/1.55 'Instrument Sans',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:0;accent-color:var(--uf-text);caret-color:var(--uf-text);-webkit-tap-highlight-color:transparent}
-.unfoolable[data-theme=dark]{--uf-surface:#1A1E22;--uf-well:#2A3036;--uf-text:#DCE1E5;--uf-muted:#A6B0B8;--uf-green:#83C6A1;--uf-amber:#DEB36D;--uf-red:#F39B89;--uf-input:#22282E;--uf-border:#8D98A3}
-.unfoolable[data-look=spacious]{--uf-surface:#E9EBEC;--uf-well:#CED1D3}
-.unfoolable[data-look=spacious][data-theme=dark]{--uf-surface:#1D2023;--uf-well:#303438}
+html[data-unfool-theme]{background:#FAFBFC;color-scheme:light}
+html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
+.unfoolable{--uf-surface:#FAFBFC;--uf-well:#E8EBED;--uf-text:#2A2F35;--uf-muted:#505A65;--uf-green:#2F7A57;--uf-amber:#8A581C;--uf-red:#B8432F;--uf-input:#FFFFFF;--uf-border:#747E87;min-height:100dvh;background:var(--uf-surface);color:var(--uf-text);font:400 17px/1.55 'Instrument Sans',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:0;accent-color:var(--uf-text);caret-color:var(--uf-text);-webkit-tap-highlight-color:transparent}
+.unfoolable[data-theme=dark]{--uf-surface:#151719;--uf-well:#2A3036;--uf-text:#DCE1E5;--uf-muted:#ABB4BC;--uf-green:#83C6A1;--uf-amber:#DEB36D;--uf-red:#F39B89;--uf-input:#1D2125;--uf-border:#8D98A3}
+.unfoolable[data-look=spacious]{--uf-well:#E3E7EA}
+.unfoolable[data-look=spacious][data-theme=dark]{--uf-well:#303438}
 .unfoolable *{box-sizing:border-box;min-width:0}
 .unfoolable :is(button,input,textarea,select){font:inherit;letter-spacing:inherit}
 .unfoolable :is(button,a,input,textarea,select,summary):focus-visible{outline:2px solid var(--uf-text);outline-offset:4px}
