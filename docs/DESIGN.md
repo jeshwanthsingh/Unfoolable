@@ -51,3 +51,22 @@ Settings holds theme, sound and Look. Labs links retain the original operational
 ## Verification
 
 Pure presentation tests cover truthful states, unknown counts, action availability and vocabulary. Browser review covers all requested states at 1440/390 in both themes, all density variants, keyboard/focus, pending confirmation, offline recovery, reduced motion and idle frames. Three screenshot review passes precede completion. Existing security and application tests remain authoritative.
+
+
+## UI-6 before/after plan
+
+Before: the entire page is pewter, primary/secondary buttons have the same outline, marks are small inside square wells, old drafts duplicate real tasks, and six waiting tasks dominate the page.
+
+After: near-white #FAFBFC / deep-neutral #151719 surfaces; pewter confined to circular mark recesses. Larger 48px original seal silhouettes lead each row. One ink-filled primary action per task/draft; secondary controls stay quiet. Instrument Sans remains the only family; 600-weight titles, 400-weight statuses, 13px metadata, 8px spacing units and 48px group spacing. Secondary text measured against every actual surface at >=4.5:1.
+
+A slim header reports only real working/waiting counts. Main list omits AI-title attribution (retained in Proof), names recorded gaps plainly, and moves numerical budget details into Proof. Copy changes do not alter the underlying Continue confirmation or its fixed allowance.
+
+Deduplication is display-only: an exact same request in the same repository links to the existing task; it never merges/deletes records. Archiving is a reversible browser-local preference; old drafts remain stored and can be restored. No server mutation or authorization for archive/restore. Needs-you initially expands three tasks; the rest remain accessible.
+
+Safety boundary: no checker, Builder, queue, verdict, approval, passkey, stale-binding or sandbox behavior changes. The only server change permitted is the read-only light summary projection needed to display a recorded gap and duplicate-task link without fetching full Proofs.
+
+Generic-default review: rejected white rounded cards, extra shadows, decorative accent backgrounds, animated entrances and floating toolbar chrome. The hallmark remains the one hero; rows are separated by spacing. Existing finite event-bound strike is retained. Hover/press/focus use current Motion/CSS, with reduced motion and zero idle animation. No new app dependencies.
+
+Verification per step: baseline screenshots on real unchanged data; failing focused presentation tests; narrow typecheck/build; MCP screenshots after each visual batch. Three review passes, each at 1440/390 light/dark; keyboard, contrast, overflow, duplicate navigation/archive restore, Proof and unchanged Accept/Touch ID checks. Finish with the complete suite, 67-path native probe, twelve negative controls and credential audit. Local WIP commits only.
+
+Skills: frontend-design sets the plan; Jakub's better-* and make-interfaces-feel-better audit hierarchy/interactions; Emil audits finite purposeful motion; web-design-guidelines audits accessibility. Taste and Impeccable stay quarantined by Jesh's explicit choice.

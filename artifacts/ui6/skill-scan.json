@@ -1,0 +1,13 @@
+{
+  "id": "7624b549f04b3f7d464a1f76a82ed8bc15499543881d86eba69693cdc444c689",
+  "name": "make-interfaces-feel-better",
+  "bundleHash": "7624b549f04b3f7d464a1f76a82ed8bc15499543881d86eba69693cdc444c689",
+  "reportHash": "a3fcea4d488cef57f41d0abbce218e4e28c295fe1f069a21d2358abe22aff747",
+  "risk": {
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION"
+  },
+  "scannerVersion": "2.12.0",
+  "network": "DENIED"
+}
