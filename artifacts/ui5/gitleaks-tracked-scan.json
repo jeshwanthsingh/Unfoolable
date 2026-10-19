@@ -1,6 +1,6 @@
 {
   "tool": "gitleaks 8.30.1",
-  "files": 1945,
+  "files": 1977,
   "rawFindings": 1,
   "intentionalSyntheticFixture": 1,
   "unresolvedFindings": 0,

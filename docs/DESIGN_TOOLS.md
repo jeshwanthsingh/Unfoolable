@@ -288,3 +288,5 @@ These remain unchanged; source/download and checksum provenance is in `artifacts
 | osv-scanner | 2.7.0 | Apache-2.0 |
 
 UI-5 recording post-processing uses the existing Homebrew FFmpeg 8.0 (GPL-3.0-or-later build: --enable-gpl, --enable-version3), source https://ffmpeg.org/. No FFmpeg library is bundled into the application. It extracts contact sheets and trims clearly labelled historical review clips.
+
+UI-5 local verification helpers (not bundled): Node 24.21.0 (MIT), Python 3.14.4 (PSF), Git 2.51.0 (GPL-2.0), RTK 0.37.2 (Apache-2.0; official rtk-ai/rtk v0.37.2), installed Codex CLI 0.160.0 (Apache-2.0). Codex model/runtime configuration was not changed. FFmpeg edits both explicitly labelled recorded-event reviews and genuine live-run clips; it never fabricates task events.

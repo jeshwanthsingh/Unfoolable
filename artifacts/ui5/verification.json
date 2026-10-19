@@ -33,23 +33,40 @@
     "acceptRejectUntouched": true
   },
   "fullSuite": {
-    "code": 0,
-    "testedCommit": "217e8ba73cf19a9b5ba75122cf0a8752eea2973a",
-    "sourceSha256": "ea29c6bb37957113bfd26e40d357991c70675da078cda21380da8e801c037157",
+    "code": 1,
+    "testedCommit": "6b17c0cecf907e711c432327039508b56243bd8b",
+    "sourceSha256": "5935eb3cfb0ca7f44e52f3ceb91f32c265fe788c26fcb6b51a141b31e696b707",
     "sourceUnchangedDuringRun": true,
-    "durationSeconds": 348.956,
+    "durationSeconds": 1942.383,
     "summary": [
-      "\u2139 tests 989",
-      "\u2139 pass 989",
-      "\u2139 fail 0",
-      "\u2139 cancelled 0",
+      "\u2139 tests 592",
+      "\u2139 pass 516",
+      "\u2139 fail 4",
+      "\u2139 cancelled 72",
       "\u2139 skipped 0",
-      "\u2139 duration_ms 348556.894333"
+      "\u2139 duration_ms 1941767.654166"
     ]
   },
   "documentationTask": {
     "draftId": "335df101-5a13-41be-b373-53223821fe03",
     "status": "WAITING_FOR_HUMAN_START",
     "sameLimits": true
+  },
+  "status": "PARTIAL",
+  "focused": {
+    "tests": 13,
+    "pass": 13,
+    "fail": 0,
+    "skipped": 0
+  },
+  "isolatedDeadlineRegression": {
+    "pass": true,
+    "durationMs": 31333.963542
+  },
+  "environment": {
+    "sleepDarkWakeObserved": true,
+    "finalFullSuiteGreen": false,
+    "coordinatorRepositoryIdentityCrashObserved": true,
+    "coordinatorRestartedNormally": true
   }
 }

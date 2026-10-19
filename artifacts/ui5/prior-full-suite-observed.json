@@ -1,0 +1,12 @@
+{
+  "provenance": "Retained tool completion output, before counter-only correction",
+  "code": 0,
+  "testedCommit": "f7072cbd5410061fe34bb583e7b30102b07172d5",
+  "sourceSha256": "2ddb263f224f4533fea6821b3715d58e6e999e0928c77d5b0c9d85d8aebf41c0",
+  "sourceUnchangedDuringRun": true,
+  "durationSeconds": 330.554,
+  "tests": 990,
+  "pass": 990,
+  "fail": 0,
+  "skipped": 0
+}

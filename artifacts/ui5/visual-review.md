@@ -48,3 +48,5 @@ One final regression reproduced `checked` instead of `wrong` when an old cached 
 First-count regression: the native report previously mounted its numeric component at 172, bypassing interpolation. Official MCP replay failed before the fix (only 172 observed), then passed with intermediate finite values after keeping the unknown counter mounted but visually/accessibly hidden. Reduced-motion MCP showed only the final count, instantly. Reserved space avoids a layout jump. This uses a real recorded native report; it is not a new live task. Screenshot: counter-after/1440/reported-count.png.
 
 Full suite on f7072cb: 990/990, zero skipped, 330.554 seconds; source unchanged throughout. Final suite will follow the counter-only correction.
+
+Final focused tests: 13/13 on 6b17c0c. Latest full-suite validation remains incomplete after sleep/deadline interruptions; prior 990/990 result is retained separately and does not cover the counter-only source correction. New successful live proof is still pending. See RESULT.md.
