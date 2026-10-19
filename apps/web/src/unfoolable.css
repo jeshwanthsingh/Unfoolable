@@ -13,7 +13,7 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfoolable h2{font-size:22px;line-height:1.3;font-weight:600;letter-spacing:-.018em}
 .unfoolable h3{font-size:22px;line-height:1.3;font-weight:600}
 .unfoolable h4{font-size:17px;font-weight:600}
-.unfoolable button{min-height:44px;padding:8px 16px;border:1px solid var(--uf-border);border-radius:6px;background:transparent;color:var(--uf-text);font-size:15px;font-weight:600;cursor:pointer;touch-action:manipulation;box-shadow:none;text-transform:none}
+.unfoolable button{min-height:40px;padding:8px 16px;border:1px solid var(--uf-border);border-radius:6px;background:transparent;color:var(--uf-text);font-size:15px;font-weight:600;cursor:pointer;touch-action:manipulation;box-shadow:none;text-transform:none}
 .unfoolable button:disabled{cursor:not-allowed;opacity:.55}
 .unfoolable a{color:inherit;text-underline-offset:4px}
 .unfoolable summary{cursor:pointer;min-height:44px;padding:10px 0}
@@ -34,8 +34,8 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfool-notice{font-size:15px;min-height:24px;margin-top:8px}
 .unfool-tasks{list-style:none;padding:0;margin:24px 0 0}
 .unfool-task{display:grid;grid-template-columns:56px minmax(0,1fr);gap:24px;padding:24px 0;content-visibility:auto;contain-intrinsic-size:auto 175px;background:transparent;border:0;border-radius:0;box-shadow:none}
-.unfool-task-body h2{font-size:22px;max-width:55ch;white-space:pre-wrap}
-.unfool-status{font-size:17px;max-width:65ch;margin-top:8px!important;color:var(--uf-muted)}
+.unfool-task-body h2{font-size:20px;max-width:55ch;white-space:pre-wrap}
+.unfool-status{font-size:15px;max-width:65ch;margin-top:8px!important;color:var(--uf-muted)}
 .unfool-task[data-status=wrong] .unfool-status{color:var(--uf-red)}
 .unfool-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .unfool-proof-link{border:0!important;padding:8px 0!important;margin-top:4px;text-decoration:underline;text-underline-offset:4px;font-weight:400!important;color:var(--uf-muted)!important}
@@ -51,7 +51,7 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfoolable[data-look=compact] .unfool-task h2{font-size:20px}
 .unfoolable[data-look=compact] .hallmark-well{border-radius:50%}
 .unfoolable[data-look=spacious] .unfool-task{padding:32px 0 40px;gap:32px}
-.unfoolable[data-look=spacious] .unfool-task h2{font-size:24px}
+.unfoolable[data-look=spacious] .unfool-task h2{font-size:20px}
 .unfoolable[data-look=spacious] .hallmark-well{border-radius:50%}
 .unfool-empty{display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:center;margin:64px 0}
 .unfool-empty h2{max-width:25ch;color:var(--uf-muted);font-weight:400}
@@ -97,7 +97,7 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfool-skip:focus{top:12px}
 @media(hover:hover) and (pointer:fine){.unfoolable button:not(:disabled):hover{background:var(--uf-input);color:var(--uf-text)}.unfool-proof-link:hover{text-decoration-thickness:2px}}
 @media(max-width:800px){.unfool-column{padding:40px 24px;max-width:768px}}
-@media(max-width:480px){.unfool-column{padding:32px 20px}.unfool-header{gap:16px;margin-bottom:48px}.unfool-header h1{font-size:34px}.unfool-header p{max-width:25ch}.unfool-header>button{font-size:15px}.unfool-ask>div{gap:8px}.unfool-ask button{padding-inline:14px}.unfool-task,.unfoolable[data-look=spacious] .unfool-task{gap:16px}.unfool-task h2,.unfoolable[data-look=spacious] .unfool-task h2{font-size:22px}.unfool-actions{gap:8px}.unfool-actions button{padding-inline:12px}.unfool-proof{inset:auto 0 0;height:92dvh;padding:24px 20px calc(24px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0}.unfool-settings{gap:16px}.unfool-status{font-size:17px}}
+@media(max-width:480px){.unfool-column{padding:32px 20px}.unfool-header{gap:16px;margin-bottom:48px}.unfool-header h1{font-size:34px}.unfool-header p{max-width:25ch}.unfool-header>button{font-size:15px}.unfool-ask>div{gap:8px}.unfool-ask button{padding-inline:14px}.unfool-task,.unfoolable[data-look=spacious] .unfool-task{gap:16px}.unfool-task h2,.unfoolable[data-look=spacious] .unfool-task h2{font-size:20px}.unfool-actions{gap:8px}.unfool-actions button{padding-inline:12px}.unfool-proof{inset:auto 0 0;height:92dvh;padding:24px 20px calc(24px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0}.unfool-settings{gap:16px}.unfool-status{font-size:15px}}
 @media(prefers-reduced-motion:reduce){.unfoolable *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media(forced-colors:active){.hallmark-well{border:1px solid CanvasText}.unfoolable :focus-visible{outline-color:Highlight}}
 
