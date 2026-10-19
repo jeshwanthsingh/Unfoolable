@@ -178,3 +178,8 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfool-task[data-status=checked] .unfool-actions button.uf-primary{background:transparent;border-color:transparent;color:var(--uf-text);padding-inline:0}
 .unfool-actions small{flex-basis:100%;order:2;align-self:flex-start;max-width:48ch;font-size:13px;line-height:1.5}
 @media(hover:hover) and (pointer:fine){.unfool-task[data-status=checked] .unfool-actions button.uf-primary:not(:disabled):hover{background:transparent;color:var(--uf-text);text-decoration:underline;text-underline-offset:4px}}
+
+/* A static wash means attention; a finite flash acknowledges a real Accept event. */
+.unfool-task{position:relative;isolation:isolate}.unfool-task[data-attention=true]::before{content:'';position:absolute;inset:0 -12px;border-radius:12px;background:color-mix(in srgb,var(--uf-amber) 5%,transparent);z-index:-1}
+.unfool-accept-flash{position:absolute;inset:0 -12px;border-radius:12px;background:var(--uf-green);opacity:0;pointer-events:none;z-index:-1}
+.unfoolable .unfool-ask textarea{border:0;border-radius:16px;padding:18px 92px 18px 20px;resize:none;background:transparent}

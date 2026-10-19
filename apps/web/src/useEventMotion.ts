@@ -16,12 +16,13 @@ export function useEventMotion(list:RefObject<HTMLOListElement|null>,tickets:Des
     const dy=moves&&before?before.top-after.top:0;
     if(!reason&&!dy)continue;
     row.dataset.motion=reason??'layout';
+    const flash=row.querySelector<HTMLElement>('.unfool-accept-flash');if(reason==='accepted'&&flash)controls.push(animate(flash,{opacity:[0,.1,0]},{duration:.24,ease:[.2,0,0,1]}));
     const transform=reason==='arrival'?'translateY(6px) scale(.99)':reason==='rejected'?`translate(12px, ${dy}px) scale(.98)`:reason==='accepted'?`translateY(${dy}px) scaleY(.97)`:reason==='attention'?'translateY(-2px)':`translateY(${dy}px)`;
     controls.push(animate(row,{transform:[transform,'translate(0px, 0px) scale(1)'],opacity:[reason==='arrival'?.2:1,1]},{type:'spring',duration:.24,bounce:0}));
    }
   }
   previous.current=new Map(tickets.map(t=>[t.id,t]));positions.current=next;initialized.current=true;
-  const stop=()=>{controls.forEach(c=>c.stop());for(const row of rows){row.style.transform='';row.style.opacity='';}};document.addEventListener('visibilitychange',stop,{once:true});
+  const stop=()=>{controls.forEach(c=>c.stop());for(const row of rows){row.style.transform='';row.style.opacity='';const flash=row.querySelector<HTMLElement>('.unfool-accept-flash');if(flash)flash.style.opacity='';}};document.addEventListener('visibilitychange',stop,{once:true});
   return()=>{stop();document.removeEventListener('visibilitychange',stop);};
  },[list,tickets]);
 }
