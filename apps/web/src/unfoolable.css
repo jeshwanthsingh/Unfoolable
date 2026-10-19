@@ -1,8 +1,8 @@
 @font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans.ttf') format('truetype');font-weight:400 700;font-style:normal;font-display:swap}
 html[data-unfool-theme]{background:#FAFBFC;color-scheme:light}
 html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
-.unfoolable{--uf-surface:#FAFBFC;--uf-well:#E8EBED;--uf-text:#2A2F35;--uf-muted:#505A65;--uf-green:#2F7A57;--uf-amber:#8A581C;--uf-red:#B8432F;--uf-input:#FFFFFF;--uf-border:#747E87;min-height:100dvh;background:var(--uf-surface);color:var(--uf-text);font:400 17px/1.55 'Instrument Sans',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:0;accent-color:var(--uf-text);caret-color:var(--uf-text);-webkit-tap-highlight-color:transparent}
-.unfoolable[data-theme=dark]{--uf-surface:#151719;--uf-well:#2A3036;--uf-text:#DCE1E5;--uf-muted:#ABB4BC;--uf-green:#83C6A1;--uf-amber:#DEB36D;--uf-red:#F39B89;--uf-input:#1D2125;--uf-border:#8D98A3}
+.unfoolable{--uf-surface:#FAFBFC;--uf-card-border:#D6DBE0;--uf-well:#E8EBED;--uf-text:#2A2F35;--uf-muted:#505A65;--uf-green:#2F7A57;--uf-amber:#8A581C;--uf-red:#B8432F;--uf-input:#FFFFFF;--uf-border:#747E87;min-height:100dvh;background:var(--uf-surface);color:var(--uf-text);font:400 17px/1.55 'Instrument Sans',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:0;accent-color:var(--uf-text);caret-color:var(--uf-text);-webkit-tap-highlight-color:transparent}
+.unfoolable[data-theme=dark]{--uf-surface:#151719;--uf-card-border:#3E454D;--uf-well:#2A3036;--uf-text:#DCE1E5;--uf-muted:#ABB4BC;--uf-green:#83C6A1;--uf-amber:#DEB36D;--uf-red:#F39B89;--uf-input:#1D2125;--uf-border:#8D98A3}
 .unfoolable[data-look=spacious]{--uf-well:#E3E7EA}
 .unfoolable[data-look=spacious][data-theme=dark]{--uf-well:#303438}
 .unfoolable *{box-sizing:border-box;min-width:0}
@@ -33,7 +33,7 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfool-summary{font-size:15px;color:var(--uf-muted);margin-top:24px!important}
 .unfool-notice{font-size:15px;min-height:24px;margin-top:8px}
 .unfool-tasks{list-style:none;padding:0;margin:24px 0 0}
-.unfool-task{display:grid;grid-template-columns:56px minmax(0,1fr);gap:24px;padding:24px 0;content-visibility:auto;contain-intrinsic-size:auto 175px;background:transparent;border:0;border-radius:0;box-shadow:none}
+.unfool-task{display:grid;grid-template-columns:56px minmax(0,1fr);gap:24px;padding:24px 20px;content-visibility:auto;contain-intrinsic-size:auto 175px;background:var(--uf-surface);border:1px solid var(--uf-card-border);border-radius:12px;box-shadow:none;margin-bottom:18px}
 .unfool-task-body h2{font-size:20px;max-width:55ch;white-space:pre-wrap}
 .unfool-status{font-size:15px;max-width:65ch;margin-top:8px!important;color:var(--uf-muted)}
 .unfool-task[data-status=wrong] .unfool-status{color:var(--uf-red)}
@@ -47,10 +47,10 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .hallmark-well[data-mark=closer]{color:var(--uf-amber)}
 .hallmark-well[data-mark=wrong]{color:var(--uf-red)}
 .hallmark-tick{stroke:var(--uf-surface);stroke-width:2.8}
-.unfoolable[data-look=compact] .unfool-task{padding:16px 0 24px;gap:16px}
+.unfoolable[data-look=compact] .unfool-task{padding:16px 20px 24px;gap:16px}
 .unfoolable[data-look=compact] .unfool-task h2{font-size:20px}
 .unfoolable[data-look=compact] .hallmark-well{border-radius:50%}
-.unfoolable[data-look=spacious] .unfool-task{padding:32px 0 40px;gap:32px}
+.unfoolable[data-look=spacious] .unfool-task{padding:32px 20px 40px;gap:32px}
 .unfoolable[data-look=spacious] .unfool-task h2{font-size:20px}
 .unfoolable[data-look=spacious] .hallmark-well{border-radius:50%}
 .unfool-empty{display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:center;margin:64px 0}
@@ -180,10 +180,12 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 @media(hover:hover) and (pointer:fine){.unfool-task[data-status=checked] .unfool-actions button.uf-primary:not(:disabled):hover{background:transparent;color:var(--uf-text);text-decoration:underline;text-underline-offset:4px}}
 
 /* A static wash means attention; a finite flash acknowledges a real Accept event. */
-.unfool-task{position:relative;isolation:isolate}.unfool-task[data-attention=true]::before{content:'';position:absolute;inset:4px 0;border-radius:12px;background:color-mix(in srgb,var(--uf-amber) 5%,transparent);z-index:-1}
-.unfool-accept-flash{position:absolute;inset:0 -12px;border-radius:12px;background:var(--uf-green);opacity:0;pointer-events:none;z-index:-1}
+.unfool-task{position:relative;isolation:isolate}.unfool-task[data-attention=true]{border-inline-start:3px solid var(--uf-amber);padding-inline-start:18px}
+.unfool-accept-flash{position:absolute;inset:0;border-radius:11px;background:var(--uf-green);opacity:0;pointer-events:none;z-index:-1}
 .unfoolable .unfool-ask textarea{border:0;border-radius:16px;padding:18px 92px 18px 20px;resize:none;background:transparent}
 
 /* One smooth seal, one stroke system; meaning lives in the inner glyph. */
 .unfoolable .hallmark-well{background:transparent;box-shadow:none}
 .hallmark-well:is([data-mark=checked],[data-mark=accepted],[data-mark=wrong]) .hallmark-seal{fill:currentColor}
+
+@media(max-width:480px){.unfoolable[data-look] .unfool-task{padding-inline:16px}.unfoolable[data-look] .unfool-task[data-attention=true]{padding-inline-start:14px}}
