@@ -95,7 +95,7 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfool-request-error{position:fixed;bottom:0;right:0;max-width:600px;background:var(--uf-surface);padding:16px;z-index:20}
 .unfool-skip{position:fixed;top:-100px;left:16px;background:var(--uf-text);color:var(--uf-surface)!important;padding:16px;z-index:30}
 .unfool-skip:focus{top:12px}
-@media(hover:hover) and (pointer:fine){.unfoolable button:not(:disabled):hover{background:var(--uf-well);color:var(--uf-text)}.unfool-proof-link:hover{text-decoration-thickness:2px}}
+@media(hover:hover) and (pointer:fine){.unfoolable button:not(:disabled):hover{background:var(--uf-input);color:var(--uf-text)}.unfool-proof-link:hover{text-decoration-thickness:2px}}
 @media(max-width:800px){.unfool-column{padding:40px 24px;max-width:768px}}
 @media(max-width:480px){.unfool-column{padding:32px 20px}.unfool-header{gap:16px;margin-bottom:48px}.unfool-header h1{font-size:34px}.unfool-header p{max-width:25ch}.unfool-header>button{font-size:15px}.unfool-ask>div{gap:8px}.unfool-ask button{padding-inline:14px}.unfool-task,.unfoolable[data-look=spacious] .unfool-task{gap:16px}.unfool-task h2,.unfoolable[data-look=spacious] .unfool-task h2{font-size:22px}.unfool-actions{gap:8px}.unfool-actions button{padding-inline:12px}.unfool-proof{inset:auto 0 0;height:92dvh;padding:24px 20px calc(24px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0}.unfool-settings{gap:16px}.unfool-status{font-size:17px}}
 @media(prefers-reduced-motion:reduce){.unfoolable *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
@@ -150,7 +150,9 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 
 /* Frequent actions stay quiet. Only a real pointer press moves a control. */
 .unfoolable{-webkit-font-smoothing:antialiased}.unfool-status{font-weight:400}.unfool-task-body h2{font-weight:600}.unfool-group-heading h2{font-weight:600}.unfool-actions small{font-size:13px;line-height:1.5;color:var(--uf-muted);max-width:48ch;align-self:center}
-@media(prefers-reduced-motion:no-preference){.unfoolable button{transition:transform 150ms cubic-bezier(.2,0,0,1),opacity 150ms cubic-bezier(.2,0,0,1)}.unfoolable button:not(:disabled):not(:focus-visible):active{transform:scale(.96)}}
+@media(prefers-reduced-motion:no-preference){.unfoolable button{transition:transform 100ms cubic-bezier(.2,0,0,1),opacity 100ms cubic-bezier(.2,0,0,1)}.unfoolable button:not(:disabled):not(:focus-visible):active{transform:scale(.96);transition-duration:150ms}}
 @media(hover:hover) and (pointer:fine){.unfoolable a:hover{text-decoration-thickness:2px}.unfool-header>button:hover,.unfool-earlier-drafts>button:hover{background:transparent;text-decoration:underline;text-underline-offset:4px}}
 
 .unfool-similar{padding:8px 0 16px}.unfool-similar .unfool-duplicate{padding-bottom:0}.unfool-similar>details>summary{color:var(--uf-muted);font-size:13px;padding-top:0}.unfool-similar .unfool-draft{padding-top:16px}
+
+.unfool-drafts>.unfool-meta:empty{margin:0}

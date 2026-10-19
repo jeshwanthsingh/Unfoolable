@@ -13,6 +13,6 @@ export function UnfoolableDraftList({drafts,renderDraft}:{drafts:ChatDraft[];ren
  {recent.map(d=><div key={d.id}>{renderDraft(d)}</div>)}
  {!!old.length&&<div className="unfool-earlier-drafts"><details open={earlier} onToggle={e=>setEarlier(e.currentTarget.open)}><summary ref={summary}>{old.length} earlier {old.length===1?'draft':'drafts'}</summary><p className="unfool-meta">These requests haven’t started.</p>{old.map(d=><div key={d.id}>{renderDraft(d)}</div>)}</details><button onClick={()=>save(archiveDrafts(archived,drafts),'Old drafts archived on this browser. Nothing was deleted.')}>Archive old drafts</button></div>}
  {!!hidden.length&&<details className="unfool-archived-drafts"><summary>{hidden.length} archived {hidden.length===1?'draft':'drafts'}</summary><p className="unfool-meta">Hidden on this browser. Requests are still stored.</p><ul>{hidden.map(d=><li key={d.id}><span>{d.title||'Untitled request'}</span><button onClick={()=>{if(save(archived.filter(id=>id!==d.id),'Draft restored above.')){setEarlier(true);setRestored(n=>n+1);}}}>Restore<span className="unfool-sr-only"> {d.title||'request'}</span></button></li>)}</ul></details>}
- {message&&<p className="unfool-meta" role="status">{message}</p>}
+ <p className="unfool-meta" role="status">{message}</p>
  </div>;
 }
