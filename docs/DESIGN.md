@@ -83,3 +83,16 @@ Verification: after each numbered visual batch capture official Playwright MCP s
 UI-7 review refinements: the native-size seal sheet exposed a C-like refresh glyph, replaced by opposing arrows; desktop review exposed a helper capped narrowly enough to fit beside its button, fixed with a full flex row; the attention tint now has separation rather than forming a continuous slab. Plain titles are also used for focus/hover, with original requests retained in Proof.
 
 Favicon cache check: the existing static server caches SVGs as immutable. The favicon URL now carries its content hash, preventing an old cached logo after an upgrade; the glyph and serving policy are unchanged.
+
+
+## UI-7b small finish
+
+One count: only ticket rows in Needs you, never separate drafts. Greeting and list use the same membership helper; search retains the total and names missing matches rather than changing that number. No lifecycle or decision changes.
+
+One family: smooth circular seals on the same 48px grid, with consistent 2.8px strokes and no scallops. A magnifier means inspect; pause bars stay inside the seal. Inner symbols and accessible labels distinguish states without relying on color. Wordmark/favicon use the same checked glyph and content-addressed URL.
+
+Cards use the page surface, a 1px hairline, 18px gaps and a 3px amber leading edge for attention. No colored fill, shadow or muddy well. Only the first visible Needs you row receives the filled primary. Central review wording names readiness, not completion. Drafts sit below Needs you as a quiet disclosure.
+
+Generic-default review: a heavy card kit or badge collection would regress the simple screen. Keep the existing typography/column, avoid new decoration, libraries or motion, and let alignment and clear marks carry the identity.
+
+Verification: actual page rendering across every ticket state and draft combinations; same real frozen data before/after at 1440/390 light/dark, zoom/device scale 1; 24/48px sheet; three fresh blind AI viewers (not claimed as human research), refine misread glyphs; full suite/typecheck/build, real 67-path probe and twelve controls.
