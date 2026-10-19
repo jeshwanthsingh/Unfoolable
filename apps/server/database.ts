@@ -1,3 +1,4 @@
+import {migrateDraftArchive} from './draft-archive.ts';
 import {dataMode,assertDataEntry} from './data-mode.ts';
 import {migrateChat,migrateChatRetry} from './chat-migration.ts';
 import {migrateTickets} from './ticket-migration.ts';
@@ -31,7 +32,7 @@ export function openDatabase(dataDir:string,logger:Logger){
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>17)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current>18)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
    if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
    if(current<2){
     connection.exec(`CREATE TABLE projects(
@@ -307,10 +308,11 @@ export function openDatabase(dataDir:string,logger:Logger){
    if(current<15){migrateTickets(connection);connection.prepare('INSERT INTO schema_migrations VALUES(15,?)').run(new Date().toISOString());applied.push(15);}
    if(current<16){migrateChat(connection);connection.prepare('INSERT INTO schema_migrations VALUES(16,?)').run(new Date().toISOString());applied.push(16);}
    if(current<17){migrateChatRetry(connection);connection.prepare('INSERT INTO schema_migrations VALUES(17,?)').run(new Date().toISOString());applied.push(17);}
-   connection.exec('PRAGMA user_version=17; COMMIT');
+   if(current<18){migrateDraftArchive(connection);connection.prepare('INSERT INTO schema_migrations VALUES(18,?)').run(new Date().toISOString());applied.push(18);}
+   connection.exec('PRAGMA user_version=18; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==17)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==18)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }

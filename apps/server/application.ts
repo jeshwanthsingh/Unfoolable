@@ -1,3 +1,4 @@
+import {archivedDraftIds,changeDraftArchive} from './draft-archive.ts';
 import {skillProposal,installSkill} from './skill-imports.ts';
 import {createDeskStream} from './desk-stream.ts';
 import {createHumanConfirmation,requiresHuman,type HumanOperation} from './human-confirmation.ts';
@@ -118,6 +119,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   if(pathname==='/api/chat/archive'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable first.',403);if(req.method==='GET'){json(res,200,{archivedDraftIds:archivedDraftIds(database.connection)});return;}if(req.method==='POST'){json(res,200,changeDraftArchive(database.connection,await projectBody(req,'draft visibility')));return;}}
    if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res);return;}
    if(pathname==='/api/stop-all'&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);await projectBody(req,'stop all');json(res,200,await stopAll() as Record<string,unknown>);return;}
    if(stopping&&mutating)throw new SpecError('STOP_IN_PROGRESS','STOP ALL is cleaning up owned work. Wait before starting or resuming.',409);
