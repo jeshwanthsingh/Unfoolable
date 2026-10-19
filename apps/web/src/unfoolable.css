@@ -189,3 +189,5 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .hallmark-well:is([data-mark=checked],[data-mark=accepted],[data-mark=wrong]) .hallmark-seal{fill:currentColor}
 
 @media(max-width:480px){.unfoolable[data-look] .unfool-task{padding-inline:16px}.unfoolable[data-look] .unfool-task[data-attention=true]{padding-inline-start:14px}}
+
+.unfool-drafts-slot{list-style:none;margin:8px 0 24px}.unfool-drafts-slot .unfool-earlier-drafts{margin:0;gap:12px}.unfool-drafts-slot .unfool-earlier-drafts>button{white-space:nowrap}
