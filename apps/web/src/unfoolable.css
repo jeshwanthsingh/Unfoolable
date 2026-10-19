@@ -163,3 +163,12 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 @media(max-width:480px){.unfool-greeting h2,.unfool-greeting p{font-size:28px}.unfool-header{margin-bottom:32px}.unfool-header h1{font-size:20px}}
 
 .unfool-wordmark{display:flex;align-items:center;gap:10px}.unfool-wordmark .hallmark-well{width:24px;height:24px;background:transparent;box-shadow:none}.unfool-wordmark .hallmark-strike{width:24px;height:24px}
+
+/* One growing field. The button is part of the composer, never a second box. */
+.unfool-ask>label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.unfool-ask>div{position:relative;display:block;border:1px solid var(--uf-border);border-radius:16px;background:var(--uf-input)}
+.unfool-ask>div:focus-within{outline:2px solid var(--uf-text);outline-offset:4px}
+.unfool-ask textarea{display:block;min-height:64px;max-height:240px;resize:none;border:0;border-radius:16px;padding:18px 92px 18px 20px;background:transparent;font-size:17px;line-height:26px;overflow-y:auto}
+.unfool-ask textarea:focus-visible{outline:none}
+.unfool-ask button{position:absolute;right:12px;top:50%;transform:translateY(-50%);min-height:40px;padding:6px 16px;font-weight:500;border-radius:8px}
+.unfool-ask button:not(:disabled):not(:focus-visible):active{transform:translateY(-50%) scale(.96)}
