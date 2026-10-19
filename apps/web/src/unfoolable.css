@@ -152,3 +152,5 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfoolable{-webkit-font-smoothing:antialiased}.unfool-status{font-weight:400}.unfool-task-body h2{font-weight:600}.unfool-group-heading h2{font-weight:600}.unfool-actions small{font-size:13px;line-height:1.5;color:var(--uf-muted);max-width:48ch;align-self:center}
 @media(prefers-reduced-motion:no-preference){.unfoolable button{transition:transform 150ms cubic-bezier(.2,0,0,1),opacity 150ms cubic-bezier(.2,0,0,1)}.unfoolable button:not(:disabled):not(:focus-visible):active{transform:scale(.96)}}
 @media(hover:hover) and (pointer:fine){.unfoolable a:hover{text-decoration-thickness:2px}.unfool-header>button:hover,.unfool-earlier-drafts>button:hover{background:transparent;text-decoration:underline;text-underline-offset:4px}}
+
+.unfool-similar{padding:8px 0 16px}.unfool-similar .unfool-duplicate{padding-bottom:0}.unfool-similar>details>summary{color:var(--uf-muted);font-size:13px;padding-top:0}.unfool-similar .unfool-draft{padding-top:16px}
