@@ -141,3 +141,5 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 @media(hover:hover) and (pointer:fine){.unfool-actions button.uf-primary:not(:disabled):hover{background:var(--uf-text);color:var(--uf-surface);opacity:.88}.unfool-actions button:not(.uf-primary):not(:disabled):hover{background:transparent;text-decoration:underline;text-underline-offset:4px}}
 
 .hallmark-well[data-mark=stuck],.hallmark-well[data-mark=waiting]{color:var(--uf-muted);background:transparent;box-shadow:none}
+
+.unfool-duplicate{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;color:var(--uf-muted);font-size:15px}.unfool-duplicate a{display:inline-flex;align-items:center;min-height:44px;flex-shrink:0}
