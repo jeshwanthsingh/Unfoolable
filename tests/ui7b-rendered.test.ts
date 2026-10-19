@@ -15,7 +15,7 @@ test('rendered greeting equals rendered Needs you heading for every state, draft
    Object.assign(fixtures,{tickets,details:{},chat:{drafts,cards:[],messages:[]},error:null,loading:false,backOnline:false,observedAt:now,loadDetail:async()=>{}});
    const html=renderToStaticMarkup(createElement(UnfoolableApp));const greeting=/<section class="unfool-greeting"[\s\S]*?<\/section>/.exec(html)?.[0]??'';
    const count=Number(/(\d+) (?:thing needs|things need) you/.exec(greeting)?.[1]??0),heading=Number(/<h2>Needs you <span>(\d+)<\/span>/.exec(html)?.[1]??0);
-   assert.equal(count,heading,JSON.stringify({states:tickets.map(t=>t.status),drafts:drafts.map(d=>d.status)}));assert.equal(count,needsYouTickets(tickets).length);
+   assert.equal(count,heading,JSON.stringify({states:tickets.map(t=>t.status),drafts:drafts.map(d=>d.status)}));assert.equal(count,needsYouTickets(tickets).length);assert.equal((html.match(/data-primary="true"/g)??[]).length,count?1:0);const waiting=needsYouTickets(tickets).slice(0,3);if(drafts.length&&waiting.length){const last=waiting.at(-1)!;assert.ok(html.indexOf('class="unfool-drafts"')>html.indexOf('data-ticket-id="'+last.id+'"'));}
   }
  }finally{await server.close();for(const [key,descriptor] of previous)if(descriptor)Object.defineProperty(globalThis,key,descriptor);else Reflect.deleteProperty(globalThis,key);}
 });

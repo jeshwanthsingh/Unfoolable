@@ -175,9 +175,10 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 
 /* Weight follows the decision, not every available link. */
 .unfool-actions button.uf-primary{min-height:40px;padding:6px 18px;font-weight:500}
-.unfool-task[data-status=checked] .unfool-actions button.uf-primary{background:transparent;border-color:transparent;color:var(--uf-text);padding-inline:0}
+.unfool-task .unfool-actions button.uf-primary{background:transparent;border:1px solid var(--uf-border);color:var(--uf-text)}
+.unfool-task[data-primary=true] .unfool-actions button.uf-primary{background:var(--uf-text);border-color:var(--uf-text);color:var(--uf-surface)}
 .unfool-actions small{flex:0 0 100%;order:2;align-self:flex-start;max-width:none;font-size:13px;line-height:1.5}
-@media(hover:hover) and (pointer:fine){.unfool-task[data-status=checked] .unfool-actions button.uf-primary:not(:disabled):hover{background:transparent;color:var(--uf-text);text-decoration:underline;text-underline-offset:4px}}
+@media(hover:hover) and (pointer:fine){.unfool-task .unfool-actions button.uf-primary:not(:disabled):hover{background:transparent;color:var(--uf-text)}.unfool-task[data-primary=true] .unfool-actions button.uf-primary:not(:disabled):hover{background:var(--uf-text);color:var(--uf-surface);opacity:.88}}
 
 /* A static wash means attention; a finite flash acknowledges a real Accept event. */
 .unfool-task{position:relative;isolation:isolate}.unfool-task[data-attention=true]{border-inline-start:3px solid var(--uf-amber);padding-inline-start:18px}
