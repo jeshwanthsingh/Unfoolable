@@ -134,3 +134,8 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 @media(max-width:600px){.unfool-watch{padding:24px 20px}.watch-body{grid-template-columns:minmax(0,1fr);gap:32px;margin-top:32px}.watch-header{margin-bottom:32px}.watch-column>h3{font-size:28px}.watch-timeline li{grid-template-columns:72px minmax(0,1fr);gap:12px}.watch-timeline li+li:before{left:78px}}
 
 @media(max-width:600px){.watch-body>section:last-child{order:-1}.watch-files li{padding:8px 0}.watch-files li span:first-child{font-weight:550}}
+
+/* One task action leads; the other decisions stay quiet. */
+.unfool-actions button{border-color:transparent;padding-inline:8px;font-weight:500}
+.unfool-actions button.uf-primary{border-color:var(--uf-text);background:var(--uf-text);color:var(--uf-surface);padding-inline:20px;font-weight:600}
+@media(hover:hover) and (pointer:fine){.unfool-actions button.uf-primary:not(:disabled):hover{background:var(--uf-text);color:var(--uf-surface);opacity:.88}.unfool-actions button:not(.uf-primary):not(:disabled):hover{background:transparent;text-decoration:underline;text-underline-offset:4px}}
