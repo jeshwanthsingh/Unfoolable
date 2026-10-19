@@ -161,3 +161,5 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfool-header{margin-bottom:40px}.unfool-header h1{font-size:20px;font-weight:600;letter-spacing:-.03em}.unfool-header>button{min-height:40px}
 .unfool-greeting{margin:0 0 32px}.unfool-greeting h2,.unfool-greeting p{font-size:30px;line-height:1.3;font-weight:400;letter-spacing:-.025em;max-width:32ch}.unfool-greeting p{color:var(--uf-muted);margin-top:8px}
 @media(max-width:480px){.unfool-greeting h2,.unfool-greeting p{font-size:28px}.unfool-header{margin-bottom:32px}.unfool-header h1{font-size:20px}}
+
+.unfool-wordmark{display:flex;align-items:center;gap:10px}.unfool-wordmark .hallmark-well{width:24px;height:24px;background:transparent;box-shadow:none}.unfool-wordmark .hallmark-strike{width:24px;height:24px}
