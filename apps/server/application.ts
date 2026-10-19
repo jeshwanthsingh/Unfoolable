@@ -1,3 +1,4 @@
+import {phoneOrigin} from './phone-access.ts';
 import {archivedDraftIds,changeDraftArchive} from './draft-archive.ts';
 import {skillProposal,installSkill} from './skill-imports.ts';
 import {createDeskStream} from './desk-stream.ts';
@@ -110,15 +111,17 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
   res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'");
   const address=server.address();if(!address||typeof address==='string'){error(res,503,'UNAVAILABLE','Coordinator unavailable');return;}
-  const hosts=[`127.0.0.1:${address.port}`,`localhost:${address.port}`];
+  const privateOrigin=phoneOrigin(config.dataDir),privateHost=privateOrigin?new URL(privateOrigin).host:null;const remote=!!privateHost&&req.headers.host===privateHost;
+  const hosts=[`127.0.0.1:${address.port}`,`localhost:${address.port}`,...(privateHost?[privateHost]:[])];
   const hostCount=req.rawHeaders.filter((_,i)=>i%2===0&&req.rawHeaders[i]?.toLowerCase()==='host').length;
   if(hostCount!==1||!req.headers.host||!hosts.includes(req.headers.host)){error(res,421,'INVALID_HOST','Unexpected local host');return;}
-  const origins=new Set(hosts.map(h=>'http://'+h));if(config.development){origins.add('http://127.0.0.1:5173');origins.add('http://localhost:5173');}
+  const origins=new Set(remote&&privateOrigin?[privateOrigin]:hosts.filter(h=>h!==privateHost).map(h=>'http://'+h));if(config.development&&!remote){origins.add('http://127.0.0.1:5173');origins.add('http://localhost:5173');}
   const mutating=!['GET','HEAD','OPTIONS'].includes(req.method??'');
   if((mutating&&!req.headers.origin)||(req.headers.origin&&!origins.has(req.headers.origin))){error(res,403,'INVALID_ORIGIN','Unexpected or missing request origin');return;}
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
+   if(remote&&pathname.startsWith('/api/'))throw new SpecError('PHONE_PAIRING_REQUIRED','Pair this phone with your Mac first.',401);
    if(pathname==='/api/chat/archive'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable first.',403);if(req.method==='GET'){json(res,200,{archivedDraftIds:archivedDraftIds(database.connection)});return;}if(req.method==='POST'){json(res,200,changeDraftArchive(database.connection,await projectBody(req,'draft visibility')));return;}}
    if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res);return;}
    if(pathname==='/api/stop-all'&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);await projectBody(req,'stop all');json(res,200,await stopAll() as Record<string,unknown>);return;}

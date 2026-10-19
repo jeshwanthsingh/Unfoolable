@@ -1,3 +1,4 @@
+import {enablePrivatePhone} from '../apps/server/phone-access.ts';
 import {proposeSkill,installSkill} from '../apps/server/skill-imports.ts';
 import {ensureCoordinator} from './launcher.ts';
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
@@ -11,9 +12,10 @@ const port=process.env.COMMAND_CENTER_PORT??active.port??3210;
 const data=resolve(root,process.env.COMMAND_CENTER_DATA_DIR??active.dataDir??'data');
 const base='http://localhost:'+port;
 const shellQuote=(value:string)=>"'"+value.replaceAll("'","'\"'\"'")+"'";
-const usage='Unfoolable — AI does the work. Nothing fools the check.\nUsage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all; cc skill add <local-skill-directory>';
+const usage='Unfoolable — AI does the work. Nothing fools the check.\nUsage: cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all; cc skill add <local-skill-directory>; cc phone serve';
 async function main(){
  const args=process.argv.slice(2);if(args.length===0)args.push('chat');if(args.length===1&&['--help','-h'].includes(args[0]!)){console.log(usage+'\nAliases: unfool and cc.');return;}const resource=args.shift(),command=args.shift();
+ if(resource==='phone'){if(command!=='serve'||args.length)throw Error('Usage: cc phone serve');console.log(JSON.stringify(enablePrivatePhone(data,Number(port)),null,2));return;}
  if(resource!=='ticket'&&resource!=='playbook'&&resource!=='chat'&&resource!=='stop-all'&&resource!=='skill')throw Error(usage);
  if(resource==='chat'||resource==='skill')await ensureCoordinator(root,data,port);
  const key=readFileSync(join(data,'ticket-operator.key'),'utf8').trim();
@@ -40,7 +42,7 @@ async function main(){
   throw Error('Confirmation expired. No decision was made by the CLI.');
  };
 
- if(resource==='skill'){if(command!=='add'||args.length!==1)throw Error('Usage: cc skill add <local-skill-directory>');const p=await proposeSkill(data,resolve(args[0]!));console.log('Skill '+p.name+': score '+p.risk.score+'/100, '+p.risk.recommendation+'. Static only; network denied, OSV offline fallback.');if(p.risk.recommendation==='DO_NOT_INSTALL'){console.log('Nothing installed. Touch ID is required for this exact inspected content.');await confirmInBrowser('/api/skills/'+p.id+'/install',{name:p.name,score:p.risk.score,reportHash:p.reportHash});}else console.log(JSON.stringify(installSkill(data,p.id)));return;}
+ if(resource==='skill'){if(command!=='add'||args.length!==1)throw Error('Usage: cc skill add <local-skill-directory>; cc phone serve');const p=await proposeSkill(data,resolve(args[0]!));console.log('Skill '+p.name+': score '+p.risk.score+'/100, '+p.risk.recommendation+'. Static only; network denied, OSV offline fallback.');if(p.risk.recommendation==='DO_NOT_INSTALL'){console.log('Nothing installed. Touch ID is required for this exact inspected content.');await confirmInBrowser('/api/skills/'+p.id+'/install',{name:p.name,score:p.risk.score,reportHash:p.reportHash});}else console.log(JSON.stringify(installSkill(data,p.id)));return;}
  if(resource==='chat'){
   if(args.length)throw Error('Usage: cc chat ["message"]; cc stop-all');
   if(command===undefined){execFile('/usr/bin/open',[base+'/?view=chat#operator='+key],error=>{if(error)console.error('Could not open browser');});console.log('Unfoolable: '+base+'/?view=chat');return;}
