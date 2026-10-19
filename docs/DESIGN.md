@@ -4,11 +4,11 @@ Mode: Operate. One person asks for work, sees what happened, inspects the proof,
 
 ## The idea
 
-An assay office strikes a hallmark into metal after checking it. Here, a recorded check result strikes an original shield into a small pewter well. The mark is the only hero. Nothing moves without a new stored event.
+An assay office strikes a hallmark into metal after checking it. Here, a recorded check result strikes an original seal into a small circular pewter recess. The mark is the only hero. Nothing moves without a new stored event.
 
 ## Composition
 
-One left-aligned column, centered, maximum 720px. Name and quiet Settings control; one labelled request box and Ask; a factual current-task summary; newest-first task rows. A 56px well anchors each row, followed by title, one status sentence, at most two decisions and See the proof. No dashboard grid, sidebar, canvas, decorative statistics or rounded shadow cards.
+One left-aligned column, centered, maximum 720px. Slim name/status/Settings bar; one labelled request box and Ask; newest-first task rows. A 56px well anchors each row, followed by title, one status sentence, at most two decisions and See the proof. No dashboard grid, sidebar, canvas, decorative statistics or rounded shadow cards.
 
 ```text
 Unfoolable                              Settings
@@ -23,9 +23,9 @@ What should we work on?                     Ask
 
 ## Tokens
 
-Pewter #E8EBED surface, steel #C9CED3 wells, graphite #2A2F35 text. Proof green #2F7A57, ochre #B5762A, signal red #B8432F are marks, never decoration. Dark: surface #1A1E22, wells #2A3036, text #DCE1E5, lifted mark colors. Measure AA against rendered surfaces; deepen ochre in light mode if needed. Instrument Sans variable regular is the only UI family. 15/17/22/34px scale, generous line-height, tabular counts. Text measures below 80 characters.
+Near-white #FAFBFC surface, pewter #E8EBED mark wells, graphite #2A2F35 text. Proof green #2F7A57, ochre #B5762A, signal red #B8432F are marks, never decoration. Dark: surface #151719, wells #2A3036, text #DCE1E5, lifted mark colors. Measure AA against rendered surfaces; deepen ochre in light mode if needed. Instrument Sans variable regular is the only UI family. 15/17/22/34px scale, generous line-height, tabular counts. Text measures below 80 characters.
 
-Spacing: 8, 12, 16, 24, 32, 48, 64px. Input corners 8px; wells 14px with a subtle inset shadow and highlight; rows have no background, border or shadow. Focus is a visible graphite/text-colored outline.
+Spacing: 8, 16, 24, 32, 48, 64px. Input corners 8px; 56px circular wells with 48px glyphs, a subtle inset shadow and highlight; rows have no background, border or shadow. Focus is a visible graphite/text-colored outline.
 
 ## Shapes and motion
 

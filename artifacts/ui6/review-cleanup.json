@@ -1,0 +1,20 @@
+{
+  "identity": {
+    "pid": 76233,
+    "ppid": 76220,
+    "pgid": 76220,
+    "sid": 76220,
+    "birth": "darwin:1792436491:308448",
+    "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "observedAt": "2026-10-19T19:03:59.646Z",
+    "exitedAt": null
+  },
+  "result": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  },
+  "liveAppPort3225Untouched": true
+}

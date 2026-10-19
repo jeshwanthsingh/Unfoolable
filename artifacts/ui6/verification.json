@@ -1,0 +1,37 @@
+{
+  "tests": {
+    "passed": 1013,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 342.027,
+    "sourceCommit": "44f07b4658aef0deec4dd59c6a72864ee157036f"
+  },
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "protectedPaths": {
+    "tested": 67,
+    "readable": 0
+  },
+  "negativeControls": {
+    "tested": 12,
+    "pass": 0
+  },
+  "credentialScan": {
+    "unresolvedFindings": 0,
+    "existingSyntheticFixtureTriaged": 1
+  },
+  "review": {
+    "passes": 3,
+    "widths": [
+      1440,
+      390
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "reducedMotion": "PASS",
+    "manualVoiceOver": "UNVERIFIED",
+    "physicalPhone": "UNVERIFIED"
+  }
+}

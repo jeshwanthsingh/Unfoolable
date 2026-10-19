@@ -1,0 +1,32 @@
+{
+  "decisionAndMotionSections": [
+    {
+      "file": "apps/web/src/UnfoolableApp.tsx",
+      "section": "async function mutate(",
+      "unchanged": true,
+      "sha256": "19944002fc86ec7cc322b4801db2884426feb249fc751d8eecc5f5ea6efc9963"
+    },
+    {
+      "file": "apps/web/src/UnfoolableProof.tsx",
+      "section": "async function openFile(",
+      "unchanged": true,
+      "sha256": "06c976eef1ab54a87db0f36218b7becc3ab56211df1eaa787bee55f603450b4b"
+    },
+    {
+      "file": "apps/web/src/unfoolable-model.ts",
+      "section": "export function mayAccept(",
+      "unchanged": true,
+      "sha256": "c993ed59b4dc640abcffb286460506344a33fd0e50da6010d2fa8640e0e54b3e"
+    },
+    {
+      "file": "apps/web/src/Hallmark.tsx",
+      "section": "useEffect(()=>{",
+      "unchanged": true,
+      "sha256": "bc478b13f589bb6cc41cd69c2c2a1c122b40d4f296cc5c6474d48284b5167bee"
+    }
+  ],
+  "databaseMigrationsAdded": false,
+  "serverMutationsAdded": false,
+  "newAppDependencies": false,
+  "onlyServerChange": "read-only light display projection"
+}

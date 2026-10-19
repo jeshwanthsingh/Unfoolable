@@ -1,0 +1,42 @@
+[
+  {
+    "width": 1440,
+    "theme": "light",
+    "result": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"width\": 1440,\n  \"scrollWidth\": 1440,\n  \"minSecondaryContrast\": 6.775690540211534,\n  \"secondaryNodes\": 16,\n  \"failures\": [],\n  \"runningAnimations\": 0,\n  \"visibleTicketRows\": 5,\n  \"marks\": [\n    \"Stopped\",\n    \"Look closer\",\n    \"Look closer\",\n    \"Working\",\n    \"Accepted\"\n  ]\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const chan=v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4},lum=rgb=>rgb.slice(0,3).map(chan).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0),rgb=s=>(s.match(/[\\\\d.]+/g)||[]).map(Number),ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};const failures=[];let min=100,count=0;for(const e of document.querySelectorAll(\\'.unfoolable main p,.unfoolable main small,.unfoolable main summary,.unfoolable main a\\')){if(!e.getClientRects().length||e.closest(\\'[hidden]\\'))continue;const cs=getComputedStyle(e);if(cs.visibility===\\'hidden\\')continue;let parent=e,bg;while(parent){const v=rgb(getComputedStyle(parent).backgroundColor);if(v.length===3||v[3]===1){bg=v;break;}parent=parent.parentElement;}if(!bg)continue;const n=ratio(rgb(cs.color),bg);min=Math.min(min,n);count++;if(n<4.5)failures.push({text:e.textContent.slice(0,70),ratio:n});}if(!count||min<4.5||document.documentElement.scrollWidth>innerWidth||document.getAnimations().some(a=>a.playState===\\'running\\'))throw Error(JSON.stringify({count,min,failures,overflow:document.documentElement.scrollWidth-innerWidth}));return {width:innerWidth,scrollWidth:document.documentElement.scrollWidth,minSecondaryContrast:min,secondaryNodes:count,failures,runningAnimations:document.getAnimations().filter(a=>a.playState===\\'running\\').length,visibleTicketRows:document.querySelectorAll(\\'.unfool-task\\').length,marks:[...document.querySelectorAll(\\'.hallmark-well\\')].map(x=>x.getAttribute(\\'aria-label\\'))};}');\n```"
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "result": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"width\": 1440,\n  \"scrollWidth\": 1440,\n  \"minSecondaryContrast\": 8.546352009725226,\n  \"secondaryNodes\": 16,\n  \"failures\": [],\n  \"runningAnimations\": 0,\n  \"visibleTicketRows\": 5,\n  \"marks\": [\n    \"Stopped\",\n    \"Look closer\",\n    \"Look closer\",\n    \"Working\",\n    \"Accepted\"\n  ]\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const chan=v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4},lum=rgb=>rgb.slice(0,3).map(chan).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0),rgb=s=>(s.match(/[\\\\d.]+/g)||[]).map(Number),ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};const failures=[];let min=100,count=0;for(const e of document.querySelectorAll(\\'.unfoolable main p,.unfoolable main small,.unfoolable main summary,.unfoolable main a\\')){if(!e.getClientRects().length||e.closest(\\'[hidden]\\'))continue;const cs=getComputedStyle(e);if(cs.visibility===\\'hidden\\')continue;let parent=e,bg;while(parent){const v=rgb(getComputedStyle(parent).backgroundColor);if(v.length===3||v[3]===1){bg=v;break;}parent=parent.parentElement;}if(!bg)continue;const n=ratio(rgb(cs.color),bg);min=Math.min(min,n);count++;if(n<4.5)failures.push({text:e.textContent.slice(0,70),ratio:n});}if(!count||min<4.5||document.documentElement.scrollWidth>innerWidth||document.getAnimations().some(a=>a.playState===\\'running\\'))throw Error(JSON.stringify({count,min,failures,overflow:document.documentElement.scrollWidth-innerWidth}));return {width:innerWidth,scrollWidth:document.documentElement.scrollWidth,minSecondaryContrast:min,secondaryNodes:count,failures,runningAnimations:document.getAnimations().filter(a=>a.playState===\\'running\\').length,visibleTicketRows:document.querySelectorAll(\\'.unfool-task\\').length,marks:[...document.querySelectorAll(\\'.hallmark-well\\')].map(x=>x.getAttribute(\\'aria-label\\'))};}');\n```"
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "result": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"width\": 390,\n  \"scrollWidth\": 390,\n  \"minSecondaryContrast\": 6.775690540211534,\n  \"secondaryNodes\": 16,\n  \"failures\": [],\n  \"runningAnimations\": 0,\n  \"visibleTicketRows\": 5,\n  \"marks\": [\n    \"Stopped\",\n    \"Look closer\",\n    \"Look closer\",\n    \"Working\",\n    \"Accepted\"\n  ]\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const chan=v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4},lum=rgb=>rgb.slice(0,3).map(chan).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0),rgb=s=>(s.match(/[\\\\d.]+/g)||[]).map(Number),ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};const failures=[];let min=100,count=0;for(const e of document.querySelectorAll(\\'.unfoolable main p,.unfoolable main small,.unfoolable main summary,.unfoolable main a\\')){if(!e.getClientRects().length||e.closest(\\'[hidden]\\'))continue;const cs=getComputedStyle(e);if(cs.visibility===\\'hidden\\')continue;let parent=e,bg;while(parent){const v=rgb(getComputedStyle(parent).backgroundColor);if(v.length===3||v[3]===1){bg=v;break;}parent=parent.parentElement;}if(!bg)continue;const n=ratio(rgb(cs.color),bg);min=Math.min(min,n);count++;if(n<4.5)failures.push({text:e.textContent.slice(0,70),ratio:n});}if(!count||min<4.5||document.documentElement.scrollWidth>innerWidth||document.getAnimations().some(a=>a.playState===\\'running\\'))throw Error(JSON.stringify({count,min,failures,overflow:document.documentElement.scrollWidth-innerWidth}));return {width:innerWidth,scrollWidth:document.documentElement.scrollWidth,minSecondaryContrast:min,secondaryNodes:count,failures,runningAnimations:document.getAnimations().filter(a=>a.playState===\\'running\\').length,visibleTicketRows:document.querySelectorAll(\\'.unfool-task\\').length,marks:[...document.querySelectorAll(\\'.hallmark-well\\')].map(x=>x.getAttribute(\\'aria-label\\'))};}');\n```"
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "result": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"width\": 390,\n  \"scrollWidth\": 390,\n  \"minSecondaryContrast\": 8.546352009725226,\n  \"secondaryNodes\": 16,\n  \"failures\": [],\n  \"runningAnimations\": 0,\n  \"visibleTicketRows\": 5,\n  \"marks\": [\n    \"Stopped\",\n    \"Look closer\",\n    \"Look closer\",\n    \"Working\",\n    \"Accepted\"\n  ]\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const chan=v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4},lum=rgb=>rgb.slice(0,3).map(chan).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0),rgb=s=>(s.match(/[\\\\d.]+/g)||[]).map(Number),ratio=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};const failures=[];let min=100,count=0;for(const e of document.querySelectorAll(\\'.unfoolable main p,.unfoolable main small,.unfoolable main summary,.unfoolable main a\\')){if(!e.getClientRects().length||e.closest(\\'[hidden]\\'))continue;const cs=getComputedStyle(e);if(cs.visibility===\\'hidden\\')continue;let parent=e,bg;while(parent){const v=rgb(getComputedStyle(parent).backgroundColor);if(v.length===3||v[3]===1){bg=v;break;}parent=parent.parentElement;}if(!bg)continue;const n=ratio(rgb(cs.color),bg);min=Math.min(min,n);count++;if(n<4.5)failures.push({text:e.textContent.slice(0,70),ratio:n});}if(!count||min<4.5||document.documentElement.scrollWidth>innerWidth||document.getAnimations().some(a=>a.playState===\\'running\\'))throw Error(JSON.stringify({count,min,failures,overflow:document.documentElement.scrollWidth-innerWidth}));return {width:innerWidth,scrollWidth:document.documentElement.scrollWidth,minSecondaryContrast:min,secondaryNodes:count,failures,runningAnimations:document.getAnimations().filter(a=>a.playState===\\'running\\').length,visibleTicketRows:document.querySelectorAll(\\'.unfool-task\\').length,marks:[...document.querySelectorAll(\\'.hallmark-well\\')].map(x=>x.getAttribute(\\'aria-label\\'))};}');\n```"
+      }
+    ]
+  }
+]

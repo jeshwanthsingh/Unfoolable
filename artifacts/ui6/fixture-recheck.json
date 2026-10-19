@@ -1,0 +1,25 @@
+{
+  "firstFullSuite": {
+    "tests": 1012,
+    "passed": 1011,
+    "failed": 1,
+    "failure": "debug-store existing two-correction fixture did not settle within its 15-second deadline"
+  },
+  "isolatedUnchangedReproduction": {
+    "tests": 1,
+    "passed": 1,
+    "failed": 0,
+    "durationMilliseconds": 13457.408833
+  },
+  "existingTestOrDeadlineChanged": false,
+  "interpretation": "Timing sensitivity under concurrent native work is suspected, not proven. No logic fix or widened deadline was made.",
+  "finalFullSuite": {
+    "tests": 1013,
+    "passed": 1013,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 342.027,
+    "sameCorrectionFixturePassed": true,
+    "sourceCommit": "44f07b4658aef0deec4dd59c6a72864ee157036f"
+  }
+}
