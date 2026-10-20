@@ -1,0 +1,15 @@
+{
+  "previousKeyId": "fc261d6df2962747c93f8870bfae36ac5e9836b106c62fa2d1d9315994edce83",
+  "currentKeyId": "874c3c9309f390deffb4537dd80b090f67766919dfce206aaa62c2bcee70d205",
+  "rotationTime": "2026-10-20T19:11:41.426Z",
+  "mode": "SECURE_ENCLAVE_P256",
+  "signatureVerified": true,
+  "softwarePrivateDeletion": "exact local file overwritten, fsynced and unlinked; APFS/SSD/snapshots and older backups may retain copies",
+  "privateKeyExported": false,
+  "softwarePrivateExists": false,
+  "accessControl": "AfterFirstUnlockThisDeviceOnly + privateKeyUsage; no userPresence or biometrics",
+  "specialEntitlements": false,
+  "independentNodeSignatureVerified": true,
+  "coordinator": "online",
+  "broken": 0
+}

@@ -83,3 +83,11 @@ flowchart LR
 ```
 
 A seal authenticates the stored result, including failures or gaps. It is not additional test coverage. Hash chains/signatures are checked against retained anchors and the trusted key; whole-machine rollback and an owner/root attacker replacing code/keys are outside this local boundary.
+
+## SIGN-1b active hardware sealing
+
+- Migration 21 is active on the owned local coordinator. Fresh backup and full restore were proven before activation; historical checks remain unsealed.
+- The Swift CryptoKit helper signs with SecureEnclave.P256, AfterFirstUnlockThisDeviceOnly/privateKeyUsage, no biometric/user-presence requirement and no special entitlement. Only the device-bound blob is stored; Builder read and helper execution are denied.
+- DSSE key IDs select public keys from docs/VERIFY_KEYS.json. Signed timestamps must fall within the selected key's validity interval. Retirement does not rewrite old envelopes or core verdicts.
+- The local legacy private.pem was overwritten/fsynced/unlinked after hardware proof and restart. Exact private/blob backup paths are excluded; older backups/snapshots may retain the software key. Public keys remain available for historical verification on a new Mac.
+- Key provisioning/rotation requires exclusive coordinator ownership. No verdict-core, scoring, approval, passkey or Keep rule changed.
