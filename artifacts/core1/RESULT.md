@@ -14,3 +14,5 @@ Source: local commit 14a6857 plus final factual documentation/artifacts. No push
 - Graphify 0.9.92 Apache-2.0, CLI only, code-only, network denied; zero model calls. Skill remains uninstalled (DO_NOT_INSTALL). Local HTML render: zero HTTP requests/page errors. Core has no external imports/calls in graph; authority lint provides independent validation.
 
 See FINAL_VALIDATION.json, docs/CORE_1_AUDIT.md, docs/CORE_1_COMPLETENESS.md, docs/INVARIANTS.md and docs/DESIGN_FACTS.md. POLICY_PROPOSALS.md proposes (does not apply) treating empty supplied evidence as ERROR. Remaining limitations: graph incompleteness, unretained historical inputs, trusted observation/provenance metadata rather than signatures, and deliberately preserved legacy aggregate compatibility.
+
+Credential scan: changed source/tests/docs have no findings. Artifact scan has three copies of one generic-key false positive: a JavaScript method descriptor in the hash-verified vis-network asset, embedded unchanged in before/after HTML. No scanner policy was relaxed; see credential-scan-final.json.
