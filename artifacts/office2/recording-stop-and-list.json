@@ -1,0 +1,6 @@
+[
+  {
+    "type": "text",
+    "text": "### Result\n{\n  \"errors\": [],\n  \"visible\": true,\n  \"text\": \"Skip to work\\nUnfoolable\\nSettings\\nList\\nWorkshop\\nGood morning.\\n\\n6 things need you.\\n\\nWhat should we work on?\\nAsk\\nNeeds you 6\\nAdd local setup guidance to README\\n\\nReady for you. Not auto-checked, so take a look.\\n\\nLook at the changes\\nReject\\nSee the proof\\nClarify source author option help text\\n\\nPaused. It \"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({errors:window.__recordErrors,visible:!!document.querySelector(\\'.unfool-greeting\\')&&!document.querySelector(\\'.unfool-greeting\\').closest(\\'[hidden]\\'),text:document.body.innerText.slice(0,300)})');\n```"
+  }
+]

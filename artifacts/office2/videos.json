@@ -1,0 +1,85 @@
+[
+  {
+    "path": "artifacts/office2/builder-station.webm",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "vp8",
+          "width": 1440,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "15.840000"
+      }
+    }
+  },
+  {
+    "path": "artifacts/office2/pass1/replay.webm",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "vp8",
+          "width": 1440,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "57.000000"
+      }
+    }
+  },
+  {
+    "path": "artifacts/office2/pass2/replay.webm",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "vp8",
+          "width": 1440,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "56.200000"
+      }
+    }
+  },
+  {
+    "path": "artifacts/office2/pass3/replay.webm",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "vp8",
+          "width": 1440,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "58.960000"
+      }
+    }
+  },
+  {
+    "path": "artifacts/office2/record-clip.webm",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "vp9",
+          "width": 960,
+          "height": 576
+        }
+      ],
+      "format": {}
+    }
+  }
+]

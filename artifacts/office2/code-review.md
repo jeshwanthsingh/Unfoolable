@@ -1,0 +1,11 @@
+# OFFICE-2 review
+
+Scope: original optional Workshop assets, client-side event projection, scene lifecycle, safe speech, local clip recording and CSS. React + existing PixiJS; no server/shared/scripts/dependency edits.
+
+Accept with explicit verification limits. Real states remain derived only from ordered ticket events. Commands and output are never rendered; only fixed summaries and validated relative basenames. Actual session totals replace prior totals per attempt, rather than counting snapshots twice. Test lights require numeric recorded counts. Writer pending is not treated as live typing. Builder waypoints stay outside inspection glass. No request, status, permission or decision can be created by replay or recording.
+
+Refinements: removed legacy debug labels; 2x2 phone name tags fix clipping; caption backing fixes replay contrast; the old scene can no longer revoke a newer canvas reference. Stop-recording plus immediately returning to List was exercised through the real UI without errors. Native reduced motion uses a still original illustration and zero canvas frames. The local WebM download decodes successfully; it contains one video track and no microphone/screen/audio capture.
+
+Emil review: work travel and package motion explain recorded transitions. Stamp impact 180ms, particles settle within 700ms, camera retargets without React per-frame updates, sound starts only after user opt-in. Ambient breathing/blinking/steam is explicitly decorative and remains opt-out through reduced motion. No continuously moving work indicator. Renderer averages about 0.3ms in the measured browser run; observed capped throughput under concurrent verification load is about 58fps, not a universal 60fps guarantee.
+
+Limits: automated native tab/window changes did not produce document.hidden; the controlled visibility-input test proves the real handler stops rendering and resumes, but native macOS hide behavior needs manual confirmation. Writer fine-grained start/progress is absent in stored events, so only launch-pending and completion are shown. Clip WebM uses native MediaRecorder streaming metadata and may not expose duration/seek metadata in all players. The references were studied, not copied; assets are original CC0.

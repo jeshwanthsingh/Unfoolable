@@ -1,0 +1,62 @@
+
+Install with npx skills add <owner/repo@skill>
+
+pixijs/pixijs-skills@pixijs 6.4K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs
+
+pixijs/pixijs-skills@pixijs-application 5.6K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-application
+
+pixijs/pixijs-skills@pixijs-performance 5.6K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-performance
+
+pixijs/pixijs-skills@pixijs-core-concepts 5.6K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-core-concepts
+
+pixijs/pixijs-skills@pixijs-scene-graphics 5.6K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-scene-graphics
+
+pixijs/pixijs-skills@pixijs-assets 5.5K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-assets
+
+pixijs/pixijs-skills@pixijs-events 5.5K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-events
+
+pixijs/pixijs-skills@pixijs-scene-sprite 5.5K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-scene-sprite
+
+pixijs/pixijs-skills@pixijs-scene-container 5.5K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-scene-container
+
+pixijs/pixijs-skills@pixijs-math 5.5K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-math
+
+pixijs/pixijs-skills@pixijs-scene-core-concepts 5.4K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-scene-core-concepts
+
+pixijs/pixijs-skills@pixijs-scene-text 5.4K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-scene-text
+
+pixijs/pixijs-skills@pixijs-ticker 5.4K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-ticker
+
+pixijs/pixijs-skills@pixijs-filters 5.4K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-filters
+
+pixijs/pixijs-skills@pixijs-scene-particle-container 5.4K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-scene-particle-container
+
+pixijs/pixijs-skills@pixijs-custom-rendering 5.3K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-custom-rendering
+
+pixijs/pixijs-skills@pixijs-color 5.3K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-color
+
+pixijs/pixijs-skills@pixijs-create 5.3K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-create
+
+pixijs/pixijs-skills@pixijs-blend-modes 5.3K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-blend-modes
+
+pixijs/pixijs-skills@pixijs-scene-dom-container 5.3K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-scene-dom-container

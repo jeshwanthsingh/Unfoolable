@@ -1,0 +1,62 @@
+
+Install with npx skills add <owner/repo@skill>
+
+mengto/skills@build-hybrid-game-assets 1.2K installs
+└ https://skills.sh/mengto/skills/build-hybrid-game-assets
+
+eachlabs/skills@game-asset-generation 557 installs
+└ https://skills.sh/eachlabs/skills/game-asset-generation
+
+weberwang/phaser-skills@phaser4-game-qa-performance 181 installs
+└ https://skills.sh/weberwang/phaser-skills/phaser4-game-qa-performance
+
+omer-metin/skills-for-antigravity@godot-development 88 installs
+└ https://skills.sh/omer-metin/skills-for-antigravity/godot-development
+
+buildfastwithai/buildfast-skills@threejs-game-generator-skill 67 installs
+└ https://skills.sh/buildfastwithai/buildfast-skills/threejs-game-generator-skill
+
+haxqer/godot-skill@godot 32 installs
+└ https://skills.sh/haxqer/godot-skill/godot
+
+0x0funky/agent-sprite-forge@codeart2d 24 installs
+└ https://skills.sh/0x0funky/agent-sprite-forge/codeart2d
+
+ervareza/agent-skill-pixel-art@pixel-art 18 installs
+└ https://skills.sh/ervareza/agent-skill-pixel-art/pixel-art
+
+tea-x-random/unity-game-skills@unity-game-director 13 installs
+└ https://skills.sh/tea-x-random/unity-game-skills/unity-game-director
+
+raptoravis/threejs-game-skills@phaser-game-director 12 installs
+└ https://skills.sh/raptoravis/threejs-game-skills/phaser-game-director
+
+thedivergentai/game-dev-agentic-skills@bevy-ui-text 11 installs
+└ https://skills.sh/thedivergentai/game-dev-agentic-skills/bevy-ui-text
+
+thedivergentai/game-dev-agentic-skills@bevy-project-templates 11 installs
+└ https://skills.sh/thedivergentai/game-dev-agentic-skills/bevy-project-templates
+
+tea-x-random/unity-game-skills@unity-image-generator 10 installs
+└ https://skills.sh/tea-x-random/unity-game-skills/unity-image-generator
+
+studioigor/ref2game@ref2game 9 installs
+└ https://skills.sh/studioigor/ref2game/ref2game
+
+softwareinfocus/threejs-skills@build-hybrid-game-assets 6 installs
+└ https://skills.sh/softwareinfocus/threejs-skills/build-hybrid-game-assets
+
+skills.volces.com@game-asset-generation 5 installs
+└ https://skills.sh/skills.volces.com/game-asset-generation
+
+haxqer/skills@game-asset-gen 2 installs
+└ https://skills.sh/haxqer/skills/game-asset-gen
+
+jeremylongworth-source/agentskills@game-sprite-design 2 installs
+└ https://skills.sh/jeremylongworth-source/agentskills/game-sprite-design
+
+erikhazzard/vasir@game__adding-juice 2 installs
+└ https://skills.sh/erikhazzard/vasir/game-adding-juice
+
+jeremylongworth-source/agentskills@game-phaser-development 2 installs
+└ https://skills.sh/jeremylongworth-source/agentskills/game-phaser-development

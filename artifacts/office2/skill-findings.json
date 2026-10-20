@@ -1,0 +1,607 @@
+[
+  {
+    "name": "pixijs-accessibility",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-application",
+    "risk": {
+      "score": 24,
+      "severity": "MEDIUM",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "MEDIUM"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": [
+      {
+        "category": "Memory Poisoning",
+        "severity": "MEDIUM",
+        "finding": "                                                                                                                                                                                                        ",
+        "explanation": "Skill attempts to fill the context window with filler content, displacing legitimate instructions and safety constraints. This can degrade agent performance or bypass safety boundaries."
+      },
+      {
+        "category": "Memory Poisoning",
+        "severity": "MEDIUM",
+        "finding": "                                                                                                                                                                                                        ",
+        "explanation": "Skill attempts to fill the context window with filler content, displacing legitimate instructions and safety constraints. This can degrade agent performance or bypass safety boundaries."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x187",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x221",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x219",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x84",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x116",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x87",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x105",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x86",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x128",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x161",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      }
+    ]
+  },
+  {
+    "name": "pixijs-assets",
+    "risk": {
+      "score": 42,
+      "severity": "MEDIUM",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "HIGH"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 92.3,
+      "is_complete": false
+    },
+    "findings": [
+      {
+        "category": "analysis-evasion",
+        "severity": "HIGH",
+        "finding": "references/progress.md (partial)",
+        "explanation": "Referenced artifact was not completely inspected"
+      },
+      {
+        "category": "analysis-evasion",
+        "severity": "HIGH",
+        "finding": "references/progress.md (partial)",
+        "explanation": "Referenced artifact was not completely inspected"
+      },
+      {
+        "category": "Data Exfiltration",
+        "severity": "MEDIUM",
+        "finding": "https://api.example.com/",
+        "explanation": "Data is being sent to an external URL. This could be legitimate telemetry or data exfiltration. Manual review is recommended."
+      }
+    ]
+  },
+  {
+    "name": "pixijs-blend-modes",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-color",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-core-concepts",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-create",
+    "risk": {
+      "score": 12,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "MEDIUM"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": [
+      {
+        "category": "Excessive Agency",
+        "severity": "MEDIUM",
+        "finding": "skip prompt",
+        "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation."
+      },
+      {
+        "category": "Excessive Agency",
+        "severity": "MEDIUM",
+        "finding": "skip prompt",
+        "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation."
+      }
+    ]
+  },
+  {
+    "name": "pixijs-custom-rendering",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-environments",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-events",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-filters",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-html-source",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-math",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-migration-v8",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-performance",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 0.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-scene-container",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-scene-core-concepts",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-scene-dom-container",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-scene-gif",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-scene-graphics",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-scene-mesh",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-scene-particle-container",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs-scene-sprite",
+    "risk": {
+      "score": 37,
+      "severity": "MEDIUM",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "HIGH"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 80.0,
+      "is_complete": false
+    },
+    "findings": [
+      {
+        "category": "analysis-evasion",
+        "severity": "HIGH",
+        "finding": "references/animated-sprite.md (partial)",
+        "explanation": "Referenced artifact was not completely inspected"
+      },
+      {
+        "category": "analysis-evasion",
+        "severity": "HIGH",
+        "finding": "references/animated-sprite.md (partial)",
+        "explanation": "Referenced artifact was not completely inspected"
+      }
+    ]
+  },
+  {
+    "name": "pixijs-scene-text",
+    "risk": {
+      "score": 56,
+      "severity": "HIGH",
+      "recommendation": "DO_NOT_INSTALL",
+      "max_issue_severity": "HIGH"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 50.0,
+      "is_complete": false
+    },
+    "findings": [
+      {
+        "category": "analysis-evasion",
+        "severity": "HIGH",
+        "finding": "references/text.md (partial)",
+        "explanation": "Referenced artifact was not completely inspected"
+      },
+      {
+        "category": "analysis-evasion",
+        "severity": "HIGH",
+        "finding": "references/text.md (partial)",
+        "explanation": "Referenced artifact was not completely inspected"
+      },
+      {
+        "category": "analysis-evasion",
+        "severity": "HIGH",
+        "finding": "references/html-text.md (partial)",
+        "explanation": "Referenced artifact was not completely inspected"
+      },
+      {
+        "category": "analysis-evasion",
+        "severity": "HIGH",
+        "finding": "references/html-text.md (partial)",
+        "explanation": "Referenced artifact was not completely inspected"
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x226",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x226",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x82",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x81",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x133",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x139",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x134",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x117",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x84",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x108",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x103",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      },
+      {
+        "category": "Prompt Injection",
+        "severity": "MEDIUM",
+        "finding": "U+0020 x97",
+        "explanation": "Large whitespace padding was detected (a block of blank lines or a long run of spaces). This can push injected instructions below or to the right of the visible area so a human reviewer never sees them while the agent still reads them. Manual review of the hidden content is recommended."
+      }
+    ]
+  },
+  {
+    "name": "pixijs-ticker",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 0.0,
+      "is_complete": false
+    },
+    "findings": []
+  },
+  {
+    "name": "pixijs",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "completion": {
+      "status": "partial",
+      "coverage_percent": 100.0,
+      "is_complete": false
+    },
+    "findings": []
+  }
+]

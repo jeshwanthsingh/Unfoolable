@@ -1,0 +1,20 @@
+{
+  "performance": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"fps\": 57.56500957839492,\n  \"paintMs\": \"0.303\",\n  \"idleRequests\": 0,\n  \"seconds\": 10.54459999999404,\n  \"devicePixelRatio\": 1,\n  \"viewport\": [\n    1440,\n    1080\n  ]\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const el=document.querySelector(\\'.office-canvas\\'),seconds=(performance.now()-window.__perf.time)/1000,fps=(Number(el.dataset.officeFrames)-window.__perf.frames)/seconds;const requests=window.__officeRequests.length-window.__perf.requests;if(requests)throw Error(\\'Idle request\\');return {fps,paintMs:el.dataset.officePaintMs,idleRequests:requests,seconds,devicePixelRatio,viewport:[innerWidth,innerHeight]};}');\n```"
+    }
+  ],
+  "visibility": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"notVerified\": \"MCP focus emulation keeps pages visible; separate CDP test required\",\n  \"events\": []\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const entries=window.__visibility,hidden=entries.find(x=>x.hidden),shown=hidden&&entries.find(x=>!x.hidden);if(!hidden||!shown)return {notVerified:\\'MCP focus emulation keeps pages visible; separate CDP test required\\',events:entries};if(shown.frames!==hidden.frames)throw Error(\\'Rendered while hidden\\');return {events:entries,hiddenFrames:shown.frames-hidden.frames};}');\n```"
+    }
+  ],
+  "recording": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"localCanvasRecording\": true,\n  \"recordedMessage\": \"Clip saved. It contains the scene only, with no audio.\",\n  \"networkRequests\": [\n    {\n      \"path\": \"/api/desk/events\",\n      \"at\": 141.90000000596046\n    },\n    {\n      \"path\": \"/api/tickets/c9f83568-2d33-4e5f-9ef1-b836c4f49cf2\",\n      \"at\": 185.40000000596046\n    }\n  ],\n  \"decisions\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(!document.querySelector(\\'.office-replay\\').textContent.includes(\\'Replay finished\\'))throw Error(\\'Recording did not finish\\');if(!document.querySelector(\\'.office-footer button\\').disabled)throw Error(\\'Replay action enabled\\');return {localCanvasRecording:true,recordedMessage:document.querySelector(\\'.office-clip-status\\').textContent,networkRequests:window.__officeRequests,decisions:0};}');\n```"
+    }
+  ]
+}

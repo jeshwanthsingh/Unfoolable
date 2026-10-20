@@ -1,0 +1,33 @@
+✔ one real fixture correction freezes parent lineage and all required protected PASS resolves; terminal artifacts immutable (8182.066417ms)
+✔ first correction fixes E1 but regresses E2: fresh cycle 2 packet centers E2, same oracle, then C resolves (16228.645125ms)
+✔ two distinct failed corrections exhaust durable budget and restarting at latest Candidate cannot reset it (14904.644167ms)
+✔ duplicate frozen tree is INEFFECTIVE, stops early and does not fake re-verification (4908.696ms)
+✔ requirement_ambiguity escalates before any Builder correction (3690.201417ms)
+✔ evaluator_issue escalates before any Builder correction (3878.524875ms)
+✔ environment_issue escalates before any Builder correction (3814.556291ms)
+✔ AI prose that Candidate is correct cannot override actual protected failures (12424.418ms)
+✔ diagnosis authority mutation rejected: Remove R2. (3757.40125ms)
+✔ diagnosis authority mutation rejected: Change verify_denial.py. (3903.397166ms)
+✔ diagnosis authority mutation rejected: Add Slack integration. (4499.871375ms)
+✔ cancel while correction worker waits stops loop and retains existing Builder cleanup semantics (5471.793458ms)
+✔ changed accepted source during diagnosis stops handoff and never edits old Contract (3817.228792ms)
+✔ normalized repeated-failure digest excludes duration, timestamps and PID noise but retains claims/assertions (3.191209ms)
+✔ restart during diagnosis never resumes and queued diagnosis interrupts safely (3936.820709ms)
+✔ restart during diagnosis never resumes and unknown launch escalates (3840.913292ms)
+✔ resolved Session exact immutable history survives recovery without auto work (9290.769875ms)
+✔ oracle metadata changed between cycles stops before a second correction against a different evaluator (8870.420417ms)
+✔ nondefinitive ERROR, UNSUPPORTED and INCONCLUSIVE are never admitted as an automatic code correction (3683.462542ms)
+✔ one Spec approval automatically builds and runs real native checks; Checks Passed awaits exactly Land or Abandon (30579.735667ms)
+✔ dirty or moved Source blocks worker admission before Build (8900.004417ms)
+✔ restart interrupts automatic progression and requests inspection instead of another worker (4706.118541ms)
+✔ genuine native FAIL invokes the existing bounded Debug loop, then native PASS requires the terminal decision (22798.960792ms)
+✔ Abandon is accepted before Spec and at every idle exception phase without fake approval (131.468167ms)
+✔ Abandon cancels a live Builder and only completes after certified cleanup (4660.468334ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 191739.116459

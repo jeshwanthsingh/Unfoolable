@@ -20,3 +20,18 @@ Public reference screenshots are in refs/, with exact URLs. No reference assets 
 ## Truth contract
 
 Work poses require actual events. Read-only presentation projections derive bookshelf/read, edit/type, command/terminal, test counts, Writer launch-pending and result from existing stored data. No backend progress events will be invented; no protected file needs editing. Absent live Writer detail remains absent. Clock, blinking, breathing, coffee steam and lamp glows are ambient, not evidence of progress, and stop when hidden. Reduced motion uses a still illustrated scene.
+
+The scene-text DO_NOT_INSTALL result includes incomplete-reference analysis and static parser span-limit findings. It is not evidence of malicious text rendering. No scanner rules or ratings were changed to get a skill installed. Per-skill findings/completeness are in skill-findings.json.
+
+## Reference notes by screenshot
+
+| Screenshot | Useful observation |
+|---|---|
+| pixel-agents | Repository overview connects actual tools to character states; not a style to copy. |
+| pixel-agents-scene | Occupied desks, empty desks, character profiles and short aisles communicate presence. |
+| claude-office | The documented operation-to-pose mapping is more useful than its debug-heavy framing. |
+| claude-office-scene | Tool bubbles make the actor's work legible; four clear silhouettes reduce ambiguity. |
+| munder | Repository view anchors the research source and stated desktop scope. |
+| munder-scene | Small character portraits give roles identity; reject its TV-show theme and artwork. |
+| ai-town | Repository overview distinguishes the visual town from its backend; no orchestration adopted. |
+| ai-town-scene | Consistent pixels, foreground/background layers and foliage create a sense of place. |

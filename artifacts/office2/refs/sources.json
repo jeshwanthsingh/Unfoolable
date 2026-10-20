@@ -1,0 +1,42 @@
+[
+  {
+    "name": "pixel-agents",
+    "url": "https://github.com/pablodelucca/pixel-agents",
+    "error": false
+  },
+  {
+    "name": "pixel-agents-scene",
+    "url": "https://raw.githubusercontent.com/pablodelucca/pixel-agents/main/webview-ui/public/Screenshot.jpg",
+    "error": false
+  },
+  {
+    "name": "claude-office",
+    "url": "https://github.com/paulrobello/claude-office",
+    "error": false
+  },
+  {
+    "name": "claude-office-scene",
+    "url": "https://raw.githubusercontent.com/paulrobello/claude-office/main/screenshot.png",
+    "error": false
+  },
+  {
+    "name": "munder",
+    "url": "https://github.com/HarnessMD/munder-difflin",
+    "error": false
+  },
+  {
+    "name": "munder-scene",
+    "url": "https://raw.githubusercontent.com/HarnessMD/munder-difflin/main/docs/media/demo/agents-poster.jpg",
+    "error": false
+  },
+  {
+    "name": "ai-town",
+    "url": "https://github.com/a16z-infra/ai-town",
+    "error": false
+  },
+  {
+    "name": "ai-town-scene",
+    "url": "https://www.convex.dev/ai-town",
+    "error": false
+  }
+]

@@ -1,0 +1,62 @@
+
+Install with npx skills add <owner/repo@skill>
+
+gamedev-skills/awesome-gamedev-agent-skills@game-feel 7.7K installs
+└ https://skills.sh/gamedev-skills/awesome-gamedev-agent-skills/game-feel
+
+majidmanzarpour/threejs-game-skills@threejs-gameplay-systems 3.1K installs
+└ https://skills.sh/majidmanzarpour/threejs-game-skills/threejs-gameplay-systems
+
+playableintelligence/game-creator@game-designer 1.9K installs
+└ https://skills.sh/playableintelligence/game-creator/game-designer
+
+rshankras/claude-code-apple-skills@design 648 installs
+└ https://skills.sh/rshankras/claude-code-apple-skills/design
+
+omer-metin/skills-for-antigravity@game-design-core 494 installs
+└ https://skills.sh/omer-metin/skills-for-antigravity/game-design-core
+
+omer-metin/skills-for-antigravity@vfx-realtime 164 installs
+└ https://skills.sh/omer-metin/skills-for-antigravity/vfx-realtime
+
+scenario-labs/skills@scenario-godot-vfx 92 installs
+└ https://skills.sh/scenario-labs/skills/scenario-godot-vfx
+
+omer-metin/skills-for-antigravity@combat-design 79 installs
+└ https://skills.sh/omer-metin/skills-for-antigravity/combat-design
+
+raptoravis/threejs-game-skills@threejs-gameplay-systems 20 installs
+└ https://skills.sh/raptoravis/threejs-game-skills/threejs-gameplay-systems
+
+hungify/playables-skills@game-designer 16 installs
+└ https://skills.sh/hungify/playables-skills/game-designer
+
+tea-x-random/unity-game-skills@unity-gameplay-systems 13 installs
+└ https://skills.sh/tea-x-random/unity-game-skills/unity-gameplay-systems
+
+raptoravis/threejs-game-skills@phaser-gameplay-systems 12 installs
+└ https://skills.sh/raptoravis/threejs-game-skills/phaser-gameplay-systems
+
+bgrenat/godot-game-dev-studio@gamedev-game-feel 10 installs
+└ https://skills.sh/bgrenat/godot-game-dev-studio/gamedev-game-feel
+
+jayesh-bansal/game-juice@game-juice 9 installs
+└ https://skills.sh/jayesh-bansal/game-juice/game-juice
+
+rshankras/claude-code-apple-skills@game-feel 8 installs
+└ https://skills.sh/rshankras/claude-code-apple-skills/game-feel
+
+rondorkerin/gamestack@game-feel-and-juice 6 installs
+└ https://skills.sh/rondorkerin/gamestack/game-feel-and-juice
+
+summerengine/summer@game-feel 6 installs
+└ https://skills.sh/summerengine/summer/game-feel
+
+rbergman/dark-matter-marketplace@game-feel 6 installs
+└ https://skills.sh/rbergman/dark-matter-marketplace/game-feel
+
+xyrces/godot-ecs-gamedev-playbook@game_feel_juice 1 install
+└ https://skills.sh/xyrces/godot-ecs-gamedev-playbook/game-feel-juice
+
+jzferrell26/dm-skills@game-feel-juice-weapon 1 install
+└ https://skills.sh/jzferrell26/dm-skills/game-feel-juice-weapon

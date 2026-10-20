@@ -18,7 +18,7 @@ This starts the coordinator, screen and live updates, then opens your private br
 
 ## Optional Workshop
 
-Choose **Workshop** beside **List** to see the selected ticket’s real event history as a room. The Builder stays outside the Grader’s glass inspection room; the Test Writer and your stamp station have separate desks. **Replay** shows a 45-second, read-only recording of any selected ticket. Phone and reduced-motion views use a static diagram. The list and all existing decisions stay available. [Implementation and proof](docs/OFFICE_1.md).
+Choose **Workshop** beside **List** to see the selected ticket’s real event history as a room. The Builder stays outside the Grader’s glass inspection room; the Test Writer and your stamp station have separate desks. **Replay** shows a 45-second, read-only recording of any selected ticket. Phone and reduced-motion views use a still pixel illustration. The room has original 32px characters, real-event speech bubbles and a package route; blinking, coffee steam and the local-time clock are decorative. Record clip saves a local WebM without audio or upload. The list and all existing decisions stay available. [Implementation and proof](docs/OFFICE_1.md).
 
 ## On your iPhone
 

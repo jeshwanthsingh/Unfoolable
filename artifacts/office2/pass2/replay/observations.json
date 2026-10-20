@@ -1,0 +1,68 @@
+{
+  "realTicket": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+  "replayDurationMs": 45000,
+  "frames": [
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 5.753,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nBuilding at the bench\",\n  \"replay\": \"Replay, 45 seconds. 12 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"472\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 10.85,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nBuilding at the bench\",\n  \"replay\": \"Replay, 45 seconds. 32 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"778\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 15.868,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nInspecting the frozen change\",\n  \"replay\": \"Replay, 45 seconds. 42 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"1079\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 20.887,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nInspecting the frozen change\",\n  \"replay\": \"Replay, 45 seconds. 42 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"1380\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 25.912,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nInspecting the frozen change\",\n  \"replay\": \"Replay, 45 seconds. 42 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"1682\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 30.932,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nInspecting the frozen change\",\n  \"replay\": \"Replay, 45 seconds. 55 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"1982\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 35.949,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nInspecting the frozen change\",\n  \"replay\": \"Replay, 45 seconds. 65 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"2283\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 40.966,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nInspecting the frozen change\",\n  \"replay\": \"Replay, 45 seconds. 70 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"2584\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 46.081,\n  \"line\": \"◉\\nAdd local setup guidance to README\\n\\nWaiting for your review\",\n  \"replay\": \"Replay finished. 77 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"2891\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 51.097,\n  \"line\": \"◉\\nAdd local setup guidance to README\\n\\nWaiting for your review\",\n  \"replay\": \"Replay finished. 77 of 77 recorded events. Read only.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"3192\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ]
+  ],
+  "networkRequestsDuringReplay": 0,
+  "decisionsPerformed": 0
+}

@@ -1,0 +1,62 @@
+
+Install with npx skills add <owner/repo@skill>
+
+msw-git/msw-ai-coding-plugins-official@msw-painter 9.4K installs
+└ https://skills.sh/msw-git/msw-ai-coding-plugins-official/msw-painter
+
+openai/skills@hatch-pet 3.2K installs
+└ https://skills.sh/openai/skills/hatch-pet
+
+unity-technologies/skills@2d-pixel-perfect 3K installs
+└ https://skills.sh/unity-technologies/skills/2d-pixel-perfect
+
+layerai/skills@layer-pixel-art 2.9K installs
+└ https://skills.sh/layerai/skills/layer-pixel-art
+
+omer-metin/skills-for-antigravity@pixel-art-sprites 2.6K installs
+└ https://skills.sh/omer-metin/skills-for-antigravity/pixel-art-sprites
+
+k-dense-ai/scientific-agent-skills@ginkgo-cloud-lab 1.8K installs
+└ https://skills.sh/k-dense-ai/scientific-agent-skills/ginkgo-cloud-lab
+
+playableintelligence/game-creator@game-assets 1.5K installs
+└ https://skills.sh/playableintelligence/game-creator/game-assets
+
+rehan-remade/universal-modder@fal-assets 1.2K installs
+└ https://skills.sh/rehan-remade/universal-modder/fal-assets
+
+meowa-ai/meowa-skills@game-assets 1.2K installs
+└ https://skills.sh/meowa-ai/meowa-skills/game-assets
+
+phaserjs/phaser@game-setup-and-config 1.1K installs
+└ https://skills.sh/phaserjs/phaser/game-setup-and-config
+
+wanshuiyin/auto-claude-code-research-in-sleep@pixel-art 524 installs
+└ https://skills.sh/wanshuiyin/auto-claude-code-research-in-sleep/pixel-art
+
+omer-metin/skills-for-antigravity@pixel-art 490 installs
+└ https://skills.sh/omer-metin/skills-for-antigravity/pixel-art
+
+willibrandon/pixel-plugin@Pixel Art Animator 241 installs
+└ https://skills.sh/willibrandon/pixel-plugin/pixel-art-animator
+
+willibrandon/pixel-plugin@Pixel Art Professional 228 installs
+└ https://skills.sh/willibrandon/pixel-plugin/pixel-art-professional
+
+arjun988/blender-skills@pixel-art-style 173 installs
+└ https://skills.sh/arjun988/blender-skills/pixel-art-style
+
+curiositech/some_claude_skills@win31-pixel-art-designer 168 installs
+└ https://skills.sh/curiositech/some_claude_skills/win31-pixel-art-designer
+
+curiositech/some_claude_skills@pixel-art-infographic-creator 164 installs
+└ https://skills.sh/curiositech/some_claude_skills/pixel-art-infographic-creator
+
+willibrandon/pixel-plugin@Pixel Art Exporter 146 installs
+└ https://skills.sh/willibrandon/pixel-plugin/pixel-art-exporter
+
+curiositech/some_claude_skills@pixel-art-scaler 140 installs
+└ https://skills.sh/curiositech/some_claude_skills/pixel-art-scaler
+
+theorcdev/8bitcn-ui@8-bit-pixel-art-patterns 131 installs
+└ https://skills.sh/theorcdev/8bitcn-ui/8-bit-pixel-art-patterns

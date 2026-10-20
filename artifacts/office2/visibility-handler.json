@@ -1,0 +1,18 @@
+{
+  "before": {
+    "hidden": true,
+    "frames": 36
+  },
+  "after": {
+    "hidden": true,
+    "frames": 36
+  },
+  "resumed": {
+    "hidden": false,
+    "frames": 53
+  },
+  "hiddenFrames": 0,
+  "simulatedVisibilityInput": true,
+  "naturalWindowTransitionVerified": false,
+  "reason": "Automated tab/window changes did not change document.hidden. This verifies the actual renderer handler with a controlled visibility input, not native OS visibility."
+}

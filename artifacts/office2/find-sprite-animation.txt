@@ -1,0 +1,62 @@
+
+Install with npx skills add <owner/repo@skill>
+
+msw-git/msw-ai-coding-plugins-official@msw-search 9.5K installs
+└ https://skills.sh/msw-git/msw-ai-coding-plugins-official/msw-search
+
+msw-git/msw-ai-coding-plugins-official@msw-avatar 9.5K installs
+└ https://skills.sh/msw-git/msw-ai-coding-plugins-official/msw-avatar
+
+msw-git/msw-ai-coding-plugins-official@msw-sprite-ruid 9.4K installs
+└ https://skills.sh/msw-git/msw-ai-coding-plugins-official/msw-sprite-ruid
+
+pixijs/pixijs-skills@pixijs-scene-sprite 5.5K installs
+└ https://skills.sh/pixijs/pixijs-skills/pixijs-scene-sprite
+
+layerai/skills@layer-pixel-art 2.9K installs
+└ https://skills.sh/layerai/skills/layer-pixel-art
+
+omer-metin/skills-for-antigravity@pixel-art-sprites 2.6K installs
+└ https://skills.sh/omer-metin/skills-for-antigravity/pixel-art-sprites
+
+freshtechbro/claudedesignskills@pixijs-2d 2.4K installs
+└ https://skills.sh/freshtechbro/claudedesignskills/pixijs-2d
+
+rehan-remade/universal-modder@asset-pipeline 1.3K installs
+└ https://skills.sh/rehan-remade/universal-modder/asset-pipeline
+
+jwynia/agent-skills@godot-asset-generator 996 installs
+└ https://skills.sh/jwynia/agent-skills/godot-asset-generator
+
+phaserjs/phaser@animations 971 installs
+└ https://skills.sh/phaserjs/phaser/animations
+
+thedivergentai/game-dev-agentic-skills@godot-2d-animation 620 installs
+└ https://skills.sh/thedivergentai/game-dev-agentic-skills/godot-2d-animation
+
+playableintelligence/game-creator@retrodiffusion 525 installs
+└ https://skills.sh/playableintelligence/game-creator/retrodiffusion
+
+omer-metin/skills-for-antigravity@pixel-art 490 installs
+└ https://skills.sh/omer-metin/skills-for-antigravity/pixel-art
+
+scenario-labs/skills@scenario-sprite-animation 453 installs
+└ https://skills.sh/scenario-labs/skills/scenario-sprite-animation
+
+full-stack-skills/threejs-skills@threejs-objects 348 installs
+└ https://skills.sh/full-stack-skills/threejs-skills/threejs-objects
+
+0x0funky/agent-sprite-forge@generate2dsprite 327 installs
+└ https://skills.sh/0x0funky/agent-sprite-forge/generate2dsprite
+
+nexu-io/open-design@sprite-animation 242 installs
+└ https://skills.sh/nexu-io/open-design/sprite-animation
+
+jame581/godotprompter@animation-system 160 installs
+└ https://skills.sh/jame581/godotprompter/animation-system
+
+dwdestiny/codex-visual-asset-skills@sprite-animation-assets 103 installs
+└ https://skills.sh/dwdestiny/codex-visual-asset-skills/sprite-animation-assets
+
+openai/plugins@sprite-pipeline 48 installs
+└ https://skills.sh/openai/plugins/sprite-pipeline
