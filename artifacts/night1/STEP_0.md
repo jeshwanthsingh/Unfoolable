@@ -19,3 +19,5 @@ The first full-suite pass exposed an over-broad exit-clear branch: it omitted an
 Future ownership failures now retain the fixed kernel helper’s sanitized diagnostic in protected ticket events (`ownership_recording_failed`) instead of discarding it behind the generic card message. The old BUG-1 record cannot be retroactively reconstructed.
 
 A full-suite Watchman failure also exposed buffered lifecycle callbacks continuing after stop won. A new same-chunk regression reproduced 12 callbacks after the first rejection. Lifecycle callbacks are now fenced after failure; bounded raw protocol logs, permission denials and cleanup RPCs remain available. The eleven-action threshold and old assertions are unchanged.
+
+Final full-suite result: 1,189/1,189, no skips or cancellations. One earlier release run overlapped the real safety probes and the 450ms timeout fixture could not certify its terminal cleanup; the same unchanged test passed alone and in the standalone full rerun. The failed log is retained. No assertion or timing limit was relaxed.
