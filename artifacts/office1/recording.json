@@ -1,0 +1,9 @@
+{
+  "realTicket": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+  "rawDurationSeconds": 55.96,
+  "trimStartSeconds": 0,
+  "durationSeconds": 55.96,
+  "replayDurationSeconds": 45,
+  "capture": "Official Playwright MCP; native context video recording",
+  "postProcessing": "Existing FFmpeg 8.0 GPL-3.0-or-later build; contact sheet, optional trim only; no generated frames or events"
+}

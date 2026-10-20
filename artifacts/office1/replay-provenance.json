@@ -1,0 +1,31 @@
+{
+  "ticketId": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+  "title": "Add local setup guidance to README",
+  "events": 77,
+  "eventSHA256": "d45028e15a09dda1c7061e2b02f81ea6c37216f9c538f04d752b7b83478ebc25",
+  "recordedStates": [
+    {
+      "sequence": 978,
+      "to": "building",
+      "at": "2026-10-19T18:47:46.567Z"
+    },
+    {
+      "sequence": 1017,
+      "to": "checking",
+      "at": "2026-10-19T18:48:13.181Z"
+    },
+    {
+      "sequence": 1053,
+      "to": "ready_for_review",
+      "at": "2026-10-19T18:50:37.865Z"
+    }
+  ],
+  "checkResults": [
+    {
+      "sequence": 1051,
+      "verdict": "PASSED WITH GAPS",
+      "at": "2026-10-19T18:50:37.821Z"
+    }
+  ],
+  "note": "Read-only snapshot of a real stored ticket. No task or decision was created for this demo."
+}
