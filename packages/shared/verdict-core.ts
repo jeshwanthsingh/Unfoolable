@@ -7,8 +7,9 @@ type Gap = {id: string; layer: 1 | 2 | 3; reason: string};
 type Layer = {layer: 1 | 2 | 3; status: CheckStatus; checks: {id: string; status: CheckStatus; reason: string | null; baseStatus?: 'PASS' | 'FAIL' | 'ERROR'; candidateStatus?: 'PASS' | 'FAIL' | 'ERROR'}[]; gaps: Gap[]};
 type TestRow = {id: string; status: 'PASS' | 'FAIL' | 'SKIPPED'};
 type CommandResult = {exitCode: number; tests: TestRow[]};
-type Outcome = {verdict: Verdict; gaps: string[]; failures: string[]};
+export type Outcome = {verdict: Verdict; gaps: string[]; failures: string[]};
 export type VerdictFacts =
+ | {path: 'native-ticket'; layers: Layer[]; gaps: Gap[]}
  | {path: 'native'; layers: Layer[]; gaps?: Gap[]}
  | {path: 'project-tests'; base: CommandResult[]; candidate: CommandResult[]}
  | {path: 'writer-admission'; baseStatus: string; baseIds: string[]; candidates: {status: string; ids: string[]}[]}
@@ -26,6 +27,15 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   note('result', verdict === 'VERIFIED' || verdict === 'PASSED WITH GAPS', 'Result: ' + verdict + '. This never accepts the change.');
   return {verdict, canLand: verdict === 'VERIFIED' || verdict === 'PASSED WITH GAPS', reasons, trace, ...extra};
  };
+ if (facts.path === 'native-ticket') {
+  const scored = scoreVerdict({path: 'native', layers: facts.layers, gaps: facts.gaps});
+  // The ticket adapter historically abstains when its mandatory recipe is missing.
+  if (scored.verdict === 'ERROR' && facts.layers[0]?.status === 'PASS' && facts.layers[1]?.gaps.some(g => g.id === 'project-recipes')) {
+   note('missing-recipe', false, 'A required project check is unavailable. This change was not checked.');
+   return finish('NOT CHECKED', facts.gaps.map(g => g.reason));
+  }
+  return scored;
+ }
  if (facts.path === 'writer-admission') {
   const identities = (ids: string[]) => [...ids].sort().join('\n');
   const admitted = facts.baseStatus === 'ASSERTION_FAIL' && facts.candidates.length === 2 && facts.candidates.every(c => c.status === 'PASS' && identities(c.ids) === identities(facts.baseIds));
@@ -69,8 +79,11 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   return finish(status === 'PASS' ? 'VERIFIED' : status === 'FAIL' ? 'FAILED' : status === 'ERROR' ? 'ERROR' : 'NOT CHECKED', required.filter(c => c.status !== 'PASS' && c.reason).map(c => c.reason!), {status});
  }
  if (facts.path === 'combined') {
-  // Preserve the native failure and the existing unsupported-runner abstention.
-  const verdict = facts.native.verdict === 'FAILED' || facts.project.verdict === 'FAILED' ? 'FAILED' : facts.native.verdict === 'NOT CHECKED' ? 'NOT CHECKED' : facts.project.verdict;
+  // Caution table (lower wins); original reachable pairs use only the non-error rows.
+  // FAILED: required failure > NOT CHECKED: missing required part > GAPS > VERIFIED.
+  // ERROR never returned from the original adapter (it threw); retain a non-passing fallback.
+  const caution = {'FAILED': 0, 'ERROR': 1, 'NOT CHECKED': 2, 'PASSED WITH GAPS': 3, 'VERIFIED': 4};
+  const verdict = caution[facts.native.verdict] <= caution[facts.project.verdict] ? facts.native.verdict : facts.project.verdict;
   note('combined-checks', verdict !== 'FAILED' && verdict !== 'NOT CHECKED', 'Protected native checks and the approved project checks are both considered.');
   return finish(verdict, [...facts.native.gaps.map(g => 'Existing verifier: ' + g), ...facts.project.gaps, ...facts.native.failures, ...facts.project.failures]);
  }
@@ -96,4 +109,9 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
  const gaps = (facts.gaps?.length ?? 0) > 0 || layers.some(l => l.gaps.length > 0 || l.status === 'NOT CHECKED' || l.checks.some(c => c.status === 'NOT CHECKED' && !(l.layer === 2 && c.baseStatus === 'FAIL')));
  note('coverage', !gaps, gaps ? 'Some behavior remains unchecked; the gaps are listed separately.' : 'All supplied authoritative layers passed without gaps.');
  return finish(gaps ? 'PASSED WITH GAPS' : 'VERIFIED', reasons);
+}
+
+/** Live checking and historical replay share this entry; neither may select just one required part. */
+export function combineResults(native: Outcome, project: Outcome): VerdictDecision {
+ return scoreVerdict({path: 'combined', native, project});
 }

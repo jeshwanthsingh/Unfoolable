@@ -1,0 +1,51 @@
+✔ explain uses the exact core trace and does not invoke any agent or decision (6.0265ms)
+✔ explain replays historical playbook facts honestly and refuses to invent missing facts (0.150542ms)
+✖ all reconstructible historical ticket explanations agree with frozen records (18.353833ms)
+✔ event 592 combines the missing native recipe with passing playbook facts as NOT CHECKED (10.034709ms)
+
+Interrupted while running:
+
+⚠ tests/verdict-core.test.ts (tests/verdict-core.test.ts:1:1)
+⚠ tests/verdict-properties.test.ts (tests/verdict-properties.test.ts:1:1)
+✖ tests/verdict-core.test.ts (44627.406625ms)
+✔ I1 thousands of generated fact combinations exactly match frozen pre-refactor policy (167.285375ms)
+✔ I2 a harness error can never authorize landing (18.18125ms)
+✔ I3 adding a protected failure or error never improves eligibility (206.054333ms)
+✔ I4 admission requires an assertion failure on BASE and two matching Candidate passes (116.973292ms)
+✔ I5 Candidate-only tests cannot replace missing passing BASE identities (29.416875ms)
+✔ I6 native and playbook paths agree for equivalent regression and unchecked-intent facts (30.986583ms)
+✔ I7 empty protected layers never pass and unchecked work remains visible (0.485375ms)
+✔ I8 input facts are immutable and trace is deterministic (628.140709ms)
+✔ I10 combining required parts cannot improve on the most cautious part (25.944375ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44634.147625
+
+✖ failing tests:
+
+test at tests/ticket-explain.test.ts:16:1
+✖ all reconstructible historical ticket explanations agree with frozen records (18.353833ms)
+  AssertionError [ERR_ASSERTION]: Changed verdict: 586
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ticket-explain.test.ts:18:92)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: false,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/verdict-core.test.ts:1:1
+✖ tests/verdict-core.test.ts (44627.406625ms)
+  'Promise resolution is still pending but the event loop has already resolved'

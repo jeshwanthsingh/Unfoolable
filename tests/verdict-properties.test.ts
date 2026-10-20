@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fc from 'fast-check';
-import {scoreVerdict} from '../packages/shared/verdict-core.ts';
+import {scoreVerdict,combineResults} from '../packages/shared/verdict-core.ts';
 import {originalScoreV1} from './fixtures/core1-original-score.ts';
 import type {V1Layer} from '../packages/shared/verification-v1.ts';
 const status=fc.constantFrom('PASS' as const,'FAIL' as const,'ERROR' as const,'NOT CHECKED' as const);
@@ -37,4 +37,10 @@ test('I7 empty protected layers never pass and unchecked work remains visible',(
 });
 test('I8 input facts are immutable and trace is deterministic',()=>{
  fc.assert(fc.property(fc.array(layer,{maxLength:5}),layers=>{const before=JSON.stringify(layers);scoreVerdict({path:'native',layers});assert.equal(JSON.stringify(layers),before);}),options);
+});
+
+test('I10 combining required parts cannot improve on the most cautious part',()=>{
+ const order={'FAILED':0,'ERROR':1,'NOT CHECKED':2,'PASSED WITH GAPS':3,'VERIFIED':4};
+ const verdict=fc.constantFrom(...(['FAILED','ERROR','NOT CHECKED','PASSED WITH GAPS','VERIFIED'] as const));
+ fc.assert(fc.property(verdict,verdict,(a,b)=>{const result=combineResults({verdict:a,gaps:[],failures:[]},{verdict:b,gaps:[],failures:[]});assert.equal(order[result.verdict],Math.min(order[a],order[b]));}),options);
 });

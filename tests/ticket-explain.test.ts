@@ -17,3 +17,10 @@ test('all reconstructible historical ticket explanations agree with frozen recor
  const db=new DatabaseSync(':memory:');db.exec('CREATE TABLE verify_only_runs(id TEXT,result_json TEXT)');const golden=JSON.parse(readFileSync(new URL('../artifacts/core1/golden.json',import.meta.url),'utf8'));for(const r of golden.runs)db.prepare('INSERT INTO verify_only_runs VALUES(?,?)').run(r.id,JSON.stringify(r.result));
  try{for(const r of golden.checks){const result=explainTicket(db,[event(r.record)]);assert.notEqual(result.matches,false,'Changed verdict: '+r.sequence);}}finally{db.close();}
 });
+
+test('event 592 combines the missing native recipe with passing playbook facts as NOT CHECKED',()=>{
+ const golden=JSON.parse(readFileSync(new URL('../artifacts/core1/golden.json',import.meta.url),'utf8'));
+ const check=golden.checks.find((r:{sequence:number})=>r.sequence===592);
+ const db=new DatabaseSync(':memory:');db.exec('CREATE TABLE verify_only_runs(id TEXT,result_json TEXT)');for(const r of golden.runs)db.prepare('INSERT INTO verify_only_runs VALUES(?,?)').run(r.id,JSON.stringify(r.result));
+ try{assert.equal(check.record.verdict,'NOT CHECKED');const result=explainTicket(db,[event(check.record)]);assert.equal(result.source,'replayed');assert.equal(result.matches,true);assert.match(result.trace.at(-1)!.explanation,/Result: NOT CHECKED/);}finally{db.close();}
+});

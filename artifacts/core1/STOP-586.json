@@ -1,0 +1,188 @@
+{
+  "status": "STOPPED_ADDITIONAL_HISTORICAL_DIFFERENCE",
+  "knownRegression592": {
+    "sequence": 592,
+    "ticket": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+    "stored": "NOT CHECKED",
+    "source": "replayed",
+    "matches": true,
+    "replayedResult": "Result: NOT CHECKED. This never accepts the change."
+  },
+  "differences": [
+    {
+      "sequence": 586,
+      "ticket": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": false,
+      "replayedResult": "Result: NOT CHECKED. This never accepts the change."
+    }
+  ],
+  "replayed": 15,
+  "unavailable": 4,
+  "records": [
+    {
+      "sequence": 52,
+      "ticket": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 104,
+      "ticket": "b3991162-3407-4a22-9e07-2db785c22e36",
+      "stored": "NOT CHECKED",
+      "source": "unavailable",
+      "matches": null,
+      "replayedResult": null
+    },
+    {
+      "sequence": 115,
+      "ticket": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 120,
+      "ticket": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 237,
+      "ticket": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 243,
+      "ticket": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 277,
+      "ticket": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 368,
+      "ticket": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 440,
+      "ticket": "37b3646e-864c-4d8c-9787-1d005357bbec",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 488,
+      "ticket": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "stored": "NOT CHECKED",
+      "source": "unavailable",
+      "matches": null,
+      "replayedResult": null
+    },
+    {
+      "sequence": 528,
+      "ticket": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 586,
+      "ticket": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": false,
+      "replayedResult": "Result: NOT CHECKED. This never accepts the change."
+    },
+    {
+      "sequence": 592,
+      "ticket": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "stored": "NOT CHECKED",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: NOT CHECKED. This never accepts the change."
+    },
+    {
+      "sequence": 599,
+      "ticket": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "stored": "NOT CHECKED",
+      "source": "unavailable",
+      "matches": null,
+      "replayedResult": null
+    },
+    {
+      "sequence": 616,
+      "ticket": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "stored": "NOT CHECKED",
+      "source": "unavailable",
+      "matches": null,
+      "replayedResult": null
+    },
+    {
+      "sequence": 664,
+      "ticket": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 753,
+      "ticket": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 972,
+      "ticket": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    },
+    {
+      "sequence": 1051,
+      "ticket": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+      "stored": "PASSED WITH GAPS",
+      "source": "replayed",
+      "matches": true,
+      "replayedResult": "Result: PASSED WITH GAPS. This never accepts the change."
+    }
+  ],
+  "goldenUnchanged": true,
+  "coreLines": 117,
+  "testsStopped": true,
+  "remainingChecksNotRun": [
+    "complete lint/property run",
+    "typecheck/build",
+    "full suite",
+    "fresh 69-path probe",
+    "fresh 12 negative controls",
+    "after-map"
+  ]
+}
