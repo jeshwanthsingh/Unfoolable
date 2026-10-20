@@ -1,0 +1,11 @@
+{
+  "schema": 21,
+  "cleanupVerified": true,
+  "verifyExit": 2,
+  "broken": 0,
+  "sealedEvents": 0,
+  "olderCheckEvents": 19,
+  "sealErrors": 0,
+  "coordinator": "online",
+  "time": "2026-10-20T21:17:12.018Z"
+}
