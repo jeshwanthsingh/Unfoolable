@@ -1,0 +1,6 @@
+[
+  {
+    "type": "text",
+    "text": "### Result\n{\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nBuilding at the bench\",\n  \"requests\": [\n    {\n      \"path\": \"/api/desk/events\",\n      \"at\": 378.20000000298023\n    },\n    {\n      \"path\": \"/api/tickets/c9f83568-2d33-4e5f-9ef1-b836c4f49cf2\",\n      \"at\": 429.29999999701977\n    }\n  ]\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({line:document.querySelector(\\'.office-readout\\')?.innerText,requests:window.__officeRequests})');\n```"
+  }
+]

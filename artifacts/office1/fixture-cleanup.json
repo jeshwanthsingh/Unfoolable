@@ -1,0 +1,24 @@
+{
+  "owned": [
+    {
+      "pid": 13259,
+      "identity": "Mon Oct 19 23:35:25 2026     node .work/office1/server.mjs",
+      "signal": "SIGTERM",
+      "scope": "owned read-only browser fixture"
+    },
+    {
+      "pid": 87489,
+      "identity": "Mon Oct 19 23:47:06 2026     node .work/office1/race-server.mjs",
+      "signal": "SIGTERM",
+      "scope": "owned read-only browser fixture"
+    },
+    {
+      "pid": 98133,
+      "identity": "Mon Oct 19 23:50:14 2026     node .work/office1/race-after-server.mjs",
+      "signal": "SIGTERM",
+      "scope": "owned read-only browser fixture"
+    }
+  ],
+  "remaining": [],
+  "mainServerUntouched": true
+}
