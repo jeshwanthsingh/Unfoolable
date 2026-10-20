@@ -1,0 +1,41 @@
+✔ reproduction admission rejects conditional/forged test: if True: return (73.348541ms)
+✔ reproduction admission rejects conditional/forged test: try: divide(2,0)
+  except Exception: pass (27.152792ms)
+✔ reproduction admission rejects conditional/forged test: return (23.995334ms)
+✔ reproduction admission rejects conditional/forged test: raise ValueError("forged") (22.731834ms)
+✔ ordinary unconditional unittest reproduction stays native (23.339333ms)
+✔ bug invariant: no reproduced BASE failure, error, or failed guard can ever be VERIFIED (14.024584ms)
+✔ protected BASE exception admits one immutable reproduction; wrong Candidate fails, fixed Candidate passes and seals (4470.179333ms)
+✔ real reproduction sandbox can write its one test but cannot change the source (394.00575ms)
+✔ reproduction cannot improve failed guards or missing cryptographic bindings (0.206959ms)
+✖ after admission the fresh fix session knows the test is already locked and starts from untouched BASE (1973.030917ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7393.854292
+
+✖ failing tests:
+
+test at tests/bug-reproduction.test.ts:20:1
+✖ after admission the fresh fix session knows the test is already locked and starts from untouched BASE (1973.030917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'harness_error'
+  - 'ready_for_review'
+
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/bug-reproduction.test.ts:20:2048)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'harness_error',
+    expected: 'ready_for_review',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

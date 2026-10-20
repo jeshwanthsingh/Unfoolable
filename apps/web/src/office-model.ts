@@ -7,12 +7,12 @@ export const officeDesks=[
 ] as const;
 export type OfficeRole=typeof officeDesks[number]['role'];
 export const inspectionBounds={x:620,y:100,width:320,height:280} as const;
-export type OfficeFrame={sealed?:boolean;sealSequence?:number;sealBroken?:boolean;ticketId:string;sequence:number;motionSequence:number;phase:string;activeRole:OfficeRole|null;stamp:'checked'|'look closer'|'failed'|null;humanDecision:string|null;writerRecorded:boolean;blocked:number;alarm:boolean;dimmed:boolean;line:string};
+export type OfficeFrame={bug?:'log'|'reproduced'|'fixed'|'not_reproduced';sealed?:boolean;sealSequence?:number;sealBroken?:boolean;ticketId:string;sequence:number;motionSequence:number;phase:string;activeRole:OfficeRole|null;stamp:'checked'|'look closer'|'failed'|null;humanDecision:string|null;writerRecorded:boolean;blocked:number;alarm:boolean;dimmed:boolean;line:string};
 export function orderedOfficeEvents(id:string,events:readonly TicketEvent[]){const seen=new Set<number>();return [...events].filter(e=>e.ticketId===id&&Number.isSafeInteger(e.sequence)).sort((a,b)=>a.sequence-b.sequence).filter(e=>{if(seen.has(e.sequence))return false;seen.add(e.sequence);return true;});}
 export function officeFrame(ticketId:string,events:readonly TicketEvent[]):OfficeFrame{
  const f:OfficeFrame={ticketId,sequence:0,motionSequence:0,phase:'unknown',activeRole:null,stamp:null,humanDecision:null,writerRecorded:false,blocked:0,alarm:false,dimmed:false,line:'No recorded activity'};const blocked=new Set<string>();let checkSequence=0,protectedCheck=false;
  for(const e of orderedOfficeEvents(ticketId,events)){
-  f.sequence=e.sequence;
+  f.sequence=e.sequence;if((e.kind==='check_result'||e.kind==='candidate_frozen')&&f.bug==='fixed')f.bug='reproduced';if(e.kind==='agent_event'){const phases:Record<string,OfficeFrame['bug']>={bug_log_received:'log',bug_reproduced:'reproduced',bug_fixed:'fixed',bug_not_reproduced:'not_reproduced'};const bug=phases[String(e.data.kind)];if(bug){f.bug=bug;f.motionSequence=e.sequence;}}
   if(e.kind==='submitted'){f.phase='queued';f.line='Waiting to start';f.motionSequence=e.sequence;}
   if(e.kind==='retry_requested'){f.alarm=false;f.dimmed=false;f.blocked=0;blocked.clear();f.motionSequence=e.sequence;}
   if(e.kind==='state_changed'&&typeof e.data.to==='string'){

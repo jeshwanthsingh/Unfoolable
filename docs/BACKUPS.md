@@ -61,3 +61,7 @@ rm -i "$HOME/UnfoolableBackups/<old-snapshot>.tar.gz"
 ```
 
 This lists the key pathname, not its contents. Do not run the removal against the current archive. Removing backups is a separate human choice; this round did not do it.
+
+## BUG-1: original software signer revoked
+
+A read-only audit found zero production attestations in the active database, including zero signed by public identity fc261d6df296. That public key is now REVOKED in VERIFY_KEYS.json: it has no accepted time window, even for signatures claiming an older date. Older backups containing its private file therefore cannot forge a seal accepted by this version and reviewed key registry. They still contain other private application data and must remain protected; revocation does not make the backup itself safe to disclose. Verifiers running older code/key lists would not enforce this revocation.

@@ -1,3 +1,4 @@
+import {BUG_LOG_LIMIT,BUG_LOG_PREFIX} from '../apps/server/bug-log.ts';
 import {verifyTicketSeal} from '../apps/server/verdict-seal.ts';
 import {verifyEventChain} from '../apps/server/event-chain.ts';
 import {DatabaseSync} from 'node:sqlite';
@@ -6,7 +7,7 @@ import {explainTicket,formatExplanation} from '../apps/server/ticket-explain.ts'
 import {enablePrivatePhone} from '../apps/server/phone-access.ts';
 import {proposeSkill,installSkill} from '../apps/server/skill-imports.ts';
 import {ensureCoordinator} from './launcher.ts';
-import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
+import {readFileSync,mkdirSync,writeFileSync,lstatSync} from 'node:fs';
 import {resolve,join,basename} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFile} from 'node:child_process';
@@ -17,12 +18,13 @@ const port=process.env.COMMAND_CENTER_PORT??active.port??3210;
 const data=resolve(root,process.env.COMMAND_CENTER_DATA_DIR??active.dataDir??'data');
 const base='http://localhost:'+port;
 const shellQuote=(value:string)=>"'"+value.replaceAll("'","'\"'\"'")+"'";
-const usage='Unfoolable — AI does the work. Nothing fools the check.\nUsage: cc verify <ticket>|--all; cc explain <ticket>; cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all; cc skill add <local-skill-directory>; cc phone serve';
+const usage='Unfoolable — AI does the work. Nothing fools the check.\nUsage: cc bug <file>; cc verify <ticket>|--all; cc explain <ticket>; cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all; cc skill add <local-skill-directory>; cc phone serve';
 async function main(){
  const args=process.argv.slice(2);if(args.length===0)args.push('chat');if(args.length===1&&['--help','-h'].includes(args[0]!)){console.log(usage+'\nAliases: unfool and cc.');return;}const resource=args.shift(),command=args.shift();
  if(resource==='verify'){if(!command||args.length||command!=='--all'&&!/^[a-f0-9-]{6,36}$/.test(command))throw Error('Usage: cc verify <ticket>|--all');const db=new DatabaseSync(join(data,'command-center.sqlite'),{readOnly:true});let reading=false;try{db.exec('BEGIN');reading=true;const version=Number(db.prepare('SELECT max(version) AS n FROM schema_migrations').get()!.n);if(version>=21)verifyEventChain(db);const matches=command==='--all'?db.prepare('SELECT id FROM tickets ORDER BY created_at,id').all():db.prepare('SELECT id FROM tickets WHERE id LIKE ?').all(command+'%');if(command==='--all'&&!matches.length){console.log('No sealed checks to verify.');process.exitCode=2;}if(command!=='--all'&&matches.length!==1)throw Error('Use one unambiguous ticket ID.');for(const row of matches){const id=String(row.id),seal=verifyTicketSeal(db,data,id);console.log(id+' — Event '+(seal.eventId??'none')+': '+seal.label+(seal.replays?'. Replays the same. Log chain intact.':'.')+(seal.reason?' '+seal.reason:''));if(seal.state==='BROKEN')process.exitCode=1;else if(seal.state!=='SEALED'&&process.exitCode!==1)process.exitCode=2;}}finally{if(reading)db.exec('ROLLBACK');db.close();}return;}
  if(resource==='explain'){if(!command||args.length||!/^[a-f0-9-]{6,36}$/.test(command))throw Error('Usage: cc explain <ticket>');const db=new DatabaseSync(join(data,'command-center.sqlite'),{readOnly:true});try{const matches=db.prepare('SELECT id FROM tickets WHERE id LIKE ?').all(command+'%');if(matches.length!==1)throw Error('Use one unambiguous ticket ID.');console.log(formatExplanation(explainTicket(db,listTicketEvents(db,String(matches[0]!.id)))));}finally{db.close();}return;}
  if(resource==='phone'){if(command!=='serve'||args.length)throw Error('Usage: cc phone serve');console.log(JSON.stringify(enablePrivatePhone(data,Number(port)),null,2));return;}
+ if(resource==='bug'){if(!command||args.length)throw Error('Usage: cc bug <file>');const file=resolve(command),st=lstatSync(file);if(!st.isFile()||st.isSymbolicLink()||st.size>BUG_LOG_LIMIT)throw Error('Choose a regular log file smaller than 19 KB.');await ensureCoordinator(root,data,port);const key=readFileSync(join(data,'ticket-operator.key'),'utf8').trim();const response=await fetch(base+'/api/chat/messages',{method:'POST',headers:{'X-CC-Operator':key,Origin:base,'Content-Type':'application/json'},body:JSON.stringify({text:BUG_LOG_PREFIX+readFileSync(file,'utf8')})});if(!response.ok)throw Error((await response.json()).error?.message??'Could not prepare the bug draft.');console.log('Redacted bug draft prepared. Run ./cc chat to review and Start with Touch ID. Nothing started.');return;}
  if(resource!=='ticket'&&resource!=='playbook'&&resource!=='chat'&&resource!=='stop-all'&&resource!=='skill')throw Error(usage);
  if(resource==='chat'||resource==='skill')await ensureCoordinator(root,data,port);
  const key=readFileSync(join(data,'ticket-operator.key'),'utf8').trim();

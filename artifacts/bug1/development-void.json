@@ -1,0 +1,30 @@
+{
+  "reason": "VOID_DEVELOPMENT_VERSION: final recheck/display wiring changed after modules were loaded; not counted as measurement",
+  "location": {
+    "root": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-StuuSp",
+    "repo": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-StuuSp/repo",
+    "data": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-StuuSp/data",
+    "base": "9cd2938488979e526a450c5a3979070efbd3c076",
+    "mode": "isolated TEST database; real Codex, no live approvals",
+    "startedAt": "2026-10-20T19:50:33.418Z"
+  },
+  "worker": {
+    "pid": 59118,
+    "ppid": 59116,
+    "pgid": 59107,
+    "sid": 59107,
+    "birth": "darwin:1792525833:62937",
+    "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "observedAt": "2026-10-20T19:52:59.614Z",
+    "exitedAt": null
+  },
+  "ownedChildren": 4,
+  "cleanup": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  },
+  "truthGradingConsumed": false
+}

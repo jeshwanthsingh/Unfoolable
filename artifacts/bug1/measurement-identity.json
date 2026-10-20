@@ -1,0 +1,10 @@
+{
+  "initialCodeCommit": "2e6f45c",
+  "finalCodeCommit": "9f8f569",
+  "initialBaseCommit": "e8a6061981a7d62e9afad78a5cb8e80e17738014",
+  "finalBaseCommit": "22fee8c701b4351ab34d3afb82b44712f886b534",
+  "sameBaseTree": "d60dbdbcec3a4688154683e74c39cce81accb5b7",
+  "sameRequestsAndTruthAssertions": true,
+  "harnessOnlyChanges": "separate output directory and mkdir; no changed inputs, assertions or limits",
+  "budgetsUnchanged": true
+}

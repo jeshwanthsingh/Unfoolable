@@ -1,0 +1,22 @@
+{
+  "version": "quality-gates-v1",
+  "base": "bb1540c77c32d17a9a0ac6333c736700ae06977c",
+  "candidate": "08f553afe3d30c6a1a6d3b892c800caf16c401cd",
+  "gates": [
+    {
+      "gate": "pyright",
+      "status": "FAIL",
+      "findings": [
+        {
+          "path": "tests/test_first.py",
+          "line": 2,
+          "rule": "reportMissingImports",
+          "message": "Import \"bugs\" could not be resolved"
+        }
+      ],
+      "baselineCount": 0,
+      "durationMs": 2502.569458
+    }
+  ],
+  "durationMs": 2732.53475
+}

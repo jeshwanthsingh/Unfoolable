@@ -1,0 +1,103 @@
+{
+  "codeCommit": "9f8f5696ec669251acd85d5b1b73f5d2d07dd760",
+  "fullSuite": {
+    "tests": 1150,
+    "passed": 1150,
+    "failed": 0,
+    "skipped": 0,
+    "milliseconds": 397262.461334
+  },
+  "typecheck": "PASS (also part of production build)",
+  "build": "PASS; existing bundle-size/Pixi chunk warnings retained",
+  "negativeControls": {
+    "count": 12,
+    "PASS": 0,
+    "expectedMatched": 12
+  },
+  "protectedPaths": {
+    "count": 74,
+    "readable": 0,
+    "ownedCapabilities": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "helperCallsDenied": 2,
+    "sensitiveEndpointsDenied": 6,
+    "sourceIdentities": [
+      {
+        "path": "apps/server/build-runtime.ts",
+        "sha256": "eea9351a7d14e7f7fe1403298e4d8458157729e8862d47b9c5094c5f63d30365",
+        "unchangedSinceRealProbe": true
+      },
+      {
+        "path": "apps/server/builder-private-paths.ts",
+        "sha256": "2bd2c2f1a2894418d611aca8d33a69238bf1c7e512ff451afaba3c2dfe67a98d",
+        "unchangedSinceRealProbe": true
+      },
+      {
+        "path": "apps/server/build-processes.ts",
+        "sha256": "7c8184ad4ea0bc9a42c574793c02577bee8164893bd55accdc647357701289c5",
+        "unchangedSinceRealProbe": true
+      },
+      {
+        "path": "apps/server/oracle-execution.ts",
+        "sha256": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd",
+        "unchangedSinceRealProbe": true
+      },
+      {
+        "path": "apps/server/oracle-tree.ts",
+        "sha256": "c6912dd6a808366b11f586dfe22fdecb205cbe4f2a936189254d92c5a93904b6",
+        "unchangedSinceRealProbe": true
+      },
+      {
+        "path": "apps/server/test-writer-execution.ts",
+        "sha256": "975ee486167b70cad549072f3009ab0d5ebc580d7f50bd07f67b163c753e8f02",
+        "unchangedSinceRealProbe": true
+      },
+      {
+        "path": "scripts/read-guard-targets.ts",
+        "sha256": "551bbff61404bddaa46d18ad752ae3e7c45fb8599c9a69f8088dda2f8ac27544",
+        "unchangedSinceRealProbe": true
+      },
+      {
+        "path": "scripts/read-guard-probe.py",
+        "sha256": "7efd93b16e6398e7ae03a4021c4161c994ef6bd11894f3299523033db4ca56af",
+        "unchangedSinceRealProbe": true
+      }
+    ]
+  },
+  "golden": {
+    "baseline": "fbad889",
+    "compared": 61,
+    "differences": [],
+    "historicalStoredChecks": 19,
+    "studyCases": 19,
+    "negativeControls": 12,
+    "missingOriginalFacts": [
+      104,
+      488,
+      599,
+      616
+    ],
+    "note": "Current-policy comparison; no historical labels or original golden files changed"
+  },
+  "newBugSeal": "SEALED; replays same; isolated TEST signer",
+  "productionActivation": {
+    "schema": 21,
+    "cleanupVerified": true,
+    "verifyExit": 2,
+    "broken": 0,
+    "sealedEvents": 0,
+    "olderCheckEvents": 19,
+    "sealErrors": 0,
+    "coordinator": "online",
+    "time": "2026-10-20T20:17:46.660Z"
+  },
+  "credentialScans": {
+    "sourceFindings": 0,
+    "artifactFindings": 0
+  }
+}

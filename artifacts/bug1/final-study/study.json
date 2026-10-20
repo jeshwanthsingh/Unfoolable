@@ -1,0 +1,121 @@
+[
+  {
+    "id": "B1",
+    "ticketId": "1f2ca7c2-35c0-4544-b46e-a2507a125072",
+    "request": "Return zero when divide has a zero count; preserve normal division.",
+    "reproduced": true,
+    "fixed": true,
+    "couldNotReproduce": false,
+    "truth": "PASS",
+    "falseFixed": false,
+    "status": "ready_for_review",
+    "verdict": "PASSED WITH GAPS",
+    "tokens": 62069,
+    "writerTokens": 7735,
+    "wallSeconds": 129.337,
+    "candidate": "170bd580f9ed7708df1096f7b4767f411d01566a",
+    "seal": {
+      "state": "SEALED",
+      "label": "Sealed",
+      "replays": true,
+      "eventId": 150
+    },
+    "needsYou": []
+  },
+  {
+    "id": "B2",
+    "ticketId": "2b66d051-3adf-4716-9547-0301adff1673",
+    "request": "Return None for first([]); preserve the first item for non-empty lists.",
+    "reproduced": true,
+    "fixed": true,
+    "couldNotReproduce": false,
+    "truth": "PASS",
+    "falseFixed": false,
+    "status": "ready_for_review",
+    "verdict": "PASSED WITH GAPS",
+    "tokens": 61824,
+    "writerTokens": 7636,
+    "wallSeconds": 150.357,
+    "candidate": "61ee57c84b77c2bc16b96e37db8204fcf618ce05",
+    "seal": {
+      "state": "SEALED",
+      "label": "Sealed",
+      "replays": true,
+      "eventId": 325
+    },
+    "needsYou": []
+  },
+  {
+    "id": "B3",
+    "ticketId": "fe97c270-a394-4c48-9303-c9f2e9ef621a",
+    "request": "Return Unknown when label has no name key; preserve existing names.",
+    "reproduced": true,
+    "fixed": true,
+    "couldNotReproduce": false,
+    "truth": "PASS",
+    "falseFixed": false,
+    "status": "ready_for_review",
+    "verdict": "PASSED WITH GAPS",
+    "tokens": 68776,
+    "writerTokens": 7683,
+    "wallSeconds": 138.738,
+    "candidate": "bb191d3974ad5a5b983531aa2344f3999c5d6751",
+    "seal": {
+      "state": "SEALED",
+      "label": "Sealed",
+      "replays": true,
+      "eventId": 481
+    },
+    "needsYou": []
+  },
+  {
+    "id": "B4",
+    "ticketId": "e0f2efb4-b937-4c6f-87e8-008b14078755",
+    "request": "Return None for invalid integer text in parse; preserve valid integer parsing.",
+    "reproduced": true,
+    "fixed": true,
+    "couldNotReproduce": false,
+    "truth": "PASS",
+    "falseFixed": false,
+    "status": "ready_for_review",
+    "verdict": "PASSED WITH GAPS",
+    "tokens": 69095,
+    "writerTokens": 7853,
+    "wallSeconds": 122.817,
+    "candidate": "e886d06ae8067ed3b741ed0554ee24985cd428ee",
+    "seal": {
+      "state": "SEALED",
+      "label": "Sealed",
+      "replays": true,
+      "eventId": 641
+    },
+    "needsYou": []
+  },
+  {
+    "id": "B5",
+    "ticketId": "3a3bed0d-f3d4-48c9-8007-ccc6d136ee0c",
+    "request": "Investigate the reported RuntimeError in safe_add. Preserve addition. If it cannot be reproduced, stop without a fix.",
+    "reproduced": false,
+    "fixed": false,
+    "couldNotReproduce": true,
+    "truth": null,
+    "falseFixed": false,
+    "status": "needs_you",
+    "verdict": "NOT CHECKED",
+    "tokens": 27944,
+    "writerTokens": null,
+    "wallSeconds": 28.62,
+    "candidate": null,
+    "seal": {
+      "state": "UNSEALED",
+      "label": "No check has been sealed",
+      "replays": false,
+      "eventId": null
+    },
+    "needsYou": [
+      {
+        "reason": "Couldn't reproduce. No fix was attempted; see what was tried in Proof."
+      }
+    ]
+  }
+]
