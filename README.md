@@ -10,15 +10,28 @@ Unfoolable is a personal, local Mac app. Describe a code change, review the prop
 
 ## Start
 
+Requirements: **macOS, Node 24, Git, and Codex authenticated with your existing ChatGPT account**. The sandbox and Touch ID flow are built for the Mac; this is not a cross-platform setup.
+
 ```sh
-unfool
+git clone https://github.com/jeshwanthsingh/Unfoolable.git
+cd Unfoolable
+npm ci
+./cc chat
 ```
 
-This starts the coordinator, screen and live updates, then opens your private browser page. `./cc chat` is the repository-local equivalent. First setup needs Node 24, `npm ci`, and the existing ChatGPT/Codex login. No new paid API is required. Decisions use your registered Touch ID passkey.
+The launcher starts the coordinator, browser UI and live event stream, then opens your private page. On this Mac, the installed `unfool` alias does the same thing; cloning alone does not install that alias. Open the app through the launcher to connect the private screen.
+
+Register your passkey in the local UI. Starting work and making decisions require fresh Touch ID confirmation; nothing is accepted automatically. Project checks need a one-time approved playbook. No new paid API billing is required; Codex uses your existing account allowance.
 
 ## Optional Workshop
 
-Choose **Workshop** beside **List** to see the selected ticket’s real event history as a room. The Builder stays outside the Grader’s glass inspection room; the Test Writer and your stamp station have separate desks. **Replay** shows a 45-second, read-only recording of any selected ticket. Phone and reduced-motion views use a still pixel illustration. The room has original 32px characters, real-event speech bubbles and a package route; blinking, coffee steam and the local-time clock are decorative. Record clip saves a local WebM without audio or upload. The list and all existing decisions stay available. [Implementation and proof](docs/OFFICE_1.md).
+Choose **Workshop** beside **List** for an optional full-window pixel room. The Builder, protected Grader, Test Writer and your stamp desk reflect recorded task events. Tappable objects explain the sandbox, protected paths, budget and review flow, with their data sources. Local time sets the daylight or lamp-lit night scene; ambient character motion is decorative, never evidence of work.
+
+**Replay** compresses a real ticket's event history into a 38-second trailer, with inactive stretches labelled as fast-forwarded. **Record clip** saves a local WebM and metadata without uploading anything. Replay cannot make decisions. Phone and reduced-motion views use a still illustration; the main task list remains the default.
+
+![Workshop at night, with the protected inspection room illuminated](artifacts/office3/final/screens/night-dark-1440.png)
+
+[Landscape demo](artifacts/office3/workshop-16x9.webm) · [Vertical demo](artifacts/office3/workshop-9x16.webm) · [Implementation, verification and limits](artifacts/office3/RESULT.md).
 
 ## On your iPhone
 
@@ -47,8 +60,21 @@ These are small local studies. Zero false accepts includes abstentions; it does 
 
 ## Known limits
 
-Passing existing tests does not prove new behavior. “Done, but one part couldn't be checked” is a gap, not a clean bill of health. Native tests share a process with the code they test; deliberate in-memory or observation-channel forgery remains a risk. Tripwire alarms are best effort. Old failed drafts can clutter the screen, and there has been no full manual screen-reader audit.
+Passing existing tests does not prove new behavior. A result with unchecked behavior is a gap, not a clean bill of health. Native tests share a process with the code they test; deliberate in-memory or observation-channel forgery remains a risk. Tripwire alarms are best effort. There has been no full manual screen-reader audit. Physical-iPhone performance and a complete real-device pairing exercise are not established by desktop browser tests.
 
 Backups are local and same-disk, not disaster protection. [Backup and restore](docs/BACKUPS.md). The repository is still named `command-center`. Older orchestration screens are experimental. [Handoff](HANDOFF.md) explains operation, tests and open work; [DESIGN.md](DESIGN.md) is a factual outline for the owner to expand.
 
 Skill imports: `./cc skill add /absolute/path/to/a/skill` scans a frozen copy with the pinned local SkillSpector, static only and offline. High-risk imports remain uninstalled until an exact-content Touch ID confirmation. Existing skills rated “do not install” are disabled with files retained; see the UI-5b scan report. Static findings are warnings, not proof of malicious intent.
+
+## Development and verification
+
+```sh
+npm run dev        # Local server and Vite frontend
+npm test           # Automated tests; Node 24 required
+npm run typecheck
+npm run build
+```
+
+HTTP and process-ownership tests need an environment that permits local listeners and process inspection. Do not interpret sandbox-denied test infrastructure as a passing run. The latest recorded display release passed **1,074 tests**, the **69-path protected-read probe**, and **12 negative controls**, with **256 protected source files unchanged**. These are recorded results, not checks automatically rerun when you clone. [Exact results](artifacts/office3/RESULT.md).
+
+Keep live SQLite data, local tools and credentials out of Git. Do not delete `.work/` wholesale: on the configured Mac it contains live application data. [Operational handoff](HANDOFF.md) and [backup instructions](docs/BACKUPS.md) cover the existing installation.
