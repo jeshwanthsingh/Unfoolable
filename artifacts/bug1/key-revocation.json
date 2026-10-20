@@ -1,0 +1,8 @@
+{
+  "totalProductionSeals": 0,
+  "retiredSoftwareKeySeals": 0,
+  "retiredPublicIdPrefix": "fc261d6df296",
+  "status": "REVOKED",
+  "acceptedTimeWindow": "none",
+  "scope": "active production database; read-only audit before revocation"
+}
