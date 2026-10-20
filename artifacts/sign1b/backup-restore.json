@@ -1,0 +1,24 @@
+{
+  "checkpoint": {
+    "archive": "snapshot-20261020T190151Z-c745fbd8.tar.gz",
+    "archiveSha256": "d80258df97b8fbc9cda377a3108c6da3281ddf0855e612ee63701a8262b500e4",
+    "chainHead": null,
+    "createdAt": "2026-10-20T19:04:24Z",
+    "files": 178472,
+    "bytes": 488537879,
+    "sourceRoots": 10,
+    "applicationIdentitySha256": "5effbface6f9486dcf42b103022f80a9edab3f83d165a2208b6677e76f8f4a24"
+  },
+  "restore": {
+    "files": 178472,
+    "tables": 51,
+    "passkeys": 1,
+    "ticketEvents": 1061,
+    "allTableDigestsMatch": true,
+    "allFileDigestsMatch": true,
+    "integrityCheck": "ok",
+    "foreignKeyErrors": 0
+  },
+  "activationSource": "2b8d918",
+  "backupKeyWarning": "This pre-rotation backup may contain the software private key; retain privately or delete after a newer verified backup."
+}
