@@ -29,10 +29,6 @@ test('v1 report rejects unknown nested fields, malformed proof and forged landin
   (r:any)=>r.layers[0].checks[0].fake=true,
   (r:any)=>r.layers[0].gaps.push({id:'gap',layer:2,reason:'Wrong layer'}),
   (r:any)=>r.recipeHash='not-a-hash',
-  (r:any)=>r.layers[2].checks[0].status='FAIL',
-  (r:any)=>r.layers[2].status='NOT CHECKED',
-  (r:any)=>r.layers[0].checks=[],
-  (r:any)=>r.layers[1].checks=[],
   (r:any)=>r.candidateTests={authoritative:true,status:'PASS',paths:['candidate.test.ts']},
   (r:any)=>r.candidateTests={authoritative:false,status:'PASS',paths:[],fake:true},
   (r:any)=>r.landed={branch:'verified',commit:'invalid',createdAt:'today'},
@@ -57,4 +53,10 @@ test('v1 scopes regression recipes by measured BASE outcome and keeps nonapplica
  scoped[1]!.checks[0]!.status='ERROR';scoped[1]!.checks[0]!.baseStatus='ERROR';assert.deepEqual(scoreV1(scoped),{verdict:'ERROR',canLand:false});
  const valid=report();valid.layers[1]!.checks=[{id:'new-behavior',status:'NOT CHECKED',reason:'Not applicable to this BASE',baseStatus:'FAIL',candidateStatus:'PASS'}];Object.assign(valid,scoreV1(valid.layers));assert.equal(isV1Report(valid),true);
  for(const mutate of [(v:any)=>v.layers[1].checks[0].baseStatus='NOT CHECKED',(v:any)=>delete v.layers[1].checks[0].candidateStatus,(v:any)=>v.layers[0].checks[0].baseStatus='FAIL']){const r=structuredClone(valid);mutate(r);assert.equal(isV1Report(r),false);}
+});
+
+test('shape checking does not score; explicit public boundary rejects every forged result',()=>{
+ for(const mutate of [(r:any)=>r.layers[2].checks[0].status='FAIL',(r:any)=>r.layers[2].status='NOT CHECKED',(r:any)=>r.layers[0].checks=[],(r:any)=>r.layers[1].checks=[]]){
+  const v=view();mutate(v.result.v1);assert.equal(isV1Report(v.result.v1),true);assert.equal(isVerifyView(v),false);
+ }
 });

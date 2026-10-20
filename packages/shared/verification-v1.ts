@@ -1,3 +1,4 @@
+import {scoreVerdict} from './verdict-core.ts';
 import {isTestWriterEvidence,type TestWriterEvidence} from './test-writer.ts';
 export type V1Verdict='VERIFIED'|'PASSED WITH GAPS'|'FAILED'|'ERROR';
 export type V1Status='PASS'|'FAIL'|'ERROR'|'NOT CHECKED';
@@ -13,14 +14,8 @@ export function testWriterLayer(evidence:TestWriterEvidence):V1Layer{
 
 /** Layers one and two are landing gates. Unchecked optional task checks remain gaps. */
 export function scoreV1(layers:V1Layer[],gaps:V1Gap[]=[]):{verdict:V1Verdict;canLand:boolean}{
- const complete=[1,2,3].every(layer=>layers.filter(l=>l.layer===layer).length===1)&&layers.length===3;
- const errors=layers.some(l=>l.status==='ERROR'||l.checks.some(c=>c.status==='ERROR'));
- const failures=layers.some(l=>l.status==='FAIL'||l.checks.some(c=>c.status==='FAIL'));
- const gates=layers.filter(l=>l.layer===1||l.layer===2).every(l=>l.status==='PASS'&&l.checks.length>0&&l.checks.every(c=>c.status==='PASS'||l.layer===2&&c.status==='NOT CHECKED'&&c.baseStatus==='FAIL'));
- if(!complete||errors)return {verdict:'ERROR',canLand:false};
- if(failures||!gates)return {verdict:'FAILED',canLand:false};
- const hasGaps=gaps.length>0||layers.some(l=>l.gaps.length>0||l.status==='NOT CHECKED'||l.checks.some(c=>c.status==='NOT CHECKED'&&!(l.layer===2&&c.baseStatus==='FAIL')));
- return {verdict:hasGaps?'PASSED WITH GAPS':'VERIFIED',canLand:true};
+ const result=scoreVerdict({path:'native',layers,gaps});
+ return {verdict:result.verdict as V1Verdict,canLand:result.canLand};
 }
 
 const record=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
@@ -38,6 +33,5 @@ export function isV1Report(value:unknown):value is V1Report{
  if(candidate!==null&&(!record(candidate)||!keys(candidate,['authoritative','status','paths'])||candidate.authoritative!==false||!nonempty(candidate.status)||!Array.isArray(candidate.paths)||!candidate.paths.every(nonempty)))return false;
  const landed=value.landed;
  if(landed!==null&&(!record(landed)||!keys(landed,['branch','commit','createdAt'])||!nonempty(landed.branch)||typeof landed.commit!=='string'||!/^[a-f0-9]{40,64}$/.test(landed.commit)||!nonempty(landed.createdAt)||!Number.isFinite(Date.parse(landed.createdAt))))return false;
- const scored=scoreV1(value.layers as V1Layer[],value.gaps as V1Gap[]);
- return scored.verdict===value.verdict&&scored.canLand===value.canLand&&(landed===null||value.canLand===true);
+ return landed===null||value.canLand===true;
 }

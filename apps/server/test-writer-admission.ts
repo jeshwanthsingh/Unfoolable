@@ -1,3 +1,4 @@
+import {scoreVerdict} from '../../packages/shared/verdict-core.ts';
 import {stripVTControlCharacters} from 'node:util';
 import {remainingWriterTokens} from './test-writer-context.ts';
 import {runWriterMutations} from './test-writer-mutation.ts';
@@ -11,8 +12,7 @@ import type {JsonOwnership} from './codex-json.ts';import type {TestWriterEviden
 export const TEST_WRITER_POLICY:'EVIDENCE'|'ADVISORY'='ADVISORY';
 export function writerPolicyForScore(confirmed:number,falseAccepts:number){return confirmed>=6&&falseAccepts===0?'EVIDENCE':'ADVISORY';}
 export function nativeAdmission(base:WriterNativeResult,candidates:WriterNativeResult[]){
- const ids=(r:WriterNativeResult)=>r.tests.map(t=>t.id).sort().join('\n');
- return base.status==='ASSERTION_FAIL'&&candidates.length===2&&candidates.every(r=>r.status==='PASS'&&ids(r)===ids(base));
+ return scoreVerdict({path:'writer-admission',baseStatus:base.status,baseIds:base.tests.map(t=>t.id),candidates:candidates.map(r=>({status:r.status,ids:r.tests.map(t=>t.id)}))}).admitted!;
 }
 const hash=(value:string)=>createHash('sha256').update(value).digest('hex');
 export async function runNativeTestWriter(base:{repoRoot:string;baseCommit:string;intent:string},candidateCommit:string,directory:string,signal:AbortSignal,dependencies:{author?:typeof authorNativeWriter;execute?:typeof executeWriterNative;ownership?:JsonOwnership;mutate?:typeof runWriterMutations;playbookCommand?:string}={}){

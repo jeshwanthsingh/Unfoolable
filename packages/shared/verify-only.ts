@@ -1,6 +1,6 @@
 import type {OracleManifest,OracleTest} from './oracle.ts';
 import type {VerifyRequirement,VerifyStatus,VerifyClaimResult} from './verify-only-v2.ts';
-import {isV1Report} from './verification-v1.ts';
+import {isV1Report,scoreV1} from './verification-v1.ts';
 import type {V1Report} from './verification-v1.ts';
 export type VerifyInput={repoPath:string;baseRef:string;candidateRef:string;intent:string;projectId?:string;taskChecks?:boolean;testWriter?:boolean};
 export type VerifyBinding=VerifyInput&{repoRoot:string;baseCommit:string;candidateCommit:string;baseTree:string;candidateTree:string;runnerDirectory:string};
@@ -19,6 +19,8 @@ export function isVerifyView(value:unknown):value is VerifyView{
  if(v.result!==null&&(!['PASS','FAIL','NOT CHECKED','ERROR','CANCELLED','STALE'].includes(v.result?.status)||!['VERIFIED','PASSED WITH GAPS','NOT VERIFIED','ACCEPT WITH WAIVER'].includes(v.result?.acceptance)||!['PASS','FAIL','NOT CHECKED','ERROR','CANCELLED','STALE'].includes(v.result?.automatedStatus)||!Array.isArray(v.result?.claims)||!v.result.claims.every((c:Record<string,unknown>)=>['REQUIRED','ADVISORY'].includes(String(c.requirement))&&['PASS','FAIL','NOT CHECKED','ERROR','CANCELLED','STALE'].includes(String(c.status)))))return false;
  if(v.result?.v1!==undefined){
   if(!isV1Report(v.result.v1))return false;
+  const scored=scoreV1(v.result.v1.layers,v.result.v1.gaps);
+  if(scored.verdict!==v.result.v1.verdict||scored.canLand!==v.result.v1.canLand)return false;
   const expected=v.result.v1.verdict==='ERROR'?'ERROR':v.result.v1.verdict==='FAILED'?'FAIL':'PASS';
   const acceptance=v.result.v1.verdict==='FAILED'||v.result.v1.verdict==='ERROR'?'NOT VERIFIED':v.result.v1.verdict;
   if(v.result.status!==expected||v.result.automatedStatus!==expected||v.result.acceptance!==acceptance)return false;
