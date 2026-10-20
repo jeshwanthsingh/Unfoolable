@@ -8,11 +8,11 @@ export function safeOfficeFile(value:unknown):string|null{
  const name=value.split('/').at(-1)!;return /^[A-Za-z0-9][A-Za-z0-9_.-]{0,60}$/.test(name)?name:null;
 }
 export function officeActivity(id:string,events:readonly TicketEvent[]):OfficeActivity{
- const rows=orderedOfficeEvents(id,events),f=officeFrame(id,rows),a:OfficeActivity={action:'idle',bubble:'',sequence:0,tokens:null,tests:null,writer:'idle',lastAt:rows.at(-1)?.createdAt??null};let tool:string|null=null;
+ const rows=orderedOfficeEvents(id,events),f=officeFrame(id,rows),a:OfficeActivity={action:'idle',bubble:'',sequence:0,tokens:null,tests:null,writer:'idle',lastAt:rows.at(-1)?.createdAt??null};let tool:string|null=null;const usage=new Map<string,number>();
  for(const e of rows){const d=e.data,kind=d.kind,p=d.data&&typeof d.data==='object'?d.data as Record<string,unknown>:{};
   if(e.kind==='state_changed'){a.action=d.to==='checking'?'inspect':'idle';a.bubble=d.to==='checking'?'Inspecting the change':'';tool=null;}
   if(e.kind==='agent_stopped'){a.action='idle';a.bubble='';tool=null;}
-  if(e.kind==='agent_event'&&kind==='usage_observed'&&typeof p.reportedTotal==='number'&&Number.isSafeInteger(p.reportedTotal)&&p.reportedTotal>=0)a.tokens=p.reportedTotal;
+  if(e.kind==='agent_event'&&kind==='usage_observed'&&typeof p.reportedTotal==='number'&&Number.isSafeInteger(p.reportedTotal)&&p.reportedTotal>=0){usage.set(typeof d.attemptId==='string'?d.attemptId:'reported-session',p.reportedTotal);a.tokens=[...usage.values()].reduce((total,value)=>total+value,0);}
   if(e.kind==='agent_event'&&kind==='tool.started'){
    tool=typeof p.itemId==='string'?p.itemId:null;a.sequence=e.sequence;
    if(p.type==='fileChange'){a.action='type';a.bubble='Making the change';}

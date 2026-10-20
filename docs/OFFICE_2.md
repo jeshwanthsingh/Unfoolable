@@ -21,3 +21,13 @@ Display only, from adefdfc. Optional Workshop; default list and exact-item Touch
 ## Review against generic defaults
 
 No identical station-card grid, UI dashboard in a canvas, generic geometric robots, debug labels or wandering-as-fake-work. Draw a coherent room with handmade sprite people, station silhouettes and a real package route. Keep controls outside the art and labels minimal. Ambient motion is understated; loud effects are brief and tied to real results.
+
+## Review passes
+
+Pass 1: original pixel room establishes a consistent place. Compared with the references, remove legacy debug labels, duplicate in-scene title and clipped phone tags.
+
+Pass 2: four quiet name tags, single HUD, 2x2 phone labels, natural blinks, real-count tube lights and aisle-based walking. Tool and check bubbles attach to the actor actually doing the recorded operation. Token snapshots aggregate per session without double counting. Caption needs a readable backing plate; late canvas cleanup can invalidate recording.
+
+Pass 3: caption plate, race-safe canvas publication, 60fps cap, finite result stamp press/dust, actual pose in still illustrations. Ambient callbacks pause with visibility; sound remains off by default. No reviewer or new backend progress state.
+
+Emil review: game travel may exceed 300ms because it explains spatial movement, not input latency. Press/impact is 180ms; dust settles within 700ms. Camera retargets continuously, slight squash only during actual travel. No layout animation or React state update per frame. Existing approved skills applied; new scanned CAUTION/DNI skills remain unused.

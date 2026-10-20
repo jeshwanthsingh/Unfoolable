@@ -56,7 +56,7 @@ def room(dark=False,builder_only=False):
   for yy in range(60,184,12):
    for xx in range(304,454,12):d.rectangle((xx,yy,xx+10,yy+10),outline='#425b5c' if dark else '#78938f')
   d.rectangle((317,71,440,94),fill=INK);d.rectangle((319,73,438,91),fill='#7b8d86');d.rectangle((325,76,358,87),fill='#243d43')
-  for x in range(368,434,9):d.rectangle((x,76,x+5,87),fill='#a1b9ae')
+  for x in range(368,434,9):d.rectangle((x,76,x+5,87),fill='#718b89')
   desk(356,123,68);d.rectangle((316,112,338,155),fill=INK);d.rectangle((319,114,335,151),fill='#a5b8a9');d.rectangle((321,117,333,132),fill='#456566')
   for yy in [138,143,148]:d.line((322,yy,332,yy),fill='#526966')
   # Front glass frame, reflections, handoff box (Builder never enters).

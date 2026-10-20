@@ -1,0 +1,3 @@
+let context:AudioContext|null=null;
+export function enableOfficeSound(){try{context??=new AudioContext();void context.resume().catch(()=>{});}catch{}}
+export function officeClick(){if(!context||context.state!=='running'||document.hidden)return;const oscillator=context.createOscillator(),gain=context.createGain(),at=context.currentTime;oscillator.type='sine';oscillator.frequency.setValueAtTime(780,at);oscillator.frequency.exponentialRampToValueAtTime(240,at+.12);gain.gain.setValueAtTime(.025,at);gain.gain.exponentialRampToValueAtTime(.0001,at+.15);oscillator.connect(gain);gain.connect(context.destination);oscillator.start(at);oscillator.stop(at+.16);oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};}
