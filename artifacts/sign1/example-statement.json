@@ -10,7 +10,7 @@
   ],
   "predicateType": "https://github.com/jeshwanthsingh/Unfoolable/attestation/verdict/v1",
   "predicate": {
-    "ticketId": "387c7d7d-b161-421b-b1a8-a41bb81d281d",
+    "ticketId": "0517571f-e179-4484-9d60-83bb89e211c3",
     "eventId": 3,
     "verdict": "NOT CHECKED",
     "factsHash": "f8a41bc1fae1a558472d91208c82784748c6ef9eda06a62277a4ba67e0d85911",
@@ -129,7 +129,7 @@
       ],
       "osvBackend": "osv-scalibr 0.5.3; OSV_SCALIBR_LOCAL_DB_CACHE_DIRECTORY, osv-scalibr/<ecosystem>/all.zip"
     },
-    "time": "2026-10-20T18:24:17.201Z",
-    "eventHash": "e97c07efb0692fa135d163810b16cf71d44d79804ab4e56fe20fca4036d14ab4"
+    "time": "2026-10-20T18:28:18.467Z",
+    "eventHash": "fde682aad73b44b2c08dc652a6e50af62e01bd11f428d10af9adf3e8fd3f8d43"
   }
 }

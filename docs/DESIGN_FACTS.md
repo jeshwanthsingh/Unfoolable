@@ -59,3 +59,27 @@ flowchart LR
 ```
 
 Reviewer output never enters core facts, review-risk colors, check evidence or decision binding. Each role has a 15,000-token budget and a separate fresh read-only session; no file/network/write tools are exposed. Missing screenshots or invalid output remain unavailable, not passing. Cancellation is separate from Builder budgets. The display channel is filtered from confirmation state solely to preserve existing bindings; all original state/check inputs remain authoritative. UI image transport was smoke-tested; the frozen study had no eligible visual patches and UI remains uncalibrated/off. The Workshop therefore retains its existing desks.
+
+## SIGN-1 sealed records
+
+- Verdict-core.ts is unchanged from fbad889. Both existing result paths still supply exactly the same facts and decisions.
+- After a check result is recorded, the trusted host shell binds its event ID, stored facts/trace, core source, BASE, frozen diff and pinned gate-tool metadata into an in-toto Statement v1 / DSSE envelope. Only a successful signature emits verdict_sealed.
+- Migration 21 adds a global ticket-event hash chain, its origin/head, attestation storage and seal-error storage. Pre-migration events retain their exact bytes and remain unsealed. Event, chain, seal and display marker publication use one SQLite savepoint.
+- The current signer is a protected 0600 P-256 file fallback. The unsigned Swift/CryptoKit feasibility compile failed because Xcode's licence is unaccepted; no special entitlement or licence acceptance was added. Hardware feasibility remains unknown.
+- The helper runs no Candidate code, receives only a bounded DSSE message, and has no network or agent-tool API. Real pinned Builder read/exec probes deny the key and helper (71-path corpus).
+- Production verification pins docs/VERIFY_KEY.pem. Isolated TEST databases use isolated test keys. cc verify returns 0 only for sealed, replaying results; 1 for breaks; 2 for older/unsealed records. It is read-only and never accepts a change.
+- Backup manifests and last-success checkpoints retain the chain head; SQLite replication retains its table. Facts, immutable diff bytes, signatures and signing identity are included in protected file checkpoints.
+- Proof shows seal/replay status separately from the unchanged verdict. The Workshop wax press uses matching signed events plus the verified read-only detail status; missing state stays unknown and broken state is red.
+
+```mermaid
+flowchart LR
+  F[Checker facts] --> C[Unchanged pure verdict core]
+  C --> S[Immutable facts snapshot]
+  S --> E[Ticket event and hash chain]
+  E --> K[Protected P-256 helper]
+  K --> A[DSSE attestation]
+  A --> V[Read-only signature and replay verification]
+  V --> P[Proof and Workshop seal]
+```
+
+A seal authenticates the stored result, including failures or gaps. It is not additional test coverage. Hash chains/signatures are checked against retained anchors and the trusted key; whole-machine rollback and an owner/root attacker replacing code/keys are outside this local boundary.

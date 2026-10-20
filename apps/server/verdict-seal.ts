@@ -1,3 +1,4 @@
+import {fixtureApprovalsEnabled} from './data-mode.ts';
 import {readFileSync,existsSync,mkdirSync,writeFileSync} from 'node:fs';import {join} from 'node:path';import type {DatabaseSync} from 'node:sqlite';
 import {scoreVerdict,CORE_VERSION} from '../../packages/shared/verdict-core.ts';import {loadVerdictSnapshot,type VerdictSnapshotRef} from './verdict-snapshot.ts';
 import {createAttestation,verifyAttestation,sha256} from './attestation-format.ts';import {signingKey} from './signing-key.ts';import {verifyEventChain} from './event-chain.ts';
@@ -39,8 +40,8 @@ export function verifyTicketSeal(db:DatabaseSync,dir:string,id:string):SealStatu
 }
 
 function verificationKey(dir:string){
- const key=readFileSync(join(dir,'signing/public.pem'),'utf8'),mode=JSON.parse(readFileSync(join(dir,'.cc-data-mode.json'),'utf8')).mode;
- if(mode==='TEST')return key; // Isolated fixtures have their own keys, never live approvals.
+ const key=readFileSync(join(dir,'signing/public.pem'),'utf8');
+ if(fixtureApprovalsEnabled(dir))return key; // Isolated fixtures have their own keys, never live approvals.
  const url=new URL('../../docs/VERIFY_KEY.pem',import.meta.url),pinned=readFileSync(existsSync(url)?url:join(process.cwd(),'docs/VERIFY_KEY.pem'),'utf8');
  if(key!==pinned)throw Error('Signing identity differs from the pinned verification key');return pinned;
 }

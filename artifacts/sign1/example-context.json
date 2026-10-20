@@ -1,5 +1,97 @@
 {
   "kind": "isolated test fixture, not a production check",
+  "ticket": {
+    "id": "0517571f-e179-4484-9d60-83bb89e211c3",
+    "title": "Sealed fixture",
+    "requestText": "No behavior claimed",
+    "repoPath": "/fixture",
+    "baseCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "status": "queued",
+    "attemptCount": 0,
+    "candidateCommits": [],
+    "checkVerdict": null,
+    "createdAt": "2026-10-20T18:28:18.466Z",
+    "updatedAt": "2026-10-20T18:28:18.466Z"
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "ticketId": "0517571f-e179-4484-9d60-83bb89e211c3",
+      "kind": "submitted",
+      "data": {
+        "plainTitle": "Sealed fixture",
+        "titleAuthor": "user"
+      },
+      "createdAt": "2026-10-20T18:28:18.467Z"
+    },
+    {
+      "sequence": 2,
+      "ticketId": "0517571f-e179-4484-9d60-83bb89e211c3",
+      "kind": "candidate_frozen",
+      "data": {
+        "candidate": {
+          "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-seal-OAlemP/diff.patch"
+        }
+      },
+      "createdAt": "2026-10-20T18:28:18.467Z"
+    },
+    {
+      "sequence": 3,
+      "ticketId": "0517571f-e179-4484-9d60-83bb89e211c3",
+      "kind": "check_result",
+      "data": {
+        "candidate": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "verdict": "NOT CHECKED",
+        "gaps": [
+          "Fixture"
+        ],
+        "failures": [],
+        "coreTrace": [
+          {
+            "rule": "unsupported",
+            "passed": false,
+            "explanation": "Fixture"
+          },
+          {
+            "rule": "result",
+            "passed": false,
+            "explanation": "Result: NOT CHECKED. This never accepts the change."
+          }
+        ],
+        "verdictSnapshot": {
+          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-seal-OAlemP/verdict-facts/1f4b5d7385c4a59aedcf9890da02d56c8999bb0fe152bc2bdb4978b83050b983.json",
+          "hash": "1f4b5d7385c4a59aedcf9890da02d56c8999bb0fe152bc2bdb4978b83050b983",
+          "coreVersion": "verdict-core-v1"
+        }
+      },
+      "createdAt": "2026-10-20T18:28:18.467Z"
+    },
+    {
+      "sequence": 4,
+      "ticketId": "0517571f-e179-4484-9d60-83bb89e211c3",
+      "kind": "agent_event",
+      "data": {
+        "kind": "verdict_sealed",
+        "eventSequence": 3,
+        "attestationHash": "bd8a4a1e5f984d5ba093ab3996260348dc5de044af54b55983294b606db280cd"
+      },
+      "createdAt": "2026-10-20T18:28:18.499Z"
+    }
+  ],
+  "goodSeal": {
+    "state": "SEALED",
+    "label": "Sealed",
+    "replays": true,
+    "eventId": 3
+  },
+  "badSeal": {
+    "state": "BROKEN",
+    "label": "Seal broken",
+    "reason": "Verdict facts changed",
+    "replays": false,
+    "eventId": 3
+  },
   "productionKey": "docs/VERIFY_KEY.pem",
   "exampleKey": "example-public.pem",
   "decision": "none"

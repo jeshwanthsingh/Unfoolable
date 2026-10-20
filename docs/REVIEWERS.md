@@ -21,3 +21,5 @@ All defaults OFF: zero reviewer tokens per ordinary ticket. Saved Intent mean: 7
 ## SIGN-1 local-tool completion
 
 The eight wrong patches were measured with existing offline quality gates, without AI. Pyright catches A2-planted-special-case, the only formerly possible unique reviewer catch; it also catches the half-fix and edge-case plants. The other four reviewer-caught cases already have Test Writer alarms. Proven unique reviewer catches: zero. All reviewers remain OFF; no on-demand allowance button or reviewer desk is enabled under the conditional rule. See artifacts/sign1/overlap.md and quality-overlap.json.
+
+Precision note: the additional Pyright flags are test-file import/type diagnostics, not semantic proof of the SDK bug. Under the case-overlap rule they are a pre-existing signal to inspect that change. No gate is claimed to have proved the requested behavior.

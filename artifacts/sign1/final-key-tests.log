@@ -1,0 +1,25 @@
+✔ Node tests classify only their separate temporary data as TEST (36.761125ms)
+✔ test process cannot open a simulated LIVE store or approve its playbook; no files change (1.531875ms)
+✔ symlink alias cannot turn a LIVE store into test data (1.7745ms)
+✔ legacy directory with an operator key cannot be relabelled TEST (0.97825ms)
+✔ non-test automation cannot approve a LIVE playbook even with a claimed human actor (318.717ms)
+✔ TEST stores reject database and playbook symlinks before touching simulated live files (3.643083ms)
+✔ new protected check is sealed, replays identically, and survives database reopen (99.823625ms)
+✔ seal rejects fact byte (77.820833ms)
+✔ seal rejects verdict (73.103917ms)
+✔ seal rejects delete event (67.999583ms)
+✔ seal rejects swap attestation (99.780209ms)
+✔ seal rejects diff byte (60.590708ms)
+✔ event insert, chain and head roll back together (58.733416ms)
+✔ readonly cc verify detects fact tampering and produces an example without human decisions (387.807709ms)
+✔ exact f947240 history upgrades without sealing or rewriting older verdicts (273.215459ms)
+✔ backup copy retains signing identity, facts, seals and latest chain head (63.186791ms)
+✔ CLI verifies one read snapshot while the coordinator appends events (138.96775ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1781.120834
