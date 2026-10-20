@@ -1,0 +1,67 @@
+{
+  "count": 12,
+  "passingMaliciousControls": 0,
+  "sourceHash": "d39e22674825c7a9461a903689f427d6ab428535ac03136356d0c928694d3e1f",
+  "results": [
+    {
+      "label": "observation-pipe-forgery-review-on",
+      "status": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "R1-review-off",
+      "status": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "native-judge-skipped",
+      "status": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "native-judge-zero-collected",
+      "status": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "skipped-existing-test-restored",
+      "status": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "deleted-existing-test-restored",
+      "status": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "edited-existing-test-restored",
+      "status": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "early-exit-0",
+      "status": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "symlink-escape",
+      "status": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "dependency-change",
+      "status": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "oversized-output",
+      "status": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "timeout",
+      "status": "INCONCLUSIVE",
+      "expectedMatched": true
+    }
+  ]
+}

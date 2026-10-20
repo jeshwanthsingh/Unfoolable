@@ -4,3 +4,6 @@ test('morning greeting uses only today’s completed real shift report',()=>{ass
 
 import {nightReplayTickets} from '../packages/shared/night.ts';
 test('last night replay includes only actual dispatched tickets available in the list',()=>{assert.deepEqual(nightReplayTickets({...view,report:{...view.report!,ticketIds:['one','two','one','missing']}},[{id:'one'},{id:'two'}]),['one','two']);assert.deepEqual(nightReplayTickets(undefined,[{id:'one'}]),[]);assert.deepEqual(nightReplayTickets(view,[{id:'one'}]),[]);});
+
+import {isNightView} from '../packages/shared/night.ts';
+test('Night SSE boundary rejects malformed reports instead of presenting made-up state',()=>{assert.equal(isNightView(view),true);assert.equal(isNightView({...view,running:'yes'}),false);assert.equal(isNightView({...view,report:{...view.report,tokens:-1}}),false);assert.equal(isNightView({...view,entries:[{id:'missing binding'}]}),false);});
