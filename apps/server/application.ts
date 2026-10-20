@@ -1,3 +1,4 @@
+import {createNightShift} from './night-shift.ts';
 import {createNightStore} from './night-store.ts';
 import {ticketDecisionView} from '../../packages/shared/reviewers.ts';
 import {createPhonePush} from './phone-push.ts';
@@ -97,8 +98,9 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const workflow=createMissionWorkflow(database.connection,{context,analysis:analyses,contract:contracts,planning,build:builds,verification,debug:debugging,outcomes},logger);
  const chat=createChatService(database.connection,tickets,options.chatRuntime??createChatCodex({dataDir:config.dataDir}),builds.decide);
  const nightStore=createNightStore(database.connection,config.dataDir,chat.store.draft,tickets.playbookEvidence);
+ const night=createNightShift(database.connection,config.dataDir,nightStore,tickets,chat.store);
  let stopping:Promise<unknown>|null=null;
- const stopAll=()=>{if(stopping)return stopping;phone.audit('stop.all',{});const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
+ const stopAll=()=>{if(stopping)return stopping;phone.audit('stop.all',{});const nightStop=night.stop('STOP ALL');const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,nightStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
  function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
   const path=op.path;let m:RegExpExecArray|null;
   if(m=/^\/api\/night\/drafts\/([^/]+)\/queue$/.exec(path))return {scope:{item:'draft:'+m[1]!,action:'tonight'},state:nightStore.evidence(m[1]!,op.body)};
@@ -116,7 +118,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(m=/^\/api\/verification-runs\/([^/]+)\/claims\/([^/]+)\/decision$/.exec(path)){const row=database.connection.prepare('SELECT * FROM verification_runs WHERE id=?').get(m[1]!);if(!row)throw new SpecError('RUN_NOT_FOUND','Verification run unavailable.',404);return {scope:{item:'claim:'+m[1]!+':'+m[2]!,action:'decision'},state:row};}
   throw new SpecError('INVALID_DECISION','Unsupported human decision.',400);
  }
- const desk=createDeskStream(database.connection,()=>({...chat.store.view(),night:{entries:nightStore.list(),report:null,running:false},notice:chat.problem(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled()}));
+ const desk=createDeskStream(database.connection,()=>({...chat.store.view(),night:night.view(),notice:chat.problem(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled()}));
  const phone=createPhoneAuth(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
  const phoneRoutes=createPhoneRoutes(phone,config.dataDir,options.phoneAccessStatus);
  const phonePush=createPhonePush(database.connection,config.dataDir);
@@ -200,16 +202,16 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const close=()=>{
   if(closing)return closing;
   logger({event:'shutdown.started'});desk.close();analyses.close();contracts.close();planning.close();
-  closing=phonePush.close().then(()=>chat.close()).then(()=>tickets.close()).then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
+  closing=night.close().then(()=>phonePush.close()).then(()=>chat.close()).then(()=>tickets.close()).then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}
    const timer=setTimeout(()=>server.closeAllConnections(),2000);timer.unref();
    server.close(error=>{clearTimeout(timer);finish(error);});server.closeIdleConnections();
   }));return closing;
  };
- const start=async()=>{await verifyOnly.recover();await tickets.recover();await builds.recover();await verification.recover();await debugging.recover();workflow.recover();return new Promise<void>((resolve,reject)=>{
+ const start=async()=>{await night.recover();await verifyOnly.recover();await tickets.recover();await builds.recover();await verification.recover();await debugging.recover();workflow.recover();return new Promise<void>((resolve,reject)=>{
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
-  server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
+  server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});night.start();resolve();});
  });};
- return {server,database,start,close,stopAll,workflow,tickets,chat,phone,phonePush,nightStore};
+ return {server,database,start,close,stopAll,workflow,tickets,chat,phone,phonePush,nightStore,night};
 }
