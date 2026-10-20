@@ -41,3 +41,21 @@ All 15 reconstructible historical results match actual 3c94150 code on identical
 ## Graph and evidence limits
 
 `before.html` / `after.html`, `before.png` / `after.png`, the readable overview images, manifests, counts and path-query output are under `artifacts/core1/graph/`. The core has no outgoing external import/call edges; the pinned TypeScript authority lint independently rejects imports and ambient side effects. Graphify's partial parsing and injected callbacks limit graph completeness; a missing edge is not an enforcement proof. CLI-only code extraction runs under deny-network, isolated HOME and no provider keys. The static skill scan was DO_NOT_INSTALL, so no Graphify skill or MCP/HTTP server was installed.
+
+## REVIEW-1 advisory side channel
+
+The protected verdict core, scorer wrappers and judge code retain their fbad889 hashes. After a check is recorded, the coordinator may schedule independent advisory reviewers. `DEFAULT_REVIEWERS` remains empty because the preregistered study did not promote any role. `skipReviewers` is an optional approved-playbook opt-out; omitting it preserves existing hashes.
+
+```mermaid
+flowchart LR
+  Facts[Protected facts] --> Core[Unchanged verdict core]
+  Core --> Stored[Stored check result]
+  Packet[Original request, patch, quality diagnostics] --> Review[Fresh tool-free reviewer sessions]
+  Images[Trusted PNGs for UI, when available] --> Review
+  Review --> Notes[Separate candidate/check-bound advisory events]
+  Stored --> Display[Card and Proof]
+  Notes --> Display
+  Stored --> Decision[Existing exact-item passkey decision]
+```
+
+Reviewer output never enters core facts, review-risk colors, check evidence or decision binding. Each role has a 15,000-token budget and a separate fresh read-only session; no file/network/write tools are exposed. Missing screenshots or invalid output remain unavailable, not passing. Cancellation is separate from Builder budgets. The display channel is filtered from confirmation state solely to preserve existing bindings; all original state/check inputs remain authoritative. UI image transport was smoke-tested; the frozen study had no eligible visual patches and UI remains uncalibrated/off. The Workshop therefore retains its existing desks.

@@ -1,0 +1,19 @@
+{
+  "scope": "Transport capability smoke on this panel, not part of the frozen study or promotion evidence",
+  "run": {
+    "role": "ui",
+    "findings": [],
+    "usage": {
+      "totalTokens": 7538,
+      "inputTokens": 7420,
+      "cachedInputTokens": 0,
+      "cacheWriteInputTokens": 0,
+      "outputTokens": 118,
+      "reasoningOutputTokens": 68
+    },
+    "sessionId": "01a15a54-b9b1-75a3-ad7d-9af121bf9b08",
+    "tokenLimit": 15000,
+    "limitation": "Only one narrow-screen state is supplied; keyboard focus, screen-reader behavior, other statuses, and longer-content overflow cannot be assessed from this screenshot.",
+    "status": "DONE"
+  }
+}
