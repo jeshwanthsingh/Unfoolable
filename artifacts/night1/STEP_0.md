@@ -11,3 +11,11 @@ Before: regression fails with the BUG-1 error. After: all 15 ownership/native ga
 Pyright’s generated configuration lives in protected scratch storage. Without an execution environment, that scratch location becomes its import root, so new `tests/test_first.py` cannot import exported root-level `bugs.py`. Native unittest can import it; this was a false gate finding.
 
 Set the execution environment root and extraPaths to the frozen export root. Add the export’s src directory only when it exists in BASE. The existing basic type policy stays enabled; Candidate configuration cannot disable it. A new duplicate reproduction test now passes with no missing-import diagnostic; a planted `value: int = "wrong"` in the same test produces FAIL. This intentionally corrects future gate configuration, never stored verdicts or frozen facts.
+
+### Final strict regression review
+
+The first full-suite pass exposed an over-broad exit-clear branch: it omitted an unrelated changed-parent record after ESRCH. No process was promoted or signalled, but this violated the old strict PID-reuse regression. The final fix clears only reparenting to PID 1 after the original ps parent is proved dead, then requires child ESRCH or same-birth zombie proof. Other parent/session changes still fail immediately. Every original process-recording test remains intact. A fresh 100-start chat-path stress run on this stricter helper passed; its final hash is in ownership-stress.json.
+
+Future ownership failures now retain the fixed kernel helper’s sanitized diagnostic in protected ticket events (`ownership_recording_failed`) instead of discarding it behind the generic card message. The old BUG-1 record cannot be retroactively reconstructed.
+
+A full-suite Watchman failure also exposed buffered lifecycle callbacks continuing after stop won. A new same-chunk regression reproduced 12 callbacks after the first rejection. Lifecycle callbacks are now fenced after failure; bounded raw protocol logs, permission denials and cleanup RPCs remain available. The eleven-action threshold and old assertions are unchanged.

@@ -98,6 +98,23 @@ def tree(root):
     # before its already-exiting child is recorded. Never claim it as owned.
     # Clear ONLY a proved exit: ESRCH, or a zombie with the same kernel birth.
     for row in [r for r in rows if r['pid'] not in current]:
+        # Only the exit/reparent-to-init race may be cleared. A different
+        # live parent/session is observed identity conflict, never transient.
+        parent=next((ppid for pid,ppid,pgid in basic if pid==row['pid']),None)
+        if row['ppid']!=1 or parent not in owned or parent==1:
+            raise RuntimeError('Recorded process no longer belongs to the owned tree: parent/session changed')
+        old_parent=inspect(parent)
+        if old_parent is not None and not old_parent['zombie']:
+            raise RuntimeError('Recorded process no longer belongs to the owned tree: parent still live')
+        if old_parent is None:
+            try:
+                os.kill(parent,0)
+            except ProcessLookupError:
+                pass
+            except PermissionError:
+                raise RuntimeError('Recorded process no longer belongs to the owned tree: parent identity unavailable') from None
+            else:
+                raise RuntimeError('Recorded process no longer belongs to the owned tree: parent death unproved')
         while True:
             now=inspect(row['pid'])
             if now and now['birth_id']!=row['birth_id']:

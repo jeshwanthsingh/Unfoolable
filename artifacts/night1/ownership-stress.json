@@ -3,5 +3,8 @@
   "successfulStarts": 100,
   "retries": 50,
   "readyTickets": 50,
-  "kernelBirthRecords": 500
+  "kernelBirthRecords": 513,
+  "mode": "real owned supervisor processes and chat HTTP path; fixture Codex protocol, no model tokens",
+  "helperSHA256": "744c367ffe969805f3ddc62f54bc9765427881a378cd130c3bfa3c288e57066a",
+  "strictPIDReuseChecksPreserved": true
 }

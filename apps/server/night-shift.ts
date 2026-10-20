@@ -1,3 +1,4 @@
+import {sanitizeBuildValue} from './build-protocol.ts';
 import type {DatabaseSync} from 'node:sqlite';
 import type {NightEntry,NightView} from '../../packages/shared/night.ts';
 import type {createTicketService} from './ticket-service.ts';
@@ -10,7 +11,7 @@ import {ticketBudget} from './ticket-budget.ts';
 import {onACPower,keepNightAwake,notifyNightEnded} from './night-power.ts';
 import {reconcileOwnedProcesses} from './build-processes.ts';
 import type {ProcessRecord} from '../../packages/shared/build.ts';
-type Service=Pick<ReturnType<typeof createTicketService>,'create'|'list'|'stopAll'|'retryNightRateLimit'>;
+type Service=Pick<ReturnType<typeof createTicketService>,'create'|'list'|'stopAll'|'retryNightRateLimit'>&Partial<Pick<ReturnType<typeof createTicketService>,'bindNightGuard'>>;
 type Store=ReturnType<typeof createNightStore>;
 type Ops={now:()=>number;power:()=>boolean;awake:typeof keepNightAwake;notify?:()=>void};
 const busy=['queued','building','fixing','checking'];
@@ -21,11 +22,13 @@ export function createNightShift(db:DatabaseSync,dataDir:string,store:Store,tick
  const ops=fixture??{now:Date.now,power:onACPower,awake:keepNightAwake,notify:notifyNightEnded};
  let timer:NodeJS.Timeout|undefined,locked=false,closed=false,lastTick=ops.now(),generation=0,inFlight:Promise<void>|null=null,endingJob:Promise<void>|null=null,fault=false,waitingForPower=false;
  let shift:{key:string;entry:NightEntry;awake:Awaited<ReturnType<typeof keepNightAwake>>}|null=null;
+ function guard(id:string){const entry=store.list().find(e=>e.ticketId===id);if(!entry)return null;if(entry.status!=='running'||!shift||endingJob||fault)return 'Night Shift authorization ended.';if(ops.now()>=Date.parse(entry.end))return 'Night Shift reached its morning cutoff.';if(ops.now()-lastTick>15000)return 'Night Shift interrupted after sleep or a coordinator pause.';return null;}
+ tickets.bindNightGuard?.(guard);
  const events=()=>db.prepare('SELECT * FROM night_events ORDER BY sequence').all();
  const ended=(k:string)=>events().some(e=>['shift_stopping','shift_ended'].includes(String(e.kind))&&JSON.parse(String(e.data_json)).key===k);
  const members=(k:string)=>store.list().filter(e=>key(e)===k);
  function tokens(k:string){return members(k).reduce((total,e)=>{if(!e.ticketId)return total;const b=ticketBudget(db,e.ticketId),reviews=listTicketEvents(db,e.ticketId).filter(v=>v.kind==='agent_event'&&v.data.kind==='reviewer_done');return total+(b.reportedCodexTokens??0)+(b.reportedWriterTokens??0)+reviews.reduce((n,r)=>n+Number((r.data.run as {usage?:{totalTokens?:number}})?.usage?.totalTokens??0),0);},0);}
- function report():NightView['report']{const end=events().findLast(e=>e.kind==='shift_ended');if(!end)return null;const d=JSON.parse(String(end.data_json)),items=members(d.key).filter(e=>e.ticketId).map(e=>{const t=e.ticketId?getTicket(db,e.ticketId):null;return {title:e.title,status:t?.status??e.status,verdict:t?.checkVerdict??null};}),checked=items.filter(i=>i.verdict==='VERIFIED').length,closer=items.length-checked;return {ticketIds:members(d.key).flatMap(e=>e.ticketId?[e.ticketId]:[]),summary:items.length?`Good morning. Night Shift did ${items.length} things: ${checked} checked, ${closer} need a closer look.`:'Night Shift stopped before starting work.',start:d.start,end:String(end.created_at),tokens:tokens(d.key),items};}
+ function report():NightView['report']{const end=events().findLast(e=>e.kind==='shift_ended');if(!end)return null;const d=JSON.parse(String(end.data_json)),items=members(d.key).filter(e=>e.ticketId).map(e=>{const t=e.ticketId?getTicket(db,e.ticketId):null;return {title:e.title,status:t?.status??e.status,verdict:t?.checkVerdict??null};}),checked=items.filter(i=>i.verdict==='VERIFIED').length,closer=items.length-checked;return {ticketIds:members(d.key).flatMap(e=>e.ticketId?[e.ticketId]:[]),summary:items.length?`Good morning. Night Shift did ${items.length} ${items.length===1?'thing':'things'}: ${checked} checked, ${closer} ${closer===1?'needs':'need'} a closer look.`:'Night Shift stopped before starting work.',start:String(events().find(e=>e.kind==='shift_started'&&JSON.parse(String(e.data_json)).key===d.key)?.created_at??d.start),end:String(end.created_at),tokens:tokens(d.key),items};}
  function notifications(){return JSON.parse(String(events().findLast(e=>e.kind==='notification_preference')?.data_json??'{}')).enabled===true;}
  function view():NightView{return {notice:fault?'Night Shift is stopped. Process cleanup needs inspection.':endingJob?'Stopping Night Shift...':waitingForPower?'Night Shift is waiting for AC power.':null,notifications:notifications(),entries:store.list(),report:report(),running:!!shift};}
  function end(reason:string,stop=true):Promise<void>{if(endingJob)return endingJob;const current=shift;if(!current)return Promise.resolve();shift=null;generation++;nightEvent(db,null,'shift_stopping',{key:current.key,start:current.entry.start,end:current.entry.end,reason},ops.now());
@@ -76,9 +79,15 @@ export function createNightShift(db:DatabaseSync,dataDir:string,store:Store,tick
    });}catch(error){store.finish(next.id,'stale','Could not start safely; confirm the current draft again',ops.now());nightEvent(db,next.id,'dispatch_error',{reason:(error as Error).message},ops.now());}
   }finally{locked=false;}
  }
- function tick(){if(inFlight)return inFlight;inFlight=step().finally(()=>{inFlight=null;});return inFlight;}
+ function tick(){if(inFlight)return inFlight;inFlight=step().catch(async error=>{
+  // Unexpected harness failures are never an automatic retry policy.
+  fault=true;try{await end('Night supervisor failed');}catch{/* Cleanup uncertainty remains blocked. */}
+  for(const e of store.list().filter(e=>['queued','running'].includes(e.status)))store.finish(e.id,'interrupted','Night supervisor failed; inspect before queuing again',ops.now());
+  nightEvent(db,null,'supervisor_error',{reason:'Night supervisor failed; no automatic retry',diagnostic:String(sanitizeBuildValue((error as Error).message)).slice(0,500)},ops.now());chat.appendMessage({role:'jarvis',kind:'error',text:'Night Shift could not start or continue safely. Inspect the details and restart before queuing again.'});
+ }).finally(()=>{inFlight=null;});return inFlight;}
+
  async function recover(){
   const rows=events(),starts=rows.filter(e=>e.kind==='shift_started');for(const start of starts){const d=JSON.parse(String(start.data_json));if(rows.some(e=>e.kind==='shift_ended'&&JSON.parse(String(e.data_json)).key===d.key))continue;for(const e of members(d.key).filter(e=>['queued','running'].includes(e.status)))store.finish(e.id,'interrupted','Coordinator restarted; Retry needs your confirmation',ops.now());const awake=rows.findLast(e=>e.kind==='keep_awake_started'&&JSON.parse(String(e.data_json)).key===d.key);if(awake){const records=JSON.parse(String(awake.data_json)).records as ProcessRecord[];if(records.length){const result=await reconcileOwnedProcesses(records);if(!result.verified){fault=true;nightEvent(db,null,'supervisor_error',{key:d.key,reason:'Keep-awake recovery is uncertain'},ops.now());chat.appendMessage({role:'jarvis',kind:'error',text:'Night Shift needs process cleanup inspection. Nothing will start overnight.'});continue;}}}nightEvent(db,null,'shift_ended',{key:d.key,start:d.start,reason:'Coordinator restarted'},ops.now());}
  }
- return {view,tick,recover,setNotifications(enabled:boolean){nightEvent(db,null,'notification_preference',{enabled},ops.now());},start(){lastTick=ops.now();timer=setInterval(()=>{void tick().catch(async()=>{try{await end('Night supervisor failed');}catch{/* No automatic retry after uncertain cleanup. */}});},1000);timer.unref();},async stop(reason:string){generation++;await end(reason);for(const e of store.list().filter(e=>e.status==='queued')){store.finish(e.id,'interrupted',reason,ops.now());if(!ended(key(e)))nightEvent(db,null,'shift_ended',{key:key(e),start:e.start,reason},ops.now());}await inFlight;},async close(){closed=true;generation++;if(timer)clearInterval(timer);await end('Coordinator shut down');await inFlight;}};
+ return {view,tick,recover,guard,setNotifications(enabled:boolean){nightEvent(db,null,'notification_preference',{enabled},ops.now());},start(){lastTick=ops.now();timer=setInterval(()=>{void tick().catch(async()=>{try{await end('Night supervisor failed');}catch{/* No automatic retry after uncertain cleanup. */}});},1000);timer.unref();},async stop(reason:string){generation++;await end(reason);for(const e of store.list().filter(e=>e.status==='queued')){store.finish(e.id,'interrupted',reason,ops.now());if(!ended(key(e)))nightEvent(db,null,'shift_ended',{key:key(e),start:e.start,reason},ops.now());}await inFlight;},async close(){closed=true;generation++;if(timer)clearInterval(timer);await end('Coordinator shut down');await inFlight;}};
 }
