@@ -1,3 +1,5 @@
+import {createPhonePush} from './phone-push.ts';
+import {phoneJson} from './phone-routes.ts';
 import {createPhoneAuth} from './phone-auth.ts';
 import {createPhoneRoutes} from './phone-routes.ts';
 import {readFileSync} from 'node:fs';
@@ -93,7 +95,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const workflow=createMissionWorkflow(database.connection,{context,analysis:analyses,contract:contracts,planning,build:builds,verification,debug:debugging,outcomes},logger);
  const chat=createChatService(database.connection,tickets,options.chatRuntime??createChatCodex({dataDir:config.dataDir}),builds.decide);
  let stopping:Promise<unknown>|null=null;
- const stopAll=()=>{if(stopping)return stopping;const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
+ const stopAll=()=>{if(stopping)return stopping;phone.audit('stop.all',{});const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
  function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
   const path=op.path;let m:RegExpExecArray|null;
   if(m=/^\/api\/phone\/pairs\/([^/]+)\/approve$/.exec(path))return {scope:{item:'phone-pair:'+m[1]!,action:'approve'},state:phone.pairEvidence(m[1]!)};
@@ -113,6 +115,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const desk=createDeskStream(database.connection,()=>({...chat.store.view(),notice:chat.problem(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled()}));
  const phone=createPhoneAuth(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
  const phoneRoutes=createPhoneRoutes(phone,config.dataDir);
+ const phonePush=createPhonePush(database.connection,config.dataDir);
  const human=createHumanConfirmation(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
  const json=(res:ServerResponse,status:number,body:import('../../packages/shared/chat.ts').ChatDraft|SpecView|DebugView|Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const error=(res:ServerResponse,status:number,code:string,message:string)=>json(res,status,{error:{code,message}});
@@ -131,6 +134,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
    if(remote&&pathname.startsWith('/api/')){if(await phoneRoutes.remote(req,res,pathname,privateOrigin!))return;phone.session(phone.token(req.headers.cookie));req.headers['x-cc-operator']=readFileSync(join(config.dataDir,'ticket-operator.key'),'utf8');}
+   if(remote&&pathname==='/api/phone/alerts'){const device=phone.session(phone.token(req.headers.cookie)).device;if(req.method==='GET'){phoneJson(res,phonePush.settings(String(device.id)));return;}if(req.method==='POST'){phoneJson(res,phonePush.update(String(device.id),await projectBody(req,'phone alerts',16000)));return;}}
    if(pathname==='/api/chat/archive'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable first.',403);if(req.method==='GET'){json(res,200,{archivedDraftIds:archivedDraftIds(database.connection)});return;}if(req.method==='POST'){json(res,200,changeDraftArchive(database.connection,await projectBody(req,'draft visibility')));return;}}
    if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res,remote?()=>{try{phone.session(phone.token(req.headers.cookie));return true;}catch{return false;}}:undefined);return;}
    if(pathname==='/api/stop-all'&&req.method==='POST'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open the local cc command first.',403);const body=await projectBody(req,'stop all');if(remote){const receipt=phone.consume(phone.token(req.headers.cookie),req.headers['x-cc-confirmation'],{path:pathname,body});receipt.revalidate();}json(res,200,await stopAll() as Record<string,unknown>);return;}
@@ -191,7 +195,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const close=()=>{
   if(closing)return closing;
   logger({event:'shutdown.started'});desk.close();analyses.close();contracts.close();planning.close();
-  closing=chat.close().then(()=>tickets.close()).then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
+  closing=phonePush.close().then(()=>chat.close()).then(()=>tickets.close()).then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}
    const timer=setTimeout(()=>server.closeAllConnections(),2000);timer.unref();
@@ -202,5 +206,5 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
  });};
- return {server,database,start,close,stopAll,workflow,tickets,chat,phone};
+ return {server,database,start,close,stopAll,workflow,tickets,chat,phone,phonePush};
 }
