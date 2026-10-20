@@ -1,0 +1,65 @@
+[
+  {
+    "name": "trailofbits",
+    "source": "https://github.com/trailofbits/skills",
+    "commit": "5c99c03fb8a9ea568432ecbcba5d86e9f4ac2bf0",
+    "license": "CC-BY-SA-4.0",
+    "risk": {
+      "score": 7,
+      "severity": "LOW",
+      "recommendation": "SAFE",
+      "max_issue_severity": "MEDIUM"
+    },
+    "issues": [
+      {
+        "id": "EA2",
+        "finding_id": "finding-ee8667b59f16409cbf3a72a43dcb76e7",
+        "category": "Excessive Agency",
+        "pattern": "Autonomous Decision Making",
+        "severity": "MEDIUM",
+        "confidence": 0.75,
+        "location": {
+          "file": "patterns.md",
+          "start_line": 231,
+          "end_line": null,
+          "start_column": 27
+        },
+        "finding": "without checking",
+        "explanation": "Skill enables autonomous high-impact decisions without human-in-the-loop verification. Critical operations (destructive commands, financial transactions, data deletion) should require explicit user confirmation.",
+        "remediation": "Add human-in-the-loop confirmation for destructive, irreversible, or high-impact operations. Never auto-execute commands that modify files, send data, or alter system state.",
+        "code_snippet": "\n## Unchecked Return Values\n\n**Pattern:** External call without checking success\n\n**Detection:**\n```bash",
+        "intent": null,
+        "tags": [
+          "Excessive Agency"
+        ],
+        "evidence": {},
+        "match_fingerprint": "9341b6f34d6af9081a0d6673f4217b7307d273da9f43357efd9029e15c5da76c",
+        "occurrences": [
+          {
+            "file": "patterns.md",
+            "start_line": 231,
+            "end_line": null,
+            "start_column": 27
+          }
+        ]
+      }
+    ],
+    "used": "Project-authored bounded prompt methods; no upstream tool workflow or global installation",
+    "skillSha256": "f9af6a8193fc1a9f8ca3c54bb8d19095a5f20c9472ca6d014488bbde50b67da0"
+  },
+  {
+    "name": "mattpocock",
+    "source": "https://github.com/mattpocock/skills",
+    "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+    "license": "MIT",
+    "risk": {
+      "score": 0,
+      "severity": "LOW",
+      "recommendation": "CAUTION",
+      "max_issue_severity": "NONE"
+    },
+    "issues": [],
+    "used": "Project-authored bounded prompt methods; no upstream tool workflow or global installation",
+    "skillSha256": "09eb147f793e4647949edd32dbad278f0554dfb56e0d46b699cd4c2c55bf0357"
+  }
+]

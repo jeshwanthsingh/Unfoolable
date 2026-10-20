@@ -20,3 +20,5 @@ The admission preconditions are measured by the protected runners. These invaria
 
 13. A legacy protected supplied aggregate is retained as a provenance-bound fact, including the empty-layer compatibility case. Builder summaries are not a supplier. [Adapter compatibility](../tests/verdict-core.test.ts), [native adapter regression](../tests/ticket-checker.test.ts).
 14. Explanation selects the highest-sequence check_result and preserves that event's stored label; an unrelated later runtime trace cannot replace it. [Latest-event selection and event 592](../tests/ticket-explain.test.ts).
+
+15. Reviewer notes never change a verdict, its reasons or human decision binding. They are separate advisory events, not core facts. [10,000 random reviewer sidecars and stale binding](../tests/advisory-reviewers.test.ts).
