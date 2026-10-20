@@ -1,0 +1,1769 @@
+{
+  "originGoldenSha256": "08928501c9a75652d67125e2ea66a3b45b319df7476021ce0c5c10f9ee151f21",
+  "records": [
+    {
+      "sequence": 52,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T08:00:56.441Z",
+      "record": {
+        "attemptId": "45d02b3b-55d2-4a22-a8e7-49493f357a5e",
+        "candidate": "924fea07e68959d5e150d5f6aa8b72a7453f46c7",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "ai-task-checks: Advisory task checks not requested; original intent is not automatically proved."
+        ],
+        "failures": [],
+        "verificationId": "b7bf19ea-6bb6-42f3-a343-bfacba15ea5d",
+        "evidenceHash": "e3248d302cad473ffa53bbe8fddf674c03f7a24f8b0153c5dd74fcb9731d1c70"
+      }
+    },
+    {
+      "sequence": 104,
+      "ticketId": "b3991162-3407-4a22-9e07-2db785c22e36",
+      "at": "2026-10-10T08:02:21.352Z",
+      "record": {
+        "attemptId": "02fa4648-8ac3-4d0b-8569-64f14bee2779",
+        "candidate": "77c476c7a9be7a070fec725eafc5a7ab984e99f3",
+        "verdict": "NOT CHECKED",
+        "gaps": [
+          "Existing test runner unsupported; no protected checks executed."
+        ],
+        "failures": []
+      }
+    },
+    {
+      "sequence": 115,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T12:46:41.172Z",
+      "record": {
+        "mode": "recheck",
+        "candidate": "924fea07e68959d5e150d5f6aa8b72a7453f46c7",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "ai-task-checks: Advisory task checks not requested; original intent is not automatically proved."
+        ],
+        "failures": [],
+        "verificationId": "d4eb3eb9-6da1-4dbf-86bd-0a7166b6b5c2",
+        "evidenceHash": "a9c6935bf1bb5bbb0dabfd087ef2870bf5e7f6399119171b9c13b8fb1ea879a7"
+      }
+    },
+    {
+      "sequence": 120,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T13:17:49.044Z",
+      "record": {
+        "mode": "recheck",
+        "candidate": "924fea07e68959d5e150d5f6aa8b72a7453f46c7",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "ai-task-checks: Advisory task checks not requested; original intent is not automatically proved."
+        ],
+        "failures": [],
+        "verificationId": "83ea46a4-ad83-4796-9e18-861049496f22",
+        "evidenceHash": "ecc143445b2725026061b291d89bd292e0020b1574d9c16c609cfd6bfad81dca"
+      }
+    },
+    {
+      "sequence": 237,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:12:31.696Z",
+      "record": {
+        "attemptId": "815916d9-5d37-4e6a-8e7e-bb6771d50c08",
+        "candidate": "cb8a026cb203d664e42f7565ac7863456e7fc8bb",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: ai-task-checks: Advisory task checks not requested; original intent is not automatically proved.",
+          "Project playbook checks are regression guards; new intent is not independently proved."
+        ],
+        "failures": [],
+        "verificationId": "67762319-e048-48a6-b677-0efc4eb2e965",
+        "evidenceHash": "ba8decb30e5bbe9893bcc3c31038ddad78352eb3e9873086f54234a5af849668",
+        "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/09ce1126-0652-4285-8617-11add2a486bc/bound-result.json",
+        "playbookResultHash": "dda720bbaec817de082cdc75e4fbc9da9056030e0ce3102c6bd27c6c95f1ba5c"
+      }
+    },
+    {
+      "sequence": 243,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:32:40.404Z",
+      "record": {
+        "mode": "recheck",
+        "candidate": "cb8a026cb203d664e42f7565ac7863456e7fc8bb",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: ai-task-checks: Advisory task checks not requested; original intent is not automatically proved.",
+          "Project playbook checks are regression guards; new intent is not independently proved."
+        ],
+        "failures": [],
+        "verificationId": "e98c623a-2851-44bb-9b30-a86ba13521c2",
+        "evidenceHash": "806cffe1496960ed4885099d2ee1dd8348b9212f45f2d00e2ad8f495f07ddbb4",
+        "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/c79385f1-8fd4-4b73-889c-26cd83df4669/bound-result.json",
+        "playbookResultHash": "c775578eefe8c4f9dc9169998cc050414bcf12e255b301d83d25a348662c2eb1"
+      }
+    },
+    {
+      "sequence": 277,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T17:26:28.620Z",
+      "record": {
+        "mode": "recheck",
+        "candidate": "cb8a026cb203d664e42f7565ac7863456e7fc8bb",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: ai-task-checks: Advisory task checks not requested; original intent is not automatically proved.",
+          "Project playbook checks are regression guards; new intent is not independently proved."
+        ],
+        "failures": [],
+        "verificationId": "40ec0954-c7da-4ba9-a1d3-1caeae3311f2",
+        "evidenceHash": "e53c7760b660b036590b4facfcf40ac0b4668b81ba5e3afb9d29aee7a2bf74b9",
+        "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/74191a71-a09f-42cf-8019-c58cca68ca46/bound-result.json",
+        "playbookResultHash": "6d113f238262b73850cb2dcadb97fe697eb436a56a9b486472c362eba2c7914c"
+      }
+    },
+    {
+      "sequence": 368,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-12T17:39:29.802Z",
+      "record": {
+        "attemptId": "58b26bc0-3551-4c8e-8438-4644a8189d51",
+        "candidate": "0adbe547febf87cd7a4afa533c969867540343b1",
+        "verdict": "PASSED WITH GAPS",
+        "failures": [],
+        "gaps": [
+          "Project playbook checks are regression guards; new intent is not independently proved."
+        ],
+        "playbookHash": "ff4de1504a7a32112a28bf55f6f6dbe5b6dff37f98c0caffc8f67f811b25ef4f",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/648c6eb8-8e6f-4743-914a-9071aff4b916/bound-result.json",
+        "playbookResultHash": "0725e7341e6e5034b522e21e73b03510d152f250cf4d3b3f97a95c053600e71b"
+      }
+    },
+    {
+      "sequence": 440,
+      "ticketId": "37b3646e-864c-4d8c-9787-1d005357bbec",
+      "at": "2026-10-12T18:11:25.173Z",
+      "record": {
+        "attemptId": "248be305-35d8-4292-a4ad-8fa63cfc33ab",
+        "candidate": "07b9d0d8a4abd7c6a34630c1c7ceb747d89b84f7",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: ai-task-checks: Advisory task checks not requested; original intent is not automatically proved.",
+          "Project playbook checks are regression guards; new intent is not independently proved."
+        ],
+        "failures": [],
+        "verificationId": "acadd115-7baa-4ee7-af2d-82fd062e4b9c",
+        "evidenceHash": "f0283ac2d59aa1859f6a5d80d0511d0ae77b27afe9b437cd1d3ec147de9abaa1",
+        "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/ceea0226-b5d7-4698-8d61-54425bb3d375/bound-result.json",
+        "playbookResultHash": "19713f0f1aa137f728f094edd1d7b46d2c0806189ffbd9dee03b5f431d5e2c3a"
+      }
+    },
+    {
+      "sequence": 488,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:09:29.009Z",
+      "record": {
+        "attemptId": "980f7039-f3f2-4d85-94bb-55c4ecce5c5a",
+        "candidate": "ba330d59a93b8f4b7fde7e709c005fd8e8c8c840",
+        "verdict": "NOT CHECKED",
+        "harnessError": true,
+        "reason": "That folder is outside the allowed project locations."
+      }
+    },
+    {
+      "sequence": 528,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:18:50.238Z",
+      "record": {
+        "attemptId": "95a47f3c-ebb6-45fc-b1cb-36823b6588e6",
+        "candidate": "59883f5baa6162e35fff5f22f26d7dfe2383d480",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: ai-task-checks: Advisory task checks not requested; original intent is not automatically proved.",
+          "Project playbook checks are regression guards; new intent is not independently proved."
+        ],
+        "failures": [],
+        "verificationId": "fda9608b-9fd9-45e2-b83c-06dc1d8bd359",
+        "evidenceHash": "f4b0925368136a40d463d41246dab6c6076cb5982a0822adb1a0007c33a4c577",
+        "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a2baa20f-857b-4391-a941-8c9160d26d60/bound-result.json",
+        "playbookResultHash": "4f5f6c2ca346f942dd244bbff3d0a92d31ab08edacd48d5c0eae785ee194f998"
+      }
+    },
+    {
+      "sequence": 586,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:30:04.567Z",
+      "record": {
+        "attemptId": "fa2757f4-b579-4ae7-91ca-d5446b3f4ebc",
+        "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: No project recipe has been admitted and approved; this mandatory layer is unavailable.",
+          "Existing verifier: Advisory task checks not requested; original intent is not automatically proved.",
+          "Existing verifier: Existing protected checks did not pass; Test Writer cannot upgrade them.",
+          "Project playbook checks are regression guards; new intent is not independently proved.",
+          "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+        ],
+        "failures": [],
+        "verificationId": "a23d4ed3-e266-42cc-ab6a-90afc812a397",
+        "evidenceHash": "aea1d27cf23bb80bb07a3eff61f3976a181219126f363e82d2c82a6bf66ed8b7",
+        "qualityGates": {
+          "version": "quality-gates-v1",
+          "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+          "gates": [
+            {
+              "gate": "ruff",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 45,
+              "durationMs": 2179.167665999994
+            },
+            {
+              "gate": "pyright",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 2,
+              "durationMs": 3886.4918340000004
+            },
+            {
+              "gate": "bandit",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 14,
+              "durationMs": 2819.830332999991
+            },
+            {
+              "gate": "opengrep",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 6897.305458999996
+            },
+            {
+              "gate": "gitleaks",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 2751.830166999993
+            },
+            {
+              "gate": "detect-secrets",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 9,
+              "durationMs": 7010.4128749999945
+            },
+            {
+              "gate": "osv",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 2.3358750000043074
+            }
+          ],
+          "durationMs": 27492.730832999994
+        },
+        "testTampering": {
+          "status": "CLEAR",
+          "flags": [],
+          "durationMs": 4543.81695800001
+        },
+        "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/4f6ffb30-9687-4731-a511-774c78ffe614/bound-result.json",
+        "playbookResultHash": "aecc27f4e697ba0c120b732f6f4c6b002fa0dd642765237515a490c7bdaeb265"
+      }
+    },
+    {
+      "sequence": 592,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:33:09.295Z",
+      "record": {
+        "mode": "recheck",
+        "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+        "verdict": "NOT CHECKED",
+        "gaps": [
+          "Existing verifier: No project recipe has been admitted and approved; this mandatory layer is unavailable.",
+          "Existing verifier: Advisory task checks not requested; original intent is not automatically proved.",
+          "Existing verifier: Existing protected checks did not pass; Test Writer cannot upgrade them.",
+          "Project playbook checks are regression guards; new intent is not independently proved.",
+          "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+        ],
+        "failures": [],
+        "verificationId": "44543cbc-8c25-4780-b722-a4eed14aa353",
+        "evidenceHash": "92d7586ad79f28ac090eb357e45811634c1a1f597de3a69da8ea090d446960f5",
+        "qualityGates": {
+          "version": "quality-gates-v1",
+          "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+          "gates": [
+            {
+              "gate": "ruff",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 45,
+              "durationMs": 1874.9906669999982
+            },
+            {
+              "gate": "pyright",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 2,
+              "durationMs": 3209.7552499999947
+            },
+            {
+              "gate": "bandit",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 14,
+              "durationMs": 2486.591542000002
+            },
+            {
+              "gate": "opengrep",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 5521.114541000003
+            },
+            {
+              "gate": "gitleaks",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 2494.6682500000024
+            },
+            {
+              "gate": "detect-secrets",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 9,
+              "durationMs": 5809.3422500000015
+            },
+            {
+              "gate": "osv",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 3.294916999991983
+            }
+          ],
+          "durationMs": 22851.293750000004
+        },
+        "testTampering": {
+          "status": "CLEAR",
+          "flags": [],
+          "durationMs": 3868.162875000009
+        },
+        "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a7068b9d-e8fb-43b3-8a90-01a638daeee2/bound-result.json",
+        "playbookResultHash": "858d1834b771ce06852fd6eecb065b2d516e16268463ad9fda021dbda7f83834"
+      }
+    },
+    {
+      "sequence": 599,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T20:01:42.087Z",
+      "record": {
+        "mode": "recheck",
+        "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+        "verdict": "NOT CHECKED",
+        "gaps": [
+          "Approve this project\u2019s proposed test playbook before running its ticket."
+        ],
+        "failures": [],
+        "harnessError": true
+      }
+    },
+    {
+      "sequence": 616,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T20:14:34.012Z",
+      "record": {
+        "mode": "recheck",
+        "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+        "verdict": "NOT CHECKED",
+        "gaps": [
+          "Protected evaluator changed."
+        ],
+        "failures": [],
+        "harnessError": true
+      }
+    },
+    {
+      "sequence": 664,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T21:17:28.737Z",
+      "record": {
+        "mode": "recheck",
+        "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+        "testWriter": {
+          "advisoryOnly": true,
+          "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "checks": [
+            {
+              "base": [
+                "FAIL"
+              ],
+              "candidate": "PASS",
+              "candidateRuns": [
+                "PASS",
+                "PASS"
+              ],
+              "id": "writer-file",
+              "reason": null,
+              "status": "ADMITTED",
+              "summary": "Checks successful source add help output and the --title override description; existing tests retain registration regression coverage.",
+              "testName": "tests/test_cc_writer_7391b4fb_eadc_4335_9aa1_9b13d2a4bad3.py"
+            }
+          ],
+          "coverage": "FULL",
+          "inputHash": "fefadc87665c553e33f069708b220eaafb6c36bde70c904ac443ed07de06c9aa",
+          "lineCoverage": {
+            "changedLines": 1,
+            "coveredLines": 1,
+            "percent": 100,
+            "reason": null,
+            "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/verify-only/24edeba3-38b9-4152-b372-0ef8d99395c8/test-writer/attempt-0-candidate-0/execution/measured-coverage.json",
+            "tool": "coverage.py",
+            "unmeasuredPaths": []
+          },
+          "mode": "NATIVE",
+          "mutation": {
+            "errors": 0,
+            "generated": 0,
+            "killed": 0,
+            "reason": "Mutation generation failed: ",
+            "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/verify-only/24edeba3-38b9-4152-b372-0ef8d99395c8/test-writer/attempt-0-mutation/mutations.json",
+            "sampled": false,
+            "score": null,
+            "survived": 0,
+            "survivorLine": null,
+            "tested": 0,
+            "tool": "mutmut"
+          },
+          "reason": null,
+          "requestHash": "d0b46aee08f2b434e269c52a52c1bf3c0f664f59c5b64895cd4d8c9f7b23978e",
+          "sessionId": "01a14bb9-1be8-7f93-b6e6-ef7d2af67d70",
+          "started": true,
+          "usage": {
+            "cachedInputTokens": 0,
+            "inputTokens": 12647,
+            "outputTokens": 352,
+            "totalTokens": 12999
+          },
+          "version": "test-writer-v1",
+          "warnings": []
+        },
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: test-writer-coverage: Test Writer is advisory only; it cannot change the verdict.",
+          "Project playbook checks are regression guards; new intent is not independently proved.",
+          "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+        ],
+        "failures": [],
+        "verificationId": "24edeba3-38b9-4152-b372-0ef8d99395c8",
+        "evidenceHash": "6009f9a4a62e6f79c1c0c7b67727e4bff9a47595a143e34fe132196d4bb11460",
+        "qualityGates": {
+          "version": "quality-gates-v1",
+          "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "candidate": "b9512392f9285cb039fb00695df0efcd760d668b",
+          "gates": [
+            {
+              "gate": "ruff",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 45,
+              "durationMs": 2042.5675000000047
+            },
+            {
+              "gate": "pyright",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 2,
+              "durationMs": 3905.5688329999975
+            },
+            {
+              "gate": "bandit",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 14,
+              "durationMs": 2366.116167
+            },
+            {
+              "gate": "opengrep",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 5790.278834000026
+            },
+            {
+              "gate": "gitleaks",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 2541.8246250000084
+            },
+            {
+              "gate": "detect-secrets",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 9,
+              "durationMs": 5250.768207999994
+            },
+            {
+              "gate": "osv",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 1.5272919999842998
+            }
+          ],
+          "durationMs": 23126.601416999998
+        },
+        "testTampering": {
+          "status": "CLEAR",
+          "flags": [],
+          "durationMs": 3261.8034170000174
+        },
+        "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/59573087-9328-4bd1-914d-10a50a5f102a/bound-result.json",
+        "playbookResultHash": "50f69ae84f0910368772597c98187fc02e25bff614e9615fb6b8ebb22c1f5347"
+      }
+    },
+    {
+      "sequence": 753,
+      "ticketId": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+      "at": "2026-10-18T21:14:39.328Z",
+      "record": {
+        "attemptId": "3c86346a-42e8-4ffc-84e4-d8589dcad39a",
+        "candidate": "c8ba349fe00655f74c718736dc4adf03992d95e5",
+        "testWriter": {
+          "advisoryOnly": true,
+          "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "checks": [
+            {
+              "base": [],
+              "candidate": "NOT CHECKED",
+              "candidateRuns": [],
+              "id": "writer-file",
+              "reason": "UNCLEAR: The supplied cli.py excerpts omit the argument-parser construction, --platform registration, and CLI entry point. The supplied test excerpts also omit their CLI invocation helpers. Without those interfaces, testing the actual source add help would require guessing an API or invocation. Supply the parser/entry-point definitions and existing CLI test helpers.",
+              "status": "NOT_ADMITTED",
+              "summary": "Insufficient context to write a reliable command-help test.",
+              "testName": "tests/test_cc_writer_7f44bd53_7461_48ec_b13d_fb33041c2445.py"
+            }
+          ],
+          "coverage": "NONE",
+          "inputHash": "511cdb2389321a9ada502999aee1d19f6f93c2d87c84ce24512b42b2aabfd7d2",
+          "mode": "NATIVE",
+          "reason": "UNCLEAR: The supplied cli.py excerpts omit the argument-parser construction, --platform registration, and CLI entry point. The supplied test excerpts also omit their CLI invocation helpers. Without those interfaces, testing the actual source add help would require guessing an API or invocation. Supply the parser/entry-point definitions and existing CLI test helpers.",
+          "requestHash": "622ea22848d56791d4905fe00676fe7836f531415e643ac0cdaf0cac0926194d",
+          "sessionId": "01a150dd-26e1-7431-9835-377b507d23cc",
+          "started": true,
+          "usage": {
+            "cachedInputTokens": 0,
+            "inputTokens": 12427,
+            "outputTokens": 127,
+            "totalTokens": 12554
+          },
+          "version": "test-writer-v1",
+          "warnings": []
+        },
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: test-writer-coverage: Test Writer is advisory only; it cannot change the verdict.",
+          "Project playbook checks are regression guards; new intent is not independently proved.",
+          "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+        ],
+        "failures": [],
+        "verificationId": "c1b948e2-5457-47b7-8028-83bedf68b929",
+        "evidenceHash": "2118a270c77d78d857c2f198dd205f1f080fced2efdd28960304909ccd22f797",
+        "qualityGates": {
+          "version": "quality-gates-v1",
+          "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "candidate": "c8ba349fe00655f74c718736dc4adf03992d95e5",
+          "gates": [
+            {
+              "gate": "ruff",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 44,
+              "durationMs": 2465.944749999995
+            },
+            {
+              "gate": "pyright",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 5224.682874999999
+            },
+            {
+              "gate": "bandit",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 14,
+              "durationMs": 3551.987125000014
+            },
+            {
+              "gate": "opengrep",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 8139.901542000007
+            },
+            {
+              "gate": "gitleaks",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 2951.7400829999824
+            },
+            {
+              "gate": "detect-secrets",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 9,
+              "durationMs": 7431.692832999979
+            },
+            {
+              "gate": "osv",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 1.3332919999957085
+            }
+          ],
+          "durationMs": 32166.210374999995
+        },
+        "testTampering": {
+          "status": "CLEAR",
+          "flags": [],
+          "durationMs": 16.44804099999601
+        },
+        "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/92237a41-1d75-4ab0-b049-83eb84d243f2/bound-result.json",
+        "playbookResultHash": "1c06b4b9cd39866dc25f182531eed0ea16d6400623873fc743c8d68d007581b0"
+      }
+    },
+    {
+      "sequence": 972,
+      "ticketId": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+      "at": "2026-10-19T18:07:15.548Z",
+      "record": {
+        "attemptId": "af251a9e-e55d-4bce-a34d-f3fbc30c33e7",
+        "candidate": "4d894feea8eaf6613f25d13897e2fcc10a1a85fa",
+        "testWriter": {
+          "advisoryOnly": true,
+          "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "checks": [
+            {
+              "base": [],
+              "candidate": "NOT CHECKED",
+              "candidateRuns": [],
+              "id": "writer-file",
+              "reason": "UNCLEAR: README.md is omitted from the supplied BASE files. Its original contents are required to verify the exact insertion immediately after the Setup heading with no other changes.",
+              "status": "NOT_ADMITTED",
+              "summary": "Cannot verify the documentation-only change from the supplied context.",
+              "testName": "tests/test_cc_writer_29773096_73e8_4e24_bc49_a02a605c40ac.py"
+            }
+          ],
+          "coverage": "NONE",
+          "inputHash": "a94e3c94a0ac7962ab241d9c967b640f436d8ffbe6ab299b00ab3fc81a22c0f9",
+          "mode": "NATIVE",
+          "reason": "UNCLEAR: README.md is omitted from the supplied BASE files. Its original contents are required to verify the exact insertion immediately after the Setup heading with no other changes.",
+          "requestHash": "d36264f8f9a4c8237e75feb9bd0dc694ce3169fda207bed46be577a05114de15",
+          "sessionId": "01a15557-459f-7412-b256-e87720713db4",
+          "started": true,
+          "usage": {
+            "cachedInputTokens": 0,
+            "inputTokens": 12527,
+            "outputTokens": 95,
+            "totalTokens": 12622
+          },
+          "version": "test-writer-v1",
+          "warnings": []
+        },
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: test-writer-coverage: Test Writer is advisory only; it cannot change the verdict.",
+          "Project playbook checks are regression guards; new intent is not independently proved.",
+          "ruff: not applicable \u2014 BASE check could not run cleanly: No changed Python files",
+          "pyright: not applicable \u2014 BASE check could not run cleanly: No changed Python files",
+          "bandit: not applicable \u2014 BASE check could not run cleanly: No changed Python files",
+          "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+        ],
+        "failures": [],
+        "verificationId": "0ca934f0-871e-4413-8f00-ac61044b18e3",
+        "evidenceHash": "72bcff8c3bd4e2c5d461dc7e531cd46515b4d3a581337a3831df108bafeeaa6a",
+        "qualityGates": {
+          "version": "quality-gates-v1",
+          "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "candidate": "4d894feea8eaf6613f25d13897e2fcc10a1a85fa",
+          "gates": [
+            {
+              "gate": "ruff",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No changed Python files",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 3.5902919999789447
+            },
+            {
+              "gate": "pyright",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No changed Python files",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 1.1205830000108108
+            },
+            {
+              "gate": "bandit",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No changed Python files",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 0.13287500001024455
+            },
+            {
+              "gate": "opengrep",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 31469.798707999988
+            },
+            {
+              "gate": "gitleaks",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 6508.643875000009
+            },
+            {
+              "gate": "detect-secrets",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 9,
+              "durationMs": 12532.997417000006
+            },
+            {
+              "gate": "osv",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 0.7524160000029951
+            }
+          ],
+          "durationMs": 65546.81162500003
+        },
+        "testTampering": {
+          "status": "CLEAR",
+          "flags": [],
+          "durationMs": 202.10879099997692
+        },
+        "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/3b0d9071-c462-4fa7-bf3d-2c5f347bdf4a/bound-result.json",
+        "playbookResultHash": "14e816d8c78cf636d893f3d5b26e5b0616bf3ae9a33a0d397abc8390a507e187"
+      }
+    },
+    {
+      "sequence": 1051,
+      "ticketId": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+      "at": "2026-10-19T18:50:37.821Z",
+      "record": {
+        "attemptId": "0e5173fb-d5aa-49b3-b8c5-1541ae0f60fb",
+        "candidate": "742cff839f8b82f052db212afda4d7831aff7337",
+        "testWriter": {
+          "advisoryOnly": true,
+          "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "checks": [
+            {
+              "base": [],
+              "candidate": "NOT CHECKED",
+              "candidateRuns": [],
+              "id": "writer-file",
+              "reason": "UNCLEAR: README.md is omitted from the context pack, so the Setup heading and its surrounding Markdown cannot be verified without guessing. The supplied files also cannot establish that all code, tests, and dependencies remain unchanged.",
+              "status": "NOT_ADMITTED",
+              "summary": "Insufficient context to write the requested documentation test.",
+              "testName": "tests/test_cc_writer_741d9842_427a_48d4_939c_bcc16208d2e7.py"
+            }
+          ],
+          "coverage": "NONE",
+          "inputHash": "892c5ce0e23329085d7618f8ef248311e86f7da790fcf6fdab0731b152556bd1",
+          "mode": "NATIVE",
+          "reason": "UNCLEAR: README.md is omitted from the context pack, so the Setup heading and its surrounding Markdown cannot be verified without guessing. The supplied files also cannot establish that all code, tests, and dependencies remain unchanged.",
+          "requestHash": "4b231397479cbd0592c27df1119eab1f843aae4ea917161e8643869b6188ccc6",
+          "sessionId": "01a1557f-d207-7110-8d81-76a5d462a1a7",
+          "started": true,
+          "usage": {
+            "cachedInputTokens": 0,
+            "inputTokens": 12528,
+            "outputTokens": 125,
+            "totalTokens": 12653
+          },
+          "version": "test-writer-v1",
+          "warnings": []
+        },
+        "verdict": "PASSED WITH GAPS",
+        "gaps": [
+          "Existing verifier: test-writer-coverage: Test Writer is advisory only; it cannot change the verdict.",
+          "Project playbook checks are regression guards; new intent is not independently proved.",
+          "ruff: not applicable \u2014 BASE check could not run cleanly: No changed Python files",
+          "pyright: not applicable \u2014 BASE check could not run cleanly: No changed Python files",
+          "bandit: not applicable \u2014 BASE check could not run cleanly: No changed Python files",
+          "osv: not applicable \u2014 BASE check could not run cleanly: No supported dependency lockfile"
+        ],
+        "failures": [],
+        "verificationId": "5cc12d68-eaf6-464a-851e-1274a7cd812b",
+        "evidenceHash": "5cbe59643646055b87ff6ae145c654620686f3024abe1e244951f20e697a018e",
+        "qualityGates": {
+          "version": "quality-gates-v1",
+          "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+          "candidate": "742cff839f8b82f052db212afda4d7831aff7337",
+          "gates": [
+            {
+              "gate": "ruff",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No changed Python files",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 0.8457919999782462
+            },
+            {
+              "gate": "pyright",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No changed Python files",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 0.15337499999441206
+            },
+            {
+              "gate": "bandit",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No changed Python files",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 0.12333299999590963
+            },
+            {
+              "gate": "opengrep",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 6495.145625000005
+            },
+            {
+              "gate": "gitleaks",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 3423.8197079999954
+            },
+            {
+              "gate": "detect-secrets",
+              "status": "PASS",
+              "findings": [],
+              "baselineCount": 9,
+              "durationMs": 8911.051957999996
+            },
+            {
+              "gate": "osv",
+              "status": "NOT APPLICABLE",
+              "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+              "findings": [],
+              "baselineCount": 0,
+              "durationMs": 27.37287500000093
+            }
+          ],
+          "durationMs": 20799.73449999999
+        },
+        "testTampering": {
+          "status": "CLEAR",
+          "flags": [],
+          "durationMs": 871.7080000000133
+        },
+        "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
+        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/5ed699fb-87fd-4ed0-b90f-ae1ef1f8b726/bound-result.json",
+        "playbookResultHash": "e2a006aaac7a2abcb785763e7b3390060c854a8fa895e29f3b0c7378cec17037"
+      }
+    }
+  ],
+  "runtime": [
+    {
+      "sequence": 2,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T07:58:30.580Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 50,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T07:59:38.200Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 53,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T08:00:56.465Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 54,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T08:00:56.465Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 55,
+      "ticketId": "b3991162-3407-4a22-9e07-2db785c22e36",
+      "at": "2026-10-10T08:00:56.465Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 102,
+      "ticketId": "b3991162-3407-4a22-9e07-2db785c22e36",
+      "at": "2026-10-10T08:02:21.339Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 105,
+      "ticketId": "b3991162-3407-4a22-9e07-2db785c22e36",
+      "at": "2026-10-10T08:02:21.388Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 106,
+      "ticketId": "b3991162-3407-4a22-9e07-2db785c22e36",
+      "at": "2026-10-10T08:02:21.388Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 108,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T08:43:23.655Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "needs_you"
+    },
+    {
+      "sequence": 109,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T08:43:23.656Z",
+      "kind": "needs_you",
+      "reason": "Approve this project\u2019s proposed test playbook before running its ticket.",
+      "cause": "playbook",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 111,
+      "ticketId": "b3991162-3407-4a22-9e07-2db785c22e36",
+      "at": "2026-10-10T12:21:30.201Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "discarded"
+    },
+    {
+      "sequence": 112,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T12:44:27.493Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "checking"
+    },
+    {
+      "sequence": 116,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T12:46:41.172Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 117,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T13:16:34.328Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "checking"
+    },
+    {
+      "sequence": 121,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T13:17:49.045Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 123,
+      "ticketId": "c6263195-76c4-4732-ae06-f28ef6c30767",
+      "at": "2026-10-10T13:28:13.097Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "kept"
+    },
+    {
+      "sequence": 125,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T13:28:13.257Z",
+      "kind": "state_changed",
+      "from": "needs_you",
+      "to": "queued"
+    },
+    {
+      "sequence": 126,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T13:28:13.276Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "harness_error"
+    },
+    {
+      "sequence": 127,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T13:28:13.276Z",
+      "kind": "cleanup",
+      "reason": "Oracle tree contains unsafe path, symlink or submodule",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 129,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:48:14.081Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "needs_you"
+    },
+    {
+      "sequence": 130,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:48:14.081Z",
+      "kind": "needs_you",
+      "reason": "Approve this project\u2019s proposed test playbook before running its ticket.",
+      "cause": "playbook",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 132,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:48:14.148Z",
+      "kind": "state_changed",
+      "from": "needs_you",
+      "to": "queued"
+    },
+    {
+      "sequence": 133,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:48:17.138Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 142,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:48:33.897Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "harness_error"
+    },
+    {
+      "sequence": 143,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:48:33.897Z",
+      "kind": "cleanup",
+      "reason": "Builder protocol request timed out.",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 144,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:54:38.462Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 146,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:54:38.489Z",
+      "kind": "state_changed",
+      "from": "harness_error",
+      "to": "queued"
+    },
+    {
+      "sequence": 147,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:54:41.860Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 158,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:54:58.982Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "harness_error"
+    },
+    {
+      "sequence": 159,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T13:54:58.982Z",
+      "kind": "cleanup",
+      "reason": "Builder protocol request timed out.",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 160,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T14:05:08.561Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 162,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T14:05:08.584Z",
+      "kind": "state_changed",
+      "from": "harness_error",
+      "to": "queued"
+    },
+    {
+      "sequence": 163,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T14:05:11.483Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 170,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T14:05:14.075Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "harness_error"
+    },
+    {
+      "sequence": 171,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T14:05:14.076Z",
+      "kind": "cleanup",
+      "reason": "Kernel process ownership could not be recorded.",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 172,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:10:00.235Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 174,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:10:00.265Z",
+      "kind": "state_changed",
+      "from": "harness_error",
+      "to": "queued"
+    },
+    {
+      "sequence": 175,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:10:03.673Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 235,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:11:08.528Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 238,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:12:31.716Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 239,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:12:31.716Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 240,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:31:04.483Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "checking"
+    },
+    {
+      "sequence": 244,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T15:32:40.407Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 246,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T16:58:20.180Z",
+      "kind": "state_changed",
+      "from": "harness_error",
+      "to": "queued"
+    },
+    {
+      "sequence": 247,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T16:58:22.616Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 257,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T16:58:27.862Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "harness_error"
+    },
+    {
+      "sequence": 258,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T16:58:27.862Z",
+      "kind": "cleanup",
+      "reason": "Kernel process ownership could not be recorded.",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 259,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T17:01:54.700Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 261,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T17:01:54.765Z",
+      "kind": "state_changed",
+      "from": "harness_error",
+      "to": "queued"
+    },
+    {
+      "sequence": 262,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T17:01:56.125Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 272,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T17:02:01.573Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "harness_error"
+    },
+    {
+      "sequence": 273,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-10T17:02:01.573Z",
+      "kind": "cleanup",
+      "reason": "Kernel process ownership could not be recorded.",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 274,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T17:24:40.587Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "checking"
+    },
+    {
+      "sequence": 278,
+      "ticketId": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
+      "at": "2026-10-10T17:26:28.620Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 279,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-12T17:37:57.792Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 281,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-12T17:37:57.847Z",
+      "kind": "state_changed",
+      "from": "harness_error",
+      "to": "queued"
+    },
+    {
+      "sequence": 282,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-12T17:37:59.187Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 366,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-12T17:39:27.602Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 369,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-12T17:39:29.836Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 370,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-12T17:39:29.836Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 372,
+      "ticketId": "37b3646e-864c-4d8c-9787-1d005357bbec",
+      "at": "2026-10-12T18:08:36.852Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 438,
+      "ticketId": "37b3646e-864c-4d8c-9787-1d005357bbec",
+      "at": "2026-10-12T18:10:06.458Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 441,
+      "ticketId": "37b3646e-864c-4d8c-9787-1d005357bbec",
+      "at": "2026-10-12T18:11:25.193Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 442,
+      "ticketId": "37b3646e-864c-4d8c-9787-1d005357bbec",
+      "at": "2026-10-12T18:11:25.193Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 444,
+      "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
+      "at": "2026-10-12T18:45:07.897Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "kept"
+    },
+    {
+      "sequence": 446,
+      "ticketId": "37b3646e-864c-4d8c-9787-1d005357bbec",
+      "at": "2026-10-12T18:45:11.702Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "kept"
+    },
+    {
+      "sequence": 448,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:08:37.920Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 486,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:09:28.634Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 489,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:09:29.010Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "harness_error"
+    },
+    {
+      "sequence": 490,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:09:29.010Z",
+      "kind": "cleanup",
+      "reason": "That folder is outside the allowed project locations.",
+      "cleanupUncertain": true
+    },
+    {
+      "sequence": 491,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:16:41.179Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 493,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:16:41.218Z",
+      "kind": "state_changed",
+      "from": "harness_error",
+      "to": "queued"
+    },
+    {
+      "sequence": 494,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:16:44.717Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 526,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:17:30.827Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 529,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:18:50.261Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 530,
+      "ticketId": "f5fe8c34-2808-41b5-8802-48c557750042",
+      "at": "2026-10-12T19:18:50.261Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 533,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:27:54.942Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "needs_you"
+    },
+    {
+      "sequence": 534,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:27:54.942Z",
+      "kind": "needs_you",
+      "reason": "Approve this project\u2019s proposed test playbook before running its ticket.",
+      "cause": "playbook",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 536,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:28:36.360Z",
+      "kind": "state_changed",
+      "from": "needs_you",
+      "to": "queued"
+    },
+    {
+      "sequence": 537,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:28:42.862Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 584,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:29:13.188Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 587,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:30:04.624Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 588,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:30:04.624Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 589,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:32:25.172Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "checking"
+    },
+    {
+      "sequence": 593,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:33:09.319Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "needs_you"
+    },
+    {
+      "sequence": 594,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T19:33:09.319Z",
+      "kind": "needs_you",
+      "reason": "Checks did not pass; Candidate unchanged. No Builder or fixer started."
+    },
+    {
+      "sequence": 595,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T20:01:35.925Z",
+      "kind": "state_changed",
+      "from": "needs_you",
+      "to": "checking"
+    },
+    {
+      "sequence": 598,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T20:01:42.087Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "needs_you"
+    },
+    {
+      "sequence": 600,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T20:01:42.087Z",
+      "kind": "cleanup",
+      "reason": "Approve this project\u2019s proposed test playbook before running its ticket.",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 601,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T20:04:55.459Z",
+      "kind": "state_changed",
+      "from": "needs_you",
+      "to": "checking"
+    },
+    {
+      "sequence": 615,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T20:14:34.012Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "harness_error"
+    },
+    {
+      "sequence": 617,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T20:14:34.013Z",
+      "kind": "cleanup",
+      "reason": "Protected evaluator changed.",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 618,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T21:15:07.023Z",
+      "kind": "state_changed",
+      "from": "harness_error",
+      "to": "checking"
+    },
+    {
+      "sequence": 665,
+      "ticketId": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+      "at": "2026-10-17T21:17:28.739Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 669,
+      "ticketId": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+      "at": "2026-10-18T21:11:19.705Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 724,
+      "ticketId": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+      "at": "2026-10-18T21:12:01.901Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 754,
+      "ticketId": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+      "at": "2026-10-18T21:14:39.362Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 755,
+      "ticketId": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+      "at": "2026-10-18T21:14:39.367Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 759,
+      "ticketId": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+      "at": "2026-10-18T22:48:51.462Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 820,
+      "ticketId": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+      "at": "2026-10-18T22:49:30.132Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 895,
+      "ticketId": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+      "at": "2026-10-18T22:52:23.107Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "needs_you"
+    },
+    {
+      "sequence": 896,
+      "ticketId": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+      "at": "2026-10-18T22:52:23.107Z",
+      "kind": "needs_you",
+      "reason": "Stopped because Codex reported more than 100000 tokens for this ticket.",
+      "cause": "ACTION_BUDGET",
+      "cleanupUncertain": false
+    },
+    {
+      "sequence": 900,
+      "ticketId": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+      "at": "2026-10-19T18:03:04.748Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 938,
+      "ticketId": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+      "at": "2026-10-19T18:03:39.425Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 973,
+      "ticketId": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+      "at": "2026-10-19T18:07:15.640Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 974,
+      "ticketId": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+      "at": "2026-10-19T18:07:15.641Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    },
+    {
+      "sequence": 978,
+      "ticketId": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+      "at": "2026-10-19T18:47:46.567Z",
+      "kind": "state_changed",
+      "from": "queued",
+      "to": "building"
+    },
+    {
+      "sequence": 1004,
+      "ticketId": "f538ccdb-1ae4-400c-b37b-368c8258a2d8",
+      "at": "2026-10-19T18:48:01.657Z",
+      "kind": "state_changed",
+      "from": "ready_for_review",
+      "to": "kept"
+    },
+    {
+      "sequence": 1017,
+      "ticketId": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+      "at": "2026-10-19T18:48:13.181Z",
+      "kind": "state_changed",
+      "from": "building",
+      "to": "checking"
+    },
+    {
+      "sequence": 1052,
+      "ticketId": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+      "at": "2026-10-19T18:50:37.864Z",
+      "kind": "cleanup"
+    },
+    {
+      "sequence": 1053,
+      "ticketId": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+      "at": "2026-10-19T18:50:37.865Z",
+      "kind": "state_changed",
+      "from": "checking",
+      "to": "ready_for_review"
+    }
+  ],
+  "policyProvenance": {
+    "586": {
+      "matchingPolicySourceCommit": "5eaef5b",
+      "activationProvenance": "Matches pre-149096a combine logic; exact running build was not recorded.",
+      "annotation": "Under current rules this check would be NOT CHECKED."
+    },
+    "592": {
+      "matchingPolicySourceCommit": "149096ab6e34b897fedc427f6b9e9cf040aaeb58",
+      "activationProvenance": "Matches stricter logic later committed at 12:45:41 PDT, after this 12:33:09 event; exact runtime commit is unknown."
+    }
+  }
+}

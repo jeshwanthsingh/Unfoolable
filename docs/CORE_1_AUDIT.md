@@ -15,3 +15,11 @@ Audited at base 3c94150, before application changes.
 | eslogger tripwires | MISSING | builder-tripwires.ts observes macOS sandbox denial logs, best effort. No eslogger sensor. |
 
 No feature in this audit is implemented by CORE-1.
+
+## Policy history
+
+`149096ab6e34b897fedc427f6b9e9cf040aaeb58`, October 17, 2026 at 12:45:41 PDT, changes `ticket-playbook-hooks.ts`: after spreading the playbook result, explicitly retain native NOT CHECKED unless a required part FAILED. Previously the project result overwrote the native abstention. The commit message is “prove offline quality gates and preserve unchecked verdicts”: passing regression commands must not make an unavailable required verifier look checked.
+
+Event 586 was recorded at 12:30:04 PDT and matches the older logic visible at parent `5eaef5b`. Event 592 at 12:33:09 matches the stricter logic in `149096a`. No commit lies between these events that proves activation; the stricter code was committed later. Runtime build identities were not saved then. The matching policy source is known; the exact active commit is not. Do not turn this working-tree inference into a claimed runtime attestation.
+
+The untouched `golden.json` is the original historical archive. `current-policy-golden.json` contains expected outputs obtained from verbatim 3c94150 code on the same frozen facts; all 15 reconstructible events match the new core. `historical-records.json` retains stored labels, provenance qualifications and append-only annotations. Event 586 remains PASSED WITH GAPS historically; under 3c94150 rules it is NOT CHECKED. Four events lack enough original facts and are not silently counted as replayed.

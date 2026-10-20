@@ -13,9 +13,9 @@ test('explain uses the exact core trace and does not invoke any agent or decisio
 test('explain replays historical playbook facts honestly and refuses to invent missing facts',()=>{
  const db=new DatabaseSync(':memory:');try{const replay=explainTicket(db,[event({verdict:'PASSED WITH GAPS',playbookResultPath:'/not-read',gaps:['Intent unchecked'],failures:[]})]);assert.equal(replay.matches,true);assert.match(formatExplanation(replay),/not a fresh check/);assert.equal(explainTicket(db,[event({verdict:'NOT CHECKED',harnessError:true})]).source,'unavailable');assert.equal(explainTicket(db,[]).source,'unavailable');}finally{db.close();}
 });
-test('all reconstructible historical ticket explanations agree with frozen records',()=>{
+test('all reconstructible explanations match the pre-refactor current-policy golden',()=>{
  const db=new DatabaseSync(':memory:');db.exec('CREATE TABLE verify_only_runs(id TEXT,result_json TEXT)');const golden=JSON.parse(readFileSync(new URL('../artifacts/core1/golden.json',import.meta.url),'utf8'));for(const r of golden.runs)db.prepare('INSERT INTO verify_only_runs VALUES(?,?)').run(r.id,JSON.stringify(r.result));
- try{for(const r of golden.checks){const result=explainTicket(db,[event(r.record)]);assert.notEqual(result.matches,false,'Changed verdict: '+r.sequence);}}finally{db.close();}
+ try{const policy=JSON.parse(readFileSync(new URL('../artifacts/core1/current-policy-golden.json',import.meta.url),'utf8'));for(const row of policy.entries){const r=golden.checks.find((r:{sequence:number})=>r.sequence===row.sequence);const result=explainTicket(db,[event(r.record)]);assert.equal(result.source,'replayed');assert.equal(result.trace.at(-1)!.explanation,'Result: '+row.expected.verdict+'. This never accepts the change.');assert.equal(r.record.verdict,row.sequence===586?'PASSED WITH GAPS':row.expected.verdict);}}finally{db.close();}
 });
 
 test('event 592 combines the missing native recipe with passing playbook facts as NOT CHECKED',()=>{

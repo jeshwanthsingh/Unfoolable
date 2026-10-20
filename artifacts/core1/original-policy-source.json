@@ -1,0 +1,10 @@
+{
+  "commit": "3c94150",
+  "sources": {
+    "apps/server/ticket-checker.ts": "d6d0b56c19fa53dd515335d9b6626ef61666795f495867943c75ae5ca989c665",
+    "apps/server/ticket-playbook-hooks.ts": "78f802c14fdbaf01adc14e863b34048987a6c80621f8a1f0f5fb083b000db041"
+  },
+  "nativeBlock": "  if(result.verdict==='ERROR'){if(result.layers[0]?.status==='PASS'&&result.layers[1]?.gaps.some(g=>g.id==='project-recipes'))return {verdict:'NOT CHECKED',gaps:result.gaps.map(g=>g.reason),failures:[],verificationId:request.id,evidenceHash:evidence.hash};throw Error(view.error??result.layers.flatMap(l=>l.gaps.map(g=>g.reason)).join('; ')??'Checker harness error');}\n  return {...(result.testWriter?{testWriter:result.testWriter}:{}),verdict:result.verdict,gaps:result.gaps.map(g=>g.id+': '+g.reason),failures:result.layers.flatMap(l=>l.checks.filter(c=>c.status==='FAIL').map(c=>c.id+': '+(c.reason??'protected assertion failed'))),verificationId:request.id,evidenceHash:evidence.hash};",
+  "combinedEarly": "if(native.verdict==='FAILED')return {...native,playbookHash:approved.hash};",
+  "combinedReturn": "return {...native,...project,verdict:project.verdict==='FAILED'?'FAILED':native.verdict==='NOT CHECKED'?'NOT CHECKED':project.verdict,gaps:[...native.gaps.map(g=>'Existing verifier: '+g),...project.gaps],failures:[...native.failures,...project.failures]};"
+}

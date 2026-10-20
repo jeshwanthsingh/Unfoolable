@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {createScanner,ScriptTarget,SyntaxKind} from 'typescript/unstable/ast';
+import {createScanner,SyntaxKind,tokenIsIdentifierOrKeyword} from 'typescript/unstable/ast';
 import {scoreVerdict} from '../packages/shared/verdict-core.ts';
 const raw=readFileSync(new URL('../artifacts/core1/golden.json',import.meta.url),'utf8');
 const golden=JSON.parse(raw);
@@ -18,11 +18,11 @@ test('CORE-1 core has no runtime imports, ambient authorities or dynamic evaluat
 });
 
 function lintCore(source:string){
- const scanner=createScanner(ScriptTarget.Latest,true,undefined,source);
+ const scanner=createScanner(true,undefined,source);
  const forbidden=new Set(['require','Date','Math','process','fetch','fs','setTimeout','setInterval','setImmediate','clearTimeout','clearInterval','clearImmediate','queueMicrotask','globalThis','eval','Function','performance','XMLHttpRequest','WebSocket']);
  for(let token=scanner.scan();token!==SyntaxKind.EndOfFile;token=scanner.scan()){
   assert.notEqual(token,SyntaxKind.ImportKeyword,'Core imports a module');
-  if(token===SyntaxKind.Identifier)assert.equal(forbidden.has(scanner.getTokenValue()),false,'Core uses ambient authority: '+scanner.getTokenValue());
+  if(tokenIsIdentifierOrKeyword(token))assert.equal(forbidden.has(scanner.getTokenValue()),false,'Core uses ambient authority: '+scanner.getTokenValue());
  }
 }
 test('CORE-1 pinned TypeScript authority lint rejects imports and ambient side effects',()=>{
