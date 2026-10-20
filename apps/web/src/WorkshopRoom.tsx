@@ -5,7 +5,7 @@ import {officeClick} from './office-sound.ts';
 import {workshopRoute,type OfficeActivity} from './office-activity.ts';
 import {workshopLighting} from './office-lighting.ts';
 import {safetyObjectAt,protectionProbe,type SafetyObject} from './office-safety.ts';
-type Props={frame:OfficeFrame;theme:'light'|'dark';activity?:OfficeActivity;onCanvas?:(canvas:HTMLCanvasElement|null)=>void;sound?:boolean;replay?:boolean;playing?:boolean;onRole?:(role:OfficeRole)=>void;onObject?:(object:SafetyObject)=>void;title?:string;recordSize?:'landscape'|'portrait'|null;fuel?:{used:number|null;limit:number}|null};
+type Props={nightShift?:boolean;lightingHour?:number|undefined;frame:OfficeFrame;theme:'light'|'dark';activity?:OfficeActivity;onCanvas?:(canvas:HTMLCanvasElement|null)=>void;sound?:boolean;replay?:boolean;playing?:boolean;onRole?:(role:OfficeRole)=>void;onObject?:(object:SafetyObject)=>void;title?:string;recordSize?:'landscape'|'portrait'|null;fuel?:{used:number|null;limit:number}|null};
 const poses=['idle','walk-down','walk-up','walk-left','walk-right','type','read','carry','celebrate','worried','frozen','wave'];
 export function WorkshopRoom(props:Props){
  const {theme,onCanvas}=props,host=useRef<HTMLDivElement>(null),latest=useRef(props),engine=useRef<{update:()=>void;destroy:()=>void}|null>(null),[failed,setFailed]=useState(false);latest.current=props;
@@ -24,7 +24,7 @@ export function WorkshopRoom(props:Props){
   const pet=new Graphics(),objects=new Graphics();world.addChild(pet,objects);
   const parcel=new Sprite(textures[5]);parcel.anchor.set(.5,.8);parcel.width=24;parcel.height=24;world.addChild(parcel);
   const lighting=workshopLighting(app);world.addChild(lighting.shade,lighting.emission);
-  const fx=new Graphics(),clock=new Graphics();world.addChild(fx,clock);
+  const fx=new Graphics(),clock=new Graphics();world.addChild(fx,clock);const nightSign=new Text({text:'Night Shift',style:{fontFamily:'Instrument Sans,system-ui,sans-serif',fontSize:7,fontWeight:'600',fill:'#ead4aa'}});nightSign.position.set(20,193);world.addChild(nightSign);
   const backing=new Graphics(),bubble=new Text({text:'',style:{fontFamily:'Instrument Sans,system-ui,sans-serif',fontSize:7,fontWeight:'600',fill:'#181425',wordWrap:true,wordWrapWidth:116}});bubble.resolution=2;bubble.anchor.set(.5,1);world.addChild(backing,bubble);
 
   const plate=new Graphics(),caption=new Text({text:'',style:{fontFamily:'Instrument Sans,system-ui,sans-serif',fontSize:24,fontWeight:'600',fill:'#ead4aa',wordWrap:true,wordWrapWidth:1000}});caption.resolution=2;caption.anchor.set(.5);app.stage.addChild(plate,caption);
@@ -40,10 +40,10 @@ export function WorkshopRoom(props:Props){
    if(first||f.phase!==previous?.phase){const end=f.phase==='checking'?{x:326,y:158}:['ready_for_review','kept','discarded'].includes(f.phase)?{x:393,y:225}:{x:157,y:180};packageRoute=first?[]:f.phase==='checking'?[{x:232,y:180},{x:232,y:158},end]:[{x:300,y:158},{x:300,y:203},{x:393,y:203},end];if(first)packagePosition={...end};}
    previous=f;first=false;if(!document.hidden&&raf===undefined)raf=requestAnimationFrame(tick);
   }
-  function paint(dt:number){const started=performance.now(),p=latest.current,{frame:f,activity:a}=p,now=new Date(),light=lighting.paint(now.getHours(),elapsed,a,f.alarm),night=light.period==='night';
+  function paint(dt:number){const started=performance.now(),p=latest.current,{frame:f,activity:a}=p,now=new Date(),light=lighting.paint(p.lightingHour??now.getHours(),elapsed,a,f.alarm),night=light.period==='night';
    const targetWidth=p.recordSize==='landscape'?1920:p.recordSize==='portrait'?1080:host.current!.clientWidth,targetHeight=p.recordSize==='landscape'?1080:p.recordSize==='portrait'?1920:host.current!.clientHeight;if(app.screen.width!==targetWidth||app.screen.height!==targetHeight)app.renderer.resize(targetWidth,targetHeight);
    host.current?.setAttribute('data-light-period',light.period);
-   sky.clear().rect(41,19,99,23).fill(light.sky);if(night)sky.rect(121,23,5,5).fill(0xc0cbdc).rect(56,23,1,1).rect(101,33,1,1).fill(0xead4aa);else sky.rect(119,22,7,7).fill(0xfee761).rect(48,32,18,2).fill(0xead4aa);
+   nightSign.visible=!!p.nightShift;sky.clear().rect(41,19,99,23).fill(light.sky);if(night)sky.rect(121,23,5,5).fill(0xc0cbdc).rect(56,23,1,1).rect(101,33,1,1).fill(0xead4aa);else sky.rect(119,22,7,7).fill(0xfee761).rect(48,32,18,2).fill(0xead4aa);
    shadows.clear();for(const actor of actors)shadows.ellipse(actor.x,actor.y-2,13,4).fill({color:0x181425,alpha:.38});for(const [x,y,w] of [[78,145,68],[217,86,56],[356,147,68],[338,250,94]])shadows.ellipse(x!+w!/2,y!,w!/2,5).fill({color:0x181425,alpha:.22});
    const action=a?.action??'idle',freeze=f.alarm||f.dimmed||action==='stopped',next=route[0],dx=next?next.x-position.x:0,dy=next?next.y-position.y:0,distance=Math.hypot(dx,dy),walk=!!next&&!freeze;
    if(walk&&distance<1){position={...next!};route.shift();}else if(walk){const step=Math.min(distance,dt*70);position.x+=dx/distance*step;position.y+=dy/distance*step;}
