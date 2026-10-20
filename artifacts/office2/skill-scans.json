@@ -1,0 +1,236 @@
+[
+  {
+    "name": "pixijs-custom-rendering",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-blend-modes",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-text",
+    "score": 56,
+    "severity": "HIGH",
+    "recommendation": "DO_NOT_INSTALL",
+    "max_issue_severity": "HIGH",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-graphics",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-particle-container",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-core-concepts",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-gif",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-environments",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-color",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-math",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-dom-container",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-application",
+    "score": 24,
+    "severity": "MEDIUM",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "MEDIUM",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-migration-v8",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-ticker",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-performance",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-container",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-events",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-filters",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-mesh",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-scene-sprite",
+    "score": 37,
+    "severity": "MEDIUM",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "HIGH",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-core-concepts",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-accessibility",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-html-source",
+    "score": 0,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "NONE",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-assets",
+    "score": 42,
+    "severity": "MEDIUM",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "HIGH",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  },
+  {
+    "name": "pixijs-create",
+    "score": 12,
+    "severity": "LOW",
+    "recommendation": "CAUTION",
+    "max_issue_severity": "MEDIUM",
+    "execution_successful": true,
+    "metadata": "2.12.0"
+  }
+]
