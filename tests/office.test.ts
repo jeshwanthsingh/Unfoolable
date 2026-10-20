@@ -11,3 +11,5 @@ test('motion requires a later meaningful event in the same ticket, never mount, 
 test('replay preserves unique ordered real events, stays 30-60 seconds and never invents a result',()=>{const schedule=replaySchedule('t',[e(5,'state_changed',{to:'checking'}),e(1,'submitted'),e(1,'submitted'),{...e(6,'decision'),ticketId:'other'}]);assert.deepEqual(schedule.map(x=>x.event.sequence),[1,5]);assert.equal(schedule[0]!.atMs,0);assert.equal(schedule.at(-1)!.atMs,45000);assert.equal(officeFrame('t',schedule.map(x=>x.event)).stamp,null);assert.deepEqual(replaySchedule('t',[]),[]);});
 
 test('native character hit targets select only real configured roles',()=>{const f=officeFrame('t',[e(1,'state_changed',{to:'checking'})]);assert.equal(officeRoleAt(f,560,330),'builder');assert.equal(officeRoleAt(f,780,285),'grader');assert.equal(officeRoleAt(f,0,0),null);});
+
+test('a new build/check phase cannot reuse an earlier writer completion as current evidence',()=>{const f=officeFrame('t',[e(1,'check_result',{verdict:'FAILED',testWriter:{started:true}}),e(2,'state_changed',{to:'fixing'})]);assert.equal(f.writerRecorded,false);assert.equal(f.stamp,null);});

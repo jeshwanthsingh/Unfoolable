@@ -20,7 +20,7 @@ export function WorkshopRoom({frame,theme}:{frame:OfficeFrame;theme:'light'|'dar
   // Closed handoff hatch, rather than a route for the Builder to enter.
   room.roundRect(610,270,20,70,4).fill(wood).stroke({color:brass,width:2});
   const bench=(x:number,y:number,w:number)=>{room.roundRect(x,y,w,56,7).fill(wood).stroke({color:brass,width:2}).rect(x+12,y+56,12,35).rect(x+w-24,y+56,12,35).fill({color:wood,alpha:.7});};
-  bench(125,205,265);bench(185,50,190);bench(670,190,220);bench(605,455,245);
+  for(const d of officeDesks)bench(d.bench.x,d.bench.y,d.bench.width);
   // Work tools, lamp and paper are original simple primitives, not office-pack assets.
   room.roundRect(150,218,80,10,3).fill({color:ink,alpha:.4}).roundRect(340,220,27,26,3).fill({color:ink,alpha:.25});
   room.moveTo(347,218).lineTo(347,184).lineTo(325,170).stroke({color:brass,width:6}).roundRect(306,160,36,12,4).fill(brass);
@@ -29,7 +29,7 @@ export function WorkshopRoom({frame,theme}:{frame:OfficeFrame;theme:'light'|'dar
   app.stage.addChild(room);const actors=new Graphics();app.stage.addChild(actors);const overlay=new Graphics();app.stage.addChild(overlay);
   app.stage.eventMode='none';EventsTicker.removeTickerListener();Ticker.system.stop();host.current!.replaceChildren(app.canvas);app.canvas.setAttribute('aria-hidden','true');
   owned={update:()=>{},destroy:()=>{if(destroyed)return;destroyed=true;cancel();document.removeEventListener('visibilitychange',hide);app.destroy(true,{children:true,texture:false});}};
-  const texture=await Assets.load('/workshop/crate_E.png');if(disposed){owned.destroy();owned=null;return;}const crate=new Sprite(texture);crate.anchor.set(.5);crate.width=42;crate.height=44;app.stage.addChild(crate);
+  const texture=await Assets.load('/workshop/crate_E.png');if(disposed){owned.destroy();owned=null;return;}const crate=new Sprite(texture);crate.anchor.set(.5);crate.width=42;crate.height=44;app.stage.addChild(crate);app.stage.addChild(overlay);
   let builder=builderPose(latest.current),box=cratePose(latest.current);
   function paint(f:OfficeFrame,press=1){
    actors.clear();overlay.clear();
@@ -38,7 +38,7 @@ export function WorkshopRoom({frame,theme}:{frame:OfficeFrame;theme:'light'|'dar
     if(active)actors.roundRect(p.x-26,p.y-29,52,69,13).stroke({color:brass,width:2,alpha:.6});
    }
    if(f.stamp){const color=f.stamp==='checked'?0x2f7a57:f.stamp==='look closer'?0xb5762a:0xb8432f,x=856,y=316,r=25*press;actors.circle(x,y,r).fill({color,alpha:.2}).circle(x,y,r-4).stroke({color,width:3});if(f.stamp==='checked')actors.moveTo(x-10,y).lineTo(x-3,y+7).lineTo(x+11,y-9).stroke({color,width:4});else if(f.stamp==='failed')actors.moveTo(x-8,y-8).lineTo(x+8,y+8).moveTo(x+8,y-8).lineTo(x-8,y+8).stroke({color,width:4});else actors.circle(x,y,8).stroke({color,width:3}).moveTo(x+7,y+7).lineTo(x+14,y+14).stroke({color,width:3});}
-   if(f.humanDecision)actors.circle(741,490,17).stroke({color:brass,width:3}).moveTo(732,490).lineTo(739,497).lineTo(750,482).stroke({color:brass,width:3});
+   if(f.humanDecision){const rejected=/discard|reject|abandon/i.test(f.humanDecision),color=rejected?0xb8432f:brass;actors.circle(741,490,17).stroke({color,width:3});if(rejected)actors.moveTo(733,482).lineTo(749,498).moveTo(749,482).lineTo(733,498).stroke({color,width:3});else actors.moveTo(732,490).lineTo(739,497).lineTo(750,482).stroke({color,width:3});}
    if(f.alarm)actors.circle(580,120,18).fill({color:0xb8432f,alpha:.2}).circle(580,120,8).fill(0xb8432f);
    if(f.dimmed)overlay.roundRect(20,25,960,570,20).fill({color:0x10171a,alpha:.5});
    crate.position.set(box.x,box.y);app.renderer.render(app.stage);if(host.current)host.current.dataset.officeFrames=String(++frames);

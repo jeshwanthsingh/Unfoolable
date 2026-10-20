@@ -1,9 +1,9 @@
 import type {TicketEvent} from '../../../packages/shared/tickets.ts';
 export const officeDesks=[
- {role:'builder',name:'Builder',x:220,y:260},
- {role:'grader',name:'Grader',x:780,y:230},
- {role:'writer',name:'Test Writer',x:275,y:100},
- {role:'owner',name:'Your stamp station',x:690,y:500},
+ {role:'builder',name:'Builder',x:220,y:260,bench:{x:125,y:205,width:265},label:{x:9,y:60}},
+ {role:'grader',name:'Grader',x:780,y:230,bench:{x:670,y:190,width:220},label:{x:66,y:21}},
+ {role:'writer',name:'Test Writer',x:275,y:100,bench:{x:185,y:50,width:190},label:{x:8,y:9}},
+ {role:'owner',name:'Your stamp station',x:690,y:500,bench:{x:605,y:455,width:245},label:{x:40,y:82}},
 ] as const;
 export type OfficeRole=typeof officeDesks[number]['role'];
 export const inspectionBounds={x:620,y:100,width:320,height:280} as const;
@@ -18,7 +18,7 @@ export function officeFrame(ticketId:string,events:readonly TicketEvent[]):Offic
   if(e.kind==='state_changed'&&typeof e.data.to==='string'){
    f.phase=e.data.to;f.motionSequence=e.sequence;f.activeRole=['building','fixing'].includes(f.phase)?'builder':f.phase==='checking'?'grader':null;
    f.line=({queued:'Waiting to start',building:'Building at the bench',fixing:'Correcting the change',checking:'Inspecting the frozen change',ready_for_review:'Waiting for your review',needs_you:'Waiting for your help',kept:'Accepted',discarded:'Rejected',interrupted:'Interrupted',cancelled:'Cancelled',harness_error:'Stopped with an error'} as Record<string,string>)[f.phase]??'No recorded activity';
-   if(['building','fixing','checking'].includes(f.phase))f.stamp=null;
+   if(['building','fixing','checking'].includes(f.phase)){f.stamp=null;f.writerRecorded=false;}
   }
   if(e.kind==='agent_stopped')f.activeRole=null;
   if(e.kind==='agent_event'&&e.data.kind==='blocked_action'){const data=e.data.data as Record<string,unknown>|undefined,key=String(e.data.attemptId)+':'+String(data?.itemId??e.sequence);if(!blocked.has(key)){blocked.add(key);f.blocked++;}}
