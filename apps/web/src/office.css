@@ -13,3 +13,27 @@
 @media(max-width:759px){.unfoolable[data-view=workshop] .unfool-column{padding-inline:16px}.office-heading{margin-top:16px}.office-heading h2{font-size:27px}.office-controls{gap:8px}.office-controls label{flex-basis:100%}.office-controls button{padding:8px 11px;font-size:14px}.office-hud{flex-wrap:wrap;padding:12px;gap:5px 12px}.office-hud strong{flex-basis:100%}.office-hud span{font-size:12px;white-space:normal}.office-desk-labels{display:flex;flex-wrap:wrap;padding:8px;gap:4px}.office .office-desk{position:static;transform:none;min-height:44px;padding:7px;flex:1;border:0;box-shadow:none;background:transparent}.office-desk strong{font-size:12px}.office-readout h3{font-size:18px}.office-source{font-size:13px}.office-heading p{margin-block:8px 14px}.office-canvas,.office-diagram{aspect-ratio:5/3}}
 
 @media(max-width:759px){.office-desk-labels{display:grid;grid-template-columns:1fr 1fr}.office .office-desk{min-width:0}.office-desk strong{font-size:13px;white-space:normal}.office-hud span{font-size:13px}}
+
+/* OFFICE-3 preview: the room owns the window; controls stay in a quiet HUD. */
+.unfoolable[data-view=workshop] .unfool-column{max-width:none;padding:0}
+.unfoolable[data-view=workshop] .unfool-header{position:fixed;left:20px;bottom:16px;z-index:8;margin:0}
+.unfoolable[data-view=workshop] .unfool-header> :not(:first-child){display:none}
+.unfoolable[data-view=workshop] .office-tabs{position:fixed;bottom:12px;right:20px;z-index:8;margin:0;background:#181425d9;border-radius:24px;color:#ead4aa}
+.office{position:relative;height:100dvh;padding:0;overflow:hidden;background:#181425;color:#ead4aa}
+.office-heading{position:absolute;top:88px;left:24px;z-index:3;margin:0;pointer-events:none}
+.office-heading h2{font-size:17px;color:#ead4aa;letter-spacing:0}
+.office-heading p,.office-source{display:none}
+.office-controls{position:absolute;inset:18px 20px auto;z-index:6;display:flex;align-items:center;flex-wrap:nowrap;gap:8px;margin:0;pointer-events:none}
+.office-controls>*{pointer-events:auto}.office-controls label{display:block;font-size:0;flex:1;max-width:360px;margin-right:auto}
+.office-controls select,.office-controls button{background:#181425df;color:#ead4aa;border:1px solid #8b9bb450;border-radius:8px;min-height:44px;font-size:13px}
+.office-controls label select{font-size:14px;max-width:360px}.office-controls>button:first-child{order:9}
+.office-stage{height:100%;border-radius:0;background:#181425}.office-room{height:100%;width:100%;display:grid;place-items:center}
+.office-canvas{width:100%;height:100%;aspect-ratio:auto}.office-canvas canvas{image-rendering:pixelated}
+.office-diagram{width:100%;max-height:100%;aspect-ratio:5/3;image-rendering:pixelated}
+.office-hud{position:absolute;left:24px;bottom:72px;z-index:4;padding:10px 14px;max-width:min(620px,80%);border:1px solid #8b9bb430;border-radius:8px;background:#181425df;color:#ead4aa}
+.office-hud strong{font-size:13px}.office-hud span{font-size:12px}.office-desk-labels{display:none}
+.office-readout,.office-footer{display:none}.office-desk-detail{position:absolute;bottom:145px;left:24px;max-width:420px;z-index:7;background:#181425f5;color:#ead4aa;border-color:#8b9bb480}
+.office-replay,.office-clip-status{position:absolute;bottom:114px;left:24px;z-index:5;background:#181425e8;padding:8px 12px;color:#ead4aa;font-size:12px}
+.office[data-immersive=true] .office-controls,.office[data-immersive=true] .office-heading,.office[data-immersive=true] .office-hud{opacity:0;pointer-events:none}
+.office[data-immersive=true] .office-controls>*{pointer-events:none}
+@media(max-width:759px){.office-controls{inset:12px;flex-wrap:wrap}.office-controls label{flex-basis:100%;max-width:none}.office-controls label select{max-width:none}.office-heading{top:142px;left:16px}.office-hud{left:16px;right:16px;bottom:84px;max-width:none;gap:6px;padding:10px}.office-hud strong{flex-basis:100%}.office-controls button{font-size:12px;padding:6px 8px}.office-desk-detail{left:16px;right:16px;bottom:164px}.office-replay,.office-clip-status{left:16px;bottom:146px}.office-diagram{align-self:center}}

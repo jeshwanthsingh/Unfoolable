@@ -1,0 +1,8 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"lightPeriod\": \"noon\",\n  \"frames\": 37,\n  \"requests\": 0,\n  \"width\": 1440,\n  \"overflow\": 1440,\n  \"zoom\": 1\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({lightPeriod:document.querySelector(\\'.office-canvas\\').dataset.lightPeriod,frames:Number(document.querySelector(\\'.office-canvas\\').dataset.officeFrames)-window.__beforeFrames,requests:window.__officeRequests.length-window.__beforeRequests,width:innerWidth,overflow:document.documentElement.scrollWidth,zoom:visualViewport.scale})');\n```"
+    }
+  ]
+}

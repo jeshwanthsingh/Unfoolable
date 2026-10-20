@@ -1,0 +1,30 @@
+{
+  "package": "pixi-filters",
+  "version": "6.1.5",
+  "license": "MIT",
+  "official": "https://github.com/pixijs/filters",
+  "tarball": "https://registry.npmjs.org/pixi-filters/-/pixi-filters-6.1.5.tgz",
+  "sha256": {
+    "lib/advanced-bloom/AdvancedBloomFilter.mjs": "1b64799731770f86bf499e30d7bf3bc534a1dfd59db03402181d4d6c776358e6",
+    "lib/advanced-bloom/ExtractBrightnessFilter.mjs": "fd9b3538f5b9ba581e1b067d63f6d76757458599b80971a564cada73e5b02eda",
+    "lib/advanced-bloom/extract-brightness2.mjs": "d27b62d214d31abb5fd8b76e3a576b461e4ea72bb227cd067b2605ce74b6986a",
+    "lib/advanced-bloom/extract-brightness.mjs": "c58cf51ffa5f7632af71976a5a66d6e340966f27660a3e9b8294150c476c7a7a",
+    "lib/defaults/default.mjs": "addce58cec76fa724d78262ee948e2e2bc0d1d940533a1b84ef754d99b642de5",
+    "lib/defaults/default2.mjs": "354fe25122572ee1eb8e72b4d2b15124b5043e6010db9ba9fd1ae5c30c8e9788",
+    "lib/advanced-bloom/advanced-bloom2.mjs": "07f48dc46b74cc2a55b805ce00ba8f50e4fd8d8cf5545207b8f7d7d1662efeb0",
+    "lib/advanced-bloom/advanced-bloom.mjs": "40591edc7d63cd38e6d58f2d564d71637cdb32d6640f7aa846ee8f799878caa7",
+    "lib/kawase-blur/KawaseBlurFilter.mjs": "5dce8747a87ac78d85aafc4668baf92027b31311692d9c87ac0ffafd47f6b93f",
+    "lib/kawase-blur/kawase-blur-clamp2.mjs": "b08c5d92292d34266f8c8d5467e9d7213b1cde67ed6852ff19e742940fe15346",
+    "lib/kawase-blur/kawase-blur-clamp.mjs": "3fed8b3e410d324db74a4878debe83b6829e92319abbdae69303dec421edd8cd",
+    "lib/kawase-blur/kawase-blur2.mjs": "28e628e4131cb34bd82981ea5d6030459283cbbcca9581a23df33454603635d2",
+    "lib/kawase-blur/kawase-blur.mjs": "45a40ed314b592132c230b2467db0d12ebd480fb471c7e2dadee8009c73339d2",
+    "lib/adjustment/AdjustmentFilter.mjs": "47876ff16e1f8e6d20c4d156eb2f280b8ba3284c1313441064e492de31f07ad0",
+    "lib/adjustment/adjustment2.mjs": "bcc574aa6a39b9e526dfccd8926a76f19ce8fa8adc748854e8c5530c8ee36525",
+    "lib/adjustment/adjustment.mjs": "9e20033464218ab577c660d2edd00350fce0491cf0e04d724c7f8c3e83282da1"
+  },
+  "osv": {
+    "queriedAt": "2026-10-20",
+    "vulnerabilities": []
+  },
+  "whyVendored": "Keep all 256 frozen files including dependency manifests byte-for-byte unchanged. Only exact release modules and their imports are retained."
+}

@@ -3,6 +3,7 @@ CC0-1.0 dedication; run with Pillow to regenerate assets beside this file.
 """
 from PIL import Image, ImageDraw
 from pathlib import Path
+import json
 P=Path(__file__).parent
 INK='#25343b';WOOD='#946744';GOLD='#ddb976';TEAL='#437477'
 def room(dark=False,builder_only=False):
@@ -68,7 +69,15 @@ def room(dark=False,builder_only=False):
   # Human stamp office is an alcove, not another identical coding desk.
   rug((302,211,454,261),'#6e6550');desk(338,226,94,False);d.rectangle((381,218,402,232),fill='#f0dfb4');d.line((386,222,398,222),fill='#b5a682');d.line((386,226,396,226),fill='#b5a682');d.rectangle((348,217,365,231),fill='#634a39');d.rectangle((351,210,362,218),fill='#cda365');d.rectangle((354,205,359,212),fill='#cda365');plant(448,250)
   d.rectangle((45,219,177,240),fill=INK);d.rectangle((47,221,175,236),fill='#7c6b54');d.rectangle((53,238,57,247),fill=WOOD);d.rectangle((165,238,169,247),fill=WOOD)
-  d.rectangle((66,218,102,228),fill='#a68a62');d.rectangle((110,218,143,228),fill='#c0a779')
+  # Original upholstered couch replaces the empty bench. Sleeping cat is decorative.
+  d.rounded_rectangle((43,215,178,244),radius=5,fill=INK)
+  d.rectangle((47,218,174,237),fill='#733e39')
+  d.rectangle((51,219,104,232),fill='#b86f50');d.rectangle((108,219,170,232),fill='#b86f50')
+  d.rectangle((41,225,49,241),fill='#3e2731');d.rectangle((171,225,180,241),fill='#3e2731')
+  d.ellipse((117,226,144,237),fill='#e4a672');d.ellipse((137,225,149,234),fill='#ead4aa')
+  d.polygon([(137,227),(137,222),(142,226)],fill='#e4a672');d.polygon([(145,226),(150,223),(149,230)],fill='#e4a672')
+  d.line((140,230,143,230),fill=INK);d.line((146,230,148,230),fill=INK)
+  d.arc((113,226,133,239),40,285,fill='#733e39',width=2)
  return im
 for dark in [False,True]:
  room(dark,False).save(P/('room-'+('dark' if dark else 'light')+'.png'))
@@ -105,6 +114,12 @@ for role,coat,hair,skin in [('builder','#6e9990','#543b32','#e1ad7d'),('grader',
     # side profile differentiated by a one-pixel nose and single visible eye
     dd=ImageDraw.Draw(im);dd.rectangle((21 if pose=='walk-right' else 10,11,23 if pose=='walk-right' else 12,13),fill=skin)
    atlas.paste(im,(frame*32,row*32))
- atlas.save(P/(role+'.png'))
+ atlas.resize((192,48*len(poses)),Image.Resampling.NEAREST).save(P/(role+'.png'))
 # static original package
 im=Image.new('RGBA',(32,32));d=ImageDraw.Draw(im);d.rectangle((5,9,26,25),fill=INK);d.rectangle((6,10,25,23),fill='#b78149');d.rectangle((7,10,24,13),fill='#ddad68');d.rectangle((14,10,17,23),fill='#efdaab');d.rectangle((19,15,23,18),fill='#e6d1aa');im.save(P/'package.png')
+
+# OFFICE-3 limited ENDESGA 32 palette. Lospec permits free use of its palettes.
+COLORS=['be4a2f','d77643','ead4aa','e4a672','b86f50','733e39','3e2731','a22633','e43b44','f77622','feae34','fee761','63c74d','3e8948','265c42','193c3e','124e89','0099db','2ce8f5','ffffff','c0cbdc','8b9bb4','5a6988','3a4466','262b44','181425','ff0044','68386c','b55088','f6757a','e8b796','c28569']
+palette=Image.new('P',(1,1));palette.putpalette([v for c in COLORS for v in bytes.fromhex(c)]+[0]*(768-96))
+for name in ['room-light','room-dark','builder-light','builder-dark','builder','grader','writer','owner','package']:
+ path=P/(name+'.png');im=Image.open(path).convert('RGBA');alpha=im.getchannel('A');q=im.convert('RGB').quantize(palette=palette,dither=Image.Dither.NONE).convert('RGBA');q.putalpha(alpha);q.save(path)

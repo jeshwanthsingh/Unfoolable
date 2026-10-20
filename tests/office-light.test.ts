@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {officeLight} from '../apps/web/src/office-light.ts';
+test('local time grades room and sky together; night uses stronger practical lights',()=>{for(const [hour,period] of [[0,'night'],[6,'morning'],[12,'noon'],[17,'evening'],[20,'night']] as const)assert.equal(officeLight(hour).period,period);assert.ok(officeLight(23).brightness<officeLight(12).brightness);assert.ok(officeLight(23).lamps>officeLight(12).lamps);assert.equal(officeLight(23).beam,0);});
+test('invalid local time is rejected instead of inventing daylight',()=>{for(const n of [-1,24,NaN,Infinity])assert.throws(()=>officeLight(n),RangeError);});
