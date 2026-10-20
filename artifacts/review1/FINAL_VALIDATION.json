@@ -1,0 +1,170 @@
+{
+  "base": "fbad889",
+  "sourceCommit": "13fb3bc754518fc1bdc69fce370209d7c77d44fc",
+  "suite": {
+    "total": 1106,
+    "pass": 1106,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "durationMs": 323661.159291
+  },
+  "focusedApprovalTests": 52,
+  "typecheck": "PASS",
+  "build": "PASS; existing bundle/Pixi warnings remain",
+  "goldenReplay": {
+    "baseline": "fbad889",
+    "compared": 61,
+    "differences": [],
+    "historicalStoredChecks": 19,
+    "studyCases": 19,
+    "negativeControls": 12,
+    "missingOriginalFacts": [
+      104,
+      488,
+      599,
+      616
+    ],
+    "note": "Current-policy comparison; no historical labels or original golden files changed"
+  },
+  "probe": {
+    "targets": 69,
+    "readable": 0,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "protectedEndpointsDenied": 6,
+    "cleanupCertified": true
+  },
+  "negativeControls": [
+    {
+      "label": "observation-pipe-forgery-review-on",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "R1-review-off",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "native-judge-skipped",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "native-judge-zero-collected",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "skipped-existing-test-restored",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "deleted-existing-test-restored",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "edited-existing-test-restored",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "early-exit-0",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "symlink-escape",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "dependency-change",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "label": "oversized-output",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "label": "timeout",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    }
+  ],
+  "reviewers": [
+    {
+      "role": "intent",
+      "wrongFlagged": 5,
+      "wrongTotal": 8,
+      "falseAlarms": 0,
+      "correctTotal": 11,
+      "negativeFlagged": 8,
+      "negativeTotal": 12,
+      "done": 30,
+      "errors": 1,
+      "skipped": 0,
+      "totalTokens": 242571,
+      "averageTokens": 7824.870967741936,
+      "keepOn": false
+    },
+    {
+      "role": "readability",
+      "wrongFlagged": 5,
+      "wrongTotal": 8,
+      "falseAlarms": 0,
+      "correctTotal": 11,
+      "negativeFlagged": 8,
+      "negativeTotal": 12,
+      "done": 30,
+      "errors": 1,
+      "skipped": 0,
+      "totalTokens": 242439,
+      "averageTokens": 7820.612903225807,
+      "keepOn": false
+    },
+    {
+      "role": "ui",
+      "wrongFlagged": 0,
+      "wrongTotal": 8,
+      "falseAlarms": 0,
+      "correctTotal": 11,
+      "negativeFlagged": 0,
+      "negativeTotal": 12,
+      "done": 0,
+      "errors": 0,
+      "skipped": 31,
+      "totalTokens": 0,
+      "averageTokens": null,
+      "keepOn": false
+    }
+  ],
+  "separateUiTransportTokens": 7538,
+  "enabledReviewers": [],
+  "workshopReviewerDesks": 0,
+  "newDependencies": [],
+  "credentialsScan": "No leaks in changed source/tests/docs/artifacts",
+  "noPushMergeDeploy": true
+}
