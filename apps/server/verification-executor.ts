@@ -41,6 +41,7 @@ const nativeHostModules=['test-writer','test-writer-base-export','test-writer-se
 const nativeScripts=['python-observer.py','python-judge.py','ui-observer.mjs','ui-judge.mjs','suite-worker.py','writer-unittest.py','writer-node-reporter.mjs','writer-diff-cover.py','writer-context-map.py','tree-sitter-requirements.txt','writer-mutants.py','writer-mutants.mjs','concurrent-worker.py','concurrent-observation.py','cli-observation-worker.py','timeout-observation.py','timeout-worker.py'];
 export function evaluatorBundle():{files:Record<string,string>;hash:string}{
  const files={...protectedSnapshots};for(const name of nativeHostModules)files[name+'.txt']=hostModule(name);for(const name of nativeScripts)files[name]=readFileSync(join(oracleScripts,name),'utf8');
+ files['verdict-core.txt']=readFileSync(fileURLToPath(new URL('../../packages/shared/verdict-core'+runtimeExtension,import.meta.url)),'utf8');
  files['test-writer-types.txt']=readFileSync(fileURLToPath(new URL('../../packages/shared/test-writer'+runtimeExtension,import.meta.url)),'utf8');files['verification-v1-score.txt']=readFileSync(fileURLToPath(new URL('../../packages/shared/verification-v1'+runtimeExtension,import.meta.url)),'utf8');
  files['verify-only-score.txt']=readFileSync(fileURLToPath(new URL('../../packages/shared/verify-only-v2'+runtimeExtension,import.meta.url)),'utf8');
  return {files,hash:hash(JSON.stringify(files))};

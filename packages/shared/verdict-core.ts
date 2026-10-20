@@ -30,7 +30,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   const identities = (ids: string[]) => [...ids].sort().join('\n');
   const admitted = facts.baseStatus === 'ASSERTION_FAIL' && facts.candidates.length === 2 && facts.candidates.every(c => c.status === 'PASS' && identities(c.ids) === identities(facts.baseIds));
   note('writer-admission', admitted, admitted ? 'The independent test failed by assertion on the original code and passed twice on the change.' : 'The independent test did not meet the existing admission rule.');
-  return {...finish(admitted ? 'VERIFIED' : 'NOT CHECKED', []), admitted};
+  return {...finish('NOT CHECKED', []), admitted};
  }
  if (facts.path === 'project-tests') {
   const baseline = facts.base.flatMap(r => r.tests);
