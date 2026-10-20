@@ -30,3 +30,8 @@ test('CORE-1 pinned TypeScript authority lint rejects imports and ambient side e
  for(const source of ["import 'node:fs';","import type {X} from 'x';","require('fs')","Date.now()","new Date()","Math.random()","process.pid","fetch('/')","fs.readFileSync('x')","setTimeout(()=>{},1)","setInterval(()=>{},1)","globalThis.Date.now()","const clock=Da\\u0074e;"]){assert.throws(()=>lintCore(source),source);}
  lintCore('const message="Date process import"; // import Date\n');
 });
+
+test('legacy protected aggregate is an explicit provenance-bound fact even with empty layers',()=>{
+ const facts={path:'native-ticket' as const,layers:[],gaps:[],supplied:{verdict:'PASSED WITH GAPS' as const,provenance:{source:'protected-verifier' as const,verificationId:'fixture',evidenceHash:'fixture'}}};
+ const decision=scoreVerdict(facts);assert.equal(decision.verdict,'PASSED WITH GAPS');assert.deepEqual(decision.facts,facts);assert.match(decision.trace[0]!.explanation,/protected verifier fixture/);
+});

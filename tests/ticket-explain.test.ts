@@ -24,3 +24,12 @@ test('event 592 combines the missing native recipe with passing playbook facts a
  const db=new DatabaseSync(':memory:');db.exec('CREATE TABLE verify_only_runs(id TEXT,result_json TEXT)');for(const r of golden.runs)db.prepare('INSERT INTO verify_only_runs VALUES(?,?)').run(r.id,JSON.stringify(r.result));
  try{assert.equal(check.record.verdict,'NOT CHECKED');const result=explainTicket(db,[event(check.record)]);assert.equal(result.source,'replayed');assert.equal(result.matches,true);assert.match(result.trace.at(-1)!.explanation,/Result: NOT CHECKED/);}finally{db.close();}
 });
+
+test('explain selects the latest check sequence, never a later runtime trace, and prints its stored verdict',()=>{
+ const db=new DatabaseSync(':memory:');try{
+ const latest={...event({verdict:'NOT CHECKED',coreTrace:scoreVerdict({path:'unsupported',reason:'Required recipe missing'}).trace}),sequence:592};
+ const older={...event({verdict:'PASSED WITH GAPS',coreTrace:scoreVerdict({path:'playbook',gaps:[],failures:[]}).trace}),sequence:586};
+ const runtime={...older,kind:'agent_event' as const,sequence:600};
+ const result=explainTicket(db,[latest,runtime,older]);assert.equal(result.eventSequence,592);assert.equal(result.verdict,latest.data.verdict);assert.match(formatExplanation(result),/Event 592 \(stored result: NOT CHECKED\)/);
+ }finally{db.close();}
+});

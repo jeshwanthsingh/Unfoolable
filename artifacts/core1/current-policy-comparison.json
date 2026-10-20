@@ -2787,9 +2787,7 @@
           "gaps": [
             "ai-task-checks: Advisory task checks not requested; original intent is not automatically proved."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -2819,9 +2817,7 @@
           "gaps": [
             "ai-task-checks: Advisory task checks not requested; original intent is not automatically proved."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -2851,9 +2847,7 @@
           "gaps": [
             "ai-task-checks: Advisory task checks not requested; original intent is not automatically proved."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -2903,9 +2897,7 @@
           "gaps": [
             "ai-task-checks: Advisory task checks not requested; original intent is not automatically proved."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -2935,9 +2927,7 @@
           "gaps": [
             "ai-task-checks: Advisory task checks not requested; original intent is not automatically proved."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -2969,9 +2959,7 @@
             "Advisory task checks not requested; original intent is not automatically proved.",
             "Existing protected checks did not pass; Test Writer cannot upgrade them."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -3004,9 +2992,7 @@
             "Advisory task checks not requested; original intent is not automatically proved.",
             "Existing protected checks did not pass; Test Writer cannot upgrade them."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -3033,71 +3019,11 @@
       "facts": {
         "path": "combined",
         "native": {
-          "testWriter": {
-            "advisoryOnly": true,
-            "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
-            "checks": [
-              {
-                "base": [
-                  "FAIL"
-                ],
-                "candidate": "PASS",
-                "candidateRuns": [
-                  "PASS",
-                  "PASS"
-                ],
-                "id": "writer-file",
-                "reason": null,
-                "status": "ADMITTED",
-                "summary": "Checks successful source add help output and the --title override description; existing tests retain registration regression coverage.",
-                "testName": "tests/test_cc_writer_7391b4fb_eadc_4335_9aa1_9b13d2a4bad3.py"
-              }
-            ],
-            "coverage": "FULL",
-            "inputHash": "fefadc87665c553e33f069708b220eaafb6c36bde70c904ac443ed07de06c9aa",
-            "lineCoverage": {
-              "changedLines": 1,
-              "coveredLines": 1,
-              "percent": 100,
-              "reason": null,
-              "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/verify-only/24edeba3-38b9-4152-b372-0ef8d99395c8/test-writer/attempt-0-candidate-0/execution/measured-coverage.json",
-              "tool": "coverage.py",
-              "unmeasuredPaths": []
-            },
-            "mode": "NATIVE",
-            "mutation": {
-              "errors": 0,
-              "generated": 0,
-              "killed": 0,
-              "reason": "Mutation generation failed: ",
-              "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/verify-only/24edeba3-38b9-4152-b372-0ef8d99395c8/test-writer/attempt-0-mutation/mutations.json",
-              "sampled": false,
-              "score": null,
-              "survived": 0,
-              "survivorLine": null,
-              "tested": 0,
-              "tool": "mutmut"
-            },
-            "reason": null,
-            "requestHash": "d0b46aee08f2b434e269c52a52c1bf3c0f664f59c5b64895cd4d8c9f7b23978e",
-            "sessionId": "01a14bb9-1be8-7f93-b6e6-ef7d2af67d70",
-            "started": true,
-            "usage": {
-              "cachedInputTokens": 0,
-              "inputTokens": 12647,
-              "outputTokens": 352,
-              "totalTokens": 12999
-            },
-            "version": "test-writer-v1",
-            "warnings": []
-          },
           "verdict": "PASSED WITH GAPS",
           "gaps": [
             "test-writer-coverage: Test Writer is advisory only; it cannot change the verdict."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -3124,44 +3050,11 @@
       "facts": {
         "path": "combined",
         "native": {
-          "testWriter": {
-            "advisoryOnly": true,
-            "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
-            "checks": [
-              {
-                "base": [],
-                "candidate": "NOT CHECKED",
-                "candidateRuns": [],
-                "id": "writer-file",
-                "reason": "UNCLEAR: The supplied cli.py excerpts omit the argument-parser construction, --platform registration, and CLI entry point. The supplied test excerpts also omit their CLI invocation helpers. Without those interfaces, testing the actual source add help would require guessing an API or invocation. Supply the parser/entry-point definitions and existing CLI test helpers.",
-                "status": "NOT_ADMITTED",
-                "summary": "Insufficient context to write a reliable command-help test.",
-                "testName": "tests/test_cc_writer_7f44bd53_7461_48ec_b13d_fb33041c2445.py"
-              }
-            ],
-            "coverage": "NONE",
-            "inputHash": "511cdb2389321a9ada502999aee1d19f6f93c2d87c84ce24512b42b2aabfd7d2",
-            "mode": "NATIVE",
-            "reason": "UNCLEAR: The supplied cli.py excerpts omit the argument-parser construction, --platform registration, and CLI entry point. The supplied test excerpts also omit their CLI invocation helpers. Without those interfaces, testing the actual source add help would require guessing an API or invocation. Supply the parser/entry-point definitions and existing CLI test helpers.",
-            "requestHash": "622ea22848d56791d4905fe00676fe7836f531415e643ac0cdaf0cac0926194d",
-            "sessionId": "01a150dd-26e1-7431-9835-377b507d23cc",
-            "started": true,
-            "usage": {
-              "cachedInputTokens": 0,
-              "inputTokens": 12427,
-              "outputTokens": 127,
-              "totalTokens": 12554
-            },
-            "version": "test-writer-v1",
-            "warnings": []
-          },
           "verdict": "PASSED WITH GAPS",
           "gaps": [
             "test-writer-coverage: Test Writer is advisory only; it cannot change the verdict."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -3188,44 +3081,11 @@
       "facts": {
         "path": "combined",
         "native": {
-          "testWriter": {
-            "advisoryOnly": true,
-            "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
-            "checks": [
-              {
-                "base": [],
-                "candidate": "NOT CHECKED",
-                "candidateRuns": [],
-                "id": "writer-file",
-                "reason": "UNCLEAR: README.md is omitted from the supplied BASE files. Its original contents are required to verify the exact insertion immediately after the Setup heading with no other changes.",
-                "status": "NOT_ADMITTED",
-                "summary": "Cannot verify the documentation-only change from the supplied context.",
-                "testName": "tests/test_cc_writer_29773096_73e8_4e24_bc49_a02a605c40ac.py"
-              }
-            ],
-            "coverage": "NONE",
-            "inputHash": "a94e3c94a0ac7962ab241d9c967b640f436d8ffbe6ab299b00ab3fc81a22c0f9",
-            "mode": "NATIVE",
-            "reason": "UNCLEAR: README.md is omitted from the supplied BASE files. Its original contents are required to verify the exact insertion immediately after the Setup heading with no other changes.",
-            "requestHash": "d36264f8f9a4c8237e75feb9bd0dc694ce3169fda207bed46be577a05114de15",
-            "sessionId": "01a15557-459f-7412-b256-e87720713db4",
-            "started": true,
-            "usage": {
-              "cachedInputTokens": 0,
-              "inputTokens": 12527,
-              "outputTokens": 95,
-              "totalTokens": 12622
-            },
-            "version": "test-writer-v1",
-            "warnings": []
-          },
           "verdict": "PASSED WITH GAPS",
           "gaps": [
             "test-writer-coverage: Test Writer is advisory only; it cannot change the verdict."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",
@@ -3255,44 +3115,11 @@
       "facts": {
         "path": "combined",
         "native": {
-          "testWriter": {
-            "advisoryOnly": true,
-            "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
-            "checks": [
-              {
-                "base": [],
-                "candidate": "NOT CHECKED",
-                "candidateRuns": [],
-                "id": "writer-file",
-                "reason": "UNCLEAR: README.md is omitted from the context pack, so the Setup heading and its surrounding Markdown cannot be verified without guessing. The supplied files also cannot establish that all code, tests, and dependencies remain unchanged.",
-                "status": "NOT_ADMITTED",
-                "summary": "Insufficient context to write the requested documentation test.",
-                "testName": "tests/test_cc_writer_741d9842_427a_48d4_939c_bcc16208d2e7.py"
-              }
-            ],
-            "coverage": "NONE",
-            "inputHash": "892c5ce0e23329085d7618f8ef248311e86f7da790fcf6fdab0731b152556bd1",
-            "mode": "NATIVE",
-            "reason": "UNCLEAR: README.md is omitted from the context pack, so the Setup heading and its surrounding Markdown cannot be verified without guessing. The supplied files also cannot establish that all code, tests, and dependencies remain unchanged.",
-            "requestHash": "4b231397479cbd0592c27df1119eab1f843aae4ea917161e8643869b6188ccc6",
-            "sessionId": "01a1557f-d207-7110-8d81-76a5d462a1a7",
-            "started": true,
-            "usage": {
-              "cachedInputTokens": 0,
-              "inputTokens": 12528,
-              "outputTokens": 125,
-              "totalTokens": 12653
-            },
-            "version": "test-writer-v1",
-            "warnings": []
-          },
           "verdict": "PASSED WITH GAPS",
           "gaps": [
             "test-writer-coverage: Test Writer is advisory only; it cannot change the verdict."
           ],
-          "failures": [],
-          "verificationId": "fixture",
-          "evidenceHash": "fixture"
+          "failures": []
         },
         "project": {
           "verdict": "PASSED WITH GAPS",

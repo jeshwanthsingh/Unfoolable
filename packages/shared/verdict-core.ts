@@ -12,7 +12,7 @@ export type Outcome = {verdict: Verdict; gaps: string[]; failures: string[]};
 export type VerdictFacts =
  | {path: 'budget'; commands: number; reportedCodexTokens: number|null; reportedWriterTokens: number|null; limits: {maxCommands: number; maxCodexTokens: number; maxWriterTokens?: number}}
  | {path: 'unsupported'; reason: string}
- | {path: 'native-ticket'; layers: Layer[]; gaps: Gap[]}
+ | {path: 'native-ticket'; layers: Layer[]; gaps: Gap[]; supplied?: {verdict: Verdict; provenance: {source: 'protected-verifier'; verificationId: string; evidenceHash: string|null}}}
  | {path: 'native'; layers: Layer[]; gaps?: Gap[]}
  | {path: 'project-tests'; base: CommandResult[]; candidate: CommandResult[]}
  | {path: 'writer-admission'; baseStatus: string; baseIds: string[]; candidates: {status: string; ids: string[]}[]}
@@ -38,13 +38,16 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
  }
  if (facts.path === 'unsupported') {note('unsupported', false, facts.reason);return finish('NOT CHECKED', [facts.reason]);}
  if (facts.path === 'native-ticket') {
-  const scored = scoreVerdict({path: 'native', layers: facts.layers, gaps: facts.gaps});
+  // Compatibility authority is the protected verifier, never Builder prose. Preserve its
+  // supplied aggregate (including empty layers); tightening this is a separate policy change.
+  const scored = facts.supplied ? {verdict: facts.supplied.verdict} : scoreVerdict({path: 'native', layers: facts.layers, gaps: facts.gaps});
   // The ticket adapter historically abstains when its mandatory recipe is missing.
   if (scored.verdict === 'ERROR' && facts.layers[0]?.status === 'PASS' && facts.layers[1]?.gaps.some(g => g.id === 'project-recipes')) {
-   note('missing-recipe', false, 'A required project check is unavailable. This change was not checked.');
+   note('missing-recipe', false, 'Native check: NOT CHECKED, because a required project recipe is missing: ' + facts.layers[1]!.gaps.filter(g => g.id === 'project-recipes').map(g => g.reason).join('; '));
    return finish('NOT CHECKED', facts.gaps.map(g => g.reason));
   }
-  return scored;
+  note('native-source', scored.verdict === 'VERIFIED' || scored.verdict === 'PASSED WITH GAPS', 'Native check: ' + scored.verdict + (facts.gaps.length ? ', because ' + facts.gaps.map(g => g.reason).join('; ') : '.') + (facts.supplied ? ' Supplied by protected verifier ' + facts.supplied.provenance.verificationId + '.' : ' Replayed from retained layers.'));
+  return finish(scored.verdict, facts.gaps.map(g => g.reason));
  }
  if (facts.path === 'writer-admission') {
   const identities = (ids: string[]) => [...ids].sort().join('\n');
@@ -94,7 +97,9 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   // ERROR never returned from the original adapter (it threw); retain a non-passing fallback.
   const caution = {'FAILED': 0, 'ERROR': 1, 'NOT CHECKED': 2, 'PASSED WITH GAPS': 3, 'VERIFIED': 4};
   const verdict = caution[facts.native.verdict] <= caution[facts.project.verdict] ? facts.native.verdict : facts.project.verdict;
-  note('combined-checks', verdict !== 'FAILED' && verdict !== 'NOT CHECKED', 'Protected native checks and the approved project checks are both considered.');
+  note('native-result', facts.native.verdict === 'VERIFIED', 'Native check: ' + facts.native.verdict + (facts.native.gaps.length || facts.native.failures.length ? ', because ' + [...facts.native.gaps, ...facts.native.failures].join('; ') : '.'));
+  note('project-result', facts.project.verdict === 'VERIFIED', 'Project checks: ' + facts.project.verdict + (facts.project.gaps.length || facts.project.failures.length ? ' (gaps or failures: ' + [...facts.project.gaps, ...facts.project.failures].join('; ') + ').' : '.'));
+  note('combined-checks', verdict !== 'FAILED' && verdict !== 'NOT CHECKED', 'Combined by caution order: ' + verdict + ' wins.');
   return finish(verdict, [...facts.native.gaps.map(g => 'Existing verifier: ' + g), ...facts.project.gaps, ...facts.native.failures, ...facts.project.failures]);
  }
  if (facts.path === 'playbook') {
