@@ -1,0 +1,20 @@
+{
+  "package": "graphifyy",
+  "version": "0.9.92",
+  "license": "Apache-2.0; packaged LICENSE-MIT/NOTICE retained",
+  "official_url": "https://github.com/safishamsi/graphify",
+  "canonical_url": "https://github.com/Graphify-Labs/graphify",
+  "install": "uv tool install graphifyy==0.9.92",
+  "extraction": "graphify extract .work/core1/source --code-only --no-cluster --max-workers 1 --out artifacts/core1/graph/before",
+  "skill": {
+    "installed": false,
+    "recommendation": "DO_NOT_INSTALL",
+    "score": 100,
+    "scan": "SkillSpector 2.12.0 --no-llm; network denied; OSV offline fallback",
+    "sha256": "594991c24b0d8e363a9634d5231ba6ea205097ae09daca618da748ce05985f97"
+  },
+  "network": "OS deny network* applies to process and descendants. Python socket observations cover orchestrator only; no packet capture. Real connection probes denied.",
+  "servers_started": false,
+  "api_keys_passed": false,
+  "model_calls": 0
+}
