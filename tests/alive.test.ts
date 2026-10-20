@@ -60,7 +60,7 @@ test('provider absolute read paths use the safe structured name; frozen paths ar
 
 test('a long real stream retains its recorded stage without exporting raw command strings',async()=>{
  const {DatabaseSync}=await import('node:sqlite');const {deskSnapshot}=await import('../apps/server/desk-stream.ts');const db=new DatabaseSync(':memory:');
- db.exec(`CREATE TABLE tickets(id,title,status,check_verdict,created_at,updated_at);CREATE TABLE ticket_events(sequence INTEGER PRIMARY KEY,ticket_id,kind,data_json,created_at);INSERT INTO tickets VALUES('a','Task','building',null,'now','now')`);
+ db.exec(`CREATE TABLE draft_visibility_events(sequence INTEGER PRIMARY KEY,draft_id,action,created_at);CREATE TABLE phone_audit(sequence INTEGER PRIMARY KEY);CREATE TABLE tickets(id,title,status,check_verdict,created_at,updated_at);CREATE TABLE ticket_events(sequence INTEGER PRIMARY KEY,ticket_id,kind,data_json,created_at);INSERT INTO tickets VALUES('a','Task','building',null,'now','now')`);
  const put=db.prepare('INSERT INTO ticket_events VALUES(?,?,?,?,?)');put.run(1,'a','state_changed',JSON.stringify({to:'building'}),'now');for(let n=2;n<250;n++)put.run(n,'a','agent_event',JSON.stringify({kind:'tool.started',data:{type:'commandExecution',command:'private raw command',actions:[]}}),'now');
  try{const t=deskSnapshot(db,{messages:[],drafts:[],cards:[]}).tickets[0]!;assert.equal(t.activity?.stages[0],'running');assert.doesNotMatch(JSON.stringify(t),/private raw command/);assert.ok(t.activity!.steps.length<=40);}finally{db.close();}
 });

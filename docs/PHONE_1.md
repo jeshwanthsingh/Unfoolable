@@ -13,3 +13,19 @@ Branch from 86fdec3. Local WIP commit per numbered step. No scoring, grader or B
 Security review: phone cookies must never become the local operator capability in the browser; only an authenticated server-side adapter may attach it to existing routes. Remote surface is allowlisted, never a proxy to legacy unauthenticated project APIs or enrollment/admin routes. A wrong, expired, removed or unapproved device fails closed. Only localhost owner can approve or remove devices. Pending approvals and QR fragments never appear in logs, push or service-worker cache.
 
 Environment: Tailscale absent at audit; live VPN login/network-extension approval and real iPhone checks cannot be simulated. No automatic public fallback. Standard push can work only after the iPhone Home Screen user grants permission.
+
+## Implemented boundaries
+
+Schema 18 adds shared append-only draft visibility, 19 adds device pairing, hashed sessions, one-use challenges, audit and rate limits, and 20 adds opt-in push subscriptions and a durable delivery cursor. Existing local passkeys remain unchanged. The phone RP is the exact private HTTPS hostname. Only that configured host/origin and the owner's Tailscale identity may reach the paired-device adapter. Unpaired requests receive no tickets. The local listener remains 127.0.0.1.
+
+QR codes last five minutes and are consumed once. Phone sessions expire after 12 hours; each decision requires a fresh two-minute exact-item/evidence-bound platform passkey check. Removal invalidates sessions, decisions and event streams. Mac STOP remains immediate; phone STOP additionally needs its phone passkey. Standard WebAuthn user verification can use an OS passcode fallback or a synced passkey; this is not hardware-only biometric attestation.
+
+Push is opt-in, per device and type, and restricted to Apple's HTTPS push service. The payload contains sanitized title and state only. Local VAPID keys are under the Builder-denied phone-private directory (0700/0600). Already transmitted notifications cannot be recalled after device removal. Existing Litestream SQLite backup does not include these key files: back up phone-private separately to preserve push identity. Never commit that directory.
+
+The service worker caches no API responses or work. On disconnection the last list is explicitly dimmed and labelled unavailable; actions are disabled. A silent connection is detected within 45 seconds. No background polling is added to a healthy paired event stream.
+
+## Local verification versus physical device
+
+WebKit iPhone-profile checks use isolated TEST data, a test-only credential transport and loopback HTTPS proxy. They exercise the real routes and persistence but do not prove physical Face ID, Touch ID, iOS Home Screen installation, tailnet routing, Web Push delivery or safe-area behavior on actual hardware. Those require the checklist in artifacts/phone1/RESULT.md.
+
+Primary references: https://tailscale.com/docs/features/tailscale-serve ; https://tailscale.com/docs/reference/tailscale-cli/serve ; https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/ .

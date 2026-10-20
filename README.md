@@ -16,6 +16,10 @@ unfool
 
 This starts the coordinator, screen and live updates, then opens your private browser page. `./cc chat` is the repository-local equivalent. First setup needs Node 24, `npm ci`, and the existing ChatGPT/Codex login. No new paid API is required. Decisions use your registered Touch ID passkey.
 
+## On your iPhone
+
+Install and connect Tailscale on both devices using your own account. On the Mac run `./cc phone serve`, then open Settings → Add my phone. Scan the five-minute QR code, create the phone passkey, and confirm the matching phone on the Mac with Touch ID. Add the private HTTPS page to your iPhone Home Screen for optional alerts. The app stays on loopback; Tailscale Serve is private, never Funnel. Phone decisions require a fresh passkey check. [Phone setup and limits](docs/PHONE_1.md).
+
 ## What the measurements say
 
 | Measurement | Observed result |

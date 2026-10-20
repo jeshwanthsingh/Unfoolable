@@ -307,3 +307,12 @@ UI-6 source/verification links: [make-interfaces-feel-better](https://github.com
 UI-7 reuses the UI-6 pinned approved skills and tools, unchanged: official Playwright MCP 0.0.83 (Apache-2.0), MCP SDK 1.32.1 (MIT), Motion 14.3.0 (MIT), Instrument Sans (OFL). No new dependency or art. Taste and Impeccable remain quarantined. Original seal SVGs are project-authored.
 
 UI-7b reuses the same approved frontend-design, Jakub UI/typography/accessibility and make-interfaces-feel-better, Emil design/motion review, and web-design-guidelines skills. Playwright MCP 0.0.83 (Apache-2.0) performs the actual screenshot/audit loop, MCP SDK 1.32.1 (MIT); Instrument Sans (OFL), existing React/Motion and Node tooling are unchanged. No new app dependencies, fonts, art or skills. Taste and Impeccable remain quarantined. Three explicitly requested fresh read-only AI viewers received only the unlabelled seal sheet, not its intended meanings. Their literal observations and resulting refinements are in artifacts/ui7b/viewer-review.md. This is not a human usability study.
+
+
+## PHONE-1
+
+Pinned app additions: qrcode-generator 2.0.4 (MIT), web-push 3.6.7 (MPL-2.0). Full resolved versions, licenses and integrities: artifacts/phone1/dependencies.json. Existing OSV-Scanner 2.7.0 checked their lockfile offline against its pre-downloaded npm database: no known vulnerabilities in that snapshot. No package registry access during protected checks.
+
+Existing SimpleWebAuthn 13.3.3 (MIT), React, Instrument Sans (OFL), Node 24.21.0 (MIT), and original seal artwork retained. Official Playwright MCP 0.0.83 (Apache-2.0), MCP SDK 1.32.1 (MIT), Playwright's pinned WebKit build 2368 / WebKit 26.6 perform iPhone-profile screenshots and interaction checks. Browser-specific component licenses remain in the installed browser distribution; WebKit uses LGPL/BSD licenses. Test-only biometric substitutes are confined to an ignored isolated TEST build.
+
+Official Tailscale macOS 1.104.1 installer, downloaded from pkgs.tailscale.com, verified against its published SHA256, Apple notarization and Developer ID Installer signature. Tailscale client source is BSD-3-Clause; the official macOS GUI distribution is vendor software, not represented here as wholly BSD licensed. Installation, VPN approval and account login were completed by Jesh. No Funnel or billing enabled.
