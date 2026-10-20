@@ -329,3 +329,14 @@ Approved frontend-design and Emil animate/review-animations guidance applied to 
 No runtime dependencies added. Existing PixiJS 8.22.0 (MIT), React 19.3.0 (MIT), Instrument Sans (OFL), Playwright MCP 0.0.83 (Apache-2.0), bundled Playwright 1.64.0-alpha-1790635538000 (Apache-2.0), MCP SDK 1.32.1 (MIT), FFmpeg 8.0 (existing GPL-3.0-or-later build), local Pillow 11.3.0 (HPND). Original 32px sprite atlas/room/source are CC0-1.0 with LICENSE.txt beside assets; no external art copied.
 
 Official find-skills from vercel-labs/skills used for discovery through skills CLI 1.7.4 (MIT); exact search results in artifacts/office2. Official pixijs/pixijs-skills MIT snapshot 83760c6f53462ca9cecd68055041f5a8c94758ce: 26 SkillSpector 2.12.0 static/offline scans (Apache-2.0), 25 CAUTION, pixijs-scene-text DO_NOT_INSTALL; all skipped, none activated. Existing approved Emil and make-interfaces-feel-better used; Taste/Impeccable quarantine unchanged. References are look/read only, exact URLs and screenshots in artifacts/office2/refs.
+
+
+## OFFICE-3 preview
+
+Official `pixijs/pixijs-skills` pinned at `83760c6f53462ca9cecd68055041f5a8c94758ce`, MIT. Installed project-locally in `.agents/skills/`: pixijs-accessibility, pixijs-blend-modes, pixijs-color, pixijs-core-concepts, pixijs-custom-rendering, pixijs-environments, pixijs-events, pixijs-filters, pixijs-html-source, pixijs-math, pixijs-migration-v8, pixijs-performance, pixijs-scene-container, pixijs-scene-core-concepts, pixijs-scene-dom-container, pixijs-scene-gif, pixijs-scene-graphics, pixijs-scene-mesh, pixijs-scene-particle-container, pixijs-ticker, pixijs. These have no recorded findings, although the scan is partial; that is not a safety guarantee.
+
+Skipped: pixijs-application, pixijs-assets, pixijs-create, pixijs-scene-sprite, pixijs-scene-text. Application has hidden-instruction/whitespace findings; assets has a network finding; create has automatic-command findings; scene-text is explicitly excluded. Scene-sprite has only incomplete-inspection findings, but automatic approval review rejected its installation, so it remains out. Complete decisions are in `artifacts/office3/skill-decisions.json`. Read the installed filters/blend guidance for this preview, alongside Emil animate and animation-performance.
+
+`pixi-filters` 6.1.5, official pixijs/filters, MIT. Exact upstream ESM adjustment and bloom dependency closure vendored under `apps/web/vendor/pixi-filters-6.1.5/` to preserve frozen package manifests. Provenance contains individual SHA256 hashes. Declaration copies named `.d.mts` provide NodeNext ESM resolution. OSV queried 2026-10-20: no published vulnerabilities returned. No other dependencies installed.
+
+Palette ENDESGA 32 by ENDESGA, Lospec free-use permission (see art bible); original art CC0-1.0. Existing Pillow 11.3.0 (HPND), PixiJS 8.22.0 (MIT), Playwright MCP 0.0.83 (Apache-2.0), FFmpeg 8.0 (GPL-3.0-or-later).
