@@ -1,3 +1,4 @@
+import {loadVerdictSnapshot,type VerdictSnapshotRef} from './verdict-snapshot.ts';
 import type {DatabaseSync} from 'node:sqlite';
 import type {TicketEvent} from '../../packages/shared/tickets.ts';
 import {scoreVerdict,combineResults,type TraceStep,type Outcome} from '../../packages/shared/verdict-core.ts';
@@ -9,6 +10,7 @@ export function explainTicket(db:DatabaseSync,events:readonly TicketEvent[]):Tic
  const event=events.filter(e=>e.kind==='check_result'||isTrace(e.data.coreTrace)).at(-1);
  if(!event)return {source:'unavailable',verdict:null,matches:null,trace:[]};
  const record=event.data,verdict=typeof record.verdict==='string'?record.verdict:typeof record.coreVerdict==='string'?record.coreVerdict:null;
+ if(record.verdictSnapshot){try{const saved=loadVerdictSnapshot(record.verdictSnapshot as VerdictSnapshotRef);return {source:'recorded',verdict,matches:saved.decision.verdict===verdict,trace:saved.decision.trace};}catch{return {source:'unavailable',verdict,matches:null,trace:[]};}}
  if(isTrace(record.coreTrace))return {source:'recorded',verdict,matches:null,trace:record.coreTrace};
  if(record.harnessError===true)return {source:'unavailable',verdict,matches:null,trace:[]};
  try{
@@ -16,10 +18,10 @@ export function explainTicket(db:DatabaseSync,events:readonly TicketEvent[]):Tic
   let nativeTrace:TraceStep[]=[];
   if(typeof record.verificationId==='string'){
    const row=db.prepare('SELECT result_json FROM verify_only_runs WHERE id=?').get(record.verificationId);
-   const result=row?.result_json?JSON.parse(String(row.result_json)):null;
-   if(!isV1Report(result?.v1))return {source:'unavailable',verdict,matches:null,trace:[]};
-   const scored=scoreVerdict({path:'native-ticket',layers:result.v1.layers,gaps:result.v1.gaps});
-   native={verdict:scored.verdict,gaps:scored.verdict==='NOT CHECKED'?result.v1.gaps.map(g=>g.reason):result.v1.gaps.map(g=>g.id+': '+g.reason),failures:result.v1.layers.flatMap(l=>l.checks.filter(c=>c.status==='FAIL').map(c=>c.id+': '+(c.reason??'protected assertion failed')))};
+   const result=row?.result_json?JSON.parse(String(row.result_json)):null;const report:unknown=result?.v1;
+   if(!isV1Report(report))return {source:'unavailable',verdict,matches:null,trace:[]};
+   const scored=scoreVerdict({path:'native-ticket',layers:report.layers,gaps:report.gaps});
+   native={verdict:scored.verdict,gaps:scored.verdict==='NOT CHECKED'?report.gaps.map(g=>g.reason):report.gaps.map(g=>g.id+': '+g.reason),failures:report.layers.flatMap(l=>l.checks.filter(c=>c.status==='FAIL').map(c=>c.id+': '+(c.reason??'protected assertion failed')))};
    nativeTrace=scored.trace;
   }
   if(typeof record.playbookResultPath==='string'&&Array.isArray(record.failures)&&Array.isArray(record.gaps)){

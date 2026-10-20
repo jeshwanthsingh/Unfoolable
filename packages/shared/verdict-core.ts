@@ -1,3 +1,4 @@
+export const CORE_VERSION = 'verdict-core-v1';
 /** Deterministic policy only. Authorities and observations belong to the shell. */
 export type CheckStatus = 'PASS' | 'FAIL' | 'ERROR' | 'NOT CHECKED';
 export type Verdict = 'VERIFIED' | 'PASSED WITH GAPS' | 'FAILED' | 'ERROR' | 'NOT CHECKED';
@@ -9,15 +10,17 @@ type TestRow = {id: string; status: 'PASS' | 'FAIL' | 'SKIPPED'};
 type CommandResult = {exitCode: number; tests: TestRow[]};
 export type Outcome = {verdict: Verdict; gaps: string[]; failures: string[]};
 export type VerdictFacts =
+ | {path: 'budget'; commands: number; reportedCodexTokens: number|null; reportedWriterTokens: number|null; limits: {maxCommands: number; maxCodexTokens: number; maxWriterTokens?: number}}
+ | {path: 'unsupported'; reason: string}
  | {path: 'native-ticket'; layers: Layer[]; gaps: Gap[]}
  | {path: 'native'; layers: Layer[]; gaps?: Gap[]}
  | {path: 'project-tests'; base: CommandResult[]; candidate: CommandResult[]}
  | {path: 'writer-admission'; baseStatus: string; baseIds: string[]; candidates: {status: string; ids: string[]}[]}
- | {path: 'playbook'; failures: string[]; gaps: string[]}
+ | {path: 'playbook'; failures: string[]; gaps: string[]; qualityGates?: {gate:string;status:string;findings:{path:string;line:number;message:string}[]}[]; tamperStatus?:string}
  | {path: 'combined'; native: Outcome; project: Outcome}
  | {path: 'claims'; claims: {id: string; requirement: 'REQUIRED' | 'ADVISORY'; status: ClaimStatus; reason: string | null}[]}
  | {path: 'runtime'; code: string; aborted: boolean; queued: boolean; reason: string};
-export type VerdictDecision = {verdict: Verdict; canLand: boolean; reasons: string[]; trace: TraceStep[]; status?: ClaimStatus; gaps?: string[]; failures?: string[]; executionError?: boolean; admitted?: boolean; phase?: 'needs_you' | 'interrupted' | 'harness_error'};
+export type VerdictDecision = {facts: VerdictFacts; verdict: Verdict; canLand: boolean; reasons: string[]; trace: TraceStep[]; status?: ClaimStatus; gaps?: string[]; failures?: string[]; executionError?: boolean; budgetReason?: string|null; admitted?: boolean; phase?: 'needs_you' | 'interrupted' | 'harness_error'};
 
 /** Both checker paths and runtime classification terminate here. No result is evidence of a human decision. */
 export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
@@ -25,8 +28,15 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
  const note = (rule: string, passed: boolean, explanation: string) => {trace.push({rule, passed, explanation});};
  const finish = (verdict: Verdict, reasons: string[], extra: Pick<VerdictDecision, 'status' | 'phase'> = {}): VerdictDecision => {
   note('result', verdict === 'VERIFIED' || verdict === 'PASSED WITH GAPS', 'Result: ' + verdict + '. This never accepts the change.');
-  return {verdict, canLand: verdict === 'VERIFIED' || verdict === 'PASSED WITH GAPS', reasons, trace, ...extra};
+  return {facts, verdict, canLand: verdict === 'VERIFIED' || verdict === 'PASSED WITH GAPS', reasons, trace, ...extra};
  };
+ if (facts.path === 'budget') {
+  const reason = facts.commands > facts.limits.maxCommands ? 'Stopped because this ticket exceeded ' + facts.limits.maxCommands + ' Builder commands.'
+   : facts.reportedCodexTokens !== null && facts.reportedCodexTokens > facts.limits.maxCodexTokens ? 'Stopped because Builder reported more than ' + facts.limits.maxCodexTokens + ' tokens for this ticket.'
+   : facts.reportedWriterTokens !== null && facts.reportedWriterTokens > (facts.limits.maxWriterTokens ?? 40000) ? 'Stopped because Test Writer used its full token budget.' : null;
+  return {...finish('NOT CHECKED', reason ? [reason] : []), budgetReason: reason};
+ }
+ if (facts.path === 'unsupported') {note('unsupported', false, facts.reason);return finish('NOT CHECKED', [facts.reason]);}
  if (facts.path === 'native-ticket') {
   const scored = scoreVerdict({path: 'native', layers: facts.layers, gaps: facts.gaps});
   // The ticket adapter historically abstains when its mandatory recipe is missing.
@@ -89,10 +99,12 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
  }
  if (facts.path === 'playbook') {
   // Project commands prove regressions, not the new request itself.
-  const verdict = facts.failures.length ? 'FAILED' : 'PASSED WITH GAPS';
-  note('project-checks', facts.failures.length === 0, facts.failures.length ? facts.failures.join('; ') : 'The admitted project checks found no new failure.');
+  const failures = [...facts.failures, ...(facts.qualityGates ?? []).filter(g => g.status === 'FAIL').flatMap(g => g.findings.map(f => g.gate + ': ' + f.path + ':' + f.line + ' ' + f.message))];
+  if (facts.tamperStatus === 'ERROR' || facts.qualityGates?.some(g => g.status === 'ERROR')) return {...finish('ERROR', ['Quality gate or test-tampering runner failed after BASE admission.']), failures};
+  const verdict = failures.length ? 'FAILED' : 'PASSED WITH GAPS';
+  note('project-checks', failures.length === 0, failures.length ? failures.join('; ') : 'The admitted project checks found no new failure.');
   note('new-behavior', false, 'Project checks alone do not prove the requested change.');
-  return finish(verdict, [...facts.gaps, ...facts.failures]);
+  return {...finish(verdict, [...facts.gaps, ...failures]), failures};
  }
  const {layers} = facts;
  const complete = [1, 2, 3].every(layer => layers.filter(l => l.layer === layer).length === 1) && layers.length === 3;
@@ -113,5 +125,6 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
 
 /** Live checking and historical replay share this entry; neither may select just one required part. */
 export function combineResults(native: Outcome, project: Outcome): VerdictDecision {
- return scoreVerdict({path: 'combined', native, project});
+ const outcome=(v:Outcome):Outcome=>({verdict:v.verdict,gaps:v.gaps,failures:v.failures});
+ return scoreVerdict({path: 'combined', native:outcome(native), project:outcome(project)});
 }

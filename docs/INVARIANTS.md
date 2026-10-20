@@ -13,3 +13,7 @@ Each rule is tested against current policy; this refactor does not promote advis
 9. Shape validation does not hide scoring; public validation explicitly rejects forged results. [shape/policy split](../tests/verification-v1-contract.test.ts).
 
 The admission preconditions are measured by the protected runners. These invariants do not claim that in-process Candidate execution is immune to deliberate observation forgery. A graph is a navigation aid, not an enforcement boundary.
+
+10. Combining required parts never improves on the most cautious part. The legacy reachable order is FAILED > NOT CHECKED > PASSED WITH GAPS; an unexpected ERROR remains non-passing. [I10, 10,000 combinations](../tests/verdict-properties.test.ts).
+11. New production verdicts retain exact replay inputs, immutable content hash and core version. Missing facts fail rather than silently producing unreplayable results. [Snapshot integrity and replay](../tests/verdict-snapshot.test.ts).
+12. Historical labels are append-only records, not the current-policy comparator. Every reconstructible event must match actual 3c94150 code on identical facts. [Current-policy golden](../tests/current-policy-golden.test.ts), [verbatim original adapter](../tests/fixtures/core1-original-ticket.ts).

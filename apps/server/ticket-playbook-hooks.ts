@@ -23,7 +23,7 @@ export function ticketPlaybookHooks(playbooks:ReturnType<typeof createPlaybookCh
    if(native.verdict==='FAILED')return {...native,playbookHash:approved.hash};
    const project=await playbooks.check(approved,candidate.repo,ticket.baseCommit,candidate.commit,signal,progress);
    const combined=combineResults(native,project);
-   return {...native,...project,coreTrace:combined.trace,verdict:combined.verdict as typeof native.verdict,gaps:[...native.gaps.map(g=>'Existing verifier: '+g),...project.gaps],failures:[...native.failures,...project.failures]};
+   return {...native,...project,coreFacts:combined.facts,coreTrace:combined.trace,verdict:combined.verdict as typeof native.verdict,gaps:[...native.gaps.map(g=>'Existing verifier: '+g),...project.gaps],failures:[...native.failures,...project.failures]};
   }
  };
 }

@@ -27,6 +27,6 @@ function lintCore(source:string){
 }
 test('CORE-1 pinned TypeScript authority lint rejects imports and ambient side effects',()=>{
  lintCore(readFileSync(new URL('../packages/shared/verdict-core.ts',import.meta.url),'utf8'));
- for(const source of ["import 'node:fs';","import type {X} from 'x';","require('fs')","Date.now()","new Date()","Math.random()","process.pid","fetch('/')","fs.readFileSync('x')","setTimeout(()=>{},1)","setInterval(()=>{},1)","globalThis.Date.now()","const clock=Da\\u0074e;"]){assert.throws(()=>lintCore(source),undefined,source);}
+ for(const source of ["import 'node:fs';","import type {X} from 'x';","require('fs')","Date.now()","new Date()","Math.random()","process.pid","fetch('/')","fs.readFileSync('x')","setTimeout(()=>{},1)","setInterval(()=>{},1)","globalThis.Date.now()","const clock=Da\\u0074e;"]){assert.throws(()=>lintCore(source),source);}
  lintCore('const message="Date process import"; // import Date\n');
 });
