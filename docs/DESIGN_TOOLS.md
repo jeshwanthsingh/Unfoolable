@@ -316,3 +316,10 @@ Pinned app additions: qrcode-generator 2.0.4 (MIT), web-push 3.6.7 (MPL-2.0). Fu
 Existing SimpleWebAuthn 13.3.3 (MIT), React, Instrument Sans (OFL), Node 24.21.0 (MIT), and original seal artwork retained. Official Playwright MCP 0.0.83 (Apache-2.0), MCP SDK 1.32.1 (MIT), Playwright's pinned WebKit build 2368 / WebKit 26.6 perform iPhone-profile screenshots and interaction checks. Browser-specific component licenses remain in the installed browser distribution; WebKit uses LGPL/BSD licenses. Test-only biometric substitutes are confined to an ignored isolated TEST build.
 
 Official Tailscale macOS 1.104.1 installer, downloaded from pkgs.tailscale.com, verified against its published SHA256, Apple notarization and Developer ID Installer signature. Tailscale client source is BSD-3-Clause; the official macOS GUI distribution is vendor software, not represented here as wholly BSD licensed. Installation, VPN approval and account login were completed by Jesh. No Funnel or billing enabled.
+
+
+## OFFICE-1
+
+No dependencies installed. Existing PixiJS 8.22.0 (MIT), Motion 14.3.0 (MIT), React 19.3.0 (MIT) and Instrument Sans (OFL) retained. Kenney Prototype Pack 2.3 crate_E.png is reused under CC0, with its existing public/workshop/License.txt. The room and characters are original vector primitives; no Munder, LimeZu or TV-show assets/code/layout. Official Playwright MCP 0.0.83 (Apache-2.0), MCP SDK 1.32.1 (MIT), isolated Chrome contexts perform screenshots, native reduced-motion and request/frame audits, and native context video recording. Existing FFmpeg extracts a contact sheet; it does not generate events or animation frames.
+
+Approved frontend-design and Emil animate/review-animations guidance applied to the room/motion plan and screenshot refinements; webapp-testing used for interaction verification. Taste/Impeccable quarantine unchanged. No skill installation or permissions change. The live backend/approval/checker code remains unchanged; the demo uses an isolated read-only snapshot of a real ticket, not a newly run agent.

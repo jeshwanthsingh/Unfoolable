@@ -32,3 +32,7 @@ Tools retained: PixiJS 8.22.0 (MIT), Motion 14.3.0 (MIT), React 19.3.0 (MIT), Ke
 | Human reject used a generic tick | Reject uses a cross | A human decision must not look like a check pass |
 
 Motion purpose: spatial consistency and state indication. Existing 250ms, zero-bounce spring; no CSS layout-property animations, keyboard entrance, ambient loop or idle ticker. Active movement uses Pixi/WebGL geometry, interrupted from the current pose. Reduced motion uses SVG/HTML; hidden tabs cancel the owned frame. Review decision: approve for bounded desktop replay; physical device feel is not a hardware benchmark.
+
+## Responsive/idle proof
+
+Official MCP first/refined passes at 1440 and 390, light/dark, were captured and manually inspected. Native reduced-motion contexts at both widths use the static SVG/HTML diagram with no Pixi canvas. Each idle audit observed one SSE and zero new requests, renders or animation frames over 20 seconds. Replay uses the cached selected history, with zero requests during its full 45 seconds. No review or decision control is enabled by playback. Existing Stop all remains available outside the scene.

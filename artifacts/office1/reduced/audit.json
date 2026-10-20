@@ -1,0 +1,52 @@
+{
+  "metrics": [
+    {
+      "width": 1440,
+      "theme": "light",
+      "result": [
+        {
+          "type": "text",
+          "text": "### Result\n{\n  \"width\": 1440,\n  \"zoom\": 1,\n  \"overflow\": 1440,\n  \"canvas\": false,\n  \"requests\": [\n    {\n      \"path\": \"/api/desk/events\",\n      \"at\": 34\n    },\n    {\n      \"path\": \"/api/tickets/c9f83568-2d33-4e5f-9ef1-b836c4f49cf2\",\n      \"at\": 45.599999994039536\n    }\n  ],\n  \"raf\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const root=document.querySelector(\\'.office\\');if(innerWidth!==1440||document.documentElement.scrollWidth>innerWidth||visualViewport.scale!==1)throw Error(\\'Viewport/overflow mismatch\\');if(!root||root.querySelectorAll(\\'.office-desk\\').length!==4)throw Error(\\'Missing real roles\\');if(document.querySelector(\\'canvas\\'))throw Error(\\'Reduced motion mounted Pixi\\');if(document.body.innerText.includes(\\'drawing is unavailable\\'))throw Error(\\'Pixi failed\\');return {width:innerWidth,zoom:visualViewport.scale,overflow:document.documentElement.scrollWidth,canvas:!!document.querySelector(\\'canvas\\'),frames:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames,requests:window.__officeRequests,raf:window.__officeRaf};}');\n```"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "result": [
+        {
+          "type": "text",
+          "text": "### Result\n{\n  \"width\": 1440,\n  \"zoom\": 1,\n  \"overflow\": 1440,\n  \"canvas\": false,\n  \"requests\": [\n    {\n      \"path\": \"/api/desk/events\",\n      \"at\": 20.700000002980232\n    },\n    {\n      \"path\": \"/api/tickets/c9f83568-2d33-4e5f-9ef1-b836c4f49cf2\",\n      \"at\": 322.3999999910593\n    }\n  ],\n  \"raf\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const root=document.querySelector(\\'.office\\');if(innerWidth!==1440||document.documentElement.scrollWidth>innerWidth||visualViewport.scale!==1)throw Error(\\'Viewport/overflow mismatch\\');if(!root||root.querySelectorAll(\\'.office-desk\\').length!==4)throw Error(\\'Missing real roles\\');if(document.querySelector(\\'canvas\\'))throw Error(\\'Reduced motion mounted Pixi\\');if(document.body.innerText.includes(\\'drawing is unavailable\\'))throw Error(\\'Pixi failed\\');return {width:innerWidth,zoom:visualViewport.scale,overflow:document.documentElement.scrollWidth,canvas:!!document.querySelector(\\'canvas\\'),frames:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames,requests:window.__officeRequests,raf:window.__officeRaf};}');\n```"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "result": [
+        {
+          "type": "text",
+          "text": "### Result\n{\n  \"width\": 390,\n  \"zoom\": 1,\n  \"overflow\": 390,\n  \"canvas\": false,\n  \"requests\": [\n    {\n      \"path\": \"/api/desk/events\",\n      \"at\": 26.900000005960464\n    },\n    {\n      \"path\": \"/api/tickets/c9f83568-2d33-4e5f-9ef1-b836c4f49cf2\",\n      \"at\": 326.70000000298023\n    }\n  ],\n  \"raf\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const root=document.querySelector(\\'.office\\');if(innerWidth!==390||document.documentElement.scrollWidth>innerWidth||visualViewport.scale!==1)throw Error(\\'Viewport/overflow mismatch\\');if(!root||root.querySelectorAll(\\'.office-desk\\').length!==4)throw Error(\\'Missing real roles\\');if(document.querySelector(\\'canvas\\'))throw Error(\\'Reduced motion mounted Pixi\\');if(document.body.innerText.includes(\\'drawing is unavailable\\'))throw Error(\\'Pixi failed\\');return {width:innerWidth,zoom:visualViewport.scale,overflow:document.documentElement.scrollWidth,canvas:!!document.querySelector(\\'canvas\\'),frames:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames,requests:window.__officeRequests,raf:window.__officeRaf};}');\n```"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "result": [
+        {
+          "type": "text",
+          "text": "### Result\n{\n  \"width\": 390,\n  \"zoom\": 1,\n  \"overflow\": 390,\n  \"canvas\": false,\n  \"requests\": [\n    {\n      \"path\": \"/api/desk/events\",\n      \"at\": 25.099999994039536\n    },\n    {\n      \"path\": \"/api/tickets/c9f83568-2d33-4e5f-9ef1-b836c4f49cf2\",\n      \"at\": 326.09999999403954\n    }\n  ],\n  \"raf\": 0\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const root=document.querySelector(\\'.office\\');if(innerWidth!==390||document.documentElement.scrollWidth>innerWidth||visualViewport.scale!==1)throw Error(\\'Viewport/overflow mismatch\\');if(!root||root.querySelectorAll(\\'.office-desk\\').length!==4)throw Error(\\'Missing real roles\\');if(document.querySelector(\\'canvas\\'))throw Error(\\'Reduced motion mounted Pixi\\');if(document.body.innerText.includes(\\'drawing is unavailable\\'))throw Error(\\'Pixi failed\\');return {width:innerWidth,zoom:visualViewport.scale,overflow:document.documentElement.scrollWidth,canvas:!!document.querySelector(\\'canvas\\'),frames:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames,requests:window.__officeRequests,raf:window.__officeRaf};}');\n```"
+        }
+      ]
+    }
+  ],
+  "idle": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"before\": {\n    \"requests\": 2,\n    \"raf\": 0\n  },\n  \"after\": {\n    \"requests\": 2,\n    \"raf\": 0\n  },\n  \"idleSeconds\": 20,\n  \"idleRequests\": 0,\n  \"idleAnimationFrames\": 0,\n  \"oneSse\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const after={requests:window.__officeRequests.length,frames:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames,raf:window.__officeRaf};const before=window.__idleOffice;if(after.requests!==before.requests||after.frames!==before.frames||after.raf!==before.raf)throw Error(JSON.stringify({before,after}));if(window.__officeRequests.filter(x=>x.path===\\'/api/desk/events\\').length!==1)throw Error(\\'Duplicate stream\\');return {before,after,idleSeconds:20,idleRequests:0,idleAnimationFrames:0,oneSse:true};}');\n```"
+    }
+  ],
+  "officialMcp": true,
+  "realRecordedTicket": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2"
+}
