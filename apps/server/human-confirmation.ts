@@ -11,7 +11,7 @@ const RP_ID='localhost';
 export type HumanOperation={path:string;body:Record<string,unknown>};
 export const humanDigest=(value:unknown)=>createHash('sha256').update(canonicalContractJson(value)).digest('hex');
 export function requiresHuman(path:string){
- return /^\/api\/phone\/(pairs\/[^/]+\/approve|devices\/[^/]+\/remove)$/.test(path)||/^\/api\/skills\/[a-f0-9]{64}\/install$/.test(path)||/^\/api\/tickets\/[^/]+\/(keep|discard|retry|recheck|continue)$/.test(path)||/^\/api\/playbooks\/(approve|edit)$/.test(path)||/^\/api\/chat\/cards\/[^/]+\/action$/.test(path)||/^\/api\/chat\/drafts\/[^/]+\/(start|edit|cancel)$/.test(path)||/^\/api\/runtime-permissions\/[^/]+\/decision$/.test(path)||/^\/api\/(missions\/[^/]+\/spec\/(accept|land|abandon|retry)|verify-only\/[^/]+\/(land|abandon)|verification-runs\/[^/]+\/claims\/[^/]+\/decision)$/.test(path);
+ return /^\/api\/night\/drafts\/[^/]+\/queue$/.test(path)||/^\/api\/phone\/(pairs\/[^/]+\/approve|devices\/[^/]+\/remove)$/.test(path)||/^\/api\/skills\/[a-f0-9]{64}\/install$/.test(path)||/^\/api\/tickets\/[^/]+\/(keep|discard|retry|recheck|continue)$/.test(path)||/^\/api\/playbooks\/(approve|edit)$/.test(path)||/^\/api\/chat\/cards\/[^/]+\/action$/.test(path)||/^\/api\/chat\/drafts\/[^/]+\/(start|edit|cancel)$/.test(path)||/^\/api\/runtime-permissions\/[^/]+\/decision$/.test(path)||/^\/api\/(missions\/[^/]+\/spec\/(accept|land|abandon|retry)|verify-only\/[^/]+\/(land|abandon)|verification-runs\/[^/]+\/claims\/[^/]+\/decision)$/.test(path);
 }
 type FakeAuthenticator={register:typeof verifyRegistrationResponse;authenticate:typeof verifyAuthenticationResponse};
 // No route, environment flag or client field can supply an authenticator.

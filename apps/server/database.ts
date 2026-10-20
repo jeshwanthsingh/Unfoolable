@@ -1,3 +1,4 @@
+import {nightTables} from './night-store.ts';
 import {registerChainHash,migrateEventChain} from './event-chain.ts';
 import {registerVerdictSealing} from './verdict-seal.ts';
 import {migratePhonePush} from './phone-push.ts';
@@ -321,6 +322,7 @@ export function openDatabase(dataDir:string,logger:Logger){
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
   const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==21)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  nightTables(connection);
   registerVerdictSealing(connection,dataDir);
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}

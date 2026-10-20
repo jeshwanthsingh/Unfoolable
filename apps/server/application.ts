@@ -1,3 +1,4 @@
+import {createNightStore} from './night-store.ts';
 import {ticketDecisionView} from '../../packages/shared/reviewers.ts';
 import {createPhonePush} from './phone-push.ts';
 import {phoneJson} from './phone-routes.ts';
@@ -95,10 +96,12 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const outcomes=createMissionOutcomeStore(database.connection,config,logger,{verification:verification.view,build:builds.view});
  const workflow=createMissionWorkflow(database.connection,{context,analysis:analyses,contract:contracts,planning,build:builds,verification,debug:debugging,outcomes},logger);
  const chat=createChatService(database.connection,tickets,options.chatRuntime??createChatCodex({dataDir:config.dataDir}),builds.decide);
+ const nightStore=createNightStore(database.connection,config.dataDir,chat.store.draft,tickets.playbookEvidence);
  let stopping:Promise<unknown>|null=null;
  const stopAll=()=>{if(stopping)return stopping;phone.audit('stop.all',{});const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
  function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
   const path=op.path;let m:RegExpExecArray|null;
+  if(m=/^\/api\/night\/drafts\/([^/]+)\/queue$/.exec(path))return {scope:{item:'draft:'+m[1]!,action:'tonight'},state:nightStore.evidence(m[1]!,op.body)};
   if(m=/^\/api\/phone\/pairs\/([^/]+)\/approve$/.exec(path))return {scope:{item:'phone-pair:'+m[1]!,action:'approve'},state:phone.pairEvidence(m[1]!)};
   if(m=/^\/api\/phone\/devices\/([^/]+)\/remove$/.exec(path))return {scope:{item:'phone-device:'+m[1]!,action:'remove'},state:phone.removeEvidence(m[1]!)};
   if(path==='/api/stop-all')return {scope:{item:'running-agents',action:'stop'},state:database.connection.prepare("SELECT id,status,attempt_count,candidate_commits FROM tickets WHERE status IN('building','fixing','checking','queued') ORDER BY id").all()};
@@ -113,7 +116,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(m=/^\/api\/verification-runs\/([^/]+)\/claims\/([^/]+)\/decision$/.exec(path)){const row=database.connection.prepare('SELECT * FROM verification_runs WHERE id=?').get(m[1]!);if(!row)throw new SpecError('RUN_NOT_FOUND','Verification run unavailable.',404);return {scope:{item:'claim:'+m[1]!+':'+m[2]!,action:'decision'},state:row};}
   throw new SpecError('INVALID_DECISION','Unsupported human decision.',400);
  }
- const desk=createDeskStream(database.connection,()=>({...chat.store.view(),notice:chat.problem(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled()}));
+ const desk=createDeskStream(database.connection,()=>({...chat.store.view(),night:{entries:nightStore.list(),report:null,running:false},notice:chat.problem(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled()}));
  const phone=createPhoneAuth(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
  const phoneRoutes=createPhoneRoutes(phone,config.dataDir,options.phoneAccessStatus);
  const phonePush=createPhonePush(database.connection,config.dataDir);
@@ -160,6 +163,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
     const body=await projectBody(req,'human decision',160000);enterHumanReceipt(remote?phone.consume(phone.token(req.headers.cookie),req.headers['x-cc-confirmation'],{path:pathname,body}):human.consume(req.headers['x-cc-confirmation'],{path:pathname,body}));
    }
    if(!remote&&pathname.startsWith('/api/phone/')){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable on your Mac first.',403);if(await phoneRoutes.owner(req,res,pathname))return;}
+   if(pathname.startsWith('/api/night/')){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);const queued=/^\/api\/night\/drafts\/([a-f0-9-]{36})\/queue$/.exec(pathname);if(queued&&req.method==='POST'){json(res,200,{entries:nightStore.enqueue(queued[1]!,await projectBody(req,'night queue'))});return;}throw new SpecError('NOT_FOUND','Night action not found.',404);}
    const chatResponse=await chatRoute(req,pathname,chat,tickets);if(chatResponse){json(res,chatResponse.status,chatResponse.body);return;}
    const ticketResponse=await ticketRoute(req,pathname,tickets);if(ticketResponse){if('text' in ticketResponse){res.writeHead(ticketResponse.status,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});res.end(ticketResponse.text);}else json(res,ticketResponse.status,ticketResponse.body);return;}
    const verifyResponse=await verifyOnlyRoute(req,pathname,verifyOnly);if(verifyResponse){json(res,verifyResponse.status,verifyResponse.body);return;}
@@ -207,5 +211,5 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});resolve();});
  });};
- return {server,database,start,close,stopAll,workflow,tickets,chat,phone,phonePush};
+ return {server,database,start,close,stopAll,workflow,tickets,chat,phone,phonePush,nightStore};
 }

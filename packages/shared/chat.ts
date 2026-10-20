@@ -9,7 +9,7 @@ export type ChatDraft={similarTicketId?:string;existingTicketId?:string;id:strin
 export type ChatAction='keep'|'discard'|'recheck'|'retry'|'continue'|'approve_playbook'|'allow'|'deny';
 export type ChatCard={risk?:ReviewRisk;diffReviewRequired?:boolean;review?:TicketReviewEvidence;warnings?:WriterWarning[];id:string;kind:'ticket'|'playbook'|'permission';targetId:string;binding:string;summary:string;verdict:string|null;actions:ChatAction[];status:'PENDING'|'RESOLVING'|'RESOLVED'|'STALE'|'ERROR';resolution:ChatAction|null;createdAt:string;resolvedAt:string|null};
 export type ChatFuel={status:'known'|'unknown';windows:{usedPercent:number;windowMinutes:number;resetsAt:number}[]};
-export type ChatView={phoneRevision?:number;archivedDraftIds?:string[];notice?:string|null;messages:ChatMessage[];drafts:ChatDraft[];cards:ChatCard[]};
+export type ChatView={night?:import('./night.ts').NightView;phoneRevision?:number;archivedDraftIds?:string[];notice?:string|null;messages:ChatMessage[];drafts:ChatDraft[];cards:ChatCard[]};
 
 function object(value:unknown):value is Record<string,unknown>{return typeof value==='object'&&value!==null&&!Array.isArray(value);}
 const nullableString=(v:unknown)=>v===null||typeof v==='string';
