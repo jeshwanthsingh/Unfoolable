@@ -1,0 +1,52 @@
+{
+  "branch": "codex/review-1b",
+  "base": "6e123f7",
+  "fullSuite": {
+    "tests": 1109,
+    "pass": 1109,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "durationMs": 336300.238541,
+  "typecheck": "PASS",
+  "build": "PASS (existing chunk/dynamic-import warnings only)",
+  "protectedPaths": {
+    "tested": 69,
+    "readable": 0,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "ownedCleanupVerified": true
+  },
+  "negativeControls": {
+    "total": 12,
+    "allExpected": true,
+    "PASS": 0
+  },
+  "goldenReplay": {
+    "baseline": "fbad889",
+    "compared": 61,
+    "differences": [],
+    "historicalStoredChecks": 19,
+    "studyCases": 19,
+    "negativeControls": 12,
+    "missingOriginalFacts": [
+      104,
+      488,
+      599,
+      616
+    ],
+    "note": "Current-policy comparison; no historical labels or original golden files changed"
+  },
+  "protectedHashesUnchanged": 22,
+  "newReviewerStudySessions": 0,
+  "defaults": [],
+  "reviewerTokensPerOrdinaryTicket": 0,
+  "browser": "Playwright MCP desktop/mobile light/dark read-only fixture passed",
+  "credentialsScan": "Gitleaks code + artifacts clean"
+}

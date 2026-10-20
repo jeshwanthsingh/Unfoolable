@@ -44,7 +44,7 @@ All 15 reconstructible historical results match actual 3c94150 code on identical
 
 ## REVIEW-1 advisory side channel
 
-The protected verdict core, scorer wrappers and judge code retain their fbad889 hashes. After a check is recorded, the coordinator may schedule independent advisory reviewers. `DEFAULT_REVIEWERS` remains empty because the preregistered study did not promote any role. `skipReviewers` is an optional approved-playbook opt-out; omitting it preserves existing hashes.
+The protected verdict core, scorer wrappers and judge code retain their fbad889 hashes. After a check is recorded, the coordinator may schedule independent advisory reviewers. `DEFAULT_REVIEWERS` remains empty. REVIEW-1b uses the saved study only: both text reviewers flag the same five wrong study cases with zero false alarms, but no unique contribution beyond both Test Writer and quality gates is proven (gates were not measured). See REVIEWERS.md. Structurally valid out-of-patch notes are discarded individually; all-discarded output is Review incomplete. Discard events are advisory and excluded from decision bindings. `skipReviewers` is an optional approved-playbook opt-out; omitting it preserves existing hashes.
 
 ```mermaid
 flowchart LR
