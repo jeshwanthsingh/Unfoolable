@@ -1,0 +1,7 @@
+{
+  "mode": "P256_FILE_FALLBACK",
+  "reason": "Secure Enclave feasibility probe could not compile: this Mac has not accepted the Xcode licence. No licence or entitlement was changed.",
+  "keyPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/signing/private.pem",
+  "permissions": "600",
+  "publicKey": "docs/VERIFY_KEY.pem"
+}
