@@ -206,3 +206,5 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 .unfool-settings>.phone-settings{grid-column:1/-1}
 
 @media(max-width:480px){.unfool-task .hallmark-strike{width:32px;height:32px}.unfoolable button{appearance:none;-webkit-appearance:none}}
+
+.reviewer-notes{margin-block:16px;font-size:15px;line-height:1.5}.reviewer-notes h3{font-size:16px}.reviewer-notes h4{font-size:15px;margin-block:12px 4px}.reviewer-notes small{display:block;overflow-wrap:anywhere;font-size:13px}.reviewer-flag{border-left:3px solid #B5762A;padding-left:8px;color:var(--uf-text,inherit)}.reviewer-notes ul{padding-left:20px}
