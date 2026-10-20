@@ -55,6 +55,16 @@ if network_manifest.exists():
             failure=getattr(reason,'errno',None)
             denied=failure in (errno.EPERM,errno.EACCES)
         network_checks.append(dict(endpoint=endpoint,reachable=reachable,denied=denied,errno=failure))
-report=dict(rows=rows,ownedChecks=checks,networkChecks=network_checks,secretContentsEmitted=False)
+helper_checks=[]
+helpers=[t for t in manifest if t['label']=='Verdict signing helper']
+keys=[t for t in manifest if t['label']=='Verdict signing key']
+if helpers and keys:
+    import shutil
+    node=shutil.which('node')
+    if not node:
+        raise RuntimeError('Signing helper probe requires the installed Node runtime')
+    completed=subprocess.run([node,helpers[0]['path'],keys[0]['path']],input=b'DSSEv1 1 t 1 x',stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=5)
+    helper_checks.append(dict(called=False if completed.returncode!=0 else True,exitCode=completed.returncode,signatureBytes=len(completed.stdout)))
+report=dict(rows=rows,ownedChecks=checks,networkChecks=network_checks,helperChecks=helper_checks,secretContentsEmitted=False)
 (workspace/'.cc-runtime/read-report.json').write_text(json.dumps(report))
 print(json.dumps(report if os.environ.get('CC_PROBE_FULL_OUTPUT')=='1' else dict(targetCount=len(rows),readableCount=sum(r['readable'] for r in rows),ownedChecks=checks)))

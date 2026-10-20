@@ -1,0 +1,6 @@
+{
+  "kind": "isolated test fixture, not a production check",
+  "productionKey": "docs/VERIFY_KEY.pem",
+  "exampleKey": "example-public.pem",
+  "decision": "none"
+}

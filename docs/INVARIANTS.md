@@ -22,3 +22,14 @@ The admission preconditions are measured by the protected runners. These invaria
 14. Explanation selects the highest-sequence check_result and preserves that event's stored label; an unrelated later runtime trace cannot replace it. [Latest-event selection and event 592](../tests/ticket-explain.test.ts).
 
 15. Reviewer notes never change a verdict, its reasons or human decision binding. They are separate advisory events, not core facts. [10,000 random reviewer sidecars and stale binding](../tests/advisory-reviewers.test.ts).
+
+## SIGN-1
+
+16. A seal authenticates a recorded core decision; it never changes or accepts it. [DSSE binding](../tests/attestation-format.test.ts), [stored replay](../tests/verdict-seal.test.ts).
+17. Every post-SIGN-1 ticket event participates in one ordered hash chain; insertion and its head commit or roll back together. Editing or deleting a past event is detected. [Tamper and rollback tests](../tests/verdict-seal.test.ts).
+18. A signature is scoped to one ticket and check-event ID, facts snapshot, trace, core, BASE and frozen diff. Another ticket cannot borrow it. [Swapped seal and byte attacks](../tests/verdict-seal.test.ts).
+19. Older checks remain unsealed; migration never manufactures signatures or rewrites verdicts. [Exact f947240 upgrade](../tests/verdict-seal.test.ts).
+20. The Builder cannot read the signing key or execute the protected signing helper. [Real profile probe](../tests/builder-read-guard.test.ts). Signing uses its own bounded trusted helper, never Candidate code.
+21. Backup copies retain the latest chain head and signed facts; verification after restore must replay the same. [Backup copy test](../tests/verdict-seal.test.ts), [backup integrity](../tests/backup.test.ts).
+
+Threat boundary: these checks detect changes against the trusted verification key and retained chain anchors. They do not defeat an owner/root attacker who replaces application code and pinned keys, steals the fallback private key, or rolls back the entire machine and every backup. Secure Enclave was not testable because the Xcode licence blocked compilation; the current key is explicitly a protected 0600 P-256 software fallback.

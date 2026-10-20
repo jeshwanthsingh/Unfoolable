@@ -1,0 +1,135 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "digest": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "predicateType": "https://github.com/jeshwanthsingh/Unfoolable/attestation/verdict/v1",
+  "predicate": {
+    "ticketId": "387c7d7d-b161-421b-b1a8-a41bb81d281d",
+    "eventId": 3,
+    "verdict": "NOT CHECKED",
+    "factsHash": "f8a41bc1fae1a558472d91208c82784748c6ef9eda06a62277a4ba67e0d85911",
+    "snapshotHash": "1f4b5d7385c4a59aedcf9890da02d56c8999bb0fe152bc2bdb4978b83050b983",
+    "traceHash": "9e72ebb6b8a7e0ece6b0dfc7b6af54cf1f9f11ca9b2f005c15292c37ee002f53",
+    "coreVersion": "verdict-core-v1",
+    "coreSourceHash": "4788631722c4219d0883dcad14d7e300b5952dbc31df8fe6ad13741d4cd4f511",
+    "baseCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "candidateCommit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "candidateDiffHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "gateToolVersions": {
+      "tools": [
+        {
+          "name": "ruff",
+          "version": "0.17.1",
+          "license": "MIT"
+        },
+        {
+          "name": "pyright",
+          "version": "1.1.414",
+          "license": "MIT"
+        },
+        {
+          "name": "bandit",
+          "version": "1.9.4",
+          "license": "Apache-2.0"
+        },
+        {
+          "name": "detect-secrets",
+          "version": "1.5.0",
+          "license": "Apache-2.0",
+          "licenseUrl": "https://github.com/Yelp/detect-secrets/blob/master/LICENSE"
+        },
+        {
+          "name": "oxlint",
+          "version": "1.88.0",
+          "license": "MIT"
+        },
+        {
+          "name": "@ast-grep/cli",
+          "version": "0.51.0",
+          "license": "MIT"
+        },
+        {
+          "name": "eslint",
+          "version": "10.13.0",
+          "license": "MIT"
+        },
+        {
+          "name": "typescript-eslint",
+          "version": "8.71.2",
+          "license": "MIT"
+        },
+        {
+          "name": "typescript",
+          "version": "6.0.3",
+          "license": "Apache-2.0"
+        },
+        {
+          "name": "pyright",
+          "version": "1.1.414",
+          "license": "MIT"
+        },
+        {
+          "name": "opengrep",
+          "version": "1.31.0",
+          "license": "LGPL-2.1",
+          "licenseUrl": "https://github.com/opengrep/opengrep/blob/main/LICENSE"
+        },
+        {
+          "name": "gitleaks",
+          "version": "8.30.1",
+          "license": "MIT",
+          "licenseUrl": "https://github.com/gitleaks/gitleaks/blob/master/LICENSE"
+        },
+        {
+          "name": "osv-scanner",
+          "version": "2.7.0",
+          "license": "Apache-2.0",
+          "licenseUrl": "https://github.com/google/osv-scanner/blob/main/LICENSE"
+        }
+      ],
+      "downloads": [
+        {
+          "name": "opengrep",
+          "url": "https://github.com/opengrep/opengrep/releases/download/v1.31.0/opengrep_osx_arm64",
+          "sha256": "035dd8fd2410fe68513916df0c2895257fffafcd5314b4a118484ce8db62bedb",
+          "publishedChecksumVerified": false
+        },
+        {
+          "name": "osv-scanner",
+          "url": "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_darwin_arm64",
+          "sha256": "d4926ef8da134332543be276dff157e4c170f99ad91fc48e89448a8816bdf70b",
+          "publishedChecksumVerified": false
+        },
+        {
+          "name": "gitleaks.tar.gz",
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_darwin_arm64.tar.gz",
+          "sha256": "b40ab0ae55c505963e365f271a8d3846efbc170aa17f2607f13df610a9aeb6a5",
+          "publishedChecksumVerified": true
+        }
+      ],
+      "osvDatabases": [
+        {
+          "ecosystem": "PyPI",
+          "bytes": 36431923,
+          "url": "https://osv-vulnerabilities.storage.googleapis.com/PyPI/all.zip",
+          "sha256": "81c1f9b1378c9a5df99c69167ff63696786f433c50000b71db9dfb95aca89a1b"
+        },
+        {
+          "ecosystem": "npm",
+          "bytes": 218455616,
+          "url": "https://osv-vulnerabilities.storage.googleapis.com/npm/all.zip",
+          "sha256": "e4883d68e9891de2434c1a3d9f8dd9ba9670b44583e41e9eada1d0c26ba6bc77"
+        }
+      ],
+      "osvBackend": "osv-scalibr 0.5.3; OSV_SCALIBR_LOCAL_DB_CACHE_DIRECTORY, osv-scalibr/<ecosystem>/all.zip"
+    },
+    "time": "2026-10-20T18:24:17.201Z",
+    "eventHash": "e97c07efb0692fa135d163810b16cf71d44d79804ab4e56fe20fca4036d14ab4"
+  }
+}
