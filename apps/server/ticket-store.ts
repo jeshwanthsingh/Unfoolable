@@ -16,7 +16,10 @@ export function appendTicketEvent(db:DatabaseSync,id:string,kind:TicketEventKind
  requireTicket(db,id);if(!ticketEventKinds.includes(kind))throw new Error('Invalid ticket event kind');
  if(data===null||typeof data!=='object'||Array.isArray(data))throw new Error('Event data must be an object');
  const json=JSON.stringify(data);if(Buffer.byteLength(json)>65536)throw new Error('Event data exceeds limit');const parsed=JSON.parse(json) as Record<string,unknown>;const createdAt=new Date().toISOString();
- const r=db.prepare('INSERT INTO ticket_events(ticket_id,kind,data_json,created_at) VALUES(?,?,?,?)').run(id,kind,json,createdAt);const sequence=Number(r.lastInsertRowid);if(kind==='check_result'&&sealCheckEvent(db,id,sequence,parsed,createdAt))appendTicketEvent(db,id,'agent_event',{kind:'verdict_sealed',eventSequence:sequence});return {sequence,ticketId:id,kind,data:parsed,createdAt};
+ db.exec('SAVEPOINT sign1_append');try{
+ const r=db.prepare('INSERT INTO ticket_events(ticket_id,kind,data_json,created_at) VALUES(?,?,?,?)').run(id,kind,json,createdAt);const sequence=Number(r.lastInsertRowid);const sealHash=kind==='check_result'?sealCheckEvent(db,id,sequence,parsed,createdAt):null;if(sealHash)appendTicketEvent(db,id,'agent_event',{kind:'verdict_sealed',eventSequence:sequence,attestationHash:sealHash});db.exec('RELEASE sign1_append');return {sequence,ticketId:id,kind,data:parsed,createdAt};
+ }catch(error){db.exec('ROLLBACK TO sign1_append;RELEASE sign1_append');throw error;}
+
 }
 export function createTicket(db:DatabaseSync,input:{title:string;requestText:string;repoPath:string;baseCommit:string},onCreated?:(ticket:Ticket)=>void):Ticket{
  if(!text(input.title,200)||!text(input.requestText,65536)||!text(input.repoPath,4096)||!isAbsolute(input.repoPath)||!sha(input.baseCommit))throw new Error('Invalid ticket input');

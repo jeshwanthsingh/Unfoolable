@@ -10,7 +10,7 @@ export const safetyObjects=[
  {id:'package',name:'Package at your desk',x:393,y:225,w:32,h:26},
 ] as const;
 // Replaced only after the real protected-path probe completes; never inferred from UI state.
-export const protectionProbe:{count:number|null;date:string|null;source:string}={count:69,date:'2026-10-20',source:'artifacts/office3/probe-attestation.json, fresh real Builder probe; 0 of 69 readable'};
+export const protectionProbe:{count:number|null;date:string|null;source:string}={count:71,date:'2026-10-20',source:'artifacts/sign1/after-probe.json, fresh real Builder probe; 0 of 71 readable; signer invocation denied'};
 export function safetyExplanation(id:SafetyObject,{alarm,fuel,replay}:{alarm:boolean;fuel:{used:number|null;limit:number}|null;replay:boolean}){
  const facts:Record<SafetyObject,{sentence:string;source:string}>={
   bars:{sentence:'The Builder is configured without internet access.',source:'Builder permission profile, apps/server/build-runtime.ts; outbound denial checked by the real Builder probe.'},

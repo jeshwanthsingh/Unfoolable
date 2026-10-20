@@ -14,7 +14,7 @@ export function sealCheckEvent(db:DatabaseSync,id:string,eventId:number,data:Rec
  const versionsUrl=new URL('../../artifacts/quality-gates/TOOLS.json',import.meta.url);const versions=JSON.parse(readFileSync(existsSync(versionsUrl)?versionsUrl:join(process.cwd(),'artifacts/quality-gates/TOOLS.json'),'utf8'));
  const diff=candidate?readFileSync(candidate.diffPath):Buffer.alloc(0),diffHash=sha256(diff);mkdirSync(join(dir,'sealed-diffs'),{recursive:true,mode:0o700});const diffFile=join(dir,'sealed-diffs',diffHash+'.patch');if(!existsSync(diffFile))writeFileSync(diffFile,diff,{flag:'wx',mode:0o400});if(sha256(readFileSync(diffFile))!==diffHash)throw Error('Stored diff changed');
  const envelope=createAttestation({ticketId:id,eventId,verdict:String(data.verdict),factsHash:sha256(JSON.stringify(snapshot.facts)),snapshotHash:(data.verdictSnapshot as VerdictSnapshotRef).hash,traceHash:sha256(JSON.stringify(decision.trace)),coreVersion:snapshot.coreVersion,coreSourceHash:snapshot.coreSourceHash,baseCommit:String(ticket.base_commit),candidateCommit:String(data.candidate??ticket.base_commit),candidateDiffHash:diffHash,gateToolVersions:versions,time,eventHash:String(chain.event_hash)},signingKey(dir));
- db.prepare('INSERT INTO verdict_attestations VALUES(?,?,?)').run(eventId,id,JSON.stringify(envelope));return true;
+ db.prepare('INSERT INTO verdict_attestations VALUES(?,?,?)').run(eventId,id,JSON.stringify(envelope));return sha256(JSON.stringify(envelope));
  }catch(error){db.prepare('INSERT INTO seal_errors VALUES(?,?)').run(eventId,(error as Error).message);return false;}
 }
 export type SealStatus={state:'SEALED'|'BROKEN'|'OLDER'|'UNSEALED';label:string;replays:boolean;eventId:number|null;reason?:string};
