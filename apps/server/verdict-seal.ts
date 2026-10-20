@@ -1,7 +1,8 @@
 import {fixtureApprovalsEnabled} from './data-mode.ts';
+import {loadVerificationKeys,verifyWithKeyHistory,type VerificationKeys} from './verification-keys.ts';
 import {readFileSync,existsSync,mkdirSync,writeFileSync} from 'node:fs';import {join} from 'node:path';import type {DatabaseSync} from 'node:sqlite';
 import {scoreVerdict,CORE_VERSION} from '../../packages/shared/verdict-core.ts';import {loadVerdictSnapshot,type VerdictSnapshotRef} from './verdict-snapshot.ts';
-import {createAttestation,verifyAttestation,sha256} from './attestation-format.ts';import {signingKey} from './signing-key.ts';import {verifyEventChain} from './event-chain.ts';
+import {createAttestation,publicKeyId,sha256} from './attestation-format.ts';import {signingKey} from './signing-key.ts';import {verifyEventChain} from './event-chain.ts';
 const directories=new WeakMap<DatabaseSync,string>();
 export function registerVerdictSealing(db:DatabaseSync,dataDir:string){directories.set(db,dataDir);}
 const coreHash=()=>sha256(readFileSync(new URL('../../packages/shared/verdict-core'+(import.meta.url.endsWith('.ts')?'.ts':'.js'),import.meta.url)));
@@ -24,7 +25,7 @@ export function verifyTicketSeal(db:DatabaseSync,dir:string,id:string):SealStatu
  const checks=db.prepare("SELECT * FROM ticket_events WHERE ticket_id=? AND kind='check_result' ORDER BY sequence").all(id),last=checks.at(-1);
  try{if(version<21)return {state:'OLDER',label:'Not sealed (older than SIGN-1)',replays:false,eventId:last?Number(last.sequence):null};const chain=verifyEventChain(db);if(!last)return {state:'UNSEALED',label:'No check has been sealed',replays:false,eventId:null};let sealed=false;for(const event of checks){const sequence=Number(event.sequence);if(sequence<=chain.legacySequence)continue;
  const row=db.prepare('SELECT * FROM verdict_attestations WHERE event_sequence=?').get(sequence);if(!row)throw Error('Event '+sequence+' has no seal: '+String(db.prepare('SELECT reason FROM seal_errors WHERE event_sequence=?').get(sequence)?.reason??'protected facts unavailable'));
- const data=JSON.parse(String(event.data_json)),p=verifyAttestation(JSON.parse(String(row.dsse_json)),verificationKey(dir),{ticketId:id,eventId:sequence});
+ const data=JSON.parse(String(event.data_json)),p=verifyWithKeyHistory(JSON.parse(String(row.dsse_json)),verificationHistory(dir),{ticketId:id,eventId:sequence});
  if(row.ticket_id!==id||p.verdict!==data.verdict||p.time!==event.created_at||p.baseCommit!==db.prepare('SELECT base_commit FROM tickets WHERE id=?').get(id)?.base_commit||p.candidateCommit!==String(data.candidate??p.baseCommit))throw Error('Event '+sequence+' binding changed');
  const ref=data.verdictSnapshot as VerdictSnapshotRef;if(ref.hash!==p.snapshotHash)throw Error('Stored snapshot reference changed');const snapshot=loadVerdictSnapshot({...ref,path:join(dir,'verdict-facts',ref.hash+'.json')});
  if(sha256(JSON.stringify(snapshot.facts))!==p.factsHash)throw Error('Stored facts hash changed');const decision=scoreVerdict(snapshot.facts);
@@ -39,9 +40,11 @@ export function verifyTicketSeal(db:DatabaseSync,dir:string,id:string):SealStatu
  }catch(error){return {state:'BROKEN',label:'Seal broken',reason:(error as Error).message,replays:false,eventId:last?Number(last.sequence):null};}
 }
 
-function verificationKey(dir:string){
- const key=readFileSync(join(dir,'signing/public.pem'),'utf8');
- if(fixtureApprovalsEnabled(dir))return key; // Isolated fixtures have their own keys, never live approvals.
- const url=new URL('../../docs/VERIFY_KEY.pem',import.meta.url),pinned=readFileSync(existsSync(url)?url:join(process.cwd(),'docs/VERIFY_KEY.pem'),'utf8');
- if(key!==pinned)throw Error('Signing identity differs from the pinned verification key');return pinned;
+function verificationHistory(dir:string):VerificationKeys{
+ if(fixtureApprovalsEnabled(dir)){
+  const key=readFileSync(join(dir,'signing/public.pem'),'utf8'),id=publicKeyId(key);
+  return {current:id,keys:[{id,publicKey:key,validFrom:'1970-01-01T00:00:00.000Z',validUntil:null,mode:'ISOLATED_TEST'}]};
+ }
+ // Published key history verifies old seals even after the local private key is gone.
+ return loadVerificationKeys();
 }

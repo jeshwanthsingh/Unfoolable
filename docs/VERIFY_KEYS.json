@@ -1,0 +1,12 @@
+{
+  "current": "fc261d6df2962747c93f8870bfae36ac5e9836b106c62fa2d1d9315994edce83",
+  "keys": [
+    {
+      "id": "fc261d6df2962747c93f8870bfae36ac5e9836b106c62fa2d1d9315994edce83",
+      "publicKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEDFNZqdaat/+PW6dj7Y3x5y+mdend\nNWyr/T/zDNpLqZAVUJE/XLBBSgq69j+m2S4mpO+moNtoopAAzSDZ08SK0w==\n-----END PUBLIC KEY-----\n",
+      "validFrom": "1970-01-01T00:00:00.000Z",
+      "validUntil": null,
+      "mode": "P256_FILE_FALLBACK"
+    }
+  ]
+}
