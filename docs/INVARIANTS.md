@@ -33,3 +33,13 @@ The admission preconditions are measured by the protected runners. These invaria
 21. Backup copies retain the latest chain head and signed facts; verification after restore must replay the same. [Backup copy test](../tests/verdict-seal.test.ts), [backup integrity](../tests/backup.test.ts).
 
 Threat boundary: these checks detect changes against the trusted verification key and retained chain anchors. They do not defeat an owner/root attacker who replaces application code and pinned keys, steals the fallback private key, or rolls back the entire machine and every backup. Secure Enclave was not testable because the Xcode licence blocked compilation; the current key is explicitly a protected 0600 P-256 software fallback.
+
+## BUG-1
+
+- B1: A bug fix is never VERIFIED without a matching BASE exception, message, project file/function/line and the same immutable test passing on the exact Candidate. Test: tests/bug-reproduction.test.ts, 5,000 generated combinations plus protected BASE/fixed/wrong executions.
+- B2: Reproduction cannot edit source: one test file and disposable runtime storage are writable; all project source is read-only. Test: real kernel-sandbox case in tests/bug-reproduction.test.ts.
+- B3: Log secrets are redacted before persistence or any model input; scanner failure is closed. Tests: tests/bug-log.test.ts and the pasted-log case in tests/chat-service.test.ts.
+- B4: A revoked signer has no valid timestamp, including backdated signatures. Tests: tests/verification-keys.test.ts.
+- B5: Old facts keep the same verdict and trace. Frozen comparison: artifacts/bug1/golden-replay.json against actual fbad889.
+
+Bug admission currently supports ordinary unconditional Python unittest reproductions. Dynamic test construction, helper functions, conditionals, exception swallowing, framework changes and unsupported runner traces fail admission; they never authorize a fix. Static shape checks are additional tripwires, not replacements for the process/filesystem boundary or authenticity guarantees against arbitrary Python interpreter forgery.
