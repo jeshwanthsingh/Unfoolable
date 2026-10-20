@@ -15,3 +15,9 @@ A morning report lists results, actual start/end times and reported tokens. Noti
 Limits: this round proves the scheduler with isolated data; the first real overnight run still awaits your individual approvals. Physical unplug/sleep/power-loss behavior was simulated, not performed on your active Mac. A gap over 15 seconds is treated conservatively as interruption, including a long coordinator pause. Cutoff/power monitoring runs once per second; kernel cleanup takes additional time and is recorded. Reported token totals can arrive in provider updates, so reservations and per-task limits supplement the total stop. Historical BUG-1 stderr identifies the failing ancestry check, but did not save the offending PID/parent row. Native notification delivery still depends on macOS notification permissions.
 
 If the Night supervisor itself cannot start safely, it stops once rather than looping. Inspect its recorded reason, restart the coordinator, then confirm a fresh queue entry. It does not silently reuse a stopped consent.
+
+After the shift has ended, **Try again** with fresh Touch ID resumes the ticket as normal work, outside the expired night authorization. That daytime work is not added to the old morning report. Unknown token usage stops the shift and is shown as unknown.
+
+The coordinator must be running and the Mac awake to begin within the window. This version does not schedule an OS wake. If the Mac wakes only after the cutoff, queued approvals expire and nothing starts.
+
+Choose the window and allowance before approving drafts. A settings change applies to future confirmations; it never changes existing consent. Use STOP ALL and fresh confirmations if you need to replace the queued schedule. Scheduling is performed from the Mac with Touch ID; real phone scheduling is outside this round.

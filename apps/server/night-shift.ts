@@ -7,7 +7,6 @@ import {createNightStore,nightEvent,type NightSnapshot} from './night-store.ts';
 import {humanDigest} from './human-confirmation.ts';
 import {fixtureApprovalsEnabled} from './data-mode.ts';
 import {getTicket,listTicketEvents,appendTicketEvent} from './ticket-store.ts';
-import {ticketBudget} from './ticket-budget.ts';
 import {onACPower,keepNightAwake,notifyNightEnded} from './night-power.ts';
 import {reconcileOwnedProcesses} from './build-processes.ts';
 import type {ProcessRecord} from '../../packages/shared/build.ts';
@@ -22,31 +21,36 @@ export function createNightShift(db:DatabaseSync,dataDir:string,store:Store,tick
  const ops=fixture??{now:Date.now,power:onACPower,awake:keepNightAwake,notify:notifyNightEnded};
  let timer:NodeJS.Timeout|undefined,locked=false,closed=false,lastTick=ops.now(),generation=0,inFlight:Promise<void>|null=null,endingJob:Promise<void>|null=null,fault=false,waitingForPower=false;
  let shift:{key:string;entry:NightEntry;awake:Awaited<ReturnType<typeof keepNightAwake>>}|null=null;
- function guard(id:string){const entry=store.list().find(e=>e.ticketId===id);if(!entry)return null;if(entry.status!=='running'||!shift||endingJob||fault)return 'Night Shift authorization ended.';if(ops.now()>=Date.parse(entry.end))return 'Night Shift reached its morning cutoff.';if(ops.now()-lastTick>15000)return 'Night Shift interrupted after sleep or a coordinator pause.';return null;}
+ function guard(id:string){const entry=store.list().find(e=>e.ticketId===id);if(!entry)return null;if(listTicketEvents(db,id).filter(e=>e.kind==='retry_requested').at(-1)?.data.explicitHumanDecision===true)return null;if(entry.status!=='running'||!shift||endingJob||fault)return 'Night Shift authorization ended.';if(ops.now()>=Date.parse(entry.end))return 'Night Shift reached its morning cutoff.';if(ops.now()-lastTick>15000)return 'Night Shift interrupted after sleep or a coordinator pause.';return null;}
  tickets.bindNightGuard?.(guard);
  const events=()=>db.prepare('SELECT * FROM night_events ORDER BY sequence').all();
  const ended=(k:string)=>events().some(e=>['shift_stopping','shift_ended'].includes(String(e.kind))&&JSON.parse(String(e.data_json)).key===k);
  const members=(k:string)=>store.list().filter(e=>key(e)===k);
- function tokens(k:string){return members(k).reduce((total,e)=>{if(!e.ticketId)return total;const b=ticketBudget(db,e.ticketId),reviews=listTicketEvents(db,e.ticketId).filter(v=>v.kind==='agent_event'&&v.data.kind==='reviewer_done');return total+(b.reportedCodexTokens??0)+(b.reportedWriterTokens??0)+reviews.reduce((n,r)=>n+Number((r.data.run as {usage?:{totalTokens?:number}})?.usage?.totalTokens??0),0);},0);}
- function report():NightView['report']{const end=events().findLast(e=>e.kind==='shift_ended');if(!end)return null;const d=JSON.parse(String(end.data_json)),items=members(d.key).filter(e=>e.ticketId).map(e=>{const t=e.ticketId?getTicket(db,e.ticketId):null;return {title:e.title,status:t?.status??e.status,verdict:t?.checkVerdict??null};}),checked=items.filter(i=>i.verdict==='VERIFIED').length,closer=items.length-checked;return {ticketIds:members(d.key).flatMap(e=>e.ticketId?[e.ticketId]:[]),summary:items.length?`Good morning. Night Shift did ${items.length} ${items.length===1?'thing':'things'}: ${checked} checked, ${closer} ${closer===1?'needs':'need'} a closer look.`:'Night Shift stopped before starting work.',start:String(events().find(e=>e.kind==='shift_started'&&JSON.parse(String(e.data_json)).key===d.key)?.created_at??d.start),end:String(end.created_at),tokens:tokens(d.key),items};}
+ function ticketUsage(e:NightEntry){if(!e.ticketId)return {tokens:0,known:true};const all=listTicketEvents(db,e.ticketId),cut=all.findIndex(v=>v.kind==='retry_requested'&&v.data.explicitHumanDecision===true),ev=cut<0?all:all.slice(0,cut),usage=new Map<string,number>();let extra=0,unknown=ev.some(v=>v.kind==='check_result'&&v.data.harnessError===true||v.kind==='agent_event'&&v.data.kind==='usage_unavailable');
+  for(const v of ev){const d=v.data.data as {reportedTotal?:number}|undefined;if(v.kind==='agent_event'&&v.data.kind==='usage_observed'&&Number.isSafeInteger(d?.reportedTotal))usage.set(String(v.data.attemptId),Math.max(usage.get(String(v.data.attemptId))??0,d!.reportedTotal!));if(v.kind==='agent_event'&&v.data.kind==='reviewer_done')extra+=Number((v.data.run as {usage?:{totalTokens?:number}})?.usage?.totalTokens??0);}
+  return {tokens:[...usage.values()].reduce((a,b)=>a+b,extra),known:!unknown&&(!ev.some(v=>v.kind==='agent_started')||[...usage.keys()].some(k=>!k.startsWith('test-writer:')))};
+ }
+ function tokens(k:string){return members(k).reduce((total,e)=>total+ticketUsage(e).tokens,0);}
+ function items(k:string){return members(k).filter(e=>e.ticketId).map(e=>{const t=getTicket(db,e.ticketId!)!,manual=listTicketEvents(db,e.ticketId!).filter(v=>v.kind==='retry_requested'&&v.data.explicitHumanDecision===true).at(-1),check=manual?listTicketEvents(db,e.ticketId!).filter(v=>v.kind==='check_result'&&v.sequence<manual.sequence).at(-1)?.data.verdict:undefined;return {title:e.title,status:manual?String(manual.data.previousStatus??'interrupted'):t.status,verdict:manual?(typeof check==='string'?check:null):t.checkVerdict};});}
+ function report():NightView['report']{const end=events().findLast(e=>e.kind==='shift_ended');if(!end)return null;const d=JSON.parse(String(end.data_json)),rows=d.items??items(d.key),checked=rows.filter((i:{verdict:string|null})=>i.verdict==='VERIFIED').length,closer=rows.length-checked;return {ticketIds:d.ticketIds??members(d.key).flatMap(e=>e.ticketId?[e.ticketId]:[]),summary:rows.length?`Good morning. Night Shift did ${rows.length} ${rows.length===1?'thing':'things'}: ${checked} checked, ${closer} ${closer===1?'needs':'need'} a closer look.`:'Night Shift stopped before starting work.',start:String(events().find(e=>e.kind==='shift_started'&&JSON.parse(String(e.data_json)).key===d.key)?.created_at??d.start),end:String(end.created_at),tokens:d.usageKnown===false?null:(d.tokens??tokens(d.key)),items:rows};}
  function notifications(){return JSON.parse(String(events().findLast(e=>e.kind==='notification_preference')?.data_json??'{}')).enabled===true;}
  function view():NightView{return {notice:fault?'Night Shift is stopped. Process cleanup needs inspection.':endingJob?'Stopping Night Shift...':waitingForPower?'Night Shift is waiting for AC power.':null,notifications:notifications(),entries:store.list(),report:report(),running:!!shift};}
  function end(reason:string,stop=true):Promise<void>{if(endingJob)return endingJob;const current=shift;if(!current)return Promise.resolve();shift=null;generation++;nightEvent(db,null,'shift_stopping',{key:current.key,start:current.entry.start,end:current.entry.end,reason},ops.now());
   endingJob=(async()=>{let stopped=false;try{if(stop)await tickets.stopAll('Night Shift: '+reason);stopped=true;}finally{
    for(const e of members(current.key).filter(e=>['queued','running'].includes(e.status)))store.finish(e.id,'interrupted',reason,ops.now());
    try{await current.awake.close();nightEvent(db,null,'keep_awake_stopped',{key:current.key},ops.now());if(!stopped)throw Error('Ticket cleanup could not be certified.');
-    nightEvent(db,null,'shift_ended',{key:current.key,start:current.entry.start,end:current.entry.end,reason,tokens:tokens(current.key)},ops.now());chat.appendMessage({role:'jarvis',kind:'status',text:'Night Shift stopped: '+reason+'. Everything waits for your review.'});
+    nightEvent(db,null,'shift_ended',{key:current.key,start:current.entry.start,end:current.entry.end,reason,tokens:tokens(current.key),usageKnown:members(current.key).every(e=>ticketUsage(e).known),items:items(current.key),ticketIds:members(current.key).flatMap(e=>e.ticketId?[e.ticketId]:[])},ops.now());chat.appendMessage({role:'jarvis',kind:'status',text:'Night Shift stopped: '+reason+'. Everything waits for your review.'});
     if(notifications()){try{ops.notify?.();nightEvent(db,null,'notification_sent',{key:current.key},ops.now());}catch{nightEvent(db,null,'notification_unavailable',{key:current.key},ops.now());}}
    }catch(error){fault=true;nightEvent(db,null,'supervisor_error',{key:current.key,reason:'Owned cleanup could not be certified'},ops.now());chat.appendMessage({role:'jarvis',kind:'error',text:'Night Shift is stopped. Process cleanup needs inspection before it can run again.'});throw error;}
   }})().finally(()=>{endingJob=null;});return endingJob;
  }
  async function step(){if(closed||locked||endingJob||fault)return;locked=true;const now=ops.now(),gap=now-lastTick;lastTick=now;
   try{
-   if(shift){if(shift.awake.alive&&!shift.awake.alive()){await end('Keep-awake process stopped');return;}const running=members(shift.key).find(e=>e.status==='running');if(gap>15000){await end('Mac slept or the coordinator paused');return;}if(now>=Date.parse(shift.entry.end)){await end('Morning cutoff reached');return;}if(!ops.power()){await end('AC power is unavailable');return;}if(tokens(shift.key)>=shift.entry.tokenLimit){await end('Night allowance used up');return;}
+   if(shift){if(shift.awake.alive&&!shift.awake.alive()){await end('Keep-awake process stopped');return;}const running=members(shift.key).find(e=>e.status==='running');if(running?.ticketId&&listTicketEvents(db,running.ticketId).filter(e=>e.kind==='retry_requested').at(-1)?.data.explicitHumanDecision===true){store.finish(running.id,'finished','Continued separately by you',now);await end('Handed back to you after your confirmation',false);return;}if(gap>15000){await end('Mac slept or the coordinator paused');return;}if(now>=Date.parse(shift.entry.end)){await end('Morning cutoff reached');return;}if(!ops.power()){await end('AC power is unavailable');return;}if(tokens(shift.key)>=shift.entry.tokenLimit){await end('Night allowance used up');return;}
     if(running?.ticketId){const ev=listTicketEvents(db,running.ticketId),security=ev.find(e=>e.kind==='needs_you'&&['TRIPWIRE','WATCHMAN','STOP_ALL'].includes(String(e.data.kind)));if(security){await end(String(security.data.kind));return;}const t=getTicket(db,running.ticketId)!;
      if(busy.includes(t.status))return;if(ev.filter(e=>e.kind==='cleanup').at(-1)?.data.cleanupUncertain===true){await end('Process cleanup needs inspection');return;}
      const rate=ev.filter(e=>e.kind==='cleanup'||e.kind==='agent_stopped').at(-1)?.data.code==='CODEX_RATE_LIMIT';
-     if(rate&&t.status==='harness_error'){
+     if(rate&&t.status==='harness_error'){if(!ticketUsage(running).known){await end('Account limit reached but token use is unknown');return;}
       const waits=events().filter(e=>e.entry_id===running.id&&e.kind==='rate_limit_wait'),previous=waits.at(-1),next=previous?Number(JSON.parse(String(previous.data_json)).until):0;
       const retryAfter=ev.filter(e=>e.kind==='retry_requested'&&e.data.trigger==='night_rate_limit').at(-1)?.sequence??0,lastError=ev.filter(e=>e.data.code==='CODEX_RATE_LIMIT').at(-1)?.sequence??0;
       const waiting=previous&&Number(JSON.parse(String(previous.data_json)).errorSequence)===lastError;
@@ -55,7 +59,7 @@ export function createNightShift(db:DatabaseSync,dataDir:string,store:Store,tick
       if(!store.bindingValid(running.id,now)){await end('Queued consent changed or expired');return;}
       nightEvent(db,running.id,'rate_limit_retry',{previousError:lastError},now);await tickets.retryNightRateLimit(running.ticketId);db.prepare('UPDATE night_entries SET reason=NULL WHERE id=?').run(running.id);return;
      }
-     const started=ev.some(e=>e.kind==='agent_started');if(started&&ticketBudget(db,t.id).reportedCodexTokens===null){await end('Codex usage could not be confirmed');return;}
+     if(t.status==='harness_error'){await end('A Night worker or checker failed; inspect before retrying');return;}if(!ticketUsage(running).known){await end('Codex usage could not be confirmed');return;}
      store.finish(running.id,'finished','Waiting for your review',now);nightEvent(db,running.id,'review_waiting',{ticketId:t.id,status:t.status,verdict:t.checkVerdict},now);
     }
    }
@@ -64,7 +68,7 @@ export function createNightShift(db:DatabaseSync,dataDir:string,store:Store,tick
    if(tickets.list().tickets.some(t=>busy.includes(t.status)))return;
    const next=store.list().find(e=>e.status==='queued'&&Date.parse(e.start)<=now&&Date.parse(e.end)>now&&(!shift||key(e)===shift.key));
    if(!next){if(shift&&!members(shift.key).some(e=>['queued','running'].includes(e.status)))await end('All queued work stopped for review',false);return;}
-   if(ended(key(next))){store.finish(next.id,'interrupted','This shift already ended; confirm a new draft to run again',now);return;}
+   if(ended(key(next))){store.finish(next.id,'interrupted','This shift ended. Choose a new window, then confirm again',now);return;}
    if(!ops.power()){if(!waitingForPower){waitingForPower=true;nightEvent(db,null,'power_wait',{key:key(next)},now);}return;}if(waitingForPower){waitingForPower=false;nightEvent(db,null,'power_restored',{key:key(next)},now);}
    if(!store.bindingValid(next.id,now)){store.finish(next.id,'stale','Request, repository, test instructions or budget changed',now);return;}
    const saved=JSON.parse(String(store.rows().find(r=>r.id===next.id)!.snapshot_json)) as NightSnapshot;
