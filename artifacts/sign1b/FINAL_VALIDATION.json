@@ -1,0 +1,111 @@
+{
+  "branch": "codex/sign-1b",
+  "base": "2b8d918",
+  "fullSuite": {
+    "tests": 1130,
+    "pass": 1130,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "durationMs": 345865.414834,
+  "typecheck": "PASS",
+  "build": "PASS",
+  "hardwareMode": "SECURE_ENCLAVE_P256",
+  "accessControl": "AfterFirstUnlockThisDeviceOnly + privateKeyUsage; no userPresence/biometrics",
+  "newDependencies": 0,
+  "activation": {
+    "schema": 21,
+    "cleanupVerified": true,
+    "verifyExit": 2,
+    "broken": 0,
+    "sealedEvents": 0,
+    "olderCheckEvents": 19,
+    "sealErrors": 0,
+    "coordinator": "online",
+    "time": "2026-10-20T19:08:51.095Z"
+  },
+  "keyRotation": {
+    "previousKeyId": "fc261d6df2962747c93f8870bfae36ac5e9836b106c62fa2d1d9315994edce83",
+    "currentKeyId": "874c3c9309f390deffb4537dd80b090f67766919dfce206aaa62c2bcee70d205",
+    "rotationTime": "2026-10-20T19:11:41.426Z",
+    "mode": "SECURE_ENCLAVE_P256",
+    "signatureVerified": true,
+    "softwarePrivateDeletion": "exact local file overwritten, fsynced and unlinked; APFS/SSD/snapshots and older backups may retain copies",
+    "privateKeyExported": false,
+    "softwarePrivateExists": false,
+    "accessControl": "AfterFirstUnlockThisDeviceOnly + privateKeyUsage; no userPresence or biometrics",
+    "specialEntitlements": false,
+    "independentNodeSignatureVerified": true,
+    "coordinator": "online",
+    "broken": 0
+  },
+  "goldenReplay": {
+    "baseline": "fbad889",
+    "compared": 61,
+    "differences": [],
+    "historicalStoredChecks": 19,
+    "studyCases": 19,
+    "negativeControls": 12,
+    "missingOriginalFacts": [
+      104,
+      488,
+      599,
+      616
+    ],
+    "note": "Current-policy comparison; no historical labels or original golden files changed"
+  },
+  "protectedPolicyFilesUnchanged": 20,
+  "protectedPaths": {
+    "count": 73,
+    "readable": 0,
+    "helpers": [
+      {
+        "called": false,
+        "exitCode": 1,
+        "signatureBytes": 0
+      },
+      {
+        "kind": "hardware",
+        "called": false,
+        "exitCode": 1,
+        "signatureBytes": 0
+      }
+    ],
+    "allSixSensitiveEndpointsDenied": true,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "cleanupVerified": true
+  },
+  "negativeControls": {
+    "count": 12,
+    "PASS": 0
+  },
+  "postrotationRestore": {
+    "files": 178472,
+    "tables": 56,
+    "passkeys": 1,
+    "allTableDigestsMatch": true,
+    "allFileDigestsMatch": true,
+    "privateMaterialExcluded": true,
+    "chainHead": {
+      "sequence": 1061,
+      "hash": "402907be5caa363024fc99ccc59e077262937504f158110bf87bd76bbba7bbb4"
+    }
+  },
+  "initialFullSuite": {
+    "pass": 1129,
+    "fail": 1,
+    "reason": "Probe regression expected one helper, now two; strengthened to require both denials, then fresh whole-suite rerun passed"
+  },
+  "productionPostActivationCheckEvents": 0,
+  "historicalVerdictsRewritten": false,
+  "merged": false,
+  "pushed": false,
+  "deployed": false
+}

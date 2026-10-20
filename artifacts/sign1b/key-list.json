@@ -1,0 +1,19 @@
+{
+  "current": "874c3c9309f390deffb4537dd80b090f67766919dfce206aaa62c2bcee70d205",
+  "keys": [
+    {
+      "id": "fc261d6df2962747c93f8870bfae36ac5e9836b106c62fa2d1d9315994edce83",
+      "publicKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEDFNZqdaat/+PW6dj7Y3x5y+mdend\nNWyr/T/zDNpLqZAVUJE/XLBBSgq69j+m2S4mpO+moNtoopAAzSDZ08SK0w==\n-----END PUBLIC KEY-----\n",
+      "validFrom": "1970-01-01T00:00:00.000Z",
+      "validUntil": "2026-10-20T19:11:41.426Z",
+      "mode": "P256_FILE_FALLBACK"
+    },
+    {
+      "id": "874c3c9309f390deffb4537dd80b090f67766919dfce206aaa62c2bcee70d205",
+      "publicKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEVoNBydNjpyZzNWl6Eh2/nMFGjBtU\ne8uLnvSJ6+enq2wYA02/HbEmCq07cwVmhNM95SDKAJP+Ey0opgo/paPg1A==\n-----END PUBLIC KEY-----\n",
+      "validFrom": "2026-10-20T19:11:41.426Z",
+      "validUntil": null,
+      "mode": "SECURE_ENCLAVE_P256"
+    }
+  ]
+}

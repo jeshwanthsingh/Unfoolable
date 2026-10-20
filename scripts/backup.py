@@ -71,7 +71,8 @@ def require_protected_store(path, home=HOME):
 
 
 def exclude_data_file(path):
-    return path.parts[0].startswith('command-center.sqlite') or path.parts[0] in {'.coordinator.lock', '.coordinator-recovery.lock'}
+    # Preserve public verification metadata; never copy private signing material.
+    return path.as_posix() in {'signing/private.pem', 'signing/device-key.blob'} or path.parts[0].startswith('command-center.sqlite') or path.parts[0] in {'.coordinator.lock', '.coordinator-recovery.lock'}
 
 
 def safe_member(name):
@@ -151,7 +152,7 @@ def external_roots(data):
         db.close()
 
 
-def snapshot(c):
+def snapshot(c, force=False):
     data, backup = Path(c['dataDir']), Path(c['backupDir'])
     with (backup / 'files.lock').open('a') as lock:
         try:
@@ -166,7 +167,7 @@ def snapshot(c):
         before = database_identity(db_path)
         application_hash = hashlib.sha256(json.dumps(before, sort_keys=True).encode()).hexdigest()
         previous = backup / 'last-success.json'
-        if previous.exists() and json.loads(previous.read_text()).get('applicationIdentitySha256') == application_hash:
+        if not force and previous.exists() and json.loads(previous.read_text()).get('applicationIdentitySha256') == application_hash:
             return {'skipped': 'No application changes since last complete checkpoint'}
         sources = [('data', data)] + [('external/' + str(i), p) for i, p in enumerate(external_roots(data))]
         checkpoint = 'snapshot-' + time.strftime('%Y%m%dT%H%M%SZ', time.gmtime()) + '-' + uuid.uuid4().hex[:8]
@@ -263,7 +264,7 @@ def main():
     install_parser.add_argument('--data-dir', required=True)
     install_parser.add_argument('--backup-dir', default=str(HOME / 'UnfoolableBackups'))
     install_parser.add_argument('--litestream', default=str(ROOT / '.work/backup-tools/v0.5.17/litestream'))
-    sub.add_parser('replicate'); sub.add_parser('snapshot'); sub.add_parser('status')
+    sub.add_parser('replicate'); snapshot_parser = sub.add_parser('snapshot'); snapshot_parser.add_argument('--force', action='store_true', help='Create a fresh verified checkpoint even when application tables are unchanged'); sub.add_parser('status')
     restore_parser = sub.add_parser('restore'); restore_parser.add_argument('--output', required=True)
     args = parser.parse_args()
     if args.command == 'install': return install(args)
@@ -271,7 +272,7 @@ def main():
     if args.command == 'replicate':
         if not (Path(c['dataDir']) / 'command-center.sqlite').is_file(): raise ValueError('Source database missing; refusing to create one')
         os.execve(c['litestream'], [c['litestream'], 'replicate', '-no-expand-env', '-config', str(SETTINGS.parent / 'litestream.yml')], ENV)
-    if args.command == 'snapshot': print(json.dumps(snapshot(c)))
+    if args.command == 'snapshot': print(json.dumps(snapshot(c, force=args.force)))
     elif args.command == 'status': print(run([c['litestream'], 'info', '-json', '-socket', c['socket']]))
     elif args.command == 'restore': print(json.dumps(restore_bundle(Path(c['backupDir']), json.loads((Path(c['backupDir']) / 'last-success.json').read_text()), Path(args.output).expanduser().resolve())))
 

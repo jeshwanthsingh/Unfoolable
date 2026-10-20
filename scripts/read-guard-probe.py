@@ -65,6 +65,14 @@ if helpers and keys:
         raise RuntimeError('Signing helper probe requires the installed Node runtime')
     completed=subprocess.run([node,helpers[0]['path'],keys[0]['path']],input=b'DSSEv1 1 t 1 x',stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=5)
     helper_checks.append(dict(called=False if completed.returncode!=0 else True,exitCode=completed.returncode,signatureBytes=len(completed.stdout)))
+hardware=[t for t in manifest if t['label']=='Verdict hardware signing helper']
+blobs=[t for t in manifest if t['label']=='Verdict device-bound key blob']
+if hardware and blobs:
+    try:
+        completed=subprocess.run([hardware[0]['path'],'sign',blobs[0]['path']],input=b'DSSEv1 1 t 1 x',stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=5)
+        helper_checks.append(dict(kind='hardware',called=completed.returncode==0,exitCode=completed.returncode,signatureBytes=len(completed.stdout)))
+    except OSError as error:
+        helper_checks.append(dict(kind='hardware',called=False,errno=error.errno,signatureBytes=0))
 report=dict(rows=rows,ownedChecks=checks,networkChecks=network_checks,helperChecks=helper_checks,secretContentsEmitted=False)
 (workspace/'.cc-runtime/read-report.json').write_text(json.dumps(report))
 print(json.dumps(report if os.environ.get('CC_PROBE_FULL_OUTPUT')=='1' else dict(targetCount=len(rows),readableCount=sum(r['readable'] for r in rows),ownedChecks=checks)))

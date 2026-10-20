@@ -1,0 +1,23 @@
+✔ new protected check is sealed, replays identically, and survives database reopen (96.749333ms)
+✔ seal rejects fact byte (55.936583ms)
+✔ seal rejects verdict (52.8335ms)
+✔ seal rejects delete event (51.33075ms)
+✔ seal rejects swap attestation (82.945875ms)
+✔ seal rejects diff byte (48.539292ms)
+✔ event insert, chain and head roll back together (48.436084ms)
+✔ readonly cc verify detects fact tampering and produces an example without human decisions (266.732417ms)
+✔ exact f947240 history upgrades without sealing or rewriting older verdicts (236.4935ms)
+✔ backup public identity verifies facts, seals and latest chain head without a private key (57.238458ms)
+✔ CLI verifies one read snapshot while the coordinator appends events (130.017875ms)
+✔ old seals remain valid before retirement, including after current key rotates (1.527625ms)
+✔ retired key cannot sign at or after validity end 2026-10-20T20:00:00.000Z (0.633583ms)
+✔ retired key cannot sign at or after validity end 2026-10-21T20:00:00Z (0.714667ms)
+✔ current key signs only from its activation time; unknown ids fail (0.77425ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1335.728292

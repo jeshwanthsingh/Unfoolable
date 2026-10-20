@@ -1,0 +1,31 @@
+{
+  "chainHead": {
+    "sequence": 1061,
+    "hash": "402907be5caa363024fc99ccc59e077262937504f158110bf87bd76bbba7bbb4"
+  },
+  "restoredFiles": 178472,
+  "databaseTables": 56,
+  "passkeys": 1,
+  "ticketEvents": 1061,
+  "allTableDigestsMatch": true,
+  "allFileDigestsMatch": true,
+  "integrityCheck": "ok",
+  "foreignKeyErrors": 0,
+  "output": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/sign1b/restore-postrotation",
+  "privateKeyInArchive": false,
+  "deviceBlobInArchive": false,
+  "restoredPublicKeyMatchesCurrent": true,
+  "checkpoint": {
+    "archive": "snapshot-20261020T191941Z-e6375b83.tar.gz",
+    "archiveSha256": "1f169f49d1e66c11134525de9067b749f17528f2914bb07f76f43f6197760061",
+    "chainHead": {
+      "sequence": 1061,
+      "hash": "402907be5caa363024fc99ccc59e077262937504f158110bf87bd76bbba7bbb4"
+    },
+    "createdAt": "2026-10-20T19:22:57Z",
+    "files": 178472,
+    "bytes": 488538136,
+    "sourceRoots": 10,
+    "applicationIdentitySha256": "6e9233b32b02d04f12e9cb414c65df24604c1d8610c74166f22bc0055bc54ee2"
+  }
+}
