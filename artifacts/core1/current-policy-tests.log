@@ -1,0 +1,25 @@
+✔ all 15 reconstructible events match actual 3c94150 policy without rewriting history (3.656709ms)
+✔ explain uses the exact core trace and does not invoke any agent or decision (2.700792ms)
+✔ explain replays historical playbook facts honestly and refuses to invent missing facts (0.1255ms)
+✔ all reconstructible explanations match the pre-refactor current-policy golden (17.821917ms)
+✔ event 592 combines the missing native recipe with passing playbook facts as NOT CHECKED (7.51125ms)
+✔ CORE-1 frozen golden hash and all historical replay verdicts remain unchanged (7.008459ms)
+✔ CORE-1 core has no runtime imports, ambient authorities or dynamic evaluation (0.291583ms)
+✔ CORE-1 pinned TypeScript authority lint rejects imports and ambient side effects (3.694083ms)
+✔ I1 thousands of generated fact combinations exactly match frozen pre-refactor policy (161.08925ms)
+✔ I2 a harness error can never authorize landing (13.898834ms)
+✔ I3 adding a protected failure or error never improves eligibility (21.791917ms)
+✔ I4 admission requires an assertion failure on BASE and two matching Candidate passes (20.883334ms)
+✔ I5 Candidate-only tests cannot replace missing passing BASE identities (17.073166ms)
+✔ I6 native and playbook paths agree for equivalent regression and unchecked-intent facts (20.210208ms)
+✔ I7 empty protected layers never pass and unchecked work remains visible (0.149167ms)
+✔ I8 input facts are immutable and trace is deterministic (160.61075ms)
+✔ I10 combining required parts cannot improve on the most cautious part (6.469833ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 552.0805

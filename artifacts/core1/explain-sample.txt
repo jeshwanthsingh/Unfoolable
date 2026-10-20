@@ -1,0 +1,3 @@
+Replayed from stored facts; not a fresh check
+1. Protected native checks and the approved project checks are both considered.
+2. Result: PASSED WITH GAPS. This never accepts the change.
