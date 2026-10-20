@@ -1,0 +1,538 @@
+[
+  {
+    "id": "A3-wrong-reference",
+    "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "candidate": "9e97967c9ec819dd88a668fe3a2211187d14fada",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "9e97967c9ec819dd88a668fe3a2211187d14fada",
+      "gates": [
+        {
+          "gate": "ruff",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 1900.3138749999998
+        },
+        {
+          "gate": "pyright",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2534.788125
+        },
+        {
+          "gate": "bandit",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 2,
+          "durationMs": 2142.8395409999994
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 5361.412208000001
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2377.587041999999
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 1,
+          "durationMs": 4768.8045409999995
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2.4294169999993755
+        }
+      ],
+      "durationMs": 19748.974666000002
+    }
+  },
+  {
+    "id": "T2-wrong-reference",
+    "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "candidate": "8b8e39a814d9b5bb6805fb833876a3ae27df2a77",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "candidate": "8b8e39a814d9b5bb6805fb833876a3ae27df2a77",
+      "gates": [
+        {
+          "gate": "oxlint",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 1,
+          "durationMs": 1953.8081670000001
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 5322.686874999999
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2616.952083
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 39,
+          "durationMs": 7288.299125
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: Gate execution/setup incomplete",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 9315.222707999998
+        },
+        {
+          "gate": "tsc",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 7593.517082999999
+        }
+      ],
+      "durationMs": 40131.254541999995
+    }
+  },
+  {
+    "id": "A2-unchanged-base",
+    "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "candidate": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "gates": [
+        {
+          "gate": "ruff",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No changed Python files",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.18862500000250293
+        },
+        {
+          "gate": "pyright",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No changed Python files",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.09637499999735155
+        },
+        {
+          "gate": "bandit",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No changed Python files",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.08354200000030687
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 4595.450083
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2368.7797089999985
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 1,
+          "durationMs": 4654.057458000003
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.1514999999999418
+        }
+      ],
+      "durationMs": 12231.146957999998
+    }
+  },
+  {
+    "id": "R4-unchanged-base",
+    "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+    "candidate": "f7f198123955f6113cb583020d06bb47dc89817f",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "candidate": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "gates": [
+        {
+          "gate": "ruff",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No changed Python files",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.18133300000044983
+        },
+        {
+          "gate": "pyright",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No changed Python files",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.09033300000010058
+        },
+        {
+          "gate": "bandit",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No changed Python files",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.08645899999828544
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 5144.137332999999
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2376.7904999999955
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 9,
+          "durationMs": 5210.284415999995
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.1659159999981057
+        }
+      ],
+      "durationMs": 13867.883042000001
+    }
+  },
+  {
+    "id": "T5-unchanged-base",
+    "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "candidate": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "candidate": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "gates": [
+        {
+          "gate": "oxlint",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No changed JS/TS files",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.8763330000001588
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 5938.107958
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2430.422917
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 39,
+          "durationMs": 6598.003250000002
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: Gate execution/setup incomplete",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 9116.472458
+        },
+        {
+          "gate": "tsc",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 7911.802917000001
+        }
+      ],
+      "durationMs": 37988.813625
+    }
+  },
+  {
+    "id": "A2-planted-half-fix",
+    "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "candidate": "bcc5fd7b192683fcfd54b9e50e7e3b037b559cf7",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "bcc5fd7b192683fcfd54b9e50e7e3b037b559cf7",
+      "gates": [
+        {
+          "gate": "ruff",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 9,
+          "durationMs": 1866.7594580000004
+        },
+        {
+          "gate": "pyright",
+          "status": "FAIL",
+          "findings": [
+            {
+              "path": "sdk/python/tests/test_sdk.py",
+              "line": 33,
+              "rule": "reportMissingImports",
+              "message": "Import \"aegis.events\" could not be resolved"
+            },
+            {
+              "path": "sdk/python/tests/test_sdk.py",
+              "line": 305,
+              "rule": "reportArgumentType",
+              "message": "Argument of type \"Generator[dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None], None, None]\" cannot be assigned to parameter \"iterable\" of type \"Iterable[dict[str, str]]\" in function \"extend\"\n\u00a0\u00a0\"Generator[dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None], None, None]\" is not assignable to \"Iterable[dict[str, str]]\"\n\u00a0\u00a0\u00a0\u00a0Type parameter \"_T_co@Iterable\" is covariant, but \"dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None]\" is not a subtype of \"dict[str, str]\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\"dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None]\" is not assignable to \"dict[str, str]\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0Type parameter \"_VT@dict\" is invariant, but \"str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None\" is not the same as \"str\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0Consider switching from \"dict\" to \"Mapping\" which is covariant in the value type"
+            }
+          ],
+          "baselineCount": 10,
+          "durationMs": 2901.0172079999975
+        },
+        {
+          "gate": "bandit",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 14,
+          "durationMs": 2153.5935000000027
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 5474.401874999996
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2600.336040999995
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 1,
+          "durationMs": 5168.030665999999
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.2414580000040587
+        }
+      ],
+      "durationMs": 20787.099292000006
+    }
+  },
+  {
+    "id": "A2-planted-special-case",
+    "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "candidate": "b84abbaac9fe47902f2610a2e9ab8b5d5c983bd7",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "b84abbaac9fe47902f2610a2e9ab8b5d5c983bd7",
+      "gates": [
+        {
+          "gate": "ruff",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 9,
+          "durationMs": 1908.3107089999976
+        },
+        {
+          "gate": "pyright",
+          "status": "FAIL",
+          "findings": [
+            {
+              "path": "sdk/python/tests/test_sdk.py",
+              "line": 33,
+              "rule": "reportMissingImports",
+              "message": "Import \"aegis.events\" could not be resolved"
+            },
+            {
+              "path": "sdk/python/tests/test_sdk.py",
+              "line": 305,
+              "rule": "reportArgumentType",
+              "message": "Argument of type \"Generator[dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None], None, None]\" cannot be assigned to parameter \"iterable\" of type \"Iterable[dict[str, str]]\" in function \"extend\"\n\u00a0\u00a0\"Generator[dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None], None, None]\" is not assignable to \"Iterable[dict[str, str]]\"\n\u00a0\u00a0\u00a0\u00a0Type parameter \"_T_co@Iterable\" is covariant, but \"dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None]\" is not a subtype of \"dict[str, str]\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\"dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None]\" is not assignable to \"dict[str, str]\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0Type parameter \"_VT@dict\" is invariant, but \"str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None\" is not the same as \"str\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0Consider switching from \"dict\" to \"Mapping\" which is covariant in the value type"
+            }
+          ],
+          "baselineCount": 10,
+          "durationMs": 2818.3099159999983
+        },
+        {
+          "gate": "bandit",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 14,
+          "durationMs": 2190.970125000007
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 5357.525999999998
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2330.7513330000074
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 1,
+          "durationMs": 4923.007207999995
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.16729200001282152
+        }
+      ],
+      "durationMs": 20187.90920899999
+    }
+  },
+  {
+    "id": "A2-planted-edge-case",
+    "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+    "candidate": "574eb75572528c5628feac51ca8cb1d1b2bf47ba",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "candidate": "574eb75572528c5628feac51ca8cb1d1b2bf47ba",
+      "gates": [
+        {
+          "gate": "ruff",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 9,
+          "durationMs": 1820.9989579999965
+        },
+        {
+          "gate": "pyright",
+          "status": "FAIL",
+          "findings": [
+            {
+              "path": "sdk/python/tests/test_sdk.py",
+              "line": 33,
+              "rule": "reportMissingImports",
+              "message": "Import \"aegis.events\" could not be resolved"
+            },
+            {
+              "path": "sdk/python/tests/test_sdk.py",
+              "line": 305,
+              "rule": "reportArgumentType",
+              "message": "Argument of type \"Generator[dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None], None, None]\" cannot be assigned to parameter \"iterable\" of type \"Iterable[dict[str, str]]\" in function \"extend\"\n\u00a0\u00a0\"Generator[dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None], None, None]\" is not assignable to \"Iterable[dict[str, str]]\"\n\u00a0\u00a0\u00a0\u00a0Type parameter \"_T_co@Iterable\" is covariant, but \"dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None]\" is not a subtype of \"dict[str, str]\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\"dict[str, str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None]\" is not assignable to \"dict[str, str]\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0Type parameter \"_VT@dict\" is invariant, but \"str | float | bool | list[Unknown] | dict[Unknown, Unknown] | None\" is not the same as \"str\"\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0Consider switching from \"dict\" to \"Mapping\" which is covariant in the value type"
+            }
+          ],
+          "baselineCount": 10,
+          "durationMs": 2693.181125000003
+        },
+        {
+          "gate": "bandit",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 14,
+          "durationMs": 2056.6391250000015
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 6359.156959
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2384.756208999999
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 1,
+          "durationMs": 5635.2958329999965
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: No supported dependency lockfile",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 0.23312499999883585
+        }
+      ],
+      "durationMs": 21588.576875
+    }
+  }
+]
