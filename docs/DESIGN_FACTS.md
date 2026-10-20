@@ -1,40 +1,43 @@
 # Design facts
 
-Observed at d8c0752; Graphify 0.9.92 code-only AST output, with source cross-checks. This is the current implementation, not the intended CORE-1 design.
+CORE-1 source at `14a6857`. Pre-refactor server/shared source in the original graph snapshot `d8c0752` is identical to `3c94150`. Graphify 0.9.92 supplies navigational AST relations, supplemented by source review and tests.
 
 ```mermaid
 flowchart TD
   UI[Browser or CLI] --> Service[Ticket service and durable queue]
   Service --> Loop[Ticket loop]
-  Loop --> Playbook[Approved playbook checks]
-  Loop --> Native[Native ticket checker]
-  Native --> Shell[Verify-only shell]
-  Shell --> Score[Shared scoreV1]
-  Playbook --> Result[Stored check result]
-  Score --> Result
-  Loop --> Error[Runtime error classification]
-  Result --> Human[Human review with exact-item passkey]
+  Loop --> Native[Protected native checker]
+  Loop --> Project[Approved project checks]
+  Native --> Facts[Observed reports and bound provenance]
+  Project --> Facts
+  Loop --> Runtime[Runtime and budget observations]
+  Facts --> Core[Pure scoreVerdict core]
+  Runtime --> Core
+  Core --> Record[Exact facts snapshot, version, hash and trace]
+  Record --> Log[Append-only ticket check event]
+  Log --> Explain[CLI explanation and Proof trace]
+  Log --> Human[Separate human review and exact-item passkey]
 ```
 
 ## Components and data flow
 
-- `apps/server/ticket-service.ts` composes `createTicketLoop`, playbook hooks and `createTicketChecker`. It also checks evidence freshness before a decision.
-- `apps/server/ticket-loop.ts` invokes the configured checker, records results and decides whether correction is needed; its catch path classifies runtime failures independently of code-test failure.
-- `apps/server/playbook-checks.ts` performs BASE admission, compares native results and incorporates quality findings. Its `check()` directly returns FAILED or PASSED WITH GAPS.
-- `apps/server/ticket-checker.ts` delegates the native path to `apps/server/verify-only.ts`; `createVerifyOnly()` calls `scoreV1()` in `packages/shared/verification-v1.ts`.
-- `packages/shared/verify-only-v2.ts` also has `scoreVerifyV2()`. Names alone must not be taken as evidence that all callers share one scoring path.
-- Oracle execution, protected existing tests, recipes, quality checks, process cleanup and playbook admission supply facts upstream of those result decisions. Their function locations are in `artifacts/core1/graph/verdict-path-before.md`.
+- `packages/shared/verdict-core.ts` is a 135-line pure module. `scoreVerdict` contains native and project aggregate rules, required-claim precedence, compatibility adaptation, their caution-order combination, runtime/budget classification and independent-test admission. `combineResults` delegates to the same function.
+- `scoreV1`, `scoreVerifyV2`, ticket checker, project checker and runtime shell call this core. `isV1Report` checks structure only; public view validation explicitly checks semantic consistency through scoring.
+- Collectors still execute tools, restore BASE tests, admit project commands, inspect quality/tamper reports, count usage and measure deadlines. Tool assertions, safe exports, process cleanup and human-review restrictions remain enforced outside the core.
+- A supplied aggregate is accepted only on the internal native-ticket fact path, with protected-verifier ID and evidence-hash provenance. The live supplier is `createVerifyOnly` via create/createTicketCandidate/wait; historical replay reads its saved result. Builder prose is never a supplier. The empty-layer compatibility rule deliberately preserves old behavior; tightening it is proposed separately, not applied.
+- `verdict-snapshot.ts` saves exact facts and core identity with content hashes and immutable files before publishing a production verdict. Snapshot failures cannot publish success. The evaluator bundle includes core and snapshot source, so policy changes invalidate existing freshness.
+- `explainTicket` selects the highest-sequence check_result. CLI and Proof show that event number and its stored label; retained facts can explain current policy without changing historical labels. b15600b3's latest check is 664 (PASSED WITH GAPS), not 592 (NOT CHECKED). The earlier policy annotation remains separate.
 
 ## Trust boundaries
 
-The Builder runs separately from protected checks and private data. Checker adapters execute native tools in their restricted processes; report parsing and scoring do not make arbitrary Candidate code trustworthy. The event log stores observations, while fresh passkey confirmation and current evidence binding control human decisions. A graph edge is a source relation, not proof a boundary was enforced.
+The Builder and protected checker remain separate processes with existing denial profiles. The pure core trusts its input observations; it cannot turn an untrusted in-process observation into a secure channel. Runtime, filesystem and process code never enter the core. Human Keep still needs current exact-item Touch ID and required diff viewing. Scoring never accepts a change on the owner's behalf. The provenance fields are origin metadata, not a signature.
 
-## Surprises and limits
+## Measurements
 
-There are two visible result construction paths (playbook and native), plus separate runtime-error handling. `scoreV1()` is also called by report validation (`isV1Report()`), not only by the verify-only shell; moving it requires preserving validation semantics. Historical scoring types/functions coexist with current ticket paths.
+The same dependency closure is 148 files / 3,982 edges before and 151 / 4,086 after. This includes collectors, types, observers and new snapshot/explanation shells. Source-reviewed aggregate decision authorities are separately 8 files / 8 functions before and 1 file / 1 deciding function after; delegation-only wrappers are excluded. See `artifacts/core1/graph/rule-authorities.json` for scope, entries and exclusions. Upstream layer constructors and diagnostic/admission checks are not claimed to have disappeared.
 
-AST extraction reported a partial parse in `packages/shared/contracts.ts` and 75 files without extracted symbols, including `apps/server/main.ts`. Callback injection and indirect calls require source review; neither the graph nor a missing path proves exhaustive influence or purity. The future single-core extraction, lint rule and after-map are not implemented by this setup.
+All 15 reconstructible historical results match actual 3c94150 code on identical facts. Four earlier events lack replay inputs; they remain historical records, not manufactured comparisons. The original golden archive and stored verdicts are unchanged.
 
-## Evidence
+## Graph and evidence limits
 
-Before graph: `artifacts/core1/graph/before.html`; diagram: `before-overview.svg`; inventory: `verdict-path-before.md`; exact counts: `counts.json`; pinned setup and scan: `setup.json`, `skill-scan.json`; network observations: `network-audit.json`; actual denied connection attempts: `network-denial-proof.json`. No API keys, provider calls, MCP/HTTP server or application decisions were used.
+`before.html` / `after.html`, `before.png` / `after.png`, the readable overview images, manifests, counts and path-query output are under `artifacts/core1/graph/`. The core has no outgoing external import/call edges; the pinned TypeScript authority lint independently rejects imports and ambient side effects. Graphify's partial parsing and injected callbacks limit graph completeness; a missing edge is not an enforcement proof. CLI-only code extraction runs under deny-network, isolated HOME and no provider keys. The static skill scan was DO_NOT_INSTALL, so no Graphify skill or MCP/HTTP server was installed.

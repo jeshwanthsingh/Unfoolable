@@ -1,0 +1,2 @@
+Shortest path (2 hops):
+  ticketPlaybookHooks() --calls [EXTRACTED]--> combineResults() --calls [EXTRACTED]--> scoreVerdict()

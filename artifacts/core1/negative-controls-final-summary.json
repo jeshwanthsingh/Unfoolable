@@ -1,0 +1,79 @@
+{
+  "controls": [
+    {
+      "name": "observation-pipe-forgery-review-on",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "R1-review-off",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "native-judge-skipped",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "native-judge-zero-collected",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "skipped-existing-test-restored",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "deleted-existing-test-restored",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "edited-existing-test-restored",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "early-exit-0",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "symlink-escape",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "dependency-change",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "oversized-output",
+      "status": "FAIL",
+      "expected": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "timeout",
+      "status": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "expectedMatched": true
+    }
+  ],
+  "total": 12,
+  "pass": 0,
+  "allExpected": true
+}

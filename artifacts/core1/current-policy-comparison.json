@@ -915,7 +915,15 @@
             "layer": 3,
             "reason": "Advisory task checks not requested; original intent is not automatically proved."
           }
-        ]
+        ],
+        "supplied": {
+          "verdict": "PASSED WITH GAPS",
+          "provenance": {
+            "source": "protected-verifier",
+            "verificationId": "b7bf19ea-6bb6-42f3-a343-bfacba15ea5d",
+            "evidenceHash": null
+          }
+        }
       },
       "expected": {
         "verdict": "PASSED WITH GAPS",
@@ -1840,7 +1848,15 @@
             "layer": 3,
             "reason": "Advisory task checks not requested; original intent is not automatically proved."
           }
-        ]
+        ],
+        "supplied": {
+          "verdict": "PASSED WITH GAPS",
+          "provenance": {
+            "source": "protected-verifier",
+            "verificationId": "d4eb3eb9-6da1-4dbf-86bd-0a7166b6b5c2",
+            "evidenceHash": null
+          }
+        }
       },
       "expected": {
         "verdict": "PASSED WITH GAPS",
@@ -2765,7 +2781,15 @@
             "layer": 3,
             "reason": "Advisory task checks not requested; original intent is not automatically proved."
           }
-        ]
+        ],
+        "supplied": {
+          "verdict": "PASSED WITH GAPS",
+          "provenance": {
+            "source": "protected-verifier",
+            "verificationId": "83ea46a4-ad83-4796-9e18-861049496f22",
+            "evidenceHash": null
+          }
+        }
       },
       "expected": {
         "verdict": "PASSED WITH GAPS",

@@ -1,0 +1,5 @@
+Event 664 (stored result: PASSED WITH GAPS). Replayed from stored facts; not a fresh check
+1. Native check: PASSED WITH GAPS, because test-writer-coverage: Test Writer is advisory only; it cannot change the verdict.
+2. Project checks: PASSED WITH GAPS (gaps or failures: Project playbook checks are regression guards; new intent is not independently proved.; osv: not applicable — BASE check could not run cleanly: No supported dependency lockfile).
+3. Combined by caution order: PASSED WITH GAPS wins.
+4. Result: PASSED WITH GAPS. This never accepts the change.

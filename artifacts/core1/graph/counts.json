@@ -7,6 +7,13 @@
     "nodes": 1174,
     "edges": 3982
   },
-  "after": null,
-  "after_reason": "CORE-1 extraction brief not present; no refactoring performed."
+  "after": {
+    "seed_files": 36,
+    "files": 151,
+    "nodes": 1201,
+    "edges": 4086
+  },
+  "after_reason": "Same conservative seed/import/call closure, including pure core and fact snapshot/explanation shells.",
+  "after_source_commit": "14a685777d10fe42fedcf15a375f0cefc838564a",
+  "status": "FINAL"
 }

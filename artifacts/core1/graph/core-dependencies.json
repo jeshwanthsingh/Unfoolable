@@ -1,0 +1,5 @@
+{
+  "coreNodes": 15,
+  "outgoingExternalImportsOrCalls": [],
+  "limitation": "Graph source cross-check plus pinned TypeScript authority lint; absence of an AST edge alone is not a proof."
+}

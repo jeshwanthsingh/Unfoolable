@@ -170,3 +170,11 @@ The following files remain source collectors, schema/type/shape validators, adap
 - `packages/shared/verify-only-v2.ts`
 - `packages/shared/verify-only.ts`
 - `packages/shared/workshop.ts`
+
+## Rule-authority metric (not graph reachability)
+
+The source-reviewed aggregate policy loci are listed with functions and source lines in `artifacts/core1/graph/rule-authorities.json`: **8 files / 8 functions before, 1 file / 1 deciding function after**. `combineResults`, `scoreV1`, `scoreVerifyV2`, `budgetExceeded` and `nativeAdmission` now delegate; wrappers are not counted as additional rule authorities. Native aggregation, legacy supplied-verdict adaptation, project-test comparison, quality/tamper execution errors, combination, required claims, runtime and budgets, and Writer admission live in `scoreVerdict`.
+
+This deliberately counts aggregate decisions, not every upstream conditional. Existing `testWriterLayer` constructs a layer from measured coverage and the retained advisory policy; BASE-admission, diagnostic classifiers and oracle judges produce observations. Their refusal/error facts can prevent execution; they do not independently manufacture a final ticket verdict. Human review-risk, diff caps, passkeys and freshness still gate a human Keep independently. Moving those policies would violate the unchanged-safety boundary. The pure core cannot prove that an input observation is true.
+
+The historical legacy adapter's supplied aggregate is an explicit exception to deriving everything again from layers: it is provenance-bound input from the protected checker. Forwarding empty-layer supplied verdicts preserves 3c94150. `POLICY_PROPOSALS.md` records potential tightening without applying it.

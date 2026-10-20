@@ -399,7 +399,7 @@
     },
     {
       "label": "Mid-session new repository",
-      "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-7d8fa372-1835-4ade-b2cc-6c1a732aa57a",
+      "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-9e8c3f3f-b3b2-4556-8acb-206adc0df3cc",
       "kind": "directory",
       "present": false
     },
@@ -816,7 +816,7 @@
       },
       {
         "label": "Mid-session new repository",
-        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-7d8fa372-1835-4ade-b2cc-6c1a732aa57a",
+        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-9e8c3f3f-b3b2-4556-8acb-206adc0df3cc",
         "readable": false,
         "errno": 1
       },
@@ -1280,7 +1280,7 @@
       },
       {
         "label": "Mid-session new repository",
-        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-7d8fa372-1835-4ade-b2cc-6c1a732aa57a",
+        "path": "/Users/jeshwanthsingh/Projects/cc-tripwire-probe-9e8c3f3f-b3b2-4556-8acb-206adc0df3cc",
         "readable": false,
         "errno": 1
       },
@@ -1345,15 +1345,15 @@
     "secretContentsEmitted": false
   },
   "provider": {
-    "threadId": "01a15a0e-3fea-7843-8038-0a72b6e0fe9f",
-    "turnId": "01a15a0e-4167-7ac1-b667-52ff0fb1e38b",
+    "threadId": "01a15a37-da60-7ba1-b53f-53511bc25c1b",
+    "turnId": "01a15a37-dbb1-7681-93b9-c76b142c4918",
     "bindings": [
       {
-        "attemptId": "78cbe51c-76fb-4d1d-ac86-1ba2ae002e2e",
+        "attemptId": "fe01ce13-41ec-49d1-9024-170fa568de5f",
         "generation": 1,
-        "transportId": "30cd8013-dca5-490f-b4b2-da26c6d980fd",
-        "threadId": "01a15a0e-3fea-7843-8038-0a72b6e0fe9f",
-        "turnId": "01a15a0e-4167-7ac1-b667-52ff0fb1e38b"
+        "transportId": "ca80ed6a-51eb-47b8-b27c-37c77d7b1330",
+        "threadId": "01a15a37-da60-7ba1-b53f-53511bc25c1b",
+        "turnId": "01a15a37-dbb1-7681-93b9-c76b142c4918"
       }
     ],
     "cleanup": {
@@ -1363,8 +1363,8 @@
       "terminalCount": 0,
       "reason": null
     },
-    "summary": "Probe ran exactly once: 0 of 69 protected targets readable. All five owned-workspace checks passed."
+    "summary": "Probe ran exactly once: 0 of 69 protected targets were readable. All five owned-workspace checks passed."
   },
-  "workspace": "/Users/jeshwanthsingh/.cc-work/204d45b30e4e57c585a8ff0d57c53649b9ea5ea0035c81d23c605cb25047bb21/c5bccd17-c144-4231-b74a-9534742e479d/worktrees/78cbe51c-76fb-4d1d-ac86-1ba2ae002e2e",
+  "workspace": "/Users/jeshwanthsingh/.cc-work/52f14ef64b42b4bd912e013e79c350748e9db65414096d0446f10bf2ef7457b9/4a90a1e2-5e02-4cf4-b9fc-20e77d8ae0e1/worktrees/fe01ce13-41ec-49d1-9024-170fa568de5f",
   "scriptSHA256": "b869d8c1c2ef2d7954dcd9c121afe4eb7e9bb780cf60229e88f0fb3587a782ea"
 }
