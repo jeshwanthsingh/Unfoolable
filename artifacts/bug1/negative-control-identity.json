@@ -1,0 +1,20 @@
+{
+  "repository": "/Users/jeshwanthsingh/Projects/ai-lab/command-center",
+  "repositoryHead": "9f8f5696ec669251acd85d5b1b73f5d2d07dd760",
+  "baseHead": "d9ba4675c722844741e13d223e2616ea337eddfe",
+  "baseTree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
+  "patchPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/breakout-11/process-isolated/observation-pipe-forgery.patch",
+  "patchSHA256": "810ffa9d1ef9495d62577014954e2b56273331c3bcbdb1157e8df6d65847d676",
+  "baseModuleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
+  "forgedModuleSHA256": "86b984ff2457be3b6c985c1b7404f49e5e798cac4fd9591816be3fa79cf99490",
+  "r1ModuleSHA256": "50d610b9f933a6beb22e234b4e8899cacbe7569875f863513af13fa98d0b85d5",
+  "oracleSHA256": "429bd08e5ca0e909b1951ba5ef44d13eef5be74a9a138e350ad3a9416a5dc948",
+  "coreHashes": {
+    "apps/server/oracle-execution.ts": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd",
+    "apps/server/oracle-tree.ts": "c6912dd6a808366b11f586dfe22fdecb205cbe4f2a936189254d92c5a93904b6",
+    "scripts/protected-verification/python-observer.py": "cc042553cef3eb016909d74b432d8530b48d3175d44edb8bb563f63579a59ea7",
+    "scripts/protected-verification/python-judge.py": "9223bf6b5f6c371ae2ae43b04ceecc0f1a6574e2a1646992037e81bb042a6ad0"
+  },
+  "assurance": "IN-PROCESS",
+  "reviewAidGuarantee": false
+}

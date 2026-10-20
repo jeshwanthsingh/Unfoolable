@@ -1,0 +1,283 @@
+{
+  "totals": {
+    "reproduced": 4,
+    "fixed": 0,
+    "couldNotReproduce": 1,
+    "falseFixed": 0
+  },
+  "cases": [
+    {
+      "id": "B1",
+      "ticketId": "10ebcdc0-797f-4d58-9a15-44106a854193",
+      "request": "Return zero when divide has a zero count; preserve normal division.",
+      "reproduced": true,
+      "fixed": false,
+      "couldNotReproduce": false,
+      "truth": null,
+      "falseFixed": false,
+      "status": "harness_error",
+      "verdict": "NOT CHECKED",
+      "tokens": 28384,
+      "writerTokens": null,
+      "wallSeconds": 41.635,
+      "candidate": null,
+      "seal": {
+        "state": "UNSEALED",
+        "label": "No check has been sealed",
+        "replays": false,
+        "eventId": null
+      },
+      "needsYou": [],
+      "checks": [],
+      "nonReproduction": []
+    },
+    {
+      "id": "B2",
+      "ticketId": "d594dcac-eea8-4746-a198-e6e26c04d07b",
+      "request": "Return None for first([]); preserve the first item for non-empty lists.",
+      "reproduced": true,
+      "fixed": false,
+      "couldNotReproduce": false,
+      "truth": "PASS",
+      "falseFixed": false,
+      "status": "needs_you",
+      "verdict": "NOT CHECKED",
+      "tokens": 123713,
+      "writerTokens": 7680,
+      "wallSeconds": 162.943,
+      "candidate": "ac2726737e76da55decfc0f03d0d6f85624d547b",
+      "seal": {
+        "state": "SEALED",
+        "label": "Sealed",
+        "replays": true,
+        "eventId": 215
+      },
+      "needsYou": [
+        {
+          "verdictSnapshot": {
+            "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l/data/verdict-facts/a322c12c2d4ec074ef714b59e50f509afb18ced00b5fdef3c3b99a4ef06acfcb.json",
+            "hash": "a322c12c2d4ec074ef714b59e50f509afb18ced00b5fdef3c3b99a4ef06acfcb",
+            "coreVersion": "verdict-core-v1"
+          },
+          "coreTrace": [
+            {
+              "rule": "runtime",
+              "passed": false,
+              "explanation": "Stopped because Builder reported more than 120000 tokens for this ticket."
+            },
+            {
+              "rule": "result",
+              "passed": false,
+              "explanation": "Result: NOT CHECKED. This never accepts the change."
+            }
+          ],
+          "coreVerdict": "NOT CHECKED",
+          "reason": "Stopped because Builder reported more than 120000 tokens for this ticket.",
+          "kind": "ACTION_BUDGET",
+          "budget": {
+            "activeMilliseconds": 158801,
+            "extended": false,
+            "reportedWriterTokens": 7680,
+            "limits": {
+              "maxCommands": 80,
+              "maxMinutes": 15,
+              "maxCodexTokens": 120000,
+              "maxWriterTokens": 40000
+            },
+            "commands": 12,
+            "reportedCodexTokens": 123713
+          },
+          "cleanupUncertain": false
+        }
+      ],
+      "checks": [
+        {
+          "verdict": "FAILED",
+          "failures": [
+            "pyright: tests/test_first.py:3 Import \"bugs\" could not be resolved"
+          ],
+          "gaps": []
+        }
+      ],
+      "nonReproduction": []
+    },
+    {
+      "id": "B3",
+      "ticketId": "71b91c91-fa08-4748-b569-d370902889c2",
+      "request": "Return Unknown when label has no name key; preserve existing names.",
+      "reproduced": true,
+      "fixed": false,
+      "couldNotReproduce": false,
+      "truth": "PASS",
+      "falseFixed": false,
+      "status": "needs_you",
+      "verdict": "NOT CHECKED",
+      "tokens": 124467,
+      "writerTokens": 7707,
+      "wallSeconds": 168.252,
+      "candidate": "30a9983d8f31cd5f55ab41e0088b72066fa326ff",
+      "seal": {
+        "state": "SEALED",
+        "label": "Sealed",
+        "replays": true,
+        "eventId": 417
+      },
+      "needsYou": [
+        {
+          "verdictSnapshot": {
+            "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l/data/verdict-facts/a322c12c2d4ec074ef714b59e50f509afb18ced00b5fdef3c3b99a4ef06acfcb.json",
+            "hash": "a322c12c2d4ec074ef714b59e50f509afb18ced00b5fdef3c3b99a4ef06acfcb",
+            "coreVersion": "verdict-core-v1"
+          },
+          "coreTrace": [
+            {
+              "rule": "runtime",
+              "passed": false,
+              "explanation": "Stopped because Builder reported more than 120000 tokens for this ticket."
+            },
+            {
+              "rule": "result",
+              "passed": false,
+              "explanation": "Result: NOT CHECKED. This never accepts the change."
+            }
+          ],
+          "coreVerdict": "NOT CHECKED",
+          "reason": "Stopped because Builder reported more than 120000 tokens for this ticket.",
+          "kind": "ACTION_BUDGET",
+          "budget": {
+            "activeMilliseconds": 164232,
+            "extended": false,
+            "reportedWriterTokens": 7707,
+            "limits": {
+              "maxCommands": 80,
+              "maxMinutes": 15,
+              "maxCodexTokens": 120000,
+              "maxWriterTokens": 40000
+            },
+            "commands": 12,
+            "reportedCodexTokens": 124467
+          },
+          "cleanupUncertain": false
+        }
+      ],
+      "checks": [
+        {
+          "verdict": "FAILED",
+          "failures": [
+            "pyright: tests/test_label.py:3 Import \"bugs\" could not be resolved"
+          ],
+          "gaps": []
+        }
+      ],
+      "nonReproduction": []
+    },
+    {
+      "id": "B4",
+      "ticketId": "64afc0b0-e251-4b3c-86ae-721a2d218314",
+      "request": "Return None for invalid integer text in parse; preserve valid integer parsing.",
+      "reproduced": true,
+      "fixed": false,
+      "couldNotReproduce": false,
+      "truth": "PASS",
+      "falseFixed": false,
+      "status": "needs_you",
+      "verdict": "NOT CHECKED",
+      "tokens": 124728,
+      "writerTokens": 15742,
+      "wallSeconds": 242.657,
+      "candidate": "38ec228f115d1ad6f98337e6844110fa7aeee7c7",
+      "seal": {
+        "state": "SEALED",
+        "label": "Sealed",
+        "replays": true,
+        "eventId": 785
+      },
+      "needsYou": [
+        {
+          "verdictSnapshot": {
+            "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l/data/verdict-facts/a322c12c2d4ec074ef714b59e50f509afb18ced00b5fdef3c3b99a4ef06acfcb.json",
+            "hash": "a322c12c2d4ec074ef714b59e50f509afb18ced00b5fdef3c3b99a4ef06acfcb",
+            "coreVersion": "verdict-core-v1"
+          },
+          "coreTrace": [
+            {
+              "rule": "runtime",
+              "passed": false,
+              "explanation": "Stopped because Builder reported more than 120000 tokens for this ticket."
+            },
+            {
+              "rule": "result",
+              "passed": false,
+              "explanation": "Result: NOT CHECKED. This never accepts the change."
+            }
+          ],
+          "coreVerdict": "NOT CHECKED",
+          "reason": "Stopped because Builder reported more than 120000 tokens for this ticket.",
+          "kind": "ACTION_BUDGET",
+          "budget": {
+            "activeMilliseconds": 238801,
+            "extended": false,
+            "reportedWriterTokens": 15742,
+            "limits": {
+              "maxCommands": 80,
+              "maxMinutes": 15,
+              "maxCodexTokens": 120000,
+              "maxWriterTokens": 40000
+            },
+            "commands": 12,
+            "reportedCodexTokens": 124728
+          },
+          "cleanupUncertain": false
+        }
+      ],
+      "checks": [
+        {
+          "verdict": "FAILED",
+          "failures": [
+            "pyright: tests/test_parse.py:3 Import \"bugs\" could not be resolved"
+          ],
+          "gaps": []
+        },
+        {
+          "verdict": "FAILED",
+          "failures": [
+            "pyright: tests/test_parse.py:3 Import \"bugs\" could not be resolved"
+          ],
+          "gaps": []
+        }
+      ],
+      "nonReproduction": []
+    },
+    {
+      "id": "B5",
+      "ticketId": "97210856-5f58-4bfd-a501-5e426f9b15ca",
+      "request": "Investigate the reported RuntimeError in safe_add. Preserve addition. If it cannot be reproduced, stop without a fix.",
+      "reproduced": false,
+      "fixed": false,
+      "couldNotReproduce": true,
+      "truth": null,
+      "falseFixed": false,
+      "status": "needs_you",
+      "verdict": "NOT CHECKED",
+      "tokens": 27148,
+      "writerTokens": null,
+      "wallSeconds": 26.129,
+      "candidate": null,
+      "seal": {
+        "state": "UNSEALED",
+        "label": "No check has been sealed",
+        "replays": false,
+        "eventId": null
+      },
+      "needsYou": [
+        {
+          "reason": "Couldn't reproduce. No fix was attempted; see what was tried in Proof."
+        }
+      ],
+      "checks": [],
+      "nonReproduction": [
+        "Reproduction changes execution machinery; human review required."
+      ]
+    }
+  ]
+}

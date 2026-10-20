@@ -32,7 +32,7 @@ The admission preconditions are measured by the protected runners. These invaria
 20. The Builder cannot read the signing key or execute the protected signing helper. [Real profile probe](../tests/builder-read-guard.test.ts). Signing uses its own bounded trusted helper, never Candidate code.
 21. Backup copies retain the latest chain head and signed facts; verification after restore must replay the same. [Backup copy test](../tests/verdict-seal.test.ts), [backup integrity](../tests/backup.test.ts).
 
-Threat boundary: these checks detect changes against the trusted verification key and retained chain anchors. They do not defeat an owner/root attacker who replaces application code and pinned keys, steals the fallback private key, or rolls back the entire machine and every backup. Secure Enclave was not testable because the Xcode licence blocked compilation; the current key is explicitly a protected 0600 P-256 software fallback.
+Threat boundary: these checks detect changes against the trusted verification key and retained chain anchors. They do not defeat an owner/root attacker who replaces application code and pinned keys, steals the fallback private key, or rolls back the entire machine and every backup. SIGN-1b activated a device-bound Secure Enclave signer without biometric prompting. BUG-1 revokes the unused retired software identity at every timestamp; older software backups cannot forge an accepted seal under the current registry.
 
 ## BUG-1
 
@@ -43,3 +43,6 @@ Threat boundary: these checks detect changes against the trusted verification ke
 - B5: Old facts keep the same verdict and trace. Frozen comparison: artifacts/bug1/golden-replay.json against actual fbad889.
 
 Bug admission currently supports ordinary unconditional Python unittest reproductions. Dynamic test construction, helper functions, conditionals, exception swallowing, framework changes and unsupported runner traces fail admission; they never authorize a fix. Static shape checks are additional tripwires, not replacements for the process/filesystem boundary or authenticity guarantees against arbitrary Python interpreter forgery.
+
+- B6: A non-admitted reproduction never starts a fix session or creates a fix Candidate. [Loop stop regression](../tests/ticket-loop.test.ts), [fresh handoff and source-only fix](../tests/bug-reproduction.test.ts).
+- B7: A bug mark is derived from stored checker events, never Builder prose; a fresh check clears the fixed mark. [Presentation truth tests](../tests/bug-presentation.test.ts).

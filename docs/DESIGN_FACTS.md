@@ -91,3 +91,16 @@ A seal authenticates the stored result, including failures or gaps. It is not ad
 - DSSE key IDs select public keys from docs/VERIFY_KEYS.json. Signed timestamps must fall within the selected key's validity interval. Retirement does not rewrite old envelopes or core verdicts.
 - The local legacy private.pem was overwritten/fsynced/unlinked after hardware proof and restart. Exact private/blob backup paths are excluded; older backups/snapshots may retain the software key. Public keys remain available for historical verification on a new Mac.
 - Key provisioning/rotation requires exclusive coordinator ownership. No verdict-core, scoring, approval, passkey or Keep rule changed.
+
+## Bug from a log (BUG-1)
+
+- A read-only production audit found zero seals from the retired software key. Its REVOKED status now rejects every timestamp; the historical metadata dates grant no validity. The hardware signer remains current.
+
+- Ask detects a traceback; `./cc bug <file>` explicitly submits one. Bounded input is stripped of terminal controls and scanned by the existing Gitleaks and detect-secrets tools before storage or Codex. Detected lines are replaced wholesale; failed scanners reject intake.
+- The first fresh Builder session has read-only BASE source and can write one pre-created reproduction file. The protected native runner independently runs that file on a fresh BASE archive. It must produce the same exception type, message and project file/function/line. Unsupported or mismatched traces stop with no fix session.
+- Admission locks the test and BASE report outside the Builder. A second fresh session starts from BASE to implement the fix and is explicitly told its reproducer is already locked; it requests source changes rather than duplicate reproduction tests. Checking restores old tests and runs the locked reproduction against the frozen change. The pure core receives explicit reproduction bindings and the existing combined check result; failed guards never improve.
+- New facts and trace are sealed through the existing attestation path. A fixed display event is emitted only after the passing check is persisted and sealed. Recheck uses the same frozen change and locks; missing or changed artifacts block Accept.
+- Workshop scroll/jar/stamp and card/Proof text project these recorded events. The log is diagnostic data, not grader instructions. Touch ID and human decisions are unchanged.
+- Initial support is conservative Python unittest with a normal unconditional test. Other runner traces, dynamic messages/frames or complex reproductions may be reported as not reproduced. Static Python shape screening is a tripwire, not a complete defense against malicious interpreter/result forgery.
+
+BUG-1 measurement: four seeded faults reproduced and fixed, one unreproducible report stopped, zero false fixed. All four retain PASSED WITH GAPS (advisory writer and no dependency lockfile for OSV). Production activation preserves 19 older checks with zero broken seals. Details: [BUG-1 report](../artifacts/bug1/RESULT.md).

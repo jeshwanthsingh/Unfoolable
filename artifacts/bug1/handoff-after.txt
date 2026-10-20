@@ -1,0 +1,19 @@
+✔ reproduction admission rejects conditional/forged test: if True: return (46.678667ms)
+✔ reproduction admission rejects conditional/forged test: try: divide(2,0)
+  except Exception: pass (20.711167ms)
+✔ reproduction admission rejects conditional/forged test: return (20.913375ms)
+✔ reproduction admission rejects conditional/forged test: raise ValueError("forged") (20.712416ms)
+✔ ordinary unconditional unittest reproduction stays native (20.378375ms)
+✔ bug invariant: no reproduced BASE failure, error, or failed guard can ever be VERIFIED (10.707458ms)
+✔ protected BASE exception admits one immutable reproduction; wrong Candidate fails, fixed Candidate passes and seals (3771.129708ms)
+✔ real reproduction sandbox can write its one test but cannot change the source (371.110916ms)
+✔ reproduction cannot improve failed guards or missing cryptographic bindings (0.212ms)
+✔ after admission the fresh fix session knows the test is already locked and starts from untouched BASE (2914.815708ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7444.697292

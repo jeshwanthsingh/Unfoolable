@@ -16,6 +16,8 @@ unfool
 
 This starts the coordinator, screen and live updates, then opens your private browser page. `./cc chat` is the repository-local equivalent. First setup needs Node 24, `npm ci`, and the existing ChatGPT/Codex login. No new paid API is required. Decisions use your registered Touch ID passkey.
 
+To investigate an error, paste its traceback in Ask, or run `./cc bug error.log`. Logs are bounded and scanned for secrets before AI sees them. The first session may only write a reproduction test; a fix starts only after that test produces the matching failure on the original code. Initial matching support is Python unittest. Unsupported or unreproduced reports stop honestly.
+
 ## Optional Workshop
 
 Choose **Workshop** beside **List** to see the selected ticket’s real event history as a room. The Builder stays outside the Grader’s glass inspection room; the Test Writer and your stamp station have separate desks. **Replay** shows a 45-second, read-only recording of any selected ticket. Phone and reduced-motion views use a still pixel illustration. The room has original 32px characters, real-event speech bubbles and a package route; blinking, coffee steam and the local-time clock are decorative. Record clip saves a local WebM without audio or upload. The list and all existing decisions stay available. [Implementation and proof](docs/OFFICE_1.md).
