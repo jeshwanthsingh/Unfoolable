@@ -46,3 +46,9 @@ Bug admission currently supports ordinary unconditional Python unittest reproduc
 
 - B6: A non-admitted reproduction never starts a fix session or creates a fix Candidate. [Loop stop regression](../tests/ticket-loop.test.ts), [fresh handoff and source-only fix](../tests/bug-reproduction.test.ts).
 - B7: A bug mark is derived from stored checker events, never Builder prose; a fresh check clears the fixed mark. [Presentation truth tests](../tests/bug-presentation.test.ts).
+
+## Night Shift review boundary
+
+- Night consent authorizes only one exact draft Start, up to its fixed morning cutoff. It cannot authorize Keep, Retry after an ordinary error, extra allowance, or a permission grant. Proof: `tests/night-queue.test.ts`, `tests/night-shift.test.ts`.
+- Night work ends at the existing human review boundary. Only the normal protected checker writes check results, using the same fact snapshots and sealing path; Night Shift never computes a verdict. Proof: `Night dispatch uses the real ticket loop and leaves its frozen change for explicit human review`.
+- A restart never consumes an old running consent again. Neither expiry nor a security stop renews consent. Rate-limit backoff is the only automatic retry and does not reset the ticket’s budget. Proof: `tests/night-shift.test.ts`.
