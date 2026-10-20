@@ -41,7 +41,7 @@ export function WorkshopRoom({frame,theme}:{frame:OfficeFrame;theme:'light'|'dar
    if(f.humanDecision){const rejected=/discard|reject|abandon/i.test(f.humanDecision),color=rejected?0xb8432f:brass;actors.circle(741,490,17).stroke({color,width:3});if(rejected)actors.moveTo(733,482).lineTo(749,498).moveTo(749,482).lineTo(733,498).stroke({color,width:3});else actors.moveTo(732,490).lineTo(739,497).lineTo(750,482).stroke({color,width:3});}
    if(f.alarm)actors.circle(580,120,18).fill({color:0xb8432f,alpha:.2}).circle(580,120,8).fill(0xb8432f);
    if(f.dimmed)overlay.roundRect(20,25,960,570,20).fill({color:0x10171a,alpha:.5});
-   crate.position.set(box.x,box.y);app.renderer.render(app.stage);if(host.current)host.current.dataset.officeFrames=String(++frames);
+   crate.visible=!!f.ticketId&&f.sequence>0;crate.position.set(box.x,box.y);app.renderer.render(app.stage);if(host.current)host.current.dataset.officeFrames=String(++frames);
   }
   const update=(f:OfficeFrame)=>{if(previous?.ticketId===f.ticketId&&previous.sequence===f.sequence)return;cancel();const animate=officeTransition(previous,f)&&!document.hidden,fromBuilder={...builder},fromBox={...box},toBuilder=f.alarm||f.dimmed?builder:builderPose(f),toBox=cratePose(f),newStamp=previous?.stamp!==f.stamp&&!!f.stamp;previous=f;
    if(!animate){builder={...toBuilder};box={...toBox};paint(f);return;}

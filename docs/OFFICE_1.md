@@ -36,3 +36,9 @@ Motion purpose: spatial consistency and state indication. Existing 250ms, zero-b
 ## Responsive/idle proof
 
 Official MCP first/refined passes at 1440 and 390, light/dark, were captured and manually inspected. Native reduced-motion contexts at both widths use the static SVG/HTML diagram with no Pixi canvas. Each idle audit observed one SSE and zero new requests, renders or animation frames over 20 seconds. Replay uses the cached selected history, with zero requests during its full 45 seconds. No review or decision control is enabled by playback. Existing Stop all remains available outside the scene.
+
+## Final race/empty-state review
+
+A browser regression using two prefixes of the same real ticket reproduced a missed update: a later SSE event arrived while an older history read was pending, and the room stayed at Building. The view now permits one history request at a time and catches up when that request settles; it does not poll. The same delayed-response test reaches the latest recorded review state. Replay snapshots its event array at Start so a late live response cannot change the historical sequence.
+
+A rendered empty-state regression also failed: the static diagram showed a crate before any event existed. Both renderers now hide the crate until there is a real ticket ID and event sequence. The first full suite passed 1059/1059 before these review findings; it is retained separately. Final verification is rerun against the corrected source.
