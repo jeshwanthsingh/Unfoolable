@@ -1,3 +1,5 @@
+import {registerChainHash,migrateEventChain} from './event-chain.ts';
+import {registerVerdictSealing} from './verdict-seal.ts';
 import {migratePhonePush} from './phone-push.ts';
 import {migratePhone} from './phone-auth.ts';
 import {migrateDraftArchive} from './draft-archive.ts';
@@ -28,13 +30,14 @@ export function openDatabase(dataDir:string,logger:Logger){
  let closed=false;
  const close=()=>{if(closed)return;closed=true;try{if(connection.isOpen)connection.close();}finally{release();}};
  try{
+  registerChainHash(connection);
   connection.exec('PRAGMA foreign_keys=ON; PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000;');
   const applied:number[]=[];
   connection.exec('BEGIN IMMEDIATE');
   try{
    connection.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL) STRICT');
    const current=Number(connection.prepare('SELECT COALESCE(MAX(version),0) AS version FROM schema_migrations').get()?.version);
-   if(current>20)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
+   if(current>21)throw failure('UNSUPPORTED_SCHEMA','Database schema is newer than this application supports');
    if(current===0){connection.prepare('INSERT INTO schema_migrations VALUES(1,?)').run(new Date().toISOString());applied.push(1);}
    if(current<2){
     connection.exec(`CREATE TABLE projects(
@@ -313,10 +316,12 @@ export function openDatabase(dataDir:string,logger:Logger){
    if(current<18){migrateDraftArchive(connection);connection.prepare('INSERT INTO schema_migrations VALUES(18,?)').run(new Date().toISOString());applied.push(18);}
    if(current<19){migratePhone(connection);connection.prepare('INSERT INTO schema_migrations VALUES(19,?)').run(new Date().toISOString());applied.push(19);}
    if(current<20){migratePhonePush(connection);connection.prepare('INSERT INTO schema_migrations VALUES(20,?)').run(new Date().toISOString());applied.push(20);}
-   connection.exec('PRAGMA user_version=20; COMMIT');
+   if(current<21){migrateEventChain(connection);connection.prepare('INSERT INTO schema_migrations VALUES(21,?)').run(new Date().toISOString());applied.push(21);}
+   connection.exec('PRAGMA user_version=21; COMMIT');
   }catch(error){connection.exec('ROLLBACK');throw error;}
   for(const schemaVersion of applied)logger({event:'migration.applied',schemaVersion});
-  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==20)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  const version=()=>{const value=connection.prepare('SELECT MAX(version) AS version FROM schema_migrations').get()?.version;if(value!==21)throw failure('UNSUPPORTED_SCHEMA','Database migration metadata is invalid');return value;};
+  registerVerdictSealing(connection,dataDir);
   logger({event:'database.opened',schemaVersion:version()});return {connection,version,close};
  }catch(error){close();throw error;}
 }
