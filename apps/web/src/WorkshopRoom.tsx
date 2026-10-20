@@ -1,39 +1,57 @@
-import {stationSpring,stationTravelMs} from './workshop-motion.ts';
 import {useEffect,useRef,useState} from 'react';
-import {stations,type WorkshopTicket} from '../../../packages/shared/workshop.ts';
-// Pixi is dynamically imported only on wide screens. No ticker remains active at rest.
-export function WorkshopRoom({tickets,selected,onSelect,onStation}:{tickets:{title:string;state:WorkshopTicket}[];selected:string|null;onSelect:(id:string)=>void;onStation:(station:number)=>void}){
- const host=useRef<HTMLDivElement>(null),previous=useRef(new Map<string,{x:number;y:number}>()),[error,setError]=useState(false);
- useEffect(()=>{if(!host.current)return;let disposed=false,destroy:(()=>void)|undefined;
- void (async()=>{const {Application,Graphics,Text,Sprite,Assets,EventsTicker,Ticker}=await import('pixi.js');if(disposed)return;
-  const app=new Application();await app.init({width:900,height:590,backgroundAlpha:0,antialias:true,autoStart:false,preference:'webgl'});
-  if(disposed){app.destroy(true,{children:true});return;}destroy=()=>{app.stop();app.destroy(true,{children:true,texture:false});};// Static objects use native pointer events; Pixi's synthetic stationary-pointer ticker is unnecessary.
-  EventsTicker.removeTickerListener();Ticker.system.stop();host.current!.replaceChildren(app.canvas);app.canvas.setAttribute('aria-hidden','true');
-  const positions=[[135,155],[445,155],[755,155],[600,415],[270,415]] as const;
-  const brass=0xbba073,ink=0x242b2c;
-  const floor=new Graphics().roundRect(24,35,852,510,22).fill(0x1a2021).stroke({color:0x49483e,width:2});app.stage.addChild(floor);
-  const grid=new Graphics();for(let x=45;x<865;x+=40)grid.moveTo(x,50).lineTo(x,530);for(let y=55;y<540;y+=40)grid.moveTo(40,y).lineTo(860,y);grid.stroke({color:0x333a37,width:1,alpha:.42});app.stage.addChild(grid);
-  const pipe=new Graphics();positions.forEach(([x,y],i)=>i?pipe.lineTo(x,y):pipe.moveTo(x,y));pipe.stroke({color:0x74674b,width:10,alpha:.4});app.stage.addChild(pipe);
-  const label=(text:string,x:number,y:number,size=17,color=0xe4dccc)=>{const t=new Text({text,style:{fontFamily:'system-ui',fontSize:size,fill:color,fontWeight:'500'}});t.anchor.set(.5);t.position.set(x,y);app.stage.addChild(t);return t;};
-  positions.forEach(([x,y],i)=>{const g=new Graphics().roundRect(x-105,y-62,210,125,10).fill(ink).stroke({color:brass,width:2});g.eventMode='static';g.cursor='pointer';g.on('pointertap',()=>onStation(i));app.stage.addChild(g);label(String(i+1).padStart(2,'0'),x-75,y-38,12,brass);label(stations[i]!,x,y-26);const icon=new Graphics();
-   if(i===2){icon.circle(x,y+15,29).fill(0x151d20).stroke({color:brass,width:3}).circle(x,y+15,20).stroke({color:0x737b6b,width:1}).moveTo(x-12,y+15).lineTo(x+12,y+15).moveTo(x,y+3).lineTo(x,y+27).stroke({color:brass,width:3});}
-   else if(i===0){icon.roundRect(x-39,y+2,78,32,3).fill(0x3c4139).stroke({color:brass,width:1}).moveTo(x-26,y+12).lineTo(x+26,y+12).moveTo(x-26,y+20).lineTo(x+10,y+20).stroke({color:0x98967b,width:2});}
-   else{icon.roundRect(x-56,y+4,112,12,3).fill(0x856e48).stroke({color:brass,width:1}).rect(x-47,y+16,6,26).rect(x+41,y+16,6,26).fill(0x5a5d4b);if(i===4)icon.roundRect(x-18,y-8,36,22,2).fill(0x171f23).stroke({color:brass,width:2});else icon.moveTo(x-22,y-6).lineTo(x-10,y+4).moveTo(x+10,y-9).lineTo(x+26,y+4).stroke({color:0xaaa78d,width:5});}app.stage.addChild(icon);});
-  const texture=await Assets.load('/workshop/crate_E.png');if(disposed)return;
-  const moves:{sprite:InstanceType<typeof Sprite>;from:{x:number;y:number};to:{x:number;y:number}}[]=[];
-  tickets.forEach(({title,state},index)=>{const [x,y]=positions[state.station]!,same=tickets.slice(0,index).filter(t=>t.state.station===state.station).length,to={x:x-70+(same%4)*45,y:y+65+Math.floor(same/4)*17};
-   const sprite=new Sprite(texture);sprite.anchor.set(.5);sprite.width=38;sprite.height=40;sprite.tint=state.id===selected?0xffd99b:0xbda77b;sprite.eventMode='static';sprite.cursor='pointer';sprite.on('pointertap',()=>onSelect(state.id));app.stage.addChild(sprite);
-   const from=previous.current.get(state.id)??to;sprite.position.set(from.x,from.y);moves.push({sprite,from,to});previous.current.set(state.id,to);
-   label(state.id.slice(0,4),to.x,to.y+25,9);if(state.id===selected){label(title.slice(0,46),450,568,13);}
-  });
-  const active=tickets.find(t=>['working','blocked'].includes(t.state.agent))??tickets.find(t=>t.state.id===selected)??tickets.find(t=>t.state.agent==='needs you');
-  if(active){const [x,y]=positions[active.state.station]!,bot=new Graphics().roundRect(x+64,y-52,25,25,7).fill(active.state.agent==='blocked'?0xb97c51:0x9caeaa).stroke({color:brass,width:2}).circle(x+71,y-42,2).circle(x+82,y-42,2).fill(0x1a2021);app.stage.addChild(bot);if(active.state.agent==='needs you')app.stage.addChild(new Graphics().roundRect(x-48,y-103,96,24,7).fill(0x454331).stroke({color:brass,width:1}));label(active.state.agent+(active.state.blocked?' · '+active.state.blocked+' blocked':''),x,y-88,12,0xddd0b3);}
-  const motionQuery=matchMedia('(prefers-reduced-motion: reduce)'),reduced=motionQuery.matches;let started=performance.now();const trajectory=stationSpring();
-  const render=()=>{const sample=trajectory.next(performance.now()-started),t=motionQuery.matches?1:sample.value;for(const m of moves)m.sprite.position.set(m.from.x+(m.to.x-m.from.x)*t,m.from.y+(m.to.y-m.from.y)*t);app.renderer.render(app.stage);if(motionQuery.matches||sample.done){app.ticker.stop();Ticker.system.stop();}};
-  app.ticker.add(render);render();if(!document.hidden&&!reduced&&moves.some(m=>m.from.x!==m.to.x||m.from.y!==m.to.y))app.start();
-  const visibility=()=>{app.stop();Ticker.system.stop();if(!document.hidden){started=performance.now()-stationTravelMs;render();}};document.addEventListener('visibilitychange',visibility);const motionChanged=()=>{if(motionQuery.matches){app.stop();started=performance.now()-stationTravelMs;render();}};motionQuery.addEventListener('change',motionChanged);
-  destroy=()=>{document.removeEventListener('visibilitychange',visibility);motionQuery.removeEventListener('change',motionChanged);app.stop();app.destroy(true,{children:true,texture:false});};
- })().catch(()=>{if(!disposed)setError(true);});return()=>{disposed=true;destroy?.();};
- },[tickets,selected,onSelect,onStation]);
- return <><div className="workshop-canvas" ref={host}/>{error&&<p role="status">Canvas unavailable. All tickets and stations remain available below.</p>}</>;
+import {officeDesks,builderPose,cratePose,officeTransition,type OfficeFrame} from './office-model.ts';
+import {stationSpring} from './workshop-motion.ts';
+type Engine={update:(frame:OfficeFrame)=>void;destroy:()=>void};
+export function WorkshopRoom({frame,theme}:{frame:OfficeFrame;theme:'light'|'dark'}){
+ const host=useRef<HTMLDivElement>(null),latest=useRef(frame),engine=useRef<Engine|null>(null),[failed,setFailed]=useState(false);latest.current=frame;
+ useEffect(()=>{if(!host.current)return;let disposed=false,owned:Engine|null=null;
+ void (async()=>{
+  const {Application,Graphics,Sprite,Assets,EventsTicker,Ticker}=await import('pixi.js');if(disposed)return;
+  const app=new Application();await app.init({width:1000,height:620,backgroundAlpha:0,antialias:true,autoStart:false,preference:'webgl'});if(disposed){app.destroy(true,{children:true});return;}
+  let raf:number|undefined,previous:OfficeFrame|null=null,frames=0,destroyed=false;const cancel=()=>{if(raf!==undefined)cancelAnimationFrame(raf);raf=undefined;app.stop();};
+  const dark=theme==='dark',floor=dark?0x273034:0xe8e9e4,wood=dark?0x987650:0xd6bd91,brass=dark?0xc2a170:0x8a6d3d,ink=dark?0xdce1e5:0x2a2f35;
+  const room=new Graphics().roundRect(20,25,960,570,20).fill(floor).stroke({color:brass,width:2});
+  for(let y=65;y<595;y+=40)room.moveTo(26,y).lineTo(974,y);room.stroke({color:brass,width:1,alpha:.09});
+  room.moveTo(60,410).lineTo(585,410).lineTo(585,510).lineTo(875,510).stroke({color:brass,width:3,alpha:.3});
+  // Glass boundary is architectural; Builder coordinates are always outside it.
+  room.roundRect(620,100,320,280,12).fill({color:0x8db8b0,alpha:dark?.12:.15}).stroke({color:dark?0xa8c5c0:0x688e86,width:3});
+  room.moveTo(630,110).lineTo(930,110).moveTo(930,110).lineTo(930,370).stroke({color:0xffffff,width:2,alpha:.25});
+  room.roundRect(645,127,270,25,3).fill({color:brass,alpha:.18});
+  // Closed handoff hatch, rather than a route for the Builder to enter.
+  room.roundRect(610,270,20,70,4).fill(wood).stroke({color:brass,width:2});
+  const bench=(x:number,y:number,w:number)=>{room.roundRect(x,y,w,56,7).fill(wood).stroke({color:brass,width:2}).rect(x+12,y+56,12,35).rect(x+w-24,y+56,12,35).fill({color:wood,alpha:.7});};
+  bench(125,205,265);bench(185,50,190);bench(670,190,220);bench(605,455,245);
+  // Work tools, lamp and paper are original simple primitives, not office-pack assets.
+  room.roundRect(150,218,80,10,3).fill({color:ink,alpha:.4}).roundRect(340,220,27,26,3).fill({color:ink,alpha:.25});
+  room.moveTo(347,218).lineTo(347,184).lineTo(325,170).stroke({color:brass,width:6}).roundRect(306,160,36,12,4).fill(brass);
+  room.roundRect(215,64,74,28,2).fill({color:0xffffff,alpha:.5}).roundRect(737,208,60,14,2).fill({color:0xffffff,alpha:.3});
+  room.circle(798,480,14).fill(brass).rect(791,480,14,24).fill(brass);
+  app.stage.addChild(room);const actors=new Graphics();app.stage.addChild(actors);const overlay=new Graphics();app.stage.addChild(overlay);
+  app.stage.eventMode='none';EventsTicker.removeTickerListener();Ticker.system.stop();host.current!.replaceChildren(app.canvas);app.canvas.setAttribute('aria-hidden','true');
+  owned={update:()=>{},destroy:()=>{if(destroyed)return;destroyed=true;cancel();document.removeEventListener('visibilitychange',hide);app.destroy(true,{children:true,texture:false});}};
+  const texture=await Assets.load('/workshop/crate_E.png');if(disposed){owned.destroy();owned=null;return;}const crate=new Sprite(texture);crate.anchor.set(.5);crate.width=42;crate.height=44;app.stage.addChild(crate);
+  let builder=builderPose(latest.current),box=cratePose(latest.current);
+  function paint(f:OfficeFrame,press=1){
+   actors.clear();overlay.clear();
+   for(const d of officeDesks){const p=d.role==='builder'?builder:{x:d.x,y:d.y+55},active=f.activeRole===d.role,color=f.alarm&&d.role==='builder'?0xb8432f:active?brass:dark?0x91a7a8:0x708a8b;
+    actors.roundRect(p.x-21,p.y-24,42,34,10).fill(color).stroke({color:ink,width:2,alpha:.5}).circle(p.x-7,p.y-10,2.5).circle(p.x+7,p.y-10,2.5).fill(dark?0x172025:0xfafbfc).roundRect(p.x-15,p.y+13,30,19,5).fill({color,alpha:.7});
+    if(active)actors.roundRect(p.x-26,p.y-29,52,69,13).stroke({color:brass,width:2,alpha:.6});
+   }
+   if(f.stamp){const color=f.stamp==='checked'?0x2f7a57:f.stamp==='look closer'?0xb5762a:0xb8432f,x=856,y=316,r=25*press;actors.circle(x,y,r).fill({color,alpha:.2}).circle(x,y,r-4).stroke({color,width:3});if(f.stamp==='checked')actors.moveTo(x-10,y).lineTo(x-3,y+7).lineTo(x+11,y-9).stroke({color,width:4});else if(f.stamp==='failed')actors.moveTo(x-8,y-8).lineTo(x+8,y+8).moveTo(x+8,y-8).lineTo(x-8,y+8).stroke({color,width:4});else actors.circle(x,y,8).stroke({color,width:3}).moveTo(x+7,y+7).lineTo(x+14,y+14).stroke({color,width:3});}
+   if(f.humanDecision)actors.circle(741,490,17).stroke({color:brass,width:3}).moveTo(732,490).lineTo(739,497).lineTo(750,482).stroke({color:brass,width:3});
+   if(f.alarm)actors.circle(580,120,18).fill({color:0xb8432f,alpha:.2}).circle(580,120,8).fill(0xb8432f);
+   if(f.dimmed)overlay.roundRect(20,25,960,570,20).fill({color:0x10171a,alpha:.5});
+   crate.position.set(box.x,box.y);app.renderer.render(app.stage);if(host.current)host.current.dataset.officeFrames=String(++frames);
+  }
+  const update=(f:OfficeFrame)=>{if(previous?.ticketId===f.ticketId&&previous.sequence===f.sequence)return;cancel();const animate=officeTransition(previous,f)&&!document.hidden,fromBuilder={...builder},fromBox={...box},toBuilder=f.alarm||f.dimmed?builder:builderPose(f),toBox=cratePose(f),newStamp=previous?.stamp!==f.stamp&&!!f.stamp;previous=f;
+   if(!animate){builder={...toBuilder};box={...toBox};paint(f);return;}
+   const spring=stationSpring(),start=performance.now();const tick=()=>{const sample=spring.next(performance.now()-start),v=sample.value;builder={x:fromBuilder.x+(toBuilder.x-fromBuilder.x)*v,y:fromBuilder.y+(toBuilder.y-fromBuilder.y)*v};box={x:fromBox.x+(toBox.x-fromBox.x)*v,y:fromBox.y+(toBox.y-fromBox.y)*v};paint(f,newStamp?1+.08*(1-v):1);if(!sample.done&&!document.hidden)raf=requestAnimationFrame(tick);else{raf=undefined;builder={...toBuilder};box={...toBox};}};tick();
+  };
+  function hide(){cancel();if(!latest.current.alarm&&!latest.current.dimmed)builder=builderPose(latest.current);box=cratePose(latest.current);if(!document.hidden)paint(latest.current);}
+  document.addEventListener('visibilitychange',hide);owned.update=update;engine.current=owned;update(latest.current);
+ })().catch(()=>{owned?.destroy();owned=null;if(!disposed)setFailed(true);});
+ return()=>{disposed=true;engine.current=null;owned?.destroy();};
+ },[theme]);
+ useEffect(()=>{engine.current?.update(frame);},[frame]);
+ return <><div className="office-canvas" ref={host}/>{failed&&<p role="status">The drawing is unavailable. The roles and recorded ticket remain accessible below.</p>}</>;
 }

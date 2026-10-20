@@ -36,5 +36,7 @@ export function officeFrame(ticketId:string,events:readonly TicketEvent[]):Offic
 }
 export function builderPose(f:OfficeFrame){return f.phase==='checking'?{x:560,y:330}:{x:300,y:330};}
 export function cratePose(f:OfficeFrame){return f.phase==='checking'?{x:760,y:315}:['building','fixing'].includes(f.phase)?{x:225,y:287}:f.phase==='queued'||f.phase==='unknown'?{x:120,y:475}:{x:635,y:495};}
-export function officeTransition(previous:OfficeFrame|null,next:OfficeFrame){return !!previous&&previous.ticketId===next.ticketId&&next.sequence>previous.sequence&&next.motionSequence>previous.motionSequence;}
+export function officeTransition(previous:OfficeFrame|null,next:OfficeFrame){return !!previous&&previous.sequence>0&&previous.ticketId===next.ticketId&&next.sequence>previous.sequence&&next.motionSequence>previous.motionSequence;}
 export function replaySchedule(id:string,events:readonly TicketEvent[]){const ordered=orderedOfficeEvents(id,events);let weight=0;const weights=ordered.map((e,i)=>{if(i){const a=Date.parse(ordered[i-1]!.createdAt),b=Date.parse(e.createdAt);weight+=Number.isFinite(a)&&Number.isFinite(b)?Math.max(1,Math.min(30000,b-a)):1;}return weight;});return ordered.map((event,i)=>({event,atMs:weight?Math.round(weights[i]!/weight*45000):0}));}
+
+export function officeRoleAt(f:OfficeFrame,x:number,y:number):OfficeRole|null{for(const d of officeDesks){const p=d.role==='builder'?builderPose(f):{x:d.x,y:d.y+55};if(Math.hypot(p.x-x,p.y-y)<48)return d.role;}const p=cratePose(f);return Math.hypot(p.x-x,p.y-y)<32?'owner':null;}
