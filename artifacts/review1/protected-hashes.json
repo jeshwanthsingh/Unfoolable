@@ -1,0 +1,50 @@
+[
+  {
+    "path": "packages/shared/verdict-core.ts",
+    "base": "4788631722c4219d0883dcad14d7e300b5952dbc31df8fe6ad13741d4cd4f511",
+    "current": "4788631722c4219d0883dcad14d7e300b5952dbc31df8fe6ad13741d4cd4f511",
+    "same": true
+  },
+  {
+    "path": "packages/shared/verification-v1.ts",
+    "base": "f2b7765e6670868c5b0a161e7e6ff79932d6a977d1dba44eb8f2a2b8f98de687",
+    "current": "f2b7765e6670868c5b0a161e7e6ff79932d6a977d1dba44eb8f2a2b8f98de687",
+    "same": true
+  },
+  {
+    "path": "packages/shared/verify-only-v2.ts",
+    "base": "a2d371cd23949ea9d2eb46a3b88e8e89a75b0f26a1dc2591de43f89798b56470",
+    "current": "a2d371cd23949ea9d2eb46a3b88e8e89a75b0f26a1dc2591de43f89798b56470",
+    "same": true
+  },
+  {
+    "path": "apps/server/review-risk.ts",
+    "base": "13c2d8ad0a3ffda56c1907212dc182d1a8c36d9f319eccc81d60e2aea0a0d030",
+    "current": "13c2d8ad0a3ffda56c1907212dc182d1a8c36d9f319eccc81d60e2aea0a0d030",
+    "same": true
+  },
+  {
+    "path": "apps/server/human-context.ts",
+    "base": "44f4c33669b5afa102530aa97cb0ab898cc16e4202a19b55edf56afc9015fe54",
+    "current": "44f4c33669b5afa102530aa97cb0ab898cc16e4202a19b55edf56afc9015fe54",
+    "same": true
+  },
+  {
+    "path": "apps/server/human-confirmation.ts",
+    "base": "f02d148571b55bd22c5e6552e23ad33dd7caa749abf32aa5b032e95f71a6be52",
+    "current": "f02d148571b55bd22c5e6552e23ad33dd7caa749abf32aa5b032e95f71a6be52",
+    "same": true
+  },
+  {
+    "path": "apps/server/oracle-execution.ts",
+    "base": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd",
+    "current": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd",
+    "same": true
+  },
+  {
+    "path": "apps/server/oracle-tree.ts",
+    "base": "c6912dd6a808366b11f586dfe22fdecb205cbe4f2a936189254d92c5a93904b6",
+    "current": "c6912dd6a808366b11f586dfe22fdecb205cbe4f2a936189254d92c5a93904b6",
+    "same": true
+  }
+]
