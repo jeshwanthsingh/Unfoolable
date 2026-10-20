@@ -1,0 +1,26 @@
+{
+  "realTicket": "c9f83568-2d33-4e5f-9ef1-b836c4f49cf2",
+  "previewDurationMs": 9000,
+  "frames": [
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 4.1,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nBuilding at the bench\",\n  \"replay\": \"Recorded replay, 45 seconds. 10 of 77 real events. No work starts and no decisions can be made here.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"212\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 7.683,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nBuilding at the bench\",\n  \"replay\": \"Recorded replay, 45 seconds. 22 of 77 real events. No work starts and no decisions can be made here.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"427\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"elapsed\": 11.239,\n  \"line\": \"—\\nAdd local setup guidance to README\\n\\nBuilding at the bench\",\n  \"replay\": \"Recorded replay, 45 seconds. 34 of 77 real events. No work starts and no decisions can be made here.\",\n  \"requestsSinceReplay\": 0,\n  \"frameCount\": \"640\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({elapsed:(Date.now()-window.__replayStarted)/1000,line:document.querySelector(\\'.office-readout\\')?.innerText,replay:document.querySelector(\\'.office-replay\\')?.innerText,requestsSinceReplay:window.__officeRequests.length-window.__replayRequests,frameCount:document.querySelector(\\'.office-canvas\\')?.dataset.officeFrames})');\n```"
+      }
+    ]
+  ],
+  "networkRequestsDuringReplay": 0,
+  "decisionsPerformed": 0
+}

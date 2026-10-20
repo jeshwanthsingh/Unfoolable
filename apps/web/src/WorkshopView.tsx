@@ -4,6 +4,7 @@ import type {DeskTicket} from './useUnfoolableData.ts';import type {Detail} from
 import {officeFrame,officeDesks,replaySchedule,builderPose,cratePose,officeRoleAt,type OfficeFrame,type OfficeRole} from './office-model.ts';
 import {useReducedMotionPreference} from './useReducedMotionPreference.ts';
 import './office.css';
+import {officeActivity} from './office-activity.ts';
 const Room=lazy(()=>import('./WorkshopRoom.tsx').then(m=>({default:m.WorkshopRoom})));
 type Props={tickets:DeskTicket[];details:Record<string,Detail>;loadDetail:(id:string,force?:boolean)=>Promise<void>;onProof:(id:string)=>void;theme:'light'|'dark';offline:boolean};
 export function WorkshopView({tickets,details,loadDetail,onProof,theme,offline}:Props){
@@ -24,7 +25,7 @@ export function WorkshopView({tickets,details,loadDetail,onProof,theme,offline}:
  {cursor!==null&&<p className="office-replay" role="status">{cursor>=schedule.length&&!playing?'Replay finished.':playing?'Recorded replay, 45 seconds.':'Replay paused.'} {cursor} of {schedule.length} real events. No work starts and no decisions can be made here.</p>}
  {error&&<p role="alert">{error}<button onClick={()=>{if(id)void loadDetail(id,true).then(()=>setError('')).catch(()=>setError('The recorded steps could not open. Try again.'));}}>Try again</button></p>}
  <div className="office-room" data-alarm={frame.alarm} data-stopped={frame.dimmed} onClick={event=>{if((event.target as Element).closest('button'))return;const drawing=event.currentTarget.querySelector('canvas,.office-diagram');if(!drawing)return;const r=drawing.getBoundingClientRect(),role=officeRoleAt(frame,(event.clientX-r.left)/r.width*1000,(event.clientY-r.top)/r.height*620);if(role)setDesk(role);}}>
- {wide&&!reduced?<Suspense fallback={<OfficeDiagram frame={frame}/>}><Room key={(id??'none')+(cursor===null?'live':'replay')} frame={frame} theme={theme}/></Suspense>:<OfficeDiagram frame={frame}/>}
+ {wide&&!reduced?<Suspense fallback={<OfficeDiagram frame={frame}/>}><Room key={(id??'none')+(cursor===null?'live':'replay')} frame={frame} activity={officeActivity(id??'',events)} theme={theme}/></Suspense>:<OfficeDiagram frame={frame}/>}
  <div className="office-desk-labels" aria-label="Workshop roles">{officeDesks.map(d=><button key={d.role} className={'office-desk office-'+d.role} style={{left:d.label.x+'%',top:d.label.y+'%'}} aria-pressed={desk===d.role} data-active={frame.activeRole===d.role} onClick={()=>setDesk(d.role)}><strong>{d.name}</strong><span>{deskWords(d.role)}</span></button>)}</div>
  </div>
  <div className="office-readout" aria-live="polite"><span className={'office-result office-result-'+(frame.stamp?.replaceAll(' ','-')??'none')}>{frame.stamp==='checked'?'✓':frame.stamp==='look closer'?'◉':frame.stamp==='failed'?'×':'—'}</span><div><h3>{selected?(selected.plainTitle??selected.title):'No work recorded yet'}</h3><p>{frame.line}{frame.blocked?' ('+frame.blocked+' blocked actions recorded)':''}</p>{frame.writerRecorded&&<p className="office-note">Test Writer completion is recorded, not live activity.</p>}</div></div>
