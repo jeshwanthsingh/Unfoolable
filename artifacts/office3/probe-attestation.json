@@ -1,0 +1,8 @@
+{
+  "count": 69,
+  "readable": 0,
+  "verifiedAt": "2026-10-20T08:47:09.564858+00:00",
+  "date": "2026-10-20",
+  "source": "artifacts/office3/after-probe.json; real Builder and direct-profile probe agree",
+  "scriptSHA256": "b869d8c1c2ef2d7954dcd9c121afe4eb7e9bb780cf60229e88f0fb3587a782ea"
+}

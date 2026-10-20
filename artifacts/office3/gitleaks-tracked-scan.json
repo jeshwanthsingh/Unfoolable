@@ -1,0 +1,22 @@
+{
+  "tool": "gitleaks 8.30.1",
+  "files": 2536,
+  "rawFindings": 1,
+  "intentionalSyntheticFixture": 1,
+  "unresolvedFindings": 0,
+  "findings": 0,
+  "triage": {
+    "file": "tests/build-runtime.test.ts",
+    "line": 15,
+    "rule": "aws-access-token",
+    "reason": "Existing redaction unit test uses literal fixture material; exact fingerprint excluded only for this audit, not application policy"
+  },
+  "network": "DENIED",
+  "cleanup": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  }
+}

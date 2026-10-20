@@ -1,0 +1,13 @@
+{
+  "ownedFixturesStopped": [
+    {
+      "pid": 85156,
+      "startTime": "Tue Oct 20 01:01:29 2026",
+      "command": "node .work/office3/server.mjs",
+      "cwd": "/Users/jeshwanthsingh/Projects/ai-lab/command-center"
+    }
+  ],
+  "mainServerUntouched": true,
+  "firstAttempt": "No signal sent: formatting difference in ps whitespace. Retry normalized whitespace only; PID, start time, exact command and cwd still required.",
+  "method": "Immediately rechecked launched fixture PID/start time/command/cwd, then SIGTERM only to that process."
+}

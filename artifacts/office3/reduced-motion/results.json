@@ -1,0 +1,9 @@
+{
+  "facts": [],
+  "reduced": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"staticIllustration\": true,\n  \"animatedCanvas\": false,\n  \"reducedMotion\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(document.querySelector(\\'canvas\\'))throw Error(\\'Animated reduced-motion canvas\\');if(!document.querySelector(\\'.office-diagram\\'))throw Error(\\'Missing still illustration\\');if(!matchMedia(\\'(prefers-reduced-motion: reduce)\\').matches)throw Error(\\'Not actual reduced motion\\');return {staticIllustration:true,animatedCanvas:false,reducedMotion:true};}');\n```"
+    }
+  ]
+}

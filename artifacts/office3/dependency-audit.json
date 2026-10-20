@@ -1,0 +1,10 @@
+{
+  "package": "pixi-filters",
+  "version": "6.1.5",
+  "license": "MIT",
+  "source": "https://github.com/pixijs/filters",
+  "npmIntegrity": "sha512-Ewb/J+kxAbaNN+0/ATJbglAJG+skGJfh7BIDP3ILIDdD6wWk1p0pGa25pVf1T8hGBOQSUNVAmwwJBwkj+cyLLA==",
+  "osv": {},
+  "scanDate": "2026-10-20",
+  "manifestFilesUnchanged": true
+}

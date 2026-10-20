@@ -1,0 +1,64 @@
+{
+  "facts": [
+    [
+      {
+        "type": "text",
+        "text": "### Result\n\"Close\\nBarred window\\n\\nThe Builder is configured without internet access.\\n\\nSource: Builder permission profile, apps/server/build-runtime.ts; outbound denial checked by the real Builder probe.\"\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const p=document.querySelector(\\'.office-inspector\\');if(!p||!p.textContent.includes(\\'Source:\\'))throw Error(\\'Missing source\\');return p.innerText;}');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n\"Close\\nLocked drawers\\n\\n69 protected paths were unreadable on 2026-10-20.\\n\\nSource: artifacts/office3/probe-attestation.json, fresh real Builder probe; 0 of 69 readable\"\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const p=document.querySelector(\\'.office-inspector\\');if(!p||!p.textContent.includes(\\'Source:\\'))throw Error(\\'Missing source\\');return p.innerText;}');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n\"Close\\nTripwire\\n\\nNo tripwire alarm is recorded for this ticket.\\n\\nSource: Selected ticket event log: needs_you/TRIPWIRE or agent_event/tripwire; absence is not sensor-health proof.\"\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const p=document.querySelector(\\'.office-inspector\\');if(!p||!p.textContent.includes(\\'Source:\\'))throw Error(\\'Missing source\\');return p.innerText;}');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n\"Close\\nFuel gauge\\n\\n26,369 of 120,000 Builder tokens reported.\\n\\nSource: Stored ticket detail: budget.reportedCodexTokens and budget.limits.maxCodexTokens.\"\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const p=document.querySelector(\\'.office-inspector\\');if(!p||!p.textContent.includes(\\'Source:\\'))throw Error(\\'Missing source\\');return p.innerText;}');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n\"Close\\nStop all lever\\n\\nStop all opens the same stop action used by the main screen.\\n\\nSource: Existing main-screen Stop all control. This illustration cannot resume or approve a ticket.\\nOpen Stop all\"\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const p=document.querySelector(\\'.office-inspector\\');if(!p||!p.textContent.includes(\\'Source:\\'))throw Error(\\'Missing source\\');return p.innerText;}');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n\"Close\\nInspection room lock\\n\\nProtected checks run in a separate restricted process.\\n\\nSource: apps/server/oracle-execution.ts; configured process boundary, not a live running indicator.\"\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const p=document.querySelector(\\'.office-inspector\\');if(!p||!p.textContent.includes(\\'Source:\\'))throw Error(\\'Missing source\\');return p.innerText;}');\n```"
+      }
+    ],
+    [
+      {
+        "type": "text",
+        "text": "### Result\n\"Close\\nPackage at your desk\\n\\nOpen the existing proof and review for this exact ticket.\\n\\nSource: Selected ticket ID and existing proof/review flow; diff review and passkey rules stay unchanged.\\nSee the proof\"\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const p=document.querySelector(\\'.office-inspector\\');if(!p||!p.textContent.includes(\\'Source:\\'))throw Error(\\'Missing source\\');return p.innerText;}');\n```"
+      }
+    ]
+  ],
+  "performance": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"fps\": 60.00189879426564,\n  \"paintMs\": \"0.565\",\n  \"idleRequests\": 0,\n  \"oneSse\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const e=document.querySelector(\\'.office-canvas\\'),s=(performance.now()-window.__start.time)/1000,r=window.__officeRequests.length-window.__start.requests;if(r!==0)throw Error(\\'Idle request\\');return {fps:(Number(e.dataset.officeFrames)-window.__start.frames)/s,paintMs:e.dataset.officePaintMs,idleRequests:r,oneSse:window.__officeRequests.filter(x=>x.path===\\'/api/desk/events\\').length===1};}');\n```"
+    }
+  ],
+  "hidden": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"framesWhileHidden\": 0,\n  \"method\": \"Controlled visibility input; real render cancellation verified\"\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{const n=Number(document.querySelector(\\'.office-canvas\\').dataset.officeFrames)-window.__hiddenFrames;if(n!==0)throw Error(\\'Hidden rendering\\');Reflect.deleteProperty(document,\\'hidden\\');document.dispatchEvent(new Event(\\'visibilitychange\\'));return {framesWhileHidden:n,method:\\'Controlled visibility input; real render cancellation verified\\'};}');\n```"
+    }
+  ],
+  "phone": [
+    {
+      "type": "text",
+      "text": "### Result\n{\n  \"overflow\": false,\n  \"hudOverlapsScene\": false,\n  \"staticIllustration\": true,\n  \"zoom\": 1\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{if(document.documentElement.scrollWidth>innerWidth)throw Error(\\'Overflow\\');const pill=document.querySelector(\\'.office-pill\\').getBoundingClientRect(),room=document.querySelector(\\'.office-room\\').getBoundingClientRect();if(pill.bottom>room.top)throw Error(\\'HUD overlaps scene\\');if(document.querySelector(\\'canvas\\'))throw Error(\\'Heavy phone canvas\\');return {overflow:false,hudOverlapsScene:false,staticIllustration:true,zoom:visualViewport.scale};}');\n```"
+    }
+  ]
+}

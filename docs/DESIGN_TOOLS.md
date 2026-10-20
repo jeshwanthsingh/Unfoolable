@@ -340,3 +340,10 @@ Skipped: pixijs-application, pixijs-assets, pixijs-create, pixijs-scene-sprite, 
 `pixi-filters` 6.1.5, official pixijs/filters, MIT. Exact upstream ESM adjustment and bloom dependency closure vendored under `apps/web/vendor/pixi-filters-6.1.5/` to preserve frozen package manifests. Provenance contains individual SHA256 hashes. Declaration copies named `.d.mts` provide NodeNext ESM resolution. OSV queried 2026-10-20: no published vulnerabilities returned. No other dependencies installed.
 
 Palette ENDESGA 32 by ENDESGA, Lospec free-use permission (see art bible); original art CC0-1.0. Existing Pillow 11.3.0 (HPND), PixiJS 8.22.0 (MIT), Playwright MCP 0.0.83 (Apache-2.0), FFmpeg 8.0 (GPL-3.0-or-later).
+
+
+### OFFICE-3 completed continuation
+
+Used installed Pixi filters, blend modes and custom-rendering guidance; Emil animate, review-animations and animation-performance; make-interfaces-feel-better; official Playwright MCP for the real screenshot/recording loop. Full local review and known limits: `artifacts/office3/visual-review.md`. No additional tools or packages were installed after the preview. The light map uses PixiJS RenderTexture, multiply/add blend layers and the pinned official AdvancedBloomFilter. Raw recorder output has a local duration/dimension JSON sidecar; FFmpeg 8.0 packet-copy remux adds duration to the final WebM files without changing frames.
+
+Palette/art and reference usage are documented in `artifacts/office3/art-bible.md`. The safety-object count is a dated attestation from the real OFFICE-3 Builder probe, not a hard-coded claim of continuously monitored protection.

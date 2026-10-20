@@ -1,0 +1,24 @@
+{
+  "format": "portrait",
+  "raw": "artifacts/office3/final/portrait/unfoolable-workshop-1792487109395.webm",
+  "output": "artifacts/office3/workshop-9x16.webm",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1080,
+        "height": 1920,
+        "r_frame_rate": "60/1"
+      }
+    ],
+    "format": {
+      "duration": "38.218000"
+    }
+  },
+  "packetStreamUnchanged": true,
+  "streamHash": "0,v,SHA256=57ba7f7ea9adee00b5fef923eddff3e0bd3afc220a6302581f622f157a1c5b10",
+  "rawSHA256": "3a0ad18e4413beef0b2d29fc65993deac3d7f8aad564e2b8ad79877357880f0c",
+  "outputSHA256": "52abdabb3c5095f07bb347390a83a524216f04cfc57cee1cb4a14173a775075b",
+  "method": "Lossless packet-copy remux adds WebM duration metadata. No re-encoding, duplicated frames or fabricated events."
+}
