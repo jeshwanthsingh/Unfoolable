@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import ts from 'typescript';
+import {createRequire} from 'node:module';
+// TS 7's public declarations omit the retained JS parser API; use it only in this lint test.
+const ts=createRequire(import.meta.url)('typescript');
 import {scoreVerdict} from '../packages/shared/verdict-core.ts';
 const raw=readFileSync(new URL('../artifacts/core1/golden.json',import.meta.url),'utf8');
 const golden=JSON.parse(raw);
@@ -20,9 +22,9 @@ test('CORE-1 core has no runtime imports, ambient authorities or dynamic evaluat
 test('CORE-1 authority lint rejects imports, exports from modules and ambient side effects',()=>{
  const source=ts.createSourceFile('verdict-core.ts',readFileSync(new URL('../packages/shared/verdict-core.ts',import.meta.url),'utf8'),ts.ScriptTarget.Latest,true);
  const forbidden=new Set(['require','process','globalThis','fetch','Date','performance','eval','Function','setTimeout','setInterval','XMLHttpRequest','WebSocket']);
- const visit=(node:ts.Node)=>{
+ const visit=(node:{moduleSpecifier?:unknown;text?:string;getText:(source:unknown)=>string})=>{
   assert.equal(ts.isImportDeclaration(node)||ts.isImportEqualsDeclaration(node)||(ts.isExportDeclaration(node)&&!!node.moduleSpecifier),false,'Core imports a module');
-  if(ts.isIdentifier(node))assert.equal(forbidden.has(node.text),false,'Core uses ambient authority: '+node.text);
+  if(ts.isIdentifier(node))assert.equal(forbidden.has(node.text??''),false,'Core uses ambient authority: '+node.text);
   if(ts.isPropertyAccessExpression(node))assert.notEqual(node.getText(source),'Math.random');
   ts.forEachChild(node,visit);
  };visit(source);

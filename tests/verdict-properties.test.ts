@@ -6,7 +6,7 @@ import {originalScoreV1} from './fixtures/core1-original-score.ts';
 import type {V1Layer} from '../packages/shared/verification-v1.ts';
 const status=fc.constantFrom('PASS' as const,'FAIL' as const,'ERROR' as const,'NOT CHECKED' as const);
 const check=fc.record({id:fc.string({minLength:1,maxLength:20}),status,reason:fc.option(fc.string(),{nil:null}),baseStatus:fc.constantFrom('PASS' as const,'FAIL' as const,'ERROR' as const),candidateStatus:fc.constantFrom('PASS' as const,'FAIL' as const,'ERROR' as const)});
-const layer=fc.record({layer:fc.constantFrom(1 as const,2 as const,3 as const),status,checks:fc.array(check,{maxLength:5}),gaps:fc.constant([])});
+const layer=fc.record({layer:fc.constantFrom(1 as const,2 as const,3 as const),status,checks:fc.array(check,{maxLength:5}),gaps:fc.constant([] as V1Layer['gaps'])});
 const options={numRuns:10000,seed:31001};
 const good=():V1Layer[]=>[1,2,3].map(layer=>({layer:layer as 1|2|3,status:'PASS',checks:[{id:'guard',status:'PASS',reason:null}],gaps:[]}));
 test('I1 thousands of generated fact combinations exactly match frozen pre-refactor policy',()=>{
