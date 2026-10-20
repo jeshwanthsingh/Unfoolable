@@ -1,3 +1,5 @@
+import {verifyTicketSeal} from '../apps/server/verdict-seal.ts';
+import {verifyEventChain} from '../apps/server/event-chain.ts';
 import {DatabaseSync} from 'node:sqlite';
 import {listTicketEvents} from '../apps/server/ticket-store.ts';
 import {explainTicket,formatExplanation} from '../apps/server/ticket-explain.ts';
@@ -15,9 +17,10 @@ const port=process.env.COMMAND_CENTER_PORT??active.port??3210;
 const data=resolve(root,process.env.COMMAND_CENTER_DATA_DIR??active.dataDir??'data');
 const base='http://localhost:'+port;
 const shellQuote=(value:string)=>"'"+value.replaceAll("'","'\"'\"'")+"'";
-const usage='Unfoolable — AI does the work. Nothing fools the check.\nUsage: cc explain <ticket>; cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all; cc skill add <local-skill-directory>; cc phone serve';
+const usage='Unfoolable — AI does the work. Nothing fools the check.\nUsage: cc verify <ticket>|--all; cc explain <ticket>; cc ticket new "request" --repo path | list | show id [--open] | keep id | discard id | retry id | recheck id | stats; cc playbook show|approve|edit <repo> [--file definition.json]; cc chat ["message"]; cc stop-all; cc skill add <local-skill-directory>; cc phone serve';
 async function main(){
  const args=process.argv.slice(2);if(args.length===0)args.push('chat');if(args.length===1&&['--help','-h'].includes(args[0]!)){console.log(usage+'\nAliases: unfool and cc.');return;}const resource=args.shift(),command=args.shift();
+ if(resource==='verify'){if(!command||args.length||command!=='--all'&&!/^[a-f0-9-]{6,36}$/.test(command))throw Error('Usage: cc verify <ticket>|--all');const db=new DatabaseSync(join(data,'command-center.sqlite'),{readOnly:true});try{const version=Number(db.prepare('SELECT max(version) AS n FROM schema_migrations').get()!.n);if(version>=21)verifyEventChain(db);const matches=command==='--all'?db.prepare('SELECT id FROM tickets ORDER BY created_at,id').all():db.prepare('SELECT id FROM tickets WHERE id LIKE ?').all(command+'%');if(command!=='--all'&&matches.length!==1)throw Error('Use one unambiguous ticket ID.');for(const row of matches){const id=String(row.id),seal=verifyTicketSeal(db,data,id);console.log(id+' — Event '+(seal.eventId??'none')+': '+seal.label+(seal.replays?'. Replays the same. Log chain intact.':'.')+(seal.reason?' '+seal.reason:''));if(seal.state==='BROKEN')process.exitCode=1;}}finally{db.close();}return;}
  if(resource==='explain'){if(!command||args.length||!/^[a-f0-9-]{6,36}$/.test(command))throw Error('Usage: cc explain <ticket>');const db=new DatabaseSync(join(data,'command-center.sqlite'),{readOnly:true});try{const matches=db.prepare('SELECT id FROM tickets WHERE id LIKE ?').all(command+'%');if(matches.length!==1)throw Error('Use one unambiguous ticket ID.');console.log(formatExplanation(explainTicket(db,listTicketEvents(db,String(matches[0]!.id)))));}finally{db.close();}return;}
  if(resource==='phone'){if(command!=='serve'||args.length)throw Error('Usage: cc phone serve');console.log(JSON.stringify(enablePrivatePhone(data,Number(port)),null,2));return;}
  if(resource!=='ticket'&&resource!=='playbook'&&resource!=='chat'&&resource!=='stop-all'&&resource!=='skill')throw Error(usage);
