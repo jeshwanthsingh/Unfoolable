@@ -1,0 +1,7 @@
+{
+  "sessions": 100,
+  "successfulStarts": 100,
+  "retries": 50,
+  "readyTickets": 50,
+  "kernelBirthRecords": 500
+}
