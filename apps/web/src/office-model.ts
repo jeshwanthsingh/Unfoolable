@@ -7,10 +7,10 @@ export const officeDesks=[
 ] as const;
 export type OfficeRole=typeof officeDesks[number]['role'];
 export const inspectionBounds={x:620,y:100,width:320,height:280} as const;
-export type OfficeFrame={ticketId:string;sequence:number;motionSequence:number;phase:string;activeRole:OfficeRole|null;stamp:'checked'|'look closer'|'failed'|null;humanDecision:string|null;writerRecorded:boolean;blocked:number;alarm:boolean;dimmed:boolean;line:string};
+export type OfficeFrame={sealed?:boolean;sealSequence?:number;sealBroken?:boolean;ticketId:string;sequence:number;motionSequence:number;phase:string;activeRole:OfficeRole|null;stamp:'checked'|'look closer'|'failed'|null;humanDecision:string|null;writerRecorded:boolean;blocked:number;alarm:boolean;dimmed:boolean;line:string};
 export function orderedOfficeEvents(id:string,events:readonly TicketEvent[]){const seen=new Set<number>();return [...events].filter(e=>e.ticketId===id&&Number.isSafeInteger(e.sequence)).sort((a,b)=>a.sequence-b.sequence).filter(e=>{if(seen.has(e.sequence))return false;seen.add(e.sequence);return true;});}
 export function officeFrame(ticketId:string,events:readonly TicketEvent[]):OfficeFrame{
- const f:OfficeFrame={ticketId,sequence:0,motionSequence:0,phase:'unknown',activeRole:null,stamp:null,humanDecision:null,writerRecorded:false,blocked:0,alarm:false,dimmed:false,line:'No recorded activity'};const blocked=new Set<string>();
+ const f:OfficeFrame={ticketId,sequence:0,motionSequence:0,phase:'unknown',activeRole:null,stamp:null,humanDecision:null,writerRecorded:false,blocked:0,alarm:false,dimmed:false,line:'No recorded activity'};const blocked=new Set<string>();let checkSequence=0,protectedCheck=false;
  for(const e of orderedOfficeEvents(ticketId,events)){
   f.sequence=e.sequence;
   if(e.kind==='submitted'){f.phase='queued';f.line='Waiting to start';f.motionSequence=e.sequence;}
@@ -18,15 +18,16 @@ export function officeFrame(ticketId:string,events:readonly TicketEvent[]):Offic
   if(e.kind==='state_changed'&&typeof e.data.to==='string'){
    f.phase=e.data.to;f.motionSequence=e.sequence;f.activeRole=['building','fixing'].includes(f.phase)?'builder':f.phase==='checking'?'grader':null;
    f.line=({queued:'Waiting to start',building:'Building at the bench',fixing:'Correcting the change',checking:'Inspecting the frozen change',ready_for_review:'Waiting for your review',needs_you:'Waiting for your help',kept:'Accepted',discarded:'Rejected',interrupted:'Interrupted',cancelled:'Cancelled',harness_error:'Stopped with an error'} as Record<string,string>)[f.phase]??'No recorded activity';
-   if(['building','fixing','checking'].includes(f.phase)){f.stamp=null;f.writerRecorded=false;}
+   if(['building','fixing','checking'].includes(f.phase)){f.stamp=null;f.writerRecorded=false;f.sealed=false;protectedCheck=false;checkSequence=0;}
   }
   if(e.kind==='agent_stopped')f.activeRole=null;
   if(e.kind==='agent_event'&&e.data.kind==='blocked_action'){const data=e.data.data as Record<string,unknown>|undefined,key=String(e.data.attemptId)+':'+String(data?.itemId??e.sequence);if(!blocked.has(key)){blocked.add(key);f.blocked++;}}
-  if(e.kind==='check_result'){
+  if(e.kind==='check_result'){checkSequence=e.sequence;protectedCheck=!!e.data.verdictSnapshot;f.sealed=false;
    f.activeRole=null;f.motionSequence=e.sequence;f.stamp=e.data.verdict==='VERIFIED'?'checked':e.data.verdict==='PASSED WITH GAPS'?'look closer':e.data.verdict==='FAILED'?'failed':null;
    f.writerRecorded=!!(e.data.testWriter&&typeof e.data.testWriter==='object'&&(e.data.testWriter as Record<string,unknown>).started===true);
    f.line=f.stamp==='checked'?'Checked':f.stamp==='look closer'?'Checked with gaps':f.stamp==='failed'?'Checks failed':'No passing check result';
   }
+  if(e.kind==='agent_event'&&e.data.kind==='verdict_sealed'&&protectedCheck&&e.data.eventSequence===checkSequence&&typeof e.data.attestationHash==='string'&&/^[a-f0-9]{64}$/.test(e.data.attestationHash)){f.sealed=true;f.sealSequence=e.sequence;f.motionSequence=e.sequence;}
   if(e.kind==='decision'){f.humanDecision=typeof e.data.decision==='string'?e.data.decision:typeof e.data.action==='string'?e.data.action:'Recorded';f.motionSequence=e.sequence;}
   if((e.kind==='needs_you'&&e.data.kind==='TRIPWIRE')||(e.kind==='agent_event'&&e.data.kind==='tripwire')){f.alarm=true;f.motionSequence=e.sequence;f.line='Read alarm. Builder stopped.';}
   if((e.kind==='cancellation_requested'||e.kind==='needs_you')&&e.data.kind==='STOP_ALL'){f.dimmed=true;f.motionSequence=e.sequence;f.line='Stop all requested';}

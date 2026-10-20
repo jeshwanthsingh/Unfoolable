@@ -1,0 +1,58 @@
+[
+  {
+    "id": "T2-wrong-reference",
+    "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+    "candidate": "8b8e39a814d9b5bb6805fb833876a3ae27df2a77",
+    "result": {
+      "version": "quality-gates-v1",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "candidate": "8b8e39a814d9b5bb6805fb833876a3ae27df2a77",
+      "gates": [
+        {
+          "gate": "oxlint",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 1,
+          "durationMs": 1953.8081670000001
+        },
+        {
+          "gate": "opengrep",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 5322.686874999999
+        },
+        {
+          "gate": "gitleaks",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 2616.952083
+        },
+        {
+          "gate": "detect-secrets",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 39,
+          "durationMs": 7288.299125
+        },
+        {
+          "gate": "osv",
+          "status": "NOT APPLICABLE",
+          "reason": "BASE check could not run cleanly: Gate execution/setup incomplete",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 9315.222707999998
+        },
+        {
+          "gate": "tsc",
+          "status": "PASS",
+          "findings": [],
+          "baselineCount": 0,
+          "durationMs": 7593.517082999999
+        }
+      ],
+      "durationMs": 40131.254541999995
+    }
+  }
+]

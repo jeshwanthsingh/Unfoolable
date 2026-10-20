@@ -1,0 +1,15 @@
+{
+  "baseline": "fbad889",
+  "compared": 61,
+  "differences": [],
+  "historicalStoredChecks": 19,
+  "studyCases": 19,
+  "negativeControls": 12,
+  "missingOriginalFacts": [
+    104,
+    488,
+    599,
+    616
+  ],
+  "note": "Current-policy comparison; no historical labels or original golden files changed"
+}

@@ -1,0 +1,71 @@
+[
+  {
+    "name": "browser_resize",
+    "args": {
+      "width": 390,
+      "height": 1000
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.setViewportSize({ width: 390, height: 1000 });\n```\n### Page\n- Page URL: about:blank"
+      }
+    ]
+  },
+  {
+    "name": "browser_navigate",
+    "args": {
+      "url": "http://127.0.0.1:54430/?"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Ran Playwright code\n```js\nawait page.goto('http://127.0.0.1:54430/?');\n```\n### Page\n- Page URL: http://127.0.0.1:54430/?\n- Page Title: Recorded advisory review\n- Console: 1 errors, 0 warnings\n### Snapshot\n- [Snapshot](artifacts/sign1/page-2026-10-20T18-32-09-199Z.yml)\n### Events\n- New console entries: artifacts/sign1/console-2026-10-20T18-32-09-056Z.log#L1"
+      }
+    ]
+  },
+  {
+    "name": "browser_wait_for",
+    "args": {
+      "time": 2
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\nWaited for 2 seconds\n### Ran Playwright code\n```js\nawait new Promise(f => setTimeout(f, 2 * 1000));\n```\n### Page\n- Page URL: http://127.0.0.1:54430/?\n- Page Title: Recorded advisory review\n- Console: 1 errors, 0 warnings\n### Snapshot\n- [Snapshot](artifacts/sign1/page-2026-10-20T18-32-11-211Z.yml)"
+      }
+    ]
+  },
+  {
+    "name": "browser_evaluate",
+    "args": {
+      "function": "()=>{console.log('WIDTHS',JSON.stringify([...document.querySelectorAll('*')].filter(e=>e.getBoundingClientRect().right>innerWidth).map(e=>({tag:e.tagName,class:e.getAttribute('class'),width:e.getBoundingClientRect().width,right:e.getBoundingClientRect().right})).slice(0,12)));const text=document.querySelector('[aria-label=\"Check seal\"]').textContent;if(!text.includes('Sealed'))throw Error('Wrong seal state');if(document.querySelector('button'))throw Error('Signing fixture has a decision button');return {width:innerWidth,seal:text,offenders:[...document.querySelectorAll('*')].filter(e=>e.getBoundingClientRect().right>innerWidth).map(e=>({tag:e.tagName,class:e.getAttribute('class'),width:e.getBoundingClientRect().width,right:e.getBoundingClientRect().right})).slice(0,12),canvas:!!document.querySelector('canvas'),static:!!document.querySelector('svg')};}"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n{\n  \"width\": 390,\n  \"seal\": \"Sealed · Replays the same\",\n  \"offenders\": [\n    {\n      \"tag\": \"SECTION\",\n      \"class\": \"office\",\n      \"width\": 666.65625,\n      \"right\": 686.65625\n    },\n    {\n      \"tag\": \"svg\",\n      \"class\": \"office-diagram\",\n      \"width\": 666.65625,\n      \"right\": 686.65625\n    },\n    {\n      \"tag\": \"g\",\n      \"class\": null,\n      \"width\": 774.9697265625,\n      \"right\": 794.9775390625\n    },\n    {\n      \"tag\": \"image\",\n      \"class\": null,\n      \"width\": 666.640625,\n      \"right\": 686.6484375\n    },\n    {\n      \"tag\": \"svg\",\n      \"class\": null,\n      \"width\": 266.65625,\n      \"right\": 406.1038513183594\n    },\n    {\n      \"tag\": \"image\",\n      \"class\": null,\n      \"width\": 266.65625,\n      \"right\": 406.1038513183594\n    },\n    {\n      \"tag\": \"svg\",\n      \"class\": null,\n      \"width\": 266.65625,\n      \"right\": 794.9775390625\n    },\n    {\n      \"tag\": \"image\",\n      \"class\": null,\n      \"width\": 266.65625,\n      \"right\": 794.9775390625\n    },\n    {\n      \"tag\": \"svg\",\n      \"class\": null,\n      \"width\": 266.6562194824219,\n      \"right\": 593.5964965820312\n    },\n    {\n      \"tag\": \"image\",\n      \"class\": null,\n      \"width\": 266.6562194824219,\n      \"right\": 593.5964965820312\n    },\n    {\n      \"tag\": \"svg\",\n      \"class\": null,\n      \"width\": 266.6562805175781,\n      \"right\": 763.0343627929688\n    },\n    {\n      \"tag\": \"image\",\n      \"class\": null,\n      \"width\": 266.6562805175781,\n      \"right\": 763.0343627929688\n    }\n  ],\n  \"canvas\": false,\n  \"static\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>{console.log(\\'WIDTHS\\',JSON.stringify([...document.querySelectorAll(\\'*\\')].filter(e=>e.getBoundingClientRect().right>innerWidth).map(e=>({tag:e.tagName,class:e.getAttribute(\\'class\\'),width:e.getBoundingClientRect().width,right:e.getBoundingClientRect().right})).slice(0,12)));const text=document.querySelector(\\'[aria-label=\"Check seal\"]\\').textContent;if(!text.includes(\\'Sealed\\'))throw Error(\\'Wrong seal state\\');if(document.querySelector(\\'button\\'))throw Error(\\'Signing fixture has a decision button\\');return {width:innerWidth,seal:text,offenders:[...document.querySelectorAll(\\'*\\')].filter(e=>e.getBoundingClientRect().right>innerWidth).map(e=>({tag:e.tagName,class:e.getAttribute(\\'class\\'),width:e.getBoundingClientRect().width,right:e.getBoundingClientRect().right})).slice(0,12),canvas:!!document.querySelector(\\'canvas\\'),static:!!document.querySelector(\\'svg\\')};}');\n```\n### Page\n- Page URL: http://127.0.0.1:54430/?\n- Page Title: Recorded advisory review\n- Console: 1 errors, 0 warnings\n### Events\n- New console entries: artifacts/sign1/console-2026-10-20T18-32-09-056Z.log#L2"
+      }
+    ]
+  },
+  {
+    "name": "browser_take_screenshot",
+    "args": {
+      "scale": "css",
+      "type": "png",
+      "fullPage": true,
+      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/sign1/seal-390-light-signed.png"
+    },
+    "isError": false,
+    "content": [
+      {
+        "type": "text",
+        "text": "### Result\n- [Screenshot of full page](artifacts/sign1/seal-390-light-signed.png)\n### Ran Playwright code\n```js\n// Screenshot full page and save it as artifacts/sign1/seal-390-light-signed.png\nawait page.screenshot({\n  fullPage: true,\n  path: 'artifacts/sign1/seal-390-light-signed.png',\n  scale: 'css',\n  type: 'png'\n});\n```"
+      }
+    ]
+  }
+]

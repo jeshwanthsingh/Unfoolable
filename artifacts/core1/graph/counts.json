@@ -1,0 +1,19 @@
+{
+  "source_commit": "d8c0752050df9f17b769c8f28b99413d049f94d5",
+  "method": "Conservative production result-token seeds plus resolved outgoing AST imports/calls dependency closure; includes producers, validators and observers. Not a complete dynamic influence proof.",
+  "before": {
+    "seed_files": 36,
+    "files": 148,
+    "nodes": 1174,
+    "edges": 3982
+  },
+  "after": {
+    "seed_files": 36,
+    "files": 151,
+    "nodes": 1201,
+    "edges": 4086
+  },
+  "after_reason": "Same conservative seed/import/call closure, including pure core and fact snapshot/explanation shells.",
+  "after_source_commit": "14a685777d10fe42fedcf15a375f0cefc838564a",
+  "status": "FINAL"
+}

@@ -1,0 +1,28 @@
+✔ only the four real roles exist; unknown history has no active role (2.299375ms)
+✔ real state events move work; prose, duplicates and foreign tickets cannot invent activity (3.886334ms)
+✔ Builder never enters inspection glass during any phase (0.163375ms)
+✔ tripwire freezes Builder, STOP dims lights, retry clears only on a real retry (0.084291ms)
+✔ result stamps and human decisions are separate; writer only acknowledges actual completion (0.099ms)
+✔ motion requires a later meaningful event in the same ticket, never mount, prose or selection (0.079291ms)
+✔ replay preserves unique ordered real events, stays 30-60 seconds and never invents a result (0.120709ms)
+✔ native character hit targets select only real configured roles (0.078042ms)
+✔ a new build/check phase cannot reuse an earlier writer completion as current evidence (0.06775ms)
+✔ wax seal requires a real protected check and its exact signed-attestation event (0.746292ms)
+✔ new protected check is sealed, replays identically, and survives database reopen (61.285ms)
+✔ seal rejects fact byte (48.38ms)
+✔ seal rejects verdict (48.672084ms)
+✔ seal rejects delete event (49.404833ms)
+✔ seal rejects swap attestation (80.095833ms)
+✔ seal rejects diff byte (47.405291ms)
+✔ event insert, chain and head roll back together (47.504458ms)
+✔ readonly cc verify detects fact tampering and produces an example without human decisions (276.00325ms)
+✔ exact f947240 history upgrades without sealing or rewriting older verdicts (295.574083ms)
+✔ backup copy retains signing identity, facts, seals and latest chain head (92.711125ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1283.125042

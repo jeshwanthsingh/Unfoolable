@@ -1,0 +1,5 @@
+{
+  "scope": "Python socket connect/connect_ex in this process; OS sandbox denies network for all descendants",
+  "connections": [],
+  "successful": 0
+}

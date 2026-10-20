@@ -1,0 +1,122 @@
+[
+  {
+    "path": "packages/shared/verdict-core.ts",
+    "base": "4788631722c4219d0883dcad14d7e300b5952dbc31df8fe6ad13741d4cd4f511",
+    "current": "4788631722c4219d0883dcad14d7e300b5952dbc31df8fe6ad13741d4cd4f511",
+    "same": true
+  },
+  {
+    "path": "packages/shared/verification-v1.ts",
+    "base": "f2b7765e6670868c5b0a161e7e6ff79932d6a977d1dba44eb8f2a2b8f98de687",
+    "current": "f2b7765e6670868c5b0a161e7e6ff79932d6a977d1dba44eb8f2a2b8f98de687",
+    "same": true
+  },
+  {
+    "path": "packages/shared/verify-only-v2.ts",
+    "base": "a2d371cd23949ea9d2eb46a3b88e8e89a75b0f26a1dc2591de43f89798b56470",
+    "current": "a2d371cd23949ea9d2eb46a3b88e8e89a75b0f26a1dc2591de43f89798b56470",
+    "same": true
+  },
+  {
+    "path": "apps/server/verify-only.ts",
+    "base": "9a2b77fb420e07f5bc1f537da0d1e3d5b5233619d9208aa9cd9cdebb74dcdbf1",
+    "current": "9a2b77fb420e07f5bc1f537da0d1e3d5b5233619d9208aa9cd9cdebb74dcdbf1",
+    "same": true
+  },
+  {
+    "path": "apps/server/review-risk.ts",
+    "base": "13c2d8ad0a3ffda56c1907212dc182d1a8c36d9f319eccc81d60e2aea0a0d030",
+    "current": "13c2d8ad0a3ffda56c1907212dc182d1a8c36d9f319eccc81d60e2aea0a0d030",
+    "same": true
+  },
+  {
+    "path": "apps/server/human-context.ts",
+    "base": "44f4c33669b5afa102530aa97cb0ab898cc16e4202a19b55edf56afc9015fe54",
+    "current": "44f4c33669b5afa102530aa97cb0ab898cc16e4202a19b55edf56afc9015fe54",
+    "same": true
+  },
+  {
+    "path": "apps/server/human-confirmation.ts",
+    "base": "f02d148571b55bd22c5e6552e23ad33dd7caa749abf32aa5b032e95f71a6be52",
+    "current": "f02d148571b55bd22c5e6552e23ad33dd7caa749abf32aa5b032e95f71a6be52",
+    "same": true
+  },
+  {
+    "path": "apps/server/phone-auth.ts",
+    "base": "145962c85e2713e9461c49f9f38af2915eac3c21ee50f46cf4e3d96aab4dfd81",
+    "current": "145962c85e2713e9461c49f9f38af2915eac3c21ee50f46cf4e3d96aab4dfd81",
+    "same": true
+  },
+  {
+    "path": "apps/server/oracle-execution.ts",
+    "base": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd",
+    "current": "290d007a9cccb7d7dbcf65bfb5588e44b07a6b40a44fa5172776c2cfcd813bbd",
+    "same": true
+  },
+  {
+    "path": "apps/server/oracle-tree.ts",
+    "base": "c6912dd6a808366b11f586dfe22fdecb205cbe4f2a936189254d92c5a93904b6",
+    "current": "c6912dd6a808366b11f586dfe22fdecb205cbe4f2a936189254d92c5a93904b6",
+    "same": true
+  },
+  {
+    "path": "apps/server/protected-existing-tests.ts",
+    "base": "ae37234ea849709746f7fdbb6027ac31bc9e38ccdb4c8cb81f82339c797a1cc7",
+    "current": "ae37234ea849709746f7fdbb6027ac31bc9e38ccdb4c8cb81f82339c797a1cc7",
+    "same": true
+  },
+  {
+    "path": "apps/server/project-recipes.ts",
+    "base": "282d5aed22c56134c2de143d05fb29444a3817796ee3ece353156d2c5f040695",
+    "current": "282d5aed22c56134c2de143d05fb29444a3817796ee3ece353156d2c5f040695",
+    "same": true
+  },
+  {
+    "path": "apps/server/builder-filesystem.ts",
+    "base": "aade5164131531f57e039ba6ed5949e0365552c49217fe2f8b1a691b1aa73444",
+    "current": "aade5164131531f57e039ba6ed5949e0365552c49217fe2f8b1a691b1aa73444",
+    "same": true
+  },
+  {
+    "path": "apps/server/builder-private-paths.ts",
+    "base": "2bd2c2f1a2894418d611aca8d33a69238bf1c7e512ff451afaba3c2dfe67a98d",
+    "current": "2bd2c2f1a2894418d611aca8d33a69238bf1c7e512ff451afaba3c2dfe67a98d",
+    "same": true
+  },
+  {
+    "path": "apps/server/build-runtime.ts",
+    "base": "626c9115cbd9af13da1de7d685d9177f36bbb37788aca5c970dbb03597814ce7",
+    "current": "626c9115cbd9af13da1de7d685d9177f36bbb37788aca5c970dbb03597814ce7",
+    "same": true
+  },
+  {
+    "path": "apps/server/build-processes.ts",
+    "base": "7c8184ad4ea0bc9a42c574793c02577bee8164893bd55accdc647357701289c5",
+    "current": "7c8184ad4ea0bc9a42c574793c02577bee8164893bd55accdc647357701289c5",
+    "same": true
+  },
+  {
+    "path": "apps/server/runtime-permissions.ts",
+    "base": "8438c70150ff16d6b1f694b499e782957f2420d3d9fde1d0654b3b90a8d58e07",
+    "current": "8438c70150ff16d6b1f694b499e782957f2420d3d9fde1d0654b3b90a8d58e07",
+    "same": true
+  },
+  {
+    "path": "apps/server/permission-validation.ts",
+    "base": "0f751109cbd054d8464fee7674ecc395dd8ca8ba84e46e05894e1ad909be0060",
+    "current": "0f751109cbd054d8464fee7674ecc395dd8ca8ba84e46e05894e1ad909be0060",
+    "same": true
+  },
+  {
+    "path": "apps/server/test-tampering.ts",
+    "base": "3d69644db71b0b40f35f3e120d44b80e0269ab042fcb8d6a8aa96fd2f05b7c14",
+    "current": "3d69644db71b0b40f35f3e120d44b80e0269ab042fcb8d6a8aa96fd2f05b7c14",
+    "same": true
+  },
+  {
+    "path": "apps/server/quality-gates.ts",
+    "base": "cab839f54c27749b92d4b77ca85f6c4d6776360308121db672bcfab183eafd19",
+    "current": "cab839f54c27749b92d4b77ca85f6c4d6776360308121db672bcfab183eafd19",
+    "same": true
+  }
+]

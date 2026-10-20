@@ -51,6 +51,17 @@ def database_identity(path):
         db.close()
 
 
+def chain_head(path):
+    db = sqlite3.connect(path.resolve().as_uri() + '?mode=ro', uri=True)
+    try:
+        if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='event_chain_head'").fetchone():
+            return None
+        row = db.execute('SELECT sequence,event_hash FROM event_chain_head WHERE id=1').fetchone()
+        return {'sequence': row[0], 'hash': row[1]} if row else None
+    finally:
+        db.close()
+
+
 def require_protected_store(path, home=HOME):
     resolved = path.resolve()
     # Reuse existing Builder deny roots. Never create a new readable oracle copy.
@@ -190,7 +201,7 @@ def snapshot(c):
                 after = database_identity(db_path)
                 if before != after or before != database_identity(restored):
                     raise ValueError('Application changed during checkpoint; previous checkpoint kept')
-                manifest = {'createdAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'sources': [{'label': a, 'originalPath': str(b)} for a, b in sources], 'tables': before, 'entries': entries, 'databaseSha256': digest(restored)}
+                manifest = {'createdAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'sources': [{'label': a, 'originalPath': str(b)} for a, b in sources], 'tables': before, 'chainHead': chain_head(restored), 'entries': entries, 'databaseSha256': digest(restored)}
                 write_json(scratch / 'manifest.json', manifest)
                 tar.add(restored, arcname='database.sqlite', recursive=False)
                 tar.add(scratch / 'manifest.json', arcname='manifest.json', recursive=False)
@@ -198,7 +209,7 @@ def snapshot(c):
             shutil.copyfile(archive, published.with_suffix('.partial'))
             published.with_suffix('.partial').chmod(0o600)
             published.with_suffix('.partial').replace(published)
-            status = {'archive': published.name, 'archiveSha256': digest(published), 'createdAt': manifest['createdAt'], 'files': len(entries), 'bytes': published.stat().st_size, 'sourceRoots': len(sources), 'applicationIdentitySha256': application_hash}
+            status = {'archive': published.name, 'archiveSha256': digest(published), 'chainHead': manifest['chainHead'], 'createdAt': manifest['createdAt'], 'files': len(entries), 'bytes': published.stat().st_size, 'sourceRoots': len(sources), 'applicationIdentitySha256': application_hash}
             write_json(backup / 'last-success.json', status)
             for old in sorted(backup.glob('snapshot-*.tar.gz'))[:-c['fileSnapshotsKept']]: old.unlink()
             return status
@@ -233,13 +244,15 @@ def restore_bundle(backup, status, output):
     restored_db = output / 'database.sqlite'
     if digest(restored_db) != manifest['databaseSha256'] or database_identity(restored_db) != manifest['tables']:
         raise ValueError('Restored database identity mismatch')
+    if 'chainHead' in manifest and chain_head(restored_db) != manifest['chainHead']:
+        raise ValueError('Restored chain head mismatch')
     db = sqlite3.connect(restored_db.as_uri() + '?mode=ro', uri=True)
     try:
         if db.execute('PRAGMA integrity_check').fetchall() != [('ok',)] or db.execute('PRAGMA foreign_key_check').fetchall():
             raise ValueError('Restored database integrity failed')
     finally:
         db.close()
-    return {'restoredFiles': len(manifest['entries']), 'databaseTables': len(manifest['tables']), 'passkeys': manifest['tables'].get('human_passkey', {}).get('rows', 0), 'ticketEvents': manifest['tables'].get('ticket_events', {}).get('rows', 0), 'allTableDigestsMatch': True, 'allFileDigestsMatch': True, 'integrityCheck': 'ok', 'foreignKeyErrors': 0, 'output': str(output)}
+    return {'chainHead': chain_head(restored_db), 'restoredFiles': len(manifest['entries']), 'databaseTables': len(manifest['tables']), 'passkeys': manifest['tables'].get('human_passkey', {}).get('rows', 0), 'ticketEvents': manifest['tables'].get('ticket_events', {}).get('rows', 0), 'allTableDigestsMatch': True, 'allFileDigestsMatch': True, 'integrityCheck': 'ok', 'foreignKeyErrors': 0, 'output': str(output)}
 
 
 def main():

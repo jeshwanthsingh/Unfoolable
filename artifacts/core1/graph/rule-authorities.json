@@ -1,0 +1,71 @@
+{
+  "definition": "Source-reviewed ticket/native/claim verdict, admission, budget and runtime aggregate authorities. Counts exclude low-level runner assertions, fact/layer construction, schema validation, serialization, human review/Keep policy and delegation-only wrappers. Reachability is a separate metric.",
+  "beforeCommit": "3c94150",
+  "before": {
+    "files": 8,
+    "functions": 8,
+    "entries": [
+      {
+        "file": "packages/shared/verification-v1.ts",
+        "function": "scoreV1",
+        "rule": "Native layer precedence",
+        "sourceLine": 15
+      },
+      {
+        "file": "packages/shared/verify-only-v2.ts",
+        "function": "scoreVerifyV2",
+        "rule": "Required-claim precedence",
+        "sourceLine": 4
+      },
+      {
+        "file": "apps/server/ticket-checker.ts",
+        "function": "createTicketChecker",
+        "rule": "Supplied native aggregate / missing recipe adaptation",
+        "sourceLine": 4
+      },
+      {
+        "file": "apps/server/ticket-playbook-hooks.ts",
+        "function": "ticketPlaybookHooks.check",
+        "rule": "Required native + project combination",
+        "sourceLine": 12
+      },
+      {
+        "file": "apps/server/playbook-checks.ts",
+        "function": "createPlaybookChecks.check",
+        "rule": "BASE identity, new failures and quality aggregation",
+        "sourceLine": 38
+      },
+      {
+        "file": "apps/server/ticket-loop.ts",
+        "function": "createTicketLoop.run",
+        "rule": "Runtime and policy-stop classification",
+        "sourceLine": 11
+      },
+      {
+        "file": "apps/server/ticket-budget.ts",
+        "function": "budgetExceeded",
+        "rule": "Budget exhaustion classification",
+        "sourceLine": 9
+      },
+      {
+        "file": "apps/server/test-writer-admission.ts",
+        "function": "nativeAdmission",
+        "rule": "Independent-test admission",
+        "sourceLine": 13
+      }
+    ]
+  },
+  "afterCommit": "14a685777d10fe42fedcf15a375f0cefc838564a",
+  "after": {
+    "files": 1,
+    "functions": 1,
+    "entries": [
+      {
+        "file": "packages/shared/verdict-core.ts",
+        "function": "scoreVerdict",
+        "rule": "All eight aggregate rule groups; combineResults delegates without separate policy"
+      }
+    ]
+  },
+  "outsideCore": "testWriterLayer converts retained admitted/coverage/advisory facts into a layer; tool-specific judges and BASE admission measure/validate observations. review-risk.ts separately controls human look-before-accept. None is counted as a final automated-verdict authority; this metric is not a claim that every conditional or safety rule moved into one file."
+}

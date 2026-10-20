@@ -1,0 +1,8 @@
+{
+  "attempt": "unsigned /usr/bin/swiftc CryptoKit SecureEnclave.P256 probe",
+  "exitCode": 69,
+  "reason": "Xcode licence not accepted; compilation blocked before hardware feasibility could be tested",
+  "specialEntitlementsAdded": false,
+  "licenceAcceptedByAgent": false,
+  "decision": "Use explicitly authorized 0600 P-256 file fallback; Secure Enclave availability remains unverified"
+}

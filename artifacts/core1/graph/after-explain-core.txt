@@ -1,0 +1,38 @@
+Node: scoreVerdict()
+  ID:        packages_shared_verdict_core_scoreverdict
+  Source:    packages/shared/verdict-core.ts L26
+  Type:      code
+  Community:
+  Degree:    29
+
+Connections (29):
+  <-- ticket-loop.ts [imports] [EXTRACTED] apps/server/ticket-loop.ts:L2
+  <-- playbook-checks.ts [imports] [EXTRACTED] apps/server/playbook-checks.ts:L1
+  <-- test-writer-admission.ts [imports] [EXTRACTED] apps/server/test-writer-admission.ts:L1
+  <-- verification-v1.ts [imports] [EXTRACTED] packages/shared/verification-v1.ts:L1
+  <-- createTicketLoop() [calls] [EXTRACTED] apps/server/ticket-loop.ts:L30
+  <-- verdict-core.ts [contains] [EXTRACTED] packages/shared/verdict-core.ts:L26
+  --> scoreVerdict() [calls] [EXTRACTED] packages/shared/verdict-core.ts:L43
+  <-- scoreVerdict() [calls] [EXTRACTED] packages/shared/verdict-core.ts:L43
+  <-- ticket-checker.ts [imports] [EXTRACTED] apps/server/ticket-checker.ts:L1
+  <-- server/ticket-budget.ts [imports] [EXTRACTED] apps/server/ticket-budget.ts:L1
+  <-- createPlaybookChecks() [calls] [EXTRACTED] apps/server/playbook-checks.ts:L41
+  <-- verdict-snapshot.ts [imports] [EXTRACTED] apps/server/verdict-snapshot.ts:L4
+  <-- run() [calls] [EXTRACTED] apps/server/ticket-loop.ts:L30
+  <-- ticket-explain.ts [imports] [EXTRACTED] apps/server/ticket-explain.ts:L4
+  <-- verdict-properties.test.ts [imports] [EXTRACTED] tests/verdict-properties.test.ts:L4
+  <-- scoreV1() [calls] [EXTRACTED] packages/shared/verification-v1.ts:L17
+  <-- ticket-explain.test.ts [imports] [EXTRACTED] tests/ticket-explain.test.ts:L6
+  <-- saveVerdictSnapshot() [calls] [EXTRACTED] apps/server/verdict-snapshot.ts:L11
+  <-- explainTicket() [calls] [EXTRACTED] apps/server/ticket-explain.ts:L24
+  <-- verdict-snapshot.test.ts [imports] [EXTRACTED] tests/verdict-snapshot.test.ts:L1
+  ... and 9 more (--all lists all 29)
+  Grouped by file:
+    <-- packages/shared/verify-only-v2.ts: 2 connections
+    <-- apps/server/playbook-checks.ts: 1 connection
+    <-- apps/server/test-writer-admission.ts: 1 connection
+    <-- apps/server/ticket-budget.ts: 1 connection
+    <-- apps/server/ticket-checker.ts: 1 connection
+    <-- packages/shared/verdict-core.ts: 1 connection
+    <-- tests/current-policy-golden.test.ts: 1 connection
+    <-- tests/verdict-core.test.ts: 1 connection

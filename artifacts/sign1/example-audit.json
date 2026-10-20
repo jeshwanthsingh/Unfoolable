@@ -1,0 +1,10 @@
+{
+  "source": "Deterministic unit-fixture facts reproduced byte-for-byte against the signed snapshot hash",
+  "signature": true,
+  "ticketAndEvent": true,
+  "snapshotHash": true,
+  "factsHash": true,
+  "traceHash": true,
+  "replayedVerdict": "NOT CHECKED",
+  "productionCheck": false
+}

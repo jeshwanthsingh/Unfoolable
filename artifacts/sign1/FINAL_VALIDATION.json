@@ -1,0 +1,48 @@
+{
+  "base": "f947240",
+  "branch": "codex/sign-1",
+  "fullSuite": {
+    "tests": 1125,
+    "pass": 1125,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "durationMs": 329613.698166,
+  "build": "PASS",
+  "typecheck": "PASS",
+  "goldenReplay": {
+    "baseline": "fbad889",
+    "compared": 61,
+    "differences": []
+  },
+  "protectedPolicyHashesUnchanged": 20,
+  "protectedPaths": {
+    "tested": 71,
+    "readable": 0,
+    "helperInvoked": false,
+    "signatureBytes": 0,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "cleanupVerified": true
+  },
+  "negativeControls": {
+    "total": 12,
+    "PASS": 0,
+    "allExpected": true
+  },
+  "keyMode": "P256_FILE_FALLBACK",
+  "hardwareFeasibility": "UNKNOWN: Xcode licence blocked unsigned Swift compile",
+  "newReviewerStudyCalls": 0,
+  "reviewerDecision": "ALL OFF; unique catches 0",
+  "newDependencies": 0,
+  "productionDataMigrated": false,
+  "historicalVerdictsRewritten": false,
+  "browser": "8 signed/broken desktop/mobile light/dark captures, overflow checks passed",
+  "example": "isolated NOT CHECKED fixture; separate example public key"
+}

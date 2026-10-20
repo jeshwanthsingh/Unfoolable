@@ -1,0 +1,34 @@
+✔ all 15 reconstructible events match actual 3c94150 policy without rewriting history (8.62025ms)
+✔ budget deduplicates commands, sums fresh sessions, retains unknown usage and immutable limits (66.949542ms)
+✔ ticket under budget preserves evidence and stops before freeze when exceeded (302.552042ms)
+✔ ticket commands budget preserves evidence and stops before freeze when exceeded (139.849625ms)
+✔ ticket tokens budget preserves evidence and stops before freeze when exceeded (144.725583ms)
+✔ ticket minutes budget preserves evidence and stops before freeze when exceeded (135.768417ms)
+✔ Test Writer usage has its own budget; unknown or over-limit cost needs you: 20 (257.488959ms)
+✔ Test Writer usage has its own budget; unknown or over-limit cost needs you: 21 (252.564625ms)
+✔ Test Writer usage has its own budget; unknown or over-limit cost needs you: null (280.504833ms)
+✔ explain uses the exact core trace and does not invoke any agent or decision (7.359917ms)
+✔ explain replays historical playbook facts honestly and refuses to invent missing facts (0.294959ms)
+✔ all reconstructible explanations match the pre-refactor current-policy golden (18.360292ms)
+✔ event 592 combines the missing native recipe with passing playbook facts as NOT CHECKED (8.673ms)
+✔ CORE-1 frozen golden hash and all historical replay verdicts remain unchanged (6.249125ms)
+✔ CORE-1 core has no runtime imports, ambient authorities or dynamic evaluation (0.28175ms)
+✔ CORE-1 pinned TypeScript authority lint rejects imports and ambient side effects (3.680917ms)
+✔ I1 thousands of generated fact combinations exactly match frozen pre-refactor policy (174.538458ms)
+✔ I2 a harness error can never authorize landing (14.563ms)
+✔ I3 adding a protected failure or error never improves eligibility (22.392042ms)
+✔ I4 admission requires an assertion failure on BASE and two matching Candidate passes (21.79275ms)
+✔ I5 Candidate-only tests cannot replace missing passing BASE identities (18.128583ms)
+✔ I6 native and playbook paths agree for equivalent regression and unchecked-intent facts (22.069208ms)
+✔ I7 empty protected layers never pass and unchecked work remains visible (0.22675ms)
+✔ I8 input facts are immutable and trace is deterministic (173.028875ms)
+✔ I10 combining required parts cannot improve on the most cautious part (7.59675ms)
+✔ every production check requires exact replayable facts, core version and immutable content hash (4.604125ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1862.795834

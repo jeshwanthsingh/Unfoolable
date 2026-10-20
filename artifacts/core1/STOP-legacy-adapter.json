@@ -1,0 +1,28 @@
+{
+  "status": "STOPPED_PRE_REFACTOR_INPUT_DIFFERENCE",
+  "input": {
+    "verdict": "PASSED WITH GAPS",
+    "gaps": [],
+    "layers": []
+  },
+  "old": {
+    "verdict": "PASSED WITH GAPS"
+  },
+  "new": {
+    "verdict": "ERROR"
+  },
+  "source": "tests/ticket-checker.test.ts: previous repo-local frozen Candidates retain the original allowed-root verification path",
+  "explanation": "The existing test adapter supplies an aggregate verdict with empty layers. 3c94150 forwards it; the new native-ticket path recomputes it. All 15 reconstructible historical events match, but this additional input does not.",
+  "historicalComparison": {
+    "events": 15,
+    "differences": 0
+  },
+  "suite": {
+    "total": 1093,
+    "passed": 1091,
+    "failed": 2,
+    "durationMs": 326367.117667
+  },
+  "secondFailure": "Python 3.13 pip reports blocked DNS as Errno 8; the unchanged test regex expects different denial text. npm and pip downloads were nonzero, and direct outside-network denial was true in the observer.",
+  "goldenUnchanged": true
+}

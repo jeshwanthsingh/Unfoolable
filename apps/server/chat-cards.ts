@@ -1,3 +1,4 @@
+import {ticketDecisionView} from '../../packages/shared/reviewers.ts';
 import {createHash} from 'node:crypto';
 import type {DatabaseSync} from 'node:sqlite';
 import type {createTicketService} from './ticket-service.ts';
@@ -6,7 +7,7 @@ import type {ChatCard} from '../../packages/shared/chat.ts';
 import {ticketSummary,ticketHarnessFailure} from './chat-status.ts';
 const digest=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 export function createChatCards(db:DatabaseSync,tickets:ReturnType<typeof createTicketService>,store:ReturnType<typeof createChatStore>){
- function ticketBinding(id:string){const v=tickets.show(id),actions:ChatCard['actions']=[],waitingPlaybook=v.ticket.status==='needs_you'&&v.playbook&&v.playbook.approval?.hash!==v.playbook.hash;
+ function ticketBinding(id:string){const v=ticketDecisionView(tickets.show(id)),actions:ChatCard['actions']=[],waitingPlaybook=v.ticket.status==='needs_you'&&v.playbook&&v.playbook.approval?.hash!==v.playbook.hash;
   if(v.keepAvailable||v.diffReviewRequired&&v.ticket.status==='ready_for_review'&&!v.evidenceStale)actions.push('keep');if(v.recheckAvailable)actions.push('recheck');if(v.budgetContinueAvailable)actions.push('continue');if(!v.events.some(e=>e.kind==='needs_you'&&e.data.kind==='ACTION_BUDGET')&&(v.ticket.status==='interrupted'||v.ticket.status==='harness_error'||v.ticket.status==='needs_you'&&['TRIPWIRE','WATCHMAN','ACTION_BUDGET','STOP_ALL'].includes(String(v.events.filter(e=>e.kind==='needs_you').at(-1)?.data.kind))))actions.push('retry');if(['queued','ready_for_review','needs_you','interrupted','harness_error'].includes(v.ticket.status))actions.push('discard');
   if(waitingPlaybook)actions.unshift('approve_playbook');const failure=ticketHarnessFailure(db,v.ticket);return {binding:digest({ticket:v.ticket,check:v.check??null,stale:v.evidenceStale,keep:v.keepAvailable,recheck:v.recheckAvailable,actions,failure,playbook:waitingPlaybook?{hash:v.playbook!.hash,definition:v.playbook!.definition}:null,eventSequence:v.events.at(-1)?.sequence??null}),view:v,actions,failure};}
 

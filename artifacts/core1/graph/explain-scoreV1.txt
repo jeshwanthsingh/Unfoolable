@@ -1,0 +1,21 @@
+Node: scoreV1()
+  ID:        packages_shared_verification_v1_scorev1
+  Source:    packages/shared/verification-v1.ts L15
+  Type:      code
+  Community:
+  Degree:    13
+
+Connections (13):
+  <-- server/verify-only.ts [imports] [EXTRACTED] apps/server/verify-only.ts:L24
+  <-- createVerifyOnly() [calls] [EXTRACTED] apps/server/verify-only.ts:L94
+  <-- verification-v1.ts [contains] [EXTRACTED] packages/shared/verification-v1.ts:L15
+  <-- test-writer.test.ts [imports] [EXTRACTED] tests/test-writer.test.ts:L1
+  <-- measure.ts [imports] [EXTRACTED] scripts/evidence/measure.ts:L1
+  <-- test-writer-v2.test.ts [imports] [EXTRACTED] tests/test-writer-v2.test.ts:L7
+  <-- reobserve-js.ts [imports] [EXTRACTED] scripts/evidence/reobserve-js.ts:L1
+  <-- t3-feedback.ts [imports] [EXTRACTED] scripts/evidence/t3-feedback.ts:L1
+  <-- verification-v1-contract.test.ts [imports] [EXTRACTED] tests/verification-v1-contract.test.ts:L3
+  <-- isV1Report() [calls] [EXTRACTED] packages/shared/verification-v1.ts:L41
+  <-- correct-old-coverage.ts [imports] [EXTRACTED] scripts/evidence/correct-old-coverage.ts:L1
+  <-- writer-warning.test.ts [imports] [EXTRACTED] tests/writer-warning.test.ts:L3
+  <-- report() [calls] [EXTRACTED] tests/verification-v1-contract.test.ts:L7

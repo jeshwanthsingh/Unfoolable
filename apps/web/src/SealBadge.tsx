@@ -1,0 +1,2 @@
+import type {SealStatus} from '../../server/verdict-seal.ts';
+export function SealBadge({seal}:{seal?:SealStatus|undefined}){if(!seal)return null;return <section aria-label="Check seal" className={seal.state==='BROKEN'?'unfool-error':'unfool-muted'}><p role={seal.state==='BROKEN'?'alert':'status'}>{seal.label}{seal.replays?' · Replays the same':''}</p>{seal.reason&&<p>{seal.reason}</p>}</section>;}

@@ -1,0 +1,14 @@
+✔ native collection requires nonzero identities and never counts skip as PASS (1.104834ms)
+✔ approved playbook admits on BASE, restores edited tests, and catches Candidate regression (3834.216166ms)
+✔ BASE failure needs explicit known-fail admission; arbitrary failing BASE does not count (4818.18575ms)
+✔ a new Candidate failure cannot hide behind passing BASE guards (4120.751208ms)
+✔ missing playbook proposes Needs You before Builder; edit clears approval and API requires operator (448.44675ms)
+✔ explicit approval resumes the waiting ticket with BASE admission and records its approval trigger (4065.911709ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12921.768875

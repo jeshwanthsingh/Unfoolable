@@ -1,0 +1,28 @@
+{
+  "status": "STOPPED_VERDICT_MISMATCH",
+  "ticket": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+  "event": 592,
+  "recordedVerdict": "NOT CHECKED",
+  "explanationReplayVerdict": "PASSED WITH GAPS",
+  "storedNativeVerdict": "ERROR",
+  "cause": "Explanation selected the playbook path alone. The original native adapter converted missing-recipe ERROR to NOT CHECKED, and the combined path preserved that abstention. Explanation must reconstruct the combined path rather than scoring the playbook alone.",
+  "goldenModified": false,
+  "standaloneReplay": {
+    "cases": 46,
+    "differences": 0
+  },
+  "fullHistoricalReplay": "nonzero difference; not accepted",
+  "focusedTests": {
+    "total": 20,
+    "passed": 18,
+    "failed": 2
+  },
+  "otherFailure": "Authority lint test uses an unavailable TypeScript parser API; implementation unfinished.",
+  "notRun": [
+    "full suite",
+    "fresh 69-path probe",
+    "fresh 12 negative controls",
+    "after-map"
+  ],
+  "dataModified": false
+}

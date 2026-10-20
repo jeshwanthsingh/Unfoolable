@@ -1,0 +1,59 @@
+✔ explain uses the exact core trace and does not invoke any agent or decision (2.363041ms)
+✔ explain replays historical playbook facts honestly and refuses to invent missing facts (0.116417ms)
+✖ all reconstructible historical ticket explanations agree with frozen records (14.453209ms)
+✔ CORE-1 frozen golden hash and all historical replay verdicts remain unchanged (5.658208ms)
+✔ CORE-1 core has no runtime imports, ambient authorities or dynamic evaluation (0.261ms)
+✖ CORE-1 authority lint rejects imports, exports from modules and ambient side effects (0.172417ms)
+✔ I1 thousands of generated fact combinations exactly match frozen pre-refactor policy (154.435791ms)
+✔ I2 a harness error can never authorize landing (13.889583ms)
+✔ I3 adding a protected failure or error never improves eligibility (22.04925ms)
+✔ I4 admission requires an assertion failure on BASE and two matching Candidate passes (21.692625ms)
+✔ I5 Candidate-only tests cannot replace missing passing BASE identities (17.670667ms)
+✔ I6 native and playbook paths agree for equivalent regression and unchecked-intent facts (21.399833ms)
+✔ I7 empty protected layers never pass and unchecked work remains visible (0.167208ms)
+✔ I8 input facts are immutable and trace is deterministic (169.859333ms)
+✔ v1 gates integrity and recipes while disclosing omitted task checks (1.009459ms)
+✔ v1 admitted task failures and errors block landing even if aggregate status says PASS (0.384125ms)
+✔ v1 report rejects unknown nested fields, malformed proof and forged landing eligibility (1.082875ms)
+✔ v1 view maps verdict to public result while preserving historical result shape (0.385042ms)
+✔ v1 scopes regression recipes by measured BASE outcome and keeps nonapplicable results informational (0.213834ms)
+✔ shape checking does not score; explicit public boundary rejects every forged result (0.193667ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 18
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 520.008417
+
+✖ failing tests:
+
+test at tests/ticket-explain.test.ts:16:1
+✖ all reconstructible historical ticket explanations agree with frozen records (14.453209ms)
+  AssertionError [ERR_ASSERTION]: Changed verdict: 592
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ticket-explain.test.ts:18:92)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: false,
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/verdict-core.test.ts:22:1
+✖ CORE-1 authority lint rejects imports, exports from modules and ambient side effects (0.172417ms)
+  TypeError: Cannot read properties of undefined (reading 'Latest')
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verdict-core.test.ts:23:152)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

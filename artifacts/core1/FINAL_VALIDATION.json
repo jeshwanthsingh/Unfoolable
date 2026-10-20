@@ -1,0 +1,128 @@
+{
+  "sourceCommit": "14a685777d10fe42fedcf15a375f0cefc838564a",
+  "suite": {
+    "tests": 1095,
+    "passed": 1095,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "durationMs": 332505.868709,
+    "log": "artifacts/core1/full-suite-final.log",
+    "sha256": "f294286d7fd5bd697d6b454dc3b61ce4cfa77e80ca3229dd168be51dcc4c4f29"
+  },
+  "typecheck": "PASS",
+  "build": "PASS (existing chunk size and Pixi dynamic-import warnings)",
+  "historicalComparison": {
+    "matched": 15,
+    "differences": [],
+    "unavailable": [
+      104,
+      488,
+      599,
+      616
+    ],
+    "policy": "3c94150"
+  },
+  "probe": {
+    "paths": 69,
+    "readable": 0,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "protectedEndpointsDenied": true,
+    "cleanupVerified": true
+  },
+  "negativeControls": {
+    "controls": [
+      {
+        "name": "observation-pipe-forgery-review-on",
+        "status": "INCONCLUSIVE",
+        "expected": "INCONCLUSIVE",
+        "expectedMatched": true
+      },
+      {
+        "name": "R1-review-off",
+        "status": "FAIL",
+        "expected": "FAIL",
+        "expectedMatched": true
+      },
+      {
+        "name": "native-judge-skipped",
+        "status": "INCONCLUSIVE",
+        "expected": "INCONCLUSIVE",
+        "expectedMatched": true
+      },
+      {
+        "name": "native-judge-zero-collected",
+        "status": "INCONCLUSIVE",
+        "expected": "INCONCLUSIVE",
+        "expectedMatched": true
+      },
+      {
+        "name": "skipped-existing-test-restored",
+        "status": "FAIL",
+        "expected": "FAIL",
+        "expectedMatched": true
+      },
+      {
+        "name": "deleted-existing-test-restored",
+        "status": "FAIL",
+        "expected": "FAIL",
+        "expectedMatched": true
+      },
+      {
+        "name": "edited-existing-test-restored",
+        "status": "FAIL",
+        "expected": "FAIL",
+        "expectedMatched": true
+      },
+      {
+        "name": "early-exit-0",
+        "status": "INCONCLUSIVE",
+        "expected": "INCONCLUSIVE",
+        "expectedMatched": true
+      },
+      {
+        "name": "symlink-escape",
+        "status": "INCONCLUSIVE",
+        "expected": "INCONCLUSIVE",
+        "expectedMatched": true
+      },
+      {
+        "name": "dependency-change",
+        "status": "INCONCLUSIVE",
+        "expected": "INCONCLUSIVE",
+        "expectedMatched": true
+      },
+      {
+        "name": "oversized-output",
+        "status": "FAIL",
+        "expected": "FAIL",
+        "expectedMatched": true
+      },
+      {
+        "name": "timeout",
+        "status": "INCONCLUSIVE",
+        "expected": "INCONCLUSIVE",
+        "expectedMatched": true
+      }
+    ],
+    "total": 12,
+    "pass": 0,
+    "allExpected": true
+  },
+  "coreLines": 135,
+  "propertyCombinations": 80000,
+  "noStoredVerdictsOrGoldenChanged": true,
+  "noPushMergeDeploy": true,
+  "credentialScan": {
+    "tool": "Gitleaks 8.30.1",
+    "scope": "Changed source, tests and documentation since 3c94150",
+    "result": "No leaks found",
+    "artifactFindings": "3 verified copies of one vendored JavaScript method-name false positive; credential-scan-final.json"
+  }
+}
