@@ -1,3 +1,4 @@
+import {phoneMode} from './phone-client.ts';
 import {ReviewRiskBadge} from './ReviewRisk.tsx';
 import {IndependentTestWarnings} from './WriterWarning.tsx';
 import {ReviewChecks} from './ReviewChecks.tsx';
@@ -40,7 +41,7 @@ export function ChatPanel({liveView}:{liveView?:ChatView}={}){
  const decisionCard=(card:ChatCard)=><ActionCard key={card.id} card={card} busy={busy} approvalEnabled={view?.playbookApprovalsEnabled===true} onAction={action=>void mutate('/api/chat/cards/'+encodeURIComponent(card.id)+'/action',{binding:card.binding,action})}/>;
  return <section className="chat-panel" aria-label="Jarvis chat">
   <header className="chat-header"><div><h2>Jarvis</h2><p>Describe the work. Review the draft. You decide when it starts.</p></div><FuelLine {...(view?.fuel?{fuel:view.fuel}:{})}/></header>
-  <button className="chat-stop-all" disabled={stopping} onClick={()=>{setStopping(true);setError(null);void request(key,'/api/stop-all',{}).then(()=>setRevision(v=>v+1)).catch(e=>setError((e as Error).message)).finally(()=>setStopping(false));}}>{stopping?'Stopping owned work…':'STOP ALL'}</button><p className="chat-stop-help">Stops running work and pauses the queue. Retry requires your passkey.</p>
+  <button className="chat-stop-all" disabled={stopping} onClick={()=>{setStopping(true);setError(null);void (phoneMode()?confirmedDecision(key,'/api/stop-all',{}):request(key,'/api/stop-all',{})).then(()=>setRevision(v=>v+1)).catch(e=>setError((e as Error).message)).finally(()=>setStopping(false));}}>{stopping?'Stopping owned work…':'STOP ALL'}</button><p className="chat-stop-help">Stops running work and pauses the queue. Retry requires your passkey.</p>
   <PasskeyPanel operatorKey={key}/>{error&&<p role="alert" className="form-error">{error}</p>}{!view&&<p role="status">Loading chat…</p>}
   {view&&<section className="chat-attention" aria-labelledby="chat-needs-you"><h3 id="chat-needs-you">Needs you now</h3>
    {!groups.needsYou.length&&!activeDrafts.length&&<p className="chat-empty">Nothing needs a decision right now.</p>}

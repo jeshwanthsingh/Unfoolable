@@ -35,6 +35,26 @@ try:
     path.unlink()
 except OSError:
     pass
-report=dict(rows=rows,ownedChecks=checks,secretContentsEmitted=False)
+network_checks=[]
+network_manifest=workspace/'.cc-runtime/network-targets.json'
+if network_manifest.exists():
+    import urllib.request, urllib.error
+    for endpoint in json.loads(network_manifest.read_text()):
+        reachable=False
+        denied=False
+        failure=None
+        try:
+            request=urllib.request.Request(endpoint,data=b'{}',headers={'Content-Type':'application/json'},method='POST')
+            with urllib.request.urlopen(request,timeout=2) as response:
+                response.read(0)
+            reachable=True
+        except urllib.error.HTTPError:
+            reachable=True # Any HTTP response means the network boundary failed.
+        except (OSError,urllib.error.URLError) as error:
+            reason=getattr(error,'reason',error)
+            failure=getattr(reason,'errno',None)
+            denied=failure in (errno.EPERM,errno.EACCES)
+        network_checks.append(dict(endpoint=endpoint,reachable=reachable,denied=denied,errno=failure))
+report=dict(rows=rows,ownedChecks=checks,networkChecks=network_checks,secretContentsEmitted=False)
 (workspace/'.cc-runtime/read-report.json').write_text(json.dumps(report))
 print(json.dumps(report if os.environ.get('CC_PROBE_FULL_OUTPUT')=='1' else dict(targetCount=len(rows),readableCount=sum(r['readable'] for r in rows),ownedChecks=checks)))

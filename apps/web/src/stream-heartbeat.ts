@@ -1,0 +1,2 @@
+/** The server sends a comment at least every 20s. Missing two beats means offline. */
+export function streamHeartbeat(connection:AbortController,deadlineMs=45000){let timer:ReturnType<typeof setTimeout>|undefined,closed=false;const received=()=>{if(closed)return;if(timer)clearTimeout(timer);timer=setTimeout(()=>connection.abort(),deadlineMs);};received();return {received,close(){closed=true;if(timer)clearTimeout(timer);}};}

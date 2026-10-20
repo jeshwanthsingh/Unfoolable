@@ -4,7 +4,7 @@ import {createPhoneAuth} from './phone-auth.ts';
 import {createPhoneRoutes} from './phone-routes.ts';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {phoneOrigin} from './phone-access.ts';
+import {phoneOrigin,phoneOwner} from './phone-access.ts';
 import {archivedDraftIds,changeDraftArchive} from './draft-archive.ts';
 import {skillProposal,installSkill} from './skill-imports.ts';
 import {createDeskStream} from './desk-stream.ts';
@@ -78,7 +78,7 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;enforcePasskeys?:boolean;humanAuthenticator?:Parameters<typeof createHumanConfirmation>[3];chatRuntime?:Omit<ReturnType<typeof createChatCodex>,'stopAll'>&{stopAll?:()=>Promise<void>}}={}){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;enforcePasskeys?:boolean;phoneAccessStatus?:Parameters<typeof createPhoneRoutes>[2];humanAuthenticator?:Parameters<typeof createHumanConfirmation>[3];chatRuntime?:Omit<ReturnType<typeof createChatCodex>,'stopAll'>&{stopAll?:()=>Promise<void>}}={}){
  const database=openDatabase(config.dataDir,logger);
  const verifyOnly=createVerifyOnly(database.connection,config,logger,options.verifyAuthor);
  const tickets=createTicketService(database.connection,config,verifyOnly,options.ticketDependencies);
@@ -114,7 +114,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  }
  const desk=createDeskStream(database.connection,()=>({...chat.store.view(),notice:chat.problem(),playbookApprovalsEnabled:tickets.playbookApprovalEnabled()}));
  const phone=createPhoneAuth(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
- const phoneRoutes=createPhoneRoutes(phone,config.dataDir);
+ const phoneRoutes=createPhoneRoutes(phone,config.dataDir,options.phoneAccessStatus);
  const phonePush=createPhonePush(database.connection,config.dataDir);
  const human=createHumanConfirmation(database.connection,config.dataDir,humanEvidence,options.humanAuthenticator);
  const json=(res:ServerResponse,status:number,body:import('../../packages/shared/chat.ts').ChatDraft|SpecView|DebugView|Record<string,unknown>|VerificationView|ApiError|HealthResponse|Project|ProjectsResponse|Mission|MissionsResponse|ContextResponse|ProjectContextSnapshot|AnalysisView|AttentionResponse|ContractView|CombinedAttention|PlanningView|PlanningPair|BuildView|RuntimePermissionRequest)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
@@ -133,7 +133,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
-   if(remote&&pathname.startsWith('/api/')){if(await phoneRoutes.remote(req,res,pathname,privateOrigin!))return;phone.session(phone.token(req.headers.cookie));req.headers['x-cc-operator']=readFileSync(join(config.dataDir,'ticket-operator.key'),'utf8');}
+   if(remote&&pathname.startsWith('/api/')){if(req.headers['tailscale-user-login']!==phoneOwner(config.dataDir)||!phoneOwner(config.dataDir))throw new SpecError('PRIVATE_ACCESS_REQUIRED','Connect through your own Tailscale account.',401);if(await phoneRoutes.remote(req,res,pathname,privateOrigin!))return;phone.session(phone.token(req.headers.cookie));req.headers['x-cc-operator']=readFileSync(join(config.dataDir,'ticket-operator.key'),'utf8');}
    if(remote&&pathname==='/api/phone/alerts'){const device=phone.session(phone.token(req.headers.cookie)).device;if(req.method==='GET'){phoneJson(res,phonePush.settings(String(device.id)));return;}if(req.method==='POST'){phoneJson(res,phonePush.update(String(device.id),await projectBody(req,'phone alerts',16000)));return;}}
    if(pathname==='/api/chat/archive'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable first.',403);if(req.method==='GET'){json(res,200,{archivedDraftIds:archivedDraftIds(database.connection)});return;}if(req.method==='POST'){json(res,200,changeDraftArchive(database.connection,await projectBody(req,'draft visibility')));return;}}
    if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res,remote?()=>{try{phone.session(phone.token(req.headers.cookie));return true;}catch{return false;}}:undefined);return;}
