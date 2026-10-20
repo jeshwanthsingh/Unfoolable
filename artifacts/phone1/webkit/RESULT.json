@@ -1,0 +1,32 @@
+{
+  "engine": "WebKit 26.6 / Playwright v2368, official MCP 0.0.83",
+  "profile": "iPhone 13, 390 CSS px, isolated profile, test-only auth transport in isolated build and loopback HTTPS proxy",
+  "realBiometrics": false,
+  "realTailnet": false,
+  "realPush": false,
+  "checks": [
+    "Unpaired phone cannot read tickets",
+    "Expired QR rejected with plain error",
+    "Phone passkey registration stays blocked until exact Mac approval; QR fragment scrubbed",
+    "Mac passkey approval unlocks phone session",
+    "390 light/dark: no overflow, 32px top-aligned seals, rounded cards, visible targets >=44px",
+    "Phone settings and checkbox labels remain usable at 390px",
+    "Phone archive/restore is visible through Mac API",
+    "Wrong phone passkey and stale evidence never record a decision",
+    "Offline Mac keeps last list dimmed and clearly stale; actions cannot decide",
+    "Reconnect automatic",
+    "Removal clears displayed work and cannot log back in"
+  ],
+  "screenshots": [
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/unpaired.png",
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/expired-qr.png",
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/waiting-for-mac.png",
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/390-light.png",
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/390-dark.png",
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/settings.png",
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/proof.png",
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/offline-mac.png",
+    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/removed-device.png"
+  ],
+  "completed": true
+}

@@ -1,0 +1,14 @@
+{
+  "version": "1.104.1",
+  "source": "https://pkgs.tailscale.com/stable/Tailscale-1.104.1-macos.pkg",
+  "sha256": "67ec55f18ee2afac0a8fb57f7811977f4ad6df1debd4a187fa0db3dbb5d401d5",
+  "officialChecksumMatched": true,
+  "installed": true,
+  "status": "Owner installed, approved VPN and signed in; native UI Connected and CLI BackendState Running verified",
+  "license": "Standalone app subject to Tailscale terms; core/CLI source BSD-3-Clause",
+  "signature": "Developer ID Installer: Tailscale Inc. (W5364U7YZB)",
+  "notarization": "Trusted by Apple notary service; spctl accepted",
+  "signatureCheckEnvironment": "Normal macOS trust services outside tool sandbox",
+  "connection": "Running",
+  "publicSharingEnabledByThisTask": false
+}

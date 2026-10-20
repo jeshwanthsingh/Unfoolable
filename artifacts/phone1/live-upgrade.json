@@ -1,0 +1,19 @@
+{
+  "health": {
+    "status": "ok",
+    "version": "0.0.1",
+    "coordinator": "online",
+    "database": {
+      "status": "ready",
+      "schemaVersion": 20
+    }
+  },
+  "securityEvidenceCountsPreserved": true,
+  "priorCounts": {
+    "verification_evidence": 0,
+    "human_passkey": 1,
+    "human_confirmations": 26
+  },
+  "backup": "ignored .work/phone1/live-preupgrade.sqlite (0600)",
+  "activeTicketsBefore": 0
+}

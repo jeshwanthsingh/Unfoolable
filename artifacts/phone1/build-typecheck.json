@@ -1,0 +1,12 @@
+{
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "exitCode": 0,
+    "warning": "Existing large optional Labs/diff chunks exceed 500 kB; not introduced by PHONE-1"
+  },
+  "productionAuthentication": "Real SimpleWebAuthn browser client; no TEST alias"
+}
