@@ -29,3 +29,7 @@ The service worker caches no API responses or work. On disconnection the last li
 WebKit iPhone-profile checks use isolated TEST data, a test-only credential transport and loopback HTTPS proxy. They exercise the real routes and persistence but do not prove physical Face ID, Touch ID, iOS Home Screen installation, tailnet routing, Web Push delivery or safe-area behavior on actual hardware. Those require the checklist in artifacts/phone1/RESULT.md.
 
 Primary references: https://tailscale.com/docs/features/tailscale-serve ; https://tailscale.com/docs/reference/tailscale-cli/serve ; https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/ .
+
+## Observed NordVPN conflict
+
+On this Mac, Tailscale and Serve were configured correctly, but private DNS and direct private-IP HTTPS timed out with NordVPN connected. The owner paused NordVPN: normal private DNS/HTTPS worked, the genuine pairing screen loaded and unpaired data requests returned 401. NordVPN was restored immediately after the diagnostic, and private DNS failed again. Coexistence remains unresolved. No public fallback, certificate bypass, DNS change or permanent VPN disablement was used. Keep this limitation separate from the isolated WebKit and unit-test results.

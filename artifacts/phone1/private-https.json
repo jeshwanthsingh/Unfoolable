@@ -1,0 +1,43 @@
+{
+  "ready": true,
+  "origin": "https://cellardoors-macbook-pro.tail25a323.ts.net",
+  "httpsCertificateValidated": true,
+  "funnel": false,
+  "proxyTarget": "http://127.0.0.1:3225",
+  "coordinatorListeners": [
+    "127.0.0.1:3225"
+  ],
+  "unpairedRequests": [
+    {
+      "path": "/",
+      "http": 200
+    },
+    {
+      "path": "/api/phone/session",
+      "http": 200,
+      "paired": false
+    },
+    {
+      "path": "/api/tickets",
+      "http": 401,
+      "dataDenied": true
+    },
+    {
+      "path": "/api/projects",
+      "http": 401,
+      "dataDenied": true
+    },
+    {
+      "path": "/api/chat",
+      "http": 401,
+      "dataDenied": true
+    }
+  ],
+  "realPhonePairingStillRequired": true,
+  "nordVpn": "Owner paused NordVPN after private DNS and direct-IP requests timed out; normal DNS and HTTPS pass without any override",
+  "afterNordVpnResumed": {
+    "reachable": false,
+    "error": "ENOTFOUND"
+  },
+  "nordVpnRestored": true
+}
