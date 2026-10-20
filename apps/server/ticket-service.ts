@@ -1,3 +1,4 @@
+import {createBugReproduction} from './bug-reproduction.ts';
 import {redactBugLog} from './bug-log.ts';
 import {verifyTicketSeal} from './verdict-seal.ts';
 import {runAdvisoryReviewers} from './advisory-reviewers.ts';
@@ -32,7 +33,7 @@ export function createTicketService(db:DatabaseSync,config:AppConfig,verifier:Re
  mkdirSync(config.dataDir,{recursive:true,mode:0o700});const keyPath=join(config.dataDir,'ticket-operator.key');
  try{writeFileSync(keyPath,randomBytes(32).toString('hex'),{flag:'wx',mode:0o600});}catch(e){if((e as NodeJS.ErrnoException).code!=='EEXIST')throw e;}
  chmodSync(keyPath,0o600);const key=readFileSync(keyPath,'utf8');if(!/^[a-f0-9]{64}$/.test(key))throw Error('Invalid local operator capability');
- const diffReviews=createDiffReviewStore(config.dataDir);
+ const diffReviews=createDiffReviewStore(config.dataDir),bugs=createBugReproduction(db,config.dataDir);
  const playbooks=createPlaybookChecks(config.dataDir),nativeCheck=createTicketChecker(db,verifier,config.projectRoots);
  const reviewerJobs=new Map<string,{controller:AbortController;promise:Promise<void>}>();
  const scheduleReviews:NonNullable<TicketLoopDependencies['afterCheck']>=(t,c,check,sequence)=>{if(dependencies||!DEFAULT_REVIEWERS.length||playbooks.store.show(t.repoPath)?.definition.skipReviewers)return;reviewerJobs.get(t.id)?.controller.abort();const controller=new AbortController();const promise=runAdvisoryReviewers(t,c,check,sequence,join(config.dataDir,'reviewers',t.id,String(sequence)),controller.signal,data=>appendTicketEvent(db,t.id,'agent_event',data)).catch(error=>{appendTicketEvent(db,t.id,'agent_event',{kind:'reviewer_unavailable',candidate:c.commit,checkSequence:sequence,reason:(error as Error).message});}).finally(()=>{if(reviewerJobs.get(t.id)?.controller===controller)reviewerJobs.delete(t.id);});reviewerJobs.set(t.id,{controller,promise});};
@@ -40,7 +41,7 @@ export function createTicketService(db:DatabaseSync,config:AppConfig,verifier:Re
  const ticket=(id:string)=>{const t=getTicket(db,id);if(!t)throw new SpecError('TICKET_NOT_FOUND','That ticket does not exist.',404);return t;};
  const candidate=(id:string)=>{const e=listTicketEvents(db,id).filter(e=>e.kind==='candidate_frozen').at(-1);return e?.data.candidate as {repo:string;commit:string;tree:string;paths:string[];diffPath:string}|undefined;};
  function evidenceProblem(t:ReturnType<typeof ticket>,c:ReturnType<typeof candidate>,check:Record<string,unknown>|undefined):string|null{
-  if(!c||!check)return null;if(check.harnessError===true)return 'Latest checks did not produce fresh evidence.';
+  if(!c||!check)return null;const bugProblem=bugs.evidenceProblem(t.id,check);if(bugProblem)return bugProblem;if(check.harnessError===true)return 'Latest checks did not produce fresh evidence.';
   try{
    if(check.candidate!==c.commit)return 'Check evidence belongs to another Candidate.';
    if(typeof check.playbookHash==='string'){
@@ -70,9 +71,9 @@ export function createTicketService(db:DatabaseSync,config:AppConfig,verifier:Re
    const tree=(await safeBuildGit(c.repo,['rev-parse',c.commit+'^{tree}'])).toString().trim();if(tree!==c.tree)throw Error('Frozen Candidate tree changed');
    // Legacy reviews retain their original native-check scope; no Builder or new playbook acceptance is introduced.
    const previous=listTicketEvents(db,id).filter(e=>e.kind==='check_result'&&typeof e.data.playbookHash==='string').at(-1)?.data;
-   const check=await (dependencies?.check??(previous?.playbookHash?hooks.check:nativeCheck))(t,c,signal);
+   let check=await (dependencies?.check??(previous?.playbookHash?hooks.check:nativeCheck))(t,c,signal);if(bugs.input(id))check=await bugs.check(t,c,check,signal);
    if(check.testWriter?.started){const usage=check.testWriter.usage;if(!usage)throw Object.assign(Error('Test Writer usage unavailable.'),{code:'ACTION_BUDGET'});appendTicketEvent(db,id,'agent_event',{attemptId:'test-writer:'+(check.verificationId??check.testWriter.sessionId??String(Date.now())),kind:'usage_observed',data:{reportedTotal:usage.totalTokens}});}const exceeded=budgetExceeded(ticketBudget(db,id));if(exceeded)throw Object.assign(Error(exceeded),{code:'ACTION_BUDGET'});if(signal.aborted)throw Error('Recheck interrupted');if(JSON.stringify(ticket(id).candidateCommits)!==candidates||(await safeBuildGit(c.repo,['rev-parse',c.commit+'^{tree}'])).toString().trim()!==tree)throw Error('Candidate binding changed during recheck');
-   const checkEvent=appendTicketEvent(db,id,'check_result',{mode:'recheck',candidate:c.commit,...snapshotTicketCheck(config.dataDir,check,!!dependencies)});updateTicket(db,id,{checkVerdict:check.verdict});scheduleReviews(t,c,check,checkEvent.sequence);
+   const checkEvent=appendTicketEvent(db,id,'check_result',{mode:'recheck',candidate:c.commit,...snapshotTicketCheck(config.dataDir,check,!!dependencies)});updateTicket(db,id,{checkVerdict:check.verdict});if(check.bug?.fixed&&db.prepare('SELECT event_sequence FROM verdict_attestations WHERE event_sequence=?').get(checkEvent.sequence))appendTicketEvent(db,id,'agent_event',{kind:'bug_fixed',candidate:c.commit,checkSequence:checkEvent.sequence,testName:check.bug.testName});scheduleReviews(t,c,check,checkEvent.sequence);
    if(['VERIFIED','PASSED WITH GAPS'].includes(check.verdict)){transitionTicket(db,id,'ready_for_review',{mode:'recheck'});}else{transitionTicket(db,id,'needs_you',{mode:'recheck'});appendTicketEvent(db,id,'needs_you',{mode:'recheck',reason:'Checks did not pass; Candidate unchanged. No Builder or fixer started.',verdict:check.verdict});}
   }catch(error){if(ticket(id).status==='checking'){updateTicket(db,id,{checkVerdict:'NOT CHECKED'});transitionTicket(db,id,signal.aborted?'interrupted':((error as any).code==='ACTION_BUDGET'||(error as any).code?.startsWith('PLAYBOOK_'))?'needs_you':'harness_error',{mode:'recheck'});}
    if((error as any).code==='ACTION_BUDGET')appendTicketEvent(db,id,'needs_you',{kind:'ACTION_BUDGET',reason:(error as Error).message});appendTicketEvent(db,id,'check_result',{mode:'recheck',candidate:c.commit,verdict:'NOT CHECKED',gaps:[(error as Error).message],failures:[],harnessError:true,verdictSnapshot:saveVerdictSnapshot(config.dataDir,{path:'runtime',code:(error as any).code??'',aborted:signal.aborted,queued:false,reason:(error as Error).message})});appendTicketEvent(db,id,'cleanup',{mode:'recheck',cleanupUncertain:!!db.prepare("SELECT id FROM verify_only_runs WHERE json_extract(ledger_json,'$.cleanupUncertain')=1").get()||!!(error as any).oracleCleanup&&!((error as any).oracleCleanup.verified),reason:(error as Error).message});

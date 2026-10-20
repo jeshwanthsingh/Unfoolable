@@ -19,6 +19,7 @@ export type VerdictFacts =
  | {path: 'playbook'; failures: string[]; gaps: string[]; qualityGates?: {gate:string;status:string;findings:{path:string;line:number;message:string}[]}[]; tamperStatus?:string}
  | {path: 'combined'; native: Outcome; project: Outcome}
  | {path: 'claims'; claims: {id: string; requirement: 'REQUIRED' | 'ADVISORY'; status: ClaimStatus; reason: string | null}[]}
+ | {path:'bug';guard:Outcome;reproduction:{baseMatched:boolean;candidatePassed:boolean;error:boolean;baseCommit:string;candidateCommit:string;testHash:string;baseReportHash:string;candidateReportHash:string}}
  | {path: 'runtime'; code: string; aborted: boolean; queued: boolean; reason: string};
 export type VerdictDecision = {facts: VerdictFacts; verdict: Verdict; canLand: boolean; reasons: string[]; trace: TraceStep[]; status?: ClaimStatus; gaps?: string[]; failures?: string[]; executionError?: boolean; budgetReason?: string|null; admitted?: boolean; phase?: 'needs_you' | 'interrupted' | 'harness_error'};
 
@@ -30,6 +31,18 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   note('result', verdict === 'VERIFIED' || verdict === 'PASSED WITH GAPS', 'Result: ' + verdict + '. This never accepts the change.');
   return {facts, verdict, canLand: verdict === 'VERIFIED' || verdict === 'PASSED WITH GAPS', reasons, trace, ...extra};
  };
+ if(facts.path==='bug'){
+  // A matching BASE failure is required, not a Builder claim or a green regression suite.
+  note('bug-base',facts.reproduction.baseMatched,facts.reproduction.baseMatched?'The locked test reproduced the reported failure on the original code.':'The reported failure was not reproduced; no fix is verified.');
+  if(facts.guard.verdict==='FAILED'||facts.guard.verdict==='ERROR')return finish(facts.guard.verdict,facts.guard.failures);
+  if(![facts.reproduction.testHash,facts.reproduction.baseReportHash,facts.reproduction.candidateReportHash].every(h=>/^[a-f0-9]{64}$/.test(h)))return finish('NOT CHECKED',['Reproduction artifact binding is missing.']);
+  if(!facts.reproduction.baseMatched)return finish('NOT CHECKED',['Could not reproduce the reported failure on BASE.']);
+  if(facts.reproduction.error)return finish('ERROR',['The reproduction runner failed; this is not a passing fix.']);
+  note('bug-candidate',facts.reproduction.candidatePassed,facts.reproduction.candidatePassed?'The same locked test passes on this exact change.':'The locked reproduction still fails.');
+  if(!facts.reproduction.candidatePassed)return finish('FAILED',['The locked reproduction still fails.']);
+  if(facts.guard.verdict==='NOT CHECKED')return finish('NOT CHECKED',facts.guard.gaps);
+  return finish(facts.guard.gaps.length?'PASSED WITH GAPS':'VERIFIED',facts.guard.gaps);
+ }
  if (facts.path === 'budget') {
   const reason = facts.commands > facts.limits.maxCommands ? 'Stopped because this ticket exceeded ' + facts.limits.maxCommands + ' Builder commands.'
    : facts.reportedCodexTokens !== null && facts.reportedCodexTokens > facts.limits.maxCodexTokens ? 'Stopped because Builder reported more than ' + facts.limits.maxCodexTokens + ' tokens for this ticket.'

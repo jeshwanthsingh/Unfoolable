@@ -4,17 +4,17 @@ import {join,resolve} from 'node:path';import {spawnSync} from 'node:child_proce
 import {SpecError} from './spec-errors.ts';
 export const BUG_LOG_LIMIT=19000;
 export const BUG_LOG_PREFIX='Bug from this log:\n';
-export type BugSignature={exceptionType:string;message:string;frame:{file:string;function:string}};
+export type BugSignature={exceptionType:string;message:string;frame:{file:string;function:string;line:number}};
 export type BugLog={text:string;redactedLines:number[];signature:BugSignature|null};
 /** Literal traceback extraction, never executable content or grader instructions. */
 export function bugSignature(text:string):BugSignature|null{
  const exceptions=[...text.matchAll(/^([A-Za-z_][\w.]*(?:Error|Exception)):\s*(.{1,240})$/gm)];const error=exceptions.at(-1);
- const frames=[...text.matchAll(/^\s*File "([^"\n]+)", line \d+, in ([\w.<>]+)\s*$/gm)].filter(m=>!/(?:site-packages|unittest|test_[^/]*\.py)/.test(m[1]!));
+ const frames=[...text.matchAll(/^\s*File "([^"\n]+)", line (\d+), in ([\w.<>]+)\s*$/gm)].filter(m=>!/(?:site-packages|unittest|test_[^/]*\.py)/.test(m[1]!));
  const frame=frames.at(-1);if(!error||!frame||error[2]!.includes('[redacted]'))return null;
- return {exceptionType:error[1]!,message:error[2]!,frame:{file:frame[1]!.replaceAll('\\','/'),function:frame[2]!}};
+ return {exceptionType:error[1]!,message:error[2]!,frame:{file:frame[1]!.replaceAll('\\','/'),function:frame[3]!,line:Number(frame[2])}};
 }
 export function matchesBugFailure(signature:BugSignature,trace:string){
- const actual=bugSignature(trace);return !!actual&&actual.exceptionType===signature.exceptionType&&actual.message===signature.message&&(actual.frame.file===signature.frame.file||actual.frame.file.endsWith('/'+signature.frame.file))&&actual.frame.function===signature.frame.function;
+ const actual=bugSignature(trace);return !!actual&&actual.exceptionType===signature.exceptionType&&actual.message===signature.message&&(actual.frame.file===signature.frame.file||actual.frame.file.endsWith('/'+signature.frame.file))&&actual.frame.function===signature.frame.function&&actual.frame.line===signature.frame.line;
 }
 export function looksLikeBugLog(text:string){return text.startsWith(BUG_LOG_PREFIX)||/Traceback \(most recent call last\):/.test(text)||/^\w*(?:Error|Exception):[^\n]+\n\s+at /m.test(text);}
 /** Both existing scanners run locally before persistence or any model call. */
