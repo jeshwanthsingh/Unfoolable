@@ -55,6 +55,23 @@ class BackupTests(unittest.TestCase):
             result = backup.snapshot({"dataDir": str(data), "backupDir": str(store)})
             self.assertEqual(result["skipped"], "No application changes since last complete checkpoint")
 
+    def test_forced_checkpoint_keeps_idle_safety(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); data = root / "data"; store = root / "backups"
+            data.mkdir(); store.mkdir()
+            db = sqlite3.connect(data / "command-center.sqlite")
+            db.execute("CREATE TABLE tickets(status)")
+            db.execute("INSERT INTO tickets VALUES ('building')")
+            db.commit(); db.close()
+            result = backup.snapshot({"dataDir": str(data), "backupDir": str(store)}, force=True)
+            self.assertEqual(result["skipped"], "File checkpoint waits for idle; SQLite replication continues")
+
+    def test_private_signing_material_is_excluded_but_public_metadata_survives(self):
+        for name in ["signing/private.pem", "signing/device-key.blob"]:
+            self.assertTrue(backup.exclude_data_file(Path(name)))
+        for name in ["signing/public.pem", "signing/mode.json", "verdict-facts/proof.json"]:
+            self.assertFalse(backup.exclude_data_file(Path(name)))
+
     def test_restore_rejects_existing_destination(self):
         with tempfile.TemporaryDirectory() as d:
             with self.assertRaises(FileExistsError): backup.restore_bundle(Path(d), {}, Path(d))
