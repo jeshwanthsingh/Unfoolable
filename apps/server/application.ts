@@ -1,3 +1,4 @@
+import {ticketDecisionView} from '../../packages/shared/reviewers.ts';
 import {createPhonePush} from './phone-push.ts';
 import {phoneJson} from './phone-routes.ts';
 import {createPhoneAuth} from './phone-auth.ts';
@@ -102,7 +103,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   if(m=/^\/api\/phone\/devices\/([^/]+)\/remove$/.exec(path))return {scope:{item:'phone-device:'+m[1]!,action:'remove'},state:phone.removeEvidence(m[1]!)};
   if(path==='/api/stop-all')return {scope:{item:'running-agents',action:'stop'},state:database.connection.prepare("SELECT id,status,attempt_count,candidate_commits FROM tickets WHERE status IN('building','fixing','checking','queued') ORDER BY id").all()};
   if(m=/^\/api\/skills\/([a-f0-9]{64})\/install$/.exec(path))return {scope:{item:'skill:'+m[1]!,action:'install'},state:skillProposal(config.dataDir,m[1]!)};
-  if(m=/^\/api\/tickets\/([^/]+)\/(keep|discard|retry|recheck|continue)$/.exec(path))return {scope:{item:'ticket:'+m[1]!,action:m[2]!},state:tickets.show(m[1]!)};
+  if(m=/^\/api\/tickets\/([^/]+)\/(keep|discard|retry|recheck|continue)$/.exec(path))return {scope:{item:'ticket:'+m[1]!,action:m[2]!},state:ticketDecisionView(tickets.show(m[1]!))};
   if(m=/^\/api\/chat\/cards\/([^/]+)\/action$/.exec(path)){const state=chat.decisionEvidence(m[1]!,reserved?String(op.body.action):undefined),c=state.card;const action=String(op.body.action);let item=c.kind==='ticket'?'ticket:'+c.targetId:'permission:'+c.targetId;if(action==='approve_playbook'){const b=tickets.show(c.targetId).playbook;if(!b)throw new SpecError('PLAYBOOK_REQUIRED','Playbook unavailable.');item='playbook:'+b.repoRoot;}return {scope:{item,action},state};}
   if(m=/^\/api\/chat\/drafts\/([^/]+)\/(start|edit|cancel)$/.exec(path)){const d=chat.store.draft(m[1]!);if(!d)throw new SpecError('DRAFT_NOT_FOUND','Draft not found.',404);return {scope:{item:'draft:'+m[1]!,action:m[2]!},state:d};}
   if(/^\/api\/playbooks\/(approve|edit)$/.test(path)){if(typeof op.body.repoPath!=='string')throw new SpecError('INVALID_REQUEST','Repository required.',400);const b=tickets.playbookEvidence(op.body.repoPath);if(!b)throw new SpecError('PLAYBOOK_REQUIRED','Propose the playbook first.');return {scope:{item:'playbook:'+b.repoRoot,action:path.endsWith('/edit')?'edit_playbook':'approve_playbook'},state:b};}

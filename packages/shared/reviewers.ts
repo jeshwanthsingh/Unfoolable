@@ -15,3 +15,8 @@ export function reviewerPanel(events:readonly TicketEvent[]):ReviewerPanel|null{
  return runs.length?{candidate:String(check.data.candidate),checkSequence:check.sequence,runs}:null;
 }
 export function reviewerFlag(panel:ReviewerPanel|null|undefined){return !!panel?.runs.some(r=>r.status==='DONE'&&r.findings.some(f=>f.serious));}
+
+const advisoryKinds=new Set(['reviewer_started','reviewer_processes','reviewer_cleanup','reviewer_finding','reviewer_done','reviewer_unavailable']);
+export const isReviewerEvent=(event:TicketEvent)=>event.kind==='agent_event'&&advisoryKinds.has(String(event.data.kind));
+/** Strip only this new display channel; every pre-existing decision input stays intact. */
+export function ticketDecisionView<T extends {events:TicketEvent[];reviewers?:ReviewerPanel|null}>(view:T){const {reviewers:_notes,...state}=view;return {...state,events:state.events.filter(e=>!isReviewerEvent(e))};}

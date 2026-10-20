@@ -3,7 +3,7 @@ import {mkdtempSync,mkdirSync,rmSync,writeFileSync,readFileSync} from 'node:fs';
 import fc from 'fast-check';
 import {scoreVerdict,type VerdictFacts} from '../packages/shared/verdict-core.ts';
 import {reviewInput,validateReview,reviewOne,runAdvisoryReviewers} from '../apps/server/advisory-reviewers.ts';
-import {reviewerPanel,DEFAULT_REVIEWERS,REVIEWER_TOKEN_LIMIT} from '../packages/shared/reviewers.ts';
+import {reviewerPanel,ticketDecisionView,DEFAULT_REVIEWERS,REVIEWER_TOKEN_LIMIT} from '../packages/shared/reviewers.ts';
 import type {TicketEvent} from '../packages/shared/tickets.ts';
 const diff='--- a/code.py\n+++ b/code.py\n@@ -1 +1 @@\n-old()\n+new()\n';
 const fixture=()=>{const p=resolve('.work/review1/tests');mkdirSync(p,{recursive:true});return mkdtempSync(join(p,'case-'));};
@@ -15,3 +15,5 @@ test('reviewer notes never change a verdict or its reasons (10,000 random sideca
 test('only notes for the current exact Candidate/check are displayed',()=>{const e=(sequence:number,kind:TicketEvent['kind'],data:Record<string,unknown>):TicketEvent=>({sequence,ticketId:'t',kind,data,createdAt:'2026-01-01'});const events=[e(1,'check_result',{candidate:'A',verdict:'FAILED'}),e(2,'agent_event',{kind:'reviewer_done',candidate:'A',checkSequence:1,role:'intent',run:{role:'intent',status:'DONE',findings:[]}})];assert.equal(reviewerPanel(events)?.candidate,'A');events.push(e(3,'check_result',{candidate:'A',verdict:'FAILED'}));assert.equal(reviewerPanel(events),null);});
 
 test('each reviewer enforces its own allowance and unknown or excessive usage never yields findings',async()=>{const root=fixture();try{for(const tokens of [15001,null]){const session:any=async()=>({output:{findings:[],limitation:''},usage:tokens===null?null:{totalTokens:tokens},sessionId:'separate'});const result=await reviewOne('intent',reviewInput('intent',diff,null),join(root,String(tokens)),new AbortController().signal,[],session);assert.equal(result.status,'ERROR');assert.deepEqual(result.findings,[]);assert.match(result.limitation,/allowance/);}}finally{rmSync(root,{recursive:true,force:true});}});
+
+test('reviewer events and notes cannot change the exact approval view; real check changes still do',()=>{const event:TicketEvent={sequence:1,ticketId:'t',kind:'check_result',createdAt:'2026-01-01',data:{verdict:'FAILED'}};const baseline={events:[event],check:{verdict:'FAILED'},ticket:{status:'ready_for_review'}};fc.assert(fc.property(fc.jsonValue(),notes=>{const additional:TicketEvent={...event,sequence:2,kind:'agent_event',data:{kind:'reviewer_done',run:notes}};const view={...baseline,reviewers:{candidate:'c',checkSequence:1,runs:[]} as any,events:[event,additional]};assert.deepEqual(ticketDecisionView(view),baseline);view.events.push({...event,sequence:3,data:{verdict:'VERIFIED'}});assert.notDeepEqual(ticketDecisionView(view),baseline);}),{numRuns:10000,seed:31003});});
