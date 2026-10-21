@@ -1,0 +1,6 @@
+[
+  {
+    "type": "text",
+    "text": "### Result\n{\"diffs\":1,\"acceptStillDisabled\":true,\"pageOverflow\":false}\n### Ran Playwright code\n```js\nawait (async(page)=>{await page.getByRole('button',{name:'Look at the changes',exact:true}).click();await page.waitForTimeout(2000);return {diffs:await page.locator('.file-diff').count(),acceptStillDisabled:await page.getByRole('button',{name:'Accept with Touch ID',exact:true}).isDisabled(),pageOverflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)};})(page);\n```"
+  }
+]

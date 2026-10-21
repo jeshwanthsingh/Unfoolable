@@ -1,0 +1,40 @@
+{
+  "previewUnitTests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "previewStrictTypecheck": "PASS",
+  "rootTypecheck": "PASS",
+  "previewBuild": "PASS, large chunk warning (existing imported component graph)",
+  "stateCaptures": 28,
+  "overflowFailures": 0,
+  "productionFileHashes": {
+    "count": 644,
+    "different": 0
+  },
+  "productionTestsAndSecurityProbes": "Not rerun: no existing apps, packages, scripts or tests changed; mockup only",
+  "productionTaskWrites": 0,
+  "productionDecisionWrites": 0,
+  "dependencyOSV": {
+    "packages": 26,
+    "knownVulnerabilities": 0,
+    "mode": "public OSV service; initial offline scan unavailable"
+  },
+  "recording": {
+    "width": 1440,
+    "height": 1100,
+    "seconds": 20,
+    "fps": 25
+  },
+  "credentialScan": {
+    "sourceFindings": 0,
+    "artifactFindings": 13,
+    "verifiedSourceDigestFalsePositives": 13,
+    "credentials": 0
+  },
+  "readOnlyDiffCheck": {
+    "highlightedDiffs": 1,
+    "acceptStillDisabled": true,
+    "overflow": false
+  }
+}

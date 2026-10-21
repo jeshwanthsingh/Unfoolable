@@ -1,0 +1,71 @@
+{
+  "findings": 13,
+  "realCredentials": 0,
+  "review": [
+    {
+      "sourceFile": "apps/server/passkey-bootstrap.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "apps/server/phone-auth.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "apps/server/signing-key.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "apps/server/verification-keys.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "apps/server/phone-access.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "apps/web/src/PasskeyPanel.tsx",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "scripts/rotate-verdict-key.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "scripts/passkey-bootstrap.jxa",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "tests/verification-keys.test.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "tests/phone-access.test.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "tests/signing-key.test.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "tests/phone-auth.test.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    },
+    {
+      "sourceFile": "tests/ticket-api.test.ts",
+      "classification": "false positive: SHA256 source-file digest, not a credential",
+      "digestRecomputedAndMatched": true
+    }
+  ]
+}

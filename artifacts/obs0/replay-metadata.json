@@ -1,0 +1,20 @@
+{
+  "ticketId": "6647cc2d-6199-40be-be33-35eae3e2b609",
+  "source": "real stored ticket event log, original CC0 textures",
+  "recording": "official Playwright MCP with browser-context video, trimmed to 20 seconds",
+  "recordedView": "explicitly labelled replay; no live task started",
+  "media": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1440,
+        "height": 1100,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "format": {
+      "duration": "20.000000"
+    }
+  }
+}

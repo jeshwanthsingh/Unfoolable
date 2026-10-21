@@ -1,0 +1,6 @@
+[
+  {
+    "type": "text",
+    "text": "### Result\n{\"idleRequests\":0,\"linked\":1,\"focusRestored\":true,\"reducedIdle\":\"true\",\"nonGet\":[]}\n### Ran Playwright code\n```js\nawait (async(page)=>{const seen=[];page.on('request',r=>{if(r.url().includes('/api/'))seen.push({method:r.method(),path:new URL(r.url()).pathname});});await page.waitForTimeout(1500);const idleRequests=seen.length;await page.locator('.pin-grader').focus();const linked=await page.locator('.fact[data-highlighted=true]').count();await page.getByRole('button',{name:'Settings',exact:true}).click();await page.getByRole('dialog').waitFor();await page.keyboard.press('Escape');const restored=await page.getByRole('button',{name:'Settings',exact:true}).evaluate(e=>document.activeElement===e);await page.emulateMedia({reducedMotion:'reduce'});await page.getByRole('button',{name:'Replay',exact:true}).click();await page.waitForTimeout(500);const reducedIdle=await page.locator('.obs-room-canvas').getAttribute('data-idle');return {idleRequests,linked,focusRestored:restored,reducedIdle,nonGet:seen.filter(r=>r.method!=='GET')};})(page);\n```"
+  }
+]
