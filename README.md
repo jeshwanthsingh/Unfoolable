@@ -35,6 +35,25 @@ Choose **Workshop** beside **List** for an optional full-window pixel room. The 
 
 [Landscape demo](artifacts/office3/workshop-16x9.webm) · [Vertical demo](artifacts/office3/workshop-9x16.webm) · [Implementation, verification and limits](artifacts/office3/RESULT.md).
 
+## Observatory preview — awaiting approval
+
+The proposed next main screen combines a live Workshop strip, an event-based journey and task list, and a Proof pass that opens beside the task (a swipeable sheet on phone). It uses the real Workshop art and stored task history. **This is a separate, read-only design preview; it has not replaced the working app.** Ask, Stop all and decision controls cannot change real work in the preview. The working app's Touch ID and review requirements are unchanged.
+
+![Observatory preview with real task history and a Proof pass](artifacts/obs0/needs-you-1440-light.png)
+
+[Light/dark desktop and phone mockups](artifacts/obs0/INDEX.md) · [20-second recorded-task replay](artifacts/obs0/replay-20s.webm) · [Real event map](docs/OBS_0_EVENT_MAP.md) · [Design tokens and motion rules](docs/DESIGN_SYSTEM.md).
+
+With the normal app already running, start the preview separately:
+
+```sh
+npm ci --prefix docs/mockups/observatory --legacy-peer-deps --ignore-scripts
+npm run dev --prefix docs/mockups/observatory
+# In another terminal, connect the private preview without printing its key:
+node docs/mockups/observatory/open.mjs
+```
+
+The preview opens at `http://localhost:3260/`; the normal app remains on its existing port. No failed-check, production read-alarm or Night Shift morning record exists in the captured ticket data, so those views say so instead of inventing activity. The 74-path protection label is dated probe evidence, not 74 separate secrets or a per-task test. Preview checks: **9/9 tests**, strict typechecks and build passed; **644 existing application/script/test files unchanged**. The production suite was not rerun for this isolated mockup. [Full preview report and limits](artifacts/obs0/RESULT.md).
+
 ## On your iPhone
 
 Install and connect Tailscale on both devices using your own account. On the Mac run `./cc phone serve`, then open Settings → Add my phone. Scan the five-minute QR code, create the phone passkey, and confirm the matching phone on the Mac with Touch ID. Add the private HTTPS page to your iPhone Home Screen for optional alerts. The app stays on loopback; Tailscale Serve is private, never Funnel. Phone decisions require a fresh passkey check. [Phone setup and limits](docs/PHONE_1.md).
@@ -77,6 +96,6 @@ npm run typecheck
 npm run build
 ```
 
-HTTP and process-ownership tests need an environment that permits local listeners and process inspection. Do not interpret sandbox-denied test infrastructure as a passing run. The latest recorded display release passed **1,074 tests**, the **69-path protected-read probe**, and **12 negative controls**, with **256 protected source files unchanged**. These are recorded results, not checks automatically rerun when you clone. [Exact results](artifacts/office3/RESULT.md).
+HTTP and process-ownership tests need an environment that permits local listeners and process inspection. Do not interpret sandbox-denied test infrastructure as a passing run. The latest recorded production repair passed **1,200/1,200 tests**, with no failures or skips, and **61 current-policy replay comparisons with zero differences**. [Repair results](artifacts/urgent-workshop/validation.json). Protected-read probes and planted-cheat results are dated evidence in their round reports, not checks automatically rerun when you clone. [Latest recorded 74-path probe](artifacts/rules1/protected-probe.json), [planted-cheat results](artifacts/rules1/negative-controls.json).
 
 Keep live SQLite data, local tools and credentials out of Git. Do not delete `.work/` wholesale: on the configured Mac it contains live application data. [Operational handoff](HANDOFF.md) and [backup instructions](docs/BACKUPS.md) cover the existing installation.
