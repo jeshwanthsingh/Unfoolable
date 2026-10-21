@@ -1,0 +1,10 @@
+// Read-only browser check. Run against a quiet, already-started Observatory.
+// CC_UI_URL=http://localhost:3225 CC_UI_OPERATOR_FILE=/protected/path/ticket-operator.key node scripts/observatory-honesty.mjs
+import {chromium} from 'playwright-core';
+import {readFileSync} from 'node:fs';
+const url=new URL(process.env.CC_UI_URL??'http://localhost:3225');
+if(!['localhost','127.0.0.1','[::1]'].includes(url.hostname))throw Error('Use a loopback verification preview.');
+if(!process.env.CC_UI_OPERATOR_FILE)throw Error('Set CC_UI_OPERATOR_FILE to the existing private operator-key file.');
+const key=readFileSync(process.env.CC_UI_OPERATOR_FILE,'utf8').trim(),browser=await chromium.launch({channel:'chrome',headless:true});
+try{const context=await browser.newContext({viewport:{width:1440,height:1100}});await context.addInitScript(key=>{sessionStorage.setItem('cc-ticket-key',key);localStorage.setItem('unfool-classic','0');},key);const page=await context.newPage();await page.goto(url.href);await page.locator('.obs2-room-canvas canvas').waitFor();await page.waitForFunction(()=>document.querySelector('.obs2-room')?.dataset.pending==='0');await page.waitForTimeout(500);
+const requests=[];page.on('request',r=>requests.push(new URL(r.url()).pathname));const snapshot=()=>page.locator('.obs2-room').evaluate(el=>({sequence:el.dataset.sequence,pending:el.dataset.pending,phase:el.dataset.phase,fuel:el.querySelector('.obs2-labels>button[data-object="fuel"]')?.textContent,motionSequence:el.querySelector('.obs2-room-canvas')?.dataset.motionSequence,workLine:el.querySelector('.obs2-now')?.textContent}));const before=await snapshot();await page.waitForTimeout(30000);const after=await snapshot();if(JSON.stringify(before)!==JSON.stringify(after)||requests.length||after.pending!=='0')throw Error('Idle honesty failed: '+JSON.stringify({before,after,requests}));console.log(JSON.stringify({durationMs:30000,workAnimations:0,counterChanges:0,pending:0,idleRequests:0,before,after}));}finally{await browser.close();}
