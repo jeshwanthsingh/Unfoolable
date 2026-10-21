@@ -1,0 +1,32 @@
+{
+  "runtime": "Node 24.21.0",
+  "suite": {
+    "tests": 1205,
+    "pass": 1205,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "durationMs": 332376.344584,
+  "testEnvironment": "canonical repo-local TMPDIR=.work/obs1/tmp; outside restrictive sandbox; caffeinate -dims",
+  "initialRun": {
+    "passed": 1194,
+    "failed": 11,
+    "reason": "System temp path aliases, fixture dependency resolution and process-ownership environment. All 60 tests in affected subset passed after canonical TMPDIR/sequential check. Full unchanged suite then passed 1205/1205."
+  },
+  "typecheck": "PASS",
+  "productionBuild": "PASS, exact npm run build in isolated copy; no deployment",
+  "workshopImages": 9,
+  "goldenReplays": 61,
+  "goldenDifferences": 0,
+  "negativeControls": 12,
+  "negativePasses": 0,
+  "protectedPaths": 74,
+  "readableProtectedPaths": 0,
+  "protectedCodeFiles": 281,
+  "changedProtectedCodeFiles": 0,
+  "sameScreenshotTaskRows": true,
+  "overflow": false,
+  "credentialScanner": "Gitleaks 8.30.1",
+  "credentialFindings": 0
+}

@@ -1,0 +1,15 @@
+{
+  "paths": 74,
+  "readable": 0,
+  "ownedChecks": {
+    "git_status": true,
+    "git_diff": true,
+    "git_log": true,
+    "sqlite_temp": true,
+    "own_write": true
+  },
+  "protectedEndpoints": 8,
+  "reachableEndpoints": 0,
+  "signerHelpersDenied": true,
+  "realBuilderMatchesKernelProbe": true
+}

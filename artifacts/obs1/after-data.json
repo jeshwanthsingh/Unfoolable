@@ -1,0 +1,78 @@
+[
+  {
+    "width": 1440,
+    "theme": "light",
+    "tasks": [
+      {
+        "id": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+        "status": "closer"
+      },
+      {
+        "id": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+        "status": "closer"
+      },
+      {
+        "id": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+        "status": "closer"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "tasks": [
+      {
+        "id": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+        "status": "closer"
+      },
+      {
+        "id": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+        "status": "closer"
+      },
+      {
+        "id": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+        "status": "closer"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "tasks": [
+      {
+        "id": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+        "status": "closer"
+      },
+      {
+        "id": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+        "status": "closer"
+      },
+      {
+        "id": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+        "status": "closer"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "tasks": [
+      {
+        "id": "a659a71a-565e-4a0e-b4c3-40fa20e8b3e0",
+        "status": "closer"
+      },
+      {
+        "id": "e4f4596f-7d5e-4d88-8952-2e321f3621d8",
+        "status": "closer"
+      },
+      {
+        "id": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
+        "status": "closer"
+      }
+    ],
+    "overflow": false
+  }
+]

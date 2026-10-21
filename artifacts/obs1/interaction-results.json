@@ -1,0 +1,9 @@
+{
+  "fixture": "Isolated UI fixture derived from a saved request; not a real verdict or approval",
+  "files": 1,
+  "lockedBefore": true,
+  "enabledAfterExactFileViews": true,
+  "decisionRequests": 0,
+  "overflow": false,
+  "fileViewRequests": 1
+}

@@ -1,0 +1,17 @@
+{
+  "baseline": "8fa08a731440cd5a2d016eea8f7b50b2d07aa5e1",
+  "protectedCodeFiles": 281,
+  "changed": [],
+  "explicitDependencyExceptions": [
+    "package-lock.json",
+    "package.json"
+  ],
+  "existingPackageVersionsChanged": [],
+  "exactDecisionFunctions": [
+    "mutate",
+    "ticketAction",
+    "draftDecision",
+    "ticketDecision"
+  ],
+  "changedDecisionFunctions": []
+}
