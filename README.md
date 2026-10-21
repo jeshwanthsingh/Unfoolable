@@ -4,9 +4,9 @@
 
 Unfoolable is a personal, local Mac app. Describe a code change, review the proposed task, and let Codex work in a separate copy. Protected checks report what passed and what could not be checked. You decide whether to Accept or Reject. Accept saves a separate local branch; it never merges or pushes.
 
-![Unfoolable showing tasks and their check results](docs/images/unfoolable.png)
+![Observatory room with a saved task’s Proof pass](artifacts/obs3/pass-1440-light.png)
 
-*UI-4 replay of recorded local tasks, not a claim about current live counts.*
+*Stored task history and dated check results, not a claim about current live counts.*
 
 ## Start
 
@@ -25,34 +25,19 @@ Register your passkey in the local UI. Starting work and making decisions requir
 
 To investigate an error, paste its traceback in Ask, or run `./cc bug error.log`. Logs are bounded and scanned for secrets before AI sees them. The first session may only write a reproduction test; a fix starts only after that test produces the matching failure on the original code. Initial matching support is Python unittest. Unsupported or unreproduced reports stop honestly.
 
-## Optional Workshop
+## Observatory
 
-Choose **Workshop** beside **List** for an optional full-window pixel room. The Builder, protected Grader, Test Writer and your stamp desk reflect recorded task events. Tappable objects explain the sandbox, protected paths, budget and review flow, with their data sources. Local time sets the daylight or lamp-lit night scene; ambient character motion is decorative, never evidence of work.
+The main screen combines the live pixel room, your task list and a **Proof** pass. Open a task to see what was checked, what remains unchecked, the seal and the exact code changes. Accept still requires the existing review and fresh Touch ID. **Settings → Classic view** restores the previous list for this release.
 
-**Replay** compresses a real ticket's event history into a 38-second trailer, with inactive stretches labelled as fast-forwarded. **Record clip** saves a local WebM and metadata without uploading anything. Replay cannot make decisions. Phone and reduced-motion views use a still illustration; the main task list remains the default.
+The room follows recorded events: reading files, making changes, running checks and handing work to your desk. Its four pinned labels explain network restrictions, the dated protected-path probe, Builder fuel and the isolated Grader. Missing information stays unknown. Hover or focus a Proof fact to highlight its room object, or tap an object for its explanation and source.
 
-![Workshop at night, with the protected inspection room illuminated](artifacts/office3/final/screens/night-dark-1440.png)
+**Replay** and its scrubber show a past task at an exact point in its saved history, with timing compressed. **Record clip** exports a local 16:9 or 9:16 WebM, labelled as replay. Nothing is uploaded. Opening live Proof cancels recording rather than mixing tasks. Chrome on Mac is the verified recorder; the demos below also include MP4 sharing copies.
 
-[Landscape demo](artifacts/office3/workshop-16x9.webm) · [Vertical demo](artifacts/office3/workshop-9x16.webm) · [Implementation, verification and limits](artifacts/office3/RESULT.md).
+A recorded tripwire or Stop all event opens a calm explanation with the task and time. The Night Shift briefing links completed work to its Proof; no report means no invented summary. A fresh seal gets one short shimmer. Four optional sounds are **off by default** and automatically muted during Night Shift. Hidden or offline rooms pause; reduced motion uses still pictures. The protected-path label is dated system evidence, not a count of secrets or a per-task guarantee.
 
-## Observatory preview — awaiting approval
+Choose **Workshop** for the optional full-window room. Decorative ambient life is separate from recorded work. Neither replay nor the room can authorize a decision.
 
-The proposed next main screen combines a live Workshop strip, an event-based journey and task list, and a Proof pass that opens beside the task (a swipeable sheet on phone). It uses the real Workshop art and stored task history. **This is a separate, read-only design preview; it has not replaced the working app.** Ask, Stop all and decision controls cannot change real work in the preview. The working app's Touch ID and review requirements are unchanged.
-
-![Observatory preview with real task history and a Proof pass](artifacts/obs0/needs-you-1440-light.png)
-
-[Light/dark desktop and phone mockups](artifacts/obs0/INDEX.md) · [20-second recorded-task replay](artifacts/obs0/replay-20s.webm) · [Real event map](docs/OBS_0_EVENT_MAP.md) · [Design tokens and motion rules](docs/DESIGN_SYSTEM.md).
-
-With the normal app already running, start the preview separately:
-
-```sh
-npm ci --prefix docs/mockups/observatory --legacy-peer-deps --ignore-scripts
-npm run dev --prefix docs/mockups/observatory
-# In another terminal, connect the private preview without printing its key:
-node docs/mockups/observatory/open.mjs
-```
-
-The preview opens at `http://localhost:3260/`; the normal app remains on its existing port. No failed-check, production read-alarm or Night Shift morning record exists in the captured ticket data, so those views say so instead of inventing activity. The 74-path protection label is dated probe evidence, not 74 separate secrets or a per-task test. Preview checks: **9/9 tests**, strict typechecks and build passed; **644 existing application/script/test files unchanged**. The production suite was not rerun for this isolated mockup. [Full preview report and limits](artifacts/obs0/RESULT.md).
+[Desktop and phone screenshots, light/dark](artifacts/obs3/INDEX.md) · [16:9 demo](artifacts/obs3/replay-landscape.mp4) · [9:16 demo](artifacts/obs3/replay-portrait.mp4) · [Verification and limits](artifacts/obs3/RESULT.md) · [Manual VoiceOver checklist](docs/VOICEOVER_CHECKLIST.md).
 
 ## On your iPhone
 
@@ -96,6 +81,8 @@ npm run typecheck
 npm run build
 ```
 
-HTTP and process-ownership tests need an environment that permits local listeners and process inspection. Do not interpret sandbox-denied test infrastructure as a passing run. The latest recorded production repair passed **1,200/1,200 tests**, with no failures or skips, and **61 current-policy replay comparisons with zero differences**. [Repair results](artifacts/urgent-workshop/validation.json). Protected-read probes and planted-cheat results are dated evidence in their round reports, not checks automatically rerun when you clone. [Latest recorded 74-path probe](artifacts/rules1/protected-probe.json), [planted-cheat results](artifacts/rules1/negative-controls.json).
+HTTP and process-ownership tests need an environment that permits local listeners and process inspection. Do not interpret sandbox-denied test infrastructure as a passing run. The completed Observatory verification passed **1,233/1,233 tests**, with no failures or skips, plus typecheck and production build. **61 golden replay comparisons had zero differences**; **281 protected implementation hashes and four decision callbacks were unchanged**. Axe reported **zero violations across 16 combinations** of main, Proof, Settings and room at desktop/phone widths, light/dark. A 30-second idle check recorded no work animations, counter changes or extra requests. These checks do not replace manual screen-reader or real-device testing. [Exact results](artifacts/obs3/validation.json).
+
+Vite is pinned to **8.3.5**; OSV and npm audit cleared the six baseline advisories. Protected-read probes and planted-cheat results are dated evidence, not checks automatically rerun when you clone. The latest probe denied **all 74 protected paths**; **all 12 planted-cheat controls remained non-PASS**. [Probe](artifacts/obs3/protected-probe.json) · [Controls](artifacts/obs3/negative-controls.json) · [Dependency scans and licenses](docs/OBS_3_SOURCES.md).
 
 Keep live SQLite data, local tools and credentials out of Git. Do not delete `.work/` wholesale: on the configured Mac it contains live application data. [Operational handoff](HANDOFF.md) and [backup instructions](docs/BACKUPS.md) cover the existing installation.
