@@ -12,10 +12,14 @@ export function WorkshopRoom(props:Props){
  useEffect(()=>{if(!host.current)return;let disposed=false,owned:{update:()=>void;destroy:()=>void}|null=null;
  void(async()=>{
   const {Application,Container,Sprite,Texture,Rectangle,Graphics,Assets,Text,EventsTicker,Ticker}=await import('pixi.js');if(disposed)return;
+  // Pixi's named entry point replaces generated shader code with static functions; CSP stays strict.
+  await import('pixi.js/unsafe-eval');if(disposed)return;
   const app=new Application();await app.init({width:960,height:576,backgroundColor:0x181425,antialias:false,autoStart:false,preference:'webgl',resolution:1});if(disposed){app.destroy(true,{children:true});return;}
   let provisionalDestroyed=false;owned={update:()=>{},destroy:()=>{if(!provisionalDestroyed){provisionalDestroyed=true;app.destroy(true,{children:true,texture:false});}}};
   let raf:number|undefined,dead=false,frames=0,elapsed=0,movie=0,last=0,renderedAt=0,previous:OfficeFrame|null=null,previousActivity=-1,previousReplay=false,effectAt=-100,sealAt=-100,packagePosition={x:157,y:180},packageRoute:{x:number;y:number}[]=[],paintTotal=0,first=true,route:{x:number;y:number}[]=[],position={x:110,y:168},camera={x:240,y:144,z:1},payoff=false;
   const world=new Container();app.stage.addChild(world);const sky=new Graphics();world.addChild(sky);
+  // Small local sprites do not need blob workers, which strict CSP correctly forbids.
+  Assets.setPreferences({preferWorkers:false});
   const textures=await Promise.all(['room-light','builder','grader','writer','owner','package'].map(x=>Assets.load<PixiTexture>('/workshop-pixel/'+x+'.png')));
   if(disposed){owned.destroy();return;}for(const t of textures)t.source.scaleMode='nearest';
   world.addChild(new Sprite(textures[0]));const shadows=new Graphics();world.addChild(shadows);
