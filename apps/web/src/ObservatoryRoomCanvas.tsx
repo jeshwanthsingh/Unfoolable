@@ -11,7 +11,7 @@ export function ObservatoryRoomCanvas({id,events,beat,theme,highlight,reduced,pa
  useEffect(()=>{let gone=false,destroy=()=>{};
   void(async()=>{const {Application,Container,Sprite,Texture,Rectangle,Graphics,Assets,EventsTicker,Ticker,RenderTexture}=await import('pixi.js');await import('pixi.js/unsafe-eval');
    const {AdvancedBloomFilter}=await import('../vendor/pixi-filters-6.1.5/lib/advanced-bloom/AdvancedBloomFilter.mjs');
-   if(gone)return;const app=new Application();await app.init({width:960,height:248,autoStart:false,antialias:false,backgroundColor:0x252831,preference:'webgl'});if(gone){app.destroy(true);return;}
+   if(gone)return;const app=new Application();await app.init({width:960,height:248,autoStart:false,antialias:false,backgroundColor:0x252831,preference:'webgl',preserveDrawingBuffer:true});if(gone){app.destroy(true);return;}
    Assets.setPreferences({preferWorkers:false});const textures=await Promise.all(['room-light','builder','grader','writer','owner','package'].map(name=>Assets.load('/workshop-pixel/'+name+'.png')));if(gone){app.destroy(true);return;}textures.forEach(t=>t.source.scaleMode='nearest');
    const world=new Container();app.stage.addChild(world);
    function crop(x:number,y:number,w:number,h:number,dx:number,dw:number){const t=new Texture({source:textures[0].source,frame:new Rectangle(x,y,w,h)}),s=new Sprite(t);s.position.set(dx,0);s.width=dw;s.height=248;world.addChild(s);}
