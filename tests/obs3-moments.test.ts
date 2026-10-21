@@ -10,3 +10,6 @@ test('briefing reports none honestly and links only known stored ticket ids',()=
 test('idle stream for 30 seconds worth of identical updates produces no moments or counters',()=>{const c=new MomentCursor(),es=[event(1,'agent_started')];c.read(es);for(let i=0;i<300;i++)assert.deepEqual(c.read(es),[]);assert.equal(c.last,1);});
 
 test('new detail loads can seed from the initial SSE watermark without playing old events',()=>{const c=new MomentCursor();const es=[event(1,'agent_started'),event(5,'tool.completed'),event(6,'needs_you',{kind:'TRIPWIRE'})];c.read(es.filter(e=>e.sequence<=5));assert.equal(c.read(es)[0]?.kind,'tripwire');assert.deepEqual(c.read(es),[]);});
+
+test('four optional sound patterns are distinct, finite pairs',async()=>{const {soundNotes}=await import('../apps/web/src/observatory-moments-model.ts');assert.equal(Object.keys(soundNotes).length,4);assert.equal(new Set(Object.values(soundNotes).map(a=>a.join(','))).size,4);for(const notes of Object.values(soundNotes))assert.ok(notes.length===2&&notes.every(n=>Number.isFinite(n)&&n>0));});
+test('clip export dimensions have the requested exact aspect ratios',async()=>{const {clipDimensions}=await import('../apps/web/src/observatory-recording.ts');assert.deepEqual(clipDimensions('landscape'),{width:1920,height:1080});assert.deepEqual(clipDimensions('portrait'),{width:1080,height:1920});});
