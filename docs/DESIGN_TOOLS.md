@@ -361,3 +361,9 @@ Existing approved frontend-design, Emil animate/review-animations/animation-perf
 Existing application libraries reused: PixiJS 8.22.0 (MIT), vendored pixi-filters 6.1.5 (MIT), Motion 14.3.0 (MIT), XState 5.33.3 (MIT), Shiki 4.5.0 (MIT), React 19.3.0 (MIT). Instrument Sans local TTF (OFL-1.1). Existing original Workshop pixel textures (CC0, adjacent source/license retained). No remote font or illustration request.
 
 New libraries exist only in `docs/mockups/observatory/package.json` / its independent lockfile: Vaul 1.1.2 (MIT) and Radix React Dialog 1.3.1 (MIT), including 26 resolved packages total. Official npm metadata and packaged license files checked. OSV-Scanner 2.7.0 public-service scan: zero known vulnerabilities returned; no local npm database was available for the initial offline attempt. Full versions/licenses and report: `artifacts/obs0/DEPENDENCIES.md`, `dependency-osv.json`. Production package.json and package-lock.json unchanged.
+
+## OBS-1 — working Observatory shell and Proof pass
+
+Reused the approved frontend-design, better-accessibility, Emil animate, and make-interfaces-feel-better methods. Applied the local code-review skill before commits. Taste and Impeccable remain quarantined. No new skill or artwork installed. Official Playwright MCP 0.0.83 (Apache-2.0) drives the screenshot/interaction loop. Instrument Sans (OFL-1.1), React 19.3.0 and Motion 14.3.0 (MIT) are unchanged.
+
+Promoted the approved preview libraries into the working app: Vaul 1.1.2 and @radix-ui/react-dialog 1.3.1, both MIT, exact pins. All existing resolved package versions unchanged. OSV-Scanner 2.7.0 scanned the final root lockfile using the public service: no findings in the newly added packages. It did report six advisories against the already pinned Vite 8.3.2; these are recorded, not silently fixed in a UI-only safety freeze. The development preview binds loopback and serves only the UI allowlist. Details: artifacts/obs1/DEPENDENCIES.md.
