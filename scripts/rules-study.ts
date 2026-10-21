@@ -1,0 +1,69 @@
+/** RULES-1 only: fresh initial Builders, paired instructions, unchanged protected scoring. */
+import {readFileSync,writeFileSync,mkdirSync,existsSync,cpSync,symlinkSync,realpathSync} from 'node:fs';
+import {resolve,join} from 'node:path';import {homedir} from 'node:os';import {createHash,randomUUID} from 'node:crypto';
+import {openDatabase} from '../apps/server/database.ts';import {createCodexTicketDriver} from '../apps/server/build-runtime.ts';
+import {ticketWorkspace,freezeTicketCandidate,cleanTicketWorkspace} from '../apps/server/ticket-workspace.ts';
+import {safeBuildGit} from '../apps/server/build-workspace.ts';import {prepareTicketDependencies} from '../apps/server/ticket-dependencies.ts';
+import {createTicket,transitionTicket,appendTicketEvent,listTicketEvents} from '../apps/server/ticket-store.ts';
+import {recordTicketLimits,ticketBudget,budgetExceeded} from '../apps/server/ticket-budget.ts';
+import {watchmanActions,WATCHMAN_LIMIT} from '../apps/server/watchman.ts';import {BuildError} from '../apps/server/build-errors.ts';
+import {boundedBuildData} from '../apps/server/build-protocol.ts';import {createVerifyOnly} from '../apps/server/verify-only.ts';
+import {createPlaybookChecks} from '../apps/server/playbook-checks.ts';import {combineResults} from '../packages/shared/verdict-core.ts';
+import {TICKET_LIMITS} from '../packages/shared/ticket-budget.ts';
+const root=resolve('.'),work=join(root,'.work/rules1'),data=join(work,'data'),out=join(root,'artifacts/rules1');
+const hash=(x:string|Buffer)=>createHash('sha256').update(x).digest('hex');const git=async(r:string,...args:string[])=>(await safeBuildGit(r,args,8*1024*1024)).toString().trim();
+const inputPath=join(root,'.work/test-writer/data/scoring-set.json'),inputText=readFileSync(inputPath,'utf8'),source=JSON.parse(inputText),cases=source.cases as any[];
+if(cases.length!==19)throw Error('Expected the frozen 19-case set');mkdirSync(data,{recursive:true,mode:0o700});mkdirSync(out,{recursive:true});
+const correct=cases.filter(r=>r.truth==='CORRECT'),ownRoot=join(homedir(),'.cc-work',hash(data)),db=openDatabase(data,()=>{});
+let current:AbortController|null=null,stopping=false;for(const sig of ['SIGINT','SIGTERM'] as const)process.once(sig,()=>{stopping=true;current?.abort();});
+const verifier=createVerifyOnly(db.connection,{dataDir:data,projectRoots:[...new Set<string>(cases.map(r=>r.projectRoot)),ownRoot]},()=>{}),books=createPlaybookChecks(data);
+const trials=cases.slice().sort((a,b)=>hash(a.id).localeCompare(hash(b.id))).flatMap((row,i)=>(i%2?['ON','OFF']:['OFF','ON']).map(arm=>({case:row.id,arm,sourceTask:row.task})));
+const manifest={version:1,sourceSetHash:hash(inputText),units:'19 paired rows; repeated requests; old truth labels never label fresh outputs',model:'gpt-6.1-sol',effort:'low',runtime:'0.160.0',limits:TICKET_LIMITS,attempts:1,fixer:false,testWriter:false,taskAuthor:false,hiddenGrading:false,trials,
+ promotion:'Complete measurements; ON checked count and VERIFIED count >= OFF; FAILED/ERROR/NOT CHECKED counts <= OFF; ON total lines/files and scope flags <= OFF. Otherwise OFF.',
+ scope:'Historical accepted patch file allowlist plus new native test files; outside-list files are potential scope deviations, not proven defects.'};
+const manifestFile=join(out,'STUDY.json');if(existsSync(manifestFile)){if(readFileSync(manifestFile,'utf8')!==JSON.stringify(manifest,null,2))throw Error('Study manifest changed');}else writeFileSync(manifestFile,JSON.stringify(manifest,null,2),{flag:'wx'});
+const originals=new Map<string,{head:string;status:string}>(),baseRepos=new Map<string,string>();
+async function preflight(){
+ for(const row of cases){if(await git(row.repo,'rev-parse',row.candidate+'^{tree}')!==row.tree)throw Error('Frozen Candidate changed: '+row.id);}
+ const oldRecipes=join(root,'.work/warning-signal/scoring-data/oracles/project-recipes'),destRecipes=join(data,'oracles/project-recipes');if(!existsSync(destRecipes)){mkdirSync(join(data,'oracles'),{recursive:true});cpSync(oldRecipes,destRecipes,{recursive:true});}
+ // Reuse immutable existing approvals. No edit/approve operation is called.
+ const live=JSON.parse(readFileSync('.work/ticket-loop-v1/ACTIVE.json','utf8')).dataDir;if(!existsSync(join(data,'playbooks-snapshot-done'))){cpSync(join(live,'playbooks'),join(data,'playbooks'),{recursive:true});writeFileSync(join(data,'playbooks-snapshot-done'),'Existing approval snapshot only\n',{flag:'wx'});}
+ for(const row of correct){if(!originals.has(row.repo))originals.set(row.repo,{head:await git(row.repo,'rev-parse','HEAD'),status:hash(await git(row.repo,'status','--porcelain=v1','--untracked-files=all'))});const k=row.projectRoot+'\n'+row.base;if(baseRepos.has(k))continue;const folder=join(work,'base-sources',hash(k));mkdirSync(folder,{recursive:true});
+  if(!existsSync(join(folder,'HEAD'))){await git(folder,'init','--bare');await git(folder,'-c','protocol.file.allow=always','fetch','--no-tags','--no-recurse-submodules',row.repo,row.base+':refs/heads/base');await git(folder,'symbolic-ref','HEAD','refs/heads/base');}
+  if(await git(folder,'rev-parse','HEAD')!==row.base)throw Error('BASE-only source changed');
+  // Future solutions and wrong variants must not be discoverable in Builder history.
+  for(const answer of correct.filter(c=>c.projectRoot===row.projectRoot&&c.base===row.base&&c.candidate!==row.base)){let present=false;try{await git(folder,'cat-file','-e',answer.candidate+'^{commit}');present=true;}catch{}if(present)throw Error('Future solution present in BASE-only source');}
+  baseRepos.set(k,folder);
+ }
+ writeFileSync(join(out,'PREFLIGHT.json'),JSON.stringify({sourceSetHash:hash(inputText),frozenCandidatesIntact:19,baseOnlySources:baseRepos.size,futureSolutionsAbsent:true,approvalsCreated:0},null,2));
+}
+function results(){return trials.flatMap(t=>{const f=join(data,'trials',hash(t.case+'\n'+t.arm),'result.json');return existsSync(f)?[JSON.parse(readFileSync(f,'utf8'))]:[];});}
+async function one(trial:typeof trials[number]){
+ const row=cases.find(c=>c.id===trial.case)!,reference=correct.find(c=>c.task===row.task)!,folder=join(data,'trials',hash(trial.case+'\n'+trial.arm)),file=join(folder,'result.json');if(existsSync(file))return;if(existsSync(join(folder,'STARTED.json')))throw Error('Prior unfinished trial requires owned-process review; refusing duplicate run');mkdirSync(folder,{recursive:true});
+ const ticket=createTicket(db.connection,{title:'Paired Builder trial',requestText:row.intent,repoPath:baseRepos.get(row.projectRoot+'\n'+row.base)!,baseCommit:row.base});const owned=await ticketWorkspace(ticket,data);let builder:any=null,candidate:any=null,error:any=null,verdict='ERROR',gaps:any[]=[],gate:any=null;const start=performance.now(),controller=new AbortController();current=controller;let timer:NodeJS.Timeout|undefined,policy:Error|null=null;
+ writeFileSync(join(folder,'STARTED.json'),JSON.stringify({case:trial.case,arm:trial.arm,ticketId:ticket.id,owned,at:new Date().toISOString()}),{flag:'wx',mode:0o600});
+ try{
+  // Dependency preparation is coordinator-owned; Builders only get writable copies.
+  if((await git(owned.clone,'ls-tree','--name-only',row.base,'frontend/package-lock.json'))){const cache=join(work,'dependencies',row.base,'node_modules');if(!existsSync(cache)){await prepareTicketDependencies(owned,{version:'project-playbook-v1',runner:'vitest',setup:null,tests:[{argv:['npm','test'],cwd:'frontend'}],env:{CI:'1'},timeoutSeconds:180,knownFailingTests:[],knownFlakyTests:[],notes:[]},controller.signal);mkdirSync(join(work,'dependencies',row.base),{recursive:true});cpSync(join(owned.workspace,'frontend/node_modules'),cache,{recursive:true});}else{cpSync(cache,join(owned.workspace,'frontend/node_modules'),{recursive:true});writeFileSync(join(owned.artifactDir,'managed-dependencies.json'),JSON.stringify({paths:['frontend/node_modules']}),{flag:'wx',mode:0o400});}mkdirSync(join(owned.clone,'frontend'),{recursive:true});symlinkSync(realpathSync(cache),join(owned.clone,'frontend/node_modules'));}
+  const limits=recordTicketLimits(db.connection,ticket.id,data);transitionTicket(db.connection,ticket.id,'building');timer=setTimeout(()=>{policy=new BuildError('ACTION_BUDGET','The same 15-minute study budget expired.');controller.abort();},limits.maxMinutes*60000);
+  const driver=createCodexTicketDriver(trial.arm==='ON');builder=await driver.run({...owned,generation:1,transportId:randomUUID(),dataDir:data,sourceRoot:owned.clone},{version:'ticket-builder-v1',requestText:row.intent},controller.signal,{
+   binding:b=>appendTicketEvent(db.connection,ticket.id,'agent_bound',{...b}),processes:records=>{writeFileSync(join(folder,'processes.json'),JSON.stringify(records),{mode:0o600});},truncated:()=>appendTicketEvent(db.connection,ticket.id,'agent_event',{kind:'output_truncated'}),
+   event:(_b,kind,data)=>{appendTicketEvent(db.connection,ticket.id,'agent_event',{attemptId:owned.attemptId,kind,data:boundedBuildData(data)});const exceeded=budgetExceeded(ticketBudget(db.connection,ticket.id));if(exceeded){policy=new BuildError('ACTION_BUDGET',exceeded);controller.abort();}if(kind==='blocked_action'&&watchmanActions(db.connection,ticket.id).length>WATCHMAN_LIMIT){policy=new BuildError('WATCHMAN_LIMIT','More than 10 blocked actions.');controller.abort();}return true;}});
+  if(policy)throw policy;if(!builder.cleanup.verified||builder.cleanup.ambiguous||builder.cleanup.remaining.length)throw Error('Owned cleanup uncertain');if(ticketBudget(db.connection,ticket.id).reportedCodexTokens===null)throw Error('Reported Builder token usage unavailable');clearTimeout(timer);timer=undefined;
+  candidate=await freezeTicketCandidate(owned);transitionTicket(db.connection,ticket.id,'checking');let project=db.connection.prepare('SELECT id FROM projects WHERE repo_root=?').get(row.projectRoot);if(!project){project={id:randomUUID()};db.connection.prepare('INSERT INTO projects VALUES(?,?,?,?,?,?)').run(String(project.id),'Study project',row.projectRoot,row.base,null,new Date().toISOString());}
+  if(row.projectRoot.endsWith('/career-ops')){verdict='NOT CHECKED';gaps=['No current approved career-ops playbook. No personal-data or operational tests executed.'];}
+  else{
+   const run=await verifier.create({repoPath:candidate.repo,baseRef:row.base,candidateRef:candidate.commit,intent:row.intent,projectId:String(project.id),taskChecks:false,testWriter:false});const cancel=()=>{void verifier.abandon(run.id);};controller.signal.addEventListener('abort',cancel,{once:true});const checkTimer=setTimeout(()=>controller.abort(),1200000);try{gate=await verifier.wait(run.id);}finally{clearTimeout(checkTimer);controller.signal.removeEventListener('abort',cancel);}if(controller.signal.aborted)throw Error('Protected check deadline expired');verdict=gate.result?.v1?.verdict??'ERROR';gaps=gate.result?.v1?.gaps??[];
+   const approved=books.store.show(row.projectRoot);if(approved?.approval&&verdict!=='FAILED'&&verdict!=='ERROR'){const projectCheck=await books.check(approved,candidate.repo,row.base,candidate.commit,controller.signal);const combined=combineResults({verdict,gaps,failures:[]},projectCheck);verdict=combined.verdict;gaps=[...gaps,...projectCheck.gaps];writeFileSync(join(folder,'project-check.json'),JSON.stringify(projectCheck,null,2));}
+  }
+ }catch(e){error={code:(e as any).code??null,message:(e as Error).message,cleanup:(e as any).cleanup??null};if(error.cleanup&&(!error.cleanup.verified||error.cleanup.ambiguous||error.cleanup.remaining?.length))writeFileSync(join(work,'STOP.json'),JSON.stringify({reason:'Owned cleanup uncertain',case:row.id,error}));}
+ finally{clearTimeout(timer);current=null;writeFileSync(join(folder,'checker.json'),JSON.stringify(gate,null,2));
+  const budget=ticketBudget(db.connection,ticket.id),paths=candidate?.paths??[];let added=0,deleted=0,binary=false;if(candidate){const stat=await git(candidate.repo,'diff','--numstat',row.base,candidate.commit);for(const line of stat.split('\n').filter(Boolean)){const [a,d]=line.split('\t');if(a==='-'||d==='-')binary=true;else{added+=Number(a);deleted+=Number(d);}}}
+  const allowed=(await git(reference.repo,'diff','--name-only',reference.base,reference.candidate)).split('\n').filter(Boolean),outOfScope=paths.filter((p:string)=>!allowed.includes(p)&&!(/(?:^|\/)test_[^/]+\.py$|\.(?:test|spec)\.[cm]?[jt]sx?$/.test(p)));
+  const result={case:row.id,arm:trial.arm,ticketId:ticket.id,base:row.base,candidate,verdict,gaps,error,elapsedSeconds:(performance.now()-start)/1000,claimedDone:!!builder,instructionsSHA256:existsSync(join(owned.artifactDir,'provider-private/prompt.md'))?hash(readFileSync(join(owned.artifactDir,'provider-private/prompt.md'))):null,usageTokens:budget.reportedCodexTokens,commands:budget.commands,added,deleted,changedLines:added+deleted,binary,filesTouched:paths.length,paths,outOfScope,summary:builder?.summary??null,cleanup:builder?.cleanup??error?.cleanup??null};writeFileSync(file,JSON.stringify(result,null,2),{flag:'wx',mode:0o600});writeFileSync(join(out,'results.json'),JSON.stringify(results(),null,2));console.log(JSON.stringify({case:row.id,arm:trial.arm,verdict,tokens:result.usageTokens,lines:result.changedLines,error:result.error?.message??null}));
+  if(!existsSync(join(work,'STOP.json')))await cleanTicketWorkspace(owned);
+ }
+ if(existsSync(join(work,'STOP.json')))throw Error('STOP: owned cleanup uncertainty');
+}
+try{await preflight();if(!process.argv.includes('--preflight'))for(const trial of trials){if(stopping)break;await one(trial);}for(const [repo,state]of originals)if(await git(repo,'rev-parse','HEAD')!==state.head||hash(await git(repo,'status','--porcelain=v1','--untracked-files=all'))!==state.status)throw Error('Original source changed');}
+finally{await verifier.close();db.close();writeFileSync(join(out,'results.json'),JSON.stringify(results(),null,2));}

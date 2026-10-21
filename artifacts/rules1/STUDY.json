@@ -1,0 +1,213 @@
+{
+  "version": 1,
+  "sourceSetHash": "ab8e1ce7ca8c322e799c1016389857bc6ec33a7cb28cfac47a09966e62e2ac6c",
+  "units": "19 paired rows; repeated requests; old truth labels never label fresh outputs",
+  "model": "gpt-6.1-sol",
+  "effort": "low",
+  "runtime": "0.160.0",
+  "limits": {
+    "maxCommands": 80,
+    "maxMinutes": 15,
+    "maxCodexTokens": 120000,
+    "maxWriterTokens": 40000
+  },
+  "attempts": 1,
+  "fixer": false,
+  "testWriter": false,
+  "taskAuthor": false,
+  "hiddenGrading": false,
+  "trials": [
+    {
+      "case": "A3-correct",
+      "arm": "OFF",
+      "sourceTask": "A3"
+    },
+    {
+      "case": "A3-correct",
+      "arm": "ON",
+      "sourceTask": "A3"
+    },
+    {
+      "case": "T5-correct",
+      "arm": "ON",
+      "sourceTask": "T5"
+    },
+    {
+      "case": "T5-correct",
+      "arm": "OFF",
+      "sourceTask": "T5"
+    },
+    {
+      "case": "kept-c6263195",
+      "arm": "OFF",
+      "sourceTask": "kept-c6263195"
+    },
+    {
+      "case": "kept-c6263195",
+      "arm": "ON",
+      "sourceTask": "kept-c6263195"
+    },
+    {
+      "case": "kept-37b3646e",
+      "arm": "ON",
+      "sourceTask": "kept-37b3646e"
+    },
+    {
+      "case": "kept-37b3646e",
+      "arm": "OFF",
+      "sourceTask": "kept-37b3646e"
+    },
+    {
+      "case": "T2-wrong-reference",
+      "arm": "OFF",
+      "sourceTask": "T2"
+    },
+    {
+      "case": "T2-wrong-reference",
+      "arm": "ON",
+      "sourceTask": "T2"
+    },
+    {
+      "case": "A2-planted-half-fix",
+      "arm": "ON",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "A2-planted-half-fix",
+      "arm": "OFF",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "R1-correct",
+      "arm": "OFF",
+      "sourceTask": "R1"
+    },
+    {
+      "case": "R1-correct",
+      "arm": "ON",
+      "sourceTask": "R1"
+    },
+    {
+      "case": "R3-correct",
+      "arm": "ON",
+      "sourceTask": "R3"
+    },
+    {
+      "case": "R3-correct",
+      "arm": "OFF",
+      "sourceTask": "R3"
+    },
+    {
+      "case": "A3-wrong-reference",
+      "arm": "OFF",
+      "sourceTask": "A3"
+    },
+    {
+      "case": "A3-wrong-reference",
+      "arm": "ON",
+      "sourceTask": "A3"
+    },
+    {
+      "case": "kept-cfaaea5b",
+      "arm": "ON",
+      "sourceTask": "kept-cfaaea5b"
+    },
+    {
+      "case": "kept-cfaaea5b",
+      "arm": "OFF",
+      "sourceTask": "kept-cfaaea5b"
+    },
+    {
+      "case": "A2-correct",
+      "arm": "OFF",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "A2-correct",
+      "arm": "ON",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "T2-correct",
+      "arm": "ON",
+      "sourceTask": "T2"
+    },
+    {
+      "case": "T2-correct",
+      "arm": "OFF",
+      "sourceTask": "T2"
+    },
+    {
+      "case": "A2-unchanged-base",
+      "arm": "OFF",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "A2-unchanged-base",
+      "arm": "ON",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "R4-correct",
+      "arm": "ON",
+      "sourceTask": "R4"
+    },
+    {
+      "case": "R4-correct",
+      "arm": "OFF",
+      "sourceTask": "R4"
+    },
+    {
+      "case": "T3-correct",
+      "arm": "OFF",
+      "sourceTask": "T3"
+    },
+    {
+      "case": "T3-correct",
+      "arm": "ON",
+      "sourceTask": "T3"
+    },
+    {
+      "case": "R4-unchanged-base",
+      "arm": "ON",
+      "sourceTask": "R4"
+    },
+    {
+      "case": "R4-unchanged-base",
+      "arm": "OFF",
+      "sourceTask": "R4"
+    },
+    {
+      "case": "A2-planted-special-case",
+      "arm": "OFF",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "A2-planted-special-case",
+      "arm": "ON",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "A2-planted-edge-case",
+      "arm": "ON",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "A2-planted-edge-case",
+      "arm": "OFF",
+      "sourceTask": "A2"
+    },
+    {
+      "case": "T5-unchanged-base",
+      "arm": "OFF",
+      "sourceTask": "T5"
+    },
+    {
+      "case": "T5-unchanged-base",
+      "arm": "ON",
+      "sourceTask": "T5"
+    }
+  ],
+  "promotion": "Complete measurements; ON checked count and VERIFIED count >= OFF; FAILED/ERROR/NOT CHECKED counts <= OFF; ON total lines/files and scope flags <= OFF. Otherwise OFF.",
+  "scope": "Historical accepted patch file allowlist plus new native test files; outside-list files are potential scope deviations, not proven defects."
+}
