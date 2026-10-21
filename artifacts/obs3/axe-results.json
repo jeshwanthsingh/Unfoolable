@@ -1,0 +1,114 @@
+[
+  {
+    "width": 1440,
+    "theme": "light",
+    "surface": "main",
+    "violations": [],
+    "passes": 43
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "surface": "room",
+    "violations": [],
+    "passes": 22
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "surface": "settings",
+    "violations": [],
+    "passes": 43
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "surface": "pass",
+    "violations": [],
+    "passes": 46
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "surface": "main",
+    "violations": [],
+    "passes": 43
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "surface": "room",
+    "violations": [],
+    "passes": 22
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "surface": "settings",
+    "violations": [],
+    "passes": 43
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "surface": "pass",
+    "violations": [],
+    "passes": 46
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "surface": "main",
+    "violations": [],
+    "passes": 43
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "surface": "room",
+    "violations": [],
+    "passes": 22
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "surface": "settings",
+    "violations": [],
+    "passes": 43
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "surface": "pass",
+    "violations": [],
+    "passes": 35
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "surface": "main",
+    "violations": [],
+    "passes": 43
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "surface": "room",
+    "violations": [],
+    "passes": 22
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "surface": "settings",
+    "violations": [],
+    "passes": 43
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "surface": "pass",
+    "violations": [],
+    "passes": 35
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "sourceTicket": "6647cc2d-6199-40be-be33-35eae3e2b609",
+  "source": "real saved 101-event log through app Record clip; labelled compressed replay",
+  "browserOutputs": [
+    "replay-landscape.webm",
+    "replay-portrait.webm"
+  ],
+  "sharingCompanions": "FFmpeg 8.0 MP4 encode, unchanged event timing/speed",
+  "decisions": 0,
+  "clips": [
+    {
+      "path": "artifacts/obs3/replay-landscape.mp4",
+      "sha256": "7f2e1414ae7569187cd37c1eddbc057647027640ce45e05574dca421e782302e",
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "width": 1920,
+            "height": 1080,
+            "avg_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "24.033008"
+        }
+      }
+    },
+    {
+      "path": "artifacts/obs3/replay-portrait.mp4",
+      "sha256": "d0253decc029480ee87326c3353c9ddec895c68edf9734ec2404c8b85a0ff7b7",
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "width": 1080,
+            "height": 1920,
+            "avg_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "23.966667"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "baseline": "ae5218a",
+  "protectedImplementationFiles": 281,
+  "changed": [],
+  "exactDecisionCallbacksUnchanged": [
+    "mutate",
+    "ticketAction",
+    "draftDecision",
+    "ticketDecision"
+  ],
+  "maintenanceException": [
+    "package.json",
+    "package-lock.json"
+  ],
+  "newRuntimeDependencies": 0
+}

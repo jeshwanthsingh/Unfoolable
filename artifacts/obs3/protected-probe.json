@@ -1,0 +1,17 @@
+{
+  "paths": 74,
+  "readable": 0,
+  "ownedChecks": {
+    "git_status": true,
+    "git_diff": true,
+    "git_log": true,
+    "sqlite_temp": true,
+    "own_write": true
+  },
+  "endpoints": 8,
+  "reachable": 0,
+  "signerDenied": true,
+  "realBuilderMatchesKernel": true,
+  "capturedAt": "2026-10-21T21:49:57.183842+00:00",
+  "timestampSource": "completion time of the real probe report"
+}

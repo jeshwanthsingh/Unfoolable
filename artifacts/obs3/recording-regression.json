@@ -1,0 +1,15 @@
+{
+  "before": {
+    "visibleRoomPixels": 0,
+    "assertion": "Room pixels are missing from recorder input",
+    "result": "FAIL"
+  },
+  "after": {
+    "visibleRoomPixels": 238080,
+    "width": 960,
+    "height": 248,
+    "result": "PASS"
+  },
+  "fix": "Pixi documented preserveDrawingBuffer=true plus recording preflight; no scoring/permission change.",
+  "recordingVerification": "Both regenerated exports decoded and visually inspected, including portrait room pixels and final end card."
+}

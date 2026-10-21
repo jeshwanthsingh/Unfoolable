@@ -1,0 +1,145 @@
+{
+  "sourceCommit": "df9300597fe51aa95afdc5f54e7a6355f6abdaed",
+  "branch": "codex/observatory-finish",
+  "baseline": "ae5218a",
+  "fullSuite": {
+    "tests": 1233,
+    "pass": 1233,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 325860.193458,
+    "log": "full-suite-final-source.log"
+  },
+  "focused": {
+    "passed": 33,
+    "failed": 0
+  },
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "workshopImages": 9,
+  "protectedImplementationHashesUnchanged": 281,
+  "exactDecisionCallbacksUnchanged": [
+    "mutate",
+    "ticketAction",
+    "draftDecision",
+    "ticketDecision"
+  ],
+  "manifestException": "Requested pinned dev-only axe and Vite security patch",
+  "golden": {
+    "compared": 61,
+    "differences": 0,
+    "historicalMissingFacts": [
+      104,
+      488,
+      599,
+      616
+    ]
+  },
+  "protectedProbe": {
+    "paths": 74,
+    "readable": 0,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "endpoints": 8,
+    "reachable": 0,
+    "signerDenied": true,
+    "realBuilderMatchesKernel": true,
+    "capturedAt": "2026-10-21T21:49:57.183842+00:00",
+    "timestampSource": "completion time of the real probe report"
+  },
+  "negativeControls": {
+    "cases": 12,
+    "PASS": 0
+  },
+  "axe": {
+    "version": "4.14.0",
+    "combinations": 16,
+    "violations": 0,
+    "disabledRules": []
+  },
+  "idle": {
+    "durationMs": 30000,
+    "recorderVisiblePixels": 238080,
+    "workAnimations": 0,
+    "counterChanges": 0,
+    "pending": 0,
+    "idleRequests": 0,
+    "before": {
+      "sequence": "1341",
+      "pending": "0",
+      "phase": "kept",
+      "fuel": "Fuel 57%",
+      "motionSequence": "0",
+      "workLine": "Accepted"
+    },
+    "after": {
+      "sequence": "1341",
+      "pending": "0",
+      "phase": "kept",
+      "fuel": "Fuel 57%",
+      "motionSequence": "0",
+      "workLine": "Accepted"
+    }
+  },
+  "audio": [
+    {
+      "mode": "default",
+      "audioContexts": 0,
+      "repeatedSnapshotAdded": 0
+    },
+    {
+      "mode": "enabled",
+      "audioContexts": 4,
+      "repeatedSnapshotAdded": 0
+    },
+    {
+      "mode": "night",
+      "audioContexts": 0,
+      "repeatedSnapshotAdded": 0
+    },
+    {
+      "mode": "hidden",
+      "audioContexts": 0,
+      "repeatedSnapshotAdded": 0
+    }
+  ],
+  "recordingPixelRegression": {
+    "before": {
+      "visibleRoomPixels": 0,
+      "assertion": "Room pixels are missing from recorder input",
+      "result": "FAIL"
+    },
+    "after": {
+      "visibleRoomPixels": 238080,
+      "width": 960,
+      "height": 248,
+      "result": "PASS"
+    },
+    "fix": "Pixi documented preserveDrawingBuffer=true plus recording preflight; no scoring/permission change.",
+    "recordingVerification": "Both regenerated exports decoded and visually inspected, including portrait room pixels and final end card."
+  },
+  "recordingBinding": {
+    "proofOpened": true,
+    "recordingCancelled": true,
+    "mixedTaskExport": false
+  },
+  "dependencyScan": {
+    "ViteBefore": "8.3.2",
+    "ViteAfter": "8.3.5",
+    "OSVBeforeAdvisories": 6,
+    "OSVAfter": 0,
+    "npmAuditAfter": 0
+  },
+  "noMergePushDeploy": true,
+  "newRuntimeDependencies": 0,
+  "manualNotVerified": [
+    "Physical iPhone recording/background behavior",
+    "Manual VoiceOver",
+    "Physical speaker listening"
+  ]
+}

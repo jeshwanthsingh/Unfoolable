@@ -1,0 +1,15 @@
+{
+  "branch": "codex/observatory-finish",
+  "base": "ae5218a",
+  "obs1": "d3c5d56",
+  "obs2": "ae5218a",
+  "containsObs1AndObs2": true,
+  "mainIsAncestor": true,
+  "main": "6a49b3d31ab9f42c234d8882fc03e9fc6ba34290",
+  "operationsPerformed": {
+    "merge": false,
+    "push": false,
+    "deploy": false
+  },
+  "rollback": "Settings > Classic view; no database migration. See CHANGELOG.md."
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "mode": "default",
+    "audioContexts": 0,
+    "repeatedSnapshotAdded": 0
+  },
+  {
+    "mode": "enabled",
+    "audioContexts": 4,
+    "repeatedSnapshotAdded": 0
+  },
+  {
+    "mode": "night",
+    "audioContexts": 0,
+    "repeatedSnapshotAdded": 0
+  },
+  {
+    "mode": "hidden",
+    "audioContexts": 0,
+    "repeatedSnapshotAdded": 0
+  }
+]
