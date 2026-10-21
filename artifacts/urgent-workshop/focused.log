@@ -1,0 +1,30 @@
+✔ live activity uses structured read/edit events, never command prose or invented totals (6.435334ms)
+✔ three-stage track only changes for stored stage events and resets for a fix (0.336417ms)
+✔ quiet work gets one stationary line after twenty seconds, stopped work never looks busy (0.087834ms)
+✔ paths are bounded relative metadata, activity excludes secrets and is bounded (0.493791ms)
+✔ no motion can start without a new recent event; mount, replay, search and idle stay still (0.098875ms)
+✔ watch view is a native read-only modal and restores focus and scroll (0.252458ms)
+✔ native progress counts cannot invent totals or count invalid values (0.092375ms)
+✔ all new motion drivers require increasing event identities and stop when hidden (0.521333ms)
+✔ provider absolute read paths use the safe structured name; frozen paths are real changes (0.087708ms)
+✔ a long real stream retains its recorded stage without exporting raw command strings (6.240125ms)
+✔ old-test progress excludes new tests and unadmitted BASE tests (0.13175ms)
+✔ production serves the exact installed font but no arbitrary font path or escaping symlink (2.232ms)
+✔ a cached passing result cannot color a newer failed result or expose its Accept action (1.049458ms)
+✔ operator and infrastructure failures are plain and never become clarification (1.89725ms)
+✔ one command ensures coordinator before reading private capability, including bare unfool (0.927375ms)
+✔ draft question is real, error is not labelled clarification, cancellation is tracked optimistically (0.502333ms)
+✔ a cold launcher starts and reuses one owned coordinator (435.469542ms)
+✔ confirmed isolated draft cancellation is durable and stale Start stays rejected (280.407792ms)
+✔ failed drafting explains preparation failure and invalid local connection shows the startup instruction (0.173666ms)
+✔ production static server serves every tracked Workshop PNG with image MIME (3.28575ms)
+✔ Workshop route refuses unknown files, source, traversal and symlink escapes (2.085583ms)
+✔ build guard fails when any Workshop image is missing or invalid (13.898667ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 821.224416

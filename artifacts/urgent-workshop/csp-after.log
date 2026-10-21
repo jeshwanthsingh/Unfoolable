@@ -1,0 +1,13 @@
+✔ production static server serves every tracked Workshop PNG with image MIME (2.587125ms)
+✔ Workshop route refuses unknown files, source, traversal and symlink escapes (2.239542ms)
+✔ build guard fails when any Workshop image is missing or invalid (12.781166ms)
+✔ Workshop initializes Pixi with its no-eval implementation under the unchanged strict CSP (131.049084ms)
+✔ Workshop decodes images without blob workers under strict CSP (0.199666ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 195.434375

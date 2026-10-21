@@ -1,0 +1,10 @@
+✔ independent candidate failures are advisory and cannot change the verdict (1.78725ms)
+✔ red warning is an alert before Keep in both review surfaces, never hidden in disclosure (1.308042ms)
+ℹ tests 1200
+ℹ suites 0
+ℹ pass 1200
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 375484.070875

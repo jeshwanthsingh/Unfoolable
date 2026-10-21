@@ -1,0 +1,37 @@
+{
+  "old": {
+    "pid": 25519,
+    "ppid": 25486,
+    "pgid": 25519,
+    "sid": 25519,
+    "birth": "darwin:1792553291:394162",
+    "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "observedAt": "2026-10-21T03:28:11.426Z",
+    "exitedAt": null
+  },
+  "cleanup": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  },
+  "fresh": {
+    "pid": 38910,
+    "ppid": 37705,
+    "pgid": 38910,
+    "sid": 38910,
+    "birth": "darwin:1792553588:646486",
+    "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "observedAt": "2026-10-21T03:33:08.684Z",
+    "exitedAt": null
+  },
+  "sourceCommit": "992e51fa09a10e550a3389c6a695659c605b8696",
+  "cwd": "/Users/jeshwanthsingh/Projects/ai-lab/command-center",
+  "stateSHA256": "710b456ff0aee78ef2920c64c1bff5ec275d9a67f50c087d5ee6dac205c4c6ee",
+  "unchangedTables": [
+    "tickets",
+    "chat_drafts",
+    "human_passkey"
+  ]
+}

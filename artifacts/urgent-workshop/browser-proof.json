@@ -1,0 +1,32 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "realTickets": 12,
+  "canvas": 1,
+  "charactersVisuallyReviewed": [
+    "Builder",
+    "Grader",
+    "Test Writer",
+    "Owner"
+  ],
+  "SSE": "200 OK; initial real-ticket snapshot received",
+  "imageGETs": "All six Pixi images 200; all nine tracked images checked by build",
+  "consoleErrors": 0,
+  "replayTicket": "6647cc2d-6199-40be-be33-35eae3e2b609",
+  "builderPositions": [
+    "{\"x\":110,\"y\":168}",
+    "{\"x\":125.16199999999989,\"y\":168}"
+  ],
+  "replayActions": [
+    "idle",
+    "inspect"
+  ],
+  "disconnectedTab": {
+    "message": "This tab isn't connected. Run: unfool and use the window it opens.\n\nCopy",
+    "tickets": 1
+  },
+  "browserRunExit": 0,
+  "noDecisionTaken": true
+}

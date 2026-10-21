@@ -1,0 +1,30 @@
+✖ operator and infrastructure failures are plain and never become clarification (2.46475ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 91.683667
+
+✖ failing tests:
+
+test at tests/ui4-launcher.test.ts:2:1
+✖ operator and infrastructure failures are plain and never become clarification (2.46475ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + "Unfoolable can't start tasks right now. Run: unfool"
+  - "This tab isn't connected. Run: unfool and use the window it opens."
+
+      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-launcher.test.ts:2:169)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Unfoolable can't start tasks right now. Run: unfool",
+    expected: "This tab isn't connected. Run: unfool and use the window it opens.",
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

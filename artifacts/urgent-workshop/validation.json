@@ -1,0 +1,72 @@
+{
+  "fullSuite": {
+    "tests": 1200,
+    "passed": 1200,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "durationMs": 375484.070875
+  },
+  "typecheck": "PASS (npm run build)",
+  "guardedBuild": "PASS; nine tracked PNGs verified",
+  "failingThenPassingRegressions": [
+    "Workshop image GET allowlist",
+    "missing or corrupt built image",
+    "unconnected-tab error message",
+    "strict CSP no-eval renderer",
+    "strict CSP no-blob-worker image loading"
+  ],
+  "browser": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "realTickets": 12,
+    "canvas": 1,
+    "charactersVisuallyReviewed": [
+      "Builder",
+      "Grader",
+      "Test Writer",
+      "Owner"
+    ],
+    "SSE": "200 OK; initial real-ticket snapshot received",
+    "imageGETs": "All six Pixi images 200; all nine tracked images checked by build",
+    "consoleErrors": 0,
+    "replayTicket": "6647cc2d-6199-40be-be33-35eae3e2b609",
+    "builderPositions": [
+      "{\"x\":110,\"y\":168}",
+      "{\"x\":125.16199999999989,\"y\":168}"
+    ],
+    "replayActions": [
+      "idle",
+      "inspect"
+    ],
+    "disconnectedTab": {
+      "message": "This tab isn't connected. Run: unfool and use the window it opens.\n\nCopy",
+      "tickets": 1
+    },
+    "browserRunExit": 0,
+    "noDecisionTaken": true
+  },
+  "goldenReplay": {
+    "baseline": "fbad889",
+    "compared": 61,
+    "differences": [],
+    "historicalStoredChecks": 19,
+    "studyCases": 19,
+    "negativeControls": 12,
+    "missingOriginalFacts": [
+      104,
+      488,
+      599,
+      616
+    ],
+    "note": "Current-policy comparison; no historical labels or original golden files changed"
+  },
+  "credentials": "Gitleaks clean; no capability or restored private files committed",
+  "liveSourceCommit": "992e51fa09a10e550a3389c6a695659c605b8696",
+  "main": "6a49b3d31ab9f42c234d8882fc03e9fc6ba34290",
+  "merged": false,
+  "pushed": false,
+  "dataDeletedOrReset": false
+}

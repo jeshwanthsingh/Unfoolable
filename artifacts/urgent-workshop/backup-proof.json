@@ -1,0 +1,40 @@
+{
+  "immediateDatabaseSafetyCopy": {
+    "path": "/Users/jeshwanthsingh/.config/unfoolable/backups/urgent-workshop-20261020.sqlite",
+    "integrity": "ok",
+    "allTableDigestsMatch": true,
+    "tables": 58,
+    "passkeys": 1,
+    "tickets": 12,
+    "ticketEvents": 1296
+  },
+  "completeBackup": {
+    "archive": "snapshot-20261021T031812Z-a3d43822.tar.gz",
+    "archiveSha256": "576c9f9df6a681d315aa6249bceeaa0a39bb1da86f2686243893e6934740feb7",
+    "chainHead": {
+      "sequence": 1339,
+      "hash": "de88c9175f2a79396a4910936b75167e62a7f812ff84209740da141c4ad5bfbb"
+    },
+    "createdAt": "2026-10-21T03:21:35Z",
+    "files": 212999,
+    "bytes": 536012150,
+    "sourceRoots": 11,
+    "applicationIdentitySha256": "f116983cd7f7cb89069fa3c83d99a088867ebdc54c5233756e7f6c340cf5b1e7"
+  },
+  "completeRestore": {
+    "chainHead": {
+      "sequence": 1339,
+      "hash": "de88c9175f2a79396a4910936b75167e62a7f812ff84209740da141c4ad5bfbb"
+    },
+    "restoredFiles": 212999,
+    "databaseTables": 58,
+    "passkeys": 1,
+    "ticketEvents": 1339,
+    "allTableDigestsMatch": true,
+    "allFileDigestsMatch": true,
+    "integrityCheck": "ok",
+    "foreignKeyErrors": 0,
+    "output": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/urgent-workshop/restore"
+  },
+  "retention": "Overridden only in this caller to retain all existing archives; no older data or backup deleted."
+}

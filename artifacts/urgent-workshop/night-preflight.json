@@ -1,0 +1,33 @@
+{
+  "window": {
+    "start": "2026-10-21T08:00:00.000Z",
+    "end": "2026-10-21T14:00:00.000Z",
+    "tokenLimit": 300000
+  },
+  "rows": [
+    {
+      "id": "dc7cddb1-21e2-434a-a52f-de523f3f42ac",
+      "title": "Clarify local file requirements in README",
+      "status": "STARTED",
+      "queueable": false,
+      "reason": "Already started; not a lost draft"
+    },
+    {
+      "id": "786722c8-a3ea-4f63-847b-766a184ae11e",
+      "title": "Clarify doctor subcommand description",
+      "status": "DRAFT",
+      "queueable": true,
+      "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37"
+    },
+    {
+      "id": "de080c22-9022-47ac-af95-aa6b8f2e3ff9",
+      "title": "Explain source relevance argument in help",
+      "status": "DRAFT",
+      "queueable": true,
+      "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37"
+    }
+  ],
+  "onlyCopiedDatabaseUsed": true,
+  "queued": 0,
+  "decisions": 0
+}

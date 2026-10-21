@@ -1,0 +1,10 @@
+{
+  "startingCommit": "d44ca83",
+  "backendFilesChanged": [
+    "apps/server/static.ts"
+  ],
+  "scoringSandboxPermissionsApprovalsDecisionsUnchanged": true,
+  "newDependencies": 0,
+  "mainContainsNight1": true,
+  "mainContainsRules1": false
+}

@@ -1,0 +1,4 @@
+{"time":"2026-10-21T03:33:07.930Z","level":"info","event":"shutdown.started"}
+{"time":"2026-10-21T03:33:07.948Z","level":"info","event":"shutdown.completed"}
+{"time":"2026-10-21T03:33:09.041Z","level":"info","event":"database.opened","schemaVersion":21}
+{"time":"2026-10-21T03:33:09.076Z","level":"info","event":"server.started","version":"0.0.1"}
