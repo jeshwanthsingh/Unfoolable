@@ -1,0 +1,85 @@
+{
+  "protectedPaths": 74,
+  "readable": 0,
+  "modelMatchesExactProfile": true,
+  "ownedChecks": {
+    "git_status": true,
+    "git_diff": true,
+    "git_log": true,
+    "sqlite_temp": true,
+    "own_write": true
+  },
+  "networkChecks": [
+    {
+      "endpoint": "http://127.0.0.1:3225/api/phone/pairs",
+      "reachable": false,
+      "denied": true,
+      "errno": 1
+    },
+    {
+      "endpoint": "http://127.0.0.1:3225/api/phone/register/options",
+      "reachable": false,
+      "denied": true,
+      "errno": 1
+    },
+    {
+      "endpoint": "http://127.0.0.1:3225/api/phone/alerts",
+      "reachable": false,
+      "denied": true,
+      "errno": 1
+    },
+    {
+      "endpoint": "http://127.0.0.1:3225/api/human/options",
+      "reachable": false,
+      "denied": true,
+      "errno": 1
+    },
+    {
+      "endpoint": "http://127.0.0.1:3225/api/human/confirm",
+      "reachable": false,
+      "denied": true,
+      "errno": 1
+    },
+    {
+      "endpoint": "http://127.0.0.1:3225/api/tickets/probe/keep",
+      "reachable": false,
+      "denied": true,
+      "errno": 1
+    },
+    {
+      "endpoint": "http://127.0.0.1:3225/api/night/drafts/00000000-0000-4000-8000-000000000001/queue",
+      "reachable": false,
+      "denied": true,
+      "errno": 1
+    },
+    {
+      "endpoint": "http://127.0.0.1:3225/api/night/notifications",
+      "reachable": false,
+      "denied": true,
+      "errno": 1
+    }
+  ],
+  "helperChecks": [
+    {
+      "called": false,
+      "exitCode": 1,
+      "signatureBytes": 0
+    },
+    {
+      "kind": "hardware",
+      "called": false,
+      "exitCode": 1,
+      "signatureBytes": 0
+    }
+  ],
+  "cleanup": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  },
+  "scriptSHA256": "7efd93b16e6398e7ae03a4021c4161c994ef6bd11894f3299523033db4ca56af",
+  "fullRowsSHA256": "2db70b5fab811cc52c2b7482bb65d1cba8885f10516d5cb18b29ba96d9789bbf",
+  "privateDetailedProof": "artifacts/rules1/after-probe.json (local ignored file; not committed)"
+}

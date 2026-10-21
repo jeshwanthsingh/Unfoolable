@@ -1,0 +1,49 @@
+{
+  "fullSuite": {
+    "tests": 1195,
+    "passed": 1195,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "durationMs": 348605.843667,
+    "log": ".work/rules1/full-suite.log"
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "newPromptTests": 6,
+  "negativeControls": {
+    "total": 12,
+    "unexpectedPasses": 0,
+    "allExpectedMatched": true
+  },
+  "goldenReplay": {
+    "baseline": "fbad889",
+    "compared": 61,
+    "differences": [],
+    "historicalStoredChecks": 19,
+    "studyCases": 19,
+    "negativeControls": 12,
+    "missingOriginalFacts": [
+      104,
+      488,
+      599,
+      616
+    ],
+    "note": "Current-policy comparison; no historical labels or original golden files changed"
+  },
+  "probe": {
+    "protectedPaths": 74,
+    "readable": 0,
+    "deniedEndpoints": 8,
+    "deniedHelperCalls": 2,
+    "ownedChecksPassed": 5
+  },
+  "coreByteIdenticalToMain": true,
+  "coreSHA256": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+  "credentials": {
+    "gitleaksFindings": 0,
+    "detectSecretsFindings": 121,
+    "entropyReview": "Only commit/content/prompt/script hashes. One additional false positive was a sibling-repository path in the local full probe; detailed paths are not committed."
+  },
+  "decision": "OFF"
+}
