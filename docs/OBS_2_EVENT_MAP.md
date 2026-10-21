@@ -25,7 +25,7 @@ The main app uses its unchanged authenticated desk SSE stream. A changed selecte
 
 XState receives only derived facts from the selected recorded event prefix. Dots mean a stage was recorded, not that its work was successful. Queue beats last at least 350 ms; adjacent explicit reads merge with retained source sequence IDs.
 
-Replay freezes a copy of the selected real event log. The scrubber selects an exact count of ordered unique events, including non-animated events. Seeking backwards recomputes state/fuel/journey from that prefix, never from current ticket totals. Playback compresses timing and pauses hidden/offline/collapsed. The live Proof and decision eligibility never receive replay facts.
+Replay freezes a copy of the selected real event log. The scrubber selects an exact count of ordered unique events, including non-animated events. Seeking backwards recomputes state/fuel/journey from that prefix, never from current ticket totals. Playback compresses timing and pauses hidden/offline/collapsed. Opening Proof returns the room to live. The live Proof and decision eligibility never receive replay facts.
 
 ## Other sources
 
