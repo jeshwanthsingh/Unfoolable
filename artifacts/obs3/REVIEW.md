@@ -17,3 +17,5 @@ Axe 4.14.0 reports zero violations on all 16 combinations (main, room, settings,
 ## Limits
 
 Chrome/Mac is the verified capture target. Browser WebM exports can lack seek-duration metadata; accompanying MP4s are encoded from those actual exports with existing FFmpeg 8.0, without changing speed or event content. The optional sounds were checked structurally and with isolated browser observation; no physical speaker/listening or VoiceOver result is claimed. Missing stored report links or event detail are not invented. Four historical golden events still lack original facts, as in the baseline.
+
+Final binding review: a new browser regression reproduced recording continuing after live Proof took over. Replay now pins its task ID; opening live Proof or changing the task aborts export instead of mixing states. The exact regression passed. The briefing waits for the first real chat snapshot before asserting an empty report.
