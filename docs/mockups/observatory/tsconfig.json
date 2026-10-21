@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "*.ts",
+    "*.tsx",
+    "../../../apps/web/src/pixi-csp.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
