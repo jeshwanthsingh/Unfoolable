@@ -55,7 +55,7 @@ export function UnfoolableApp({initialView='list'}:{initialView?:'list'|'worksho
  const pendingRequest=useRef(false);
  useEffect(()=>{const media=matchMedia('(prefers-color-scheme: dark)');const change=()=>setSystemDark(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);
  const data=useUnfoolableData(key,revision),ask=useRef<HTMLTextAreaElement>(null);
- const moments=useObservatoryMoments(data.details,sound,data.chat?.night,Boolean(data.error));
+ const moments=useObservatoryMoments(data.details,sound,data.chat?.night,Boolean(data.error),data.tickets,data.loadDetail);
  useEffect(()=>{const input=ask.current;if(input){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,240)+'px';}},[text]);
  const hasWorking=data.tickets.some(t=>['building','fixing'].includes(t.status));
  useEffect(()=>{document.documentElement.dataset.unfoolTheme=theme;document.documentElement.style.colorScheme=theme;document.querySelector('meta[name="theme-color"]')?.setAttribute('content',theme==='light'?'#FAFBFC':'#151719');try{localStorage.setItem('unfool-theme',appearance);localStorage.setItem('unfool-look',look);}catch{/* Preferences are optional. */}},[theme,look,appearance]);
