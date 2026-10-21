@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-10-21T19:49:35.060306+00:00",
+  "paths": 74,
+  "readable": 0,
+  "ownedChecks": {
+    "git_status": true,
+    "git_diff": true,
+    "git_log": true,
+    "sqlite_temp": true,
+    "own_write": true
+  },
+  "protectedEndpoints": 8,
+  "reachableEndpoints": 0,
+  "signerHelpersDenied": true,
+  "realBuilderMatchesKernelProbe": true
+}

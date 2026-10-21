@@ -1,0 +1,19 @@
+{
+  "full": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1440,
+        "height": 1100,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "format": {
+      "duration": "25.760000"
+    }
+  },
+  "excerptStartSeconds": 5.760000000000002,
+  "excerptDurationSeconds": 20,
+  "note": "Straight 20-second tail excerpt, no speed changes; includes the actual end and backward/forward scrubbing. Full source recording retained."
+}

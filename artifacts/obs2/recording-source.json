@@ -1,0 +1,27 @@
+{
+  "ticketId": "6647cc2d-6199-40be-be33-35eae3e2b609",
+  "realReplayReachedEnd": true,
+  "seeks": [
+    {
+      "count": "11",
+      "sequence": "1251",
+      "phase": "building"
+    },
+    {
+      "count": "84",
+      "sequence": "1324",
+      "phase": "checking"
+    },
+    {
+      "count": "35",
+      "sequence": "1275",
+      "phase": "building"
+    },
+    {
+      "count": "101",
+      "sequence": "1341",
+      "phase": "kept"
+    }
+  ],
+  "decisions": 0
+}

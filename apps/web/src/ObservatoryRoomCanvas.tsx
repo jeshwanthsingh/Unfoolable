@@ -35,7 +35,7 @@ export function ObservatoryRoomCanvas({id,events,beat,theme,highlight,reduced,pa
     const pool=(x:number,y:number,rx:number,ry:number,c:number)=>{for(let band=6;band>0;band--)lights.ellipse(x,y,Math.round(rx*band/6),Math.round(ry*band/6)).fill({color:c,alpha:(7-band)/32});};
     if(light.period==='night'||light.period==='evening'){for(let b=6;b>0;b--)lights.rect(448-b,55-b,299+b*2,184+b*2).fill({color:0xc0cbdc,alpha:.09});pool(620,140,135,100,0xc0cbdc);pool(190,140,100,85,0x2ce8f5);pool(862,127,70,95,0xfeae34);pool(360,80,55,80,0xfeae34);for(let b=0;b<5;b++)lights.poly([70+b*3,43,120+b*3,43,300-b*8,235,170+b*3,235]).fill({color:0x8b9bb4,alpha:.07});}
     else for(let b=0;b<5;b++)lights.poly([70+b*3,43,185-b*3,43,410-b*8,245,250+b*3,245]).fill({color:0xfeae34,alpha:.045});app.renderer.render({container:map,target:lightTexture,clear:true});}
-    
+
     glow.clear();for(const [x,y,c] of [[180,144,0x2ce8f5],[620,136,0xa6e7f2],[862,105,0xfeae34]] as const)for(let b=4;b>0;b--)glow.ellipse(x,y,12*b,8*b).fill({color:c,alpha:light.period==='night'?.08:.015});
     glow.rect(173,126,28,15).fill(0x124e89).rect(612,125,28,15).fill(0x124e89);for(const x of [176,615])for(let j=0;j<3;j++)glow.rect(x,130+j*3,12,1).fill(0x2ce8f5);if(a.tests){for(let i=0;i<8;i++)glow.rect(535+i*18,27,7,12).fill(i<Math.floor(a.tests.passed/a.tests.total*8)?0x63c74d:a.tests.failed&&i===7?0xe43b44:0x3a4466);}
     if(f.dimmed)glow.rect(0,0,960,248).fill({color:0x15191d,alpha:.65});if(f.alarm)glow.rect(430,0,4,248).fill(0xe43b44);if(performance.now()<blinkUntil){glow.rect(position.x-8,position.y-53,16,3).fill(0x252831);}

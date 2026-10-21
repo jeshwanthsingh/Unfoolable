@@ -1,0 +1,94 @@
+{
+  "branch": "codex/observatory-room",
+  "baseline": "d3c5d56",
+  "fullSuite": {
+    "sourceCommit": "9acf2d3",
+    "passed": 1223,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 324426.063333,
+    "note": "Final diagnostic-only idle-interval reset in 348a964 followed by focused tests, typecheck, production build and browser audit."
+  },
+  "focused": {
+    "passed": 24,
+    "failed": 0
+  },
+  "typecheck": "PASS",
+  "productionBuild": "PASS",
+  "workshopImages": 9,
+  "protectedHashes": {
+    "unchanged": 283,
+    "changed": 0
+  },
+  "goldenReplay": {
+    "compared": 61,
+    "differences": 0,
+    "historicalEventsWithoutOriginalFacts": [
+      104,
+      488,
+      599,
+      616
+    ]
+  },
+  "protectedProbe": {
+    "paths": 74,
+    "readable": 0,
+    "protectedEndpoints": 8,
+    "reachable": 0,
+    "signerDenied": true,
+    "ownWorktreeChecksPassed": true
+  },
+  "negativeControls": {
+    "cases": 12,
+    "PASS": 0
+  },
+  "browser": {
+    "idleObservationMs": 16500,
+    "idleExtraRequests": 0,
+    "initialHistoryStayedCurrent": true,
+    "seeks": [
+      {
+        "count": 87,
+        "sequence": 1327,
+        "phase": "checking"
+      },
+      {
+        "count": 14,
+        "sequence": 1254,
+        "phase": "building"
+      },
+      {
+        "count": 61,
+        "sequence": 1301,
+        "phase": "checking"
+      }
+    ],
+    "hiddenFrames": 0,
+    "visibilityTest": "document.visibilitychange with hidden property controlled in isolated browser",
+    "reducedMotionFrames": 0,
+    "bidirectionalHighlight": true,
+    "altLabels": 12,
+    "collapse": true,
+    "offlineReached": true,
+    "offlineFrames": 0,
+    "reconnected": true,
+    "medianAnimatingFps": 59.880239520962,
+    "decisionRequests": 0
+  },
+  "frameCadence": {
+    "samples": 120,
+    "medianMs": 16.69999999999891,
+    "p95Ms": 16.700000000000728,
+    "maxMs": 16.799999999999272
+  },
+  "newDependencies": 0,
+  "credentialScan": "no leaks",
+  "productionDeployment": false,
+  "decisionsTaken": 0,
+  "limits": [
+    "Physical iPhone background behavior and manual VoiceOver not tested.",
+    "Video capture is 25fps; renderer cadence measured separately.",
+    "Probe is dated, not continuous.",
+    "Four historical checks lack original saved facts; no facts or historical labels fabricated."
+  ]
+}
