@@ -1,0 +1,11 @@
+{
+  "mode": "Study-only snapshot of existing benchmark toolchain; no downloads or changes to CC lockfile policy",
+  "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+  "source": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/T5/A/repo/frontend/node_modules",
+  "lockSHA256": "cb139f114ff71b23d99b61d59ed5cab65be232305eb7411912f628bd38f414ed",
+  "installedPackagesWithMatchingBaseVersions": 283,
+  "versionMismatches": 0,
+  "filesHashed": 28572,
+  "contentSHA256": "9a2730b98241101d2e4510a5a3000fe28a8d2f48f63f78a0643ad6c91a997118",
+  "escapingSymlinks": 0
+}

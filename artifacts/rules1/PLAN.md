@@ -9,3 +9,5 @@ Base: 6a49b3d31ab9f42c234d8882fc03e9fc6ba34290. Branch: codex/rules-1. Local com
 5. Full suite, protected-path probe, 12 negative controls, golden replay. Any changed frozen verdict or negative control PASS stops work.
 
 The 19 rows include repeated requests and originated as 11 correct / 8 wrong checker fixtures. Jesh explicitly approved 38 fresh Builder trials; those old truth labels do not label newly built output.
+
+Study setup notes (before valid Therapy2 builds): its historical lock omits resolved/integrity metadata, so the production installer was not changed. A study-only copy of the existing benchmark dependency tree matches all 283 installed BASE versions, has no escaping symlinks, and is content-hashed. Both arms receive independent copies. Two setup attempts with no Builder/session/grade are retained as VOID_ENVIRONMENT and will be completed later in the same within-pair order. The first A3 OFF check lacked copied recipes due to directory initialization order; it is retained as VOID_HARNESS_SETUP and only that same frozen output is rechecked, with no Builder rerun.

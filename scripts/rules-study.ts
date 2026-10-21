@@ -1,5 +1,5 @@
 /** RULES-1 only: fresh initial Builders, paired instructions, unchanged protected scoring. */
-import {readFileSync,writeFileSync,mkdirSync,existsSync,cpSync,symlinkSync,realpathSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,existsSync,cpSync,symlinkSync,realpathSync,renameSync} from 'node:fs';
 import {resolve,join} from 'node:path';import {homedir} from 'node:os';import {createHash,randomUUID} from 'node:crypto';
 import {openDatabase} from '../apps/server/database.ts';import {createCodexTicketDriver} from '../apps/server/build-runtime.ts';
 import {ticketWorkspace,freezeTicketCandidate,cleanTicketWorkspace} from '../apps/server/ticket-workspace.ts';
@@ -9,6 +9,7 @@ import {recordTicketLimits,ticketBudget,budgetExceeded} from '../apps/server/tic
 import {watchmanActions,WATCHMAN_LIMIT} from '../apps/server/watchman.ts';import {BuildError} from '../apps/server/build-errors.ts';
 import {boundedBuildData} from '../apps/server/build-protocol.ts';import {createVerifyOnly} from '../apps/server/verify-only.ts';
 import {createPlaybookChecks} from '../apps/server/playbook-checks.ts';import {combineResults} from '../packages/shared/verdict-core.ts';
+import {createProjectRecipeStore} from '../apps/server/project-recipes.ts';
 import {TICKET_LIMITS} from '../packages/shared/ticket-budget.ts';
 const root=resolve('.'),work=join(root,'.work/rules1'),data=join(work,'data'),out=join(root,'artifacts/rules1');
 const hash=(x:string|Buffer)=>createHash('sha256').update(x).digest('hex');const git=async(r:string,...args:string[])=>(await safeBuildGit(r,args,8*1024*1024)).toString().trim();
@@ -25,7 +26,8 @@ const manifestFile=join(out,'STUDY.json');if(existsSync(manifestFile)){if(readFi
 const originals=new Map<string,{head:string;status:string}>(),baseRepos=new Map<string,string>();
 async function preflight(){
  for(const row of cases){if(await git(row.repo,'rev-parse',row.candidate+'^{tree}')!==row.tree)throw Error('Frozen Candidate changed: '+row.id);}
- const oldRecipes=join(root,'.work/warning-signal/scoring-data/oracles/project-recipes'),destRecipes=join(data,'oracles/project-recipes');if(!existsSync(destRecipes)){mkdirSync(join(data,'oracles'),{recursive:true});cpSync(oldRecipes,destRecipes,{recursive:true});}
+ const oldRecipes=join(root,'.work/warning-signal/scoring-data/oracles/project-recipes'),destRecipes=join(data,'oracles/project-recipes');if(!existsSync(join(data,'recipes-snapshot-done'))){mkdirSync(join(data,'oracles'),{recursive:true});cpSync(oldRecipes,destRecipes,{recursive:true});writeFileSync(join(data,'recipes-snapshot-done'),'Existing immutable approvals only\n',{flag:'wx'});}
+ const approvedRecipes=createProjectRecipeStore(data);for(const project of new Set<string>(correct.filter(r=>!r.projectRoot.endsWith('/career-ops')).map(r=>r.projectRoot)))if(!approvedRecipes.list(project).length)throw Error('Study recipe snapshot is empty');
  // Reuse immutable existing approvals. No edit/approve operation is called.
  const live=JSON.parse(readFileSync('.work/ticket-loop-v1/ACTIVE.json','utf8')).dataDir;if(!existsSync(join(data,'playbooks-snapshot-done'))){cpSync(join(live,'playbooks'),join(data,'playbooks'),{recursive:true});writeFileSync(join(data,'playbooks-snapshot-done'),'Existing approval snapshot only\n',{flag:'wx'});}
  for(const row of correct){if(!originals.has(row.repo))originals.set(row.repo,{head:await git(row.repo,'rev-parse','HEAD'),status:hash(await git(row.repo,'status','--porcelain=v1','--untracked-files=all'))});const k=row.projectRoot+'\n'+row.base;if(baseRepos.has(k))continue;const folder=join(work,'base-sources',hash(k));mkdirSync(folder,{recursive:true});
@@ -37,7 +39,7 @@ async function preflight(){
  }
  writeFileSync(join(out,'PREFLIGHT.json'),JSON.stringify({sourceSetHash:hash(inputText),frozenCandidatesIntact:19,baseOnlySources:baseRepos.size,futureSolutionsAbsent:true,approvalsCreated:0},null,2));
 }
-function results(){return trials.flatMap(t=>{const f=join(data,'trials',hash(t.case+'\n'+t.arm),'result.json');return existsSync(f)?[JSON.parse(readFileSync(f,'utf8'))]:[];});}
+function results(){return trials.flatMap(t=>{const f=join(data,'trials',hash(t.case+'\n'+t.arm),'result.json');const repaired=join(data,'trials',hash(t.case+'\n'+t.arm),'recheck.json');return existsSync(repaired)?[JSON.parse(readFileSync(repaired,'utf8'))]:existsSync(f)?[JSON.parse(readFileSync(f,'utf8'))]:[];});}
 async function one(trial:typeof trials[number]){
  const row=cases.find(c=>c.id===trial.case)!,reference=correct.find(c=>c.task===row.task)!,folder=join(data,'trials',hash(trial.case+'\n'+trial.arm)),file=join(folder,'result.json');if(existsSync(file))return;if(existsSync(join(folder,'STARTED.json')))throw Error('Prior unfinished trial requires owned-process review; refusing duplicate run');mkdirSync(folder,{recursive:true});
  const ticket=createTicket(db.connection,{title:'Paired Builder trial',requestText:row.intent,repoPath:baseRepos.get(row.projectRoot+'\n'+row.base)!,baseCommit:row.base});const owned=await ticketWorkspace(ticket,data);let builder:any=null,candidate:any=null,error:any=null,verdict='ERROR',gaps:any[]=[],gate:any=null;const start=performance.now(),controller=new AbortController();current=controller;let timer:NodeJS.Timeout|undefined,policy:Error|null=null;
@@ -65,5 +67,5 @@ async function one(trial:typeof trials[number]){
  }
  if(existsSync(join(work,'STOP.json')))throw Error('STOP: owned cleanup uncertainty');
 }
-try{await preflight();if(!process.argv.includes('--preflight'))for(const trial of trials){if(stopping)break;await one(trial);}for(const [repo,state]of originals)if(await git(repo,'rev-parse','HEAD')!==state.head||hash(await git(repo,'status','--porcelain=v1','--untracked-files=all'))!==state.status)throw Error('Original source changed');}
+try{await preflight();if(process.argv.includes('--finish-void-setups'))for(const trial of trials){const folder=join(data,'trials',hash(trial.case+'\n'+trial.arm)),file=join(folder,'result.json');if(!existsSync(file))continue;const previous=JSON.parse(readFileSync(file,'utf8'));if(previous.error?.message!=='Only integrity-pinned npm registry packages may be prepared automatically.'||previous.usageTokens!==null||previous.candidate||previous.claimedDone)continue;if(listTicketEvents(db.connection,previous.ticketId).some(e=>e.kind==='agent_bound'||e.kind==='agent_started'))throw Error('A started Builder cannot be voided as preparation');writeFileSync(join(folder,'VOID_ENVIRONMENT.json'),JSON.stringify({reason:'Historical lock omits integrity; before any Builder or grading. Existing matched benchmark dependency snapshot now supplies both arms.',previous},null,2),{flag:'wx'});renameSync(file,join(folder,'invalid-setup-result.json'));renameSync(join(folder,'STARTED.json'),join(folder,'invalid-setup-started.json'));}if(!process.argv.includes('--preflight'))for(const trial of trials){if(stopping)break;await one(trial);}for(const [repo,state]of originals)if(await git(repo,'rev-parse','HEAD')!==state.head||hash(await git(repo,'status','--porcelain=v1','--untracked-files=all'))!==state.status)throw Error('Original source changed');}
 finally{await verifier.close();db.close();writeFileSync(join(out,'results.json'),JSON.stringify(results(),null,2));}

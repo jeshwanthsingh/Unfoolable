@@ -1,0 +1,37 @@
+{
+  "repair": "Existing empty directory no longer suppresses immutable recipe copy",
+  "approvalsCreated": 0,
+  "results": [
+    {
+      "projectRoot": "/Users/jeshwanthsingh/Projects/Aegis",
+      "recipes": [
+        {
+          "id": "f95ebb12657b578dae3b313a1dc898a721aa40a34885da6c8cbf551bae300027",
+          "hash": "0c7fbac352b5259afee6802d56c27fcae2feca26c11d145ebe19346ca161d5ff"
+        }
+      ]
+    },
+    {
+      "projectRoot": "/Users/jeshwanthsingh/Projects/research-router",
+      "recipes": [
+        {
+          "id": "041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa",
+          "hash": "eb2f1f0cad84ce47ff60b800ad538bdd6c30caf2d81ced6ee16865ae2e55413c"
+        },
+        {
+          "id": "818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33",
+          "hash": "08fd6ecfc55b216562ef1589f7f8c45cd2d5b41bff9562e5940b25447f7afcaa"
+        }
+      ]
+    },
+    {
+      "projectRoot": "/Users/jeshwanthsingh/Projects/Therapy2",
+      "recipes": [
+        {
+          "id": "0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48",
+          "hash": "272303614a0ed3339efd2ea9a18e891197fe73f2397170e0dc272af8d4b50632"
+        }
+      ]
+    }
+  ]
+}
