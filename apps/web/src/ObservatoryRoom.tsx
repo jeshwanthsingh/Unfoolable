@@ -21,7 +21,9 @@ export function ObservatoryRoom({tickets,details,loadDetail,proofTicket,theme,of
  useEffect(()=>{if(proofTicket){setChosen(proofTicket);setReplay(null);setPlaying(false);setBeat(null);setLiveSequence(last);queue.current.pending=[];}},[proofTicket]);
  // Only a changed SSE sequence can request fresh detail. Never an idle polling timer.
  useEffect(()=>{if(!id||offline||!visible||!expanded||replay||fetching.current.has(id)||detail&&last>=(ticket?.revision??0))return;fetching.current.add(id);void loadDetail(id,!!detail).then(()=>setError('')).catch(()=>setError('The recorded steps could not open. Try opening this task again.')).finally(()=>fetching.current.delete(id));},[id,ticket?.revision,last,offline,visible,expanded,replay,detail,loadDetail]);
- useEffect(()=>{const update=queue.current.sync(id,events);if(update.immediate!==null){setLiveSequence(update.immediate);setBeat(null);}if(!deadline.current&&queue.current.pending.length)deadline.current=performance.now()+MIN_BEAT;
+ useEffect(()=>{const first=queue.current.id!==id||queue.current.last===0,latestFrame=officeFrame(id,events),urgent=latestFrame.alarm||latestFrame.dimmed,update=queue.current.sync(id,events);
+  // Metadata cannot cut a readable beat short; real stop/alarm events always can.
+  if(update.immediate!==null&&(first||!beat||urgent||reduced)){setLiveSequence(update.immediate);setBeat(null);}if(!deadline.current&&queue.current.pending.length)deadline.current=performance.now()+MIN_BEAT;
   if(reduced){queue.current.pending=[];setLiveSequence(last);setBeat(null);return;}if(offline||!visible||!expanded||replay)return;
   let timer:ReturnType<typeof setTimeout>;const step=()=>{const next=queue.current.take();if(next){setBeat(next);setLiveSequence(next.sequences.at(-1)!);deadline.current=performance.now()+MIN_BEAT;timer=setTimeout(step,MIN_BEAT);}else{setBeat(null);setLiveSequence(queue.current.last);deadline.current=0;}};
   if(queue.current.pending.length||beat)timer=setTimeout(step,Math.max(0,deadline.current-performance.now()));return()=>clearTimeout(timer);

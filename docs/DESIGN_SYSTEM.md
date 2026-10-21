@@ -1,8 +1,8 @@
-# Observatory design system — OBS-0 preview
+# Observatory design system
 
 ## Plan before visuals
 
-Subject: a personal protected checker. The room is the single hero; below it, quiet task rows lead to one Wallet-like proof pass. Follow Jesh’s supplied HTML structure, replacing its simulated events, art, checks and acceptance with real assets and recorded state. This is a separate local prototype, not the application entry point.
+Subject: a personal protected checker. The room is the single hero; below it, quiet task rows lead to one Wallet-like proof pass. Follow Jesh’s supplied HTML structure, replacing its simulated events, art, checks and acceptance with real assets and recorded state. The original OBS-0 prototype stays in docs/mockups/observatory. OBS-1 and OBS-2 adopt these tokens in the working app; the live room strip is presentation-only.
 
 Desktop: slim header / full-width room strip / journey and last four real events / greeting and Ask beside selected Proof. Phone: same hierarchy with a compact three-zone room, readable journey, task list, and an accessible swipe-dismissable proof sheet.
 
@@ -32,7 +32,7 @@ Motion springs, duration .24s, bounce 0, for user-opened card/pass continuity. R
 
 ## Detail and decision rules
 
-Simple facts outside; existing exact check details and diff one step deeper. Proof uses the current FileDiff/Shiki component. All decision controls in this mockup are disabled; it does not record files as viewed, start tasks, stop tasks, or obtain passkey confirmations. The existing live app remains the only decision authority; no new local boolean may unlock real Accept.
+Simple facts outside; existing exact check details and diff one step deeper. Proof uses the current FileDiff/Shiki component. The historical mockup has disabled decision controls. The working app delegates file views to the unchanged original inspector and decisions to the unchanged exact-item passkey handlers; no local room, replay or highlight boolean may unlock Accept. Desktop summary is non-modal so room/fact exploration works both ways; the actual file inspector and confirmation remain modal. Opening live Proof exits room replay.
 
 ## Self-review before building
 

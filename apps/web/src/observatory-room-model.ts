@@ -101,6 +101,6 @@ export function roomExplanation(key:RoomKey,id:string,events:readonly TicketEven
  writer:{sentence:'The Test Writer prepares only when its own start is recorded.',source:'agent_event/test_writer_launch_pending; no independent progress count is available.'},
  stop:{sentence:'Use Stop all in the header to stop work; this object explains it.',source:'Existing Stop all control and recorded STOP_ALL events; no new decision handler.'},
  laser:{sentence:frame.alarm?'A recorded read alarm stopped this Builder.':'No read alarm is recorded at this point.',source:'needs_you/TRIPWIRE or agent_event/tripwire; absence is not a sensor-health claim.'},
- clock:{sentence:'Lighting follows your Mac’s local time; replay uses the recorded time.',source:'Local clock, or selected event timestamp during replay; decorative, not work.'}
+ clock:{sentence:'Lighting follows your local time; replay uses the recorded time.',source:'Browser local clock, or selected event timestamp in the browser’s time zone during replay; decorative, not work.'}
  };return facts[key];
 }
