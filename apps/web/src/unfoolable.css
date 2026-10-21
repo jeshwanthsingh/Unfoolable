@@ -208,3 +208,9 @@ html[data-unfool-theme=dark]{background:#151719;color-scheme:dark}
 @media(max-width:480px){.unfool-task .hallmark-strike{width:32px;height:32px}.unfoolable button{appearance:none;-webkit-appearance:none}}
 
 .reviewer-notes{margin-block:16px;font-size:15px;line-height:1.5}.reviewer-notes h3{font-size:16px}.reviewer-notes h4{font-size:15px;margin-block:12px 4px}.reviewer-notes small{display:block;overflow-wrap:anywhere;font-size:13px}.reviewer-flag{border-left:3px solid #B5762A;padding-left:8px;color:var(--uf-text,inherit)}.reviewer-notes ul{padding-left:20px}
+
+/* Night settings remain ordinary form controls, with no idle animation. */
+.unfool-settings fieldset{grid-column:1/-1;min-width:0;display:grid;gap:16px;margin:0;padding:16px;border:1px solid var(--uf-border,#7b8289);border-radius:16px}
+.unfool-settings fieldset label{display:grid;gap:8px;min-width:0}
+.unfool-settings input[type=datetime-local],.unfool-settings input[type=number]{width:100%;min-width:0;font:inherit;padding:10px;color:inherit;background:transparent;border:1px solid currentColor;border-radius:8px}
+section[aria-label=Tonight]{margin-block:32px}section[aria-label=Tonight] article{padding-block:16px}section[aria-label=Tonight] h3{font-size:20px;font-weight:600}section[aria-label=Tonight] p{overflow-wrap:anywhere}

@@ -1,0 +1,459 @@
+{
+  "mode": "isolated TEST simulation; no real task or approval",
+  "view": {
+    "notice": null,
+    "notifications": false,
+    "entries": [
+      {
+        "id": "5a8f1114-8faa-435a-9014-ee176d49de8c",
+        "draftId": "054b618e-5979-4034-96db-f3c004bd06ad",
+        "title": "Small task 0",
+        "start": "2026-10-20T21:14:36.353Z",
+        "end": "2026-10-20T21:16:37.353Z",
+        "tokenLimit": 300000,
+        "status": "finished",
+        "ticketId": "d51b45ee-957f-495c-af65-326901d18678",
+        "reason": "Waiting for your review"
+      },
+      {
+        "id": "1de67f4e-1180-4ab4-8ec5-b52d23acaee5",
+        "draftId": "544a887c-30e7-4a0f-a420-b2d5944bd3e0",
+        "title": "Small task 1",
+        "start": "2026-10-20T21:14:36.353Z",
+        "end": "2026-10-20T21:16:37.353Z",
+        "tokenLimit": 300000,
+        "status": "finished",
+        "ticketId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+        "reason": "Waiting for your review"
+      },
+      {
+        "id": "965b9c45-f615-4dce-b3bc-43288ee1d9a1",
+        "draftId": "8b1cb047-e617-40f2-9543-3aa244e68197",
+        "title": "Small task 2",
+        "start": "2026-10-20T21:14:36.353Z",
+        "end": "2026-10-20T21:16:37.353Z",
+        "tokenLimit": 300000,
+        "status": "finished",
+        "ticketId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+        "reason": "Waiting for your review"
+      }
+    ],
+    "report": {
+      "ticketIds": [
+        "d51b45ee-957f-495c-af65-326901d18678",
+        "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+        "bafa52a4-8720-40f7-8641-cda6604f0dc5"
+      ],
+      "summary": "Good morning. Night Shift did 3 things: 2 checked, 1 need a closer look.",
+      "start": "2026-10-20T21:14:36.353Z",
+      "end": "2026-10-20T21:14:40.353Z",
+      "tokens": 3000,
+      "items": [
+        {
+          "title": "Small task 0",
+          "status": "ready_for_review",
+          "verdict": "VERIFIED"
+        },
+        {
+          "title": "Small task 1",
+          "status": "ready_for_review",
+          "verdict": "VERIFIED"
+        },
+        {
+          "title": "Small task 2",
+          "status": "ready_for_review",
+          "verdict": "PASSED WITH GAPS"
+        }
+      ]
+    },
+    "running": false
+  },
+  "events": [
+    {
+      "kind": "queued",
+      "data_json": "{\"binding\":\"ece6a4710f2efdd4a17131221e8f5679cbc28e471f8a36bbca9e6de11797ee12\",\"confirmation\":\"isolated-test\",\"expiresAt\":\"2026-10-20T21:16:37.353Z\"}",
+      "created_at": "2026-10-20T21:14:37.385Z"
+    },
+    {
+      "kind": "queued",
+      "data_json": "{\"binding\":\"6460d333908fc2655fe8ca9cd6aab714a0eec736074d296f87a3036eb31c71ce\",\"confirmation\":\"isolated-test\",\"expiresAt\":\"2026-10-20T21:16:37.353Z\"}",
+      "created_at": "2026-10-20T21:14:37.415Z"
+    },
+    {
+      "kind": "queued",
+      "data_json": "{\"binding\":\"54e9872511b05d0abe95d5a1e967e71e02a5a6ad6872f16bfa3b2dc81e3f0c3b\",\"confirmation\":\"isolated-test\",\"expiresAt\":\"2026-10-20T21:16:37.353Z\"}",
+      "created_at": "2026-10-20T21:14:37.446Z"
+    },
+    {
+      "kind": "shift_started",
+      "data_json": "{\"key\":\"8f735ac8bb178d68fe1b37fd3c3ad0b5226295812c132929b7eb1f74de80b04c\",\"start\":\"2026-10-20T21:14:36.353Z\",\"end\":\"2026-10-20T21:16:37.353Z\",\"tokenLimit\":300000}",
+      "created_at": "2026-10-20T21:14:37.353Z"
+    },
+    {
+      "kind": "keep_awake_started",
+      "data_json": "{\"key\":\"8f735ac8bb178d68fe1b37fd3c3ad0b5226295812c132929b7eb1f74de80b04c\",\"records\":[]}",
+      "created_at": "2026-10-20T21:14:37.353Z"
+    },
+    {
+      "kind": "dispatched",
+      "data_json": "{\"ticketId\":\"d51b45ee-957f-495c-af65-326901d18678\"}",
+      "created_at": "2026-10-20T21:14:37.353Z"
+    },
+    {
+      "kind": "finished",
+      "data_json": "{\"reason\":\"Waiting for your review\"}",
+      "created_at": "2026-10-20T21:14:38.353Z"
+    },
+    {
+      "kind": "review_waiting",
+      "data_json": "{\"ticketId\":\"d51b45ee-957f-495c-af65-326901d18678\",\"status\":\"ready_for_review\",\"verdict\":\"VERIFIED\"}",
+      "created_at": "2026-10-20T21:14:38.353Z"
+    },
+    {
+      "kind": "dispatched",
+      "data_json": "{\"ticketId\":\"fc69db18-7843-4dc1-8c8f-8d06d97fca07\"}",
+      "created_at": "2026-10-20T21:14:38.353Z"
+    },
+    {
+      "kind": "finished",
+      "data_json": "{\"reason\":\"Waiting for your review\"}",
+      "created_at": "2026-10-20T21:14:39.353Z"
+    },
+    {
+      "kind": "review_waiting",
+      "data_json": "{\"ticketId\":\"fc69db18-7843-4dc1-8c8f-8d06d97fca07\",\"status\":\"ready_for_review\",\"verdict\":\"VERIFIED\"}",
+      "created_at": "2026-10-20T21:14:39.353Z"
+    },
+    {
+      "kind": "dispatched",
+      "data_json": "{\"ticketId\":\"bafa52a4-8720-40f7-8641-cda6604f0dc5\"}",
+      "created_at": "2026-10-20T21:14:39.353Z"
+    },
+    {
+      "kind": "finished",
+      "data_json": "{\"reason\":\"Waiting for your review\"}",
+      "created_at": "2026-10-20T21:14:40.353Z"
+    },
+    {
+      "kind": "review_waiting",
+      "data_json": "{\"ticketId\":\"bafa52a4-8720-40f7-8641-cda6604f0dc5\",\"status\":\"ready_for_review\",\"verdict\":\"PASSED WITH GAPS\"}",
+      "created_at": "2026-10-20T21:14:40.353Z"
+    },
+    {
+      "kind": "shift_stopping",
+      "data_json": "{\"key\":\"8f735ac8bb178d68fe1b37fd3c3ad0b5226295812c132929b7eb1f74de80b04c\",\"start\":\"2026-10-20T21:14:36.353Z\",\"end\":\"2026-10-20T21:16:37.353Z\",\"reason\":\"All queued work stopped for review\"}",
+      "created_at": "2026-10-20T21:14:40.353Z"
+    },
+    {
+      "kind": "keep_awake_stopped",
+      "data_json": "{\"key\":\"8f735ac8bb178d68fe1b37fd3c3ad0b5226295812c132929b7eb1f74de80b04c\"}",
+      "created_at": "2026-10-20T21:14:40.353Z"
+    },
+    {
+      "kind": "shift_ended",
+      "data_json": "{\"key\":\"8f735ac8bb178d68fe1b37fd3c3ad0b5226295812c132929b7eb1f74de80b04c\",\"start\":\"2026-10-20T21:14:36.353Z\",\"end\":\"2026-10-20T21:16:37.353Z\",\"reason\":\"All queued work stopped for review\",\"tokens\":3000}",
+      "created_at": "2026-10-20T21:14:40.353Z"
+    }
+  ],
+  "tickets": [
+    {
+      "ticket": {
+        "id": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+        "title": "Small task 2",
+        "requestText": "Change only 2\n\nDone means:\nTests pass.",
+        "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/night1/tmp/cc-shift-QEgiih/repo",
+        "baseCommit": "e4dbde344df8ebc6da58a57f2e5764248bb67d7e",
+        "status": "ready_for_review",
+        "attemptCount": 1,
+        "candidateCommits": [],
+        "checkVerdict": "PASSED WITH GAPS",
+        "createdAt": "2026-10-20T21:14:37.683Z",
+        "updatedAt": "2026-10-20T21:14:37.747Z"
+      },
+      "events": [
+        {
+          "sequence": 15,
+          "ticketId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+          "kind": "submitted",
+          "data": {
+            "plainTitle": "Small task 2",
+            "titleAuthor": "user"
+          },
+          "createdAt": "2026-10-20T21:14:37.683Z"
+        },
+        {
+          "sequence": 16,
+          "ticketId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+          "kind": "agent_event",
+          "data": {
+            "kind": "night_started",
+            "entryId": "965b9c45-f615-4dce-b3bc-43288ee1d9a1",
+            "consentHash": "54e9872511b05d0abe95d5a1e967e71e02a5a6ad6872f16bfa3b2dc81e3f0c3b",
+            "expiresAt": "2026-10-20T21:16:37.353Z",
+            "budget": {
+              "maxCommands": 80,
+              "maxMinutes": 15,
+              "maxCodexTokens": 120000,
+              "maxWriterTokens": 40000
+            }
+          },
+          "createdAt": "2026-10-20T21:14:37.713Z"
+        },
+        {
+          "sequence": 17,
+          "ticketId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+          "kind": "state_changed",
+          "data": {
+            "from": "queued",
+            "to": "building",
+            "attemptKind": "build"
+          },
+          "createdAt": "2026-10-20T21:14:37.746Z"
+        },
+        {
+          "sequence": 18,
+          "ticketId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+          "kind": "agent_started",
+          "data": {
+            "attemptId": "bafa52a4-8720-40f7-8641-cda6604f0dc5"
+          },
+          "createdAt": "2026-10-20T21:14:37.746Z"
+        },
+        {
+          "sequence": 19,
+          "ticketId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+          "kind": "agent_event",
+          "data": {
+            "kind": "usage_observed",
+            "attemptId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+            "data": {
+              "reportedTotal": 1000
+            }
+          },
+          "createdAt": "2026-10-20T21:14:37.746Z"
+        },
+        {
+          "sequence": 20,
+          "ticketId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+          "kind": "state_changed",
+          "data": {
+            "from": "building",
+            "to": "checking"
+          },
+          "createdAt": "2026-10-20T21:14:37.746Z"
+        },
+        {
+          "sequence": 21,
+          "ticketId": "bafa52a4-8720-40f7-8641-cda6604f0dc5",
+          "kind": "state_changed",
+          "data": {
+            "from": "checking",
+            "to": "ready_for_review"
+          },
+          "createdAt": "2026-10-20T21:14:37.747Z"
+        }
+      ]
+    },
+    {
+      "ticket": {
+        "id": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+        "title": "Small task 1",
+        "requestText": "Change only 1\n\nDone means:\nTests pass.",
+        "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/night1/tmp/cc-shift-QEgiih/repo",
+        "baseCommit": "e4dbde344df8ebc6da58a57f2e5764248bb67d7e",
+        "status": "ready_for_review",
+        "attemptCount": 1,
+        "candidateCommits": [],
+        "checkVerdict": "VERIFIED",
+        "createdAt": "2026-10-20T21:14:37.581Z",
+        "updatedAt": "2026-10-20T21:14:37.646Z"
+      },
+      "events": [
+        {
+          "sequence": 8,
+          "ticketId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+          "kind": "submitted",
+          "data": {
+            "plainTitle": "Small task 1",
+            "titleAuthor": "user"
+          },
+          "createdAt": "2026-10-20T21:14:37.581Z"
+        },
+        {
+          "sequence": 9,
+          "ticketId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+          "kind": "agent_event",
+          "data": {
+            "kind": "night_started",
+            "entryId": "1de67f4e-1180-4ab4-8ec5-b52d23acaee5",
+            "consentHash": "6460d333908fc2655fe8ca9cd6aab714a0eec736074d296f87a3036eb31c71ce",
+            "expiresAt": "2026-10-20T21:16:37.353Z",
+            "budget": {
+              "maxCommands": 80,
+              "maxMinutes": 15,
+              "maxCodexTokens": 120000,
+              "maxWriterTokens": 40000
+            }
+          },
+          "createdAt": "2026-10-20T21:14:37.613Z"
+        },
+        {
+          "sequence": 10,
+          "ticketId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+          "kind": "state_changed",
+          "data": {
+            "from": "queued",
+            "to": "building",
+            "attemptKind": "build"
+          },
+          "createdAt": "2026-10-20T21:14:37.645Z"
+        },
+        {
+          "sequence": 11,
+          "ticketId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+          "kind": "agent_started",
+          "data": {
+            "attemptId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07"
+          },
+          "createdAt": "2026-10-20T21:14:37.645Z"
+        },
+        {
+          "sequence": 12,
+          "ticketId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+          "kind": "agent_event",
+          "data": {
+            "kind": "usage_observed",
+            "attemptId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+            "data": {
+              "reportedTotal": 1000
+            }
+          },
+          "createdAt": "2026-10-20T21:14:37.645Z"
+        },
+        {
+          "sequence": 13,
+          "ticketId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+          "kind": "state_changed",
+          "data": {
+            "from": "building",
+            "to": "checking"
+          },
+          "createdAt": "2026-10-20T21:14:37.646Z"
+        },
+        {
+          "sequence": 14,
+          "ticketId": "fc69db18-7843-4dc1-8c8f-8d06d97fca07",
+          "kind": "state_changed",
+          "data": {
+            "from": "checking",
+            "to": "ready_for_review"
+          },
+          "createdAt": "2026-10-20T21:14:37.646Z"
+        }
+      ]
+    },
+    {
+      "ticket": {
+        "id": "d51b45ee-957f-495c-af65-326901d18678",
+        "title": "Small task 0",
+        "requestText": "Change only 0\n\nDone means:\nTests pass.",
+        "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/night1/tmp/cc-shift-QEgiih/repo",
+        "baseCommit": "e4dbde344df8ebc6da58a57f2e5764248bb67d7e",
+        "status": "ready_for_review",
+        "attemptCount": 1,
+        "candidateCommits": [],
+        "checkVerdict": "VERIFIED",
+        "createdAt": "2026-10-20T21:14:37.483Z",
+        "updatedAt": "2026-10-20T21:14:37.546Z"
+      },
+      "events": [
+        {
+          "sequence": 1,
+          "ticketId": "d51b45ee-957f-495c-af65-326901d18678",
+          "kind": "submitted",
+          "data": {
+            "plainTitle": "Small task 0",
+            "titleAuthor": "user"
+          },
+          "createdAt": "2026-10-20T21:14:37.484Z"
+        },
+        {
+          "sequence": 2,
+          "ticketId": "d51b45ee-957f-495c-af65-326901d18678",
+          "kind": "agent_event",
+          "data": {
+            "kind": "night_started",
+            "entryId": "5a8f1114-8faa-435a-9014-ee176d49de8c",
+            "consentHash": "ece6a4710f2efdd4a17131221e8f5679cbc28e471f8a36bbca9e6de11797ee12",
+            "expiresAt": "2026-10-20T21:16:37.353Z",
+            "budget": {
+              "maxCommands": 80,
+              "maxMinutes": 15,
+              "maxCodexTokens": 120000,
+              "maxWriterTokens": 40000
+            }
+          },
+          "createdAt": "2026-10-20T21:14:37.514Z"
+        },
+        {
+          "sequence": 3,
+          "ticketId": "d51b45ee-957f-495c-af65-326901d18678",
+          "kind": "state_changed",
+          "data": {
+            "from": "queued",
+            "to": "building",
+            "attemptKind": "build"
+          },
+          "createdAt": "2026-10-20T21:14:37.545Z"
+        },
+        {
+          "sequence": 4,
+          "ticketId": "d51b45ee-957f-495c-af65-326901d18678",
+          "kind": "agent_started",
+          "data": {
+            "attemptId": "d51b45ee-957f-495c-af65-326901d18678"
+          },
+          "createdAt": "2026-10-20T21:14:37.545Z"
+        },
+        {
+          "sequence": 5,
+          "ticketId": "d51b45ee-957f-495c-af65-326901d18678",
+          "kind": "agent_event",
+          "data": {
+            "kind": "usage_observed",
+            "attemptId": "d51b45ee-957f-495c-af65-326901d18678",
+            "data": {
+              "reportedTotal": 1000
+            }
+          },
+          "createdAt": "2026-10-20T21:14:37.546Z"
+        },
+        {
+          "sequence": 6,
+          "ticketId": "d51b45ee-957f-495c-af65-326901d18678",
+          "kind": "state_changed",
+          "data": {
+            "from": "building",
+            "to": "checking"
+          },
+          "createdAt": "2026-10-20T21:14:37.546Z"
+        },
+        {
+          "sequence": 7,
+          "ticketId": "d51b45ee-957f-495c-af65-326901d18678",
+          "kind": "state_changed",
+          "data": {
+            "from": "checking",
+            "to": "ready_for_review"
+          },
+          "createdAt": "2026-10-20T21:14:37.546Z"
+        }
+      ]
+    }
+  ],
+  "proof": {
+    "serial": true,
+    "decisions": 0,
+    "sourceHead": "e4dbde344df8ebc6da58a57f2e5764248bb67d7e"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "drafts": [
+    {
+      "id": "dc7cddb1-21e2-434a-a52f-de523f3f42ac",
+      "status": "DRAFT",
+      "ticket_id": null
+    },
+    {
+      "id": "786722c8-a3ea-4f63-847b-766a184ae11e",
+      "status": "DRAFT",
+      "ticket_id": null
+    },
+    {
+      "id": "de080c22-9022-47ac-af95-aa6b8f2e3ff9",
+      "status": "DRAFT",
+      "ticket_id": null
+    }
+  ],
+  "nightEntries": 0,
+  "realNightTicketsStarted": 0,
+  "coreByteIdenticalTo": "d1ea19f",
+  "coreSHA256": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33"
+}

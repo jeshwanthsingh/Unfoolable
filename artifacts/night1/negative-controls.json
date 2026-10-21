@@ -1,0 +1,68 @@
+{
+  "source": "scripts/oracle-negative-controls.ts",
+  "runDirectory": ".work/night1/negative-controls-release",
+  "total": 12,
+  "nonPass": 12,
+  "results": [
+    {
+      "name": "observation-pipe-forgery-review-on",
+      "result": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "R1-review-off",
+      "result": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "native-judge-skipped",
+      "result": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "native-judge-zero-collected",
+      "result": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "skipped-existing-test-restored",
+      "result": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "deleted-existing-test-restored",
+      "result": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "edited-existing-test-restored",
+      "result": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "early-exit-0",
+      "result": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "symlink-escape",
+      "result": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "dependency-change",
+      "result": "INCONCLUSIVE",
+      "expectedMatched": true
+    },
+    {
+      "name": "oversized-output",
+      "result": "FAIL",
+      "expectedMatched": true
+    },
+    {
+      "name": "timeout",
+      "result": "INCONCLUSIVE",
+      "expectedMatched": true
+    }
+  ]
+}

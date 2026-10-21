@@ -46,3 +46,17 @@ Bug admission currently supports ordinary unconditional Python unittest reproduc
 
 - B6: A non-admitted reproduction never starts a fix session or creates a fix Candidate. [Loop stop regression](../tests/ticket-loop.test.ts), [fresh handoff and source-only fix](../tests/bug-reproduction.test.ts).
 - B7: A bug mark is derived from stored checker events, never Builder prose; a fresh check clears the fixed mark. [Presentation truth tests](../tests/bug-presentation.test.ts).
+
+## Night Shift review boundary
+
+- Night consent authorizes only one exact draft Start, up to its fixed morning cutoff. It cannot authorize Keep, Retry after an ordinary error, extra allowance, or a permission grant. Proof: `tests/night-queue.test.ts`, `tests/night-shift.test.ts`.
+- Night work ends at the existing human review boundary. Only the normal protected checker writes check results, using the same fact snapshots and sealing path; Night Shift never computes a verdict. Proof: `Night dispatch uses the real ticket loop and leaves its frozen change for explicit human review`.
+- A restart never consumes an old running consent again. Neither expiry nor a security stop renews consent. Rate-limit backoff is the only automatic retry and does not reset the ticket’s budget. Proof: `tests/night-shift.test.ts`.
+
+- A late check response cannot pass a night cutoff: the same authorization guard runs before launch/freeze and after the protected check, before persistence. Proof: `tests/night-shift.test.ts` — “Night check completed after cutoff cannot record a passing result”.
+- Ending a shift is not proof of stopped processes: a stopping fence is recorded first, and the end/report only follows certified cleanup. Unknown cleanup blocks later night work. Proof: `tests/night-shift.test.ts` cleanup/STOP/keep-awake cases.
+- All old PID-reuse conflicts remain errors. Only reparenting to the system reaper, a proved dead original parent, and a proved dead child can clear the census exit race; no identity is fabricated. Proof: `tests/process-recording.test.ts`, `tests/build-processes.test.ts`.
+
+- A fresh passkey-authorized Retry after cutoff uses ordinary ticket authority; it cannot reuse or extend night consent. Proof: `tests/night-shift.test.ts` cutoff/manual Retry integration case.
+- Last night’s report cannot change when daytime work runs later; unknown model usage is never reported as zero. Proof: `tests/night-shift.test.ts` frozen report and unknown independent-test cost cases.
+- Startup buffering preserves the order of command/permission frames; post-stop lifecycle callbacks cannot advance state, and raw bounded frames remain available. Proof: `tests/build-runtime.test.ts` single-write and stop-batch regressions.

@@ -1,0 +1,45 @@
+{
+  "source": "actual protected native Pyright regression run",
+  "newFiles": [
+    "tests/test_first.py",
+    "tests/test_label.py",
+    "tests/test_parse.py"
+  ],
+  "valid": {
+    "version": "quality-gates-v1",
+    "base": "b46291cbde61bad439be895483dad37ea052b0aa",
+    "candidate": "de53ce5309fb69df92bb1a02489c849143683469",
+    "gates": [
+      {
+        "gate": "pyright",
+        "status": "PASS",
+        "findings": [],
+        "baselineCount": 0,
+        "durationMs": 2612.6437920000026
+      }
+    ],
+    "durationMs": 2873.404875
+  },
+  "plantedTypeError": {
+    "version": "quality-gates-v1",
+    "base": "b46291cbde61bad439be895483dad37ea052b0aa",
+    "candidate": "d203a97317ac698f2e727d1e7ce24a71b42f0657",
+    "gates": [
+      {
+        "gate": "pyright",
+        "status": "FAIL",
+        "findings": [
+          {
+            "path": "tests/test_first.py",
+            "line": 2,
+            "rule": "reportAssignmentType",
+            "message": "Type \"Literal['wrong']\" is not assignable to declared type \"int\"\n\u00a0\u00a0\"Literal['wrong']\" is not assignable to \"int\""
+          }
+        ],
+        "baselineCount": 0,
+        "durationMs": 3223.2258749999964
+      }
+    ],
+    "durationMs": 3667.5226669999975
+  }
+}

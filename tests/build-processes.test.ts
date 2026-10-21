@@ -70,3 +70,27 @@ finally:
  os.waitpid(pid,0)
 `;execFileSync('/usr/local/bin/python3',['-c',code],{timeout:3000});
 });
+
+// The ps census and libproc reads are not atomic: a parent can exit first.
+test('a stale ancestry row is omitted only after kernel-certified death, never while live',()=>{
+ const helper=new URL('../scripts/build-process-info.py',import.meta.url).pathname;
+ const code=`import importlib.util,time
+spec=importlib.util.spec_from_file_location('ownership_helper',${JSON.stringify(helper)})
+m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+m.subprocess.check_output=lambda *a,**k:'111 1 111\\n222 111 222\\n333 222 333\\n'
+def row(pid):return dict(pid=pid,ppid=1,pgid=pid,sid=pid,birth_id='birth:'+str(pid),executable='fixture',zombie=False)
+# Parent 222 disappeared after ps; 333 was alive when first recorded, then exited.
+m.record=lambda pid,deadline:None if pid==222 else row(pid)
+m.inspect=lambda pid:None
+def gone(pid,signal):raise ProcessLookupError()
+m.os.kill=gone
+assert [r['pid'] for r in m.tree(111)]==[111]
+# The same incomplete ancestry with a still-live child must remain an error.
+m.inspect=lambda pid:row(pid)
+m.os.kill=lambda *a:None
+try:
+ m.tree(111)
+ raise AssertionError('Uncertified live descendant was accepted')
+except RuntimeError as e:assert 'owned tree' in str(e)
+`;execFileSync(process.platform==='darwin'?'/usr/local/bin/python3':'/usr/bin/python3',['-c',code],{timeout:3000});
+});

@@ -1,0 +1,70 @@
+{
+  "mode": "real drafts only; NOT queued; no Touch ID consumed",
+  "drafts": [
+    {
+      "id": "dc7cddb1-21e2-434a-a52f-de523f3f42ac",
+      "title": "Clarify local file requirements in README",
+      "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+      "requestText": "Edit only README.md. Add one short sentence immediately after the local-file example explaining that the example file must exist and be readable before using `source add`. Do not change behavior or tests. Do not run research commands against personal directories.",
+      "doneMeans": "The note is present immediately after the local-file example, only README.md is changed, and the existing unittest suite passes.",
+      "status": "DRAFT",
+      "usage": [
+        {
+          "inputTokens": 3987,
+          "outputTokens": 120,
+          "totalTokens": 4107,
+          "cachedInputTokens": null,
+          "model": "gpt-6.1-sol",
+          "threadId": "01a15b2d-bf10-7a61-9ced-d0d07840ed79"
+        }
+      ],
+      "originalRequest": "In /Users/jeshwanthsingh/Projects/research-router, add one short sentence immediately after the local-file example in README.md explaining that the example file must exist and be readable before using source add. Edit only README.md. Do not change behavior or tests. Done means the note is present and the existing unittest suite passes. Do not run research commands against personal directories."
+    },
+    {
+      "id": "786722c8-a3ea-4f63-847b-766a184ae11e",
+      "title": "Clarify doctor subcommand description",
+      "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+      "requestText": "In research_router/cli.py, edit only the existing doctor parser description to add one sentence explaining that it checks local paths and runtime setup without fetching sources. Leave the existing help label, all behavior, and tests unchanged. Do not run doctor itself or any operational command against personal directories.",
+      "doneMeans": "research doctor --help includes the description, and the existing unittest suite passes.",
+      "status": "DRAFT",
+      "usage": [
+        {
+          "inputTokens": 4009,
+          "outputTokens": 120,
+          "totalTokens": 4129,
+          "cachedInputTokens": null,
+          "model": "gpt-6.1-sol",
+          "threadId": "01a15b2d-d757-7380-98a1-7674ccc1c450"
+        }
+      ],
+      "originalRequest": "In /Users/jeshwanthsingh/Projects/research-router, add a one-sentence argparse description to the existing doctor subcommand explaining that it checks local paths and runtime setup without fetching sources. Edit only the doctor parser description in research_router/cli.py; leave the existing help label, all behavior and tests unchanged. Done means research doctor --help includes the description and the existing unittest suite passes. Do not run doctor itself or any operational command against personal directories."
+    },
+    {
+      "id": "de080c22-9022-47ac-af95-aa6b8f2e3ff9",
+      "title": "Explain source relevance argument in help",
+      "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+      "requestText": "In research_router/cli.py, edit only the existing argparse argument for source add --why to add help text: \"Record why this source is relevant\". Do not change behavior or tests. Do not run source add itself or write any personal runtime state.",
+      "doneMeans": "source add --help explains --why using the specified text, and the existing unittest suite passes.",
+      "status": "DRAFT",
+      "usage": [
+        {
+          "inputTokens": 4003,
+          "outputTokens": 119,
+          "totalTokens": 4122,
+          "cachedInputTokens": null,
+          "model": "gpt-6.1-sol",
+          "threadId": "01a15b2d-f364-7832-bc57-fc9b5c17c0d6"
+        }
+      ],
+      "originalRequest": "In /Users/jeshwanthsingh/Projects/research-router, add plain help text to the existing source add --why argument: \"Record why this source is relevant\". Edit only that argparse argument in research_router/cli.py. Do not change behavior or tests. Done means source add --help explains --why and the existing unittest suite passes. Do not run source add itself or write any personal runtime state."
+    }
+  ],
+  "repositoryHead": "f7f198123955f6113cb583020d06bb47dc89817f",
+  "proof": {
+    "ticketsUnchanged": true,
+    "sourceHeadUnchanged": true,
+    "sourceStatusHash": "9c1630e308e24243b81a763ec4fe37700e4fc95b5ffa7d12c0804daed608fda5",
+    "queued": 0,
+    "started": 0
+  }
+}

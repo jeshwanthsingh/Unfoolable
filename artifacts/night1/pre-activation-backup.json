@@ -1,0 +1,11 @@
+{
+  "restored": true,
+  "integrity": "ok",
+  "foreignKeyErrors": 0,
+  "allTableIdentitiesMatch": true,
+  "tables": 56,
+  "passkeyRecords": 1,
+  "checkRecords": 0,
+  "privateBackupPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/night1/activation",
+  "keysCopied": false
+}

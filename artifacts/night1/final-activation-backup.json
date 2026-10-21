@@ -1,0 +1,16 @@
+{
+  "restored": true,
+  "integrity": "ok",
+  "foreignKeyErrors": 0,
+  "allTableIdentitiesMatch": true,
+  "tables": 58,
+  "keysCopied": false,
+  "preparedDraftIds": [
+    "dc7cddb1-21e2-434a-a52f-de523f3f42ac",
+    "786722c8-a3ea-4f63-847b-766a184ae11e",
+    "de080c22-9022-47ac-af95-aa6b8f2e3ff9"
+  ],
+  "privateBackupPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/night1/activation",
+  "backup": "final-before.sqlite",
+  "restoredBackup": "final-restored.sqlite"
+}

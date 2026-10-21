@@ -94,8 +94,45 @@ def tree(root):
         current.update(r['pid'] for r in rows if r['ppid'] in current or (r['pgid']==root and r['sid']==root))
         if len(current)==before:
             break
-    if any(r['pid'] not in current for r in rows):
-        raise RuntimeError('Recorded process no longer belongs to the owned tree')
+    # ps and libproc are separate snapshots. An exiting parent can vanish
+    # before its already-exiting child is recorded. Never claim it as owned.
+    # Clear ONLY a proved exit: ESRCH, or a zombie with the same kernel birth.
+    for row in [r for r in rows if r['pid'] not in current]:
+        # Only the exit/reparent-to-init race may be cleared. A different
+        # live parent/session is observed identity conflict, never transient.
+        parent=next((ppid for pid,ppid,pgid in basic if pid==row['pid']),None)
+        if row['ppid']!=1 or parent not in owned or parent==1:
+            raise RuntimeError('Recorded process no longer belongs to the owned tree: parent/session changed')
+        old_parent=inspect(parent)
+        if old_parent is not None and not old_parent['zombie']:
+            raise RuntimeError('Recorded process no longer belongs to the owned tree: parent still live')
+        if old_parent is None:
+            try:
+                os.kill(parent,0)
+            except ProcessLookupError:
+                pass
+            except PermissionError:
+                raise RuntimeError('Recorded process no longer belongs to the owned tree: parent identity unavailable') from None
+            else:
+                raise RuntimeError('Recorded process no longer belongs to the owned tree: parent death unproved')
+        while True:
+            now=inspect(row['pid'])
+            if now and now['birth_id']!=row['birth_id']:
+                raise RuntimeError('Recorded process no longer belongs to the owned tree: PID reused')
+            if now and now['zombie']:
+                rows.remove(row)
+                break
+            if now is None:
+                try:
+                    os.kill(row['pid'],0)
+                except ProcessLookupError: # ESRCH is absence, not a failed identity query.
+                    rows.remove(row)
+                    break
+                except PermissionError:
+                    raise RuntimeError('Recorded process no longer belongs to the owned tree: identity unavailable') from None
+            if time.monotonic()>=deadline:
+                raise RuntimeError('Recorded process no longer belongs to the owned tree')
+            time.sleep(min(.025,max(0,deadline-time.monotonic())))
     return rows
 
 if __name__ == '__main__':

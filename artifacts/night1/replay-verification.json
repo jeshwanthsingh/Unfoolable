@@ -1,0 +1,9 @@
+{
+  "mode": "isolated recorded-event UI replay; no real tasks",
+  "ticketIds": [
+    "d51b45ee-957f-495c-af65-326901d18678",
+    "fc69db18-7843-4dc1-8c8f-8d06d97fca07"
+  ],
+  "advancedAutomatically": true,
+  "newEventsInvented": false
+}

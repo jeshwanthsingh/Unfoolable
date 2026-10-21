@@ -27,3 +27,11 @@ test('quality sandbox denies real outbound network attempts with tracked cleanup
  const r=await processRun(['/usr/local/bin/python3','-I',script],root,{PATH:'/usr/bin:/bin',HOME:root,TMPDIR:root},oracleSandbox([script],root,true,false,true),'go\n',new AbortController().signal,{},10000);assert.equal(r.cleanup.verified,true);assert.equal(r.code,0,r.stderr);assert.deepEqual(JSON.parse(r.stdout),{blocked:true});
  if(process.env.CC_GATE_PROOF_DIR)writeFileSync(join(process.env.CC_GATE_PROOF_DIR,'network-denial.json'),JSON.stringify({blocked:true,cleanup:r.cleanup},null,2));
 });
+
+test('Pyright resolves new tests from the export root but still catches actual type errors',async()=>{
+ const f=fixture({'bugs.py':'def first(items: list[int]) -> int:\n    return items[0]\n','tests/test_guard.py':'from bugs import first\nassert first([1]) == 1\n'});
+ writeFileSync(join(f.repo,'tests/test_first.py'),'import unittest\nfrom bugs import first\nclass TestFirst(unittest.TestCase):\n    def test_first(self):\n        self.assertEqual(first([1]), 1)\n');writeFileSync(join(f.repo,'tests/test_label.py'),'import unittest\nfrom bugs import first\nclass TestLabel(unittest.TestCase):\n    def test_label(self):\n        self.assertEqual(first([2]), 2)\n');writeFileSync(join(f.repo,'tests/test_parse.py'),'import unittest\nfrom bugs import first\nclass TestParse(unittest.TestCase):\n    def test_parse(self):\n        self.assertEqual(first([3]), 3)\n');f.git('add','.');f.git('commit','-qm','Duplicate reproduction tests');
+ const ok=await runQualityGates(f.repo,f.base,f.git('rev-parse','HEAD'),['pyright'],join(f.root,'valid'),new AbortController().signal);assert.equal(ok.gates[0]?.status,'PASS',JSON.stringify(ok));
+ writeFileSync(join(f.repo,'tests/test_first.py'),'from bugs import first\nvalue: int = "wrong"\n');f.git('add','.');f.git('commit','-qm','Real type error');
+ const bad=await runQualityGates(f.repo,f.base,f.git('rev-parse','HEAD'),['pyright'],join(f.root,'invalid'),new AbortController().signal);assert.equal(bad.gates[0]?.status,'FAIL',JSON.stringify(bad));assert.ok(bad.gates[0]?.findings.some(f=>f.message.includes('int')));
+});
