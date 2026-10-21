@@ -1,0 +1,74 @@
+[
+  {
+    "label": "observation-pipe-forgery-review-on",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true
+  },
+  {
+    "label": "R1-review-off",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true
+  },
+  {
+    "label": "native-judge-skipped",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true
+  },
+  {
+    "label": "native-judge-zero-collected",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true
+  },
+  {
+    "label": "skipped-existing-test-restored",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true
+  },
+  {
+    "label": "deleted-existing-test-restored",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true
+  },
+  {
+    "label": "edited-existing-test-restored",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true
+  },
+  {
+    "label": "early-exit-0",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true
+  },
+  {
+    "label": "symlink-escape",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true
+  },
+  {
+    "label": "dependency-change",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true
+  },
+  {
+    "label": "oversized-output",
+    "status": "FAIL",
+    "expected": "FAIL",
+    "expectedMatched": true
+  },
+  {
+    "label": "timeout",
+    "status": "INCONCLUSIVE",
+    "expected": "INCONCLUSIVE",
+    "expectedMatched": true
+  }
+]

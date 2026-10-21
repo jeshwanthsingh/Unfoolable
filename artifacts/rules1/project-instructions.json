@@ -1,0 +1,51 @@
+{
+  "note": "Tracked BASE instruction files only. These stay identical between arms; provider-internal tool instructions are not exposed by app-server.",
+  "projects": [
+    {
+      "projectRoot": "/Users/jeshwanthsingh/Projects/Therapy2",
+      "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
+      "projectInstructionFiles": []
+    },
+    {
+      "projectRoot": "/Users/jeshwanthsingh/Projects/Aegis",
+      "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
+      "projectInstructionFiles": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "196dfb61f6fc3eae151563f08042167f09dc7671ad2e2acbb817961986c5eb9e",
+          "bytes": 2171
+        }
+      ]
+    },
+    {
+      "projectRoot": "/Users/jeshwanthsingh/Projects/research-router",
+      "base": "f7f198123955f6113cb583020d06bb47dc89817f",
+      "projectInstructionFiles": []
+    },
+    {
+      "projectRoot": "/Users/jeshwanthsingh/Projects/career-ops",
+      "base": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
+      "projectInstructionFiles": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "55635f4c5ccc47f4c8eea705f68da1488377f57616fc16e6b534af14b651b439",
+          "bytes": 481
+        }
+      ],
+      "directlyReferencedInstructionFiles": [
+        {
+          "path": "CLAUDE.md",
+          "sha256": "1abf5a6cf3159d40b857beb2c464c0c718dab3377ca706dc3269e35f71131d5e",
+          "bytes": 21683,
+          "namedFourRuleBlock": false
+        },
+        {
+          "path": "docs/CODEX.md",
+          "sha256": "142251b855ca933d7a0b3df0dcb29195322e5df96ec44eb68bf71fd5f7088a4a",
+          "bytes": 2340,
+          "namedFourRuleBlock": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "voidPreparationOnly": [
+    {
+      "case": "T5-correct",
+      "arm": "OFF",
+      "reason": "Historical lock omits integrity; before any Builder or grading. Existing matched benchmark dependency snapshot now supplies both arms.",
+      "modelStarted": false,
+      "usage": null
+    },
+    {
+      "case": "T5-correct",
+      "arm": "ON",
+      "reason": "Historical lock omits integrity; before any Builder or grading. Existing matched benchmark dependency snapshot now supplies both arms.",
+      "modelStarted": false,
+      "usage": null
+    }
+  ],
+  "A3_OFF": {
+    "firstScoring": "VOID_HARNESS_SETUP",
+    "reason": "Missing local recipe snapshot; no assertions changed",
+    "recheck": "Same frozen Candidate; no extra Builder attempt",
+    "candidate": "84c643bb3bf84e0c776c7f19e4f19bb62de133d9"
+  },
+  "originalRecordsPreserved": true
+}

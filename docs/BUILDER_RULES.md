@@ -2,7 +2,7 @@
 
 Unfoolable owns a short four-rule instruction block in `apps/server/builder-instructions.ts`: think before coding, simplicity first, surgical changes, goal-driven checks. It appends to the original scope/safety prompt rather than replacing it. The selected text goes to the isolated model-instructions file and the app-server thread instructions. No instruction file is written into a user repository. Fixed read-boundary diagnostics and single-file bug reproduction keep their original prompts.
 
-The default remains OFF pending the RULES-1 comparison. The explicit boolean argument on internal Builder factories exists for the paired local study; it is not a chat command, API field or environment setting. Request data cannot select it. Model, runtime, permissions, budgets and protected checker policy remain unchanged.
+The default remains OFF after the RULES-1 comparison: ON produced fewer checkable outputs, hit the unchanged budget more often and used more reported tokens. Thirteen pairs with two frozen outputs had slightly smaller ON diffs, but stopped attempts have unknown diff sizes and cannot justify promotion. The explicit boolean argument on internal Builder factories exists for the paired local study; it is not a chat command, API field or environment setting. Request data cannot select it. Model, runtime, permissions, budgets and protected checker policy remain unchanged.
 
 Source: multica-ai/andrej-karpathy-skills, commit `2c606141936f1eeef17fa3043a72095b4765b9c2`. MIT is declared in the skill and README; no separate LICENSE file exists in that pinned tree. SkillSpector 2.12.0 static/no-LLM scan: SAFE, 0/100, no findings, network denied with OSV offline fallback. No global skill is installed. The short application wording is project-authored.
 

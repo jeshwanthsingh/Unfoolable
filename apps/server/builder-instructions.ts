@@ -1,6 +1,6 @@
 // Project-authored summary of multica-ai/andrej-karpathy-skills, MIT-declared.
 // Pinned source and static scan: artifacts/rules1/source.json.
-// Keep OFF unless the paired study meets the pre-registered promotion rule.
+// The 38-build paired study did not meet the promotion rule; keep OFF.
 export const BUILDER_RULES_ENABLED: boolean = false;
 export const KARPATHY_RULES = `Builder working rules:
 1. Think before coding: inspect the relevant code, state assumptions that affect correctness, and stop with a concise question if the request is genuinely ambiguous.

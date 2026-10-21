@@ -1,0 +1,583 @@
+[
+  {
+    "case": "A3-correct",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T00:39:48.633Z",
+    "ticketId": "d5e0e7a6-dc6c-4fbd-8eb0-1f7faed6fae1",
+    "candidate": {
+      "commit": "84c643bb3bf84e0c776c7f19e4f19bb62de133d9",
+      "tree": "65eb2e7bb4781248a5bdda2ed0ea5d13ef284ca6",
+      "paths": [
+        "sdk/python/README.md",
+        "sdk/python/aegis/verifier.py",
+        "sdk/python/tests/test_verifier_timeout.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/d5e0e7a6-dc6c-4fbd-8eb0-1f7faed6fae1/attempts/9289cd19-9d6b-4590-9d4f-a657d1ada745/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/d5e0e7a6-dc6c-4fbd-8eb0-1f7faed6fae1/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A3-correct",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T00:41:14.600Z",
+    "ticketId": "e12ed6ae-be56-47d3-b721-d09c4e65e860",
+    "candidate": {
+      "commit": "a34ffffc816fe6085da8e2c1fb60ffbd23a56447",
+      "tree": "298b079b3076fe6376d8c0c1c51864c505affa3b",
+      "paths": [
+        "sdk/python/README.md",
+        "sdk/python/aegis/verifier.py",
+        "sdk/python/tests/test_verifier_timeout.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/e12ed6ae-be56-47d3-b721-d09c4e65e860/attempts/402b893a-6de8-4afe-bc6e-6ccf6b0dd520/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/e12ed6ae-be56-47d3-b721-d09c4e65e860/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "kept-c6263195",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T00:42:44.594Z",
+    "ticketId": "8bd2d09e-08c4-4776-887c-bf9dce664484",
+    "candidate": {
+      "commit": "a94d166892017cde5d7f3de96666aa61267dfd5c",
+      "tree": "f65017f77a1098233a6cc904c266383889e82486",
+      "paths": [
+        "research_router/sources/github.py",
+        "research_router/sources/hn.py",
+        "tests/test_since.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/8bd2d09e-08c4-4776-887c-bf9dce664484/attempts/e897931a-c6b5-4f38-afc7-64eca6dd22fc/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/8bd2d09e-08c4-4776-887c-bf9dce664484/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "kept-c6263195",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T00:45:27.985Z",
+    "ticketId": "6603ab9c-ae2a-4a80-848d-38cfe00a9036",
+    "candidate": null,
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "kept-37b3646e",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T00:46:25.078Z",
+    "ticketId": "9a12d82e-cde2-45ec-8194-5db279ecba75",
+    "candidate": null,
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "kept-37b3646e",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T00:47:08.048Z",
+    "ticketId": "e00d0999-3bb8-41d6-968c-f73e4ad01f34",
+    "candidate": {
+      "commit": "65471b5eb93d65dada3e271acf174ce9a6d9e562",
+      "tree": "8bb66297f39a45cc9a1fdbbe7a1df741cb1b0796",
+      "paths": [
+        "research_router/cli.py",
+        "tests/test_cli_help.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/e00d0999-3bb8-41d6-968c-f73e4ad01f34/attempts/49663495-e547-4808-b0ab-0c7320669497/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/e00d0999-3bb8-41d6-968c-f73e4ad01f34/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "T2-wrong-reference",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T00:49:53.344Z",
+    "ticketId": "e618edb5-2b8b-4a52-bbd2-094644399f7e",
+    "candidate": {
+      "commit": "5a224353a31dc205cd0bda9e317928a73d392f8e",
+      "tree": "a6cbfe4f3cae7482b0b0e4ccd3289e72e1180656",
+      "paths": [
+        "frontend/src/__tests__/appointmentStore.test.ts",
+        "frontend/src/store/appointmentStore.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/e618edb5-2b8b-4a52-bbd2-094644399f7e/attempts/632a766e-4644-4fd9-a568-189a3763b47e/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/e618edb5-2b8b-4a52-bbd2-094644399f7e/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "T2-wrong-reference",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T00:53:54.727Z",
+    "ticketId": "43bcdbed-d334-425e-9473-6dc0d5397550",
+    "candidate": {
+      "commit": "616476a67d225f0ffea93b666f27916492050933",
+      "tree": "a78d12385d1a17765265f0398024d615b2a121be",
+      "paths": [
+        "frontend/src/__tests__/appointmentStore.test.ts",
+        "frontend/src/store/appointmentStore.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/43bcdbed-d334-425e-9473-6dc0d5397550/attempts/1cc2cf7a-7f44-491c-86c4-4553cbef41f6/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/43bcdbed-d334-425e-9473-6dc0d5397550/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "A2-planted-half-fix",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T00:58:06.489Z",
+    "ticketId": "ff9b529c-d860-41e6-b06b-0829752dbc14",
+    "candidate": {
+      "commit": "8f8451f2750a82fac5774d879c0eb60f11696f6d",
+      "tree": "a1436f41ace95327a14278d2202192b4812aae1e",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/ff9b529c-d860-41e6-b06b-0829752dbc14/attempts/06e084bb-d814-44b1-9c79-e2c681678037/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/ff9b529c-d860-41e6-b06b-0829752dbc14/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "A2-planted-half-fix",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T00:59:07.515Z",
+    "ticketId": "43a0a9a3-9ae9-4f09-846a-b44405459bb2",
+    "candidate": {
+      "commit": "61d7ccf329a52cde4cbdfc6e7cf93dc12f279a4b",
+      "tree": "82e7ec2b35a2ce9c13c2283350526ccb6ceb3d82",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_events.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/43a0a9a3-9ae9-4f09-846a-b44405459bb2/attempts/a07a615b-5134-4a4a-9750-33e8dd07ed8c/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/43a0a9a3-9ae9-4f09-846a-b44405459bb2/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "R1-correct",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:00:03.087Z",
+    "ticketId": "e47125f0-363a-40e0-8c4b-f25d4a128cd2",
+    "candidate": {
+      "commit": "5c4ffba9cea096b91d6df973b1f53ef47bcbec77",
+      "tree": "ffc3006af14ff97dca0128c8099236984d7d3a99",
+      "paths": [
+        "research_router/cli.py",
+        "research_router/commands/platform_github.py",
+        "research_router/commands/platform_hn.py",
+        "research_router/db.py",
+        "tests/test_source_concurrency.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/e47125f0-363a-40e0-8c4b-f25d4a128cd2/attempts/0d9eac6a-94ee-4356-9442-7d1cea834fda/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/e47125f0-363a-40e0-8c4b-f25d4a128cd2/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "R1-correct",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:02:55.917Z",
+    "ticketId": "2b143a8c-a52a-44d5-9bb3-b6517e8319f3",
+    "candidate": null,
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "R3-correct",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:03:57.590Z",
+    "ticketId": "c87c55ad-2b3e-4285-a33f-30b7bdcbcd6b",
+    "candidate": {
+      "commit": "c87c7e62b537a1622dc8c24f721ec6b2c1984405",
+      "tree": "f38ed9988fb9ee7e4cb38e1a2d074b0453048af5",
+      "paths": [
+        "research_router/db.py",
+        "tests/test_db.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/c87c55ad-2b3e-4285-a33f-30b7bdcbcd6b/attempts/4f469e33-5c3f-49b7-bb36-5f242f25b090/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/c87c55ad-2b3e-4285-a33f-30b7bdcbcd6b/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "R3-correct",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:06:43.382Z",
+    "ticketId": "7f71f3de-f6f2-444f-8c8b-3c6808abcc58",
+    "candidate": {
+      "commit": "34617bce44d300ca0ca983cd23f0eb2ffa7bd25a",
+      "tree": "daf9e70149c65258bc4c38f388f1df832fe7d31b",
+      "paths": [
+        "research_router/db.py",
+        "tests/test_db.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/7f71f3de-f6f2-444f-8c8b-3c6808abcc58/attempts/32e81bc0-3a98-4e40-9ddf-3a5df2269683/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/7f71f3de-f6f2-444f-8c8b-3c6808abcc58/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A3-wrong-reference",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:09:23.141Z",
+    "ticketId": "85d8885d-c811-46fe-963a-2c52cb3fd50f",
+    "candidate": {
+      "commit": "f2bc36f6a0d4ef3a1e5a25dc4451e4807fbcad72",
+      "tree": "0691b95f95b35c34812c1de21bc02d351fb05424",
+      "paths": [
+        "sdk/python/README.md",
+        "sdk/python/aegis/verifier.py",
+        "sdk/python/tests/test_verifier_timeout.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/85d8885d-c811-46fe-963a-2c52cb3fd50f/attempts/bc0b7812-6d64-4425-ac63-f20ecf149ddb/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/85d8885d-c811-46fe-963a-2c52cb3fd50f/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A3-wrong-reference",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:10:53.334Z",
+    "ticketId": "f293c3dc-ac7c-470a-a978-98bb2479c459",
+    "candidate": {
+      "commit": "1168bfc6e28f656a2860677590075542c0c62de7",
+      "tree": "081c8ad5769e62a360b46a873b4324e434c2452b",
+      "paths": [
+        "sdk/python/README.md",
+        "sdk/python/aegis/verifier.py",
+        "sdk/python/tests/test_verifier_timeout.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/f293c3dc-ac7c-470a-a978-98bb2479c459/attempts/6500e38e-5bd6-46d4-a617-950f09d679e3/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/f293c3dc-ac7c-470a-a978-98bb2479c459/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "kept-cfaaea5b",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:12:22.571Z",
+    "ticketId": "aafbfe6f-ff18-4ab3-a993-d03d0ca23fd1",
+    "candidate": {
+      "commit": "b2ad5070f9ce8358aaa7d49d898751083f1af744",
+      "tree": "c5e9adda488646bf23591f11401ef2be7ceed7d2",
+      "paths": [
+        "merge-tracker.mjs"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/aafbfe6f-ff18-4ab3-a993-d03d0ca23fd1/attempts/78ba0046-75a9-4139-b713-b3e7649dfe63/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/aafbfe6f-ff18-4ab3-a993-d03d0ca23fd1/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "kept-cfaaea5b",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:13:25.277Z",
+    "ticketId": "372cd404-2ac4-4050-bd38-ab5f155e3cdb",
+    "candidate": null,
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A2-correct",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:14:26.492Z",
+    "ticketId": "40eaab24-ca63-4e49-96c3-721e67c37b4c",
+    "candidate": {
+      "commit": "c0e63162382697de1f6035fa27cb16dc6b635667",
+      "tree": "1485f35dabc7948ca156654de59a56f175985c2a",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/40eaab24-ca63-4e49-96c3-721e67c37b4c/attempts/e634657c-fdd9-4532-b081-b0c7ef81f3d3/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/40eaab24-ca63-4e49-96c3-721e67c37b4c/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A2-correct",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:15:26.922Z",
+    "ticketId": "d2d4c107-e9a8-4675-a6c3-f44b4638da26",
+    "candidate": {
+      "commit": "7e2142c44796000ba1c0ae9a52f6e38c5d2a4e74",
+      "tree": "c8d0b1e4b9aa75d915c42141a52cd16cd9fcfd21",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/d2d4c107-e9a8-4675-a6c3-f44b4638da26/attempts/71edde25-ee49-4b01-b63d-fa67e3409ec7/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/d2d4c107-e9a8-4675-a6c3-f44b4638da26/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "T2-correct",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:16:28.007Z",
+    "ticketId": "7efe899d-759e-4889-a3ca-2a655a304a5b",
+    "candidate": {
+      "commit": "acc9dce3f19305baf91921c1301d63d9cc6c930f",
+      "tree": "065947ede610763a293d267ede413dd40c2e2e8f",
+      "paths": [
+        "frontend/src/__tests__/appointmentStore.test.ts",
+        "frontend/src/store/appointmentStore.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/7efe899d-759e-4889-a3ca-2a655a304a5b/attempts/0d7d3f97-4c95-4db5-834b-2286c29c0667/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/7efe899d-759e-4889-a3ca-2a655a304a5b/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "T2-correct",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:20:41.748Z",
+    "ticketId": "e6174ff2-7766-4a81-8e81-6ee86b2d1f6c",
+    "candidate": {
+      "commit": "6d82b6712a05ead688276fa277089a58e9b0da84",
+      "tree": "56f324acc967cd49fff0a7927506c4d74cdb327e",
+      "paths": [
+        "frontend/src/__tests__/appointmentStore.test.ts",
+        "frontend/src/store/appointmentStore.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/e6174ff2-7766-4a81-8e81-6ee86b2d1f6c/attempts/45032fe2-a194-4239-840c-6c2cb11636af/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/e6174ff2-7766-4a81-8e81-6ee86b2d1f6c/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A2-unchanged-base",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:24:38.751Z",
+    "ticketId": "443631fd-efe1-4d31-a6f8-16548f1f2399",
+    "candidate": {
+      "commit": "e9d3c2da9931f1e30bcfe953a0e383269b9d541a",
+      "tree": "7ebab313fb424b56c7216db202b477c21e74fa4f",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/443631fd-efe1-4d31-a6f8-16548f1f2399/attempts/b05be035-e270-4559-afeb-f5be9114b7ab/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/443631fd-efe1-4d31-a6f8-16548f1f2399/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A2-unchanged-base",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:25:38.501Z",
+    "ticketId": "665e7a8b-9206-4ea2-9666-8d05f9756b79",
+    "candidate": {
+      "commit": "b8fe1d5b1be29d04b5cf170310715fd2eeae62ec",
+      "tree": "b7a7eb329f24beb1a37a011ff9aba4c79dc2d2c1",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/665e7a8b-9206-4ea2-9666-8d05f9756b79/attempts/3d9cc8df-cfce-418d-831c-11e23a1c4e4b/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/665e7a8b-9206-4ea2-9666-8d05f9756b79/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "R4-correct",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:26:39.373Z",
+    "ticketId": "cf77b0f5-4c7e-4863-b22d-f64b4de63091",
+    "candidate": null,
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "R4-correct",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:27:36.325Z",
+    "ticketId": "7eb4bf53-076e-453e-80e4-6900f3d7eb64",
+    "candidate": null,
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "T3-correct",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:28:40.736Z",
+    "ticketId": "10f417c1-905a-4067-a215-9cc718131d3f",
+    "candidate": {
+      "commit": "7c137347d68d4f77951fe8a90632f074277e0e1a",
+      "tree": "25b927e14e424c8538e3441c06e049f07a57a0f4",
+      "paths": [
+        "frontend/src/__tests__/httpsServices.test.ts",
+        "frontend/src/services/httpsServices.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/10f417c1-905a-4067-a215-9cc718131d3f/attempts/f72c7118-12ff-4111-a23a-2941afba15dc/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/10f417c1-905a-4067-a215-9cc718131d3f/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "T3-correct",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:32:38.566Z",
+    "ticketId": "e5dc6fc5-f669-47d3-99e4-660f51664528",
+    "candidate": {
+      "commit": "84535658dd0fb3153388bcaeab2dcec3c1fff295",
+      "tree": "993632f53e28c48f69fbfb498abf696e1b2568e0",
+      "paths": [
+        "frontend/src/__tests__/httpsServices.test.ts",
+        "frontend/src/services/httpsServices.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/e5dc6fc5-f669-47d3-99e4-660f51664528/attempts/7127ea40-bc2f-4610-afac-7c171c5ac501/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/e5dc6fc5-f669-47d3-99e4-660f51664528/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "R4-unchanged-base",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:37:03.465Z",
+    "ticketId": "61bbb70f-fc7b-4c13-b083-7a0d47dd244d",
+    "candidate": null,
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "R4-unchanged-base",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:37:51.457Z",
+    "ticketId": "7724571a-4732-474a-acb0-fcbab88c3be5",
+    "candidate": null,
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A2-planted-special-case",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:38:43.187Z",
+    "ticketId": "f0d991b8-ed8e-4e16-83a9-d428e8ff55cf",
+    "candidate": {
+      "commit": "fe288126f819436acaccb6f80b29ad72081059ca",
+      "tree": "d05b82d74727e308a94c5391ec1ecdf272022ca7",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/f0d991b8-ed8e-4e16-83a9-d428e8ff55cf/attempts/03d264a8-e836-401e-ae44-c530cb0abc5e/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/f0d991b8-ed8e-4e16-83a9-d428e8ff55cf/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "A2-planted-special-case",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:39:46.889Z",
+    "ticketId": "d8904ed2-6e53-48ef-9236-ca6e707fee83",
+    "candidate": {
+      "commit": "47901e6b76fd05364b3df39460e579c5c4e55bd4",
+      "tree": "1eb0f66cb2f7a2242a142f304f376c45b69d331d",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/d8904ed2-6e53-48ef-9236-ca6e707fee83/attempts/6e029466-2fd8-4390-8df5-bec5916ba96d/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/d8904ed2-6e53-48ef-9236-ca6e707fee83/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "A2-planted-edge-case",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:40:51.341Z",
+    "ticketId": "b4962184-d630-4af2-825d-664c454defdf",
+    "candidate": {
+      "commit": "24ea073bbbdadcfcfe5247578954ae8cfe911861",
+      "tree": "8a04fab775931b325826d5e4ba5f840bdadb4340",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/b4962184-d630-4af2-825d-664c454defdf/attempts/2b46b9b7-4ce8-4b7d-829a-cc0a72f56d58/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/b4962184-d630-4af2-825d-664c454defdf/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "A2-planted-edge-case",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:41:55.548Z",
+    "ticketId": "2a854a67-7ae0-4a7c-bcd9-abe59ea5601a",
+    "candidate": {
+      "commit": "3f5757887bbe1ed04d97ca3a91504e7f5f525837",
+      "tree": "96bb256339e115465712398a40205b9c66dbd1de",
+      "paths": [
+        "sdk/python/aegis/events.py",
+        "sdk/python/tests/test_sdk.py"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/2a854a67-7ae0-4a7c-bcd9-abe59ea5601a/attempts/59b7f40b-41d7-4c77-a186-7af0017796ce/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/2a854a67-7ae0-4a7c-bcd9-abe59ea5601a/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "T5-unchanged-base",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:42:57.665Z",
+    "ticketId": "aec49254-0b37-4eb8-95e0-515675a6abd3",
+    "candidate": {
+      "commit": "1c5a7c8f74609416a2bd99e2a90c4b565c135421",
+      "tree": "8ac34e4ed3fc0ccf3fa1b802b3be3fa1c7e09492",
+      "paths": [
+        "frontend/src/__tests__/appointmentStore.test.ts",
+        "frontend/src/store/appointmentStore.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/aec49254-0b37-4eb8-95e0-515675a6abd3/attempts/a5fa20ee-dd09-4e00-b919-ceb547b84321/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/aec49254-0b37-4eb8-95e0-515675a6abd3/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  },
+  {
+    "case": "T5-unchanged-base",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:46:40.726Z",
+    "ticketId": "5df1bbb0-8f47-4da8-bdc2-5920284d152d",
+    "candidate": {
+      "commit": "91c285c01dec51cc7dfbc8c08aaba6a92189940e",
+      "tree": "170a56ab61486cb1cc92f9c95fb29c6a288b0b3c",
+      "paths": [
+        "frontend/src/__tests__/appointmentStore.test.ts",
+        "frontend/src/store/appointmentStore.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/5df1bbb0-8f47-4da8-bdc2-5920284d152d/attempts/06f88a3f-9beb-4a4a-accc-8b0c70a63745/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/5df1bbb0-8f47-4da8-bdc2-5920284d152d/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "T5-correct",
+    "arm": "ON",
+    "slotStartedAt": "2026-10-21T01:51:18.737Z",
+    "ticketId": "517de8c5-7702-4656-8e65-c98ade7a7235",
+    "candidate": {
+      "commit": "da25dc5cababe1c2c95c0e907b5c1479e96f4170",
+      "tree": "2be7b6d6d8dbaa96522aaef4b37f062bb89f179a",
+      "paths": [
+        "frontend/src/__tests__/appointmentStore.test.ts",
+        "frontend/src/store/appointmentStore.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/517de8c5-7702-4656-8e65-c98ade7a7235/attempts/ef212e91-8d88-45c2-88aa-25b401ae3385/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/517de8c5-7702-4656-8e65-c98ade7a7235/repo"
+    },
+    "instructionsSHA256": "bbac55a904bd8110a80d911b4b5332272c4238ea5d04ee5a9d66ae67d0e2a562"
+  },
+  {
+    "case": "T5-correct",
+    "arm": "OFF",
+    "slotStartedAt": "2026-10-21T01:55:15.440Z",
+    "ticketId": "7b16760f-48a3-4f59-ba5e-44e1bf2561a4",
+    "candidate": {
+      "commit": "4904e81b3f556c9f6673b9c108fe953c036da681",
+      "tree": "70b53e831b7ceff8041c0c49827206a8e05de9cd",
+      "paths": [
+        "frontend/src/__tests__/appointmentStore.test.ts",
+        "frontend/src/store/appointmentStore.ts"
+      ],
+      "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/rules1/data/ticket-work/7b16760f-48a3-4f59-ba5e-44e1bf2561a4/attempts/3961818a-82af-44b5-9996-c4762dc3adbf/candidate.diff",
+      "repo": "/Users/jeshwanthsingh/.cc-work/abeb06380adcb066d3568228c770cf1f1237d3a32caa6dfac62c4ec6a3264864/7b16760f-48a3-4f59-ba5e-44e1bf2561a4/repo"
+    },
+    "instructionsSHA256": "a19e86310ed672af284e77a85d8b580021ce8d2a3b761852f54ba86c186e2030"
+  }
+]
