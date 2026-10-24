@@ -16,6 +16,8 @@ for CC_NODE in "$(command -v node || true)" \
       CC_MINOR=${CC_VERSION#v24.}; CC_MINOR=${CC_MINOR%%.*}
       case "$CC_MINOR" in ''|*[!0-9]*) continue ;; esac
       [ "$CC_MINOR" -ge 15 ] || continue
+      CC_NODE_DIR=$(CDPATH= cd -- "$(dirname -- "$CC_NODE")" && pwd)
+      PATH="$CC_NODE_DIR:$PATH"; export PATH
       exec "$CC_NODE" "$CC_ROOT/scripts/cc.ts" "$@"
       ;;
   esac
