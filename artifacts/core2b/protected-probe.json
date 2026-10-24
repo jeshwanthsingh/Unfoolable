@@ -1,0 +1,20 @@
+{
+  "totalTargets": 76,
+  "existingTargets": 74,
+  "additionalTargets": [
+    "Archived verdict core",
+    "Core registry metadata"
+  ],
+  "readable": 0,
+  "ownedChecks": {
+    "git_status": true,
+    "git_diff": true,
+    "git_log": true,
+    "sqlite_temp": true,
+    "own_write": true
+  },
+  "sensitiveEndpoints": 8,
+  "reachable": 0,
+  "signerHelpersDenied": 2,
+  "modelAndKernelAgree": true
+}

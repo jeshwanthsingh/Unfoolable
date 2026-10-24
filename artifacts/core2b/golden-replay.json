@@ -1,0 +1,9 @@
+{
+  "baseline": "f6327bf076e6e94650dc644063979ba531011499",
+  "comparisons": 61,
+  "differences": [],
+  "legacyComparisons": 61,
+  "legacyDifferences": [],
+  "frozenHashesUnchanged": true,
+  "note": "Strict comparison of all decision fields, reasons and traces. No field normalization or historical rewriting. CORE-2 command-mismatch ERROR remains separately tested."
+}

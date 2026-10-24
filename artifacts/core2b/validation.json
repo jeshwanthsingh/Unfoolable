@@ -1,0 +1,108 @@
+{
+  "branch": "codex/core-2b",
+  "baseCommit": "f6327bf076e6e94650dc644063979ba531011499",
+  "fullSuite": {
+    "tests": 1253,
+    "passed": 1253,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "durationMs": 364467.846334,
+    "caffeinate": true
+  },
+  "typecheck": "PASS",
+  "isolatedProductionBuild": "PASS",
+  "compiledRuntime": "PASS",
+  "workshopImages": 9,
+  "versions": [
+    {
+      "version": "verdict-core-v1",
+      "source": "packages/shared/cores/verdict-core-v1.ts",
+      "sha256": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+      "becameCurrent": "2026-10-20",
+      "description": "Legacy released policy, preserved byte-for-byte from main 4abc25a; old decisions and traces retain their original shape.",
+      "originalCommit": "4abc25a76c46e7f05aa5fcae12788a114b3054e1"
+    },
+    {
+      "version": "verdict-core-v2",
+      "source": "packages/shared/verdict-core.ts",
+      "sha256": "109f2081e6954fe2b0145962cb629c043ceb5246a1020be0ffc4976694489911",
+      "becameCurrent": "2026-10-23",
+      "description": "CORE-2 command mismatch ERROR, explicit paths and writer limits, corrected ERROR trace, eligibleForReview naming."
+    }
+  ],
+  "realDataCopy": {
+    "tickets": 12,
+    "sealed": 4,
+    "olderUnsealed": 8,
+    "broken": 0,
+    "cliExitCode": 2,
+    "exitReason": "Exit 2 reports genuine older unsealed records; zero broken seals.",
+    "productionTouched": false,
+    "privateSigningKeysCopied": false,
+    "historicalRecordsRewritten": false
+  },
+  "goldenReplay": {
+    "baseline": "f6327bf076e6e94650dc644063979ba531011499",
+    "comparisons": 61,
+    "differences": [],
+    "legacyComparisons": 61,
+    "legacyDifferences": [],
+    "frozenHashesUnchanged": true,
+    "note": "Strict comparison of all decision fields, reasons and traces. No field normalization or historical rewriting. CORE-2 command-mismatch ERROR remains separately tested."
+  },
+  "protectedProbe": {
+    "totalTargets": 76,
+    "existingTargets": 74,
+    "additionalTargets": [
+      "Archived verdict core",
+      "Core registry metadata"
+    ],
+    "readable": 0,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "sensitiveEndpoints": 8,
+    "reachable": 0,
+    "signerHelpersDenied": 2,
+    "modelAndKernelAgree": true
+  },
+  "negativeControls": {
+    "FAIL": 5,
+    "INCONCLUSIVE": 7,
+    "PASS": 0
+  },
+  "authorityLint": "Both pure cores PASS",
+  "format": {
+    "formatter": "Prettier 3.6.2",
+    "license": "MIT",
+    "printWidth": 100,
+    "tokensIdentical": true,
+    "beforeLines": 606,
+    "afterLines": 597,
+    "v1Untouched": true,
+    "note": "Thirteen targeted prettier-ignore comments preserve optional punctuation. All non-trivia token text and kinds are identical; all other nodes use width 100."
+  },
+  "protectedInventory": {
+    "compared": 281,
+    "unchanged": 277,
+    "requestedChanges": [
+      "apps/server/ticket-service.ts",
+      "apps/server/verdict-seal.ts",
+      "apps/server/verdict-snapshot.ts",
+      "packages/shared/verdict-core.ts"
+    ]
+  },
+  "optionalReviewCommit": "e579fc4",
+  "credentialScan": "No leaks in changed source/tests/docs",
+  "dependenciesAdded": [],
+  "productionDataModified": false,
+  "privateSigningKeysCopied": false,
+  "runtimeRestarted": false,
+  "pushed": false,
+  "merged": false
+}
