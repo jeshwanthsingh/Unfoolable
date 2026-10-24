@@ -1,6 +1,6 @@
 # Sealed verdicts
 
-Use `./cc verify <ticket>` or `./cc verify --all`. These commands open SQLite read-only, verify the ordered ticket-event chain, authenticate each post-SIGN-1 check against the trusted public key, hash the stored facts/diff, and replay the exact stored facts through the unchanged core. They never build, refresh a check, or accept a change.
+Use `./cc verify <ticket>` or `./cc verify --all`. These commands open SQLite read-only, verify the ordered ticket-event chain, authenticate each post-SIGN-1 check against the trusted public key, hash the stored facts/diff, and replay the exact stored facts through the registered core version and source hash recorded in that seal. Unknown versions, unknown hashes or edited registered sources are broken seals; verification never substitutes the current policy. They never build, refresh a check, or accept a change.
 
 Exit codes: 0 = all requested checks sealed and replaying; 1 = detected break; 2 = older/unsealed or no checks. Older events say “Not sealed (older than SIGN-1)”; no signatures are backfilled. A seal failure is reported separately and never rewrites the verdict.
 
@@ -21,3 +21,9 @@ Backups retain signing public metadata, facts, sealed diffs, attestation tables 
 Examples in artifacts/sign1 use an isolated NOT CHECKED fixture and example-public.pem, not the production key. They demonstrate authentication without claiming that a real task was checked or approved. No AI study ran for the reviewer overlap; no review role qualified.
 
 BUG-1 exception to ordinary retirement: the software identity starting `fc261d6df296` created zero production seals. Its registry status is REVOKED, which overrides every timestamp, including forged backdated ones. Other retired keys retain their reviewed validity windows. Older backups remain sensitive for unrelated credentials and must not be treated as public.
+
+## Versioned verdict cores
+
+`docs/CORE_VERSIONS.json` pins each released version, its canonical TypeScript source SHA-256 and when it became current. `packages/shared/cores/verdict-core-v1.ts` is the exact 4abc25a source; it must never be reformatted. Current decisions use v2 in `packages/shared/verdict-core.ts`. These are separate pure policies; old facts, decision shapes, traces and seals are never migrated or rewritten.
+
+The trusted shell checks the registry and the actual source bytes on every replay, then Node 24's built-in type stripping executes that exact registered file. The production build includes the canonical sources and registry as well as the compiled app. New snapshots and seals use only the current registered version. CLI and Proof both use `verifyTicketSeal`, so their source selection cannot drift.

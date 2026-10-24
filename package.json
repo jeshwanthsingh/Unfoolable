@@ -12,7 +12,7 @@
     "pretest": "node scripts/check-node.mjs",
     "test": "node --test --test-concurrency=4 tests/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "build": "npm run typecheck && tsc -p tsconfig.server.json && vite build --config apps/web/vite.config.ts && node scripts/check-workshop-assets.ts",
+    "build": "npm run typecheck && tsc -p tsconfig.server.json && vite build --config apps/web/vite.config.ts && node scripts/check-workshop-assets.ts && node scripts/package-core-sources.ts",
     "prestart": "node scripts/check-node.mjs",
     "start": "node dist/server/apps/server/main.js"
   },

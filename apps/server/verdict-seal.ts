@@ -1,15 +1,14 @@
 import {fixtureApprovalsEnabled} from './data-mode.ts';
 import {loadVerificationKeys,verifyWithKeyHistory,type VerificationKeys} from './verification-keys.ts';
 import {readFileSync,existsSync,mkdirSync,writeFileSync} from 'node:fs';import {join} from 'node:path';import type {DatabaseSync} from 'node:sqlite';
-import {scoreVerdict,CORE_VERSION} from '../../packages/shared/verdict-core.ts';import {loadVerdictSnapshot,type VerdictSnapshotRef} from './verdict-snapshot.ts';
+import {currentCore,resolveCore} from './core-registry.ts';import {loadVerdictSnapshot,type VerdictSnapshotRef} from './verdict-snapshot.ts';
 import {createAttestation,publicKeyId,sha256} from './attestation-format.ts';import {signingKey} from './signing-key.ts';import {verifyEventChain} from './event-chain.ts';
 const directories=new WeakMap<DatabaseSync,string>();
 export function registerVerdictSealing(db:DatabaseSync,dataDir:string){directories.set(db,dataDir);}
-const coreHash=()=>sha256(readFileSync(new URL('../../packages/shared/verdict-core'+(import.meta.url.endsWith('.ts')?'.ts':'.js'),import.meta.url)));
 /** Trusted shell only. No agent tool or API can sign; failures never rewrite the core verdict. */
 export function sealCheckEvent(db:DatabaseSync,id:string,eventId:number,data:Record<string,unknown>,time:string){
  const dir=directories.get(db);if(!dir||!data.verdictSnapshot)return false;
- try{const snapshot=loadVerdictSnapshot(data.verdictSnapshot as VerdictSnapshotRef),decision=scoreVerdict(snapshot.facts);if(decision.verdict!==data.verdict||JSON.stringify(decision)!==JSON.stringify(snapshot.decision))throw Error('Stored facts do not reproduce the check');
+ try{const snapshot=loadVerdictSnapshot(data.verdictSnapshot as VerdictSnapshotRef),core=currentCore();if(snapshot.coreVersion!==core.version||snapshot.coreSourceHash!==core.sourceHash)throw Error('unknown core');const decision=core.scoreVerdict(snapshot.facts);if(decision.verdict!==data.verdict||JSON.stringify(decision)!==JSON.stringify(snapshot.decision))throw Error('Stored facts do not reproduce the check');
  const ticket=db.prepare('SELECT * FROM tickets WHERE id=?').get(id)!;const frozen=db.prepare("SELECT data_json FROM ticket_events WHERE ticket_id=? AND kind='candidate_frozen' AND sequence<? ORDER BY sequence DESC LIMIT 1").get(id,eventId);const candidate=frozen?JSON.parse(String(frozen.data_json)).candidate:null;
  if(candidate&&candidate.commit!==data.candidate)throw Error('Frozen change does not match this check');
  const chain=db.prepare('SELECT event_hash FROM event_chain WHERE sequence=?').get(eventId);if(!chain)throw Error('Event is not in the hash chain');
@@ -28,8 +27,9 @@ export function verifyTicketSeal(db:DatabaseSync,dir:string,id:string):SealStatu
  const data=JSON.parse(String(event.data_json)),p=verifyWithKeyHistory(JSON.parse(String(row.dsse_json)),verificationHistory(dir),{ticketId:id,eventId:sequence});
  if(row.ticket_id!==id||p.verdict!==data.verdict||p.time!==event.created_at||p.baseCommit!==db.prepare('SELECT base_commit FROM tickets WHERE id=?').get(id)?.base_commit||p.candidateCommit!==String(data.candidate??p.baseCommit))throw Error('Event '+sequence+' binding changed');
  const ref=data.verdictSnapshot as VerdictSnapshotRef;if(ref.hash!==p.snapshotHash)throw Error('Stored snapshot reference changed');const snapshot=loadVerdictSnapshot({...ref,path:join(dir,'verdict-facts',ref.hash+'.json')});
- if(sha256(JSON.stringify(snapshot.facts))!==p.factsHash)throw Error('Stored facts hash changed');const decision=scoreVerdict(snapshot.facts);
- if(snapshot.coreVersion!==p.coreVersion||p.coreVersion!==CORE_VERSION||snapshot.coreSourceHash!==p.coreSourceHash||p.coreSourceHash!==coreHash())throw Error('Core version or source changed');
+ if(sha256(JSON.stringify(snapshot.facts))!==p.factsHash)throw Error('Stored facts hash changed');
+ if(snapshot.coreVersion!==p.coreVersion||snapshot.coreSourceHash!==p.coreSourceHash)throw Error('unknown core');
+ const decision=resolveCore(p.coreVersion,p.coreSourceHash).scoreVerdict(snapshot.facts);
  if(decision.verdict!==p.verdict||sha256(JSON.stringify(decision.trace))!==p.traceHash||JSON.stringify(snapshot.decision)!==JSON.stringify(decision)||data.coreTrace&&sha256(JSON.stringify(data.coreTrace))!==p.traceHash)throw Error('Stored facts no longer replay the same');
  if(p.eventHash!==db.prepare('SELECT event_hash FROM event_chain WHERE sequence=?').get(sequence)?.event_hash)throw Error('Signed event hash changed');
  if(sha256(readFileSync(join(dir,'sealed-diffs',p.candidateDiffHash+'.patch')))!==p.candidateDiffHash)throw Error('Sealed diff changed');
@@ -37,7 +37,7 @@ export function verifyTicketSeal(db:DatabaseSync,dir:string,id:string):SealStatu
  }
  if(Number(last.sequence)<=chain.legacySequence)return {state:'OLDER',label:'Not sealed (older than SIGN-1)',replays:false,eventId:Number(last.sequence)};
  return {state:sealed?'SEALED':'UNSEALED',label:sealed?'Sealed':'Not sealed',replays:sealed,eventId:Number(last.sequence)};
- }catch(error){return {state:'BROKEN',label:'Seal broken',reason:(error as Error).message,replays:false,eventId:last?Number(last.sequence):null};}
+ }catch(error){return {state:'BROKEN',label:(error as Error).message==='unknown core'?'Seal broken: unknown core':'Seal broken',reason:(error as Error).message==='unknown core'?'The recorded version or source hash is unrecognized, or its registered source changed.':(error as Error).message,replays:false,eventId:last?Number(last.sequence):null};}
 }
 
 function verificationHistory(dir:string):VerificationKeys{
