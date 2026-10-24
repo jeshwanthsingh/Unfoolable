@@ -13,7 +13,7 @@
     {
       "version": "verdict-core-v2",
       "source": "packages/shared/verdict-core.ts",
-      "sha256": "6543999c2095e864f3593b63eb654cdb154bb48e04c1174c8e725142be4dd921",
+      "sha256": "109f2081e6954fe2b0145962cb629c043ceb5246a1020be0ffc4976694489911",
       "becameCurrent": "2026-10-23",
       "description": "CORE-2 command mismatch ERROR, explicit paths and writer limits, corrected ERROR trace, eligibleForReview naming."
     }

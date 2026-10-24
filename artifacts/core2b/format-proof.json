@@ -1,0 +1,10 @@
+{
+  "formatter": "Prettier 3.6.2",
+  "license": "MIT",
+  "printWidth": 100,
+  "tokensIdentical": true,
+  "beforeLines": 606,
+  "afterLines": 597,
+  "v1Untouched": true,
+  "note": "Thirteen targeted prettier-ignore comments preserve optional punctuation. All non-trivia token text and kinds are identical; all other nodes use width 100."
+}

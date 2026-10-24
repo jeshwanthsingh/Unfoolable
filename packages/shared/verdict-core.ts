@@ -1,6 +1,8 @@
 export const CORE_VERSION = "verdict-core-v2";
+// Formatter ignores below preserve punctuation; this step changes whitespace only.
 /** Deterministic policy only. Authorities and observations belong to the shell. */
 export type CheckStatus = "PASS" | "FAIL" | "ERROR" | "NOT CHECKED";
+// prettier-ignore
 export type Verdict =
   | "VERIFIED"
   | "PASSED WITH GAPS"
@@ -135,8 +137,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
     return {
       facts,
       verdict,
-      eligibleForReview:
-        verdict === "VERIFIED" || verdict === "PASSED WITH GAPS",
+      eligibleForReview: verdict === "VERIFIED" || verdict === "PASSED WITH GAPS",
       reasons,
       trace,
       ...extra,
@@ -161,14 +162,17 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
         facts.reproduction.candidateReportHash,
       ].every((h) => /^[a-f0-9]{64}$/.test(h))
     )
+      // prettier-ignore
       return finish("NOT CHECKED", [
         "Reproduction artifact binding is missing.",
       ]);
     if (!facts.reproduction.baseMatched)
+      // prettier-ignore
       return finish("NOT CHECKED", [
         "Could not reproduce the reported failure on BASE.",
       ]);
     if (facts.reproduction.error)
+      // prettier-ignore
       return finish("ERROR", [
         "The reproduction runner failed; this is not a passing fix.",
       ]);
@@ -181,8 +185,8 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
     );
     if (!facts.reproduction.candidatePassed)
       return finish("FAILED", ["The locked reproduction still fails."]);
-    if (facts.guard.verdict === "NOT CHECKED")
-      return finish("NOT CHECKED", facts.guard.gaps);
+    if (facts.guard.verdict === "NOT CHECKED") return finish("NOT CHECKED", facts.guard.gaps);
+    // prettier-ignore
     return finish(
       facts.guard.gaps.length ? "PASSED WITH GAPS" : "VERIFIED",
       facts.guard.gaps,
@@ -192,9 +196,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   if (facts.path === "budget") {
     const reason =
       facts.commands > facts.limits.maxCommands
-        ? "Stopped because this ticket exceeded " +
-          facts.limits.maxCommands +
-          " Builder commands."
+        ? "Stopped because this ticket exceeded " + facts.limits.maxCommands + " Builder commands."
         : facts.reportedCodexTokens !== null &&
             facts.reportedCodexTokens > facts.limits.maxCodexTokens
           ? "Stopped because Builder reported more than " +
@@ -249,13 +251,9 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
       scored.verdict === "VERIFIED" || scored.verdict === "PASSED WITH GAPS",
       "Native check: " +
         scored.verdict +
-        (facts.gaps.length
-          ? ", because " + facts.gaps.map((g) => g.reason).join("; ")
-          : ".") +
+        (facts.gaps.length ? ", because " + facts.gaps.map((g) => g.reason).join("; ") : ".") +
         (facts.supplied
-          ? " Supplied by protected verifier " +
-            facts.supplied.provenance.verificationId +
-            "."
+          ? " Supplied by protected verifier " + facts.supplied.provenance.verificationId + "."
           : " Replayed from retained layers."),
     );
     return finish(
@@ -270,9 +268,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
       facts.baseStatus === "ASSERTION_FAIL" &&
       facts.candidates.length === 2 &&
       facts.candidates.every(
-        (c) =>
-          c.status === "PASS" &&
-          identities(c.ids) === identities(facts.baseIds),
+        (c) => c.status === "PASS" && identities(c.ids) === identities(facts.baseIds),
       );
     note(
       "writer-admission",
@@ -308,6 +304,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
       .map((r) => r.id + ": BASE " + r.status + " (not a passing check)");
     const failures: string[] = [];
     for (let index = 0; index < facts.base.length; index++) {
+      // prettier-ignore
       for (const row of facts.base[index]!.tests.filter(
         (r) => r.status === "PASS",
       )) {
@@ -327,6 +324,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
     for (let index = 0; index < facts.candidate.length; index++) {
       const baseRows = facts.base[index]!.tests;
       for (const row of facts.candidate[index]!.tests) {
+        // prettier-ignore
         if (
           row.status === "FAIL" &&
           !baseRows.some((b) => b.id === row.id && b.status === "FAIL")
@@ -338,8 +336,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
               row.id +
               ": unexpected Candidate failure",
           );
-        if (row.status === "SKIPPED")
-          gaps.push(row.id + ": Candidate SKIPPED (never passing)");
+        if (row.status === "SKIPPED") gaps.push(row.id + ": Candidate SKIPPED (never passing)");
         if (!baseRows.some((b) => b.id === row.id))
           gaps.push(row.id + ": Candidate-only result, not admitted on BASE");
       }
@@ -354,6 +351,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
         ? failures.join("; ")
         : "Every passing original test retained its passing identity.",
     );
+    // prettier-ignore
     return {
       ...finish(
         executionError
@@ -392,8 +390,8 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
     const required = facts.claims.filter((c) => c.requirement === "REQUIRED");
     const status = !required.length
       ? "NOT CHECKED"
-      : ((["STALE", "CANCELLED", "ERROR", "FAIL", "NOT CHECKED"] as const).find(
-          (s) => required.some((c) => c.status === s),
+      : ((["STALE", "CANCELLED", "ERROR", "FAIL", "NOT CHECKED"] as const).find((s) =>
+          required.some((c) => c.status === s),
         ) ?? "PASS");
     note(
       "required-claims",
@@ -408,9 +406,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
           : status === "ERROR"
             ? "ERROR"
             : "NOT CHECKED",
-      required
-        .filter((c) => c.status !== "PASS" && c.reason)
-        .map((c) => c.reason!),
+      required.filter((c) => c.status !== "PASS" && c.reason).map((c) => c.reason!),
       { status },
     );
   }
@@ -436,8 +432,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
       "Native check: " +
         facts.native.verdict +
         (facts.native.gaps.length || facts.native.failures.length
-          ? ", because " +
-            [...facts.native.gaps, ...facts.native.failures].join("; ")
+          ? ", because " + [...facts.native.gaps, ...facts.native.failures].join("; ")
           : "."),
     );
     note(
@@ -466,6 +461,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   // Approved project checks catch regressions but do not prove the new request alone.
   if (facts.path === "playbook") {
     // Project commands prove regressions, not the new request itself.
+    // prettier-ignore
     const failures = [
       ...facts.failures,
       ...(facts.qualityGates ?? [])
@@ -476,10 +472,8 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
           ),
         ),
     ];
-    if (
-      facts.tamperStatus === "ERROR" ||
-      facts.qualityGates?.some((g) => g.status === "ERROR")
-    )
+    if (facts.tamperStatus === "ERROR" || facts.qualityGates?.some((g) => g.status === "ERROR"))
+      // prettier-ignore
       return {
         ...finish("ERROR", [
           "Quality gate or test-tampering runner failed after BASE admission.",
@@ -490,10 +484,9 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
     note(
       "project-checks",
       failures.length === 0,
-      failures.length
-        ? failures.join("; ")
-        : "The admitted project checks found no new failure.",
+      failures.length ? failures.join("; ") : "The admitted project checks found no new failure.",
     );
+    // prettier-ignore
     note(
       "new-behavior",
       false,
@@ -504,6 +497,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   // Native verification requires all layers and preserves the frozen error and recipe rules.
   if (facts.path === "native") {
     const { layers } = facts;
+    // prettier-ignore
     const complete =
       [1, 2, 3].every(
         (layer) => layers.filter((l) => l.layer === layer).length === 1,
@@ -523,9 +517,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
           l.checks.every(
             (c) =>
               c.status === "PASS" ||
-              (l.layer === 2 &&
-                c.status === "NOT CHECKED" &&
-                c.baseStatus === "FAIL"),
+              (l.layer === 2 && c.status === "NOT CHECKED" && c.baseStatus === "FAIL"),
           ),
       );
     const reasons = [
@@ -568,9 +560,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
           l.gaps.length > 0 ||
           l.status === "NOT CHECKED" ||
           l.checks.some(
-            (c) =>
-              c.status === "NOT CHECKED" &&
-              !(l.layer === 2 && c.baseStatus === "FAIL"),
+            (c) => c.status === "NOT CHECKED" && !(l.layer === 2 && c.baseStatus === "FAIL"),
           ),
       );
     note(
@@ -589,6 +579,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
 }
 
 /** Live checking and historical replay share this entry; neither may select just one required part. */
+// prettier-ignore
 export function combineResults(
   native: Outcome,
   project: Outcome,
