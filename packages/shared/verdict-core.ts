@@ -69,6 +69,11 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   return {...finish('NOT CHECKED', []), admitted};
  }
  if (facts.path === 'project-tests') {
+  // Only corresponding commands are comparable; a missing row is a runner error.
+  if (facts.base.length !== facts.candidate.length || Array.from({length: facts.base.length}, (_, index) => !facts.base[index] || !facts.candidate[index]).some(Boolean)) {
+   const reason = "Candidate ran a different set of commands than BASE; results can't be compared.";
+   return {...finish('ERROR', [reason]), gaps: [], failures: [], executionError: true};
+  }
   const baseline = facts.base.flatMap(r => r.tests);
   const gaps = baseline.filter(r => r.status !== 'PASS').map(r => r.id + ': BASE ' + r.status + ' (not a passing check)');
   const failures: string[] = [];
