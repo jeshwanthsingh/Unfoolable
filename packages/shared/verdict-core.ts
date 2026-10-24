@@ -117,7 +117,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   const verdict = caution[facts.native.verdict] <= caution[facts.project.verdict] ? facts.native.verdict : facts.project.verdict;
   note('native-result', facts.native.verdict === 'VERIFIED', 'Native check: ' + facts.native.verdict + (facts.native.gaps.length || facts.native.failures.length ? ', because ' + [...facts.native.gaps, ...facts.native.failures].join('; ') : '.'));
   note('project-result', facts.project.verdict === 'VERIFIED', 'Project checks: ' + facts.project.verdict + (facts.project.gaps.length || facts.project.failures.length ? ' (gaps or failures: ' + [...facts.project.gaps, ...facts.project.failures].join('; ') + ').' : '.'));
-  note('combined-checks', verdict !== 'FAILED' && verdict !== 'NOT CHECKED', 'Combined by caution order: ' + verdict + ' wins.');
+  note('combined-checks', verdict === 'VERIFIED' || verdict === 'PASSED WITH GAPS', 'Combined by caution order: ' + verdict + ' wins.');
   return finish(verdict, [...facts.native.gaps.map(g => 'Existing verifier: ' + g), ...facts.project.gaps, ...facts.native.failures, ...facts.project.failures]);
  }
  if (facts.path === 'playbook') {
