@@ -1,0 +1,24 @@
+{
+  "elapsedSeconds": 286.30332020900096,
+  "mode": "full restore and every-file hash verification",
+  "complete": true,
+  "archiveCreatedAt": "2026-10-24T18:35:06Z",
+  "archiveBytes": 541214047,
+  "result": {
+    "chainHead": {
+      "sequence": 1564,
+      "hash": "b6094624e2894e3cb948d0bf7740b171866e5a0a5784ca6b11f39cd0981bf7bb"
+    },
+    "restoredFiles": 214391,
+    "databaseTables": 58,
+    "passkeys": 1,
+    "ticketEvents": 1564,
+    "allTableDigestsMatch": true,
+    "allFileDigestsMatch": true,
+    "integrityCheck": "ok",
+    "foreignKeyErrors": 0
+  },
+  "environment": "Canonical checkout, restored copy only; live database was never replaced.",
+  "cleanupCertified": true,
+  "measurement": "Existing completed real checkpoint: restore plus all hashes and database checks; excludes creation/compression of a fresh snapshot."
+}

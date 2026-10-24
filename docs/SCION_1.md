@@ -24,3 +24,21 @@ Add optional fields to the existing full playbook definition, for example:
 ```
 
 These are fields, not a replacement for the required test/setup definition. Path globs are case-sensitive. Use the existing `cc playbook edit <repo> --file definition.json` and approval flow; editing and approving require the owner's exact-item passkey confirmation. No existing live playbook was edited or approved in this round.
+
+## SCION-1b restore budget
+
+A restore-only measurement on the canonical checkout used its completed real
+checkpoint from 2026-10-24 18:35 UTC: 541,214,047 compressed bytes, 214,391 files,
+58 database tables, one passkey and 1,564 ticket events. Full extraction, every
+file/link hash, table digests, chain head, SQLite integrity and foreign keys took
+286.303 seconds (4m46s). It ran in a new ignored output directory, never over the
+live database. This excludes creating/compressing a fresh snapshot.
+
+Weekly maintenance still requires a **fresh completed snapshot**, then a full
+restore and every-file verification. It now has **25 minutes for that step**,
+including snapshot creation, rather than five. This is about five times the
+measured restore-only duration, allowing compression and disk contention. It is
+still idle/AC-only, interrupted by new work, battery power, STOP ALL or deadline;
+an interrupted/incomplete run never becomes a pass. A skipped snapshot is not
+replaced by an older one. The status explicitly identifies a completed full
+restore, its date and duration; missing historical metadata is not called full.
