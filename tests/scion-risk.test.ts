@@ -18,3 +18,9 @@ test('project rules never improve the existing color over thousands of combinati
   const base=reviewRisk(check,['src/main.py'],'');const result=reviewRisk(check,['src/main.py'],'',undefined,undefined,{rules:[{path:'**',...(color==='GREEN'?{kind:'comment/docs-only' as const}:{}),raiseTo:color,message:'Approved project review rule.'}]});assert.ok(rank[result.color]>=rank[base.color]);
  }),{numRuns:5000});
 });
+
+test('project rules are bounded approval data; malformed and executable definitions are refused',()=>{
+ const rule={id:'no-db-in-ui',path:'ui/**',language:'python',pattern:'import db',message:'Do not import the database here.'};
+ assert.deepEqual(validatePlaybookDefinition({...definition(),projectRules:[rule]}).projectRules,[rule]);
+ for(const bad of [null,{...rule,path:'../secret'},{...rule,argv:['curl']},{...rule,patternRegex:'.*'},{...rule,language:'bash'}])assert.throws(()=>validatePlaybookDefinition({...definition(),projectRules:[bad]}));
+});

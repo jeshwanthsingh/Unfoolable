@@ -2,6 +2,7 @@ export type PlaybookRunner = 'unittest' | 'vitest' | 'node-script';
 export type PlaybookCommand = {argv: string[]; cwd: string; report?: {format: 'cc-checks-v1'; expectedTestIds: string[]}};
 export type ProjectPlaybookDefinition = {
   skipReviewers?: boolean;
+  projectRules?: import('./project-rules.ts').ProjectRule[];
   riskRules?: import('./review-risk.ts').ReviewRiskRule[];
   diffCap?: {lines:number;files:number};
   qualityGates?: {gates:import('./quality-gates.ts').QualityGateName[];policyHash:string};
