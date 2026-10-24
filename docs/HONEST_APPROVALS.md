@@ -11,4 +11,7 @@ Review colors:
 
 The default cap is 400 added/deleted lines or 15 files. A playbook can override it with `diffCap: {lines, files}`; this changes its hash and requires passkey approval again.
 
-AMBER and RED Keep require opening every changed file. Protected, timestamped view records bind the exact Candidate, checks, playbook and risk policy; rechecking invalidates earlier views. Opening is evidence of access, not proof of reading or understanding. The server enforces the rule even if a client bypasses disabled buttons. GREEN Keep and Discard retain their existing one-confirmation flow. Every decision still requires a fresh exact-item passkey confirmation.
+Keep requires opening every changed file for ALL risk colors, including GREEN. Protected, timestamped view records bind the exact Candidate, checks, playbook and risk policy; rechecking invalidates earlier views. Opening is evidence of access, not proof of reading or understanding. The server enforces the rule even if a client bypasses disabled buttons. Discard does not require opening changes. After the view requirement is met, Keep retains its exact-item passkey confirmation. Every decision still requires a fresh exact-item passkey confirmation.
+
+
+CORE-2b records this safer rule in its own optional commit. It changes review eligibility only; verdicts, risk colors, sealing and passkey checks are unchanged. Opening some files is insufficient, a stale view cannot count, and a fresh check invalidates previous views.

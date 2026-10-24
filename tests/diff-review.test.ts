@@ -15,3 +15,26 @@ test('amber Keep requires every file on exact current evidence; recheck invalida
  assert.equal((await service.decide(t.id,'discard')).status,'discarded');
  }finally{await service.close();f.db.close();}
 });
+
+for(const color of ['GREEN','AMBER','RED'] as const)test(color+' requires every changed file before Keep, with exact current binding',async()=>{
+ const f=fixture();
+ const qualityGates={version:'quality-gates-v1' as const,base:'base',candidate:'candidate',durationMs:1,gates:[{gate:'ruff' as const,status:'PASS' as const,findings:[],baselineCount:0,durationMs:1}]};
+ const testTampering={status:color==='RED'?'FLAGGED' as const:'CLEAR' as const,flags:color==='RED'?[{path:'file',line:1,reason:'Review flag'}]:[],durationMs:1};
+ const service=createTicketService(f.db.connection,{port:0,dataDir:f.data,webRoot:f.root,development:false,projectRoots:[f.root]},{} as any,{
+  driver:{run:async(c:any)=>{writeFileSync(join(c.workspace,'file'),'Candidate');writeFileSync(join(c.workspace,'second'),'Two');return {summary:'done',checks:[],cleanup};},reconcile:async()=>cleanup} as any,
+  check:async()=>({verdict:'VERIFIED',gaps:[],failures:[],evidenceHash:'current',testTampering,...(color==='AMBER'?{}:{qualityGates})})
+ });
+ try{
+  const t=await service.create({requestText:'Change two source files',repoPath:f.repo});await service.idle();let view=service.show(t.id);
+  assert.equal(view.risk.color,color);assert.equal(view.diffReviewRequired,true);assert.equal(view.keepAvailable,false);
+  const commit=view.ticket.candidateCommits.at(-1)!;
+  await assert.rejects(service.decide(t.id,'keep',commit),{code:'DIFF_REVIEW_REQUIRED'});
+  for(const [index,path] of view.reviewPaths.entries()){
+   await service.viewDiff(t.id,{candidateCommit:commit,reviewBinding:view.reviewBinding,path});
+   assert.equal(service.show(t.id).keepAvailable,index===view.reviewPaths.length-1);
+  }
+  view=service.show(t.id);assert.equal(view.diffReviewRequired,false);assert.equal(view.keepAvailable,true);
+  await assert.rejects(service.viewDiff(t.id,{candidateCommit:commit,reviewBinding:'stale',path:view.reviewPaths[0]!}),{code:'STALE_DIFF'});
+  assert.equal((await service.decide(t.id,'discard')).status,'discarded');
+ }finally{await service.close();f.db.close();}
+});
