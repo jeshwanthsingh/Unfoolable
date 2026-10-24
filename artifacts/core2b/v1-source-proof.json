@@ -1,0 +1,7 @@
+{
+  "originalCommit": "4abc25a76c46e7f05aa5fcae12788a114b3054e1",
+  "originalPath": "packages/shared/verdict-core.ts",
+  "archivedPath": "packages/shared/cores/verdict-core-v1.ts",
+  "sha256": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+  "byteIdentical": true
+}

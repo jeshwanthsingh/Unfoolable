@@ -12,9 +12,11 @@ test('CORE-1 frozen golden hash and all historical replay verdicts remain unchan
  for(const row of golden.replay){const result=scoreVerdict(row.facts);assert.deepEqual({verdict:result.verdict,eligibleForReview:result.eligibleForReview},{verdict:row.expected.verdict,eligibleForReview:row.expected.canLand},row.id);}
 });
 test('CORE-1 core has no runtime imports, ambient authorities or dynamic evaluation',()=>{
- const source=readFileSync(new URL('../packages/shared/verdict-core.ts',import.meta.url),'utf8');
+ for(const path of ['../packages/shared/verdict-core.ts','../packages/shared/cores/verdict-core-v1.ts']){
+ const source=readFileSync(new URL(path,import.meta.url),'utf8');
  assert.doesNotMatch(source,/\b(?:import|require|process|globalThis|fetch|Date|performance|eval|Function)\s*(?:\(|\.|\{|["'])/);
  assert.doesNotMatch(source,/Math\.random|setTimeout|setInterval|node:|from\s+["']/);
+ }
 });
 
 function lintCore(source:string){
@@ -26,7 +28,7 @@ function lintCore(source:string){
  }
 }
 test('CORE-1 pinned TypeScript authority lint rejects imports and ambient side effects',()=>{
- lintCore(readFileSync(new URL('../packages/shared/verdict-core.ts',import.meta.url),'utf8'));
+ for(const path of ['../packages/shared/verdict-core.ts','../packages/shared/cores/verdict-core-v1.ts'])lintCore(readFileSync(new URL(path,import.meta.url),'utf8'));
  for(const source of ["import 'node:fs';","import type {X} from 'x';","require('fs')","Date.now()","new Date()","Math.random()","process.pid","fetch('/')","fs.readFileSync('x')","setTimeout(()=>{},1)","setInterval(()=>{},1)","globalThis.Date.now()","const clock=Da\\u0074e;"]){assert.throws(()=>lintCore(source),source);}
  lintCore('const message="Date process import"; // import Date\n');
 });
@@ -34,4 +36,11 @@ test('CORE-1 pinned TypeScript authority lint rejects imports and ambient side e
 test('legacy protected aggregate is an explicit provenance-bound fact even with empty layers',()=>{
  const facts={path:'native-ticket' as const,layers:[],gaps:[],supplied:{verdict:'PASSED WITH GAPS' as const,provenance:{source:'protected-verifier' as const,verificationId:'fixture',evidenceHash:'fixture'}}};
  const decision=scoreVerdict(facts);assert.equal(decision.verdict,'PASSED WITH GAPS');assert.deepEqual(decision.facts,facts);assert.match(decision.trace[0]!.explanation,/protected verifier fixture/);
+});
+
+test('released v1 source is byte-identical to main 4abc25a and both registry hashes are exact',()=>{
+ const versions=JSON.parse(readFileSync(new URL('../docs/CORE_VERSIONS.json',import.meta.url),'utf8'));
+ assert.equal(versions.current,'verdict-core-v2');
+ for(const core of versions.versions){const bytes=readFileSync(new URL('../'+core.source,import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),core.sha256);}
+ assert.equal(versions.versions.find((c:{version:string})=>c.version==='verdict-core-v1').sha256,'9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33');
 });

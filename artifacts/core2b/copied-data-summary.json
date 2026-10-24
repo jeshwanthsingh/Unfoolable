@@ -1,0 +1,7 @@
+{
+  "tickets": 12,
+  "attestations": 4,
+  "recordedCores": {
+    "verdict-core-v1:9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33": 4
+  }
+}

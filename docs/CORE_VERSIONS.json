@@ -1,0 +1,21 @@
+{
+  "format": 1,
+  "current": "verdict-core-v2",
+  "versions": [
+    {
+      "version": "verdict-core-v1",
+      "source": "packages/shared/cores/verdict-core-v1.ts",
+      "sha256": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+      "becameCurrent": "2026-10-20",
+      "description": "Legacy released policy, preserved byte-for-byte from main 4abc25a; old decisions and traces retain their original shape.",
+      "originalCommit": "4abc25a76c46e7f05aa5fcae12788a114b3054e1"
+    },
+    {
+      "version": "verdict-core-v2",
+      "source": "packages/shared/verdict-core.ts",
+      "sha256": "6543999c2095e864f3593b63eb654cdb154bb48e04c1174c8e725142be4dd921",
+      "becameCurrent": "2026-10-23",
+      "description": "CORE-2 command mismatch ERROR, explicit paths and writer limits, corrected ERROR trace, eligibleForReview naming."
+    }
+  ]
+}

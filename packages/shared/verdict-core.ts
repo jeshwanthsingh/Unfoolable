@@ -1,4 +1,4 @@
-export const CORE_VERSION = "verdict-core-v1";
+export const CORE_VERSION = "verdict-core-v2";
 /** Deterministic policy only. Authorities and observations belong to the shell. */
 export type CheckStatus = "PASS" | "FAIL" | "ERROR" | "NOT CHECKED";
 export type Verdict =
