@@ -1,11 +1,12 @@
 import {createHash,randomUUID} from 'node:crypto';
-import {mkdirSync,writeFileSync,realpathSync} from 'node:fs';
+import {mkdirSync,writeFileSync,realpathSync,existsSync} from 'node:fs';
 import {resolve,join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {safeBuildGit} from './build-workspace.ts';
 import {oracleSandbox,processRun} from './oracle-execution.ts';
 import {isChangeClassification,type ChangeClassification,type ClassifiedHunk} from '../../packages/shared/change-classification.ts';
-const root=fileURLToPath(new URL('../../',import.meta.url));
+const sourceRoot=fileURLToPath(new URL('../../',import.meta.url));
+const root=existsSync(join(sourceRoot,'scripts/protected-verification/classify-changes.py'))?sourceRoot:process.cwd();
 const hash=(s:string)=>createHash('sha256').update(s).digest('hex');
 export async function classifyChange(repo:string,baseCommit:string,candidateCommit:string,output:string,signal:AbortSignal):Promise<ChangeClassification>{
  if(![baseCommit,candidateCommit].every(c=>/^[a-f0-9]{40,64}$/.test(c)))throw Error('Classification requires frozen commit identities');
