@@ -1,0 +1,17 @@
+{
+  "paths": 74,
+  "readable": 0,
+  "ownedChecks": {
+    "git_status": true,
+    "git_diff": true,
+    "git_log": true,
+    "sqlite_temp": true,
+    "own_write": true
+  },
+  "endpoints": 8,
+  "reachable": 0,
+  "signerHelpersDenied": 2,
+  "modelAndKernelAgree": true,
+  "rawEvidence": "Retained privately in ignored .work/core2/probe/",
+  "sourceScope": "Builder profile unchanged; equivalent verifier dependency-path cleanup separately exercised through real browser observer test."
+}

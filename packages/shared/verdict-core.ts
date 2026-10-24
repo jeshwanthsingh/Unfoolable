@@ -135,7 +135,8 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
     return {
       facts,
       verdict,
-      eligibleForReview: verdict === "VERIFIED" || verdict === "PASSED WITH GAPS",
+      eligibleForReview:
+        verdict === "VERIFIED" || verdict === "PASSED WITH GAPS",
       reasons,
       trace,
       ...extra,

@@ -1,0 +1,55 @@
+{
+  "completed": true,
+  "results": [
+    {
+      "label": "observation-pipe-forgery-review-on",
+      "status": "INCONCLUSIVE"
+    },
+    {
+      "label": "R1-review-off",
+      "status": "FAIL"
+    },
+    {
+      "label": "native-judge-skipped",
+      "status": "INCONCLUSIVE"
+    },
+    {
+      "label": "native-judge-zero-collected",
+      "status": "INCONCLUSIVE"
+    },
+    {
+      "label": "skipped-existing-test-restored",
+      "status": "FAIL"
+    },
+    {
+      "label": "deleted-existing-test-restored",
+      "status": "FAIL"
+    },
+    {
+      "label": "edited-existing-test-restored",
+      "status": "FAIL"
+    },
+    {
+      "label": "early-exit-0",
+      "status": "INCONCLUSIVE"
+    },
+    {
+      "label": "symlink-escape",
+      "status": "INCONCLUSIVE"
+    },
+    {
+      "label": "dependency-change",
+      "status": "INCONCLUSIVE"
+    },
+    {
+      "label": "oversized-output",
+      "status": "FAIL"
+    },
+    {
+      "label": "timeout",
+      "status": "INCONCLUSIVE"
+    }
+  ],
+  "negativePasses": 0,
+  "coreUnchanged": true
+}

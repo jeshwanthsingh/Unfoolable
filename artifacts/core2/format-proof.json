@@ -1,0 +1,11 @@
+{
+  "formatter": "Prettier 3.6.2",
+  "license": "MIT",
+  "configuration": "No repository Prettier configuration exists; cached formatter defaults used on core only.",
+  "tokensUnchanged": true,
+  "fullSuiteCoreHash": "ebba26bb1123881991e70c97eebb46208bbbcf3fa6a2c8cd71456b4fdd40bb4a",
+  "finalCoreHash": "e7f4b5d33e4813d1275351c91162cfe4ee52b9ed59e8088d7bfaad9ba626c5fd",
+  "beforeLines": 148,
+  "afterLines": 606,
+  "note": "After the green full suite, only one formatting line wrap changed; core, authority, golden and sealing tests rerun afterwards."
+}

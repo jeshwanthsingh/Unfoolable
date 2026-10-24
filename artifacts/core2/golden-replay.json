@@ -1,0 +1,9 @@
+{
+  "baseline": "4abc25a76c46e7f05aa5fcae12788a114b3054e1",
+  "compared": 61,
+  "differences": [],
+  "traceCorrections": [],
+  "hashesPreserved": true,
+  "originalCoreHash": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+  "note": "All decision fields and reasons compared; eligibility rename normalized, combined ERROR trace flag corrected as requested. Original golden files untouched. New unequal-command ERROR and unknown-path behavior have separate regressions."
+}
