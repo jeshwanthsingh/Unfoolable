@@ -31,6 +31,7 @@ try {
    const facts=pass.locator('.obs2-room-facts button');assert.equal(await facts.count(),4);
    for(const fact of await facts.all()){
     assert.equal(await fact.evaluate(el=>getComputedStyle(el).borderTopWidth),'0px','Facts must be borderless plain rows');
+    assert.ok((await fact.boundingBox()).height>=44,'Plain fact rows retain a 44px touch target');
     const icon=fact.locator('svg');assert.equal(await icon.count(),1);
     assert.ok((await icon.boundingBox()).width<=24,'Fact icon must stay small');
    }

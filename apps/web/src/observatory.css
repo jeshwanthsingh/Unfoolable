@@ -29,7 +29,7 @@ dialog.unfool-proof{top:calc(var(--uf-header-bottom,100px) + 12px);bottom:16px;h
 .unfool-task[data-proof-selected=true] .unfool-task-body>*{display:none}
 .unfool-task[data-proof-selected=true] .unfool-task-body>h2,.unfool-task[data-proof-selected=true] .unfool-card-state,.unfool-task[data-proof-selected=true] .unfool-live{display:block}
 .unfool-task[data-proof-selected=true] .unfool-live>*:not(.unfool-status){display:none}
-.observatory-pass .obs2-room-facts button{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:1.5}
+.observatory-pass .obs2-room-facts button{display:flex;align-items:flex-start;gap:10px;min-height:44px;padding:9px 0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:1.5}
 .observatory-fact-icon{width:18px;height:18px;flex:0 0 18px;margin-top:2px;fill:none;stroke:var(--uf-muted);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .observatory-fact-icon[data-checked=true]{stroke:var(--uf-green)}
 .observatory-probe-hash{overflow-wrap:anywhere}

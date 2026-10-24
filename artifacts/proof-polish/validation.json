@@ -1,0 +1,93 @@
+{
+  "baseline": "f257041",
+  "suite": {
+    "tests": 1303,
+    "pass": 1303,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "suiteLogSHA256": "54dfe67e0138b6250800bf6c4f02f0948277bd37cb1d743dae8cac5e08ce5d64",
+  "build": "PASS, includes typecheck",
+  "browser": [
+    {
+      "width": 1440,
+      "theme": "light",
+      "reducedMotion": "reduce",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "reducedMotion": "no-preference",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "reducedMotion": "reduce",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "reducedMotion": "no-preference",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "reducedMotion": "reduce",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "reducedMotion": "no-preference",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "reducedMotion": "reduce",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "reducedMotion": "no-preference",
+      "pass": true
+    }
+  ],
+  "golden": {
+    "comparisons": 61,
+    "differences": []
+  },
+  "unchangedProtectedFiles": 233,
+  "screenshots": {
+    "tool": "official @playwright/mcp 0.0.83",
+    "sizes": [
+      "1440x900",
+      "390x844"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "zoom": 1,
+    "source": "Same labelled isolated fixture before/after, using real completed protected-check observations."
+  },
+  "cleanup": [
+    {
+      "kind": "isolated preview",
+      "pid": 88895,
+      "result": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      }
+    }
+  ]
+}

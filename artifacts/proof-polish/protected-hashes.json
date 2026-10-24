@@ -1,0 +1,1172 @@
+{
+  "baseline": "f257041",
+  "checked": 233,
+  "allUnchanged": true,
+  "files": [
+    {
+      "path": "apps/server/advisory-reviewers.ts",
+      "sha256": "ef5d7c90cb5f21323fdcbcaf4c69d453eb8c33673662d8232d68c49a9a191593",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/analysis-errors.ts",
+      "sha256": "2ea85a6149917d111067df53dd7dca0af2a500de062dd4dd6e0a0900aee5dc18",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/analysis-packet.ts",
+      "sha256": "b24bf222c0cc7efac920e7ac0d49efa5acb06a7f5eaa05c68c8d33a361525d9e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/analysis-phase.ts",
+      "sha256": "4a5ff8b4fc03a7727899957d7acc8b3b4583407983187b7fae395c1f05ba5df6",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/analysis-store.ts",
+      "sha256": "e4d4d13e10dfd6c748f608dd6b375835ca45a8f1e887341967d77e876b27a2b1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/analysis-validation.ts",
+      "sha256": "7d6fd6fbc5cd66d9c809c27dc62d50e95e80a4b055a3d6532217d92a48a0896e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/application.ts",
+      "sha256": "56c19de1f4eb05969d5f7d7e292e76b2d4f31e998fe7d4f2e02aaf99324062bd",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/attestation-format.ts",
+      "sha256": "0959f41d96d54c5843d81d8aa226e99b69437af53c745b6ff61593da3a1f8df0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/bug-log.ts",
+      "sha256": "5a89dcc2a52b02f83f31e22eb6f56875c29ece5e7da0f3a55b1fa5ade0d742e8",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/bug-reproduction.ts",
+      "sha256": "e46388b83e35e13c01ac9f36558a191ea158564a7f173eb6365ecdbab6c5c0f3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-admission.ts",
+      "sha256": "381feab00f9846fe3bea4ba733c6ee00be76327e41cd3251d5376300d69d887a",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-compatibility.ts",
+      "sha256": "f18dd9df7279083c263ef0be6c3c83a368847f06ebd43ccd5f2b5b988d2681b4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-errors.ts",
+      "sha256": "e3ce269b34f1e5e9d970fac3832dcb5975fc74cbb7431c8664ce7635428740f0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-phase.ts",
+      "sha256": "807f931ad465d78d44e5fcd100ae4931e88d69fc0898d023a0c538fd7efe5650",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-processes.ts",
+      "sha256": "7c8184ad4ea0bc9a42c574793c02577bee8164893bd55accdc647357701289c5",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-protocol.ts",
+      "sha256": "9ae80176a7ec67dbeac6f885fd409afc68bcd9ea8e05acd07a7dfc271373977b",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-routes.ts",
+      "sha256": "60615fd7cbea10605ed0c0e490edffe5312bf7f4ef034036db663e7601da45c3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-runtime.ts",
+      "sha256": "ad66f43f050b1ab6fd15fc1d56e3f67f0a74762e66a05dda6ab27f7afcc57e5e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-store.ts",
+      "sha256": "9d24e0f2d5c6ac362583e8bbca4bf7f5545152d9ef97d428f6c1437270ab018a",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/build-workspace.ts",
+      "sha256": "84ac078e48d770b42c7e141e7cef2316aca40505f7cbddc38860b34622aa58d2",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/builder-filesystem.ts",
+      "sha256": "aade5164131531f57e039ba6ed5949e0365552c49217fe2f8b1a691b1aa73444",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/builder-identity.ts",
+      "sha256": "75cc27e124638b4f7d5880e0363be7e84593035f885c192f4e39de45498face1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/builder-instructions.ts",
+      "sha256": "3fe8edf16781ddaa1bcab51ccc815cad71c52297d41ba407c830c7e501dacaf9",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/builder-private-paths.ts",
+      "sha256": "2bd2c2f1a2894418d611aca8d33a69238bf1c7e512ff451afaba3c2dfe67a98d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/builder-tripwires.ts",
+      "sha256": "e83f0035f9fb7df37c4f6e20dccb6e700b2e6de7a07f403a1ae62d2d93fb4e0e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/career-safe-playbook.ts",
+      "sha256": "d02e2c722fd5ef672cf1dec88859dc633f1b8333bedeb832546b655da95fffee",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/change-classification.ts",
+      "sha256": "c81ee04f508310594709a4d4383355c6919d4c85576bb1c37e2af582125fc135",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/chat-cards.ts",
+      "sha256": "4a3260e3cbc1997f0191cd1536a7d5582bc9cc9fd838b6e4b2f92ab657e2e9a4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/chat-codex.ts",
+      "sha256": "f21e77696ce65ab6bd5ed921b7754db7b301c5f6ea67b24e2ff20bff3250e174",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/chat-events.ts",
+      "sha256": "8578fba82213455c242a6b281c39bbacfdfec5500034f2b065c546dbf5a16bae",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/chat-migration.ts",
+      "sha256": "e6c1fef82cf584b78690e0cd6bb03bb543edfa706872fee6ceddc8fa6284251b",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/chat-routes.ts",
+      "sha256": "34731264ecc44d55bae60e0e7e63596179ffacea2f877e26dc5a3a3f8b5af2c0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/chat-service.ts",
+      "sha256": "03a0b10dc6de792bb913bfee0b219a790201f7ddfe179869693fca8aa5e8ce5f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/chat-status.ts",
+      "sha256": "f7d004cfe578bca56c3fe84aed7aafe1a343441c3bd55ad61b231a95e78ee573",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/chat-store.ts",
+      "sha256": "1554a328d51112825695140fe4162501b22072d1e64471ea7f0be93e3ba75e56",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/codex-json.ts",
+      "sha256": "259a3c0f3ff60da8142851d01e3e0f603faa44ebbd5edf1c238ca102ed23cc42",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/config.ts",
+      "sha256": "4d15a86377a9bcf1285a90631fbc9e3d91b84fb9e72d62bc0a0485c84cfe3218",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/content-identity.ts",
+      "sha256": "59c8cb0119c11d5ee136f7d795749977bd2a38f6a2c3e340e007ce457c8b8043",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/context-errors.ts",
+      "sha256": "85215abcb0da477268ceb5996d33b8d58f573307da56e34579f778d838d60bd8",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/context-observation.ts",
+      "sha256": "90bff5b81fafc118d9ecd2fa3c9ffb726fcae27012c5d63c72e7f71b3ba02c77",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/context-repository.ts",
+      "sha256": "bad3847f3a17f8d3fd5a79dfc4adf8ceb55d677a2962d26513fc9b9cacc44cdc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/context-store.ts",
+      "sha256": "ba8a27fbcfb71ffeb95b6411aa64c1ef56c4bf0d37f641605dca20f9ec412f31",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/contract-drafter.ts",
+      "sha256": "c8c5bb738fb13122621ab2ab9255434872dff025408ed3187b21724d78ca592d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/contract-errors.ts",
+      "sha256": "52570b9fc845f1acf3d71b324bd80daefc862b8a7ad96f1c187be50a33e7f5a1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/contract-input.ts",
+      "sha256": "4aadec9ac409d7c3e99253123c7c06a3a75a60677759ca4aa27aa3d89d8cf6bd",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/contract-phase.ts",
+      "sha256": "cf41515e281c1f02e65380cf58cd1970f59337f03e3c2400774846a67fc2d273",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/contract-store.ts",
+      "sha256": "a6ac81d592a60b7251ac97f30097575e95faebff3d05209f555a7872e7c98adf",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/contract-validation.ts",
+      "sha256": "70a2d17b45d267b0d6edcf82d8ac88c1488706053df19425fe142678a8f161ec",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/core-registry.ts",
+      "sha256": "903ecab5e7a75a989d14d9775b12e7a8d03c8a26397a1501447d5d799f69c58d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/correction-admission.ts",
+      "sha256": "e0176fc6cd0328ac66e1368e7a98eb532d4b10db8bf60e8083c0c288d4bf7717",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/correction-workspace.ts",
+      "sha256": "ea9d975be55be67c6cffd52e20e71b2abad542fc169249d61868b5e9ad842908",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/data-mode.ts",
+      "sha256": "7fe644f10a33497aea6dfc8e85ad54545e3100cf1cbca27ed031e62cd8ffe33a",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/database-lock.ts",
+      "sha256": "ee93e3db25b017bcc7199927ed853412b5770ede66c6f46c5183a4a67adca0e7",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/database.ts",
+      "sha256": "c0cc982c60181e3324e40ff490aba5dfa8f57859594a35218727cfb119f9d709",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/debug-correction-prompt.ts",
+      "sha256": "99341d29ea15dd15fa0a931c22a833611726888762175076376809e2d2ec8556",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/debug-diagnosis.ts",
+      "sha256": "60886e168c7560c3f8bc26a58cbb56cbf7d951b7b0ced672bd8b6d67d9a5d468",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/debug-migration.ts",
+      "sha256": "9fd6ee2794288979a43459a275ef2cf8021c1612aac224907af505828c62d42e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/debug-ownership.ts",
+      "sha256": "d66b9bd779b35ad55c723c90ed15e74570849a7cafc5f280672092d03f876bb1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/debug-packet.ts",
+      "sha256": "4fff1be47a15426882efa42f0e0696b26bcafa1e4d158f757566ea3c63ec17d5",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/debug-routes.ts",
+      "sha256": "7381befc1f39380ed74aebb40c43595603bc3cdc6401b6ad61b4fc0d58c5577d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/debug-store.ts",
+      "sha256": "1ea3bff5f1aafe2cbd1cea06297bdb70835c4b2e92314a6f401929f775cb0f1a",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/desk-stream.ts",
+      "sha256": "9f84fc9c752fc5e99392caa4a5070d66dfa52d026bb8fa13fd731838c5583cf1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/diagnosis-sampling.ts",
+      "sha256": "e13d1a9d1a8b533ca598b2832ba8797cb172d707de61eb3ef2f7a6908690c5a7",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/diff-review.ts",
+      "sha256": "89c49f6fa15d2d7f7d63b40a819ef924754ecea022587c2930ff29ccdb28e740",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/draft-archive.ts",
+      "sha256": "8d531bae1d56eac7cb15556f95c4080f1d604d52d7564837c6402daee40ae05c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/effect-reconciliation.ts",
+      "sha256": "3a16cecfff321a38899fd38e7a2fd792d67dbf253f7d75fc634383ac2cc8c62e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/errors.ts",
+      "sha256": "892ced9d6c6d090071ebd32fef334836de11a36bbca117b5a4370ac35588641e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/event-chain.ts",
+      "sha256": "742e5b124a9b83fe0f7365399b224b397674fec4e369911b43587b41b1f30ad9",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/human-confirmation.ts",
+      "sha256": "85f33e94074bf7a1e1b4081a21743b598c4d5c34a83f280c4c037f682a2e5488",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/human-context.ts",
+      "sha256": "44f4c33669b5afa102530aa97cb0ab898cc16e4202a19b55edf56afc9015fe54",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/log.ts",
+      "sha256": "696421cc3020db03386185bef0f7982939ea3ac8cf0cae4846b2161c6c12f494",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/main.ts",
+      "sha256": "cee5706c71e91645c3886722c2ddcc5773f5fd7d596e482138e60c30f0ce253d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/maintenance-command.ts",
+      "sha256": "9f94b2fcb078dc5731bafe614fb1714f858828ee7f2074b78aac5eeba9eebe0f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/maintenance-idle.ts",
+      "sha256": "a2043ca2b8101ab66bf82d6c6e5a9a291339eeaef4e12ff6a4d970c69d7470eb",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/maintenance-journal.ts",
+      "sha256": "8a824915bb2f19cc6390566b3005fecf2422343dd4fd00b68fe09cc10f3f6e91",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/mission-analyzer.ts",
+      "sha256": "776a5c4046471829ba06da0bf4720953caec82a00ae24ae3bbcd2232dcc5121e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/mission-errors.ts",
+      "sha256": "afff96bccf142db2126609bcd1f65b3e5450cf131caa413a29266f60a476667e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/mission-outcomes.ts",
+      "sha256": "f85cbb1ed34943dec3c3f2c69ef9fa2679d2d854c52f99469f97d1cec93590a0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/mission-workflow.ts",
+      "sha256": "7e66d2c18ea9b9d4ea7ce76c3ecb16ea4260f9146a381d68b3c34c5979da0779",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/missions.ts",
+      "sha256": "576d2a2d6bcb1337838df7d3a0dfd962cef53152fc20e627954341f8cd13f5f4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/night-power.ts",
+      "sha256": "ad7425b83c45d81e70274e0466a083f2d9dae226e524bc53ebc4e74f27e8d4e3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/night-shift.ts",
+      "sha256": "5693223aa9ff5a830f66c677b1a31c7adb5604357a52527e1a95203917a0976c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/night-store.ts",
+      "sha256": "2a0ce2b340a725e8e2d3fd1e9ad60bbb36e7b8c9e00d0a9a184688492b6c82b9",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/oracle-author.ts",
+      "sha256": "cd0b8159b7ccee242d3d414eee2e3fef04082f70eab836074bd38495e8e66c61",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/oracle-execution.ts",
+      "sha256": "282aeead1b3a00a9a57c6c4196ef0da80409dd6d7f39a3a68ec81cbbe78dd6a4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/oracle-source.ts",
+      "sha256": "e0ea60b1eaee700ab7438960de0c19c4ab3331a1bd3cc18396acb0498695159c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/oracle-suite-policy.ts",
+      "sha256": "fb4f426922236ab94e2cfd40b1aa8d68119047a3e097a4577b2ed8dc49dc78c7",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/oracle-tree.ts",
+      "sha256": "c6912dd6a808366b11f586dfe22fdecb205cbe4f2a936189254d92c5a93904b6",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/outcome-migration.ts",
+      "sha256": "61b6362954c7a6a165bce3e0fb8a19bd93d7b3516ca584c302125c5d96d58ba9",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/passkey-bootstrap.ts",
+      "sha256": "a328f3e878f93da22c799fcdbf42c2ab4d0d6fdd5c6088ee0e75dc20f3fe0cba",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/permission-validation.ts",
+      "sha256": "0f751109cbd054d8464fee7674ecc395dd8ca8ba84e46e05894e1ad909be0060",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/phone-access.ts",
+      "sha256": "1db609beaa8c25d312af999af174dfafd66962bc95553cb3cf0d294a3804db4e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/phone-auth.ts",
+      "sha256": "145962c85e2713e9461c49f9f38af2915eac3c21ee50f46cf4e3d96aab4dfd81",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/phone-push.ts",
+      "sha256": "940ae41ee967904322ab135698742d036b5a57041ac26bc7127ecdea62e096d3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/phone-routes.ts",
+      "sha256": "74ce9bd19e37aab183d15f98b1947cd1411d856377cc1876bf06f7d19b58d545",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/planning-drafter.ts",
+      "sha256": "7bedaf3fcd4fc8f5f74c0e4c3a86245709274d8167e6aa6d914104838ae9a49f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/planning-errors.ts",
+      "sha256": "5d7368fa59b8abc660a49a79091310a25cd5871a11475512bffe71477e7cc27e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/planning-input.ts",
+      "sha256": "16cb5bc9fa8e71ac5701edac22b5557ff9ffcff135a686669ee308dfb0b48a03",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/planning-phase.ts",
+      "sha256": "b1548600ab2b78d53f6a0aa591d06d54fa0a6f6865fc6ceb05c574b70ec297d4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/planning-store.ts",
+      "sha256": "90bd65877f7756bc5622d36f090b31c1e16cb2780337dbc9437455bd14d2039e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/planning-validation.ts",
+      "sha256": "6ae8a9bd60b9ec3b9ba86ab57977b58a88e951bb4127671c0760f8f7778e61c5",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/playbook-checks.ts",
+      "sha256": "eadc8ecaedc8f4a03f21ff4fe509418030405912d7f6ced4997995360692017d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/project-body.ts",
+      "sha256": "986c3364bcc95869d254236878a3f44d15462f7810dacc8c9110e4fe4bd6a0bb",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/project-errors.ts",
+      "sha256": "4c89378009c681829d3c29b0ee5cb815f4e4f8fbb8fbbeeb43a089632e2d02b1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/project-playbooks.ts",
+      "sha256": "f45cb7633bbde0174cbc0fabd1e70cb156dc44879b206a7deb0707a564c80e85",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/project-recipes.ts",
+      "sha256": "282d5aed22c56134c2de143d05fb29444a3817796ee3ece353156d2c5f040695",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/project-rules.ts",
+      "sha256": "4495c9d5e4aa67fcc845fa07ccf04fec5a635159869317d1f6fd38d258f171ec",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/projects.ts",
+      "sha256": "b9ae29979443ba05b3eb79d4a3116a1f2e099a532e140a000ea3e9f0d72d90b5",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/protected-existing-tests.ts",
+      "sha256": "ae37234ea849709746f7fdbb6027ac31bc9e38ccdb4c8cb81f82339c797a1cc7",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/quality-gates.ts",
+      "sha256": "2afa2b56c4d778c152940f96bd5f6ec65a15d855afafc0a74206d29613e6d1a4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/repository-identity.ts",
+      "sha256": "2270dd3f02753dad8a0ef53f8d5914c678253977405fb83d5d08fdb434a54791",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/repository.ts",
+      "sha256": "11ea93a4566f02f5e531a0667447ae4f97ecc57c4d6c9381f188daad81689f5b",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/review-risk.ts",
+      "sha256": "42aa145b3050b0129d734dc828c1b86d2c2de5e68cfebafbab7228b5505cbf37",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/runtime-permissions.ts",
+      "sha256": "8438c70150ff16d6b1f694b499e782957f2420d3d9fde1d0654b3b90a8d58e07",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/self-check-runner.ts",
+      "sha256": "896dab6c1ac18162b3d695cbb976568c4f30bf396cc46860bbf7ff2ee254dc23",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/self-check.ts",
+      "sha256": "0b7ef2369d8b29f2c05536883e7ee32e2ebc61286fad72423d337c91f35bdde7",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/signing-key.ts",
+      "sha256": "e4cf4ef2d190ced46d3e1ab58b8aa1c2c1b3edc27106aca1ff40c1703487d1e6",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/skill-imports.ts",
+      "sha256": "3386598dc77576c7a708ce9c25313e736dd6b1d8aeea2c60f9090a1859e709f1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/spec-errors.ts",
+      "sha256": "20d67a6bf4ba67820f6b85d47226bcc9b935c2b00ece12c2efcc74a3f9e3e40c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/spec-routes.ts",
+      "sha256": "d2c227b37914d309a1b6ab7e3c585cf768dfaf347becb10e9455e599a66b6686",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/static.ts",
+      "sha256": "9d6c076543cb5ca62f7f05e0260cf073d1afa831f57c980609f33e102d923119",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-edit-review.ts",
+      "sha256": "e34b564a57123c6ac4adbedcd10fc28beb23f0c5c9e4cf55fd9757f64bf3c830",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-tampering.ts",
+      "sha256": "3d69644db71b0b40f35f3e120d44b80e0269ab042fcb8d6a8aa96fd2f05b7c14",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer-admission.ts",
+      "sha256": "d34d655cadd0ef19970c16bb3d75df61671e9caff0805df605d025d6c6621ced",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer-base-export.ts",
+      "sha256": "b5a3ca44c3eb72dc7fe1c77ea345db71f20ad1c3595a3bd2223ede5bfcf4b0ac",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer-context.ts",
+      "sha256": "842ebe6b8816388a95b476dd22742b65d219a12c81a426c8db13e261bfe8ed0d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer-coverage.ts",
+      "sha256": "eab6e82e2b73a8f245e42034926b9623fce9014422dc8eacd6497fb93ee58c0d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer-execution.ts",
+      "sha256": "975ee486167b70cad549072f3009ab0d5ebc580d7f50bd07f67b163c753e8f02",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer-mutation.ts",
+      "sha256": "78ecdc2dcc4f7663fa15ff0232284e5ab2d540e9bbf5e80884af0a4f9530a9d4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer-native.ts",
+      "sha256": "7f0cef28738bae514c92aecf03f706b434abc8577f98000207caa60f9c8d7840",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer-session.ts",
+      "sha256": "06762bd4f28e03e595d0ad865aff7f59ba106c3b9b9697c96b14b9c620f8d17e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/test-writer.ts",
+      "sha256": "48a108edaf72290c0b70d4f9b0f31c83bd945817f6e6b5eb8e07577fbf023075",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-budget.ts",
+      "sha256": "d53e4745eb2b764a9117768bfcf33de89e946e853c37989af11eed75b26719e0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-checker.ts",
+      "sha256": "4205c45da3bbf3cfd374d1cc43d993837e06fe2fc5d87f7415615286cadb719e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-dependencies.ts",
+      "sha256": "96540bf83a4201fcdc1356e5cae241915811f75bfb7f23bbb7f9c288e1b76f28",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-explain.ts",
+      "sha256": "44743c6391b7e60d52a6019afb75247c2dcd9d49ffd9c8f7ca38e5ddd5082f84",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-loop.ts",
+      "sha256": "801dbd88071df89ec34d033706438f54208d3721d827535a58b3f833ca87fe1e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-migration.ts",
+      "sha256": "05ffbc725374ffec45f329efbdf4c11713c857bd8fa61e868780f11488d881c6",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-playbook-hooks.ts",
+      "sha256": "94ff4312cc47ac69f1f0e4bbaeb8e5abef392dbdb9cdf5fd0e25c57f52caca78",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-queue.ts",
+      "sha256": "2be42828dea1b1a17b14b6d98e85d90ce8f6ae3aacdbe6f835a7b9186084d90c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-routes.ts",
+      "sha256": "23e5e74c4de10e643f3017e7f977282b188d518eb9f76fdb003ef3990bee8fb3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-service.ts",
+      "sha256": "707efd34f697c44a59068e9657aac962b97978bded2e3482dc3bb871bc87d994",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-stats.ts",
+      "sha256": "b0d9fc9f1b30302d5bafdb2c85ed1e935877c742b0862ff3d410610ad1b1ea9c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-store.ts",
+      "sha256": "8abf257b64bc51644e024f4b2eee8874b783ca0b013c4ea67e57f0fcb19a46a4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/ticket-workspace.ts",
+      "sha256": "d8ddde6cf48c68fff98fca9bd434db4bb66c0df019a0d121969b585fbd40b9a3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verdict-seal.ts",
+      "sha256": "7b01ea3087e90b63f64abc225265b7e2217409a2550062f91f177fddd9178ca8",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verdict-snapshot.ts",
+      "sha256": "e189b2e45d0c61efbf642b3d2f077f4f7f888793dec9dd97a2bbb1cf390e3fbb",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verification-environment.ts",
+      "sha256": "c27083b5739518cd61932abc3d5ab2d4ed73511ff4455470618c5a79c88ce5bb",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verification-executor.ts",
+      "sha256": "b39a397d95913e9fe6d80db1d298821c4159289ae20a8ca4a9c4c537a65d3737",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verification-keys.ts",
+      "sha256": "5f034c8551d06c0d38fb7e157977056e080cb9e5665b77d0150826af635b5d0d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verification-migration.ts",
+      "sha256": "7b359645dfe5a706ba8180302f2dda710ae53adfd923f2dc3f0626b968af5a84",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verification-recipe.ts",
+      "sha256": "e6ae8dc036c06ae6e6ef413cbded302618dcf316d310e9cde4c55233cec7b7b4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verification-routes.ts",
+      "sha256": "9ac59e6d4c8376cd3dc7977236cf35bc74be58130642427f593333418f4dbbc2",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verification-store.ts",
+      "sha256": "63793b8c2b3b098a304ae33be7cab62dca66c2096f3edeb09d7b2451bdd57969",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verification-workspace.ts",
+      "sha256": "3ad650b35e3a54d161d32f039b94943f7aa74f0ae787ca19888ed1b8083c920e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-admission.ts",
+      "sha256": "9e2575ef13c7fe42042d89463c4a100168d4a3bb0b58253ea20e526a16f28119",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-author.ts",
+      "sha256": "d7b6a11ec731b01030501ee295d7322a128ecaadbdd12f632a90682b0201dafc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-authoring.ts",
+      "sha256": "a9e68f7440451364b9f0af3d403e2bb32d874e0583cc73e7340dcbdafa21c748",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-deadline.ts",
+      "sha256": "3de7ffed1eb4e066cffb07a319ed453086d69ca0c1cd235a0cc88339e74341aa",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-identity.ts",
+      "sha256": "5760ee9a32764c2ea6f93164b0f1a50b87f6191bbf5a86ff9d0c938f507d4dfd",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-migration.ts",
+      "sha256": "ebf789bd6147013b3c570b50a2ecde1bdc8e648b9d215be3da85f63ea7e86dcf",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-references.ts",
+      "sha256": "377bbeac0969dec94acca488d518c1be26a9c583cb61e023219c58441f6f961f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-retry.ts",
+      "sha256": "614c0eadda2a0be15d6cbdbd34c7eb6613a22bb4f0129e8abd5f540aad8713f0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-routes.ts",
+      "sha256": "8c20d924ee667e862dc8ceb08335085e0474c73db43c5e341e6e4bdeca764412",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only-v2-migration.ts",
+      "sha256": "a42a36245d329b8795141668af743fd55e7e221ecfe048d187ae54430e91b7b4",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/verify-only.ts",
+      "sha256": "de3ceaa55a35bac59e53a99f19be15c4732a052acde09dc7ce0e6666c1675f9d",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/watchman.ts",
+      "sha256": "cd0a82a2b3dca16445d78c88d9946f5656b330ed52014e8fa8ba4dedd25fb11f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/web-push.d.ts",
+      "sha256": "30574af4df4f8dbd622fc5362c6bb8199b685e1886fceb44de78a887b8a6b99c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/workflow-migration.ts",
+      "sha256": "6f92a2287cf66c18c08311f980a9c53d319793fbb2b6c5e0e9a665c314cfabf6",
+      "unchanged": true
+    },
+    {
+      "path": "apps/server/writer-concurrent-args.ts",
+      "sha256": "9832327bcc27cb9132f396a4c9731744451101f269e92b1ba62766a7cd09e876",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/analysis.ts",
+      "sha256": "e0abae17a6e318eabe03fd541d08d1366c48562b367dd10ed9b979fe72a6261e",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/attention.ts",
+      "sha256": "b55638855b38f878dc598b350197b15ad6fda0725126abec238ae2cbffee11a4",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/bug.ts",
+      "sha256": "c2bd80aaa3ab08e2d62bd9ad502d1f6e47c157c3e0117ed59652eb182a7e5f12",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/build.ts",
+      "sha256": "a827a4993d4f4e37ef9601a4b48182f0414be5d17224dd260941a8066acb95b7",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/change-classification.ts",
+      "sha256": "c3c4d51f91dfd66e32bfa23ca4b83457277816e8f9a408b88d9591fba731af90",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/chat-presentation.ts",
+      "sha256": "bcbc4f7845aaf0363c2f166e8189e8f48260267ab2e9257cf98983b6985e3d7d",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/chat.ts",
+      "sha256": "c1be9829fce6cf84d910c3aa4aeb87dc68d64c565645e52ce4692d3fe33969cb",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/check-copy.ts",
+      "sha256": "3a3e9c420ba78ff6b1fc49c38d4b730d82ac5ead1bdaefea85820805db419384",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/context.ts",
+      "sha256": "06e99e72808f2c1ff6cd47ae4a69c400f3a6766c5fc0f21ab4e5dc3af9599975",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/contracts.ts",
+      "sha256": "9c5e7b08f498b39d77ca22b318fe1f23523be1607316ae6eab4d367a11d6a56c",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/cores/verdict-core-v1.ts",
+      "sha256": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/debug-validation.ts",
+      "sha256": "c2c78b824cdba8f5356748e5b4307d1a04a194843451c0152bb4c76723db795b",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/debug.ts",
+      "sha256": "7c34941f8252704f31ce12e5c2890a2f6fcf9ead35aff4da3a35f2f6172bb763",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/display-title.ts",
+      "sha256": "c6bb8f46deeb0906b69b3aca8983ee04651356098e0d0fb8b88e75ae2daa5188",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/health.ts",
+      "sha256": "d83558b11c606504a11acb412cfdfac06d253f82db4b3c9e4fff321b91070830",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/missions.ts",
+      "sha256": "b3ea44540e4500f3c1133d96c768371b069338e37691ae933dfd622842def1f9",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/night.ts",
+      "sha256": "2f4bddc315fb14c1ee43a6867996b85f7d31b2bd8aed50384bf177fae0c2442f",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/oracle.ts",
+      "sha256": "b9245ad36805e979877da33949c7716df044c28f15eb7561ef5173d837b097de",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/outcomes.ts",
+      "sha256": "5a30b92c20169b8c0d3077aa6d392019d3ac227c40513a429334351428926909",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/permissions.ts",
+      "sha256": "e066a944afec05e1e60d6f96bf042ff61289d2724344c8bbd018116c9f9c250f",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/planning.ts",
+      "sha256": "900b0448bc4e0642d3f09f6097083047d96329095ece81683ce44d63411f7f16",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/playbooks.ts",
+      "sha256": "2d2e556c05701f3af3496fe1f9f25d0610e78b2667b8a1ac547eb03807e13fa3",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/project-rules.ts",
+      "sha256": "c485bea04b67b9c3a22ad5b23f4fc7330f1c06fc45af5fc57531a7dfb084dc47",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/projects.ts",
+      "sha256": "68c948320dbc8f905fab22930c0e334d9410f86af3d0adc2f7048c2740f6bb8b",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/quality-gates.ts",
+      "sha256": "4c7e9308463fb146b3d5d6c26cacfef0805b65fbc977c79e9930f22cfe4432e5",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/review-risk.ts",
+      "sha256": "70110b1b5ae829dfc81cd467c591b99ee55ab87917661fdc29a80c2f084a1d7f",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/reviewers.ts",
+      "sha256": "e1c14bbf9d23373a109705f9e010fca5afe0a427d49d44aeff4ba76928d68a37",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/spec.ts",
+      "sha256": "07f504a60b89323992d0e330b549119d29dd55ed27863f2dc1ea5c8baa372adb",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/test-writer.ts",
+      "sha256": "8a8082082bf92b9a3146036619cef880fb6978334c6455afa6d6eb16027553ca",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/ticket-activity.ts",
+      "sha256": "53559df885526a2bcd5b5ba9db0657727e6490ef0366a36df6a24f20766d4f14",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/ticket-budget.ts",
+      "sha256": "21a378e585b227ac85b62d16ab81fc6b56013360681b8aeb30f358c71e759e61",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/tickets.ts",
+      "sha256": "5a11d3339fffc7452a5587b62ee44dbb616cf360ac82a0c1deea78597c760739",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/verdict-core.ts",
+      "sha256": "109f2081e6954fe2b0145962cb629c043ceb5246a1020be0ffc4976694489911",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/verification-v1.ts",
+      "sha256": "5a56d979f72b9169a3f1a3a2098ac3117bc8a9f0e4c14197ace06f8d9e06c087",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/verification.ts",
+      "sha256": "bf77fbb28a302323e5097c243a59dbf6c2767e49633ba6a0275a4ed87a2ea6a7",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/verify-only-v2.ts",
+      "sha256": "a2d371cd23949ea9d2eb46a3b88e8e89a75b0f26a1dc2591de43f89798b56470",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/verify-only.ts",
+      "sha256": "d1e5569308ebd55abb06c7d40fd03de8cc9949d3c9f700cddb312b7a9305de2b",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/workshop-assets.ts",
+      "sha256": "a3f8f86437534d7760cc16bbb9b8ebc014dbf11b6d91ff6bf5b022d532a1e043",
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/workshop.ts",
+      "sha256": "ef116cf4bbc2f78196ea79d39d707d8bdbddb8dbd9318995b1583c5194ac1ddc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/bug-test-shape.py",
+      "sha256": "a76b017bd05a987de4be83f4af0ad13c3df0429d7ee13191f1395de995104fc0",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/classify-changes.py",
+      "sha256": "f27f8fa2dc75a509e01c7a429e94819c8162a4fc60a59541039c494e017b5f4a",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/cli-observation-worker.py",
+      "sha256": "1be56f8ad8bf29309a8e11a84118e45f337b06ffe6b2dcc5345a12d2fae49caf",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/concurrent-observation.py",
+      "sha256": "d30a518377ac026c6d6149a5ac5bea3b57be6a7b346e124e3470c1eadab3d188",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/concurrent-worker.py",
+      "sha256": "aaf3e8eabab1fa1e7388ffd0aaa27504989d3fbb2237f7c2a0a84b5edf82a0c1",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/denial-driver.py",
+      "sha256": "dd46523607de59f1f3657c6f2dd407ef8315bc14d5409963f202eb66ce2e1b63",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/native-boundary-probe.py",
+      "sha256": "a8075ccaf0899ef1a5cdb9d286be7ac5c31de82be1c2b4a299ea54523473a186",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/python-judge.py",
+      "sha256": "9223bf6b5f6c371ae2ae43b04ceecc0f1a6574e2a1646992037e81bb042a6ad0",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/python-observer.py",
+      "sha256": "cc042553cef3eb016909d74b432d8530b48d3175d44edb8bb563f63579a59ea7",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/suite-worker.py",
+      "sha256": "e7f8b51bf1d7abcc32fce39de9eeef09b5bf3f5dcd35f50c01e5d3ab7599c9dc",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/timeout-observation.py",
+      "sha256": "cd72d42b12709fc14877c2d83fce1a03dad5138a7d3b94e9eeefc176eb3962c6",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/timeout-worker.py",
+      "sha256": "9801358a3bf6692df6e1c86316ee64cbb8cc0223fc15d882bc94a0cd1cf528db",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/tree-sitter-requirements.txt",
+      "sha256": "cc2ddc3d8435cefdecb2586134acf14b9a678a9afaaebad94974ef1da28d4beb",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/ui-judge.mjs",
+      "sha256": "bf2f25cdf03b364d0cba95f4048ac71b96918a0fa58b75a4a083e934931db42b",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/ui-observer.mjs",
+      "sha256": "434de154e813381f8007ad8661e732697b6977d26e42bbe9d01c67c7a11bcde4",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/writer-context-map.py",
+      "sha256": "3df331860523e9cfb6bded5de6d6c2c0221074ba63b56e9ba88e344a538289f4",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/writer-diff-cover.py",
+      "sha256": "f5c9daef676956ad590ddc02524fdeacbd26c9e3fec27ab2d496345e200071a0",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/writer-mutants.mjs",
+      "sha256": "4e2b8564f3bd27fb06d8b0974c6557bdc3d1ceb7a10f02d73fbb64743f743c58",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/writer-mutants.py",
+      "sha256": "b3a93162fec79e9997b5bf2beda70adad6cdf1ce62d8c36e39bb05d9274e2160",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/writer-node-reporter.mjs",
+      "sha256": "15f75d72639ae562b8e27d80a9bb8a8d193b92e6c28c0ebb22d08370a44a3677",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/protected-verification/writer-unittest.py",
+      "sha256": "2edf8056b052754e237cdd9d8c451f75953d002a235e1e278b4dccbbbf395f05",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/seal-helper.mjs",
+      "sha256": "f95ddba774c399ea7b1d7eee324f08aeee4ea43cf0e2ab400fb5dfd66a6a8ad5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/CORE_VERSIONS.json",
+      "sha256": "dfe07a32e2e74a434777a5f3923f147e978d77b46e3d68e001528b8c1e37e938",
+      "unchanged": true
+    },
+    {
+      "path": "docs/VERIFY_KEYS.json",
+      "sha256": "c5d16e86e50d52f483436e7cc1ef848d77d91605da2df6970021d68025ec6db6",
+      "unchanged": true
+    }
+  ]
+}
