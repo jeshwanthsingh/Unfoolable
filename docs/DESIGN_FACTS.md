@@ -137,3 +137,12 @@ One draft + exact repo/HEAD + approved playbook + budgets + absolute cutoff
 ## Versioned cores (CORE-2b)
 
 The active policy is `verdict-core-v2` in `packages/shared/verdict-core.ts`. Released v1 is preserved at `packages/shared/cores/verdict-core-v1.ts`, byte-identical to main 4abc25a. `docs/CORE_VERSIONS.json` records source hashes, dates and changes. The shell registry uses fixed filenames, validates the recorded version/hash against metadata and actual file bytes on every replay, and executes those exact pure TypeScript sources with Node 24's built-in type stripping. The build packages the canonical sources and registry. New snapshots and seals use the current version; CLI and Proof replay historical seals through the recorded version. Unknown or edited sources are broken seals, never a fallback to the latest policy.
+
+## SCION-1 scope rule
+
+Add nothing that does not map to an in-scope attacker in [THREAT_MODEL.md](THREAT_MODEL.md) or to a real friction the owner has encountered. The host/OS remains trusted. No new source-control service, AI role or automatic repair agent is introduced.
+
+- AST classification and the deterministic Proof summary address misleading Builder descriptions and difficult diff review; they do not assert semantic safety.
+- Approved raise-only risk and project rules address disguised/sensitive edits and explicit architectural violations. Existing risk is always the floor.
+- Weekly protected diagnostics address stale protection dates and observed environment failures. Stored observations, not constants, drive dated status.
+- Extended seal provenance binds the exact request and the trusted Builder session associated with the frozen change. It does not authenticate model internals that the provider does not report.
