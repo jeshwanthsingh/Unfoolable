@@ -53,6 +53,8 @@ Zero false accepts includes abstentions. It does **not** mean every defect was d
 
 [Read the methods, denominators and limitations](artifacts/warning-signal/RESULT.md).
 
+Current installation snapshot (2026-10-24): **78 protected targets** in `protected-paths-v1`; **6 sealed / 0 broken** latest ticket records, with 8 older records explicitly unsealed. Released verdict cores v1/v2 preserve old replay. SCION-1 adds deterministic change classification, raise-only review rules and idle/AC-only self-checks. New seal format v2 binds the request hash and recorded Builder identity. These are dated observations, not promises about another installation. [ADV-1 status and remaining gaps](docs/ADV_1_STATUS.md).
+
 ## Run it on your Mac
 
 Requires **macOS, Node 24, Git and an authenticated Codex account**. Work uses your existing Codex allowance; no separate paid API key is required.
@@ -74,7 +76,7 @@ The app also supports **Bug from this log**, which requires a matching reproduct
 
 This is a personal, single-Mac tool. Real-iPhone and VoiceOver testing remain limited. Tripwire alarms are best effort; the sandbox is the enforced read boundary.
 
-[Design and threat limits](DESIGN.md) · [Architecture facts](docs/DESIGN_FACTS.md) · [Signing](docs/SIGNING.md) · [Invariants and their tests](docs/INVARIANTS.md) · [Backups](docs/BACKUPS.md)
+[Design](DESIGN.md) · [Threat model](docs/THREAT_MODEL.md) · [Negative controls](docs/NEGATIVE_CONTROLS.md) · [Architecture facts](docs/DESIGN_FACTS.md) · [Signing](docs/SIGNING.md) · [Invariants and their tests](docs/INVARIANTS.md) · [Backups](docs/BACKUPS.md)
 
 ## Development
 

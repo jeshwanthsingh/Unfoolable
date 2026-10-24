@@ -1,0 +1,619 @@
+{
+  "version": 1,
+  "at": "2026-10-24T22:46:50.858Z",
+  "manifest": {
+    "version": "protected-paths-v1",
+    "sha256": "b3ac13836740445841719716b60ee0fbe47c6d73edd75090e4e6b0ee784d455e",
+    "count": 78
+  },
+  "contract": "Expected denied: protected reads/write, non-loopback outbound, parent signal permission, inherited canary, unauthenticated private API. Expected allowed: own export read and scratch write. Stop at first unexpected access. No file contents retained.",
+  "lanes": [
+    {
+      "name": "protected Python observer and separate judge",
+      "status": "PASS",
+      "attempts": [
+        {
+          "label": "Archived verdict core",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "CC checker",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "CC database",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "CC playbooks",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Core registry metadata",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Friendly backup path",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Locked bug reproduction",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "Mid-session new repository",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "Other Projects/AI-Powered-Digital-Closet",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Aegis",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Email-Recruiter",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/JobPipeline",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Milestone5",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-admin-logout",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-admin-review",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-auth-session",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-chat-cache-test-db",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-chat-followup",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-chat-security",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-docker-secrets",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-hide-suspended",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-payment-order-debug",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-pr69-visibility-split",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-pr85-delivery",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-pr85-integrated",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-pr85-retryable",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-pr85-review",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-pr85-simplify",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-pr88-followup",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-qa-payment-ff5d34f",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-qa-pr51",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-qa-pr54",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-qa-pr89-pr94",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-razorpay",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-suspended-payment-finalization",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/Therapy2-upstream-review",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/auto_email_sender",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/career-ops",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/codex-kit",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/coding-agent-crash-tests",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/covid-data-exploration",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/csc415-filesystem-jeshwanthsingh",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/digital_closet",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/hackwithbay",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/jeshwanth.com",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/natively-cluely-ai-assistant",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/playground",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/proof-lab",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/research-router",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/seismic-ml-analysis",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Other Projects/terraform-aws-automation",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Phone private config",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Phone push keys",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Protected backup canary",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Verdict device-bound key blob",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Verdict hardware signing helper",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Verdict signing helper",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Verdict signing key",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "~/.aws",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/.bench-private",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/.codex",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/.codex/auth.json",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/.config",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/.gnupg",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "~/.ssh",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/Library/Application Support/Arc",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "~/Library/Application Support/BraveSoftware/Brave-Browser",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "~/Library/Application Support/Chromium",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/Library/Application Support/Firefox",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/Library/Application Support/Google/Chrome",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/Library/Application Support/Google/Chrome Beta",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "~/Library/Application Support/Microsoft Edge",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "~/Library/Containers/com.apple.Safari",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/Library/Group Containers/group.com.apple.Safari",
+          "result": "ABSENT",
+          "operation": "read",
+          "errno": 2,
+          "presentBefore": false
+        },
+        {
+          "label": "~/Library/Keychains",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "~/Library/Safari",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "Projects parent (new repositories included)",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "separate-python-judge",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "external-check-canary",
+          "result": "DENIED",
+          "operation": "read",
+          "errno": 1,
+          "presentBefore": true
+        },
+        {
+          "label": "external-check-canary-write",
+          "result": "DENIED",
+          "errno": 1
+        },
+        {
+          "label": "non-loopback-outbound",
+          "result": "DENIED",
+          "errno": 1
+        },
+        {
+          "label": "harness-signal-permission",
+          "result": "DENIED",
+          "errno": 1
+        },
+        {
+          "label": "host-environment",
+          "result": "DENIED"
+        },
+        {
+          "label": "unauthenticated-private-api",
+          "result": "DENIED",
+          "status": 403
+        },
+        {
+          "label": "own-export-read",
+          "result": "ALLOWED"
+        },
+        {
+          "label": "own-scratch-write",
+          "result": "ALLOWED"
+        }
+      ],
+      "cleanup": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      }
+    }
+  ],
+  "status": "BLOCKED",
+  "error": "Error: Zero collected or duplicate native test identities"
+}

@@ -1,0 +1,64 @@
+1
+00:00:00,000 --> 00:00:03,000
+I don’t let AI
+grade its own code.
+
+2
+00:00:03,000 --> 00:00:07,000
+One request. A disposable cart.
+Add a clear help example.
+
+3
+00:00:07,000 --> 00:00:10,000
+Start needs my Touch ID.
+Bound to this exact request.
+
+4
+00:00:10,000 --> 00:00:17,000
+No internet. Secrets blocked.
+Latest probe: 76 protected paths denied.
+
+5
+00:00:17,000 --> 00:00:24,000
+Five old tests still pass.
+New behavior is not independently proved.
+
+6
+00:00:24,000 --> 00:00:28,000
+The Builder can’t read
+or change the judge.
+
+7
+00:00:28,000 --> 00:00:32,000
+New tests only count if they fail
+on old code and pass on new code.
+
+8
+00:00:32,000 --> 00:00:36,000
+12 planted cheats. 0 passed.
+5 failed. 7 stayed inconclusive.
+
+9
+00:00:36,000 --> 00:00:40,000
+Original tests were restored.
+A fake passing test did not win.
+
+10
+00:00:40,000 --> 00:00:43,000
+Ready for review. Not checked.
+Accept stays locked.
+
+11
+00:00:43,000 --> 00:00:45,000
+One help-text change.
+No Accept or Reject was pressed.
+
+12
+00:00:45,000 --> 00:00:50,000
+This verdict is signed
+by my Mac’s security chip.
+
+13
+00:00:50,000 --> 00:00:58,000
+AI does the work.
+Nothing fools the check.

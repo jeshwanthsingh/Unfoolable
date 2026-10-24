@@ -1,0 +1,50 @@
+{
+  "exports": [
+    {
+      "file": "launch-square-1080.mp4",
+      "width": 1080,
+      "height": 1080,
+      "fps": 30,
+      "frames": 1740,
+      "durationSeconds": 58.0,
+      "codec": "H.264",
+      "bytes": 880267,
+      "silent": true,
+      "sha256": "a74f55a4f14b210e1c2c65554fd80ef7901cba6705cc2893a11f1999c8a97051"
+    },
+    {
+      "file": "launch-vertical-1080x1920.mp4",
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "frames": 1740,
+      "durationSeconds": 58.0,
+      "codec": "H.264",
+      "bytes": 1036575,
+      "silent": true,
+      "sha256": "440f00a7a54b2663702e5361b093ad7f472f1fb2d6409014d6e64e9d7bfd1428"
+    },
+    {
+      "file": "launch-landscape-1920x1080.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 1740,
+      "durationSeconds": 58.0,
+      "codec": "H.264",
+      "bytes": 1082601,
+      "silent": true,
+      "sha256": "f7cd88a59aec5f7983ef0327070eb56a5b08fc52eadbf1df73913f95f90dc292"
+    }
+  ],
+  "sourceFreeze": {
+    "base": "113f76d",
+    "changedApplicationFiles": []
+  },
+  "captionFile": "launch-demo.srt",
+  "cover": "cover-1080.png",
+  "finalTicket": "1d390abf-3c12-468f-a4bd-79c2cf5673b3",
+  "verdict": "NOT CHECKED",
+  "accepted": false,
+  "rejected": false
+}

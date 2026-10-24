@@ -1,0 +1,15 @@
+{
+  "scope": "Tracked textual publication files; paths counted, values not reproduced. Historical originals left intact per owner instruction.",
+  "files": [
+    {
+      "file": "artifacts/core1/current-policy-golden.json",
+      "homePathOccurrences": 2,
+      "actualCurrentHomeOccurrences": 2
+    },
+    {
+      "file": "artifacts/core1/golden.json",
+      "homePathOccurrences": 409,
+      "actualCurrentHomeOccurrences": 409
+    }
+  ]
+}

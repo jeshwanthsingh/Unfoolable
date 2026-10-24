@@ -33,3 +33,11 @@ Before the next policy release, archive the current source byte-for-byte, add it
 ## SCION-1 seal format v2
 
 New seals use the verdict/v2 predicate inside the existing in-toto Statement v1 and DSSE envelope. They additionally sign SHA-256 of the exact stored request and the Builder model, model version, Codex CLI version and provenance. The trusted kernel records the requested model after the provider confirms the certified CLI and permission profile; Builder chat and summaries are never identity sources. The model version is explicitly unknown because the provider does not report it. Rechecks bind the identity of the attempt that froze that same change, not the current runtime. Older changes with no recorded identity say unknown. Verification recomputes the request and recorded-identity binding. Old verdict/v1 seals keep their original parser and verification; optional v2 fields cannot be smuggled into a v1 envelope. The key and core registries are unchanged.
+
+## What a seal binds, and what it does not prove
+
+An accepted attestation binds its ticket/check event, result, facts-snapshot hash, trace hash, recorded core version and source hash, BASE commit, frozen change/diff hash, recorded gate versions and timestamp. Format v2 also binds the request SHA-256 and recorded Builder model/model-version/Codex-CLI identity with provenance; unreported values remain unknown. The event hash chain detects defined edits/deletions. Verification checks the signature, registered key and core, persisted bindings, deterministic replay and chain; it never silently replays an unknown core as current. See [format implementation](../apps/server/verdict-seal.ts).
+
+This proves defined record integrity under the trusted installation and key. It does not prove that observations were truthful, that the host was honest, that native tests resisted in-process forgery, that every requested behavior was tested, or that a passing change is secure. It never substitutes for human approval. Older unsealed records remain unsealed.
+
+The 2026-10-24 activation snapshot had **6 sealed / 8 older-unsealed / 0 broken latest ticket records**. Those counts are separate from the historical activation counts above. Registry: [released cores v1/v2](CORE_VERSIONS.json); boundaries: [threat model](THREAT_MODEL.md).

@@ -1,0 +1,143 @@
+{
+  "rawFindings": 17,
+  "confirmedSecrets": 0,
+  "findings": [
+    {
+      "file": "artifacts/core1/graph/after.html",
+      "line": 37,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Third-party vis-network JavaScript method name, not a credential",
+      "fileSHA256": "34820c21367c2d20e4dfa84012bbc024ad12a8744903ac65a1f7bd44b94408c8"
+    },
+    {
+      "file": "artifacts/core1/graph/vis-network-9.1.6.min.js",
+      "line": 32,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Third-party vis-network JavaScript method name, not a credential",
+      "fileSHA256": "576bb887733eb01bb52ee75b90ef46d818454de5fddb5b616fb8a298d307ca12"
+    },
+    {
+      "file": "artifacts/core1/graph/before.html",
+      "line": 37,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Third-party vis-network JavaScript method name, not a credential",
+      "fileSHA256": "0f1788d3e9757ffd5d323c7bd248b8e9339ca68abdc24f219ef9faea0db5dbe2"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 42,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 86,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 97,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 107,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 125,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 251,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 363,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 382,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 443,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 512,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 516,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 555,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "artifacts/obs0/production-unchanged.json",
+      "line": 618,
+      "rule": "generic-api-key",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Recorded SHA-256 file-integrity digest, not a credential",
+      "fileSHA256": "f31e670ec9302e2ead143d84e20153203b312174912e1b7b2c218173d4676df7"
+    },
+    {
+      "file": "tests/build-runtime.test.ts",
+      "line": 15,
+      "rule": "aws-access-token",
+      "classification": "FALSE_POSITIVE",
+      "reason": "Explicit alphabetic AWS-shaped redaction test fixture; no real account",
+      "fileSHA256": "55fd2ef33a4cf78891089b78ad40649feded8954cf5daf6052de63a117fb23db"
+    }
+  ],
+  "limits": "Baseline suppresses only these exact reviewed fingerprints, not paths or rules. Raw scan retained separately."
+}
