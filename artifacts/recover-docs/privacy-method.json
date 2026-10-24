@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-24",
+  "videos": 3,
+  "videoFrames": 5220,
+  "videoPrivacyFindings": 0,
+  "coverPrivacyFindings": 0,
+  "method": "Local Apple Vision accurate text recognition on every ffmpeg-decoded frame; only byte-identical frames reuse OCR. Regex checks paths, email, private hostnames and credential-shaped text. OCR is not a guarantee against non-textual or unreadable secrets.",
+  "scannerSourceSHA256": "8fbd97945bc437beeb68dc8ed2805a1677face5d9e16c7b9f27f83c5dba98da3",
+  "scannerBinarySHA256": "d8a7a807e0d9d05cb17a55198912b4f75cdc566e51153652fb9d2ca6067c76ed",
+  "ffmpegVersion": "ffmpeg version 8.0 Copyright (c) 2000-2025 the FFmpeg developers",
+  "gitleaksVersion": "8.30.1",
+  "gitleaksRawFindings": 17,
+  "reviewedFalsePositives": 17,
+  "remainingFindings": 0,
+  "confirmedSecrets": 0,
+  "personalDataBlocker": "Actual home paths remain in the two immutable CORE-1 golden files; preserved per prior instruction; publication blocked."
+}

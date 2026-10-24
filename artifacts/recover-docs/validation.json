@@ -1,0 +1,13 @@
+{
+  "tests": 1310,
+  "pass": 1310,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "durationMs": 359621.395,
+  "node": "v24.21.0",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "caffeinate": true
+}

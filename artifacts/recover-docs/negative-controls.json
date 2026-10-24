@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-24",
+  "count": 12,
+  "fail": 5,
+  "inconclusive": 7,
+  "pass": 0,
+  "coreUnchanged": true,
+  "results": [
+    {
+      "control": "observation-pipe-forgery-review-on",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "control": "R1-review-off",
+      "result": "FAIL"
+    },
+    {
+      "control": "native-judge-skipped",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "control": "native-judge-zero-collected",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "control": "skipped-existing-test-restored",
+      "result": "FAIL"
+    },
+    {
+      "control": "deleted-existing-test-restored",
+      "result": "FAIL"
+    },
+    {
+      "control": "edited-existing-test-restored",
+      "result": "FAIL"
+    },
+    {
+      "control": "early-exit-0",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "control": "symlink-escape",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "control": "dependency-change",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "control": "oversized-output",
+      "result": "FAIL"
+    },
+    {
+      "control": "timeout",
+      "result": "INCONCLUSIVE"
+    }
+  ]
+}

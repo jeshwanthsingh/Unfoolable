@@ -1,0 +1,8 @@
+{
+  "decodedFrames" : 5220,
+  "findings" : [
+
+  ],
+  "method" : "Every decoded frame; exact-byte duplicates reuse OCR. Local Apple Vision; no network.",
+  "uniqueImagesOCR" : 2775
+}

@@ -13,3 +13,7 @@ Ticket **4093aa6c-3774-46fc-b33f-1e7fa0fdd937**, “Add cart discount code suppo
 - The real seal is shown through recorded verification output; no unavailable seal shimmer or synthetic final stamp was inserted.
 - Night lighting was chosen for the edit because it makes the glass inspection boundary clearer. Both initial day/night previews are retained.
 - Raw, unredacted capture files stay ignored in `.work/demo1/` and are not deliverables.
+
+## Recovery — 2026-10-24
+
+Recovered from stash `4378916` without altering any of the three video files. Their visible numbers and UI are historical footage, not today's installation. Current documentation records 78 targets in `protected-paths-v1`, registered verdict cores v1/v2 and six sealed / zero broken latest ticket records. A fresh local OCR privacy pass checked all 5,220 video frames and the recovered cover: zero findings. [Recovery validation](../recover-docs/video-validation.json); [fresh privacy result](../recover-docs/video-privacy.json). No acceptance or new successful verdict was added to the story.

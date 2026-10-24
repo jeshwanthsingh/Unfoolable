@@ -1,0 +1,35 @@
+[
+  {
+    "file": "launch-landscape-1920x1080.mp4",
+    "sha256": "f7cd88a59aec5f7983ef0327070eb56a5b08fc52eadbf1df73913f95f90dc292",
+    "identicalToStash": true,
+    "width": 1920,
+    "height": 1080,
+    "codec": "h264",
+    "fps": "30/1",
+    "frames": 1740,
+    "seconds": 58.0
+  },
+  {
+    "file": "launch-square-1080.mp4",
+    "sha256": "a74f55a4f14b210e1c2c65554fd80ef7901cba6705cc2893a11f1999c8a97051",
+    "identicalToStash": true,
+    "width": 1080,
+    "height": 1080,
+    "codec": "h264",
+    "fps": "30/1",
+    "frames": 1740,
+    "seconds": 58.0
+  },
+  {
+    "file": "launch-vertical-1080x1920.mp4",
+    "sha256": "440f00a7a54b2663702e5361b093ad7f472f1fb2d6409014d6e64e9d7bfd1428",
+    "identicalToStash": true,
+    "width": 1080,
+    "height": 1920,
+    "codec": "h264",
+    "fps": "30/1",
+    "frames": 1740,
+    "seconds": 58.0
+  }
+]
