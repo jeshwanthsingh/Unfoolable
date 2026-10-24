@@ -3,7 +3,7 @@ import {plainReviewRiskReason} from '../../../packages/shared/review-risk.ts';
 import type {RoomLink} from './ObservatoryRoom.tsx';
 import {fuelFact,roomExplanation,type RoomKey} from './observatory-room-model.ts';
 import type {observatoryProbe as historicalProbe} from './observatory-probe.ts';
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useRef,useState,type ReactNode} from 'react';
 import {motion,useReducedMotion} from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import {Drawer} from 'vaul';
@@ -15,7 +15,7 @@ import {ReviewerNotes} from './ReviewerNotes.tsx';
 import {phoneMode} from './phone-client.ts';
 import {TaskMenu} from './TaskMenu.tsx';
 type Decision='keep'|'discard'|'recheck'|'retry'|'continue';
-export function ObservatoryPass({probe,detail,theme,onClose,onInspect,onDecision,decisionPending=false,requestError,roomLink,sealMoment=0}:{probe?:typeof historicalProbe|undefined;sealMoment?:number;roomLink?:RoomLink;detail:Detail;theme:'light'|'dark';onClose:()=>void;onInspect:()=>void;onDecision:(kind:Decision)=>void;decisionPending?:boolean;requestError?:string|null}){
+export function ObservatoryPass({headerControls,probe,detail,theme,onClose,onInspect,onDecision,decisionPending=false,requestError,roomLink,sealMoment=0}:{headerControls?:ReactNode;probe?:typeof historicalProbe|undefined;sealMoment?:number;roomLink?:RoomLink;detail:Detail;theme:'light'|'dark';onClose:()=>void;onInspect:()=>void;onDecision:(kind:Decision)=>void;decisionPending?:boolean;requestError?:string|null}){
  const observatoryProbe=probe??{count:null,date:null,source:'No completed protected-path probe is recorded.'};
  const [phone,setPhone]=useState(()=>typeof window!=='undefined'&&window.matchMedia('(max-width: 799px)').matches),reduced=useReducedMotion(),trigger=useRef<HTMLElement|null>(null);
  useEffect(()=>{trigger.current=document.activeElement instanceof HTMLElement?document.activeElement:null;const media=matchMedia('(max-width: 799px)'),change=()=>setPhone(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);
@@ -33,6 +33,6 @@ export function ObservatoryPass({probe,detail,theme,onClose,onInspect,onDecision
  {detail.ticket.status==='ready_for_review'&&<div className="observatory-pass-footer"><button className={mayAccept(detail)?'uf-primary':''} disabled={decisionPending||!mayAccept(detail)} onClick={()=>onDecision('keep')}>Accept with {phoneMode()?'Face ID':'Touch ID'}</button><TaskMenu label={String(title)}>{detail.evidenceStale&&detail.recheckAvailable&&<button disabled={decisionPending} onClick={()=>onDecision('recheck')}>Check again</button>}<button disabled={decisionPending} onClick={()=>onDecision('discard')}>Reject</button></TaskMenu><p className="unfool-muted">{decisionPending?'Waiting for your confirmation...':detail.evidenceStale?'Needs a fresh check.':mayAccept(detail)?'Your fingerprint confirms only this exact change.':'Inspect the changes first. Acceptance still needs your fingerprint.'}</p></div>}
  </motion.div>;
  const restore=(e:Event)=>{e.preventDefault();queueMicrotask(()=>trigger.current?.focus());};
- if(phone)return <Drawer.Root open onOpenChange={v=>{if(!v)onClose();}} shouldScaleBackground={false}><Drawer.Portal><Drawer.Overlay className="observatory-scrim"/><Drawer.Content className="observatory-pass-sheet unfoolable" data-layout="observatory" data-theme={theme} onCloseAutoFocus={restore}><div className="observatory-drag-handle"/><Drawer.Title className="unfool-sr-only">Proof</Drawer.Title><Drawer.Description className="unfool-sr-only">Read the saved checks, then inspect the changes before accepting.</Drawer.Description>{content}</Drawer.Content></Drawer.Portal></Drawer.Root>;
+ if(phone)return <Drawer.Root open onOpenChange={v=>{if(!v)onClose();}} shouldScaleBackground={false}><Drawer.Portal><Drawer.Overlay className="observatory-scrim"/><Drawer.Content className="observatory-pass-sheet unfoolable" data-layout="observatory" data-theme={theme} onCloseAutoFocus={restore}><div className="observatory-phone-safety" aria-label="App controls"><strong>Unfoolable</strong><div>{headerControls}</div></div><div className="observatory-drag-handle"/><Drawer.Title className="unfool-sr-only">Proof</Drawer.Title><Drawer.Description className="unfool-sr-only">Read the saved checks, then inspect the changes before accepting.</Drawer.Description>{content}</Drawer.Content></Drawer.Portal></Drawer.Root>;
  return <Dialog.Root open modal={false} onOpenChange={v=>{if(!v)onClose();}}><Dialog.Portal><Dialog.Overlay className="observatory-scrim"/><Dialog.Content onInteractOutside={e=>{if(e.target instanceof Element&&e.target.closest('.obs2-room'))e.preventDefault();}} className="observatory-pass-panel unfoolable" data-layout="observatory" data-theme={theme} onCloseAutoFocus={restore}><Dialog.Title className="unfool-sr-only">Proof</Dialog.Title><Dialog.Description className="unfool-sr-only">Read the saved checks, then inspect the changes before accepting.</Dialog.Description>{content}</Dialog.Content></Dialog.Portal></Dialog.Root>;
 }
