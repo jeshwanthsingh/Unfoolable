@@ -20,7 +20,7 @@ export function isVerifyView(value:unknown):value is VerifyView{
  if(v.result?.v1!==undefined){
   if(!isV1Report(v.result.v1))return false;
   const scored=scoreV1(v.result.v1.layers,v.result.v1.gaps);
-  if(scored.verdict!==v.result.v1.verdict||scored.canLand!==v.result.v1.canLand)return false;
+  if(scored.verdict!==v.result.v1.verdict||scored.eligibleForReview!==v.result.v1.eligibleForReview)return false;
   const expected=v.result.v1.verdict==='ERROR'?'ERROR':v.result.v1.verdict==='FAILED'?'FAIL':'PASS';
   const acceptance=v.result.v1.verdict==='FAILED'||v.result.v1.verdict==='ERROR'?'NOT VERIFIED':v.result.v1.verdict;
   if(v.result.status!==expected||v.result.automatedStatus!==expected||v.result.acceptance!==acceptance)return false;

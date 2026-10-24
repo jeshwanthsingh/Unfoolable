@@ -9,7 +9,7 @@ const golden=JSON.parse(raw);
 test('CORE-1 frozen golden hash and all historical replay verdicts remain unchanged',()=>{
  assert.equal(createHash('sha256').update(raw).digest('hex'),readFileSync(new URL('../artifacts/core1/golden.json.sha256',import.meta.url),'utf8').trim());
  assert.equal(golden.study.length,19);assert.equal(golden.negativeControls.length,12);
- for(const row of golden.replay){const result=scoreVerdict(row.facts);assert.deepEqual({verdict:result.verdict,canLand:result.canLand},row.expected,row.id);}
+ for(const row of golden.replay){const result=scoreVerdict(row.facts);assert.deepEqual({verdict:result.verdict,eligibleForReview:result.eligibleForReview},{verdict:row.expected.verdict,eligibleForReview:row.expected.canLand},row.id);}
 });
 test('CORE-1 core has no runtime imports, ambient authorities or dynamic evaluation',()=>{
  const source=readFileSync(new URL('../packages/shared/verdict-core.ts',import.meta.url),'utf8');

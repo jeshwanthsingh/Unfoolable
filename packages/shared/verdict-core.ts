@@ -104,7 +104,7 @@ export type VerdictFacts =
 export type VerdictDecision = {
   facts: VerdictFacts;
   verdict: Verdict;
-  canLand: boolean;
+  eligibleForReview: boolean;
   reasons: string[];
   trace: TraceStep[];
   status?: ClaimStatus;
@@ -135,7 +135,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
     return {
       facts,
       verdict,
-      canLand: verdict === "VERIFIED" || verdict === "PASSED WITH GAPS",
+      eligibleForReview: verdict === "VERIFIED" || verdict === "PASSED WITH GAPS",
       reasons,
       trace,
       ...extra,

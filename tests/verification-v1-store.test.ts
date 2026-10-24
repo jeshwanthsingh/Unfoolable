@@ -35,7 +35,7 @@ test('v1 automatically verifies native BASE tests and gaps can land without AI, 
   const recipe=await seedRecipe(store,f);
   const before={head:git(f.repo,'rev-parse','HEAD'),branch:git(f.repo,'branch','--show-current'),status:git(f.repo,'status','--porcelain=v1'),index:readFileSync(join(f.repo,'.git/index'))};
   const created=await store.create(f.input);assert.equal(created.state,'VERIFYING');assert.equal(created.approvedAt,null);
-  const done=await store.wait(created.id);assert.equal(done.state,'RESULT',done.error??'');assert.equal(isVerifyView(done),true);assert.equal(done.result?.status,'PASS');assert.equal(done.result?.acceptance,'PASSED WITH GAPS');assert.equal(done.result?.v1?.canLand,true);
+  const done=await store.wait(created.id);assert.equal(done.state,'RESULT',done.error??'');assert.equal(isVerifyView(done),true);assert.equal(done.result?.status,'PASS');assert.equal(done.result?.acceptance,'PASSED WITH GAPS');assert.equal(done.result?.v1?.eligibleForReview,true);
   assert.deepEqual(f.counts(),{authored:0,references:0});assert.equal(done.result!.v1!.layers[0]!.checks[0]!.id,'test_behavior.TestBehavior.test_positive');assert.equal(done.result!.v1!.layers[0]!.status,'PASS');assert.equal(done.result!.v1!.layers[1]!.status,'PASS');assert.equal(done.result!.v1!.layers[1]!.checks.length,1);assert.deepEqual(done.result!.v1!.recipeIds,[recipe.id]);assert.equal(done.result!.v1!.layers[2]!.status,'NOT CHECKED');assert.deepEqual(done.result!.v1!.gaps.map(g=>g.id),['ai-task-checks']);
   await assert.rejects(store.land(created.id,'wrong-evidence'),/current bound/);
   const sealedResult=readFileSync(join(f.data,'verify-only',created.id,'result.json'));
@@ -50,7 +50,7 @@ test('v1 automatically verifies native BASE tests and gaps can land without AI, 
 
 test('candidate-edited passing tests cannot hide a failing restored BASE test or allow landing',async()=>{
  const f=fixture({fails:true,candidateEditsTests:true}),store=f.makeStore();try{
-  const created=await store.create(f.input),done=await store.wait(created.id);assert.equal(done.result?.status,'FAIL',done.error??'');assert.equal(done.result?.v1?.verdict,'FAILED');assert.equal(done.result?.v1?.canLand,false);assert.equal(done.result!.v1!.layers[0]!.checks[0]!.status,'FAIL');assert.equal(isVerifyView(done),true);
+  const created=await store.create(f.input),done=await store.wait(created.id);assert.equal(done.result?.status,'FAIL',done.error??'');assert.equal(done.result?.v1?.verdict,'FAILED');assert.equal(done.result?.v1?.eligibleForReview,false);assert.equal(done.result!.v1!.layers[0]!.checks[0]!.status,'FAIL');assert.equal(isVerifyView(done),true);
   assert.deepEqual(done.result!.v1!.candidateTests,{authoritative:false,status:'PASS',paths:['tests/test_behavior.py']});
   const e=done.result!.evidence!;assert.notEqual(e.candidateExport.path,e.overlay.path);assert.match(readFileSync(join(e.overlay.path,'tests/test_behavior.py'),'utf8'),/assertGreater/);assert.match(readFileSync(join(e.candidateExport.path,'tests/test_behavior.py'),'utf8'),/assertTrue/);
   await assert.rejects(store.land(created.id,e.hash),/current bound/);assert.deepEqual(f.counts(),{authored:0,references:0});
@@ -102,7 +102,7 @@ test('completed v1 evidence survives restart and is not re-executed',async()=>{
 
 test('missing project recipes are an unchecked mandatory layer and block landing',async()=>{
  const f=fixture(),store=f.makeStore();try{
-  const created=await store.create(f.input),done=await store.wait(created.id);assert.equal(done.result?.v1?.layers[0]?.status,'PASS',done.error??'');assert.equal(done.result?.v1?.layers[1]?.status,'ERROR');assert.equal(done.result?.v1?.verdict,'ERROR');assert.equal(done.result?.v1?.canLand,false);assert.ok(done.result!.v1!.gaps.some(g=>g.id==='project-recipes'));assert.equal(isVerifyView(done),true);await assert.rejects(store.land(created.id,done.result!.evidence!.hash),/current bound/);
+  const created=await store.create(f.input),done=await store.wait(created.id);assert.equal(done.result?.v1?.layers[0]?.status,'PASS',done.error??'');assert.equal(done.result?.v1?.layers[1]?.status,'ERROR');assert.equal(done.result?.v1?.verdict,'ERROR');assert.equal(done.result?.v1?.eligibleForReview,false);assert.ok(done.result!.v1!.gaps.some(g=>g.id==='project-recipes'));assert.equal(isVerifyView(done),true);await assert.rejects(store.land(created.id,done.result!.evidence!.hash),/current bound/);
  }finally{await store.close();f.db.close();}
 });
 
@@ -125,7 +125,7 @@ test('recipe failing this BASE cannot falsely reject a Candidate; BASE-passing r
   assert.equal(unchanged.result?.v1?.verdict,'PASSED WITH GAPS',unchanged.error??'');
   const c=unchanged.result!.v1!.layers[1]!.checks[0]!;assert.equal(c.baseStatus,'FAIL');assert.equal(c.candidateStatus,'FAIL');assert.equal(c.status,'NOT CHECKED');assert.match(c.reason!,/Not applicable to this BASE/);
   const regression=await store.create({...f.input,baseRef:f.candidate,candidateRef:f.base}),failed=await store.wait(regression.id);
-  assert.equal(failed.result?.v1?.verdict,'FAILED',failed.error??'');assert.equal(failed.result!.v1!.layers[0]!.status,'PASS');assert.equal(failed.result!.v1!.layers[1]!.checks[0]!.baseStatus,'PASS');assert.equal(failed.result!.v1!.layers[1]!.checks[0]!.candidateStatus,'FAIL');assert.equal(failed.result!.v1!.canLand,false);
+  assert.equal(failed.result?.v1?.verdict,'FAILED',failed.error??'');assert.equal(failed.result!.v1!.layers[0]!.status,'PASS');assert.equal(failed.result!.v1!.layers[1]!.checks[0]!.baseStatus,'PASS');assert.equal(failed.result!.v1!.layers[1]!.checks[0]!.candidateStatus,'FAIL');assert.equal(failed.result!.v1!.eligibleForReview,false);
   const newly=await store.create(f.input),done=await store.wait(newly.id);assert.match(done.result!.v1!.layers[1]!.checks[0]!.reason!,/newly satisfied/);assert.equal(isVerifyView(done),true);
   writeFileSync(join(done.result!.evidence!.recipeBase!.path,'unexpected.txt'),'tampered BASE evidence');assert.equal(store.view(newly.id).result?.status,'STALE');
  }finally{await store.close();f.db.close();}

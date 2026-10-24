@@ -22,7 +22,7 @@ function readViewed(){try{return localStorage.getItem(preference);}catch{return 
 export function App(){
  const [verifyRequests,setVerifyRequests]=useState<VerifyView[]>([]);
  useEffect(()=>{let gone=false;const refresh=async()=>{try{const r=await fetch('/api/verify-only',{cache:'no-store'}),d=await r.json();if(!gone&&r.ok&&Array.isArray(d.requests)&&d.requests.every(isVerifyView))setVerifyRequests(d.requests);}catch{/* The focused verifier view reports request errors. */}};void refresh();const t=setInterval(()=>void refresh(),1500);return()=>{gone=true;clearInterval(t);};},[]);
- const verifyPending=verifyRequests.filter(r=>r.result?.v1?.canLand&&!r.result.v1.landed&&!r.abandonedAt);
+ const verifyPending=verifyRequests.filter(r=>r.result?.v1?.eligibleForReview&&!r.result.v1.landed&&!r.abandonedAt);
  const {state,reload}=useWorkspace();const [revision,setRevision]=useState(0);const attention=useAttention(revision);const [navigationError,setNavigationError]=useState<string|null>(null);function changed(){reload();setRevision(x=>x+1);}const [view,setView]=useState<View>(()=>new URLSearchParams(window.location.search).has('ticket')?{kind:'tickets'}:{kind:'chat'});const [viewedId,setViewedId]=useState<string|null>(readViewed);const main=useRef<HTMLElement>(null);
  useEffect(()=>{main.current?.focus();},[view.kind,'mission'in view?view.mission.id:'project'in view?view.project.id:'']);
  const projects=state.kind==='loaded'?state.data.projects:[];

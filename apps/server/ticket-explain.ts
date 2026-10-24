@@ -2,7 +2,7 @@ import {loadVerdictSnapshot,type VerdictSnapshotRef} from './verdict-snapshot.ts
 import type {DatabaseSync} from 'node:sqlite';
 import type {TicketEvent} from '../../packages/shared/tickets.ts';
 import {scoreVerdict,combineResults,type TraceStep,type Outcome} from '../../packages/shared/verdict-core.ts';
-import {isV1Report} from '../../packages/shared/verification-v1.ts';
+import {readV1Report} from '../../packages/shared/verification-v1.ts';
 export type TicketExplanation={source:'recorded'|'replayed'|'unavailable';verdict:string|null;matches:boolean|null;trace:TraceStep[];eventSequence?:number};
 const isTrace=(value:unknown):value is TraceStep[]=>Array.isArray(value)&&value.every(s=>s&&typeof s==='object'&&typeof s.rule==='string'&&typeof s.passed==='boolean'&&typeof s.explanation==='string');
 /** Read-only explanation. Historical replay never refreshes evidence or enables a decision. */
@@ -19,8 +19,8 @@ export function explainTicket(db:DatabaseSync,events:readonly TicketEvent[]):Tic
   let nativeTrace:TraceStep[]=[];
   if(typeof record.verificationId==='string'){
    const row=db.prepare('SELECT result_json FROM verify_only_runs WHERE id=?').get(record.verificationId);
-   const result=row?.result_json?JSON.parse(String(row.result_json)):null;const report:unknown=result?.v1;
-   if(!isV1Report(report))return {eventSequence,source:'unavailable',verdict,matches:null,trace:[]};
+   const result=row?.result_json?JSON.parse(String(row.result_json)):null;const report=readV1Report(result?.v1);
+   if(!report)return {eventSequence,source:'unavailable',verdict,matches:null,trace:[]};
    const scored=scoreVerdict({path:'native-ticket',layers:report.layers,gaps:report.gaps,supplied:{verdict:report.verdict,provenance:{source:'protected-verifier',verificationId:String(record.verificationId),evidenceHash:null}}});
    native={verdict:scored.verdict,gaps:scored.verdict==='NOT CHECKED'?report.gaps.map(g=>g.reason):report.gaps.map(g=>g.id+': '+g.reason),failures:report.layers.flatMap(l=>l.checks.filter(c=>c.status==='FAIL').map(c=>c.id+': '+(c.reason??'protected assertion failed')))};
    nativeTrace=scored.trace;
