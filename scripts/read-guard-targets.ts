@@ -1,9 +1,7 @@
-import {statSync,existsSync,readdirSync} from 'node:fs';import {join} from 'node:path';import {homedir} from 'node:os';import {safeBuildGit} from '../apps/server/build-workspace.ts';
+import {statSync} from 'node:fs';import {join} from 'node:path';import {homedir} from 'node:os';import {loadProbeManifest} from './probe-manifest.ts';
 export type ReadTarget={label:string;path:string;kind:'directory'|'file';present:boolean};
-export async function readGuardTargets(repository:string,liveData:string,home=homedir()){
- const targets:ReadTarget[]=[];const add=(label:string,path:string,kind:ReadTarget['kind']='directory')=>{let present=false;try{present=statSync(path)[kind==='directory'?'isDirectory':'isFile']();}catch{}targets.push({label,path,kind,present});};
- for(const path of ['.ssh','.codex','.config','.aws','.gnupg','Library/Keychains','Library/Application Support/Google/Chrome','Library/Application Support/Google/Chrome Beta','Library/Application Support/Chromium','Library/Application Support/Microsoft Edge','Library/Application Support/BraveSoftware/Brave-Browser','Library/Application Support/Arc','Library/Application Support/Firefox','Library/Safari','Library/Containers/com.apple.Safari','Library/Group Containers/group.com.apple.Safari'])add('~/'+path,join(home,path));
- add('~/.codex/auth.json',join(home,'.codex/auth.json'),'file');add('~/.bench-private',join(home,'.bench-private'));add('CC database',join(liveData,'command-center.sqlite'),'file');add('CC playbooks',join(liveData,'playbooks'));add('Phone private config',join(liveData,'phone-private'));add('Phone push keys',join(liveData,'phone-private/vapid.json'),'file');add('Verdict signing key',join(liveData,'signing/private.pem'),'file');add('Verdict device-bound key blob',join(liveData,'signing/device-key.blob'),'file');add('Verdict hardware signing helper',join(liveData,'signing/enclave-seal'),'file');add('Verdict signing helper',join(repository,'scripts/seal-helper.mjs'),'file');add('CC checker',join(repository,'apps/server/oracle-execution.ts'),'file');
- for(const entry of readdirSync(join(home,'Projects'))){const path=join(home,'Projects',entry);try{if(statSync(path).isDirectory()&&existsSync(join(path,'.git'))&&(await safeBuildGit(path,['rev-parse','--show-toplevel'])).toString().trim()===path)add('Other Projects/'+entry,path);}catch{}}
- return targets;
+/** Count and identity come from a released inventory, never directory discovery. */
+export async function readGuardTargets(repository:string,liveData:string,home=homedir(),probeData=liveData){
+ const roots={repo:repository,data:liveData,home,probe:probeData};
+ return loadProbeManifest().manifest.targets.map(t=>{const path=join(roots[t.root],t.path);let present=false;try{present=statSync(path)[t.kind==='directory'?'isDirectory':'isFile']();}catch{}return {label:t.id,path,kind:t.kind,present};});
 }

@@ -1,0 +1,12 @@
+{
+  "current": "protected-paths-v1",
+  "releases": [
+    {
+      "version": "protected-paths-v1",
+      "file": "protected-paths-v1.json",
+      "sha256": "b3ac13836740445841719716b60ee0fbe47c6d73edd75090e4e6b0ee784d455e",
+      "count": 78,
+      "approval": "SCION-1b user request: restore all historical targets; add Projects-parent coverage. No removals."
+    }
+  ]
+}
