@@ -11,5 +11,10 @@
       "homePathOccurrences": 409,
       "actualCurrentHomeOccurrences": 409
     }
-  ]
+  ],
+  "publicationDecision": {
+    "status": "APPROVED_BY_OWNER",
+    "date": "2026-10-24",
+    "reason": "Owner confirmed the paths contain the public username and approved publishing the two immutable originals unchanged."
+  }
 }

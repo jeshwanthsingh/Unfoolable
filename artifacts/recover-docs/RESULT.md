@@ -18,12 +18,12 @@ The old root threat draft was merged into the existing SCION threat model at doc
 - Grading-time diagnostic attempt 1: Python observer/separate judge PASS; project reporter collection error, retained.
 - Diagnostic attempt 2: both actual Python runner lanes PASS, 87 checks each: 76 denied, nine absent, two intentional positive controls. Private API returned 403. No forbidden operation succeeded. Browser/Vitest not measured; signal-zero is a permission test, not destructive signal delivery.
 
-## Privacy and publication blocker
+## Privacy and publication decision
 
 Three recovered videos are byte-identical to the stash, H.264/30 fps/58 seconds each. Fresh local Apple Vision OCR: **5,220 frames, 2,775 unique decoded images, 0 findings**. Cover: one image, zero findings. OCR limitations are recorded; this is not a proof against unreadable/non-textual secrets.
 
 Gitleaks 8.30.1 scanned the entire staged publication snapshot using unchanged default rules: 17 raw matches, individually verified as 13 file hashes, three vis-network method names and one explicit fake-key fixture. Zero confirmed secrets; exact-fingerprint baseline rerun has zero remaining findings. Raw redacted findings and triage remain available; no broad ignore rule was added.
 
-**Not cleared for publication:** two frozen CORE-1 golden JSON files still contain the owner's actual home path (411 occurrences). Per the earlier explicit instruction, originals remain unchanged and pushing is blocked. No scan result is presented as blanket personal-data clearance. No Git history rewrite occurred.
+The initial review blocked publication because two frozen CORE-1 golden JSON files contain the owner's actual home path (411 occurrences). On 2026-10-24 the owner explicitly approved publishing both files as-is, confirming that the paths contain the public username. That specific blocker is resolved by owner approval; the original bytes remain unchanged. No scan result is presented as blanket personal-data clearance. No Git history rewrite occurred.
 
-See docs/ADV_1_STATUS.md for DONE / PARTIAL / MISSING and docs/NEGATIVE_CONTROLS.md for the complete coverage map. This branch must wait for the owner's OK; the privacy blocker also needs an explicit decision before publication.
+See docs/ADV_1_STATUS.md for DONE / PARTIAL / MISSING and docs/NEGATIVE_CONTROLS.md for the complete coverage map. The owner granted one-time permission to merge/fast-forward this recovery to main and push without force. Stash 4378916 must remain intact; the no-merge/no-push rule resumes afterwards.

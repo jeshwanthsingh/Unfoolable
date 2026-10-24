@@ -13,5 +13,13 @@
   "reviewedFalsePositives": 17,
   "remainingFindings": 0,
   "confirmedSecrets": 0,
-  "personalDataBlocker": "Actual home paths remain in the two immutable CORE-1 golden files; preserved per prior instruction; publication blocked."
+  "personalDataDisposition": {
+    "status": "APPROVED_FOR_PUBLICATION_BY_OWNER",
+    "date": "2026-10-24",
+    "scope": "The two frozen CORE-1 golden files may be published byte-for-byte as-is; owner confirmed the paths contain the public username. One-time normal main merge/push authorized; stash retained.",
+    "files": [
+      "artifacts/core1/current-policy-golden.json",
+      "artifacts/core1/golden.json"
+    ]
+  }
 }

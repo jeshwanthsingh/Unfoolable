@@ -76,7 +76,7 @@ The app also supports **Bug from this log**, which requires a matching reproduct
 
 This is a personal, single-Mac tool. Real-iPhone and VoiceOver testing remain limited. Tripwire alarms are best effort; the sandbox is the enforced read boundary.
 
-[Design](DESIGN.md) · [Threat model](docs/THREAT_MODEL.md) · [Negative controls](docs/NEGATIVE_CONTROLS.md) · [Architecture facts](docs/DESIGN_FACTS.md) · [Signing](docs/SIGNING.md) · [Invariants and their tests](docs/INVARIANTS.md) · [Backups](docs/BACKUPS.md)
+[Apache-2.0 license](LICENSE) · [Design](DESIGN.md) · [Threat model](docs/THREAT_MODEL.md) · [Negative controls](docs/NEGATIVE_CONTROLS.md) · [Architecture facts](docs/DESIGN_FACTS.md) · [Signing](docs/SIGNING.md) · [Invariants and their tests](docs/INVARIANTS.md) · [Backups](docs/BACKUPS.md)
 
 ## Development
 

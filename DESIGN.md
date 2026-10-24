@@ -71,4 +71,4 @@ SCION-1 classifies changed code deterministically for review and only raises bas
 
 ---
 
-Further detail: [threat model](docs/THREAT_MODEL.md), [negative controls](docs/NEGATIVE_CONTROLS.md), `docs/DESIGN_FACTS.md` (component facts), `docs/INVARIANTS.md` (rules and their tests), `docs/SIGNING.md` (sealing), `README.md` (setup and measurements).
+Further detail: [license](LICENSE), [threat model](docs/THREAT_MODEL.md), [negative controls](docs/NEGATIVE_CONTROLS.md), `docs/DESIGN_FACTS.md` (component facts), `docs/INVARIANTS.md` (rules and their tests), `docs/SIGNING.md` (sealing), `README.md` (setup and measurements).
