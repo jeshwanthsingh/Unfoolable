@@ -2,15 +2,60 @@
 
 **AI does the work. Nothing fools the check.**
 
-Unfoolable is a personal, local Mac app. Describe a code change, review the proposed task, and let Codex work in a separate copy. Protected checks report what passed and what could not be checked. You decide whether to Accept or Reject. Accept saves a separate local branch; it never merges or pushes.
+A local Mac workflow where the coding agent does the work but is never the authority on whether it passed.
 
-![Observatory room with a saved task’s Proof pass](artifacts/obs3/pass-1440-light.png)
+![macOS](https://img.shields.io/badge/platform-macOS-lightgrey) ![Node 24](https://img.shields.io/badge/node-24-green) ![Built with Codex](https://img.shields.io/badge/builder-Codex-blue)
 
-*Stored task history and dated check results, not a claim about current live counts.*
+<a href="artifacts/obs3/replay-landscape.mp4"><img src="artifacts/obs3/room-1440-light.png" alt="Watch a recorded task replay through Unfoolable’s protected workflow" width="800"></a>
 
-## Start
+**[Watch a recorded task replay](artifacts/obs3/replay-landscape.mp4)** · [Portrait version](artifacts/obs3/replay-portrait.mp4) · [Recording sources and limitations](artifacts/obs3/RESULT.md)
 
-Requirements: **macOS, Node 24, Git, and Codex authenticated with your existing ChatGPT account**. The sandbox and Touch ID flow are built for the Mac; this is not a cross-platform setup.
+## The worker doesn't get to be the judge
+
+Coding agents can change tests, miss an edge case or simply say “done.” Unfoolable puts an independent checking boundary between that claim and your decision.
+
+Describe a change. Codex works in a separate copy of your project. Protected checks inspect the frozen result and report what passed, failed or couldn't be checked. You see the changes and decide whether to keep them.
+
+**Nothing is accepted automatically. Accept saves a separate local branch. It never merges or pushes.**
+
+![The Observatory: a live pixel room, task list and saved Proof pass](artifacts/obs3/pass-1440-light.png)
+
+*The room follows recorded events. Replays are labelled; missing data stays unknown. The screenshot shows a saved task, not current live counts.*
+
+## How it works
+
+1. **Ask.** Describe the change and confirm the exact task with Touch ID.
+2. **Build.** Codex works in its own sandboxed copy, with outside network access and protected-file reads denied.
+3. **Freeze.** Unfoolable snapshots the result and restores the original tests for checking.
+4. **Check.** Approved project checks and local quality tools feed one pure verdict function.
+5. **Seal.** The Mac signs the facts, result and trace. Verification can replay the recorded core version later.
+6. **Decide.** Open every changed file, then Accept or Reject with a fresh confirmation.
+
+```mermaid
+flowchart LR
+    B[Builder] --> F[Frozen change]
+    F --> G[Protected grader]
+    G --> V[Pure verdict core]
+    V --> S[Sealed record]
+    S --> H[Human decision]
+```
+
+## What the measurements actually say
+
+| Earlier local study | Result |
+| --- | --- |
+| Planted cheats kept from passing | **12/12** — 5 failed, 7 inconclusive |
+| Wrong changes falsely accepted | **0/8** |
+| Correct changes confirmed in the bounded-context study | **2/11 (18.2%)** |
+| Correct historical fixes confirmed | **1/6 (16.7%)** |
+
+Zero false accepts includes abstentions. It does **not** mean every defect was detected. These are small, correlated studies; four historical artifacts were blocked by the test harness. The independent Test Writer missed its promotion bar and remains advisory.
+
+[Read the methods, denominators and limitations](artifacts/warning-signal/RESULT.md).
+
+## Run it on your Mac
+
+Requires **macOS, Node 24, Git and an authenticated Codex account**. Work uses your existing Codex allowance; no separate paid API key is required.
 
 ```sh
 git clone https://github.com/jeshwanthsingh/Unfoolable.git
@@ -19,70 +64,26 @@ npm ci
 ./cc chat
 ```
 
-The launcher starts the coordinator, browser UI and live event stream, then opens your private page. On this Mac, the installed `unfool` alias does the same thing; cloning alone does not install that alias. Open the app through the launcher to connect the private screen.
+One command starts the coordinator, web UI and event stream, then opens your private page. If you already have the `unfool` alias installed, it does the same thing. Register a passkey in Settings, then approve your project's checks before its first run.
 
-Register your passkey in the local UI. Starting work and making decisions require fresh Touch ID confirmation; nothing is accepted automatically. Project checks need a one-time approved playbook. No new paid API billing is required; Codex uses your existing account allowance.
+The app also supports **Bug from this log**, which requires a matching reproduction before fixing, and **Night Shift**, which queues individually approved tasks and leaves the results for your review.
 
-To investigate an error, paste its traceback in Ask, or run `./cc bug error.log`. Logs are bounded and scanned for secrets before AI sees them. The first session may only write a reproduction test; a fix starts only after that test produces the matching failure on the original code. Initial matching support is Python unittest. Unsupported or unreproduced reports stop honestly.
+## What it does not claim
 
-## Observatory
+“Unfoolable” is an aspiration, not a guarantee. The host Mac is trusted. Native tests share a process with the code they test, so deliberate in-process result forgery remains a known risk. Passing old tests doesn't prove every new behavior; gaps stay visible. A seal proves record integrity, not code correctness or host honesty.
 
-The main screen combines the live pixel room, your task list and a **Proof** pass. Open a task to see what was checked, what remains unchecked, the seal and the exact code changes. Accept still requires the existing review and fresh Touch ID. **Settings → Classic view** restores the previous list for this release.
+This is a personal, single-Mac tool. Real-iPhone and VoiceOver testing remain limited. Tripwire alarms are best effort; the sandbox is the enforced read boundary.
 
-The room follows recorded events: reading files, making changes, running checks and handing work to your desk. Its four pinned labels explain network restrictions, the dated protected-path probe, Builder fuel and the isolated Grader. Missing information stays unknown. Hover or focus a Proof fact to highlight its room object, or tap an object for its explanation and source.
+[Design and threat limits](DESIGN.md) · [Architecture facts](docs/DESIGN_FACTS.md) · [Signing](docs/SIGNING.md) · [Invariants and their tests](docs/INVARIANTS.md) · [Backups](docs/BACKUPS.md)
 
-**Replay** and its scrubber show a past task at an exact point in its saved history, with timing compressed. **Record clip** exports a local 16:9 or 9:16 WebM, labelled as replay. Nothing is uploaded. Opening live Proof cancels recording rather than mixing tasks. Chrome on Mac is the verified recorder; the demos below also include MP4 sharing copies.
-
-A recorded tripwire or Stop all event opens a calm explanation with the task and time. The Night Shift briefing links completed work to its Proof; no report means no invented summary. A fresh seal gets one short shimmer. Four optional sounds are **off by default** and automatically muted during Night Shift. Hidden or offline rooms pause; reduced motion uses still pictures. The protected-path label is dated system evidence, not a count of secrets or a per-task guarantee.
-
-Choose **Workshop** for the optional full-window room. Decorative ambient life is separate from recorded work. Neither replay nor the room can authorize a decision.
-
-[Desktop and phone screenshots, light/dark](artifacts/obs3/INDEX.md) · [16:9 demo](artifacts/obs3/replay-landscape.mp4) · [9:16 demo](artifacts/obs3/replay-portrait.mp4) · [Verification and limits](artifacts/obs3/RESULT.md) · [Manual VoiceOver checklist](docs/VOICEOVER_CHECKLIST.md).
-
-## On your iPhone
-
-Install and connect Tailscale on both devices using your own account. On the Mac run `./cc phone serve`, then open Settings → Add my phone. Scan the five-minute QR code, create the phone passkey, and confirm the matching phone on the Mac with Touch ID. Add the private HTTPS page to your iPhone Home Screen for optional alerts. The app stays on loopback; Tailscale Serve is private, never Funnel. Phone decisions require a fresh passkey check. [Phone setup and limits](docs/PHONE_1.md).
-
-## What the measurements say
-
-| Measurement | Observed result |
-| --- | --- |
-| Planted cheats kept from passing | **12/12**: 5 failed, 7 inconclusive |
-| False accepts on the eight-wrong-change scoring set | **0/8** |
-| Correct changes confirmed by the earlier native Test Writer | **4/11** |
-| Latest bounded-context confirmation study | **2/11 (18.2%)** |
-| Six historical correct fixes confirmed | **1/6 (16.7%)** |
-
-These are small local studies. Zero false accepts includes abstentions; it does not mean every defect was detected. The historical tasks are correlated, and four historical artifacts were blocked by the harness. The Test Writer missed its promotion bar and remains **advisory only**. [Measured results and limits](artifacts/warning-signal/RESULT.md), [earlier native-test study](artifacts/test-writer-v2/RESULT.md).
-
-## Safety in six points
-
-- The Builder uses an isolated copy, cannot read protected checks or private folders, and has no outside network.
-- The checker restores the original tests before checking the frozen change. Edited tests cannot quietly replace them; zero tests never pass.
-- Reusable project checks need approval. A regression check applies only if it passes on that change's starting version.
-- The independent Test Writer sees original code, not the proposed change. Its warnings cannot erase a failing protected check.
-- Accept needs a fresh Touch ID confirmation tied to the exact change. Flagged work requires looking at every changed file; stale buttons are rejected.
-- Work and decisions are recorded as events. Fixes are bounded, restart interrupts unfinished work, and Stop all needs no approval.
-
-## Known limits
-
-Passing existing tests does not prove new behavior. A result with unchecked behavior is a gap, not a clean bill of health. Native tests share a process with the code they test; deliberate in-memory or observation-channel forgery remains a risk. Tripwire alarms are best effort. There has been no full manual screen-reader audit. Physical-iPhone performance and a complete real-device pairing exercise are not established by desktop browser tests.
-
-Backups are local and same-disk, not disaster protection. [Backup and restore](docs/BACKUPS.md). The repository is still named `command-center`. Older orchestration screens are experimental. [Handoff](HANDOFF.md) explains operation, tests and open work; [DESIGN.md](DESIGN.md) is the design document.
-
-Skill imports: `./cc skill add /absolute/path/to/a/skill` scans a frozen copy with the pinned local SkillSpector, static only and offline. High-risk imports remain uninstalled until an exact-content Touch ID confirmation. Existing skills rated “do not install” are disabled with files retained; see the UI-5b scan report. Static findings are warnings, not proof of malicious intent.
-
-## Development and verification
+## Development
 
 ```sh
-npm run dev        # Local server and Vite frontend
-npm test           # Automated tests; Node 24 required
+npm test
 npm run typecheck
 npm run build
 ```
 
-HTTP and process-ownership tests need an environment that permits local listeners and process inspection. Do not interpret sandbox-denied test infrastructure as a passing run. The completed Observatory verification passed **1,233/1,233 tests**, with no failures or skips, plus typecheck and production build. **61 golden replay comparisons had zero differences**; **281 protected implementation hashes and four decision callbacks were unchanged**. Axe reported **zero violations across 16 combinations** of main, Proof, Settings and room at desktop/phone widths, light/dark. A 30-second idle check recorded no work animations, counter changes or extra requests. These checks do not replace manual screen-reader or real-device testing. [Exact results](artifacts/obs3/validation.json).
+Some boundary tests need macOS and must run outside an enclosing sandbox. Historical reports are dated evidence, not checks automatically rerun by cloning.
 
-Vite is pinned to **8.3.5**; OSV and npm audit cleared the six baseline advisories. Protected-read probes and planted-cheat results are dated evidence, not checks automatically rerun when you clone. The latest probe denied **all 74 protected paths**; **all 12 planted-cheat controls remained non-PASS**. [Probe](artifacts/obs3/protected-probe.json) · [Controls](artifacts/obs3/negative-controls.json) · [Dependency scans and licenses](docs/OBS_3_SOURCES.md).
-
-Keep live SQLite data, local tools and credentials out of Git. Do not delete `.work/` wholesale: on the configured Mac it contains live application data. [Operational handoff](HANDOFF.md) and [backup instructions](docs/BACKUPS.md) cover the existing installation.
+**Companion project:** [Aegis](https://github.com/jeshwanthsingh/aegis) contains untrusted code in Firecracker microVMs. **Aegis contains, Unfoolable judges.**
