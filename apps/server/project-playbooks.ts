@@ -1,3 +1,4 @@
+import {changeKinds} from '../../packages/shared/change-classification.ts';
 import {repositoryIdentity} from './repository-identity.ts';
 import {qualityGateNames} from '../../packages/shared/quality-gates.ts';
 import {proposeQualityGates,qualityPolicyHash} from './quality-gates.ts';
@@ -36,7 +37,7 @@ function command(value: unknown): PlaybookCommand {
 export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefinition {
   if (!value || typeof value !== 'object' || JSON.stringify(value).length > 32768) return invalid('Invalid or oversized playbook.');
   const d = value as ProjectPlaybookDefinition;
-  const fields = ['skipReviewers', 'diffCap', 'qualityGates', 'version', 'exportFiles', 'setup', 'tests', 'env', 'runner', 'timeoutSeconds', 'knownFailingTests', 'knownFlakyTests', 'notes'];
+  const fields = ['riskRules', 'skipReviewers', 'diffCap', 'qualityGates', 'version', 'exportFiles', 'setup', 'tests', 'env', 'runner', 'timeoutSeconds', 'knownFailingTests', 'knownFlakyTests', 'notes'];
   if (Object.keys(d).some(k => !fields.includes(k)) || d.version !== 'project-playbook-v1' || !['unittest', 'vitest', 'node-script'].includes(d.runner)) return invalid('Unsupported playbook definition.');
   if (!Array.isArray(d.tests) || d.tests.length < 1 || d.tests.length > 12) return invalid('Provide between one and twelve test commands.');
   if (!Number.isInteger(d.timeoutSeconds) || d.timeoutSeconds < 1 || d.timeoutSeconds > 1800) return invalid('Timeout must be between 1 and 1800 seconds.');
@@ -48,8 +49,9 @@ export function validatePlaybookDefinition(value: unknown): ProjectPlaybookDefin
   if(d.exportFiles !== undefined && (!Array.isArray(d.exportFiles)||!d.exportFiles.length||d.exportFiles.length>100||d.exportFiles.some(p=>!safeText(p,1024)||!safeBuildPath(p)||/[:*?\[\]]/.test(p)||!p||isAbsolute(p)||p.split('/').some(x=>!x||x==='.'||x==='..')||p.includes('\\'))||new Set(d.exportFiles).size!==d.exportFiles.length)) return invalid('Invalid export file whitelist.');
   if(d.qualityGates!==undefined&&(!d.qualityGates||Object.keys(d.qualityGates).some(k=>!['gates','policyHash'].includes(k))||!Array.isArray(d.qualityGates.gates)||!d.qualityGates.gates.length||new Set(d.qualityGates.gates).size!==d.qualityGates.gates.length||d.qualityGates.gates.some(g=>!qualityGateNames.includes(g))||!/^([a-f0-9]{64})$/.test(d.qualityGates.policyHash)))return invalid('Invalid quality gate policy.');
   if(d.diffCap!==undefined&&(!d.diffCap||Object.keys(d.diffCap).some(k=>!['lines','files'].includes(k))||!Number.isSafeInteger(d.diffCap.lines)||d.diffCap.lines<1||d.diffCap.lines>100000||!Number.isSafeInteger(d.diffCap.files)||d.diffCap.files<1||d.diffCap.files>1000))return invalid('Diff caps require 1–100,000 lines and 1–1,000 files.');
+  if(d.riskRules!==undefined&&(!Array.isArray(d.riskRules)||d.riskRules.length>40||d.riskRules.some(r=>!r||Object.keys(r).some(k=>!['path','kind','raiseTo','message'].includes(k))||!safeText(r.path,200)||!r.path||!(/^[A-Za-z0-9_.*/-]+$/).test(r.path)||r.path.startsWith('/')||r.path.split('/').some(p=>p==='..'||p==='.')||!['GREEN','AMBER','RED'].includes(r.raiseTo)||r.kind!==undefined&&!changeKinds.includes(r.kind)||r.kind==='comment/docs-only'&&r.raiseTo!=='GREEN'||!safeText(r.message,240)||!r.message.trim())))return invalid('Invalid raise-only project risk rule.');
   if(d.skipReviewers!==undefined&&typeof d.skipReviewers!=='boolean')return invalid('Reviewer switch must be a boolean.');
-  return {...(d.skipReviewers===undefined?{}:{skipReviewers:d.skipReviewers}),...(d.diffCap?{diffCap:{...d.diffCap}}:{}),...(d.qualityGates?{qualityGates:structuredClone(d.qualityGates)}:{}),...(d.exportFiles?{exportFiles:[...d.exportFiles]}:{}),version: d.version, setup: d.setup === null ? null : command(d.setup), tests: d.tests.map(command), env: {...d.env}, runner: d.runner, timeoutSeconds: d.timeoutSeconds, knownFailingTests: [...d.knownFailingTests], knownFlakyTests: [...d.knownFlakyTests], notes: [...d.notes]};
+  return {...(d.riskRules===undefined?{}:{riskRules:structuredClone(d.riskRules)}),...(d.skipReviewers===undefined?{}:{skipReviewers:d.skipReviewers}),...(d.diffCap?{diffCap:{...d.diffCap}}:{}),...(d.qualityGates?{qualityGates:structuredClone(d.qualityGates)}:{}),...(d.exportFiles?{exportFiles:[...d.exportFiles]}:{}),version: d.version, setup: d.setup === null ? null : command(d.setup), tests: d.tests.map(command), env: {...d.env}, runner: d.runner, timeoutSeconds: d.timeoutSeconds, knownFailingTests: [...d.knownFailingTests], knownFlakyTests: [...d.knownFlakyTests], notes: [...d.notes]};
 }
 
 export function createProjectPlaybookStore(dataDir: string) {
