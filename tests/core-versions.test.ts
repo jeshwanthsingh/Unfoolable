@@ -11,6 +11,7 @@ import {snapshotTicketCheck} from '../apps/server/verdict-snapshot.ts';
 import {verifyTicketSeal} from '../apps/server/verdict-seal.ts';
 import {createAttestation} from '../apps/server/attestation-format.ts';
 import {signingKey} from '../apps/server/signing-key.ts';
+import {currentCore,resolveCore} from '../apps/server/core-registry.ts';
 
 function currentFixture(){
  const dir=mkdtempSync(join(tmpdir(),'cc-version-seal-')),database=openDatabase(dir,()=>{}),db=database.connection;
@@ -66,9 +67,13 @@ test('editing the archived v1 source breaks old seals even if the edit is only a
   for(const path of ['apps/server','packages/shared'])cpSync(resolve(path),join(app,path),{recursive:true});
   mkdirSync(join(app,'docs'));cpSync('docs/CORE_VERSIONS.json',join(app,'docs/CORE_VERSIONS.json'));
   const module=pathToFileURL(join(app,'apps/server/verdict-seal.ts')).href;
-  const run=()=>JSON.parse(execFileSync(process.execPath,['--input-type=module','-e',`import {DatabaseSync} from 'node:sqlite';import {verifyTicketSeal} from ${JSON.stringify(module)};const db=new DatabaseSync(${JSON.stringify(join(f.dir,'command-center.sqlite'))},{readOnly:true});console.log(JSON.stringify(verifyTicketSeal(db,${JSON.stringify(f.dir)},${JSON.stringify(f.ticket.id)})));db.close();`],{encoding:'utf8'}));
-  assert.equal(run().state,'SEALED');
-  const source=join(app,'packages/shared/cores/verdict-core-v1.ts');writeFileSync(source,readFileSync(source,'utf8')+'\n// Edited released source\n');
-  const seal=run();assert.equal(seal.state,'BROKEN');assert.equal(seal.label,'Seal broken: unknown core');
+  const source=join(app,'packages/shared/cores/verdict-core-v1.ts');
+  const results=JSON.parse(execFileSync(process.execPath,['--input-type=module','-e',`import {DatabaseSync} from 'node:sqlite';import {appendFileSync} from 'node:fs';import {verifyTicketSeal} from ${JSON.stringify(module)};const db=new DatabaseSync(${JSON.stringify(join(f.dir,'command-center.sqlite'))},{readOnly:true});const check=()=>verifyTicketSeal(db,${JSON.stringify(f.dir)},${JSON.stringify(f.ticket.id)});const before=check();appendFileSync(${JSON.stringify(source)},"\\n// Edited released source\\n");const after=check();console.log(JSON.stringify([before,after]));db.close();`],{encoding:'utf8'}));
+  assert.equal(results[0].state,'SEALED');assert.equal(results[1].state,'BROKEN');assert.equal(results[1].label,'Seal broken: unknown core');
  }finally{f.database.close();rmSync(f.root,{recursive:true,force:true});}
+});
+
+test('registry selection rejects unknown or substituted source identities without a current-core fallback',()=>{
+ const current=currentCore();assert.equal(current.version,'verdict-core-v2');
+ for(const [version,hash] of [['verdict-core-future',current.sourceHash],['verdict-core-v1',current.sourceHash],['verdict-core-v2','f'.repeat(64)],['../../untrusted',current.sourceHash]])assert.throws(()=>resolveCore(version!,hash!),/unknown core/);
 });

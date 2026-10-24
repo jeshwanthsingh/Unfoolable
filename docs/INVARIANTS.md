@@ -68,3 +68,9 @@ Bug admission currently supports ordinary unconditional Python unittest reproduc
 - Every typed fact path is explicit and exhaustive; unknown runtime paths return ERROR. Adding a path without its rule fails compilation. [Compile-negative test](../tests/core2-regressions.test.ts).
 - The shell supplies budget defaults; the core uses only explicit limits. [Legacy and explicit budget tests](../tests/core2-regressions.test.ts).
 - `eligibleForReview` is not acceptance. Legacy stored reports are read without rewriting signed bytes, and ambiguous old/new fields are rejected. [Compatibility test](../tests/verification-v1-contract.test.ts).
+
+## CORE-2b — version-bound replay
+
+- A sealed decision replays only through its recorded registered version and exact source hash; no fallback to today's core is allowed. Unknown identities and edited source fail closed as “Seal broken: unknown core”. [Version and tamper tests](../tests/core-versions.test.ts).
+- Released v1 source stays byte-identical to main 4abc25a, including its original field names and trace behavior. Authority lint covers both pure implementations. [Hash and authority tests](../tests/verdict-core.test.ts).
+- New snapshots and seals use v2; loading historical facts never changes their bytes, signature or verdict. [Legacy CLI replay and v2 sealing](../tests/core-versions.test.ts).
