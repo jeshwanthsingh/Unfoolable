@@ -10,7 +10,7 @@ type TestRow = {id: string; status: 'PASS' | 'FAIL' | 'SKIPPED'};
 type CommandResult = {exitCode: number; tests: TestRow[]};
 export type Outcome = {verdict: Verdict; gaps: string[]; failures: string[]};
 export type VerdictFacts =
- | {path: 'budget'; commands: number; reportedCodexTokens: number|null; reportedWriterTokens: number|null; limits: {maxCommands: number; maxCodexTokens: number; maxWriterTokens?: number}}
+ | {path: 'budget'; commands: number; reportedCodexTokens: number|null; reportedWriterTokens: number|null; limits: {maxCommands: number; maxCodexTokens: number; maxWriterTokens: number}}
  | {path: 'unsupported'; reason: string}
  | {path: 'native-ticket'; layers: Layer[]; gaps: Gap[]; supplied?: {verdict: Verdict; provenance: {source: 'protected-verifier'; verificationId: string; evidenceHash: string|null}}}
  | {path: 'native'; layers: Layer[]; gaps?: Gap[]}
@@ -46,7 +46,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
  if (facts.path === 'budget') {
   const reason = facts.commands > facts.limits.maxCommands ? 'Stopped because this ticket exceeded ' + facts.limits.maxCommands + ' Builder commands.'
    : facts.reportedCodexTokens !== null && facts.reportedCodexTokens > facts.limits.maxCodexTokens ? 'Stopped because Builder reported more than ' + facts.limits.maxCodexTokens + ' tokens for this ticket.'
-   : facts.reportedWriterTokens !== null && facts.reportedWriterTokens > (facts.limits.maxWriterTokens ?? 40000) ? 'Stopped because Test Writer used its full token budget.' : null;
+   : facts.reportedWriterTokens !== null && facts.reportedWriterTokens > facts.limits.maxWriterTokens ? 'Stopped because Test Writer used its full token budget.' : null;
   return {...finish('NOT CHECKED', reason ? [reason] : []), budgetReason: reason};
  }
  if (facts.path === 'unsupported') {note('unsupported', false, facts.reason);return finish('NOT CHECKED', [facts.reason]);}

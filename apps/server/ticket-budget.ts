@@ -7,7 +7,7 @@ export function ticketBudget(db:DatabaseSync,id:string){const events=listTicketE
 export function recordTicketLimits(db:DatabaseSync,id:string,dataDir:string,fixtureLimits?:TicketLimits){let limits=TICKET_LIMITS;if(fixtureLimits){if(!fixtureApprovalsEnabled(dataDir))throw Error('Budget test overrides require isolated TEST data');if(fixtureLimits.maxWriterTokens!==undefined&&(!Number.isFinite(fixtureLimits.maxWriterTokens)||fixtureLimits.maxWriterTokens<=0||fixtureLimits.maxWriterTokens>40000))throw Error('Invalid writer fixture budget');for(const k of ['maxCommands','maxMinutes','maxCodexTokens'] as const)if(!Number.isFinite(fixtureLimits[k])||fixtureLimits[k]<=0||fixtureLimits[k]>TICKET_LIMITS[k])throw Error('Test limits may only lower safe defaults');limits=fixtureLimits;}
  if(!listTicketEvents(db,id).some(e=>e.kind==='agent_event'&&e.data.kind==='budget_limits'))appendTicketEvent(db,id,'agent_event',{kind:'budget_limits',limits});return ticketBudget(db,id).limits;
 }
-export function budgetExceeded(budget:ReturnType<typeof ticketBudget>):string|null{return scoreVerdict({path:'budget',commands:budget.commands,reportedCodexTokens:budget.reportedCodexTokens,reportedWriterTokens:budget.reportedWriterTokens,limits:budget.limits}).budgetReason!;}
+export function budgetExceeded(budget:ReturnType<typeof ticketBudget>):string|null{return scoreVerdict({path:'budget',commands:budget.commands,reportedCodexTokens:budget.reportedCodexTokens,reportedWriterTokens:budget.reportedWriterTokens,limits:{...budget.limits,maxWriterTokens:budget.limits.maxWriterTokens??TICKET_LIMITS.maxWriterTokens!}}).budgetReason!;}
 
 export function extendTicketBudget(db:DatabaseSync,id:string,dataDir:string){
  requireHuman(dataDir,{item:'ticket:'+id,action:'continue'});
