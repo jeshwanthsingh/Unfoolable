@@ -129,6 +129,7 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
   note('new-behavior', false, 'Project checks alone do not prove the requested change.');
   return {...finish(verdict, [...facts.gaps, ...failures]), failures};
  }
+ if (facts.path === 'native') {
  const {layers} = facts;
  const complete = [1, 2, 3].every(layer => layers.filter(l => l.layer === layer).length === 1) && layers.length === 3;
  const errors = layers.some(l => l.status === 'ERROR' || l.checks.some(c => c.status === 'ERROR'));
@@ -144,6 +145,11 @@ export function scoreVerdict(facts: VerdictFacts): VerdictDecision {
  const gaps = (facts.gaps?.length ?? 0) > 0 || layers.some(l => l.gaps.length > 0 || l.status === 'NOT CHECKED' || l.checks.some(c => c.status === 'NOT CHECKED' && !(l.layer === 2 && c.baseStatus === 'FAIL')));
  note('coverage', !gaps, gaps ? 'Some behavior remains unchecked; the gaps are listed separately.' : 'All supplied authoritative layers passed without gaps.');
  return finish(gaps ? 'PASSED WITH GAPS' : 'VERIFIED', reasons);
+ }
+ // A new typed path must be handled above; malformed runtime input fails closed.
+ const unhandled: never = facts;
+ void unhandled;
+ return finish('ERROR', ['Unknown fact type']);
 }
 
 /** Live checking and historical replay share this entry; neither may select just one required part. */
