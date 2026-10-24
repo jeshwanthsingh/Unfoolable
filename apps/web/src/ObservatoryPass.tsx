@@ -2,7 +2,7 @@ import {summarizeChanges} from '../../../packages/shared/change-classification.t
 import {plainReviewRiskReason} from '../../../packages/shared/review-risk.ts';
 import type {RoomLink} from './ObservatoryRoom.tsx';
 import {fuelFact,roomExplanation,type RoomKey} from './observatory-room-model.ts';
-import {observatoryProbe} from './observatory-probe.ts';
+import {observatoryProbe as historicalProbe} from './observatory-probe.ts';
 import {useEffect,useRef,useState} from 'react';
 import {motion,useReducedMotion} from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -15,7 +15,8 @@ import {ReviewerNotes} from './ReviewerNotes.tsx';
 import {phoneMode} from './phone-client.ts';
 import {TaskMenu} from './TaskMenu.tsx';
 type Decision='keep'|'discard'|'recheck'|'retry'|'continue';
-export function ObservatoryPass({detail,theme,onClose,onInspect,onDecision,decisionPending=false,requestError,roomLink,sealMoment=0}:{sealMoment?:number;roomLink?:RoomLink;detail:Detail;theme:'light'|'dark';onClose:()=>void;onInspect:()=>void;onDecision:(kind:Decision)=>void;decisionPending?:boolean;requestError?:string|null}){
+export function ObservatoryPass({probe,detail,theme,onClose,onInspect,onDecision,decisionPending=false,requestError,roomLink,sealMoment=0}:{probe?:typeof historicalProbe|undefined;sealMoment?:number;roomLink?:RoomLink;detail:Detail;theme:'light'|'dark';onClose:()=>void;onInspect:()=>void;onDecision:(kind:Decision)=>void;decisionPending?:boolean;requestError?:string|null}){
+ const observatoryProbe=probe??historicalProbe;
  const [phone,setPhone]=useState(()=>typeof window!=='undefined'&&window.matchMedia('(max-width: 799px)').matches),reduced=useReducedMotion(),trigger=useRef<HTMLElement|null>(null);
  useEffect(()=>{trigger.current=document.activeElement instanceof HTMLElement?document.activeElement:null;const media=matchMedia('(max-width: 799px)'),change=()=>setPhone(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);
  const sealRef=useRef<HTMLElement>(null),previousSeal=useRef(sealMoment);

@@ -7,13 +7,14 @@ import type {Detail} from './TicketPanel.tsx';
 import {officeFrame,orderedOfficeEvents} from './office-model.ts';
 import {officeActivity} from './office-activity.ts';
 import {LiveRoomQueue,MIN_BEAT,choreograph,journeyView,fuelFact,prefixAt,replayMoments,roomObjects,roomExplanation,type Beat,type RoomKey} from './observatory-room-model.ts';
-import {observatoryProbe} from './observatory-probe.ts';
+import {observatoryProbe as historicalProbe} from './observatory-probe.ts';
 import './observatory-room.css';
 const Canvas=lazy(()=>import('./ObservatoryRoomCanvas.tsx').then(m=>({default:m.ObservatoryRoomCanvas})));
 export type RoomLink={highlight:RoomKey|null;onHighlight:(key:RoomKey|null)=>void};
 const stations=['sandbox','builder','grader','seal','you'] as const;
 const names={sandbox:'Sandbox',builder:'Builder',grader:'Grader',seal:'Seal',you:'You'};
-export function ObservatoryRoom({tickets,details,loadDetail,proofTicket,theme,offline,link}:{tickets:DeskTicket[];details:Record<string,Detail>;loadDetail:(id:string,force?:boolean)=>Promise<void>;proofTicket:string|null;theme:'light'|'dark';offline:boolean;link:RoomLink}){
+export function ObservatoryRoom({probe,tickets,details,loadDetail,proofTicket,theme,offline,link}:{probe?:typeof historicalProbe|undefined;tickets:DeskTicket[];details:Record<string,Detail>;loadDetail:(id:string,force?:boolean)=>Promise<void>;proofTicket:string|null;theme:'light'|'dark';offline:boolean;link:RoomLink}){
+ const observatoryProbe=probe??historicalProbe;
  const [chosen,setChosen]=useState<string|null>(null),[expanded,setExpanded]=useState(()=>{try{return localStorage.getItem('unfool-room')!=='closed';}catch{return true;}}),[visible,setVisible]=useState(()=>typeof document==='undefined'||!document.hidden),[alt,setAlt]=useState(false),[object,setObject]=useState<RoomKey|null>(null),[error,setError]=useState(''),[replay,setReplay]=useState<TicketEvent[]|null>(null),[cursor,setCursor]=useState(0),[playing,setPlaying]=useState(false),[liveSequence,setLiveSequence]=useState(0),[beat,setBeat]=useState<Beat|null>(null),[clock,setClock]=useState(()=>new Date());
  const [recordError,setRecordError]=useState(''),[recording,setRecording]=useState(''),[clipShape,setClipShape]=useState<ClipShape>('landscape'),recordAbort=useRef<AbortController|null>(null);
  useEffect(()=>()=>recordAbort.current?.abort(),[]);

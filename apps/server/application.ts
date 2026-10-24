@@ -1,3 +1,9 @@
+import {createSelfCheck} from './self-check.ts';
+import {selfCheckRunner} from './self-check-runner.ts';
+import {onACPower} from './night-power.ts';
+import {dataMode} from './data-mode.ts';
+import {reconcileOwnedProcesses} from './build-processes.ts';
+import type {ProcessRecord} from '../../packages/shared/build.ts';
 import {createNightShift} from './night-shift.ts';
 import {createNightStore} from './night-store.ts';
 import {ticketDecisionView} from '../../packages/shared/reviewers.ts';
@@ -99,8 +105,9 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const chat=createChatService(database.connection,tickets,options.chatRuntime??createChatCodex({dataDir:config.dataDir}),builds.decide);
  const nightStore=createNightStore(database.connection,config.dataDir,chat.store.draft,tickets.playbookEvidence);
  const night=createNightShift(database.connection,config.dataDir,nightStore,tickets,chat.store);
+ const maintenance=createSelfCheck(database.connection,{now:Date.now,ac:onACPower,idle:()=>{if(tickets.list().tickets.some(t=>['queued','building','checking','fixing'].includes(t.status)))return false;for(const table of ['mission_analyses','contract_drafts','planning_drafts','build_attempts','verification_runs']){if(!database.connection.prepare("SELECT 1 FROM sqlite_master WHERE name=?").get(table))continue;const row=database.connection.prepare('SELECT 1 FROM '+table+" WHERE status IN ('CREATED','STARTING','PREPARING','RUNNING','FINALIZING') LIMIT 1").get();if(row)return false;}return !database.connection.prepare("SELECT 1 FROM verify_only_runs WHERE state IN ('AUTHORING','VERIFYING') LIMIT 1").get();},run:selfCheckRunner(config.dataDir),recover:async(groups)=>{const records=(groups as ProcessRecord[][]).flat(),unique=[...new Map(records.map(r=>[r.pid+':'+r.birth,r])).values()];if(unique.length){const result=await reconcileOwnedProcesses(unique);if(!result.verified||result.ambiguous||result.remaining.length)throw Error('Self-check cleanup needs inspection.');}}});
  let stopping:Promise<unknown>|null=null;
- const stopAll=()=>{if(stopping)return stopping;phone.audit('stop.all',{});const nightStop=night.stop('STOP ALL');const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,nightStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
+ const stopAll=()=>{if(stopping)return stopping;phone.audit('stop.all',{});const maintenanceStop=maintenance.stop('STOP ALL');const nightStop=night.stop('STOP ALL');const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,nightStop,maintenanceStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
  function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
   const path=op.path;let m:RegExpExecArray|null;
   if(m=/^\/api\/night\/drafts\/([^/]+)\/queue$/.exec(path))return {scope:{item:'draft:'+m[1]!,action:'tonight'},state:nightStore.evidence(m[1]!,op.body)};
@@ -134,7 +141,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   const hostCount=req.rawHeaders.filter((_,i)=>i%2===0&&req.rawHeaders[i]?.toLowerCase()==='host').length;
   if(hostCount!==1||!req.headers.host||!hosts.includes(req.headers.host)){error(res,421,'INVALID_HOST','Unexpected local host');return;}
   const origins=new Set(remote&&privateOrigin?[privateOrigin]:hosts.filter(h=>h!==privateHost).map(h=>'http://'+h));if(config.development&&!remote){origins.add('http://127.0.0.1:5173');origins.add('http://localhost:5173');}
-  const mutating=!['GET','HEAD','OPTIONS'].includes(req.method??'');
+  const mutating=!['GET','HEAD','OPTIONS'].includes(req.method??'');if(mutating)await maintenance.pause();
   if((mutating&&!req.headers.origin)||(req.headers.origin&&!origins.has(req.headers.origin))){error(res,403,'INVALID_ORIGIN','Unexpected or missing request origin');return;}
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
   try{
@@ -202,16 +209,16 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const close=()=>{
   if(closing)return closing;
   logger({event:'shutdown.started'});desk.close();analyses.close();contracts.close();planning.close();
-  closing=night.close().then(()=>phonePush.close()).then(()=>chat.close()).then(()=>tickets.close()).then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
+  closing=maintenance.close().then(()=>night.close()).then(()=>phonePush.close()).then(()=>chat.close()).then(()=>tickets.close()).then(()=>Promise.all([workflow.close(),debugging.close(),verifyOnly.close()])).then(()=>Promise.all([builds.close(),verification.close()])).then(()=>new Promise<void>((resolve,reject)=>{
    const finish=(error?:Error)=>{try{database.close();logger({event:'shutdown.completed'});error?reject(error):resolve();}catch(e){reject(e);}};
    if(!server.listening){finish();return;}
    const timer=setTimeout(()=>server.closeAllConnections(),2000);timer.unref();
    server.close(error=>{clearTimeout(timer);finish(error);});server.closeIdleConnections();
   }));return closing;
  };
- const start=async()=>{await night.recover();await verifyOnly.recover();await tickets.recover();await builds.recover();await verification.recover();await debugging.recover();workflow.recover();return new Promise<void>((resolve,reject)=>{
+ const start=async()=>{await maintenance.recover();await night.recover();await verifyOnly.recover();await tickets.recover();await builds.recover();await verification.recover();await debugging.recover();workflow.recover();return new Promise<void>((resolve,reject)=>{
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
-  server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});night.start();resolve();});
+  server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});night.start();if(dataMode(config.dataDir)==='LIVE')maintenance.start();resolve();});
  });};
  return {server,database,start,close,stopAll,workflow,tickets,chat,phone,phonePush,nightStore,night};
 }
