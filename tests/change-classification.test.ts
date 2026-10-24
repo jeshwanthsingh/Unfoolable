@@ -5,7 +5,7 @@ import {resolve} from 'node:path';
 const python=resolve('.work/tools/tree-sitter/bin/python');
 function classify(path:string,before:string,after:string,hunks?:unknown[]){
  const range=(s:string)=>s? s.split('\n').length-(s.endsWith('\n')?1:0):0;
- const input={files:[{path,before,after,hunks:hunks??[{oldStart:1,oldLines:range(before),newStart:1,newLines:range(after)}]}]};
+ const input={files:[{path,before,after,hunks:hunks??[{oldStart:before?1:0,oldLines:range(before),newStart:after?1:0,newLines:range(after)}]}]};
  return JSON.parse(execFileSync(python,['scripts/protected-verification/classify-changes.py'],{input:JSON.stringify(input),encoding:'utf8',timeout:10000})).files[0];
 }
 const kind=(path:string,before:string,after:string)=>classify(path,before,after).hunks[0].kind;
@@ -42,4 +42,10 @@ test('separate hunks retain distinct labels and name real enclosing functions',(
 });
 test('adding only a comment to an empty Python file is documentation, not executable code',()=>{
  assert.equal(kind('app.py','','# A useful note\n'),'comment/docs-only');
+});
+
+test('a test or config filename cannot hide unknown or invalid code',()=>{
+ assert.equal(kind('tests/test_bad.py','value=1\n','def ( bad\n'),'logic');
+ assert.equal(kind('tests/spec.unknown','old','new'),'logic');
+ assert.equal(kind('package-lock.json','{}','{oops'),'logic');
 });

@@ -9,8 +9,13 @@ import tree_sitter_python
 import tree_sitter_javascript
 import tree_sitter_typescript
 import tree_sitter_markdown
+import tree_sitter_json
+import tree_sitter_yaml
 
 LANGUAGES = {
+    'json': Language(tree_sitter_json.language()),
+    'yaml': Language(tree_sitter_yaml.language()),
+    'yml': Language(tree_sitter_yaml.language()),
     'py': Language(tree_sitter_python.language()),
     'js': Language(tree_sitter_javascript.language()),
     'ts': Language(tree_sitter_typescript.language_typescript()),
@@ -103,7 +108,7 @@ def classify(file):
                 else:
                     reason = 'Executable syntax changed in this hunk.'
         selected = role(path)
-        if selected:
+        if selected and trees and not any(t.root_node.has_error for t in trees):
             kind, reason = selected, 'Changed '+selected+'; existing review restrictions still apply.'
         result.append({**hunk, 'kind': kind, 'functions': names, 'reason': reason})
     digest = lambda s: hashlib.sha256(s).hexdigest()
@@ -112,4 +117,4 @@ def classify(file):
 packet = json.loads(sys.stdin.buffer.read(8388609))
 if not isinstance(packet, dict) or set(packet) != {'files'} or not isinstance(packet['files'], list) or len(packet['files']) > 200:
     raise ValueError('invalid bounded classification packet')
-print(json.dumps({'version': 'change-classification-v1', 'files': [classify(f) for f in packet['files']], 'parserVersions': {name: version(name) for name in ('tree-sitter','tree-sitter-python','tree-sitter-javascript','tree-sitter-typescript','tree-sitter-markdown')}}))
+print(json.dumps({'version': 'change-classification-v1', 'files': [classify(f) for f in packet['files']], 'parserVersions': {name: version(name) for name in ('tree-sitter','tree-sitter-python','tree-sitter-javascript','tree-sitter-typescript','tree-sitter-markdown', 'tree-sitter-json', 'tree-sitter-yaml')}}))

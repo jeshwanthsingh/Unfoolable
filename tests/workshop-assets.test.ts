@@ -22,3 +22,5 @@ test('build guard fails when any Workshop image is missing or invalid',async()=>
  writeFileSync(join(root,'workshop-pixel','builder.png'),'not a PNG');assert.throws(()=>checkWorkshopAssets(root),/Invalid Workshop PNG/);
  }finally{rmSync(root,{recursive:true,force:true});}
 });
+
+test('bundled module names containing dots are served without allowing asset traversal',()=>{const root=mkdtempSync(join(tmpdir(),'cc-dotted-asset-'));mkdirSync(join(root,'assets'));writeFileSync(join(root,'assets/xstate.esm-fixture.js'),'export const alive=true;');let body='';const response={writeHead:()=>{},end:(b:Buffer)=>body=b.toString()};try{assert.equal(serveWeb('/assets/xstate.esm-fixture.js',root,response as any),true);assert.match(body,/alive/);for(const path of ['/assets/../private.js','/assets/%2e%2e/private.js','/assets/secret.txt'])assert.equal(serveWeb(path,root,response as any),false);}finally{rmSync(root,{recursive:true,force:true});}});

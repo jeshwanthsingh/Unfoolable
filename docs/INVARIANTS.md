@@ -74,3 +74,12 @@ Bug admission currently supports ordinary unconditional Python unittest reproduc
 - A sealed decision replays only through its recorded registered version and exact source hash; no fallback to today's core is allowed. Unknown identities and edited source fail closed as “Seal broken: unknown core”. [Version and tamper tests](../tests/core-versions.test.ts).
 - Released v1 source stays byte-identical to main 4abc25a, including its original field names and trace behavior. Authority lint covers both pure implementations. [Hash and authority tests](../tests/verdict-core.test.ts).
 - New snapshots and seals use v2; loading historical facts never changes their bytes, signature or verdict. [Legacy CLI replay and v2 sealing](../tests/core-versions.test.ts).
+
+## SCION-1 invariants
+
+- Change summaries use frozen syntax, never Builder claims; unknown or malformed syntax stays cautious. Tests: `tests/change-classification.test.ts`, `tests/classifier-binding.test.ts`, `tests/scion-summary.test.ts`.
+- Project review rules can never reduce baseline risk; changing a rule invalidates approval. Tests: 5,000 combinations in `tests/scion-risk.test.ts`, approval test in `tests/project-playbooks.test.ts`.
+- Only BASE-clean project rules can blame a change, and matches must overlap changed lines, including multiline matches. Tests: `tests/project-rules.test.ts`, `tests/playbook-checks.test.ts`.
+- Uncertain maintenance cleanup blocks new work and survives restart; maintenance cannot overlap admitted HTTP/queue work or run on battery. Tests: `tests/self-check.test.ts`, `tests/maintenance-http.test.ts`, `tests/maintenance-idle.test.ts`, `tests/ticket-recheck.test.ts`, `tests/maintenance-command.test.ts`.
+- A skipped backup never certifies an earlier archive as fresh. Test: `tests/self-check-restore.test.ts`.
+- New seals bind the request and the trusted identity of the attempt that froze the change; old seals retain their original format. Tests: `tests/attestation-format.test.ts`, `tests/builder-identity.test.ts`, `tests/verdict-seal.test.ts`.

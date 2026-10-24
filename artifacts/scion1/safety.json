@@ -1,0 +1,84 @@
+{
+  "baseline": "8b518c39df9f39518eae2fe552a2cf91cbf5bcf4",
+  "coreAndRegistryUnchanged": true,
+  "coreHashes": {
+    "packages/shared/verdict-core.ts": "109f2081e6954fe2b0145962cb629c043ceb5246a1020be0ffc4976694489911",
+    "packages/shared/cores/verdict-core-v1.ts": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+    "apps/server/core-registry.ts": "903ecab5e7a75a989d14d9775b12e7a8d03c8a26397a1501447d5d799f69c58d",
+    "docs/CORE_VERSIONS.json": "dfe07a32e2e74a434777a5f3923f147e978d77b46e3d68e001528b8c1e37e938"
+  },
+  "golden": {
+    "comparisons": 61,
+    "differences": [],
+    "frozenHashesPreserved": true
+  },
+  "controls": {
+    "total": 12,
+    "pass": 0,
+    "fail": 5,
+    "inconclusive": 7,
+    "protectedModulesUnchanged": true
+  },
+  "probe": {
+    "targets": 71,
+    "readable": 0,
+    "ownedChecks": {
+      "git_status": true,
+      "git_diff": true,
+      "git_log": true,
+      "sqlite_temp": true,
+      "own_write": true
+    },
+    "cleanupVerified": true
+  },
+  "oldRealDataCopy": {
+    "sealed": 6,
+    "olderUnsealed": 8,
+    "broken": 0,
+    "tickets": 14
+  },
+  "fullSuite": {
+    "status": "PASS",
+    "tests": 1295,
+    "passed": 1295,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 355504.47175,
+    "logSHA256": "5fea9521434a8ede1609aeda833208898b016e608db6893e898eddb9f49a4fb7",
+    "localLog": ".work/scion1/full-suite-complete.log"
+  },
+  "backupRestore": {
+    "fullSizeResult": "NOT PROVEN",
+    "alternateCheckout": "Rejected legacy Candidate paths outside this checkout backup root; access was not widened.",
+    "canonicalHelperTrial": "Interrupted at the five-minute deadline; never counted as restored.",
+    "ownedCleanupVerified": true,
+    "unitRestoreAndFreshCheckpointTests": "PASS"
+  },
+  "screenshots": {
+    "source": "Isolated fixture using real native BASE/Candidate checks and frozen syntax classification; no live approvals.",
+    "officialMCP": "0.0.83 (Apache-2.0)",
+    "viewports": [
+      1440,
+      390
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "nativeDirectory": "screenshots",
+    "mcpDirectory": "mcp-screenshots",
+    "checks": {
+      "viewports": 4,
+      "zoom": 1,
+      "horizontalOverflow": false,
+      "acceptBeforeFileReview": "disabled"
+    }
+  },
+  "review": "No remaining material blockers in the final read-only review.",
+  "build": {
+    "status": "PASS",
+    "typecheck": "PASS",
+    "logSHA256": "3c417828ad498c49ae20b1719bdabf37266aed5b510be57f4882872f266c927c"
+  },
+  "protectedTargetDefinitionUnchanged": true
+}

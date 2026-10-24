@@ -1,3 +1,4 @@
+import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';import {join} from 'node:path';import {tmpdir} from 'node:os';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {changedLines,newQualityFindings,proposeQualityGates} from '../apps/server/quality-gates.ts';
 test('quality gates count only new diagnostics on changed lines, never old warnings',()=>{
@@ -21,8 +22,9 @@ test('passing project/quality gates cannot overwrite NOT CHECKED from the protec
  const checks:any={store:{requireApproved:()=>playbook},check:async()=>project};
  const native:any=async()=>({verdict:'NOT CHECKED',gaps:['Required project recipe unavailable'],failures:[]});
  const hooks=ticketPlaybookHooks(checks,native);
- const result=await hooks.check!({repoPath:'fixture',baseCommit:'base'} as any,{repo:'fixture',commit:'candidate'} as any,new AbortController().signal);
- assert.equal(result.verdict,'NOT CHECKED');assert.ok(result.gaps.some(g=>g.includes('recipe unavailable')));
+ const dir=mkdtempSync(join(tmpdir(),'cc-combine-unit-')),diffPath=join(dir,'change.patch');writeFileSync(diffPath,'');
+ const result=await hooks.check!({repoPath:'fixture',baseCommit:'base'} as any,{repo:'fixture',commit:'candidate',paths:[],diffPath} as any,new AbortController().signal);
+ assert.equal(result.verdict,'NOT CHECKED');assert.ok(result.gaps.some(g=>g.includes('recipe unavailable')));rmSync(dir,{recursive:true,force:true});
 });
 
 test('changed-line filtering accepts Unicode paths and refuses unsupported quoted paths instead of silently passing',()=>{const unicode=changedLines('+++ b/café.py\n@@ -1 +1 @@\n');assert.ok(unicode.get('café.py')?.has(1));assert.throws(()=>changedLines('+++ "b/quoted-path.py"\n@@ -1 +1 @@\n'),/explicit review/);});

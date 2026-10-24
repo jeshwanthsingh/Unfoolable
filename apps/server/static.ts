@@ -11,7 +11,7 @@ export function serveWeb(pathname:string,root:string,response:ServerResponse):bo
  else if(['/manifest.webmanifest','/sw.js'].includes(pathname))file=resolve(root,'.'+pathname);
  else if(/^\/icons\/seal-(180|192|512)\.png$/.test(pathname))file=resolve(root,'.'+pathname);
  else if(workshopImages.some(name=>pathname==='/workshop-pixel/'+name+'.png'))file=resolve(root,'.'+pathname);
- else if(/^\/assets\/[a-zA-Z0-9_-]+\.(js|css|svg|woff2)$/.test(pathname))file=resolve(root,'.'+pathname);
+ else if(/^\/assets\/[a-zA-Z0-9_.-]+\.(js|css|svg|woff2)$/.test(pathname))file=resolve(root,'.'+pathname);
  else return false;
  if(!existsSync(file))return false;
  if(!realpathSync(file).startsWith(realpathSync(root)+sep))return false;

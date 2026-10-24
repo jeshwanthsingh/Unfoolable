@@ -12,3 +12,5 @@ test('v2 binds the request and trusted Builder identity; old v1 remains verifiab
  assert.deepEqual(verifyAttestation(make(),publicKey,{ticketId:facts.ticketId,eventId:3}),facts);
  for(const change of [{requestHash:'4'.repeat(64)},{builder:{...builder,model:'other'}}]){const p=structuredClone(statement);Object.assign(p.predicate,change);assert.throws(()=>verifyAttestation({...e,payload:Buffer.from(JSON.stringify(p)).toString('base64')},publicKey,{ticketId:facts.ticketId,eventId:3}));}
 });
+
+test('even correctly signed unknown formats and v1/v2 field confusion are rejected',()=>{const e=make(),original=JSON.parse(Buffer.from(e.payload,'base64').toString());for(const change of [{predicateType:'unknown'},{predicate:{...facts,formatVersion:2,requestHash:'3'.repeat(64)}}]){const payload=Buffer.from(JSON.stringify({...original,...change}));const forged={...e,payload:payload.toString('base64'),signatures:[{...e.signatures[0]!,sig:sign('sha256',pae(e.payloadType,payload),keys.privateKey).toString('base64')}]};assert.throws(()=>verifyAttestation(forged,publicKey,{ticketId:facts.ticketId,eventId:3}),/format|record/);}});

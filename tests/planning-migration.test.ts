@@ -151,6 +151,6 @@ test('exact Breakout 5 schema migration preserves all nine tables byte-for-byte 
  const before=names.map(name=>({name,rows:db.prepare('SELECT * FROM '+name+' ORDER BY rowid').all()}));assert.equal(before.length,9);assert.ok(before.every(t=>t.rows.length>0));store.close();db.close();
  upgraded=openDatabase(root,()=>{});assert.equal(upgraded.version(),21);for(const t of before){const rows:Record<string,unknown>[]=upgraded.connection.prepare('SELECT * FROM '+t.name+' ORDER BY rowid').all();assert.deepEqual(t.name==='schema_migrations'?rows.slice(0,6):rows,t.rows,t.name);}
  const after=createContractStore(upgraded.connection,()=>{},async()=>{throw Error('no AI after migration');});assert.deepEqual(after.view('mission'),view);assert.deepEqual(after.attention(),attention);assert.equal(attention.length,1);after.close();
- assert.equal(upgraded.connection.prepare("SELECT count(*) AS n FROM sqlite_master WHERE type='table'").get()!.n,57);
+ assert.equal(upgraded.connection.prepare("SELECT count(*) AS n FROM sqlite_master WHERE type='table'").get()!.n,58);
  }finally{if(db.isOpen)db.close();upgraded?.close();rmSync(root,{recursive:true,force:true});}
 });

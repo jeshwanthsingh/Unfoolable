@@ -1,0 +1,30 @@
+[
+  {
+    "width": 1440,
+    "theme": "light",
+    "errors": [],
+    "overflow": false,
+    "summary": "What this change contains\n\nChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.\n\nSome behavior couldn't be checked. Review the changes."
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "errors": [],
+    "overflow": false,
+    "summary": "What this change contains\n\nChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.\n\nSome behavior couldn't be checked. Review the changes."
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "errors": [],
+    "overflow": false,
+    "summary": "What this change contains\n\nChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.\n\nSome behavior couldn't be checked. Review the changes."
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "errors": [],
+    "overflow": false,
+    "summary": "What this change contains\n\nChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.\n\nSome behavior couldn't be checked. Review the changes."
+  }
+]

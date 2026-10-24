@@ -383,3 +383,7 @@ OBS-3 sharing evidence also uses existing FFmpeg 8.0 (Homebrew GPL-enabled build
 ## SCION-1 syntax classification
 
 Reuses Tree-sitter 0.25.2, Python grammar 0.25.0, JavaScript grammar 0.25.0 and TypeScript grammar 0.23.2. Adds tree-sitter-markdown 0.5.1 (MIT), from the official Tree-sitter Grammars PyPI package. The Markdown parser is a syntax aid, not a correctness authority; executable blocks, HTML/front matter, unsupported or invalid syntax stay cautious. Nothing imports Candidate code. Installation is confined to the ignored tools environment; runtime parsing has network denied.
+
+SCION-1 classifier grammar additions: tree-sitter-json 0.24.8 (MIT) and tree-sitter-yaml 0.7.2 (MIT), pinned from official PyPI metadata. Only trusted AST parsing runs. Unknown languages and syntax errors stay logic even inside a test/config path.
+
+SCION-1 screenshot verification reuses installed official `@playwright/mcp` 0.0.83 (Apache-2.0), its `playwright-core` 1.64.0-alpha-1790635538000 (Apache-2.0), and `@modelcontextprotocol/sdk` 1.32.1 (MIT). Package manifests were checked directly; the MCP license is Apache-2.0, not MIT. Captures use isolated fixture data, reduced motion and 100% viewport zoom. Native and MCP captures are kept separately.

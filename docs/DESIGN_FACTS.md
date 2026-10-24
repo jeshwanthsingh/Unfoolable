@@ -146,3 +146,25 @@ Add nothing that does not map to an in-scope attacker in [THREAT_MODEL.md](THREA
 - Approved raise-only risk and project rules address disguised/sensitive edits and explicit architectural violations. Existing risk is always the floor.
 - Weekly protected diagnostics address stale protection dates and observed environment failures. Stored observations, not constants, drive dated status.
 - Extended seal provenance binds the exact request and the trusted Builder session associated with the frozen change. It does not authenticate model internals that the provider does not report.
+
+## SCION-1 data flow
+
+- The frozen BASE/Candidate Git blobs and diff hunks go to a bounded, offline Tree-sitter parser. Labels and the syntax summary do not use Builder prose. Missing/invalid/unknown syntax remains logic or explicitly unclassified. Literal-only is not a claim of unchanged behavior.
+- Optional path/kind review rules and local Opengrep project rules are part of the existing approved playbook hash. Edits invalidate approval. Risk rules only raise the existing risk; they never erase a warning or lower the baseline color.
+- Project rules run on separate protected BASE and Candidate exports. Any BASE finding makes that rule pre-existing/not applicable. New matches on changed lines feed the existing failure facts. No new verdict authority is introduced.
+- The existing coordinator owns weekly maintenance. AC/idle checks, mutation reservations and pre-dispatch cleanup protect normal work. Self-check events are append-only, not new signed ticket verdicts. The single SSE snapshot carries the latest status and recorded probe count/date; missing probe data says unknown.
+- Each new v2 seal binds the exact request and certified runtime identity. Unreported model versions and missing historical identities say unknown. v1 envelopes and versioned core sources retain their original verification.
+
+```mermaid
+flowchart LR
+  Frozen["Frozen Git facts"] --> Syntax["Offline syntax labels"]
+  Syntax --> Review["Plain summary and raise-only risk"]
+  Approved["Touch ID-approved project rules"] --> Scan["Protected BASE and change scans"]
+  Scan --> Facts["Existing failure facts"]
+  Facts --> Core["Unchanged verdict core"]
+  Core --> Seal["Versioned seal plus request and Builder identity"]
+  Maintenance["Idle AC self-checks"] --> Events["Append-only maintenance events"]
+  Events --> SSE["Existing live stream"]
+```
+
+SCION-1 ownership detail: the maintenance root PID/start identity and side-journal reference are saved before command release. Child samples update an atomic protected journal outside the checkpointed database; final samples append after the command finishes. STOP ALL is never held behind maintenance admission.

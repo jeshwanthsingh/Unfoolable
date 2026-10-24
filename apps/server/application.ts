@@ -1,9 +1,10 @@
+import {maintenanceRecords} from './maintenance-journal.ts';
+import {maintenanceIdle} from './maintenance-idle.ts';
 import {createSelfCheck} from './self-check.ts';
 import {selfCheckRunner} from './self-check-runner.ts';
 import {onACPower} from './night-power.ts';
 import {dataMode} from './data-mode.ts';
 import {reconcileOwnedProcesses} from './build-processes.ts';
-import type {ProcessRecord} from '../../packages/shared/build.ts';
 import {createNightShift} from './night-shift.ts';
 import {createNightStore} from './night-store.ts';
 import {ticketDecisionView} from '../../packages/shared/reviewers.ts';
@@ -87,7 +88,7 @@ import {createMission,listMissions,getMission} from './missions.ts';
 import type {Mission,MissionsResponse} from '../../packages/shared/missions.ts';
 import type {Project,ProjectsResponse} from '../../packages/shared/projects.ts';
 
-export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;enforcePasskeys?:boolean;phoneAccessStatus?:Parameters<typeof createPhoneRoutes>[2];humanAuthenticator?:Parameters<typeof createHumanConfirmation>[3];chatRuntime?:Omit<ReturnType<typeof createChatCodex>,'stopAll'>&{stopAll?:()=>Promise<void>}}={}){
+export function createApplication(config:AppConfig,logger:Logger=log,analyzer:MissionAnalyzer=analyzeMission,drafter:ContractDrafter=draftMissionContract,planner:PlanningDrafter=draftMissionPlan,builder:BuilderDriver=createCodexBuilderDriver(),diagnoser?:typeof diagnoseVerificationFailure,options:{maintenanceOps?:Parameters<typeof createSelfCheck>[1];autoPrepare?:boolean;prepareOracle?:typeof prepareNativeEvaluation;verifyAuthor?:typeof authorVerifyOnly;ticketDependencies?:TicketLoopDependencies;enforcePasskeys?:boolean;phoneAccessStatus?:Parameters<typeof createPhoneRoutes>[2];humanAuthenticator?:Parameters<typeof createHumanConfirmation>[3];chatRuntime?:Omit<ReturnType<typeof createChatCodex>,'stopAll'>&{stopAll?:()=>Promise<void>}}={}){
  const database=openDatabase(config.dataDir,logger);
  const verifyOnly=createVerifyOnly(database.connection,config,logger,options.verifyAuthor);
  const tickets=createTicketService(database.connection,config,verifyOnly,options.ticketDependencies);
@@ -105,7 +106,9 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
  const chat=createChatService(database.connection,tickets,options.chatRuntime??createChatCodex({dataDir:config.dataDir}),builds.decide);
  const nightStore=createNightStore(database.connection,config.dataDir,chat.store.draft,tickets.playbookEvidence);
  const night=createNightShift(database.connection,config.dataDir,nightStore,tickets,chat.store);
- const maintenance=createSelfCheck(database.connection,{now:Date.now,ac:onACPower,idle:()=>{if(tickets.list().tickets.some(t=>['queued','building','checking','fixing'].includes(t.status)))return false;for(const table of ['mission_analyses','contract_drafts','planning_drafts','build_attempts','verification_runs']){if(!database.connection.prepare("SELECT 1 FROM sqlite_master WHERE name=?").get(table))continue;const row=database.connection.prepare('SELECT 1 FROM '+table+" WHERE status IN ('CREATED','STARTING','PREPARING','RUNNING','FINALIZING') LIMIT 1").get();if(row)return false;}return !database.connection.prepare("SELECT 1 FROM verify_only_runs WHERE state IN ('AUTHORING','VERIFYING') LIMIT 1").get();},run:selfCheckRunner(config.dataDir),recover:async(groups)=>{const records=(groups as ProcessRecord[][]).flat(),unique=[...new Map(records.map(r=>[r.pid+':'+r.birth,r])).values()];if(unique.length){const result=await reconcileOwnedProcesses(unique);if(!result.verified||result.ambiguous||result.remaining.length)throw Error('Self-check cleanup needs inspection.');}}});
+ if(options.maintenanceOps&&!fixtureApprovalsEnabled(config.dataDir))throw Error('Maintenance fixtures require isolated test data.');
+ const maintenance=createSelfCheck(database.connection,options.maintenanceOps??{now:Date.now,ac:onACPower,idle:()=>maintenanceIdle(database.connection,{drafting:chat.isDrafting(),reviewers:!tickets.maintenanceIdle()}),run:selfCheckRunner(config.dataDir),recover:async(groups)=>{const records=maintenanceRecords(groups),unique=[...new Map(records.map(r=>[r.pid+':'+r.birth,r])).values()];if(unique.length){const result=await reconcileOwnedProcesses(unique);if(!result.verified||result.ambiguous||result.remaining.length)throw Error('Self-check cleanup needs inspection.');}}});
+ tickets.bindMaintenancePause(maintenance.pause);
  let stopping:Promise<unknown>|null=null;
  const stopAll=()=>{if(stopping)return stopping;phone.audit('stop.all',{});const maintenanceStop=maintenance.stop('STOP ALL');const nightStop=night.stop('STOP ALL');const ticketStop=tickets.stopAll('Requested by the local operator');stopping=(async()=>{const results=await Promise.allSettled([ticketStop,nightStop,maintenanceStop,chat.stopAll(),analyses.stopAll(),contracts.stopAll(),planning.stopAll(),debugging.stopAll(),builds.stopAll(),verification.stopAll(),verifyOnly.stopAll(),workflow.stopAll()]);chat.project();const failed=results.find(r=>r.status==='rejected');if(failed?.status==='rejected')throw new SpecError('STOP_CLEANUP_REQUIRED','STOP ALL requested; owned cleanup could not be certified. Inspect recorded evidence before Retry.');return {stopped:true,tickets:results[0]?.status==='fulfilled'?results[0].value:null};})().finally(()=>{stopping=null;});return stopping;};
  function humanEvidence(op:HumanOperation,reserved=false):{scope:{item:string;action:string};state:unknown}{
@@ -141,12 +144,14 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   const hostCount=req.rawHeaders.filter((_,i)=>i%2===0&&req.rawHeaders[i]?.toLowerCase()==='host').length;
   if(hostCount!==1||!req.headers.host||!hosts.includes(req.headers.host)){error(res,421,'INVALID_HOST','Unexpected local host');return;}
   const origins=new Set(remote&&privateOrigin?[privateOrigin]:hosts.filter(h=>h!==privateHost).map(h=>'http://'+h));if(config.development&&!remote){origins.add('http://127.0.0.1:5173');origins.add('http://localhost:5173');}
-  const mutating=!['GET','HEAD','OPTIONS'].includes(req.method??'');if(mutating)await maintenance.pause();
+  const mutating=!['GET','HEAD','OPTIONS'].includes(req.method??'');
   if((mutating&&!req.headers.origin)||(req.headers.origin&&!origins.has(req.headers.origin))){error(res,403,'INVALID_ORIGIN','Unexpected or missing request origin');return;}
   if(!req.url?.startsWith('/')){error(res,400,'INVALID_REQUEST','Invalid request target');return;}
+  let releaseMaintenance:(()=>void)|undefined;
   try{
    const url=new URL(req.url,'http://127.0.0.1'),pathname=url.pathname;
    if(remote&&pathname.startsWith('/api/')){if(req.headers['tailscale-user-login']!==phoneOwner(config.dataDir)||!phoneOwner(config.dataDir))throw new SpecError('PRIVATE_ACCESS_REQUIRED','Connect through your own Tailscale account.',401);if(await phoneRoutes.remote(req,res,pathname,privateOrigin!))return;phone.session(phone.token(req.headers.cookie));req.headers['x-cc-operator']=readFileSync(join(config.dataDir,'ticket-operator.key'),'utf8');}
+   if(mutating&&pathname!=='/api/stop-all')try{releaseMaintenance=await maintenance.reserve();}catch{throw new SpecError('STOP_CLEANUP_REQUIRED','A background check could not certify cleanup. Inspect its record before starting more work.',409);}
    if(remote&&pathname==='/api/phone/alerts'){const device=phone.session(phone.token(req.headers.cookie)).device;if(req.method==='GET'){phoneJson(res,phonePush.settings(String(device.id)));return;}if(req.method==='POST'){phoneJson(res,phonePush.update(String(device.id),await projectBody(req,'phone alerts',16000)));return;}}
    if(pathname==='/api/chat/archive'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable first.',403);if(req.method==='GET'){json(res,200,{archivedDraftIds:archivedDraftIds(database.connection)});return;}if(req.method==='POST'){json(res,200,changeDraftArchive(database.connection,await projectBody(req,'draft visibility')));return;}}
    if(pathname==='/api/desk/events'&&req.method==='GET'){if(!tickets.authorized(req.headers['x-cc-operator']))throw new SpecError('OPERATOR_REQUIRED','Open Unfoolable with unfool.',403);desk.connect(res,remote?()=>{try{phone.session(phone.token(req.headers.cookie));return true;}catch{return false;}}:undefined);return;}
@@ -202,7 +207,7 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
    if(mission && req.method==='GET'){json(res,200,getMission(database.connection,mission[1]!,logger));return;}
    if(req.method==='GET'&&serveWeb(pathname,config.webRoot,res))return;
    error(res,404,'NOT_FOUND','Route not found');
-  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectPlaybookError||problem instanceof SpecError||problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError||problem instanceof PlanningError||problem instanceof BuildError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}
+  }catch(problem){if(res.destroyed)return;if(problem instanceof ProjectPlaybookError||problem instanceof SpecError||problem instanceof ProjectError||problem instanceof MissionError||problem instanceof ContextError||problem instanceof AnalysisError||problem instanceof ContractError||problem instanceof PlanningError||problem instanceof BuildError){error(res,problem.status,problem.code,problem.message);return;}logger({level:'error',event:'http.error',code:'INTERNAL_ERROR'});if(!res.headersSent)error(res,500,'INTERNAL_ERROR','Unable to process request');else res.end();}finally{releaseMaintenance?.();}
  }));
  server.requestTimeout=5000;server.headersTimeout=5000;server.keepAliveTimeout=1000;
  let closing:Promise<void>|undefined;
@@ -220,5 +225,5 @@ export function createApplication(config:AppConfig,logger:Logger=log,analyzer:Mi
   const failed=(error:Error)=>{database.close();reject(error);};server.once('error',failed);
   server.listen(config.port,'127.0.0.1',()=>{server.off('error',failed);logger({event:'server.started',version:APP_VERSION});night.start();if(dataMode(config.dataDir)==='LIVE')maintenance.start();resolve();});
  });};
- return {server,database,start,close,stopAll,workflow,tickets,chat,phone,phonePush,nightStore,night};
+ return {server,database,start,close,stopAll,maintenance,workflow,tickets,chat,phone,phonePush,nightStore,night};
 }

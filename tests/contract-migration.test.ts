@@ -23,7 +23,7 @@ test('exact Breakout 4 upgrades through contract and planning migrations preserv
   const current=openDatabase(data,()=>{});try{
    const upgraded=current.connection;assert.equal(current.version(),21);tables.forEach((table,i)=>assert.deepEqual(upgraded.prepare('SELECT * FROM '+table).all(),preserved[i]));assert.deepEqual(upgraded.prepare('SELECT * FROM schema_migrations WHERE version<6 ORDER BY version').all(),migrations);
    const after=upgraded.prepare("SELECT type,name,sql FROM sqlite_schema WHERE name NOT LIKE 'sqlite_%' ORDER BY name").all();for(const item of schema)assert.deepEqual(after.find(x=>x.name===item.name),item);assert.deepEqual(upgraded.prepare('PRAGMA foreign_key_check').all(),[]);assert.equal(upgraded.prepare('SELECT phase FROM missions').get()!.phase,'DRAFT');
-   assert.equal(upgraded.prepare('SELECT count(*) AS n FROM contract_drafts').get()!.n,0);assert.equal(upgraded.prepare('SELECT count(*) AS n FROM mission_contract_revisions').get()!.n,0);assert.equal(after.filter(x=>x.type==='table').length,schema.filter(x=>x.type==='table').length+49);
+   assert.equal(upgraded.prepare('SELECT count(*) AS n FROM contract_drafts').get()!.n,0);assert.equal(upgraded.prepare('SELECT count(*) AS n FROM mission_contract_revisions').get()!.n,0);assert.equal(after.filter(x=>x.type==='table').length,schema.filter(x=>x.type==='table').length+50);
   }finally{current.close();}
  }finally{rmSync(root,{recursive:true,force:true});}
 });

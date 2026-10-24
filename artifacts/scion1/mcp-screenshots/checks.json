@@ -1,0 +1,34 @@
+[
+  {
+    "width": 1440,
+    "theme": "light",
+    "overflow": false,
+    "zoom": 1,
+    "summary": "What this change containsChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.Some behavior couldn't be checked. Review the changes.",
+    "acceptDisabled": true
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "overflow": false,
+    "zoom": 1,
+    "summary": "What this change containsChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.Some behavior couldn't be checked. Review the changes.",
+    "acceptDisabled": true
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "overflow": false,
+    "zoom": 1,
+    "summary": "What this change containsChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.Some behavior couldn't be checked. Review the changes.",
+    "acceptDisabled": true
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "overflow": false,
+    "zoom": 1,
+    "summary": "What this change containsChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.Some behavior couldn't be checked. Review the changes.",
+    "acceptDisabled": true
+  }
+]
