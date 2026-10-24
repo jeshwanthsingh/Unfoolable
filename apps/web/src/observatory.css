@@ -21,3 +21,5 @@
 dialog.unfool-proof{top:calc(var(--uf-header-bottom,100px) + 12px);bottom:16px;height:auto;max-height:calc(100dvh - var(--uf-header-bottom,100px) - 28px)}
 .proof-app-controls{position:sticky;top:0;z-index:4;justify-content:flex-end;padding-block:8px;background:var(--uf-surface)}
 @media(max-width:799px){.observatory-pass-sheet.unfoolable{inset:0;border-radius:0}.observatory-scrim{top:0}.observatory-phone-safety{padding-top:max(10px,env(safe-area-inset-top))}}
+/* Phone emergency controls live inside the modal; the inert page stays behind it. */
+@media(max-width:799px){.observatory-scrim{z-index:70}.observatory-pass-sheet.unfoolable{z-index:80}}

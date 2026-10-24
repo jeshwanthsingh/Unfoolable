@@ -168,3 +168,26 @@ flowchart LR
 ```
 
 SCION-1 ownership detail: the maintenance root PID/start identity and side-journal reference are saved before command release. Child samples update an atomic protected journal outside the checkpointed database; final samples append after the command finishes. STOP ALL is never held behind maintenance admission.
+
+## SCION-1b presentation and maintenance fixes
+
+The main page orders greeting, request input and tasks before the optional room
+and maintenance status. Desktop Proof reserves the measured sticky-header area;
+phone Proof has the existing Settings/Stop controls inside its modal. These call
+the existing handlers; authentication and decision rules were not changed.
+
+The journey consumes recorded building/fixing lifecycle states as well as provider
+start/binding events. Missing earlier sources are unknown, never fabricated as
+completed. Later stages cannot make a real recorded Builder stage look skipped.
+
+The read/network probe uses released `protected-paths-v1` (78 filesystem paths,
+eight protected endpoints, two signing-helper attempts). Every attempt saves its
+manifest identity before releasing the Builder, and completed reports bind exact
+version/hash/count. CI pins the inventory; see PROTECTED_PATH_MANIFEST.md for the
+74/76/71 history and reviewed-migration rule. Compiled maintenance ships the same
+manifest, not a second target list.
+
+Weekly fresh-snapshot/full-restore has a 25-minute interruptible deadline. A real
+canonical-checkout restore of 214,391 files took 286.303 seconds, excluding fresh
+snapshot creation. Only a complete database/every-file result is reported as full;
+the UI states its date and elapsed time. See artifacts/scion1b/full-restore.json.
