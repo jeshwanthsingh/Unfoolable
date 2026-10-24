@@ -10,8 +10,8 @@
     "candidateTree": "0564059e3096c90af49cbce919f8f1f8e7141abb",
     "intent": "Accept SSE data fields with zero or one separator space after data: in the Python SDK stream parser.\n\nDone means:\nMixed multiline data fields concatenate with newline before JSON decoding. Preserve spaced data, ignored comment and metadata fields, EOF dispatch, and response closure. Broader CRLF/chunk-framing and malformed-JSON behavior are outside scope.\n\nAllowed changed paths: sdk/python/aegis/_http.py\n",
     "projectId": "v1-Aegis",
-    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-coverage/A1/A/repo",
-    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-coverage/A1/A/repo",
+    "repoPath": "/Users/USER/Projects/ai-lab/benchmark/runs-coverage/A1/A/repo",
+    "repoRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-coverage/A1/A/repo",
     "runnerDirectory": "sdk/python",
     "taskChecks": false
   },
@@ -28,7 +28,7 @@
       "id": "5204bee7-8ecd-41a6-8277-cd13ee94c9ec",
       "runner": "unittest",
       "runnerDirectory": "sdk/python",
-      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-coverage/A1/A/repo",
+      "sourceRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-coverage/A1/A/repo",
       "tests": [],
       "version": "process-oracle-v1"
     }
@@ -173,19 +173,19 @@
     "evidence": {
       "candidateExport": {
         "hash": "3f47e9eec6ad79831604a72a09d5608700b43f3e788c0bcda5666ce35381a85e",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/candidate-export",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/candidate-export",
         "sourceTree": "771e8570fc3a34074aafd98ed23e1f913a67ff69"
       },
       "executedChecks": [
         {
           "hash": "2698a15d6a3491c0bb456ab1c6e38428c085969e8b66d28eb18008db4ccd9b1a",
           "id": "protected-existing-tests",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/protected-existing-tests.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/protected-existing-tests.json"
         }
       ],
       "executionTree": {
         "hash": "3f47e9eec6ad79831604a72a09d5608700b43f3e788c0bcda5666ce35381a85e",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/executed-tree",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/executed-tree",
         "trustedLinks": {}
       },
       "hash": "f83838f8840cd93d81f6433de7ecfcdd56e8db0175cf1e7e35bb0229f3ce90d6",
@@ -193,7 +193,7 @@
       "overlay": {
         "candidateOnlyTests": [],
         "hash": "c06f3ce2e1bf8748ced962b85d8750aea354b3ab719065ddd96aa02a4063a232",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/base-test-overlay",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/base-test-overlay",
         "restored": [
           "tests/__init__.py",
           "tests/test_broker_smoke.py",
@@ -204,7 +204,7 @@
       "records": [
         {
           "hash": "86041db9485aa2ce2479806083fa1c8794ae8d22c4b0575494786632bb2256f8",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/existing-tests/native-E1-5457b9f7-9fd2-4a1b-a9bd-630ea2321723/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5204bee7-8ecd-41a6-8277-cd13ee94c9ec/existing-tests/native-E1-5457b9f7-9fd2-4a1b-a9bd-630ea2321723/observations.json"
         }
       ],
       "requiredChecksHash": "6d8c0f10c8636a2ae90a2d1a7f0a18012efcce911bef5daacdb6946a364e0f34"

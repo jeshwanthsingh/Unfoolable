@@ -46,7 +46,7 @@ R5 was already used in Breakouts 11/12. User approved replacement with unused A4
 
 Six independently authored grader packets contain 33 native unittest/Vitest claims. All 21 packet hashes unchanged. Known-correct/wrong reference proposals were separately authored from BASE+intent without access to checks or Candidates. They are proposals, not yet validated.
 
-Review: /Users/jeshwanthsingh/.bench-private/coverage-round/GRADER_REVIEW.md
+Review: /Users/USER/.bench-private/coverage-round/GRADER_REVIEW.md
 Review SHA256: 994e86a6c275dc4480acc874da568a53a9d64ed987e2845b4cc0f21cf3c6ad92
 
 Benchmark adapter and orchestration are static-checked, approval-gated and locally committed (benchmark 3c88bd5). No executable admission/arm/grading runs were performed. Source repos and unrelated benchmark changes preserved.

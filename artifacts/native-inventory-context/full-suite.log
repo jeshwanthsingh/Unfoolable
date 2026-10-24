@@ -898,7 +898,7 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 test at tests/verification-v1-store.test.ts:109:1
 ✖ tampered durable Land intent cannot change the verified branch, evidence, tree or BASE parent (305638.401083ms)
   Error: Project recipe good E1 exceeded its deadline.
-      at Timeout.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/verify-only-deadline.ts:7:40)
+      at Timeout.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/apps/server/verify-only-deadline.ts:7:40)
       at listOnTimeout (node:internal/timers:685:17)
       at process.processTimers (node:internal/timers:618:7) {
     step: 'Project recipe good E1'
@@ -907,8 +907,8 @@ test at tests/verification-v1-store.test.ts:109:1
 test at tests/verification-v1-store.test.ts:121:1
 ✖ recipe failing this BASE cannot falsely reject a Candidate; BASE-passing recipe still rejects a regression (65907.525ms)
   Error [SpecError]: Owned cleanup remains uncertain.
-      at Object.close (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/verify-only.ts:118:285)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:131:11)
+      at Object.close (file:///Users/USER/Projects/ai-lab/command-center/apps/server/verify-only.ts:118:285)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:131:11)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     code: 'VERIFY_RECONCILE_REQUIRED',

@@ -10,4 +10,4 @@ symlink-escape INCONCLUSIVE
 dependency-change INCONCLUSIVE
 oversized-output FAIL
 timeout INCONCLUSIVE
-Control artifacts: /Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/quality-gates/negative-controls
+Control artifacts: /Users/USER/Projects/ai-lab/command-center/.work/quality-gates/negative-controls

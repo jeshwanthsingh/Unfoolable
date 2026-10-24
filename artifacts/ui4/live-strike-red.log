@@ -71,7 +71,7 @@ test at tests/ui4-stream.test.ts:12:1
     " <UnfoolableTasks tickets={data.tickets} renderTicket={ticket=>{const detail=data.details[ticket.id],state=taskPresentation(ticket,detail,clock),review=ticket.status==='ready_for_review',stuck=['needs_you','interrupted','harness_error'].includes(ticket.status),canRetry=stuck&&!(ticket.status==='needs_you'&&detail?.playbook?.approval?.hash!==detail?.playbook?.hash);\n" +
     ' return <li key={ticket.id} className="unfool-task" data-status={state.mark}><Hallmark mark={state.mark} {...(state.tone?{tone:state.tone}:{})} event={detail?latestCheckEvent(detail.events):0} sound={sound} ready={detail!==undefined} progress={detail?.events.at(-1)?.sequence??0}/><div className="unfool-task-body"><h2 tabIndex={0} title={ticket.title} aria-label={ticket.title}><span aria-hidden="true">{wordPreview(ticket.plainTitle??ticket.titl'... 1836 more characters
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:12:150)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:12:150)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.start (node:internal/test_runner/test:1262:17)

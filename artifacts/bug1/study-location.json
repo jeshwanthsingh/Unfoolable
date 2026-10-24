@@ -1,7 +1,7 @@
 {
-  "root": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l",
-  "repo": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l/repo",
-  "data": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l/data",
+  "root": "/Users/USER/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l",
+  "repo": "/Users/USER/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l/repo",
+  "data": "/Users/USER/Projects/ai-lab/command-center/.work/core1/tmp/cc-bug1-study-bUse6l/data",
   "base": "e8a6061981a7d62e9afad78a5cb8e80e17738014",
   "mode": "isolated TEST database; real Codex, no live approvals",
   "startedAt": "2026-10-20T19:56:36.463Z"

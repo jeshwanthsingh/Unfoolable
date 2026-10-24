@@ -17,7 +17,7 @@ test at tests/workshop-assets.test.ts:8:1
 
   false !== true
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/workshop-assets.test.ts:10:10)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/workshop-assets.test.ts:10:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.start (node:internal/test_runner/test:1262:17)

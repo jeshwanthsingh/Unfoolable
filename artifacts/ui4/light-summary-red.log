@@ -18,7 +18,7 @@ test at tests/ui4-words.test.ts:6:1
   + 'waiting'
   - 'recheck'
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-words.test.ts:6:96)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-words.test.ts:6:96)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.start (node:internal/test_runner/test:1262:17)

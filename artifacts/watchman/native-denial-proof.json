@@ -4,7 +4,7 @@
     "id": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
     "title": "Planted native probing fixture",
     "requestText": "Synthetic denial regression",
-    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/repo",
+    "repoPath": "/Users/USER/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/repo",
     "baseCommit": "585f00fb77aaa4bdc2f83af82dd88750928ec41a",
     "status": "needs_you",
     "attemptCount": 1,
@@ -134,13 +134,13 @@
         "generation": 1,
         "kind": "workspace_prepared",
         "owned": {
-          "gitDir": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "gitDir": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
           "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
-          "workspace": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
-          "artifactDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/data/ticket-work/219e6a71-4ea7-4e55-997e-5da5b1055c54/attempts/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
-          "clone": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo",
-          "gitCommonDir": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git",
+          "workspace": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "artifactDir": "/Users/USER/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/data/ticket-work/219e6a71-4ea7-4e55-997e-5da5b1055c54/attempts/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "clone": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo",
+          "gitCommonDir": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git",
           "seed": "585f00fb77aaa4bdc2f83af82dd88750928ec41a",
           "base": "585f00fb77aaa4bdc2f83af82dd88750928ec41a"
         }
@@ -155,13 +155,13 @@
         "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
         "generation": 1,
         "owned": {
-          "gitDir": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "gitDir": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "ticketId": "219e6a71-4ea7-4e55-997e-5da5b1055c54",
           "attemptId": "76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
-          "workspace": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
-          "artifactDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/data/ticket-work/219e6a71-4ea7-4e55-997e-5da5b1055c54/attempts/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
-          "clone": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo",
-          "gitCommonDir": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git",
+          "workspace": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "artifactDir": "/Users/USER/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-native-watchman-1a5HtT/data/ticket-work/219e6a71-4ea7-4e55-997e-5da5b1055c54/attempts/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "clone": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo",
+          "gitCommonDir": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/repo/.git",
           "seed": "585f00fb77aaa4bdc2f83af82dd88750928ec41a",
           "base": "585f00fb77aaa4bdc2f83af82dd88750928ec41a"
         }
@@ -236,7 +236,7 @@
           "itemId": "probe-0",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 0",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -290,7 +290,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": null
           },
@@ -300,7 +300,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": null
           }
@@ -327,7 +327,7 @@
           "itemId": "probe-0",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 0",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -386,7 +386,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -396,7 +396,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           }
@@ -423,7 +423,7 @@
           "itemId": "probe-1",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 1",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -469,7 +469,7 @@
           "itemId": "probe-1",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 1",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -520,7 +520,7 @@
           "itemId": "probe-2",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 2",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -566,7 +566,7 @@
           "itemId": "probe-2",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 2",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -617,7 +617,7 @@
           "itemId": "probe-3",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 3",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -671,7 +671,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -681,7 +681,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -691,7 +691,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839555:985350",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:36.061Z",
             "exitedAt": null
           }
@@ -718,7 +718,7 @@
           "itemId": "probe-3",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 3",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -777,7 +777,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -787,7 +787,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -797,7 +797,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839555:985350",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:36.061Z",
             "exitedAt": "2026-10-12T21:12:36.263Z"
           }
@@ -824,7 +824,7 @@
           "itemId": "probe-4",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 4",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -870,7 +870,7 @@
           "itemId": "probe-4",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 4",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -921,7 +921,7 @@
           "itemId": "probe-5",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 5",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -967,7 +967,7 @@
           "itemId": "probe-5",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 5",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -1018,7 +1018,7 @@
           "itemId": "probe-6",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 6",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -1072,7 +1072,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -1082,7 +1082,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -1092,7 +1092,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839555:985350",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:36.061Z",
             "exitedAt": "2026-10-12T21:12:36.263Z"
           },
@@ -1102,7 +1102,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839557:37048",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": null
           },
@@ -1112,7 +1112,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839556:984702",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": null
           }
@@ -1139,7 +1139,7 @@
           "itemId": "probe-6",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 6",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -1198,7 +1198,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -1208,7 +1208,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -1218,7 +1218,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839555:985350",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:36.061Z",
             "exitedAt": "2026-10-12T21:12:36.263Z"
           },
@@ -1228,7 +1228,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839557:37048",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": "2026-10-12T21:12:37.263Z"
           },
@@ -1238,7 +1238,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839556:984702",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": "2026-10-12T21:12:37.263Z"
           }
@@ -1265,7 +1265,7 @@
           "itemId": "probe-7",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 7",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -1311,7 +1311,7 @@
           "itemId": "probe-7",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 7",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -1362,7 +1362,7 @@
           "itemId": "probe-8",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 8",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -1416,7 +1416,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -1426,7 +1426,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -1436,7 +1436,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839555:985350",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:36.061Z",
             "exitedAt": "2026-10-12T21:12:36.263Z"
           },
@@ -1446,7 +1446,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839557:37048",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": "2026-10-12T21:12:37.263Z"
           },
@@ -1456,7 +1456,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839556:984702",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": "2026-10-12T21:12:37.263Z"
           },
@@ -1466,7 +1466,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839557:619883",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:37.667Z",
             "exitedAt": null
           }
@@ -1493,7 +1493,7 @@
           "itemId": "probe-8",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 8",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -1552,7 +1552,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -1562,7 +1562,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:35.250Z"
           },
@@ -1572,7 +1572,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839555:985350",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:36.061Z",
             "exitedAt": "2026-10-12T21:12:36.263Z"
           },
@@ -1582,7 +1582,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839557:37048",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": "2026-10-12T21:12:37.263Z"
           },
@@ -1592,7 +1592,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839556:984702",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": "2026-10-12T21:12:37.263Z"
           },
@@ -1602,7 +1602,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839557:619883",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:37.667Z",
             "exitedAt": "2026-10-12T21:12:37.871Z"
           }
@@ -1629,7 +1629,7 @@
           "itemId": "probe-9",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 9",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -1675,7 +1675,7 @@
           "itemId": "probe-9",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 9",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -1726,7 +1726,7 @@
           "itemId": "probe-10",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 10",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "inProgress"
         }
       },
@@ -1772,7 +1772,7 @@
           "itemId": "probe-10",
           "type": "commandExecution",
           "command": "python synthetic-denied-read 10",
-          "cwd": "/Users/jeshwanthsingh/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
+          "cwd": "/Users/USER/.cc-work/11b88e4954efe8350b2d7360f0b8e4e2bfbd05c7f93873f91985551f977d182d/219e6a71-4ea7-4e55-997e-5da5b1055c54/worktrees/76f4c59f-aed5-4fde-bf98-4a7a218e41a5",
           "status": "completed",
           "exitCode": 1
         }
@@ -1852,7 +1852,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:923535",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:40.045Z"
           },
@@ -1862,7 +1862,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839554:856278",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:35.063Z",
             "exitedAt": "2026-10-12T21:12:40.045Z"
           },
@@ -1872,7 +1872,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839555:985350",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:36.061Z",
             "exitedAt": "2026-10-12T21:12:40.045Z"
           },
@@ -1882,7 +1882,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839557:37048",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": "2026-10-12T21:12:40.045Z"
           },
@@ -1892,7 +1892,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839556:984702",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:37.065Z",
             "exitedAt": "2026-10-12T21:12:40.045Z"
           },
@@ -1902,7 +1902,7 @@
             "pgid": 83646,
             "sid": 83646,
             "birth": "darwin:1791839557:619883",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-12T21:12:37.667Z",
             "exitedAt": "2026-10-12T21:12:40.045Z"
           }

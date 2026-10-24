@@ -10,7 +10,7 @@
       }
     ],
     "reason": null,
-    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/pass-execution/native-report.json"
+    "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/pass-execution/native-report.json"
   },
   {
     "name": "assertion",
@@ -19,11 +19,11 @@
       {
         "id": "behavior",
         "status": "ASSERTION_FAIL",
-        "reason": "AssertionError: expected 1 to be 2 // Object.is equality\n    at /Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/assertion/frontend/src/__tests__/writer.test.ts:1:66\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:145:11\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:915:26\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1243:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1209:10)\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:37\n    at Traces.$ (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)\n    at trace (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)\n    at runTest (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:12)"
+        "reason": "AssertionError: expected 1 to be 2 // Object.is equality\n    at /Users/USER/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/assertion/frontend/src/__tests__/writer.test.ts:1:66\n    at file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:145:11\n    at file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:915:26\n    at file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1243:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1209:10)\n    at file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:37\n    at Traces.$ (file:///Users/USER/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)\n    at trace (file:///Users/USER/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)\n    at runTest (file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:12)"
       }
     ],
-    "reason": "AssertionError: expected 1 to be 2 // Object.is equality\n    at /Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/assertion/frontend/src/__tests__/writer.test.ts:1:66\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:145:11\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:915:26\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1243:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1209:10)\n    at file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:37\n    at Traces.$ (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)\n    at trace (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)\n    at runTest (file:///Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:12)",
-    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/assertion-execution/native-report.json"
+    "reason": "AssertionError: expected 1 to be 2 // Object.is equality\n    at /Users/USER/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/assertion/frontend/src/__tests__/writer.test.ts:1:66\n    at file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:145:11\n    at file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:915:26\n    at file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1243:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1209:10)\n    at file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:37\n    at Traces.$ (file:///Users/USER/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)\n    at trace (file:///Users/USER/Projects/Therapy2/frontend/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)\n    at runTest (file:///Users/USER/Projects/Therapy2/frontend/node_modules/@vitest/runner/dist/index.js:1653:12)",
+    "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/assertion-execution/native-report.json"
   },
   {
     "name": "import",
@@ -31,6 +31,6 @@
     "tests": [],
     "setupError": true,
     "reason": "Native file setup failed: Failed to resolve import \"./does-not-exist\" from \"src/__tests__/writer.test.ts\". Does the file exist?",
-    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/import-execution/native-report.json"
+    "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer-v2/vitest-proof-real-base/import-execution/native-report.json"
   }
 ]

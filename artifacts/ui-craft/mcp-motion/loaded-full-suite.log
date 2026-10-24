@@ -963,127 +963,127 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 test at tests/debug-store.test.ts:54:96
 ✖ evaluator_issue escalates before any Builder correction (30806.719708ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:54:171)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:54:171)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:54:96
 ✖ environment_issue escalates before any Builder correction (25819.041083ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
       at runNextTicks (node:internal/process/task_queues:65:5)
       at process.processTimers (node:internal/timers:615:9)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:63)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:54:171)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:63)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:54:171)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:55:1
 ✖ AI prose that Candidate is correct cannot override actual protected failures (37826.234666ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:55:103)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:55:103)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:56:91
 ✖ diagnosis authority mutation rejected: Remove R2. (20759.685ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:63)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:56:166)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:63)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:56:166)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:56:91
 ✖ diagnosis authority mutation rejected: Change verify_denial.py. (30339.184166ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:56:166)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:56:166)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:56:91
 ✖ diagnosis authority mutation rejected: Add Slack integration. (26895.53ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:63)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:56:166)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:63)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:56:166)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:57:1
 ✖ cancel while correction worker waits stops loop and retains existing Builder cleanup semantics (34375.559125ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:57:121)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:57:121)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:58:1
 ✖ changed accepted source during diagnosis stops handoff and never edits old Contract (38199.171125ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:58:184)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:58:184)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:61:35
 ✖ restart during diagnosis never resumes and queued diagnosis interrupts safely (37729.084459ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:61:252)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:61:252)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:61:35
 ✖ restart during diagnosis never resumes and unknown launch escalates (37054.026083ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:61:252)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:61:252)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:62:1
 ✖ resolved Session exact immutable history survives recovery without auto work (37732.329625ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:62:103)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:62:103)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:64:1
 ✖ oracle metadata changed between cycles stops before a second correction against a different evaluator (30168.567917ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:64:214)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:64:214)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/debug-store.test.ts:66:1
 ✖ nondefinitive ERROR, UNSUPPORTED and INCONCLUSIVE are never admitted as an automatic code correction (37971.542542ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async fixture (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:66:127)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async fixture (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:41:398)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:66:127)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/mission-workflow.test.ts:55:1
 ✖ genuine native FAIL invokes the existing bounded Debug loop, then native PASS requires the terminal decision (25402.0715ms)
   Error [SpecError]: Review the exact current Spec.
-      at Object.approve (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/mission-workflow.ts:91:224)
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/mission-workflow.test.ts:55:213)
+      at Object.approve (file:///Users/USER/Projects/ai-lab/command-center/apps/server/mission-workflow.ts:91:224)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/mission-workflow.test.ts:55:213)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     code: 'STALE_SPEC',
@@ -1093,8 +1093,8 @@ test at tests/mission-workflow.test.ts:55:1
 test at tests/mission-workflow.test.ts:61:1
 ✖ Abandon cancels a live Builder and only completes after certified cleanup (16515.715333ms)
   Error [SpecError]: Review the exact current Spec.
-      at Object.approve (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/mission-workflow.ts:91:224)
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/mission-workflow.test.ts:62:44)
+      at Object.approve (file:///Users/USER/Projects/ai-lab/command-center/apps/server/mission-workflow.ts:91:224)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/mission-workflow.test.ts:62:44)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     code: 'STALE_SPEC',
@@ -1104,11 +1104,11 @@ test at tests/mission-workflow.test.ts:61:1
 test at tests/playbook-checks.test.ts:4:1
 ✖ approved playbook admits on BASE, restores edited tests, and catches Candidate regression (32080.376167ms)
   Error: Playbook process deadline, output or owned cleanup failed
-      at command (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/playbook-checks.ts:24:184)
-      at async run (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/playbook-checks.ts:26:98)
-      at async admit (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/playbook-checks.ts:29:19)
-      at async Object.check (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/playbook-checks.ts:34:294)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/playbook-checks.test.ts:4:883)
+      at command (file:///Users/USER/Projects/ai-lab/command-center/apps/server/playbook-checks.ts:24:184)
+      at async run (file:///Users/USER/Projects/ai-lab/command-center/apps/server/playbook-checks.ts:26:98)
+      at async admit (file:///Users/USER/Projects/ai-lab/command-center/apps/server/playbook-checks.ts:29:19)
+      at async Object.check (file:///Users/USER/Projects/ai-lab/command-center/apps/server/playbook-checks.ts:34:294)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/playbook-checks.test.ts:4:883)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
@@ -1118,16 +1118,16 @@ test at tests/project-recipes.test.ts:46:1
 
   'Error: Recipe admission cleanup uncertain'
 
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/project-recipes.test.ts:47:156)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/project-recipes.test.ts:47:156)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: true,
     code: 'ERR_ASSERTION',
     actual: Error: Recipe admission cleanup uncertain
-        at Object.admit (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
+        at Object.admit (file:///Users/USER/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
         at async waitForActual (node:assert:646:5)
         at async strict.rejects (node:assert:769:25)
-        at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/project-recipes.test.ts:47:156)
+        at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/project-recipes.test.ts:47:156)
         at async Test.run (node:internal/test_runner/test:1409:7)
         at async Test.processPendingSubtests (node:internal/test_runner/test:974:7),
     expected: /known-good PASS and known-bad meaningful FAIL/,
@@ -1137,11 +1137,11 @@ test at tests/project-recipes.test.ts:46:1
 
 test at tests/protected-existing-tests.test.ts:15:1
 ✖ frontend native suite needs no browser or UI component and preserves exact test names (37719.2985ms)
-  AssertionError [ERR_ASSERTION]: {"status":"ERROR","tests":[],"gaps":[{"id":"native-suite","reason":"Native suite observations or cleanup unavailable"}],"execution":{"status":"INCONCLUSIVE","output":"{\"reason\":\"Judge did not finish with certified cleanup\"}","previewTruncated":false,"truncated":false,"durationMs":37706.92533300001,"cleanup":{"verified":true,"ambiguous":false,"remaining":[],"terminalCount":0,"reason":null},"environment":{"oracleId":"fixture","classification":"GUARD","runner":"vitest","processSeparation":true,"judgeImportsCandidate":false,"inputs":[{"id":"protected-existing-suite","kind":"SUITE","expectedTests":["[\"src/base.test.ts\",\"BASE group base identity\"]"],"excludedTests":[],"fixtureInput":{"root":"/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-protected-vitest-BxErgd/workspace/frontend","testPaths":["src/base.test.ts"],"collectOnly":false}}],"exactReadExceptions":[],"excludedTests":[],"runnerProcesses":[{"pid":76323,"ppid":71279,"pgid":76323,"sid":76323,"birth":"darwin:1792277902:817226","executable":"/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:31.413Z","exitedAt":null},{"pid":76349,"ppid":76323,"pgid":76323,"sid":76323,"birth":"darwin:1792277904:599973","executable":"/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:31.413Z","exitedAt":null},{"pid":76388,"ppid":76349,"pgid":76323,"sid":76323,"birth":"darwin:1792277906:315043","executable":"/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:31.413Z","exitedAt":null},{"pid":76689,"ppid":76349,"pgid":76323,"sid":76323,"birth":"darwin:1792277911:211336","executable":"/Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@esbuild/darwin-arm64/bin/esbuild","observedAt":"2026-10-17T22:58:31.413Z","exitedAt":null}],"runnerExit":0,"observationHash":"e000813a2c0dd78da9c9e4ef102f98f066a1a6e2952fdb7ec50b2315494605fb","judgeProcesses":[{"pid":77067,"ppid":71279,"pgid":77067,"sid":77067,"birth":"darwin:1792277917:643972","executable":"/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:54.496Z","exitedAt":null},{"pid":77110,"ppid":77067,"pgid":77067,"sid":77067,"birth":"darwin:1792277919:123250","executable":"/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:54.496Z","exitedAt":null},{"pid":77136,"ppid":77110,"pgid":77067,"sid":77067,"birth":"darwin:1792277920:564738","executable":"/Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules/@esbuild/darwin-arm64/bin/esbuild","observedAt":"2026-10-17T22:58:54.496Z","exitedAt":null},{"pid":77143,"ppid":77110,"pgid":77067,"sid":77067,"birth":"darwin:1792277920:872013","executable":"/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:51.493Z","exitedAt":null}],"judgeExit":1}}}
+  AssertionError [ERR_ASSERTION]: {"status":"ERROR","tests":[],"gaps":[{"id":"native-suite","reason":"Native suite observations or cleanup unavailable"}],"execution":{"status":"INCONCLUSIVE","output":"{\"reason\":\"Judge did not finish with certified cleanup\"}","previewTruncated":false,"truncated":false,"durationMs":37706.92533300001,"cleanup":{"verified":true,"ambiguous":false,"remaining":[],"terminalCount":0,"reason":null},"environment":{"oracleId":"fixture","classification":"GUARD","runner":"vitest","processSeparation":true,"judgeImportsCandidate":false,"inputs":[{"id":"protected-existing-suite","kind":"SUITE","expectedTests":["[\"src/base.test.ts\",\"BASE group base identity\"]"],"excludedTests":[],"fixtureInput":{"root":"/Users/USER/Projects/ai-lab/command-center/.work/tripwires/native/owned/cc-protected-vitest-BxErgd/workspace/frontend","testPaths":["src/base.test.ts"],"collectOnly":false}}],"exactReadExceptions":[],"excludedTests":[],"runnerProcesses":[{"pid":76323,"ppid":71279,"pgid":76323,"sid":76323,"birth":"darwin:1792277902:817226","executable":"/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:31.413Z","exitedAt":null},{"pid":76349,"ppid":76323,"pgid":76323,"sid":76323,"birth":"darwin:1792277904:599973","executable":"/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:31.413Z","exitedAt":null},{"pid":76388,"ppid":76349,"pgid":76323,"sid":76323,"birth":"darwin:1792277906:315043","executable":"/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:31.413Z","exitedAt":null},{"pid":76689,"ppid":76349,"pgid":76323,"sid":76323,"birth":"darwin:1792277911:211336","executable":"/Users/USER/Projects/Therapy2/frontend/node_modules/@esbuild/darwin-arm64/bin/esbuild","observedAt":"2026-10-17T22:58:31.413Z","exitedAt":null}],"runnerExit":0,"observationHash":"e000813a2c0dd78da9c9e4ef102f98f066a1a6e2952fdb7ec50b2315494605fb","judgeProcesses":[{"pid":77067,"ppid":71279,"pgid":77067,"sid":77067,"birth":"darwin:1792277917:643972","executable":"/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:54.496Z","exitedAt":null},{"pid":77110,"ppid":77067,"pgid":77067,"sid":77067,"birth":"darwin:1792277919:123250","executable":"/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:54.496Z","exitedAt":null},{"pid":77136,"ppid":77110,"pgid":77067,"sid":77067,"birth":"darwin:1792277920:564738","executable":"/Users/USER/Projects/Therapy2/frontend/node_modules/@esbuild/darwin-arm64/bin/esbuild","observedAt":"2026-10-17T22:58:54.496Z","exitedAt":null},{"pid":77143,"ppid":77110,"pgid":77067,"sid":77067,"birth":"darwin:1792277920:872013","executable":"/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node","observedAt":"2026-10-17T22:58:51.493Z","exitedAt":null}],"judgeExit":1}}}
 
   'ERROR' !== 'PASS'
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/protected-existing-tests.test.ts:15:1228)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/protected-existing-tests.test.ts:15:1228)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,
@@ -1158,7 +1158,7 @@ test at tests/quality-gates-native.test.ts:10:1
 
   'ERROR' !== 'FAIL'
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/quality-gates-native.test.ts:14:190)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/quality-gates-native.test.ts:14:190)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,
@@ -1175,7 +1175,7 @@ test at tests/quality-gates-native.test.ts:25:1
 
   false !== true
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/quality-gates-native.test.ts:27:214)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/quality-gates-native.test.ts:27:214)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: true,
@@ -1189,8 +1189,8 @@ test at tests/quality-gates-native.test.ts:25:1
 test at tests/runtime-permission-transport.test.ts:23:1
 ✖ permission transport rejects edited scope, typed ID reuse, payload and every stale binding field (16270.130292ms)
   Error [BuildError]: Owned execution cleanup was not certified.
-      at runBuilder (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/build-runtime.ts:142:54)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/runtime-permission-transport.test.ts:23:792)
+      at runBuilder (file:///Users/USER/Projects/ai-lab/command-center/apps/server/build-runtime.ts:142:54)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/runtime-permission-transport.test.ts:23:792)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     code: 'BUILD_RECONCILE_REQUIRED',
@@ -1205,15 +1205,15 @@ test at tests/runtime-permission-transport.test.ts:23:1
 test at tests/stop-all.test.ts:2:53
 ✖ STOP ALL through local HTTP stops checking, pauses the second FIFO ticket, and Retry still needs a passkey (23612.688833ms)
   Error: Expected worker/check never started
-      at Timeout._onTimeout (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/stop-all.test.ts:19:1481)
+      at Timeout._onTimeout (file:///Users/USER/Projects/ai-lab/command-center/tests/stop-all.test.ts:19:1481)
       at listOnTimeout (node:internal/timers:685:17)
       at process.processTimers (node:internal/timers:618:7)
 
 test at tests/ticket-private-checker.test.ts:2:1
 ✖ private ticket clone checker requires durable exact artifact binding; public roots stay unchanged (57039.648875ms)
   Error [SpecError]: Owned cleanup remains uncertain.
-      at Object.close (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/verify-only.ts:118:285)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ticket-private-checker.test.ts:5:11)
+      at Object.close (file:///Users/USER/Projects/ai-lab/command-center/apps/server/verify-only.ts:118:285)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ticket-private-checker.test.ts:5:11)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     code: 'VERIFY_RECONCILE_REQUIRED',
@@ -1228,7 +1228,7 @@ test at tests/verification-executor.test.ts:17:1
   + 'INCONCLUSIVE'
   - 'FAIL'
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-executor.test.ts:17:315)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-executor.test.ts:17:315)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: false,
@@ -1247,7 +1247,7 @@ test at tests/verification-executor.test.ts:19:1
   + 'ERROR'
   - 'INCONCLUSIVE'
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-executor.test.ts:19:622)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-executor.test.ts:19:622)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,
@@ -1264,7 +1264,7 @@ test at tests/verification-executor.test.ts:20:2
 
   false !== true
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-executor.test.ts:20:273)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-executor.test.ts:20:273)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,
@@ -1278,8 +1278,8 @@ test at tests/verification-executor.test.ts:20:2
 test at tests/verification-v1-store.test.ts:33:1
 ✖ v1 automatically verifies native BASE tests and gaps can land without AI, checkout or index changes (10928.0395ms)
   Error: Recipe admission cleanup uncertain
-      at Object.admit (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:35:16)
+      at Object.admit (file:///Users/USER/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:35:16)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
 
@@ -1289,7 +1289,7 @@ test at tests/verification-v1-store.test.ts:51:1
 
   'ERROR' !== 'FAIL'
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:53:86)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:53:86)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,
@@ -1303,24 +1303,24 @@ test at tests/verification-v1-store.test.ts:51:1
 test at tests/verification-v1-store.test.ts:60:1
 ✖ candidate, restored overlay, executed tree, approved recipe and recorded result tampering independently become STALE (8463.898666ms)
   Error: Recipe admission cleanup uncertain
-      at Object.admit (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:62:16)
+      at Object.admit (file:///Users/USER/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:62:16)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/verification-v1-store.test.ts:85:1
 ✖ historical verification stays archived and STALE without rewriting stored results or creating branches (21466.868333ms)
   Error: Recipe admission cleanup uncertain
-      at Object.admit (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:87:3)
+      at Object.admit (file:///Users/USER/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:87:3)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/verification-v1-store.test.ts:96:1
 ✖ completed v1 evidence survives restart and is not re-executed (10429.09975ms)
   Error: Recipe admission cleanup uncertain
-      at Object.admit (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:98:3)
+      at Object.admit (file:///Users/USER/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:98:3)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
@@ -1332,7 +1332,7 @@ test at tests/verification-v1-store.test.ts:103:1
   + undefined
   - 'PASS'
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:105:86)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:105:86)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,
@@ -1346,8 +1346,8 @@ test at tests/verification-v1-store.test.ts:103:1
 test at tests/verification-v1-store.test.ts:109:1
 ✖ tampered durable Land intent cannot change the verified branch, evidence, tree or BASE parent (62632.321541ms)
   Error: Recipe admission cleanup uncertain
-      at Object.admit (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:111:3)
+      at Object.admit (file:///Users/USER/Projects/ai-lab/command-center/apps/server/project-recipes.ts:24:308)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verification-v1-store.test.ts:111:3)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
@@ -1357,18 +1357,18 @@ test at tests/verify-only-v2-author.test.ts:3:1
 
   'Error: BASE native collection unavailable'
 
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verify-only-v2-author.test.ts:3:842)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verify-only-v2-author.test.ts:3:842)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,
     code: 'ERR_ASSERTION',
     actual: Error: BASE native collection unavailable
-        at collectExistingTests (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/protected-existing-tests.ts:63:209)
-        at async oracleSource (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/oracle-source.ts:37:16)
-        at async authorVerifyOnly (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/verify-only-author.ts:39:15)
+        at collectExistingTests (file:///Users/USER/Projects/ai-lab/command-center/apps/server/protected-existing-tests.ts:63:209)
+        at async oracleSource (file:///Users/USER/Projects/ai-lab/command-center/apps/server/oracle-source.ts:37:16)
+        at async authorVerifyOnly (file:///Users/USER/Projects/ai-lab/command-center/apps/server/verify-only-author.ts:39:15)
         at async waitForActual (node:assert:646:5)
         at async strict.rejects (node:assert:769:25)
-        at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verify-only-v2-author.test.ts:3:842)
+        at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verify-only-v2-author.test.ts:3:842)
         at async Test.run (node:internal/test_runner/test:1409:7)
         at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3),
     expected: /cannot silently become advisory/,
@@ -1379,9 +1379,9 @@ test at tests/verify-only-v2-author.test.ts:3:1
 test at tests/verify-only-v2-author.test.ts:4:1
 ✖ native regression guard remains REQUIRED regardless of pass/green phrasing (24614.343042ms)
   Error: BASE native collection unavailable
-      at collectExistingTests (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/protected-existing-tests.ts:63:209)
-      at async oracleSource (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/oracle-source.ts:37:16)
-      at async authorVerifyOnly (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/verify-only-author.ts:39:15)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verify-only-v2-author.test.ts:4:804)
+      at collectExistingTests (file:///Users/USER/Projects/ai-lab/command-center/apps/server/protected-existing-tests.ts:63:209)
+      at async oracleSource (file:///Users/USER/Projects/ai-lab/command-center/apps/server/oracle-source.ts:37:16)
+      at async authorVerifyOnly (file:///Users/USER/Projects/ai-lab/command-center/apps/server/verify-only-author.ts:39:15)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verify-only-v2-author.test.ts:4:804)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

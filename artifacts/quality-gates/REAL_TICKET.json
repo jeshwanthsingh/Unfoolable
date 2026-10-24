@@ -3,7 +3,7 @@
     "id": "b15600b3-6803-4ae8-b6ac-d6d8948b78bc",
     "title": "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registratio",
     "requestText": "Improve research source add --help: describe --title as \"Override the source title\". Keep parsing and source registration behavior unchanged. Add a unittest checking that phrase in the source add help output.",
-    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/quality-gates/real-research-router",
+    "repoPath": "/Users/USER/Projects/ai-lab/command-center/.work/quality-gates/real-research-router",
     "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
     "status": "needs_you",
     "attemptCount": 1,

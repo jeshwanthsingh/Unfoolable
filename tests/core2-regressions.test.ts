@@ -32,3 +32,18 @@ test('CORE-2 shell supplies the legacy writer default and explicit limits win',(
  const scored=scoreVerdict({path:'budget',commands:0,reportedCodexTokens:null,reportedWriterTokens:21,limits:{maxCommands:80,maxCodexTokens:120000,maxWriterTokens:20}});
  assert.equal(scored.budgetReason,'Stopped because Test Writer used its full token budget.');
 });
+
+import {mkdtempSync,writeFileSync,readFileSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join,resolve} from 'node:path';
+import {execFileSync} from 'node:child_process';
+test('CORE-2 adding an unhandled typed path fails compilation at the exhaustive guard',()=>{
+ const folder=mkdtempSync(join(tmpdir(),'core2-exhaustive-'));
+ try{
+  const source=readFileSync(new URL('../packages/shared/verdict-core.ts',import.meta.url),'utf8');
+  const mutated=source.replace('export type VerdictFacts =','export type VerdictFacts = { path: "future-path" }');
+  assert.notEqual(mutated,source);const file=join(folder,'unhandled.ts');writeFileSync(file,mutated);
+  let diagnostic='';try{execFileSync(process.execPath,[resolve('node_modules/typescript/bin/tsc'),'--ignoreConfig','--noEmit','--strict','--skipLibCheck','--target','ESNext','--module','NodeNext',file],{encoding:'utf8',timeout:30000});assert.fail('Compiler accepted an unhandled core path');}catch(error){if((error as any).status===undefined)throw error;diagnostic=String((error as any).stdout);}
+  assert.match(diagnostic,/not assignable to type 'never'/);
+ }finally{rmSync(folder,{recursive:true,force:true});}
+});

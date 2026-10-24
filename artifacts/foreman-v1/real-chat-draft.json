@@ -6,7 +6,7 @@
     "version": 1,
     "status": "DRAFT",
     "title": "Add top-level research --version option",
-    "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+    "repoPath": "/Users/USER/Projects/research-router",
     "requestText": "Add a top-level `research --version` option that prints the package version and exits successfully without requiring configuration, network access, or state files. Add focused tests and preserve existing commands.",
     "doneMeans": "`research --version` prints the package version and exits with status 0 without configuration, network access, or state files. Focused tests cover this behavior, and existing commands retain their behavior.",
     "question": null,

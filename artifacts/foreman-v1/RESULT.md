@@ -7,7 +7,7 @@ All seven implementation steps are present on `codex/foreman-v1`, based on `c80a
 ## Open
 
 ```sh
-cd /Users/jeshwanthsingh/Projects/ai-lab/command-center
+cd /Users/USER/Projects/ai-lab/command-center
 ./cc chat
 ```
 

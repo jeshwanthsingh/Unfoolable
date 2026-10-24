@@ -10,7 +10,7 @@
 
 Initial clean checkout: codex/rules-1, d44ca83. Main remains 6a49b3d and contains a776cd8 (Night Shift). d44ca83 is NOT merged into main. Repair branch: codex/workshop-repair, from the inspected checkout; no branch was merged.
 
-Port 3225 initially belonged to owned Node PID 60716, working directory /Users/jeshwanthsingh/Projects/ai-lab/command-center, launched by scripts/local-coordinator.ts. Its kernel start time was October 20, 2026, 4:41:02 PM PDT. Reflog puts HEAD at 8077611 then; the process did not record source provenance, so exact loaded uncommitted bytes cannot be proven retrospectively. /api/health reported coordinator online, database ready, schema 21. The old server was not dead.
+Port 3225 initially belonged to owned Node PID 60716, working directory /Users/USER/Projects/ai-lab/command-center, launched by scripts/local-coordinator.ts. Its kernel start time was October 20, 2026, 4:41:02 PM PDT. Reflog puts HEAD at 8077611 then; the process did not record source provenance, so exact loaded uncommitted bytes cannot be proven retrospectively. /api/health reported coordinator online, database ready, schema 21. The old server was not dead.
 
 Full `unfool` stdout, before and after, was exactly:
 

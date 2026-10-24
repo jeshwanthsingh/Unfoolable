@@ -10,11 +10,11 @@ symlink-escape INCONCLUSIVE
 dependency-change INCONCLUSIVE
 oversized-output FAIL
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 6834 is live but kernel identity unavailable
 timeout INCONCLUSIVE
-Control artifacts: /Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/final-checks-retry/negative-controls
+Control artifacts: /Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/final-checks-retry/negative-controls

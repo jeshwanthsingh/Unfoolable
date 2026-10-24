@@ -4,7 +4,7 @@
       "pid": 85156,
       "startTime": "Tue Oct 20 01:01:29 2026",
       "command": "node .work/office3/server.mjs",
-      "cwd": "/Users/jeshwanthsingh/Projects/ai-lab/command-center"
+      "cwd": "/Users/USER/Projects/ai-lab/command-center"
     }
   ],
   "mainServerUntouched": true,

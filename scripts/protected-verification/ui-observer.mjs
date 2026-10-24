@@ -1,3 +1,7 @@
+import {join} from 'node:path';
+import {userInfo} from 'node:os';
+// HOME is disposable in the verifier; use the operating-system home for exact tooling paths.
+const toolingHome=userInfo().homedir;
 // Trusted observer imports only browser tooling. Candidate JavaScript runs in Chromium.
 import fs from 'node:fs';
 import http from 'node:http';
@@ -28,9 +32,9 @@ if(requests.every(r=>r.kind==='SUITE'||r.kind==='SCOPE')){
  }
  write(fd,stringify({version:'observations-v1',observations:rows})+'\n');process.exit(0);
 }
-const requireBrowser = createRequire('/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@playwright/cli/package.json');
+const requireBrowser = createRequire(join(toolingHome,'Projects/ai-lab/tooling/lib/node_modules/@playwright/cli/package.json'));
 const { chromium } = requireBrowser('playwright');
-const installedShell = '/Users/jeshwanthsingh/Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell';
+const installedShell = join(toolingHome,'Library/Caches/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell');
 const browserExecutable = fs.existsSync(chromium.executablePath()) ? chromium.executablePath() : installedShell;
 const bundleBytes = fs.readFileSync(bundle);
 const html = '<!doctype html><html><head><meta charset="utf-8"></head><body><div id="root"></div><script src="/candidate.js"></script></body></html>';

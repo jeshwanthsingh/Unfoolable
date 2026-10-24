@@ -3,7 +3,7 @@
     "id": "f5fe8c34-2808-41b5-8802-48c557750042",
     "title": "Add local-changes epilog to research --help",
     "requestText": "Using committed HEAD in an isolated worktree, add this exact epilog to the top-level research --help output: \"Changes stay local until you choose to share them.\" Preserve existing commands and arguments. Add a focused unittest confirming help exits 0 and contains that text without loading config, using network, or writing state. Run the focused test and the existing unittest suite. Leave the source working tree unchanged.\n\nDone means:\nTop-level research --help includes the exact epilog and existing commands and arguments remain unchanged. A focused unittest verifies exit code 0, the epilog text, and no config loading, network use, or state writes. The focused test and existing unittest suite pass. Work is based on committed HEAD in an isolated worktree, with the source working tree unchanged.",
-    "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+    "repoPath": "/Users/USER/Projects/research-router",
     "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
     "status": "ready_for_review",
     "attemptCount": 2,
@@ -72,8 +72,8 @@
             "research_router/cli.py",
             "tests/test_cli_help.py"
           ],
-          "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/f5fe8c34-2808-41b5-8802-48c557750042/attempts/980f7039-f3f2-4d85-94bb-55c4ecce5c5a/candidate.diff",
-          "repo": "/Users/jeshwanthsingh/.cc-work/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/f5fe8c34-2808-41b5-8802-48c557750042/repo"
+          "diffPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/f5fe8c34-2808-41b5-8802-48c557750042/attempts/980f7039-f3f2-4d85-94bb-55c4ecce5c5a/candidate.diff",
+          "repo": "/Users/USER/.cc-work/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/f5fe8c34-2808-41b5-8802-48c557750042/repo"
         }
       },
       "createdAt": "2026-10-12T19:09:28.634Z"
@@ -211,8 +211,8 @@
             "research_router/cli.py",
             "tests/test_help.py"
           ],
-          "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/f5fe8c34-2808-41b5-8802-48c557750042/attempts/95a47f3c-ebb6-45fc-b1cb-36823b6588e6/candidate.diff",
-          "repo": "/Users/jeshwanthsingh/.cc-work/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/f5fe8c34-2808-41b5-8802-48c557750042/repo"
+          "diffPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/f5fe8c34-2808-41b5-8802-48c557750042/attempts/95a47f3c-ebb6-45fc-b1cb-36823b6588e6/candidate.diff",
+          "repo": "/Users/USER/.cc-work/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/f5fe8c34-2808-41b5-8802-48c557750042/repo"
         }
       },
       "createdAt": "2026-10-12T19:17:30.827Z"
@@ -243,7 +243,7 @@
         "verificationId": "fda9608b-9fd9-45e2-b83c-06dc1d8bd359",
         "evidenceHash": "f4b0925368136a40d463d41246dab6c6076cb5982a0822adb1a0007c33a4c577",
         "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a2baa20f-857b-4391-a941-8c9160d26d60/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a2baa20f-857b-4391-a941-8c9160d26d60/bound-result.json",
         "playbookResultHash": "4f5f6c2ca346f942dd244bbff3d0a92d31ab08edacd48d5c0eae785ee194f998"
       },
       "createdAt": "2026-10-12T19:18:50.238Z"

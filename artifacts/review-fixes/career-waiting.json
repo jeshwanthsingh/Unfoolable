@@ -3,7 +3,7 @@
     "id": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
     "title": "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiv",
     "requestText": "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiving additions.",
-    "repoPath": "/Users/jeshwanthsingh/Projects/career-ops",
+    "repoPath": "/Users/USER/Projects/career-ops",
     "baseCommit": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
     "status": "needs_you",
     "attemptCount": 0,
@@ -96,7 +96,7 @@
       ]
     },
     "hash": "ff4de1504a7a32112a28bf55f6f6dbe5b6dff37f98c0caffc8f67f811b25ef4f",
-    "repoRoot": "/Users/jeshwanthsingh/Projects/career-ops",
+    "repoRoot": "/Users/USER/Projects/career-ops",
     "updatedAt": "2026-10-10T12:44:27.777Z"
   },
   "diffAvailable": false,

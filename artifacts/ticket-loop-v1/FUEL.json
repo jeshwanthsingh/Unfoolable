@@ -2,7 +2,7 @@
   "version": "codex-cli 0.160.0",
   "initialize": {
     "userAgent": "cc_ticket_fuel_probe/0.160.0 (Mac OS 27.2.0; arm64) unknown (cc_ticket_fuel_probe; 0.0.1)",
-    "codexHome": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/fuel/3def54fd-6570-4587-ac1d-b93be4f68935/provider-private",
+    "codexHome": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/fuel/3def54fd-6570-4587-ac1d-b93be4f68935/provider-private",
     "platformFamily": "unix",
     "platformOs": "macos"
   },

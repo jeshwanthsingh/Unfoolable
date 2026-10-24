@@ -16,7 +16,7 @@ test at tests/ui4-stream.test.ts:14:1
   
   1 !== 2
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:14:1024)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:14:1024)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,

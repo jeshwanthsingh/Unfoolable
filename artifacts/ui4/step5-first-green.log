@@ -32,7 +32,7 @@ test at tests/unfoolable.test.ts:10:1
   + 'accepted'
   - 'closer'
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/unfoolable.test.ts:13:9)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/unfoolable.test.ts:13:9)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.start (node:internal/test_runner/test:1262:17)
@@ -51,7 +51,7 @@ test at tests/unfoolable.test.ts:21:1
   
   'needs' !== 'closer'
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/unfoolable.test.ts:27:9)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/unfoolable.test.ts:27:9)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:974:18)

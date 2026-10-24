@@ -1,3 +1,4 @@
+import {homedir} from 'node:os';
 import {suiteExactReads} from './oracle-suite-policy.ts';
 import {spawn} from 'node:child_process';
 import {randomInt,randomUUID,createHash} from 'node:crypto';
@@ -139,7 +140,7 @@ export async function executeOracleTest(manifest:OracleManifest,test:OracleTest,
    if(!deps||!suiteOnly&&!manifest.uiFixture&&(!manifest.componentPath||manifest.componentPath.includes('..')||!manifest.componentPath.startsWith(manifest.runnerDirectory+'/')))throw Error('UI component identity unavailable');
    const bundle=join(observerScratch,'candidate.js');
    if(!suiteOnly)await bundleOracleCandidate(workspace,deps,manifest.componentPath??'',bundle,manifest.uiFixture);
-   command=[process.execPath,observer,bundle,deps,observerScratch];reads=reads.concat(deps);if(!suiteOnly)reads=reads.concat('/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@playwright/cli','/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/playwright','/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/playwright-core','/Users/jeshwanthsingh/Library/Caches/ms-playwright');
+   command=[process.execPath,observer,bundle,deps,observerScratch];reads=reads.concat(deps);if(!suiteOnly)reads=reads.concat(join(homedir(),'Projects/ai-lab/tooling/lib/node_modules/@playwright/cli'),join(homedir(),'Projects/ai-lab/tooling/lib/node_modules/playwright'),join(homedir(),'Projects/ai-lab/tooling/lib/node_modules/playwright-core'),join(homedir(),'Library/Caches/ms-playwright'));
   }
   const env:NodeJS.ProcessEnv={PATH:dirname(process.execPath)+':/usr/local/bin:/usr/bin:/bin',HOME:join(observerScratch,'home'),TMPDIR:join(observerScratch,'tmp'),LANG:'C',LC_ALL:'C',TZ:'UTC',HOST:'127.0.0.1',BIND_ADDRESS:'127.0.0.1',CC_OBSERVATION_FD:'3',PYTHONDONTWRITEBYTECODE:'1',...(deps?{NODE_PATH:deps}:{})};
   const exactReads=suiteExactReads(manifest,requests,workspace);environment.exactReadExceptions=exactReads;environment.excludedTests=requests.flatMap(r=>r.excludedTests??[]);

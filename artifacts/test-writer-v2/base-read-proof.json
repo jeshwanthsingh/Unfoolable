@@ -17,7 +17,7 @@
     },
     {
       "method": "item/tool/call",
-      "path": "/Users/jeshwanthsingh/.bench-private/graders.json",
+      "path": "/Users/USER/.bench-private/graders.json",
       "success": false,
       "threadId": "01a13299-5107-7420-b47d-8791083d833b",
       "turnId": "01a13299-5161-7f33-aeaa-05073cf07d8e"

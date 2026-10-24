@@ -1,3 +1,4 @@
+import {homedir} from 'node:os';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
@@ -9,7 +10,7 @@ import {oracleSandbox} from '../apps/server/oracle-execution.ts';
 import {ownedProcessSnapshot,reconcileOwnedProcesses} from '../apps/server/build-processes.ts';
 import type {ProcessRecord} from '../packages/shared/build.ts';
 
-const deps='/Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules';
+const deps=join(homedir(),'Projects/Therapy2/frontend/node_modules');
 test('native Vitest judge collects exactly one oracle beneath a denied ancestor package', {skip:process.platform!=='darwin'||!existsSync(join(deps,'vitest/vitest.mjs')),timeout:45000},async()=>{
  const root=realpathSync(mkdtempSync(join(tmpdir(),'oracle-judge-location-'))),parent=join(root,'parent'),scratch=join(parent,'judge');mkdirSync(scratch,{recursive:true});
  const observations=join(root,'observations.json'),oracle=join(root,'oracle.ts'),judge=fileURLToPath(new URL('../scripts/protected-verification/ui-judge.mjs',import.meta.url));

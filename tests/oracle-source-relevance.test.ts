@@ -1,3 +1,4 @@
+import {homedir} from 'node:os';
 import test from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync,mkdirSync,writeFileSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';import {execFileSync} from 'node:child_process';import {oracleSource} from '../apps/server/oracle-source.ts';
 test('hyphenated nonvisual intent retains its real module within the bounded source packet',async()=>{
  const root=mkdtempSync(join(tmpdir(),'cc-source-relevance-'));mkdirSync(join(root,'frontend/src/store'),{recursive:true});mkdirSync(join(root,'frontend/node_modules'));
@@ -8,7 +9,7 @@ test('hyphenated nonvisual intent retains its real module within the bounded sou
 });
 test('native Vitest collection preserves generated Unicode and quoted titles',async()=>{
  const root=mkdtempSync(join(tmpdir(),'cc-source-titles-'));mkdirSync(join(root,'frontend/src/__tests__'),{recursive:true});
- const {symlinkSync}=await import('node:fs');symlinkSync('/Users/jeshwanthsingh/Projects/Therapy2/frontend/node_modules',join(root,'frontend/node_modules'));
+ const {symlinkSync}=await import('node:fs');symlinkSync(join(homedir(),'Projects/Therapy2/frontend/node_modules'),join(root,'frontend/node_modules'));
  writeFileSync(join(root,'frontend/package.json'),JSON.stringify({type:'module',devDependencies:{vitest:'4.0.18'}}));writeFileSync(join(root,'frontend/tsconfig.json'),'{}');
  writeFileSync(join(root,'frontend/src/__tests__/quoted.test.ts'),`import {test,expect,describe} from 'vitest';describe('Unicode',()=>{test.each(['Hindi हिन्दी','emoji 😀','CJK 中文'])('round-trips %s',value=>expect(value).toBe(value));test("patient's identity survives",()=>expect(1).toBe(1));test.skip('not run',()=>{throw Error('skip');});});`);
  const git=(...args:string[])=>execFileSync('/opt/homebrew/bin/git',['-c','core.hooksPath=/dev/null','-C',root,...args],{encoding:'utf8'}).trim();git('init','-q');git('add','frontend/package.json','frontend/tsconfig.json','frontend/src');git('-c','user.name=Fixture','-c','user.email=fixture@localhost','-c','commit.gpgsign=false','commit','-qm','native fixture');

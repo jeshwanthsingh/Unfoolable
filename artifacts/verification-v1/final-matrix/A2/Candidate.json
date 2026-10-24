@@ -10,8 +10,8 @@
     "candidateTree": "bb11b191567ef92c63aeb60480bb185554ede1cc",
     "intent": "Reject malformed `done` events with missing or invalid exit codes instead of reporting successful completion.\n\nDone means:\nA done event with no exit code, or a non-integer exit code, is not reported as success (raises or ok is False with a reason). A done event with exit code 0 and no reason still reports ok. A done event with exit code 1 still reports not ok. Existing SDK tests pass.\n\nAllowed changed paths: sdk/python/**\n",
     "projectId": "v1-Aegis",
-    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
-    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
+    "repoPath": "/Users/USER/Projects/ai-lab/benchmark/runs/A2/A/repo",
+    "repoRoot": "/Users/USER/Projects/ai-lab/benchmark/runs/A2/A/repo",
     "runnerDirectory": "sdk/python",
     "taskChecks": false
   },
@@ -28,7 +28,7 @@
       "id": "ad83b120-904b-480b-a0aa-2369b40ed60d",
       "runner": "unittest",
       "runnerDirectory": "sdk/python",
-      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/A2/A/repo",
+      "sourceRoot": "/Users/USER/Projects/ai-lab/benchmark/runs/A2/A/repo",
       "tests": [],
       "version": "process-oracle-v1"
     }
@@ -173,24 +173,24 @@
     "evidence": {
       "candidateExport": {
         "hash": "6909ef3b0cc86d8b42627fb376fa34581d2f477713791c1c3c246e9c856db32d",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/candidate-export",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/candidate-export",
         "sourceTree": "a93e8ca625b6a35ce9bc0e0050d84ec2d056e8bb"
       },
       "executedChecks": [
         {
           "hash": "843b7517423440fc54b0455f744ea42e5b194d9bb9b68f3bf15ecc1bb5c6d888",
           "id": "protected-existing-tests",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/protected-existing-tests.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/protected-existing-tests.json"
         },
         {
           "hash": "a5f57d25e5bf207b19f4596c333aea27e7c1836437013b4b6e328f86ff6c20ce",
           "id": "candidate-tests-non-authoritative",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/candidate-tests-non-authoritative.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/candidate-tests-non-authoritative.json"
         }
       ],
       "executionTree": {
         "hash": "36218aaefdace3cdfde752f2989be2785f17481ebaaebcc5daa7098e46589a5b",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/executed-tree",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/executed-tree",
         "trustedLinks": {}
       },
       "hash": "8239ef011c1798e02f78bd62fbc00ccf6a80455c734e8f1039899baf4a5e7021",
@@ -198,7 +198,7 @@
       "overlay": {
         "candidateOnlyTests": [],
         "hash": "c06f3ce2e1bf8748ced962b85d8750aea354b3ab719065ddd96aa02a4063a232",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/base-test-overlay",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/base-test-overlay",
         "restored": [
           "tests/__init__.py",
           "tests/test_broker_smoke.py",
@@ -209,7 +209,7 @@
       "records": [
         {
           "hash": "dc7800eb734850784169d1d52c2e8261c7e0778476d1bc83f15980abaed56130",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/existing-tests/native-E1-b51dba77-5069-4a64-a8f5-78aaa89a3ac8/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/ad83b120-904b-480b-a0aa-2369b40ed60d/existing-tests/native-E1-b51dba77-5069-4a64-a8f5-78aaa89a3ac8/observations.json"
         }
       ],
       "requiredChecksHash": "6d8c0f10c8636a2ae90a2d1a7f0a18012efcce911bef5daacdb6946a364e0f34"

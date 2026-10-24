@@ -2,7 +2,7 @@
   "results": [
     {
       "source": {
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/docs/mockups/observatory/package-lock.json",
+        "path": "/Users/USER/Projects/ai-lab/command-center/docs/mockups/observatory/package-lock.json",
         "type": "lockfile"
       },
       "packages": [

@@ -1076,8 +1076,8 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 test at tests/alive.test.ts:61:1
 ✖ a long real stream retains its recorded stage without exporting raw command strings (4.807208ms)
   Error: no such table: phone_audit
-      at deskSnapshot (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts:10:2813)
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/alive.test.ts:65:14)
+      at deskSnapshot (file:///Users/USER/Projects/ai-lab/command-center/apps/server/desk-stream.ts:10:2813)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/alive.test.ts:65:14)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     code: 'ERR_SQLITE_ERROR',
@@ -1091,7 +1091,7 @@ test at tests/analysis-migration.test.ts:9:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/analysis-migration.test.ts:17:11)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/analysis-migration.test.ts:17:11)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,
@@ -1108,7 +1108,7 @@ test at tests/build-migration.test.ts:7:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/build-migration.test.ts:16:11)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/build-migration.test.ts:16:11)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,
@@ -1125,7 +1125,7 @@ test at tests/context-migration.test.ts:9:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/context-migration.test.ts:16:54)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/context-migration.test.ts:16:54)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,
@@ -1142,7 +1142,7 @@ test at tests/contract-migration.test.ts:10:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/contract-migration.test.ts:23:45)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/contract-migration.test.ts:23:45)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,
@@ -1156,9 +1156,9 @@ test at tests/contract-migration.test.ts:10:1
 test at tests/debug-store.test.ts:51:1
 ✖ first correction fixes E1 but regresses E2: fresh cycle 2 packet centers E2, same oracle, then C resolves (22067.3325ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async run (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:48:131)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:51:186)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async run (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:48:131)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:51:186)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
@@ -1168,7 +1168,7 @@ test at tests/mission-migration.test.ts:9:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/mission-migration.test.ts:15:54)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/mission-migration.test.ts:15:54)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,
@@ -1185,7 +1185,7 @@ test at tests/planning-migration.test.ts:7:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/planning-migration.test.ts:9:13)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/planning-migration.test.ts:9:13)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.start (node:internal/test_runner/test:1262:17)
@@ -1204,7 +1204,7 @@ test at tests/planning-migration.test.ts:138:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/planning-migration.test.ts:152:44)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/planning-migration.test.ts:152:44)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: true,
@@ -1221,7 +1221,7 @@ test at tests/project-migration.test.ts:10:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/project-migration.test.ts:16:54)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/project-migration.test.ts:16:54)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,
@@ -1238,7 +1238,7 @@ test at tests/runtime-migration.test.ts:10:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/runtime-migration.test.ts:31:10)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/runtime-migration.test.ts:31:10)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,
@@ -1255,7 +1255,7 @@ test at tests/tickets.test.ts:11:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/tickets.test.ts:17:50)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/tickets.test.ts:17:50)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: true,
@@ -1269,8 +1269,8 @@ test at tests/tickets.test.ts:11:1
 test at tests/ui4-stream.test.ts:4:1
 ✖ stream snapshot is lightweight and event identity is stable while idle (9.19325ms)
   Error: no such table: draft_visibility_events
-      at deskCursor (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts:6:15)
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:4:826)
+      at deskCursor (file:///Users/USER/Projects/ai-lab/command-center/apps/server/desk-stream.ts:6:15)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:4:826)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     code: 'ERR_SQLITE_ERROR',
@@ -1281,10 +1281,10 @@ test at tests/ui4-stream.test.ts:4:1
 test at tests/ui4-stream.test.ts:14:1
 ✖ a second browser cannot swallow an event for the first browser (1.000417ms)
   Error: no such table: draft_visibility_events
-      at deskCursor (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts:6:15)
-      at packet (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts:14:31)
-      at Object.connect (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts:16:105)
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:14:878)
+      at deskCursor (file:///Users/USER/Projects/ai-lab/command-center/apps/server/desk-stream.ts:6:15)
+      at packet (file:///Users/USER/Projects/ai-lab/command-center/apps/server/desk-stream.ts:14:31)
+      at Object.connect (file:///Users/USER/Projects/ai-lab/command-center/apps/server/desk-stream.ts:16:105)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:14:878)
       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
@@ -1296,8 +1296,8 @@ test at tests/ui4-stream.test.ts:14:1
 test at tests/ui4-stream.test.ts:19:1
 ✖ light summaries retain stored warnings and do not invalidate Proof on routine process updates (0.432ms)
   Error: no such table: phone_audit
-      at deskSnapshot (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts:10:2813)
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:19:814)
+      at deskSnapshot (file:///Users/USER/Projects/ai-lab/command-center/apps/server/desk-stream.ts:10:2813)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:19:814)
       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
@@ -1312,7 +1312,7 @@ test at tests/verify-only-v2-migration.test.ts:3:1
 
   20 !== 17
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/verify-only-v2-migration.test.ts:3:919)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/verify-only-v2-migration.test.ts:3:919)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     generatedMessage: true,

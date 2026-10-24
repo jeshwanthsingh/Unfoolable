@@ -1,6 +1,6 @@
 {
   "manifestHash": "d249b0078e3ab9baa1d182292589ac70e2c35b9a23035a6fcef4e02a02b2e52f",
-  "protectedPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/data/holdout",
+  "protectedPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/data/holdout",
   "correlation": "No tuning after first holdout measurement. Six distinct historical commits, all Therapy2 frontend; five related clinic-calendar bugs, so results are correlated and do not prove cross-repository generalization. Correct candidates contain the exact fix with BASE tests restored. Wrong candidates contain one planted half-fix. No checkout/worktree materialization.",
   "cases": [
     {

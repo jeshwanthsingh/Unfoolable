@@ -3,7 +3,7 @@
     "id": "e56f790f-beb4-4c80-8bee-88bd26aa75eb",
     "title": "Add top-level research --version option",
     "requestText": "Add a top-level `research --version` option that prints the package version and exits successfully without requiring configuration, network access, or state files. Add focused tests and preserve existing commands.\n\nDone means:\n`research --version` prints the package version and exits with status 0 without configuration, network access, or state files. Focused tests cover this behavior, and existing commands retain their behavior.",
-    "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+    "repoPath": "/Users/USER/Projects/research-router",
     "baseCommit": "f7f198123955f6113cb583020d06bb47dc89817f",
     "status": "ready_for_review",
     "attemptCount": 4,
@@ -36,7 +36,7 @@
     "verificationId": "67762319-e048-48a6-b677-0efc4eb2e965",
     "evidenceHash": "ba8decb30e5bbe9893bcc3c31038ddad78352eb3e9873086f54234a5af849668",
     "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
-    "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/09ce1126-0652-4285-8617-11add2a486bc/bound-result.json",
+    "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/09ce1126-0652-4285-8617-11add2a486bc/bound-result.json",
     "playbookResultHash": "dda720bbaec817de082cdc75e4fbc9da9056030e0ce3102c6bd27c6c95f1ba5c"
   },
   "keepAvailable": true,

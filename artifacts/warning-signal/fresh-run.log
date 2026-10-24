@@ -2,37 +2,37 @@ START fresh H1-correct
 RESULT H1-correct PASSED WITH GAPS TOKENS 11497
 START fresh H1-wrong
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
     print(json.dumps(record(int(sys.argv[2]),time.monotonic()+ROOT_RETRY_SECONDS) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                                                              ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 86, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 86, in tree
     row=record(pid,limit)
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 68, in record
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 68, in record
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable after bounded retry')
 RuntimeError: Owned PID 8562 is live but kernel identity unavailable after bounded retry
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
     print(json.dumps(record(int(sys.argv[2]),time.monotonic()+ROOT_RETRY_SECONDS) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                                                              ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 86, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 86, in tree
     row=record(pid,limit)
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 68, in record
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 68, in record
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable after bounded retry')
 RuntimeError: Owned PID 8562 is live but kernel identity unavailable after bounded retry
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
     print(json.dumps(record(int(sys.argv[2]),time.monotonic()+ROOT_RETRY_SECONDS) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                                                              ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 86, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 86, in tree
     row=record(pid,limit)
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 68, in record
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 68, in record
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable after bounded retry')
 RuntimeError: Owned PID 8562 is live but kernel identity unavailable after bounded retry
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
     print(json.dumps(record(int(sys.argv[2]),time.monotonic()+ROOT_RETRY_SECONDS) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                      ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 68, in record
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 68, in record
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable after bounded retry')
 RuntimeError: Owned PID 8562 is live but kernel identity unavailable after bounded retry
 RESULT H1-wrong PASSED WITH GAPS TOKENS 11496
@@ -54,10 +54,10 @@ START fresh H5-wrong
 RESULT H5-wrong ERROR TOKENS not started
 START fresh H6-correct
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 102, in <module>
     print(json.dumps(record(int(sys.argv[2]),time.monotonic()+ROOT_RETRY_SECONDS) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                                                              ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 98, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 98, in tree
     raise RuntimeError('Recorded process no longer belongs to the owned tree')
 RuntimeError: Recorded process no longer belongs to the owned tree
 RESULT H6-correct PASSED WITH GAPS TOKENS 12582

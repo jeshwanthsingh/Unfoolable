@@ -5,7 +5,7 @@
     "nativeStatus": "PASS",
     "cleanupVerified": true,
     "rawVerdict": "ERROR",
-    "evidence": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/4e6f0ab8-918b-46ba-9d43-a76fdde3e87e/protected-existing-tests.json"
+    "evidence": "/Users/USER/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/4e6f0ab8-918b-46ba-9d43-a76fdde3e87e/protected-existing-tests.json"
   },
   {
     "case": "H4-wrong",
@@ -13,7 +13,7 @@
     "nativeStatus": "PASS",
     "cleanupVerified": true,
     "rawVerdict": "ERROR",
-    "evidence": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/949dc64e-39cc-42a9-9530-c48220f5e87b/protected-existing-tests.json"
+    "evidence": "/Users/USER/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/949dc64e-39cc-42a9-9530-c48220f5e87b/protected-existing-tests.json"
   },
   {
     "case": "H5-correct",
@@ -21,7 +21,7 @@
     "nativeStatus": "PASS",
     "cleanupVerified": true,
     "rawVerdict": "ERROR",
-    "evidence": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/e969667f-2bcf-4184-b368-720187640358/protected-existing-tests.json"
+    "evidence": "/Users/USER/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/e969667f-2bcf-4184-b368-720187640358/protected-existing-tests.json"
   },
   {
     "case": "H5-wrong",
@@ -29,6 +29,6 @@
     "nativeStatus": "PASS",
     "cleanupVerified": true,
     "rawVerdict": "ERROR",
-    "evidence": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/a873b333-75bd-4af7-92cc-8f9ea98621e8/protected-existing-tests.json"
+    "evidence": "/Users/USER/Projects/ai-lab/command-center/.work/warning-signal/scoring-data/verify-only/a873b333-75bd-4af7-92cc-8f9ea98621e8/protected-existing-tests.json"
   }
 ]

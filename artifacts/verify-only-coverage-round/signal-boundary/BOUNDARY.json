@@ -53,7 +53,7 @@
       "pgid": 26629,
       "sid": 26629,
       "birth": "darwin:1791591430:371231",
-      "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+      "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
       "observedAt": "2026-10-10T00:17:10.616Z",
       "exitedAt": null
     },

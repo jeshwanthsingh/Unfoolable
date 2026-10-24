@@ -3,385 +3,385 @@
   "targets": [
     {
       "label": "~/.ssh",
-      "path": "/Users/jeshwanthsingh/.ssh",
+      "path": "/Users/USER/.ssh",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/.codex",
-      "path": "/Users/jeshwanthsingh/.codex",
+      "path": "/Users/USER/.codex",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/.config",
-      "path": "/Users/jeshwanthsingh/.config",
+      "path": "/Users/USER/.config",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/.aws",
-      "path": "/Users/jeshwanthsingh/.aws",
+      "path": "/Users/USER/.aws",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/.gnupg",
-      "path": "/Users/jeshwanthsingh/.gnupg",
+      "path": "/Users/USER/.gnupg",
       "kind": "directory",
       "present": false
     },
     {
       "label": "~/Library/Keychains",
-      "path": "/Users/jeshwanthsingh/Library/Keychains",
+      "path": "/Users/USER/Library/Keychains",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/Library/Application Support/Google/Chrome",
-      "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome",
+      "path": "/Users/USER/Library/Application Support/Google/Chrome",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/Library/Application Support/Google/Chrome Beta",
-      "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome Beta",
+      "path": "/Users/USER/Library/Application Support/Google/Chrome Beta",
       "kind": "directory",
       "present": false
     },
     {
       "label": "~/Library/Application Support/Chromium",
-      "path": "/Users/jeshwanthsingh/Library/Application Support/Chromium",
+      "path": "/Users/USER/Library/Application Support/Chromium",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/Library/Application Support/Microsoft Edge",
-      "path": "/Users/jeshwanthsingh/Library/Application Support/Microsoft Edge",
+      "path": "/Users/USER/Library/Application Support/Microsoft Edge",
       "kind": "directory",
       "present": false
     },
     {
       "label": "~/Library/Application Support/BraveSoftware/Brave-Browser",
-      "path": "/Users/jeshwanthsingh/Library/Application Support/BraveSoftware/Brave-Browser",
+      "path": "/Users/USER/Library/Application Support/BraveSoftware/Brave-Browser",
       "kind": "directory",
       "present": false
     },
     {
       "label": "~/Library/Application Support/Arc",
-      "path": "/Users/jeshwanthsingh/Library/Application Support/Arc",
+      "path": "/Users/USER/Library/Application Support/Arc",
       "kind": "directory",
       "present": false
     },
     {
       "label": "~/Library/Application Support/Firefox",
-      "path": "/Users/jeshwanthsingh/Library/Application Support/Firefox",
+      "path": "/Users/USER/Library/Application Support/Firefox",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/Library/Safari",
-      "path": "/Users/jeshwanthsingh/Library/Safari",
+      "path": "/Users/USER/Library/Safari",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/Library/Containers/com.apple.Safari",
-      "path": "/Users/jeshwanthsingh/Library/Containers/com.apple.Safari",
+      "path": "/Users/USER/Library/Containers/com.apple.Safari",
       "kind": "directory",
       "present": true
     },
     {
       "label": "~/Library/Group Containers/group.com.apple.Safari",
-      "path": "/Users/jeshwanthsingh/Library/Group Containers/group.com.apple.Safari",
+      "path": "/Users/USER/Library/Group Containers/group.com.apple.Safari",
       "kind": "directory",
       "present": false
     },
     {
       "label": "~/.codex/auth.json",
-      "path": "/Users/jeshwanthsingh/.codex/auth.json",
+      "path": "/Users/USER/.codex/auth.json",
       "kind": "file",
       "present": true
     },
     {
       "label": "~/.bench-private",
-      "path": "/Users/jeshwanthsingh/.bench-private",
+      "path": "/Users/USER/.bench-private",
       "kind": "directory",
       "present": true
     },
     {
       "label": "CC database",
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
       "kind": "file",
       "present": true
     },
     {
       "label": "CC playbooks",
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
       "kind": "directory",
       "present": true
     },
     {
       "label": "CC checker",
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
+      "path": "/Users/USER/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
       "kind": "file",
       "present": true
     },
     {
       "label": "Other Projects/AI-Powered-Digital-Closet",
-      "path": "/Users/jeshwanthsingh/Projects/AI-Powered-Digital-Closet",
+      "path": "/Users/USER/Projects/AI-Powered-Digital-Closet",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Aegis",
-      "path": "/Users/jeshwanthsingh/Projects/Aegis",
+      "path": "/Users/USER/Projects/Aegis",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Email-Recruiter",
-      "path": "/Users/jeshwanthsingh/Projects/Email-Recruiter",
+      "path": "/Users/USER/Projects/Email-Recruiter",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/JobPipeline",
-      "path": "/Users/jeshwanthsingh/Projects/JobPipeline",
+      "path": "/Users/USER/Projects/JobPipeline",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Milestone5",
-      "path": "/Users/jeshwanthsingh/Projects/Milestone5",
+      "path": "/Users/USER/Projects/Milestone5",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2",
+      "path": "/Users/USER/Projects/Therapy2",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-admin-logout",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-logout",
+      "path": "/Users/USER/Projects/Therapy2-admin-logout",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-admin-review",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-review",
+      "path": "/Users/USER/Projects/Therapy2-admin-review",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-auth-session",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-auth-session",
+      "path": "/Users/USER/Projects/Therapy2-auth-session",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-chat-cache-test-db",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-cache-test-db",
+      "path": "/Users/USER/Projects/Therapy2-chat-cache-test-db",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-chat-followup",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-followup",
+      "path": "/Users/USER/Projects/Therapy2-chat-followup",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-chat-security",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-security",
+      "path": "/Users/USER/Projects/Therapy2-chat-security",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-docker-secrets",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-docker-secrets",
+      "path": "/Users/USER/Projects/Therapy2-docker-secrets",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-hide-suspended",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-hide-suspended",
+      "path": "/Users/USER/Projects/Therapy2-hide-suspended",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-payment-order-debug",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-payment-order-debug",
+      "path": "/Users/USER/Projects/Therapy2-payment-order-debug",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-pr69-visibility-split",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr69-visibility-split",
+      "path": "/Users/USER/Projects/Therapy2-pr69-visibility-split",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-pr85-delivery",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-delivery",
+      "path": "/Users/USER/Projects/Therapy2-pr85-delivery",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-pr85-integrated",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-integrated",
+      "path": "/Users/USER/Projects/Therapy2-pr85-integrated",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-pr85-retryable",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-retryable",
+      "path": "/Users/USER/Projects/Therapy2-pr85-retryable",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-pr85-review",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-review",
+      "path": "/Users/USER/Projects/Therapy2-pr85-review",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-pr85-simplify",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-simplify",
+      "path": "/Users/USER/Projects/Therapy2-pr85-simplify",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-pr88-followup",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr88-followup",
+      "path": "/Users/USER/Projects/Therapy2-pr88-followup",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-qa-payment-ff5d34f",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-payment-ff5d34f",
+      "path": "/Users/USER/Projects/Therapy2-qa-payment-ff5d34f",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-qa-pr51",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr51",
+      "path": "/Users/USER/Projects/Therapy2-qa-pr51",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-qa-pr54",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr54",
+      "path": "/Users/USER/Projects/Therapy2-qa-pr54",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-qa-pr89-pr94",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr89-pr94",
+      "path": "/Users/USER/Projects/Therapy2-qa-pr89-pr94",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-razorpay",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-razorpay",
+      "path": "/Users/USER/Projects/Therapy2-razorpay",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-suspended-payment-finalization",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-suspended-payment-finalization",
+      "path": "/Users/USER/Projects/Therapy2-suspended-payment-finalization",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/Therapy2-upstream-review",
-      "path": "/Users/jeshwanthsingh/Projects/Therapy2-upstream-review",
+      "path": "/Users/USER/Projects/Therapy2-upstream-review",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/auto_email_sender",
-      "path": "/Users/jeshwanthsingh/Projects/auto_email_sender",
+      "path": "/Users/USER/Projects/auto_email_sender",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/career-ops",
-      "path": "/Users/jeshwanthsingh/Projects/career-ops",
+      "path": "/Users/USER/Projects/career-ops",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/codex-kit",
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit",
+      "path": "/Users/USER/Projects/codex-kit",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/coding-agent-crash-tests",
-      "path": "/Users/jeshwanthsingh/Projects/coding-agent-crash-tests",
+      "path": "/Users/USER/Projects/coding-agent-crash-tests",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/covid-data-exploration",
-      "path": "/Users/jeshwanthsingh/Projects/covid-data-exploration",
+      "path": "/Users/USER/Projects/covid-data-exploration",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/csc415-filesystem-jeshwanthsingh",
-      "path": "/Users/jeshwanthsingh/Projects/csc415-filesystem-jeshwanthsingh",
+      "path": "/Users/USER/Projects/csc415-filesystem-jeshwanthsingh",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/digital_closet",
-      "path": "/Users/jeshwanthsingh/Projects/digital_closet",
+      "path": "/Users/USER/Projects/digital_closet",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/hackwithbay",
-      "path": "/Users/jeshwanthsingh/Projects/hackwithbay",
+      "path": "/Users/USER/Projects/hackwithbay",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/jeshwanth.com",
-      "path": "/Users/jeshwanthsingh/Projects/jeshwanth.com",
+      "path": "/Users/USER/Projects/jeshwanth.com",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/natively-cluely-ai-assistant",
-      "path": "/Users/jeshwanthsingh/Projects/natively-cluely-ai-assistant",
+      "path": "/Users/USER/Projects/natively-cluely-ai-assistant",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/proof-lab",
-      "path": "/Users/jeshwanthsingh/Projects/proof-lab",
+      "path": "/Users/USER/Projects/proof-lab",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/research-router",
-      "path": "/Users/jeshwanthsingh/Projects/research-router",
+      "path": "/Users/USER/Projects/research-router",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/seismic-ml-analysis",
-      "path": "/Users/jeshwanthsingh/Projects/seismic-ml-analysis",
+      "path": "/Users/USER/Projects/seismic-ml-analysis",
       "kind": "directory",
       "present": true
     },
     {
       "label": "Other Projects/terraform-aws-automation",
-      "path": "/Users/jeshwanthsingh/Projects/terraform-aws-automation",
+      "path": "/Users/USER/Projects/terraform-aws-automation",
       "kind": "directory",
       "present": true
     }
@@ -390,385 +390,385 @@
     "rows": [
       {
         "label": "~/.ssh",
-        "path": "/Users/jeshwanthsingh/.ssh",
+        "path": "/Users/USER/.ssh",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.codex",
-        "path": "/Users/jeshwanthsingh/.codex",
+        "path": "/Users/USER/.codex",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.config",
-        "path": "/Users/jeshwanthsingh/.config",
+        "path": "/Users/USER/.config",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.aws",
-        "path": "/Users/jeshwanthsingh/.aws",
+        "path": "/Users/USER/.aws",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.gnupg",
-        "path": "/Users/jeshwanthsingh/.gnupg",
+        "path": "/Users/USER/.gnupg",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Keychains",
-        "path": "/Users/jeshwanthsingh/Library/Keychains",
+        "path": "/Users/USER/Library/Keychains",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Application Support/Google/Chrome",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome",
+        "path": "/Users/USER/Library/Application Support/Google/Chrome",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Application Support/Google/Chrome Beta",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome Beta",
+        "path": "/Users/USER/Library/Application Support/Google/Chrome Beta",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Application Support/Chromium",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Chromium",
+        "path": "/Users/USER/Library/Application Support/Chromium",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Application Support/Microsoft Edge",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Microsoft Edge",
+        "path": "/Users/USER/Library/Application Support/Microsoft Edge",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Application Support/BraveSoftware/Brave-Browser",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/BraveSoftware/Brave-Browser",
+        "path": "/Users/USER/Library/Application Support/BraveSoftware/Brave-Browser",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Application Support/Arc",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Arc",
+        "path": "/Users/USER/Library/Application Support/Arc",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Application Support/Firefox",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Firefox",
+        "path": "/Users/USER/Library/Application Support/Firefox",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Safari",
-        "path": "/Users/jeshwanthsingh/Library/Safari",
+        "path": "/Users/USER/Library/Safari",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Containers/com.apple.Safari",
-        "path": "/Users/jeshwanthsingh/Library/Containers/com.apple.Safari",
+        "path": "/Users/USER/Library/Containers/com.apple.Safari",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Group Containers/group.com.apple.Safari",
-        "path": "/Users/jeshwanthsingh/Library/Group Containers/group.com.apple.Safari",
+        "path": "/Users/USER/Library/Group Containers/group.com.apple.Safari",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/.codex/auth.json",
-        "path": "/Users/jeshwanthsingh/.codex/auth.json",
+        "path": "/Users/USER/.codex/auth.json",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.bench-private",
-        "path": "/Users/jeshwanthsingh/.bench-private",
+        "path": "/Users/USER/.bench-private",
         "readable": false,
         "errno": 1
       },
       {
         "label": "CC database",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
+        "path": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
         "readable": false,
         "errno": 1
       },
       {
         "label": "CC playbooks",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
+        "path": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
         "readable": false,
         "errno": 1
       },
       {
         "label": "CC checker",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
+        "path": "/Users/USER/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/AI-Powered-Digital-Closet",
-        "path": "/Users/jeshwanthsingh/Projects/AI-Powered-Digital-Closet",
+        "path": "/Users/USER/Projects/AI-Powered-Digital-Closet",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Aegis",
-        "path": "/Users/jeshwanthsingh/Projects/Aegis",
+        "path": "/Users/USER/Projects/Aegis",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Email-Recruiter",
-        "path": "/Users/jeshwanthsingh/Projects/Email-Recruiter",
+        "path": "/Users/USER/Projects/Email-Recruiter",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/JobPipeline",
-        "path": "/Users/jeshwanthsingh/Projects/JobPipeline",
+        "path": "/Users/USER/Projects/JobPipeline",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Milestone5",
-        "path": "/Users/jeshwanthsingh/Projects/Milestone5",
+        "path": "/Users/USER/Projects/Milestone5",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2",
+        "path": "/Users/USER/Projects/Therapy2",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-admin-logout",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-logout",
+        "path": "/Users/USER/Projects/Therapy2-admin-logout",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-admin-review",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-review",
+        "path": "/Users/USER/Projects/Therapy2-admin-review",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-auth-session",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-auth-session",
+        "path": "/Users/USER/Projects/Therapy2-auth-session",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-chat-cache-test-db",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-cache-test-db",
+        "path": "/Users/USER/Projects/Therapy2-chat-cache-test-db",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-chat-followup",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-followup",
+        "path": "/Users/USER/Projects/Therapy2-chat-followup",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-chat-security",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-security",
+        "path": "/Users/USER/Projects/Therapy2-chat-security",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-docker-secrets",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-docker-secrets",
+        "path": "/Users/USER/Projects/Therapy2-docker-secrets",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-hide-suspended",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-hide-suspended",
+        "path": "/Users/USER/Projects/Therapy2-hide-suspended",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-payment-order-debug",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-payment-order-debug",
+        "path": "/Users/USER/Projects/Therapy2-payment-order-debug",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr69-visibility-split",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr69-visibility-split",
+        "path": "/Users/USER/Projects/Therapy2-pr69-visibility-split",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-delivery",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-delivery",
+        "path": "/Users/USER/Projects/Therapy2-pr85-delivery",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-integrated",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-integrated",
+        "path": "/Users/USER/Projects/Therapy2-pr85-integrated",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-retryable",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-retryable",
+        "path": "/Users/USER/Projects/Therapy2-pr85-retryable",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-review",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-review",
+        "path": "/Users/USER/Projects/Therapy2-pr85-review",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-simplify",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-simplify",
+        "path": "/Users/USER/Projects/Therapy2-pr85-simplify",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr88-followup",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr88-followup",
+        "path": "/Users/USER/Projects/Therapy2-pr88-followup",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-qa-payment-ff5d34f",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-payment-ff5d34f",
+        "path": "/Users/USER/Projects/Therapy2-qa-payment-ff5d34f",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-qa-pr51",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr51",
+        "path": "/Users/USER/Projects/Therapy2-qa-pr51",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-qa-pr54",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr54",
+        "path": "/Users/USER/Projects/Therapy2-qa-pr54",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-qa-pr89-pr94",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr89-pr94",
+        "path": "/Users/USER/Projects/Therapy2-qa-pr89-pr94",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-razorpay",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-razorpay",
+        "path": "/Users/USER/Projects/Therapy2-razorpay",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-suspended-payment-finalization",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-suspended-payment-finalization",
+        "path": "/Users/USER/Projects/Therapy2-suspended-payment-finalization",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-upstream-review",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-upstream-review",
+        "path": "/Users/USER/Projects/Therapy2-upstream-review",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/auto_email_sender",
-        "path": "/Users/jeshwanthsingh/Projects/auto_email_sender",
+        "path": "/Users/USER/Projects/auto_email_sender",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/career-ops",
-        "path": "/Users/jeshwanthsingh/Projects/career-ops",
+        "path": "/Users/USER/Projects/career-ops",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/codex-kit",
-        "path": "/Users/jeshwanthsingh/Projects/codex-kit",
+        "path": "/Users/USER/Projects/codex-kit",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/coding-agent-crash-tests",
-        "path": "/Users/jeshwanthsingh/Projects/coding-agent-crash-tests",
+        "path": "/Users/USER/Projects/coding-agent-crash-tests",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/covid-data-exploration",
-        "path": "/Users/jeshwanthsingh/Projects/covid-data-exploration",
+        "path": "/Users/USER/Projects/covid-data-exploration",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/csc415-filesystem-jeshwanthsingh",
-        "path": "/Users/jeshwanthsingh/Projects/csc415-filesystem-jeshwanthsingh",
+        "path": "/Users/USER/Projects/csc415-filesystem-jeshwanthsingh",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/digital_closet",
-        "path": "/Users/jeshwanthsingh/Projects/digital_closet",
+        "path": "/Users/USER/Projects/digital_closet",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/hackwithbay",
-        "path": "/Users/jeshwanthsingh/Projects/hackwithbay",
+        "path": "/Users/USER/Projects/hackwithbay",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/jeshwanth.com",
-        "path": "/Users/jeshwanthsingh/Projects/jeshwanth.com",
+        "path": "/Users/USER/Projects/jeshwanth.com",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/natively-cluely-ai-assistant",
-        "path": "/Users/jeshwanthsingh/Projects/natively-cluely-ai-assistant",
+        "path": "/Users/USER/Projects/natively-cluely-ai-assistant",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/proof-lab",
-        "path": "/Users/jeshwanthsingh/Projects/proof-lab",
+        "path": "/Users/USER/Projects/proof-lab",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/research-router",
-        "path": "/Users/jeshwanthsingh/Projects/research-router",
+        "path": "/Users/USER/Projects/research-router",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/seismic-ml-analysis",
-        "path": "/Users/jeshwanthsingh/Projects/seismic-ml-analysis",
+        "path": "/Users/USER/Projects/seismic-ml-analysis",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/terraform-aws-automation",
-        "path": "/Users/jeshwanthsingh/Projects/terraform-aws-automation",
+        "path": "/Users/USER/Projects/terraform-aws-automation",
         "readable": false,
         "errno": 1
       }
@@ -786,385 +786,385 @@
     "rows": [
       {
         "label": "~/.ssh",
-        "path": "/Users/jeshwanthsingh/.ssh",
+        "path": "/Users/USER/.ssh",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.codex",
-        "path": "/Users/jeshwanthsingh/.codex",
+        "path": "/Users/USER/.codex",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.config",
-        "path": "/Users/jeshwanthsingh/.config",
+        "path": "/Users/USER/.config",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.aws",
-        "path": "/Users/jeshwanthsingh/.aws",
+        "path": "/Users/USER/.aws",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.gnupg",
-        "path": "/Users/jeshwanthsingh/.gnupg",
+        "path": "/Users/USER/.gnupg",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Keychains",
-        "path": "/Users/jeshwanthsingh/Library/Keychains",
+        "path": "/Users/USER/Library/Keychains",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Application Support/Google/Chrome",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome",
+        "path": "/Users/USER/Library/Application Support/Google/Chrome",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Application Support/Google/Chrome Beta",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Google/Chrome Beta",
+        "path": "/Users/USER/Library/Application Support/Google/Chrome Beta",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Application Support/Chromium",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Chromium",
+        "path": "/Users/USER/Library/Application Support/Chromium",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Application Support/Microsoft Edge",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Microsoft Edge",
+        "path": "/Users/USER/Library/Application Support/Microsoft Edge",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Application Support/BraveSoftware/Brave-Browser",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/BraveSoftware/Brave-Browser",
+        "path": "/Users/USER/Library/Application Support/BraveSoftware/Brave-Browser",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Application Support/Arc",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Arc",
+        "path": "/Users/USER/Library/Application Support/Arc",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/Library/Application Support/Firefox",
-        "path": "/Users/jeshwanthsingh/Library/Application Support/Firefox",
+        "path": "/Users/USER/Library/Application Support/Firefox",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Safari",
-        "path": "/Users/jeshwanthsingh/Library/Safari",
+        "path": "/Users/USER/Library/Safari",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Containers/com.apple.Safari",
-        "path": "/Users/jeshwanthsingh/Library/Containers/com.apple.Safari",
+        "path": "/Users/USER/Library/Containers/com.apple.Safari",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/Library/Group Containers/group.com.apple.Safari",
-        "path": "/Users/jeshwanthsingh/Library/Group Containers/group.com.apple.Safari",
+        "path": "/Users/USER/Library/Group Containers/group.com.apple.Safari",
         "readable": false,
         "errno": 2
       },
       {
         "label": "~/.codex/auth.json",
-        "path": "/Users/jeshwanthsingh/.codex/auth.json",
+        "path": "/Users/USER/.codex/auth.json",
         "readable": false,
         "errno": 1
       },
       {
         "label": "~/.bench-private",
-        "path": "/Users/jeshwanthsingh/.bench-private",
+        "path": "/Users/USER/.bench-private",
         "readable": false,
         "errno": 1
       },
       {
         "label": "CC database",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
+        "path": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/command-center.sqlite",
         "readable": false,
         "errno": 1
       },
       {
         "label": "CC playbooks",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
+        "path": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbooks",
         "readable": false,
         "errno": 1
       },
       {
         "label": "CC checker",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
+        "path": "/Users/USER/Projects/ai-lab/command-center/apps/server/oracle-execution.ts",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/AI-Powered-Digital-Closet",
-        "path": "/Users/jeshwanthsingh/Projects/AI-Powered-Digital-Closet",
+        "path": "/Users/USER/Projects/AI-Powered-Digital-Closet",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Aegis",
-        "path": "/Users/jeshwanthsingh/Projects/Aegis",
+        "path": "/Users/USER/Projects/Aegis",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Email-Recruiter",
-        "path": "/Users/jeshwanthsingh/Projects/Email-Recruiter",
+        "path": "/Users/USER/Projects/Email-Recruiter",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/JobPipeline",
-        "path": "/Users/jeshwanthsingh/Projects/JobPipeline",
+        "path": "/Users/USER/Projects/JobPipeline",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Milestone5",
-        "path": "/Users/jeshwanthsingh/Projects/Milestone5",
+        "path": "/Users/USER/Projects/Milestone5",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2",
+        "path": "/Users/USER/Projects/Therapy2",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-admin-logout",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-logout",
+        "path": "/Users/USER/Projects/Therapy2-admin-logout",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-admin-review",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-admin-review",
+        "path": "/Users/USER/Projects/Therapy2-admin-review",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-auth-session",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-auth-session",
+        "path": "/Users/USER/Projects/Therapy2-auth-session",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-chat-cache-test-db",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-cache-test-db",
+        "path": "/Users/USER/Projects/Therapy2-chat-cache-test-db",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-chat-followup",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-followup",
+        "path": "/Users/USER/Projects/Therapy2-chat-followup",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-chat-security",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-chat-security",
+        "path": "/Users/USER/Projects/Therapy2-chat-security",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-docker-secrets",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-docker-secrets",
+        "path": "/Users/USER/Projects/Therapy2-docker-secrets",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-hide-suspended",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-hide-suspended",
+        "path": "/Users/USER/Projects/Therapy2-hide-suspended",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-payment-order-debug",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-payment-order-debug",
+        "path": "/Users/USER/Projects/Therapy2-payment-order-debug",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr69-visibility-split",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr69-visibility-split",
+        "path": "/Users/USER/Projects/Therapy2-pr69-visibility-split",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-delivery",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-delivery",
+        "path": "/Users/USER/Projects/Therapy2-pr85-delivery",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-integrated",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-integrated",
+        "path": "/Users/USER/Projects/Therapy2-pr85-integrated",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-retryable",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-retryable",
+        "path": "/Users/USER/Projects/Therapy2-pr85-retryable",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-review",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-review",
+        "path": "/Users/USER/Projects/Therapy2-pr85-review",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr85-simplify",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr85-simplify",
+        "path": "/Users/USER/Projects/Therapy2-pr85-simplify",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-pr88-followup",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-pr88-followup",
+        "path": "/Users/USER/Projects/Therapy2-pr88-followup",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-qa-payment-ff5d34f",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-payment-ff5d34f",
+        "path": "/Users/USER/Projects/Therapy2-qa-payment-ff5d34f",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-qa-pr51",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr51",
+        "path": "/Users/USER/Projects/Therapy2-qa-pr51",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-qa-pr54",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr54",
+        "path": "/Users/USER/Projects/Therapy2-qa-pr54",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-qa-pr89-pr94",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-qa-pr89-pr94",
+        "path": "/Users/USER/Projects/Therapy2-qa-pr89-pr94",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-razorpay",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-razorpay",
+        "path": "/Users/USER/Projects/Therapy2-razorpay",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-suspended-payment-finalization",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-suspended-payment-finalization",
+        "path": "/Users/USER/Projects/Therapy2-suspended-payment-finalization",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/Therapy2-upstream-review",
-        "path": "/Users/jeshwanthsingh/Projects/Therapy2-upstream-review",
+        "path": "/Users/USER/Projects/Therapy2-upstream-review",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/auto_email_sender",
-        "path": "/Users/jeshwanthsingh/Projects/auto_email_sender",
+        "path": "/Users/USER/Projects/auto_email_sender",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/career-ops",
-        "path": "/Users/jeshwanthsingh/Projects/career-ops",
+        "path": "/Users/USER/Projects/career-ops",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/codex-kit",
-        "path": "/Users/jeshwanthsingh/Projects/codex-kit",
+        "path": "/Users/USER/Projects/codex-kit",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/coding-agent-crash-tests",
-        "path": "/Users/jeshwanthsingh/Projects/coding-agent-crash-tests",
+        "path": "/Users/USER/Projects/coding-agent-crash-tests",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/covid-data-exploration",
-        "path": "/Users/jeshwanthsingh/Projects/covid-data-exploration",
+        "path": "/Users/USER/Projects/covid-data-exploration",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/csc415-filesystem-jeshwanthsingh",
-        "path": "/Users/jeshwanthsingh/Projects/csc415-filesystem-jeshwanthsingh",
+        "path": "/Users/USER/Projects/csc415-filesystem-jeshwanthsingh",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/digital_closet",
-        "path": "/Users/jeshwanthsingh/Projects/digital_closet",
+        "path": "/Users/USER/Projects/digital_closet",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/hackwithbay",
-        "path": "/Users/jeshwanthsingh/Projects/hackwithbay",
+        "path": "/Users/USER/Projects/hackwithbay",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/jeshwanth.com",
-        "path": "/Users/jeshwanthsingh/Projects/jeshwanth.com",
+        "path": "/Users/USER/Projects/jeshwanth.com",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/natively-cluely-ai-assistant",
-        "path": "/Users/jeshwanthsingh/Projects/natively-cluely-ai-assistant",
+        "path": "/Users/USER/Projects/natively-cluely-ai-assistant",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/proof-lab",
-        "path": "/Users/jeshwanthsingh/Projects/proof-lab",
+        "path": "/Users/USER/Projects/proof-lab",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/research-router",
-        "path": "/Users/jeshwanthsingh/Projects/research-router",
+        "path": "/Users/USER/Projects/research-router",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/seismic-ml-analysis",
-        "path": "/Users/jeshwanthsingh/Projects/seismic-ml-analysis",
+        "path": "/Users/USER/Projects/seismic-ml-analysis",
         "readable": false,
         "errno": 1
       },
       {
         "label": "Other Projects/terraform-aws-automation",
-        "path": "/Users/jeshwanthsingh/Projects/terraform-aws-automation",
+        "path": "/Users/USER/Projects/terraform-aws-automation",
         "readable": false,
         "errno": 1
       }
@@ -1199,6 +1199,6 @@
     },
     "summary": "Probe ran exactly once; exit code 0.\n\n- Protected targets: 64\n- Readable: 0\n- Owned checks: all true (`git_status`, `git_diff`, `git_log`, `sqlite_temp`, `own_write`)"
   },
-  "workspace": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/1c5de701967f0bb182a13327ae84a01f9f69e5f92a172662b4a18230b0053ffd/ae524ace-d9f5-4443-9d77-214ca9406b0a/worktrees/d7f976d9-7232-40c9-a774-7765944f61eb",
+  "workspace": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/1c5de701967f0bb182a13327ae84a01f9f69e5f92a172662b4a18230b0053ffd/ae524ace-d9f5-4443-9d77-214ca9406b0a/worktrees/d7f976d9-7232-40c9-a774-7765944f61eb",
   "scriptSHA256": "427e329dea3e58217837472be66fc1fe1cc33580d601c2fd5eec8adae2f5fb23"
 }

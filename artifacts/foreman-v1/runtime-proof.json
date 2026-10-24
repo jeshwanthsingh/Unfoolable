@@ -5,9 +5,9 @@
   "networkEnabled": false,
   "boundary": {
     "executedAt": "2026-10-10T13:54:23.068Z",
-    "workspace": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/foreman-v1/runtime-proof/9d54ddc2-e307-49ae-8d42-5e3a95c2d8c4/workspace",
-    "protectedSource": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/chat-codex.ts",
-    "protectedDataFixture": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/foreman-v1/runtime-proof/9d54ddc2-e307-49ae-8d42-5e3a95c2d8c4/private.txt",
+    "workspace": "/Users/USER/Projects/ai-lab/command-center/.work/foreman-v1/runtime-proof/9d54ddc2-e307-49ae-8d42-5e3a95c2d8c4/workspace",
+    "protectedSource": "/Users/USER/Projects/ai-lab/command-center/apps/server/chat-codex.ts",
+    "protectedDataFixture": "/Users/USER/Projects/ai-lab/command-center/.work/foreman-v1/runtime-proof/9d54ddc2-e307-49ae-8d42-5e3a95c2d8c4/private.txt",
     "result": {
       "workspace_read": "read",
       "cc_source_denied": "denied",
@@ -25,7 +25,7 @@
     "message": "In research-router, make the source list command show sources in stable order without fetching or writing anything.",
     "result": {
       "title": "Make source listing stable and side-effect-free",
-      "repoPath": "/Users/jeshwanthsingh/Projects/research-router",
+      "repoPath": "/Users/USER/Projects/research-router",
       "requestText": "Update the source list command in research-router to display sources in a stable order without fetching or writing anything.",
       "doneMeans": "The source list command returns sources in a deterministic order across repeated runs with unchanged inputs. It performs no fetches and no writes. Tests verify ordering and the absence of these side effects.",
       "question": null,

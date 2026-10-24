@@ -13,7 +13,7 @@
 test at tests/workshop-csp.test.ts:2:1
 ✖ Workshop initializes Pixi with its no-eval implementation under the unchanged strict CSP (1.300375ms)
   AssertionError [ERR_ASSERTION]: Load the CSP-safe implementation before initializing the renderer
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/workshop-csp.test.ts:3:75)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/workshop-csp.test.ts:3:75)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.start (node:internal/test_runner/test:1262:17)

@@ -10,10 +10,10 @@ Application behavior, Builder model/runtime, sandbox, checks, Touch ID and decis
 
 ## Run
 
-Repository: `/Users/jeshwanthsingh/Projects/ai-lab/command-center`.
+Repository: `/Users/USER/Projects/ai-lab/command-center`.
 
 ```sh
-cd /Users/jeshwanthsingh/Projects/ai-lab/command-center
+cd /Users/USER/Projects/ai-lab/command-center
 unfool
 # Repository-local equivalent: ./cc chat
 ```

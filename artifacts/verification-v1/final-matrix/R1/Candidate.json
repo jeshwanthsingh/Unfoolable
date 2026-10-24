@@ -10,8 +10,8 @@
     "candidateTree": "4154e18751e5c83c8328907ffc11dab59dfe6244",
     "intent": "Make simultaneous registrations of the same source resolve to one stored source without duplicate rows or a losing-request failure.\n\nDone means:\nTwo concurrent registrations of the same URL leave exactly one stored row, and neither call fails (the second returns the existing source). Concurrent registrations of different URLs store both. Run the concurrent check repeatedly (at least 20 times) with zero failures. Existing tests pass.\n\nAllowed changed paths: research_router/**, tests/**, README.md\n",
     "projectId": "v1-research-router",
-    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/R1/A/repo",
-    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/R1/A/repo",
+    "repoPath": "/Users/USER/Projects/ai-lab/benchmark/runs/R1/A/repo",
+    "repoRoot": "/Users/USER/Projects/ai-lab/benchmark/runs/R1/A/repo",
     "runnerDirectory": ".",
     "taskChecks": false
   },
@@ -28,7 +28,7 @@
       "id": "8d765a25-75a7-4bc8-83c1-99b751e12cf1",
       "runner": "unittest",
       "runnerDirectory": ".",
-      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/R1/A/repo",
+      "sourceRoot": "/Users/USER/Projects/ai-lab/benchmark/runs/R1/A/repo",
       "tests": [],
       "version": "process-oracle-v1"
     }
@@ -1091,39 +1091,39 @@
     "evidence": {
       "candidateExport": {
         "hash": "f57bfaf1708e73e89ad12d327db3c03f51e412c75bcced160ddcf67c315ed739",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/candidate-export",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/candidate-export",
         "sourceTree": "9d1de1e690ffcfcaaba7544fedc61627a32468e2"
       },
       "executedChecks": [
         {
           "hash": "590e8a25a88af122f6e0e74c632b617b60fbdcc47b03ffd1ec0df730aff4e437",
           "id": "protected-existing-tests",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/protected-existing-tests.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/protected-existing-tests.json"
         },
         {
           "hash": "af05469de03b4019ac36e1df2df942e4e1352faa9a7f4596b2b2476f0041da36",
           "id": "recipe-041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa-E1",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/recipe-041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa-E1.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/recipe-041b234c8d6720a3c1fb8131e46b47541fa4d5d8268e668be498187e99075faa-E1.json"
         },
         {
           "hash": "e4cb32f96204f73f2309d8041edffc78a38d165effdceafc318f18af370680db",
           "id": "recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E1",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E1.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E1.json"
         },
         {
           "hash": "5b763e42d448eb57a9c236334c4cec9e328cea85bb4a16a759131306af8528c8",
           "id": "recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E2",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E2.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/recipe-818124b09a5851519b05c227055946c51b3e57e630b01a604cc6e87c16023d33-E2.json"
         },
         {
           "hash": "a9cec40d1c5844f6f34529777e7ecc0c1e481deae92342d70d805a858bb0f810",
           "id": "candidate-tests-non-authoritative",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/candidate-tests-non-authoritative.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/candidate-tests-non-authoritative.json"
         }
       ],
       "executionTree": {
         "hash": "47c7e41a1e9fe9464797f05111e9936675ec64e8eba1ba39070ef6675b525a5f",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/executed-tree",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/executed-tree",
         "trustedLinks": {}
       },
       "hash": "f2573c04ac2c264a985b96a0afee9f6ff8176c4ea482eed1a48765c8ddec9a6a",
@@ -1131,7 +1131,7 @@
       "overlay": {
         "candidateOnlyTests": [],
         "hash": "2103c69735c14fc8321f0b570de8d3394126225d840828235eee94ff4ce27a79",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/base-test-overlay",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/base-test-overlay",
         "restored": [
           "tests/test_clipboard.py",
           "tests/test_continue.py",
@@ -1155,19 +1155,19 @@
       "records": [
         {
           "hash": "ac0a98991bf6de47ac64ab727d0496c766676d524ce13912c463993b4ee730dc",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/existing-tests/native-E1-b305b3c6-5fd7-4261-a4f6-964e68a6df43/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/existing-tests/native-E1-b305b3c6-5fd7-4261-a4f6-964e68a6df43/observations.json"
         },
         {
           "hash": "09978fbc1157db4083b822d6ca3ef89ef3dd9ad2cf8890296f0deb4bd62ba75d",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/project-recipes/native-E1-1a8d8dc5-c931-4eca-b2ed-5410528e24ee/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/project-recipes/native-E1-1a8d8dc5-c931-4eca-b2ed-5410528e24ee/observations.json"
         },
         {
           "hash": "2e89e33f88d94dd20fa95dcaabb5e340096ac4af4834d74fd78b348feb425885",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/project-recipes/native-E1-7326f4fe-dbf5-4838-bcb6-a4af836af52b/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/project-recipes/native-E1-7326f4fe-dbf5-4838-bcb6-a4af836af52b/observations.json"
         },
         {
           "hash": "94c1be9324b392267a6ad0314adca6ce7a8bf32d3e8228221f7c65313579ee7e",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/project-recipes/native-E2-e919197f-2e7d-4c2c-a211-98db5e3bc421/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/8d765a25-75a7-4bc8-83c1-99b751e12cf1/project-recipes/native-E2-e919197f-2e7d-4c2c-a211-98db5e3bc421/observations.json"
         }
       ],
       "requiredChecksHash": "a6937793247608d068acd5ae46de74ea521a532966d25072b599242aceae4d81"

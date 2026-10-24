@@ -475,7 +475,7 @@
     "args": {
       "scale": "css",
       "type": "png",
-      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/ui4/stability/offline.png"
+      "filename": "/Users/USER/Projects/ai-lab/command-center/artifacts/ui4/stability/offline.png"
     },
     "isError": false,
     "content": [
@@ -516,7 +516,7 @@
     "args": {
       "scale": "css",
       "type": "png",
-      "filename": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/ui4/stability/back-online.png"
+      "filename": "/Users/USER/Projects/ai-lab/command-center/artifacts/ui4/stability/back-online.png"
     },
     "isError": false,
     "content": [

@@ -9,7 +9,7 @@
       "percent": 100,
       "unmeasuredPaths": [],
       "reason": null,
-      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-0/execution/measured-coverage.json"
+      "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-0/execution/measured-coverage.json"
     },
     "mutation": {
       "tool": "StrykerJS",
@@ -22,20 +22,20 @@
       "sampled": false,
       "survivorLine": null,
       "reason": null,
-      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/mutation/mutations.json"
+      "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/mutation/mutations.json"
     },
     "results": [
       {
         "status": "ASSERTION_FAIL",
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/base/execution/native-report.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/base/execution/native-report.json"
       },
       {
         "status": "PASS",
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-0/execution/native-report.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-0/execution/native-report.json"
       },
       {
         "status": "PASS",
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-1/execution/native-report.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-1/execution/native-report.json"
       }
     ]
   },
@@ -49,7 +49,7 @@
       "percent": 100,
       "unmeasuredPaths": [],
       "reason": null,
-      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-0/execution/measured-coverage.json"
+      "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-0/execution/measured-coverage.json"
     },
     "mutation": {
       "tool": "StrykerJS",
@@ -62,20 +62,20 @@
       "sampled": true,
       "survivorLine": 106,
       "reason": "Sampled up to 12 changed-line mutants; advisory only",
-      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/mutation/mutations.json"
+      "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/mutation/mutations.json"
     },
     "results": [
       {
         "status": "ASSERTION_FAIL",
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/base/execution/native-report.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/base/execution/native-report.json"
       },
       {
         "status": "PASS",
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-0/execution/native-report.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-0/execution/native-report.json"
       },
       {
         "status": "PASS",
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-1/execution/native-report.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T3-correct/candidate-1/execution/native-report.json"
       }
     ]
   }

@@ -20,7 +20,7 @@ Verdict: FAIL — coverage bar not met; ground-truth evidence incomplete. No ass
 
 ## Full admission evidence
 
-A1 is the sole fully admitted packet. CHANGE test_change_data_without_space and test_change_mixed_multiline_data: each BASE FAIL, independent CORRECT PASS, WRONG-1 FAIL. GUARD test_guard_spaced_comments_metadata and test_guard_eof_spaced_event: BASE PASS and CORRECT PASS. Exact native IDs and one-test structured reports are retained in /Users/jeshwanthsingh/.bench-private/coverage-round/artifacts/coverage-round-v1/scores/A1.
+A1 is the sole fully admitted packet. CHANGE test_change_data_without_space and test_change_mixed_multiline_data: each BASE FAIL, independent CORRECT PASS, WRONG-1 FAIL. GUARD test_guard_spaced_comments_metadata and test_guard_eof_spaced_event: BASE PASS and CORRECT PASS. Exact native IDs and one-test structured reports are retained in /Users/USER/.bench-private/coverage-round/artifacts/coverage-round-v1/scores/A1.
 
 R2 BASE CHANGE checks FAIL and correct-reference all checks PASS. WRONG-1 passes every CHANGE and fails only the query-preservation GUARD. It therefore fails full per-claim admission and is excluded; guard failure was not substituted for a CHANGE counterexample.
 

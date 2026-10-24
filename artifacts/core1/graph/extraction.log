@@ -1,4 +1,4 @@
-[graphify extract] scanning /Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/source
+[graphify extract] scanning /Users/USER/Projects/ai-lab/command-center/.work/core1/source
 [graphify extract] found 510 code, 0 docs, 0 papers, 0 images
 [graphify extract] AST extraction on 510 code files...
   AST extraction: 100/510 uncached files (19%)
@@ -9,4 +9,4 @@
   AST extraction: 510/510 uncached files (100%)
   warning: 1 file(s) had syntax errors and may be partially extracted: packages/shared/contracts.ts (first error at line 13, 25 symbol(s) extracted)
   warning: 75 code file(s) yielded no symbols (0.20 MB) — a data file, or source this extractor models no symbols for: apps/server/main.ts, apps/web/public/sw.js, tests/analysis-migration.test.ts, tests/backup.test.ts, tests/build-migration.test.ts (+70 more)
-[graphify extract] wrote /Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/core1/graph/before/graphify-out/graph.json — 2788 nodes, 10764 edges (no clustering)
+[graphify extract] wrote /Users/USER/Projects/ai-lab/command-center/artifacts/core1/graph/before/graphify-out/graph.json — 2788 nodes, 10764 edges (no clustering)

@@ -5,7 +5,7 @@
     "pgid": 60716,
     "sid": 60716,
     "birth": "darwin:1792539662:598197",
-    "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
     "observedAt": "2026-10-20T23:41:02.635Z",
     "exitedAt": null
   },
@@ -22,12 +22,12 @@
     "pgid": 25519,
     "sid": 25519,
     "birth": "darwin:1792553291:394162",
-    "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+    "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
     "observedAt": "2026-10-21T03:28:11.426Z",
     "exitedAt": null
   },
   "sourceCommit": "f8011004715a8666a01552aea136e1256e4c48a1",
-  "cwd": "/Users/jeshwanthsingh/Projects/ai-lab/command-center",
+  "cwd": "/Users/USER/Projects/ai-lab/command-center",
   "stateSHA256": "710b456ff0aee78ef2920c64c1bff5ec275d9a67f50c087d5ee6dac205c4c6ee",
   "unchangedTables": [
     "tickets",

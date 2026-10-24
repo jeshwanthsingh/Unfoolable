@@ -686,12 +686,12 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 ✔ application version matches package metadata (0.5675ms)
 ✔ only a valid readiness response may produce ready UI state (0.124875ms)
 ✔ a real database-unavailable response remains distinct from an offline coordinator (0.067834ms)
-file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/seal-helper.mjs:6
+file:///Users/USER/Projects/ai-lab/command-center/scripts/seal-helper.mjs:6
 if(!data.subarray(0,7).equals(Buffer.from('DSSEv1 ')))throw Error('Only DSSE messages are signed');
                                                             ^
 
 Error: Only DSSE messages are signed
-    at file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/seal-helper.mjs:6:61
+    at file:///Users/USER/Projects/ai-lab/command-center/scripts/seal-helper.mjs:6:61
     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
 
 Node.js v24.21.0
@@ -1170,7 +1170,7 @@ test at tests/builder-read-guard.test.ts:3:1
 
   2 !== 1
 
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/builder-read-guard.test.ts:7:1115)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/builder-read-guard.test.ts:7:1115)
       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {

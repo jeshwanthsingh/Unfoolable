@@ -5,25 +5,25 @@
   ],
   "knownBad": {
     "commit": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
-    "repo": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/T5/A/repo",
+    "repo": "/Users/USER/Projects/ai-lab/benchmark/runs/T5/A/repo",
     "tree": "15ef423520099f19a026c55c20d92ab017f28e7f"
   },
   "knownGood": {
     "commit": "3b990174e4d768caac45ffda0c5a6da74f1c3053",
-    "repo": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/T5/A/repo",
+    "repo": "/Users/USER/Projects/ai-lab/benchmark/runs/T5/A/repo",
     "tree": "e539dbb512524fd4e82fbac1e0b325b5d497bcc3"
   },
   "manifest": {
     "assurance": "IN-PROCESS",
     "baseHead": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
     "componentPath": "frontend/src/components/patient/PatientDashboardContent.tsx",
-    "dependencyRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/T5/A/repo/frontend/node_modules",
+    "dependencyRoot": "/Users/USER/Projects/ai-lab/benchmark/runs/T5/A/repo/frontend/node_modules",
     "evaluationSignature": "0000000000000000000000000000000000000000000000000000000000000000",
     "id": "b46deb5b-e8b2-4686-a6bc-19357f8d3f9d",
     "runner": "vitest",
     "runnerDirectory": "frontend",
     "source": {
-      "dependencyRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/T5/A/repo/frontend/node_modules",
+      "dependencyRoot": "/Users/USER/Projects/ai-lab/benchmark/runs/T5/A/repo/frontend/node_modules",
       "directory": "frontend",
       "expectedTests": [
         "should normalize user type to lowercase",
@@ -175,7 +175,7 @@
         "frontend/src/store/appointmentStore.ts": "import { getWithAuth, postWithAuth, putWithAuth } from \"@/services/httpsServices\";\nimport { create } from \"zustand\";\n\nexport interface Appointment {\n  _id: string;\n  doctorId: any;\n  patientId: any;\n  date: string;\n  slotStartIso: string;\n  slotEndIso: string;\n  consultationType: \"Video Consultation\" | \"Voice Call\";\n  status: \"Scheduled\" | \"Completed\" | \"Cancelled\" | \"In Progress\";\n  symptoms: string;\n  zegoRoomId: string;\n  fees: number;\n  prescription?: string;\n  notes?: string;\n  cancellationReason?: string;\n  cancelledBy?: string;\n  cancelledAt?: string;\n  refundEligible?: boolean;\n  refundAmount?: number;\n  googleEventId?: string;\n  meetLink?: string;\n  meetDialIn?: {\n    phoneNumber?: string;\n    pin?: string;\n  } | null;\n  calendarLink?: string;\n  meetingCreatedAt?: string;\n  createdAt: string;\n  updatedAt: string;\n}\n\ninterface AppointmentFilters {\n  status?: string | string[];\n  from?: string;\n  to?: string;\n  date?: string;\n  sortBy?: \"date\" | \"createdAt\" | \"status\";\n  sortOrder?: \"asc\" | \"desc\";\n}\n\ninterface BookingData {\n  doctorId: string;\n  slotStartIso: string;\n  slotEndIso: string;\n  consultationType?: string;\n  symptoms: string;\n  date: string;\n  consultationFees: number;\n  platformFees: number;\n  totalAmount: number;\n}\n\ninterface AppointmentState {\n  appointments: Appointment[];\n  bookedSlots: string[];\n  currentAppointment: Appointment | null;\n  loading: boolean;\n  error: string | null;\n\n  //Actions\n  clearError: () => void;\n  setCurrentAppointment: (appointment: Appointment) => void;\n\n  //Api Actions\n  fetchAppointments: (\n    role: \"doctor\" | \"patient\",\n    tab?: string,\n    filters?: AppointmentFilters\n  ) => Promise<void>;\n  fetchBookedSlots: (doctorId: string, date: string) => Promise<void>;\n  fetchAppointmentById: (appointmentId: string) => Promise<Appointment | null>;\n  bookAppointment: (data: BookingData) => Promise<any>;\n  joinConsultation: (appointmentId: string) => Promise<any>;\n  endConsultation: (\n    appointmentId: string,\n    prescription?: string,\n    notes?: string\n  ) => Promise<void>;\n  updateAppointmentStatus: (\n    appointmentId: string,\n    status: string\n  ) => Promise<void>;\n  cancelAppointment: (\n    appointmentId: string,\n    reason?: string\n  ) => Promise<any>;\n}\n\nexport const useAppointmentStore = create<AppointmentState>((set, get) => ({\n  appointments: [],\n  bookedSlots: [],\n  currentAppointment: null,\n  loading: false,\n  error: null,\n\n  clearError: () => set({ error: null }),\n\n  setCurrentAppointment: (appointment) =>\n    set({ currentAppointment: appointment }),\n\n  fetchAppointments: async (role, tab = \"\", filters = {}) => {\n    set({ loading: true, error: null, appointments: [] });\n    try {\n      const endPoint =\n        role === \"doctor\" ? \"/appointment/doctor\" : \"/appointment/patient\";\n      const queryParams = new URLSearchParams();\n      if (tab === \"upcoming\") {\n        queryParams.append(\"tab\", \"upcoming\");\n      } else if (tab === \"past\") {\n        queryParams.append(\"tab\", \"past\");\n      }\n\n      Object.entries(filters).forEach(([key, value]) => {\n        if (\n          value !== undefined &&\n          value !== null &&\n          value !== \"\" &&\n          key !== \"status\"\n        ) {\n          if (Array.isArray(value)) {\n            value.forEach((v) => queryParams.append(key, v.toString()));\n          } else {\n            queryParams.append(key, value.toString());\n          }\n        }\n      });\n      const response = await getWithAuth(\n        `${endPoint}?${queryParams.toString()}`\n      );\n      set({ appointments: response.data || [] });\n    } catch (error: any) {\n      set({ error: error.message });\n    } finally {\n      set({ loading: false, error: null });\n    }\n  },\n\n  fetchAppointmentById: async (appointmentId) => {\n    set({ loading: true, error: null });\n    try {\n      const response = await getWithAuth(`/appointment/${appointmentId}`);\n      set({ currentAppointment: response?.data?.appointment });\n      return response?.data?.appointment;\n    } catch (error: any) {\n      set({ error: error.message });\n    } finally {\n      set({ loading: false, error: null });\n    }\n  },\n\n  fetchBookedSlots: async (doctorId, date) => {\n    set({ loading: true, error: null });\n    try {\n      const response = await getWithAuth(\n        `/appointment/booked-slots/${doctorId}/${date}`\n      );\n      set({ bookedSlots: response?.data });\n    } catch (error: any) {\n      set({ error: error.message });\n    } finally {\n      set({ loading: false, error: null });\n    }\n  },\n\n  bookAppointment: async (data) => {\n    set({ loading: true, error: null });\n    try {\n      const response = await postWithAuth(\"/appointment/book\", data);\n      set((state) => ({\n        appointments: [response.data, ...state.appointments],\n      }));\n      return response.data;\n    } catch (error: any) {\n      set({ error: error.message });\n    } finally {\n      set({ loading: false, error: null });\n    }\n  },\n\n  joinConsultation: async (appointmentId) => {\n    set({ loading: true, error: null });\n    try {\n      const response = await getWithAuth(`/appointment/join/${appointmentId}`);\n      set((state) => ({\n        appointments: state.appointments.map((apt) =>\n          apt._id === appointmentId\n            ? { ...apt, staus: \"In Progress\" as const }\n            : apt\n        ),\n        currentAppointment:\n          state.currentAppointment?._id === appointmentId\n            ? { ...state.currentAppointment, status: \"In Progress\" as const }\n            : state.currentAppointment,\n      }));\n\n      return response.data;\n    } catch (error: any) {\n      set({ error: error.message });\n    } finally {\n      set({ loading: false, error: null });\n    }\n  },\n  endConsultation: async (appointmentId, prescription, notes) => {\n    set({ loading: true, error: null });\n    try {\n      const response = await putWithAuth(`/appointment/end/${appointmentId}`, {\n        prescription,\n        notes,\n      });\n      set((state) => ({\n        appointments: state.appointments.map((apt) =>\n          apt._id === appointmentId\n            ? { ...apt, staus: \"Completed\" as const }\n            : apt\n        ),\n        currentAppointment:\n          state.currentAppointment?._id === appointmentId\n            ? { ...state.currentAppointment, status: \"Completed\" as const }\n            : state.currentAppointment,\n      }));\n\n      return response.data;\n    } catch (error: any) {\n      set({ error: error.message });\n    } finally {\n      set({ loading: false, error: null });\n    }\n  },\n  updateAppointmentStatus: async (appointmentId, status) => {\n     set({ loading: true, error: null });\n    try {\n      const response = await putWithAuth(`/appointment/status/${appointmentId}`, {status});\n      set((state) => ({\n        appointments: state.appointments.map((apt) =>\n          apt._id === appointmentId\n            ? { ...apt, staus: status as any }\n            : apt\n        ),\n        currentAppointment:\n          state.currentAppointment?._id === appointmentId\n            ? { ...state.currentAppointment, status: status as any}\n            : state.currentAppointment,\n      }));\n\n      return response.data;\n    } catch (error: any) {\n      set({ error: error.message });\n    } finally {\n      set({ loading: false, error: null });\n    }\n  },\n  cancelAppointment: async (appointmentId, reason) => {\n    set({ loading: true, error: null });\n    try {\n      const response = await putWithAuth(`/appointment/cancel/${appointmentId}`, { reason });\n      \n      // Update appointment in state to Cancelled\n      set((state) => ({\n        appointments: state.appointments.map((apt) =>\n          apt._id === appointmentId\n            ? { ...apt, status: \"Cancelled\" as const }\n            : apt\n        ),\n        currentAppointment:\n          state.currentAppointment?._id === appointmentId\n            ? { ...state.currentAppointment, status: \"Cancelled\" as const }\n            : state.currentAppointment,\n      }));\n\n      return response.data;\n    } catch (error: any) {\n      set({ error: error.message });\n      throw error;\n    } finally {\n      set({ loading: false });\n    }\n  },\n}));"
       }
     },
-    "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs/T5/A/repo",
+    "sourceRoot": "/Users/USER/Projects/ai-lab/benchmark/runs/T5/A/repo",
     "tests": [
       {
         "assurance": "INTERFACE",
@@ -302,79 +302,79 @@
   },
   "priorAdmissionEvidence": [
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/frozen-own-oracle.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/frozen-own-oracle.json",
       "sha256": "f2f3c58cfc12b3a1ebd6c347e00b30714729c7416fcf29fd1d57c7b91e6707b7"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/correct-review.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/correct-review.json",
       "sha256": "eed76537605e0e47c1b3ec5556dde83b4438b7a49003858dabfcb616400dd21f"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/correct-result.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/correct-result.json",
       "sha256": "ecef080cf302fcdddb8dee9156931204c96a7815918ae5a504d0f71cd67c0514"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-base-0/execution.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-base-0/execution.json",
       "recordedHash": "b981243d04e115553ee8c93a7587f4e63d1dd00fa36ba72192e488cbfccaac50",
       "sha256": "b981243d04e115553ee8c93a7587f4e63d1dd00fa36ba72192e488cbfccaac50"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-base-0/execution-0/native-E1-dd0e6aef-eca1-487f-acd6-a4963fa45807/observations.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-base-0/execution-0/native-E1-dd0e6aef-eca1-487f-acd6-a4963fa45807/observations.json",
       "recordedHash": "71e23e6463530a755d6ad7c0a31862297bd9a7f97c4e56d923b2f2af07a4a88d",
       "sha256": "71e23e6463530a755d6ad7c0a31862297bd9a7f97c4e56d923b2f2af07a4a88d"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-correct/execution.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-correct/execution.json",
       "recordedHash": "93a2a86b69146aa7f824852629ba1e7243b59cd040ce08afcd35841ca09ea42d",
       "sha256": "93a2a86b69146aa7f824852629ba1e7243b59cd040ce08afcd35841ca09ea42d"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-correct/execution-0/native-E1-5232d907-c21f-4d68-8bf8-52cee2a9a4ce/observations.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-correct/execution-0/native-E1-5232d907-c21f-4d68-8bf8-52cee2a9a4ce/observations.json",
       "recordedHash": "7ac6a214f1a976a435c9e69ee240a55bb043103b36d79ef74579365ab08fc028",
       "sha256": "7ac6a214f1a976a435c9e69ee240a55bb043103b36d79ef74579365ab08fc028"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-0/execution.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-0/execution.json",
       "recordedHash": "d9a17666df5b0a44bf3dc892a5d47a34384f845a4d3a24345fe4f815e68fa0e6",
       "sha256": "d9a17666df5b0a44bf3dc892a5d47a34384f845a4d3a24345fe4f815e68fa0e6"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-0/execution-0/native-E1-d5752880-8da2-4cbb-9095-51d7cf1c636a/observations.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-0/execution-0/native-E1-d5752880-8da2-4cbb-9095-51d7cf1c636a/observations.json",
       "recordedHash": "7ac6a214f1a976a435c9e69ee240a55bb043103b36d79ef74579365ab08fc028",
       "sha256": "7ac6a214f1a976a435c9e69ee240a55bb043103b36d79ef74579365ab08fc028"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-1/execution.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-1/execution.json",
       "recordedHash": "17453c534ef151571db5cf86cde6e5fdf9ca29c83e374e303d58c19bab44f5b9",
       "sha256": "17453c534ef151571db5cf86cde6e5fdf9ca29c83e374e303d58c19bab44f5b9"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-1/execution-0/native-E1-8b83abc0-0635-4396-9693-25155b001584/observations.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-1/execution-0/native-E1-8b83abc0-0635-4396-9693-25155b001584/observations.json",
       "recordedHash": "4794e882fa6c92de9fe880d69544141b543cc18cd2f4cdf179692bd63bd08bc5",
       "sha256": "4794e882fa6c92de9fe880d69544141b543cc18cd2f4cdf179692bd63bd08bc5"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-2/execution.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E1-wrong-2/execution.json",
       "recordedHash": "8fbb8e100f06915f64af3319707f6f2e259134958a57d1cfee3657e56ac2942c",
       "sha256": "8fbb8e100f06915f64af3319707f6f2e259134958a57d1cfee3657e56ac2942c"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E2-base-0/execution.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E2-base-0/execution.json",
       "recordedHash": "26bc96fe89ee5df7d2dbf5b759d3cec3c83f7aa8c2ba844ee6fa149264ec671e",
       "sha256": "26bc96fe89ee5df7d2dbf5b759d3cec3c83f7aa8c2ba844ee6fa149264ec671e"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E2-base-0/execution-0/native-E2-794435d4-87f9-43d1-81dd-b8941cd9741d/observations.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/admission-E2-base-0/execution-0/native-E2-794435d4-87f9-43d1-81dd-b8941cd9741d/observations.json",
       "recordedHash": "6b827b98e90a18a8894f5e594d6233569f501a0309de6566f7c44ff0e9d4edef",
       "sha256": "6b827b98e90a18a8894f5e594d6233569f501a0309de6566f7c44ff0e9d4edef"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/candidate-E1.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/candidate-E1.json",
       "recordedHash": "0b84d31d48e587743712e1e7cd3d9fe140ff17cb2367e5758c2e4a53b691489b",
       "sha256": "0b84d31d48e587743712e1e7cd3d9fe140ff17cb2367e5758c2e4a53b691489b"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/candidate-E2.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verify-only-coverage-round/old-eight/T5/data/verify-only/b46deb5b-e8b2-4686-a6bc-19357f8d3f9d/candidate-E2.json",
       "recordedHash": "0ff3f8274d9c08093746b18ace3543e0791e9f92f825c349e72aed2b91391798",
       "sha256": "0ff3f8274d9c08093746b18ace3543e0791e9f92f825c349e72aed2b91391798"
     }
@@ -407,7 +407,7 @@
       "id": "E2"
     }
   ],
-  "projectRoot": "/Users/jeshwanthsingh/Projects/Therapy2",
+  "projectRoot": "/Users/USER/Projects/Therapy2",
   "proposalStatus": "PROPOSED_NOT_ADMITTED_ON_FINAL_RUNTIME",
   "recipeId": "therapy-cancellation",
   "runnerDirectory": "frontend",

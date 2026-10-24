@@ -914,8 +914,8 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 test at tests/debug-store.test.ts:55:1
 ✖ AI prose that Candidate is correct cannot override actual protected failures (22292.385917ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async run (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:48:131)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:55:305)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async run (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:48:131)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:55:305)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

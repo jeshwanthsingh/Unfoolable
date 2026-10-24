@@ -3,8 +3,8 @@
 Each rule is tested against current policy; this refactor does not promote advisory checks or change approval rules.
 
 1. Scoring the same facts preserves the frozen policy. [I1: 10,000 generated comparisons](../tests/verdict-properties.test.ts).
-2. A runtime/harness failure never authorizes landing. [I2](../tests/verdict-properties.test.ts).
-3. Adding a protected failure or error never improves landing eligibility. ERROR and FAILED are distinct non-accepting outcomes. [I3](../tests/verdict-properties.test.ts).
+2. A runtime/harness failure never authorizes review. [I2](../tests/verdict-properties.test.ts).
+3. Adding a protected failure or error never improves review eligibility. ERROR and FAILED are distinct non-accepting outcomes. [I3](../tests/verdict-properties.test.ts).
 4. A Writer test is admitted only after BASE assertion failure and two Candidate passes with matching test identities. Admission alone never establishes ticket success. [I4](../tests/verdict-properties.test.ts), [native admission regressions](../tests/test-writer-v2.test.ts).
 5. Candidate-only tests never replace the passing BASE test identities. [I5](../tests/verdict-properties.test.ts), [restored tests](../tests/playbook-checks.test.ts).
 6. The same normalized facts give the same core result regardless of the calling shell. [I6](../tests/verdict-properties.test.ts), [both paths' frozen results](../tests/verdict-core.test.ts).
@@ -14,7 +14,7 @@ Each rule is tested against current policy; this refactor does not promote advis
 
 The admission preconditions are measured by the protected runners. These invariants do not claim that in-process Candidate execution is immune to deliberate observation forgery. A graph is a navigation aid, not an enforcement boundary.
 
-10. Combining required parts never improves on the most cautious part. The legacy reachable order is FAILED > NOT CHECKED > PASSED WITH GAPS; an unexpected ERROR remains non-passing. [I10, 10,000 combinations](../tests/verdict-properties.test.ts).
+10. Combining required parts never improves on the most cautious part. The combined caution order is FAILED > ERROR > NOT CHECKED > PASSED WITH GAPS > VERIFIED; ERROR never has a passing trace flag. [I10, 10,000 combinations](../tests/verdict-properties.test.ts).
 11. New production verdicts retain exact replay inputs, immutable content hash and core version. Missing facts fail rather than silently producing unreplayable results. [Snapshot integrity and replay](../tests/verdict-snapshot.test.ts).
 12. Historical labels are append-only records, not the current-policy comparator. Every reconstructible event must match actual 3c94150 code on identical facts. [Current-policy golden](../tests/current-policy-golden.test.ts), [verbatim original adapter](../tests/fixtures/core1-original-ticket.ts).
 
@@ -60,3 +60,11 @@ Bug admission currently supports ordinary unconditional Python unittest reproduc
 - A fresh passkey-authorized Retry after cutoff uses ordinary ticket authority; it cannot reuse or extend night consent. Proof: `tests/night-shift.test.ts` cutoff/manual Retry integration case.
 - Last night’s report cannot change when daytime work runs later; unknown model usage is never reported as zero. Proof: `tests/night-shift.test.ts` frozen report and unknown independent-test cost cases.
 - Startup buffering preserves the order of command/permission frames; post-stop lifecycle callbacks cannot advance state, and raw bounded frames remain available. Proof: `tests/build-runtime.test.ts` single-write and stop-batch regressions.
+
+## CORE-2
+
+- Project command arrays must have equal lengths and no missing entries; mismatches return ERROR, not a thrown exception or a code failure. [Regression tests](../tests/core2-regressions.test.ts).
+- A combined trace is passing only for VERIFIED or PASSED WITH GAPS. [Regression tests](../tests/core2-regressions.test.ts).
+- Every typed fact path is explicit and exhaustive; unknown runtime paths return ERROR. Adding a path without its rule fails compilation. [Compile-negative test](../tests/core2-regressions.test.ts).
+- The shell supplies budget defaults; the core uses only explicit limits. [Legacy and explicit budget tests](../tests/core2-regressions.test.ts).
+- `eligibleForReview` is not acceptance. Legacy stored reports are read without rewriting signed bytes, and ambiguous old/new fields are rejected. [Compatibility test](../tests/verification-v1-contract.test.ts).

@@ -202,7 +202,7 @@
         "percent": 100,
         "unmeasuredPaths": [],
         "reason": null,
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-candidate-0/execution/measured-coverage.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-candidate-0/execution/measured-coverage.json"
       },
       "mode": "NATIVE",
       "mutation": {
@@ -210,7 +210,7 @@
         "generated": 9,
         "killed": 6,
         "reason": null,
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-mutation/mutations.json",
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/c28b3baf-1785-4466-a071-f66a090e024f/test-writer/attempt-1-mutation/mutations.json",
         "sampled": false,
         "score": 66.66666666666667,
         "survived": 3,
@@ -1310,7 +1310,7 @@
         "percent": 100,
         "unmeasuredPaths": [],
         "reason": null,
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-0/execution/measured-coverage.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/candidate-0/execution/measured-coverage.json"
       },
       "mode": "NATIVE",
       "mutation": {
@@ -1324,7 +1324,7 @@
         "sampled": false,
         "survivorLine": null,
         "reason": null,
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/mutation/mutations.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/reobserve-js/T5-correct/mutation/mutations.json"
       },
       "reason": null,
       "requestHash": "2ddb197e89cdcfdfffcc50ab21db59e6c6c092ebcdb1d67301a8c33d622789d3",
@@ -2438,7 +2438,7 @@
         "percent": 100,
         "unmeasuredPaths": [],
         "reason": null,
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-candidate-0/execution/measured-coverage.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-candidate-0/execution/measured-coverage.json"
       },
       "mutation": {
         "tool": "StrykerJS",
@@ -2451,7 +2451,7 @@
         "sampled": true,
         "survivorLine": 106,
         "reason": "Sampled up to 12 changed-line mutants; advisory only",
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-mutation/mutations.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-mutation/mutations.json"
       }
     },
     "elapsedSeconds": 234.92781129099998,
@@ -4708,7 +4708,7 @@
         "percent": 91.66666666666667,
         "unmeasuredPaths": [],
         "reason": null,
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-candidate-0/execution/measured-coverage.json"
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-candidate-0/execution/measured-coverage.json"
       },
       "mode": "NATIVE",
       "mutation": {
@@ -4716,7 +4716,7 @@
         "generated": 54,
         "killed": 12,
         "reason": "Sampled up to 12 changed-line mutants; advisory only",
-        "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-mutation/mutations.json",
+        "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/scoring-data/verify-only/5aa3dc09-1e0d-4a16-a7c3-0b5186b3a766/test-writer/attempt-0-mutation/mutations.json",
         "sampled": true,
         "score": 100,
         "survived": 0,

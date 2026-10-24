@@ -253,18 +253,18 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 ✔ accepted Unicode and NUL round-trip exactly; malformed Unicode is rejected instead of rewritten (77.783ms)
 ✔ shared boundaries reject invalid phase, intent and malformed list (0.422625ms)
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 97955 is live but kernel identity unavailable
 ✔ bounded constructor/method records exception and elapsed time with certified child cleanup (3022.162584ms)
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 7179 is live but kernel identity unavailable
 ✔ deadline observation is bounded and strict judge rejects ignored timeout (3821.6915ms)
@@ -274,10 +274,10 @@ RuntimeError: Owned PID 7179 is live but kernel identity unavailable
 ✔ bounded worker abrupt exit cannot produce a passing observation (1249.684125ms)
 ✔ bounded returned fields and captured output remain raw observations (2287.771833ms)
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 38521 is live but kernel identity unavailable
 ✔ multiple bounded executable-fixture requests in one claim each complete with certified cleanup (3432.674708ms)
@@ -286,17 +286,17 @@ RuntimeError: Owned PID 38521 is live but kernel identity unavailable
 ✔ native browser compiler rejects a package entry redirect outside its allowed roots (76.009416ms)
 ✔ native browser compiler rejects ancestor browser redirects before outside package metadata reads (85.447708ms)
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 13888 is live but kernel identity unavailable
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 12104 is live but kernel identity unavailable
 ✔ native Vitest judge collects exactly one oracle beneath a denied ancestor package (13391.157292ms)
@@ -337,26 +337,26 @@ RuntimeError: Owned PID 12104 is live but kernel identity unavailable
 ✔ multiple native declarations and forbidden test capabilities remain rejected with stage-specific reasons (0.351958ms)
 ✔ bounded proposed model output is preserved privately and explicitly unapproved before validation (2.630708ms)
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 39839 is live but kernel identity unavailable
 ✔ INTERFACE fixture mounts actual component and exposes DOM by index or id without Candidate imports in judge (18168.548708ms)
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 31166 is live but kernel identity unavailable
 ✔ CLI fixture setup and filesystem/audit observations execute the real public CLI (2652.0395ms)
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 35036 is live but kernel identity unavailable
 ✔ concurrency technique records synchronized CLI pairs as bounded raw histograms (2747.065708ms)
@@ -441,17 +441,17 @@ RuntimeError: Owned PID 35036 is live but kernel identity unavailable
 ✔ native assertion failures remain FAIL, runtime test errors remain ERROR (4624.746833ms)
 ✔ authorized credential exclusion is named without executing its body (2308.559375ms)
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 62259 is live but kernel identity unavailable
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 51, in <module>
     print(json.dumps(inspect(int(sys.argv[2])) if sys.argv[1]=='one' else tree(int(sys.argv[2]))))
                                                                           ~~~~^^^^^^^^^^^^^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/build-process-info.py", line 47, in tree
     raise RuntimeError(f'Owned PID {pid} is live but kernel identity unavailable')
 RuntimeError: Owned PID 66374 is live but kernel identity unavailable
 ✔ frontend native suite needs no browser or UI component and preserves exact test names (15739.293875ms)
@@ -616,8 +616,8 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 test at tests/cli.test.ts:12:1
 ✖ CLI absorbs repeated shutdown signals and releases its lock before exit (404.182166ms)
   Error: No shutdown event
-      at file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/cli.test.ts:23:75
+      at file:///Users/USER/Projects/ai-lab/command-center/tests/cli.test.ts:23:75
       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/cli.test.ts:23:25)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/cli.test.ts:23:25)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

@@ -9,7 +9,7 @@
       }
     ],
     "reason": null,
-    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/node-proof/pass-execution/native-report.json"
+    "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer-v2/node-proof/pass-execution/native-report.json"
   },
   {
     "name": "assertion",
@@ -22,6 +22,6 @@
       }
     ],
     "reason": "AssertionError: Expected values to be strictly equal:\n\n1 !== 2\n",
-    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer-v2/node-proof/assertion-execution/native-report.json"
+    "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer-v2/node-proof/assertion-execution/native-report.json"
   }
 ]

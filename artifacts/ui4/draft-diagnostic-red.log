@@ -12,13 +12,13 @@
 
 test at tests/chat-codex.test.ts:22:1
 ✖ provider rejection records its method and sanitized reason rather than discarding diagnostics (1088.125ms)
-  Error: ENOENT: no such file or directory, open '/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/chat-runtime-test-N1V5EI/chat-runtime/0c0109e3-74d4-4345-8281-0327c88f7349/protocol-error.json'
+  Error: ENOENT: no such file or directory, open '/Users/USER/Projects/ai-lab/command-center/.work/chat-runtime-test-N1V5EI/chat-runtime/0c0109e3-74d4-4345-8281-0327c88f7349/protocol-error.json'
       at readFileSync (node:fs:483:20)
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/chat-codex.test.ts:22:364)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/chat-codex.test.ts:22:364)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
     errno: -2,
     code: 'ENOENT',
     syscall: 'open',
-    path: '/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/chat-runtime-test-N1V5EI/chat-runtime/0c0109e3-74d4-4345-8281-0327c88f7349/protocol-error.json'
+    path: '/Users/USER/Projects/ai-lab/command-center/.work/chat-runtime-test-N1V5EI/chat-runtime/0c0109e3-74d4-4345-8281-0327c88f7349/protocol-error.json'
   }

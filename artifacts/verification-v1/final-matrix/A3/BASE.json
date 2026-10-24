@@ -10,8 +10,8 @@
     "candidateTree": "82c2fe9e31033de2f62d6b1f63c965285b53fbd4",
     "intent": "Add a bounded receipt-verification timeout that raises an SDK verification error when the CLI hangs.\n\nDone means:\nReceiptVerifier accepts a verification-specific positive finite timeout keyword (timeout, default 5 seconds). A verifier hanging with timeout=0.1 raises AegisVerificationError within 1 second and leaves no owned verifier process. Invalid zero, negative, NaN, infinity, Boolean and non-numeric timeout values raise AegisConfigurationError. Successful and nonzero-exit verifier behavior and existing SDK tests remain intact.\n\nAllowed changed paths: sdk/python/**\n",
     "projectId": "v1-Aegis",
-    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/A3/A/repo",
-    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/A3/A/repo",
+    "repoPath": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/A3/A/repo",
+    "repoRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/A3/A/repo",
     "runnerDirectory": "sdk/python",
     "taskChecks": false
   },
@@ -28,7 +28,7 @@
       "id": "5f89182d-5dcc-41a7-aec0-e3c75588d431",
       "runner": "unittest",
       "runnerDirectory": "sdk/python",
-      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/A3/A/repo",
+      "sourceRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/A3/A/repo",
       "tests": [],
       "version": "process-oracle-v1"
     }
@@ -173,19 +173,19 @@
     "evidence": {
       "candidateExport": {
         "hash": "ae3a392eb22210b963d46e79cdf99be7ead792c1624bc9f161ea4a62da812f02",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/candidate-export",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/candidate-export",
         "sourceTree": "058c504660ed90f37023de16649333a3500033a2"
       },
       "executedChecks": [
         {
           "hash": "a777d062ea130fce8e609b0d9102d4e796e3ee111ac88a0171c2b7abe32abf30",
           "id": "protected-existing-tests",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/protected-existing-tests.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/protected-existing-tests.json"
         }
       ],
       "executionTree": {
         "hash": "ae3a392eb22210b963d46e79cdf99be7ead792c1624bc9f161ea4a62da812f02",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/executed-tree",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/executed-tree",
         "trustedLinks": {}
       },
       "hash": "e685f8b6c5c2c366a3c72ff7d44d6cd1d119081c148e73937f348b9383e39bbe",
@@ -193,7 +193,7 @@
       "overlay": {
         "candidateOnlyTests": [],
         "hash": "c06f3ce2e1bf8748ced962b85d8750aea354b3ab719065ddd96aa02a4063a232",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/base-test-overlay",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/base-test-overlay",
         "restored": [
           "tests/__init__.py",
           "tests/test_broker_smoke.py",
@@ -204,7 +204,7 @@
       "records": [
         {
           "hash": "8d6d9178b1261211c12012a6a87804a819cdadc0df68f8cd27c796b1c91da24e",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/existing-tests/native-E1-d5cfcd7f-1626-41b2-a97f-d75fe4ed5cbc/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/5f89182d-5dcc-41a7-aec0-e3c75588d431/existing-tests/native-E1-d5cfcd7f-1626-41b2-a97f-d75fe4ed5cbc/observations.json"
         }
       ],
       "requiredChecksHash": "6d8c0f10c8636a2ae90a2d1a7f0a18012efcce911bef5daacdb6946a364e0f34"

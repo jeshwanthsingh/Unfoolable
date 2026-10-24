@@ -10,12 +10,12 @@ test_unchanged_application_does_not_recopied_large_sidecars (__main__.BackupTest
 ERROR: test_unchanged_application_does_not_recopied_large_sidecars (__main__.BackupTests.test_unchanged_application_does_not_recopied_large_sidecars)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/backup_helpers_test.py", line 55, in test_unchanged_application_does_not_recopied_large_sidecars
+  File "/Users/USER/Projects/ai-lab/command-center/tests/backup_helpers_test.py", line 55, in test_unchanged_application_does_not_recopied_large_sidecars
     result = backup.snapshot({"dataDir": str(data), "backupDir": str(store)})
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/backup.py", line 156, in snapshot
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/backup.py", line 156, in snapshot
     sources = [('data', data)] + [('external/' + str(i), p) for i, p in enumerate(external_roots(data))]
                                                                                   ~~~~~~~~~~~~~~^^^^^^
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/backup.py", line 129, in external_roots
+  File "/Users/USER/Projects/ai-lab/command-center/scripts/backup.py", line 129, in external_roots
     for (raw,) in db.execute("SELECT data_json FROM ticket_events WHERE kind='candidate_frozen'"):
                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 sqlite3.OperationalError: no such table: ticket_events

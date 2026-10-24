@@ -48,7 +48,7 @@
       "percent": 100,
       "unmeasuredPaths": [],
       "reason": null,
-      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-candidate-0/execution/measured-coverage.json"
+      "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-candidate-0/execution/measured-coverage.json"
     },
     "mutation": {
       "tool": "StrykerJS",
@@ -61,7 +61,7 @@
       "sampled": true,
       "survivorLine": 106,
       "reason": "Sampled up to 12 changed-line mutants; advisory only",
-      "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-mutation/mutations.json"
+      "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/t3-feedback/attempt-0-mutation/mutations.json"
     }
   }
 }

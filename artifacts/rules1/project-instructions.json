@@ -2,12 +2,12 @@
   "note": "Tracked BASE instruction files only. These stay identical between arms; provider-internal tool instructions are not exposed by app-server.",
   "projects": [
     {
-      "projectRoot": "/Users/jeshwanthsingh/Projects/Therapy2",
+      "projectRoot": "/Users/USER/Projects/Therapy2",
       "base": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
       "projectInstructionFiles": []
     },
     {
-      "projectRoot": "/Users/jeshwanthsingh/Projects/Aegis",
+      "projectRoot": "/Users/USER/Projects/Aegis",
       "base": "5417ccb14a95e699e6ff2decbedabc891f052bcb",
       "projectInstructionFiles": [
         {
@@ -18,12 +18,12 @@
       ]
     },
     {
-      "projectRoot": "/Users/jeshwanthsingh/Projects/research-router",
+      "projectRoot": "/Users/USER/Projects/research-router",
       "base": "f7f198123955f6113cb583020d06bb47dc89817f",
       "projectInstructionFiles": []
     },
     {
-      "projectRoot": "/Users/jeshwanthsingh/Projects/career-ops",
+      "projectRoot": "/Users/USER/Projects/career-ops",
       "base": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
       "projectInstructionFiles": [
         {

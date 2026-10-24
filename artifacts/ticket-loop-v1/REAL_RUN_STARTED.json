@@ -4,8 +4,8 @@
     "b3991162-3407-4a22-9e07-2db785c22e36"
   ],
   "repos": [
-    "/Users/jeshwanthsingh/Projects/research-router",
-    "/Users/jeshwanthsingh/Projects/career-ops"
+    "/Users/USER/Projects/research-router",
+    "/Users/USER/Projects/career-ops"
   ],
   "requests": [
     "Reject oversized --since durations in the research-router CLI with a useful argument error instead of raising OverflowError. Keep normal supported duration filters working. Add a focused regression test. Do not perform network operations.",

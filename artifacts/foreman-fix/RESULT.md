@@ -29,7 +29,7 @@ The disclosed gaps remain: regression checks do not independently prove the new 
 ## Use / evidence
 
 ```sh
-cd /Users/jeshwanthsingh/Projects/ai-lab/command-center
+cd /Users/USER/Projects/ai-lab/command-center
 ./cc chat
 ```
 

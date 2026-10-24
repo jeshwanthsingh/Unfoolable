@@ -1,8 +1,8 @@
 Traceback (most recent call last):
-  File "/Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/backup_helpers_test.py", line 9, in <module>
+  File "/Users/USER/Projects/ai-lab/command-center/tests/backup_helpers_test.py", line 9, in <module>
     spec.loader.exec_module(backup)
     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
   File "<frozen importlib._bootstrap_external>", line 1018, in exec_module
   File "<frozen importlib._bootstrap_external>", line 1155, in get_code
   File "<frozen importlib._bootstrap_external>", line 1213, in get_data
-FileNotFoundError: [Errno 2] No such file or directory: '/Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/backup.py'
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/USER/Projects/ai-lab/command-center/scripts/backup.py'

@@ -687,12 +687,12 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 ✔ application version matches package metadata (0.555833ms)
 ✔ only a valid readiness response may produce ready UI state (0.099583ms)
 ✔ a real database-unavailable response remains distinct from an offline coordinator (0.056791ms)
-file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/seal-helper.mjs:6
+file:///Users/USER/Projects/ai-lab/command-center/scripts/seal-helper.mjs:6
 if(!data.subarray(0,7).equals(Buffer.from('DSSEv1 ')))throw Error('Only DSSE messages are signed');
                                                             ^
 
 Error: Only DSSE messages are signed
-    at file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/scripts/seal-helper.mjs:6:61
+    at file:///Users/USER/Projects/ai-lab/command-center/scripts/seal-helper.mjs:6:61
     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
 
 Node.js v24.21.0

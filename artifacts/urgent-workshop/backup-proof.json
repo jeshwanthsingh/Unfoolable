@@ -1,6 +1,6 @@
 {
   "immediateDatabaseSafetyCopy": {
-    "path": "/Users/jeshwanthsingh/.config/unfoolable/backups/urgent-workshop-20261020.sqlite",
+    "path": "/Users/USER/.config/unfoolable/backups/urgent-workshop-20261020.sqlite",
     "integrity": "ok",
     "allTableDigestsMatch": true,
     "tables": 58,
@@ -34,7 +34,7 @@
     "allFileDigestsMatch": true,
     "integrityCheck": "ok",
     "foreignKeyErrors": 0,
-    "output": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/urgent-workshop/restore"
+    "output": "/Users/USER/Projects/ai-lab/command-center/.work/urgent-workshop/restore"
   },
   "retention": "Overridden only in this caller to retain all existing archives; no older data or backup deleted."
 }

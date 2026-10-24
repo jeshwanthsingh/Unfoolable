@@ -15,7 +15,7 @@
 
 test at tests/ui4-interaction.test.ts:2:1
 ✖ Enter submits, Shift Enter and composition preserve editing (0.900083ms)
-  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/web/src/request-input.ts' imported from /Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-interaction.test.ts
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/USER/Projects/ai-lab/command-center/apps/web/src/request-input.ts' imported from /Users/USER/Projects/ai-lab/command-center/tests/ui4-interaction.test.ts
       at finalizeResolution (node:internal/modules/esm/resolve:272:11)
       at moduleResolve (node:internal/modules/esm/resolve:879:10)
       at defaultResolve (node:internal/modules/esm/resolve:1006:11)
@@ -27,7 +27,7 @@ test at tests/ui4-interaction.test.ts:2:1
       at node:internal/modules/esm/loader:636:32
       at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
     code: 'ERR_MODULE_NOT_FOUND',
-    url: 'file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/web/src/request-input.ts'
+    url: 'file:///Users/USER/Projects/ai-lab/command-center/apps/web/src/request-input.ts'
   }
 
 test at tests/ui4-interaction.test.ts:3:1
@@ -55,7 +55,7 @@ test at tests/ui4-interaction.test.ts:3:1
     ' </dialog>;\n' +
     '}\n'
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-interaction.test.ts:3:148)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-interaction.test.ts:3:148)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -129,7 +129,7 @@ test at tests/ui4-interaction.test.ts:4:1
     ` <footer className="unfool-footer"><button onClick={()=>showProof('conversation')}>Conversation</button><button className="unfool-stop" disabled={!key||busy} onClick={()=>void mutate('/api/stop-all',{},false,'Stopped. Starting again needs your OK.')}>Stop all</button></footer>\n` +
     " </main>{proof&&key&&(selected||['conversation','co"... 325 more characters
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-interaction.test.ts:4:154)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-interaction.test.ts:4:154)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -147,7 +147,7 @@ test at tests/ui4-interaction.test.ts:4:1
 test at tests/ui4-interaction.test.ts:5:1
 ✖ async Ask acknowledges before drafting finishes and stores exactly one message (589.192916ms)
   AssertionError [ERR_ASSERTION]: Ask waited for the entire AI draft
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-interaction.test.ts:7:320)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-interaction.test.ts:7:320)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
     generatedMessage: false,

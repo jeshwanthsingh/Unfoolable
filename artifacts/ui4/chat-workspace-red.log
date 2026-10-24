@@ -13,6 +13,6 @@
 test at tests/chat-codex.test.ts:24:1
 ✖ read-only chat starts outside the denied Projects ancestor without changing its deny profile (0.549458ms)
   TypeError: chatWorkspace is not a function
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/chat-codex.test.ts:24:230)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/chat-codex.test.ts:24:230)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

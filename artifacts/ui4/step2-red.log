@@ -40,7 +40,7 @@ test at tests/ui4-stream.test.ts:2:1
     ' return {tickets,details,chat,error,loading};\n' +
     '}\n'
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:2:140)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:2:140)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.start (node:internal/test_runner/test:1262:17)
@@ -78,7 +78,7 @@ test at tests/ui4-stream.test.ts:3:1
     ' </dialog>;\n' +
     '}\n'
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:3:138)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-stream.test.ts:3:138)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
@@ -95,7 +95,7 @@ test at tests/ui4-stream.test.ts:3:1
 
 test at tests/ui4-stream.test.ts:4:1
 ✖ stream snapshot is lightweight and event identity is stable while idle (0.758459ms)
-  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts' imported from /Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-stream.test.ts
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/USER/Projects/ai-lab/command-center/apps/server/desk-stream.ts' imported from /Users/USER/Projects/ai-lab/command-center/tests/ui4-stream.test.ts
       at finalizeResolution (node:internal/modules/esm/resolve:272:11)
       at moduleResolve (node:internal/modules/esm/resolve:879:10)
       at defaultResolve (node:internal/modules/esm/resolve:1006:11)
@@ -107,5 +107,5 @@ test at tests/ui4-stream.test.ts:4:1
       at node:internal/modules/esm/loader:636:32
       at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
     code: 'ERR_MODULE_NOT_FOUND',
-    url: 'file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/apps/server/desk-stream.ts'
+    url: 'file:///Users/USER/Projects/ai-lab/command-center/apps/server/desk-stream.ts'
   }

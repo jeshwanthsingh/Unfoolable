@@ -8,7 +8,7 @@
   "sqlite_error": "unable to open database file",
   "exit_code": 0,
   "created_after_worker_ready": true,
-  "fixture": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/tripwires/probe-4d215c3577ed469abaa07dfa1a989cb3",
+  "fixture": "/Users/USER/Projects/ai-lab/command-center/.work/tripwires/probe-4d215c3577ed469abaa07dfa1a989cb3",
   "codex_version": "codex-cli 0.160.0",
   "production_profile_changed": false,
   "interpretation": "Rejected layout probe only; production fix uses approved outside-Projects storage."

@@ -172,7 +172,7 @@
           }
         ],
         "judgeExit": 1,
-        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/watchman/negative-controls/R1-review-off/native-E1-9362039e-97cb-4fcf-9e8b-95a1af2c4631/observations.json"
+        "observationPath": "/Users/USER/Projects/ai-lab/command-center/.work/watchman/negative-controls/R1-review-off/native-E1-9362039e-97cb-4fcf-9e8b-95a1af2c4631/observations.json"
       },
       "restored": {
         "restored": [
@@ -324,7 +324,7 @@
           }
         ],
         "judgeExit": 1,
-        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/watchman/negative-controls/native-judge-skipped/native-E1-8145ee37-569d-4760-afea-956a7196c9fd/observations.json"
+        "observationPath": "/Users/USER/Projects/ai-lab/command-center/.work/watchman/negative-controls/native-judge-skipped/native-E1-8145ee37-569d-4760-afea-956a7196c9fd/observations.json"
       },
       "restored": {
         "restored": [
@@ -471,7 +471,7 @@
           }
         ],
         "judgeExit": 1,
-        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/watchman/negative-controls/native-judge-zero-collected/native-E1-6b0f40b0-9f5a-4e9f-b43c-bf3cc2692b97/observations.json"
+        "observationPath": "/Users/USER/Projects/ai-lab/command-center/.work/watchman/negative-controls/native-judge-zero-collected/native-E1-6b0f40b0-9f5a-4e9f-b43c-bf3cc2692b97/observations.json"
       },
       "restored": {
         "restored": [
@@ -609,7 +609,7 @@
           }
         ],
         "judgeExit": 1,
-        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/watchman/negative-controls/skipped-existing-test-restored/native-E1-15c73ecb-f1dc-44a4-9acf-2e72d235cd5c/observations.json"
+        "observationPath": "/Users/USER/Projects/ai-lab/command-center/.work/watchman/negative-controls/skipped-existing-test-restored/native-E1-15c73ecb-f1dc-44a4-9acf-2e72d235cd5c/observations.json"
       },
       "restored": {
         "restored": [
@@ -747,7 +747,7 @@
           }
         ],
         "judgeExit": 1,
-        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/watchman/negative-controls/deleted-existing-test-restored/native-E1-55baf8ad-a55f-47f4-9ce8-4c2d6c0cf588/observations.json"
+        "observationPath": "/Users/USER/Projects/ai-lab/command-center/.work/watchman/negative-controls/deleted-existing-test-restored/native-E1-55baf8ad-a55f-47f4-9ce8-4c2d6c0cf588/observations.json"
       },
       "restored": {
         "restored": [
@@ -885,7 +885,7 @@
           }
         ],
         "judgeExit": 1,
-        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/watchman/negative-controls/edited-existing-test-restored/native-E1-14a410c6-642a-427b-bcdf-63bed20b343a/observations.json"
+        "observationPath": "/Users/USER/Projects/ai-lab/command-center/.work/watchman/negative-controls/edited-existing-test-restored/native-E1-14a410c6-642a-427b-bcdf-63bed20b343a/observations.json"
       },
       "restored": {
         "restored": [
@@ -1179,7 +1179,7 @@
           }
         ],
         "judgeExit": 1,
-        "observationPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/watchman/negative-controls/oversized-output/native-E1-89b032bf-b346-46b8-9d38-30ae5c4b286b/observations.json"
+        "observationPath": "/Users/USER/Projects/ai-lab/command-center/.work/watchman/negative-controls/oversized-output/native-E1-89b032bf-b346-46b8-9d38-30ae5c4b286b/observations.json"
       },
       "restored": {
         "restored": [

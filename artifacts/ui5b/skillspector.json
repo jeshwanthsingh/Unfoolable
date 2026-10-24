@@ -6,9 +6,9 @@
   "network": "DENIED; OSV offline fallback",
   "results": [
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/computer-history/1.0.1001501/skills/computer-history",
+      "path": "/Users/USER/.codex/plugins/cache/openai-bundled/computer-history/1.0.1001501/skills/computer-history",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/computer-history/1.0.1001501/skills/computer-history"
+        "/Users/USER/.codex/plugins/cache/openai-bundled/computer-history/1.0.1001501/skills/computer-history"
       ],
       "id": "ded2fc2bdf2a11e3",
       "name": "computer-history",
@@ -26,9 +26,9 @@
       "skillSHA256": "7595b819ad985d0d739e2dfa26fc19ec3a7413aa6a861bbc2db5f60466fdefc8"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-building",
+      "path": "/Users/USER/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-building",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-building"
+        "/Users/USER/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-building"
       ],
       "id": "4b33aab091d2d836",
       "name": "sites-building",
@@ -368,9 +368,9 @@
       "skillSHA256": "5651e54e471d30405f0890b65d163d093224f01607556b3e445e7c3d5bd3877b"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-hosting",
+      "path": "/Users/USER/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-hosting",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-hosting"
+        "/Users/USER/.codex/plugins/cache/openai-bundled/sites/0.1.70/skills/sites-hosting"
       ],
       "id": "5924ae6435d9d245",
       "name": "sites-hosting",
@@ -388,9 +388,9 @@
       "skillSHA256": "0d8ce03a009e434d81215aa0d2f3081e3eb8ce2f71b91e67b712591e7cb8f334"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/visualize/1.0.50/skills/visualize",
+      "path": "/Users/USER/.codex/plugins/cache/openai-bundled/visualize/1.0.50/skills/visualize",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-bundled/visualize/1.0.50/skills/visualize"
+        "/Users/USER/.codex/plugins/cache/openai-bundled/visualize/1.0.50/skills/visualize"
       ],
       "id": "454149c62d6a3a83",
       "name": "visualize",
@@ -465,9 +465,9 @@
       "skillSHA256": "766f4e5ee250af9d3c68353d0b8609e40e0ce5926a625d7ca88e073525360d25"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/browse-collections",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/browse-collections",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/browse-collections"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/browse-collections"
       ],
       "id": "d93ee2c0558f8b3f",
       "name": "browse-collections",
@@ -510,9 +510,9 @@
       "skillSHA256": "60a7e950216014ef4ff78cdd545eb26e057041bd9c9e7fb96f428db5df04310a"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/build-playlists",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/build-playlists",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/build-playlists"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/build-playlists"
       ],
       "id": "a281a9e7145daca6",
       "name": "build-playlists",
@@ -543,9 +543,9 @@
       "skillSHA256": "3f216b0ff3766320669358e5ef6625478a3bfcbf512b872dfebbf685e957e1b4"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/manage-library",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/manage-library",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/manage-library"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/manage-library"
       ],
       "id": "50be80275547d2e0",
       "name": "manage-library",
@@ -563,9 +563,9 @@
       "skillSHA256": "2afdd987b83a5a44b2afb49e037797929757f5d8aecba57a0277b8f3250d5498"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/now-playing",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/now-playing",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/now-playing"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/now-playing"
       ],
       "id": "941173802261673a",
       "name": "now-playing",
@@ -583,9 +583,9 @@
       "skillSHA256": "766f7cb9d645daa90fe595d3ba22b7123fc98b75711501b39a2c2d740e1973af"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/search-spotify",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/search-spotify",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/search-spotify"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-68de829bf7648191acd70a907364c67c/4.3.0/skills/search-spotify"
       ],
       "id": "d41aa66db1d82f73",
       "name": "search-spotify",
@@ -603,9 +603,9 @@
       "skillSHA256": "f0f1e3ec4d27581181cf6efad9cf2b8acfcc5babd5475a6f3cfe72955833e9b5"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/higgsfield",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/higgsfield",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/higgsfield"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/higgsfield"
       ],
       "id": "aa818c8712ff551a",
       "name": "higgsfield",
@@ -623,9 +623,9 @@
       "skillSHA256": "f696cae58184a0d09164ad6bc0321810246157591c849c834eae0d49107b2a7e"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/website-builder",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/website-builder",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/website-builder"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/app-6a3293e129088191abf0875820e839da/2.2.1/skills/website-builder"
       ],
       "id": "de68e0ec3810fa8e",
       "name": "website-builder",
@@ -1137,9 +1137,9 @@
       "skillSHA256": "65e4d748c2256a74d4d1344bee706a3369abd68c6d92dcae63b8efb16250a747"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/cloud-environment/0.1.2/skills/runtime",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/cloud-environment/0.1.2/skills/runtime",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/cloud-environment/0.1.2/skills/runtime"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/cloud-environment/0.1.2/skills/runtime"
       ],
       "id": "5fe3ad20a9628d85",
       "name": "cloud-environment-runtime",
@@ -1276,9 +1276,9 @@
       "skillSHA256": "c23513e361a6f9dbe1c28e5c41de635f355469b4ec1740ae1cd2de1d38a91bd3"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/coderabbit/1.1.4/skills/coderabbit-review",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/coderabbit/1.1.4/skills/coderabbit-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/coderabbit/1.1.4/skills/coderabbit-review"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/coderabbit/1.1.4/skills/coderabbit-review"
       ],
       "id": "dcb7869c1f36ab21",
       "name": "code-review",
@@ -1321,9 +1321,9 @@
       "skillSHA256": "515ef4f096ff4ee9cd034e6bf110bbb002f15abefcac3da7d9ff9db526d8e40f"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/defense-factory/0.1.1/skills/open-defense-factory",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/defense-factory/0.1.1/skills/open-defense-factory",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/defense-factory/0.1.1/skills/open-defense-factory"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/defense-factory/0.1.1/skills/open-defense-factory"
       ],
       "id": "a21056626fa34bf7",
       "name": "open-defense-factory",
@@ -1341,9 +1341,9 @@
       "skillSHA256": "fb9781bec62eff3a67f54b55b705e28d26cdadd7e19a0420ba497ea508c42db4"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-docs",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-docs",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-docs"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-docs"
       ],
       "id": "fec4dea21d0f584c",
       "name": "google-docs",
@@ -1395,9 +1395,9 @@
       "skillSHA256": "1c4f8e6477a61d45370731143fd926d2b8917594982f9cb39677909d645625c1"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive"
       ],
       "id": "db03af2c454bb9f6",
       "name": "google-drive",
@@ -1415,9 +1415,9 @@
       "skillSHA256": "dabae8a192c861b76cf7b5742bdf14f8ed35e67d8e6cacfd5f746ffbefd6da5c"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive-comments",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive-comments",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive-comments"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-drive-comments"
       ],
       "id": "b4f4bfbbd80072be",
       "name": "google-drive-comments",
@@ -1435,9 +1435,9 @@
       "skillSHA256": "a3077375a8f7558b9e052c98047747b8a4a1a90a9a90b552009c28fcdadfe94a"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-sheets",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-sheets",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-sheets"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-sheets"
       ],
       "id": "23473934cef525f9",
       "name": "google-sheets",
@@ -1468,9 +1468,9 @@
       "skillSHA256": "1851109d8f2c182236d28db136fb161d30c85287e5bc4fa79cf137673184c58d"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-slides",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-slides",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-slides"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/google-drive/0.1.22/skills/google-slides"
       ],
       "id": "769a09bb7ea58a43",
       "name": "google-slides",
@@ -1512,9 +1512,9 @@
       "skillSHA256": "f85bd1d7080becf8c043a3646b6c3a53fbcd6d2a77c62a15112b8d89e01a4b83"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-analytics-dashboard",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-analytics-dashboard",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-analytics-dashboard"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-analytics-dashboard"
       ],
       "id": "965ee96cda9a8a04",
       "name": "artifact-template-analytics-dashboard",
@@ -1532,9 +1532,9 @@
       "skillSHA256": "cf5360fd8b197673bb237c52c603c97fa319c875c3dfa2cd8efff52d4422f513"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-annual-impact-report",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-annual-impact-report",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-annual-impact-report"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-annual-impact-report"
       ],
       "id": "73b42ac8137f060b",
       "name": "artifact-template-annual-impact-report",
@@ -1552,9 +1552,9 @@
       "skillSHA256": "87790da3a34821797e9d5f2c46606e1a90fd7d2d7fe437a0e8259f581b606f64"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-brand-guidelines",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-brand-guidelines",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-brand-guidelines"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-brand-guidelines"
       ],
       "id": "ba0105374d2493dd",
       "name": "artifact-template-brand-guidelines",
@@ -1572,9 +1572,9 @@
       "skillSHA256": "26a03eb885b8decc8b3f1b19703670b66345df0091aa60b2714905f43724ec29"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-business-review",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-business-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-business-review"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-business-review"
       ],
       "id": "ec48a5397d6de5f5",
       "name": "artifact-template-business-review",
@@ -1592,9 +1592,9 @@
       "skillSHA256": "27721fc1d67d1b41949caa75ac8f94f81952ff124406878af6524047929e60d2"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-calder-architecture",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-calder-architecture",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-calder-architecture"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-calder-architecture"
       ],
       "id": "9c97b4628ad5832f",
       "name": "artifact-template-calder-architecture",
@@ -1612,9 +1612,9 @@
       "skillSHA256": "5908d609acb0d8abd36b56dfc0d08ecc23883e6d341cb52299332038e5fc8a25"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-creative-campaign-brief",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-creative-campaign-brief",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-creative-campaign-brief"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-creative-campaign-brief"
       ],
       "id": "62c79653285fc6ed",
       "name": "artifact-template-creative-campaign-brief",
@@ -1632,9 +1632,9 @@
       "skillSHA256": "816f799c5e7fe779b17d620a1f7a6eb70e1b230882be21a29af25fd36c4b254d"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-design-report",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-design-report",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-design-report"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-design-report"
       ],
       "id": "f9649816aedc3a64",
       "name": "artifact-template-design-report",
@@ -1652,9 +1652,9 @@
       "skillSHA256": "563722f53854e606f8a9f87e37e72d7ef70a22d46d5836b8e4d6abfb1b79e9e0"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-experiment-analysis",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-experiment-analysis",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-experiment-analysis"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-experiment-analysis"
       ],
       "id": "0e500741be9ae4de",
       "name": "artifact-template-experiment-analysis",
@@ -1672,9 +1672,9 @@
       "skillSHA256": "0b05effc47df0a14f8e0c3e3597e6722224747435546385d38a2cae279bd20b9"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-financial-budget",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-financial-budget",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-financial-budget"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-financial-budget"
       ],
       "id": "8accb001db7d0cf6",
       "name": "artifact-template-financial-budget",
@@ -1692,9 +1692,9 @@
       "skillSHA256": "c0b6b7a62a15597aaf2b1ec679e21da48f533b756127f0aef957cdfe9f3da738"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-growth-strategy",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-growth-strategy",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-growth-strategy"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-growth-strategy"
       ],
       "id": "252d3d57e13efe20",
       "name": "artifact-template-growth-strategy",
@@ -1712,9 +1712,9 @@
       "skillSHA256": "fa8e36b197e9e8ccc115d3c0c10f67d97e619a4047e2ad801d30c0d33c4a52ce"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-investment-committee-memo",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-investment-committee-memo",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-investment-committee-memo"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-investment-committee-memo"
       ],
       "id": "a0a2d1db8f4c7a7b",
       "name": "artifact-template-investment-committee-memo",
@@ -1732,9 +1732,9 @@
       "skillSHA256": "68abd08cfe5e073e3c446a3f675f44c5bf98f57434dba679e8acd8a763379a8b"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-legal-memorandum",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-legal-memorandum",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-legal-memorandum"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-legal-memorandum"
       ],
       "id": "98259dedb69a2b43",
       "name": "artifact-template-legal-memorandum",
@@ -1752,9 +1752,9 @@
       "skillSHA256": "51fb9d21baf6119c4ccb1903638a6bac0e859210de63460fffa7025d52e997e0"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-market-trends-report",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-market-trends-report",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-market-trends-report"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-market-trends-report"
       ],
       "id": "11b3aed769809f08",
       "name": "artifact-template-market-trends-report",
@@ -1772,9 +1772,9 @@
       "skillSHA256": "d58d019b89cb6f292ac3ab991d561489eef477ff53ce05fb024a0c936f5af26a"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-minimal-letterhead",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-minimal-letterhead",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-minimal-letterhead"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-minimal-letterhead"
       ],
       "id": "e6929c6d769a0c4e",
       "name": "artifact-template-minimal-letterhead",
@@ -1792,9 +1792,9 @@
       "skillSHA256": "880ef094d4d0c89a7bde5ce9bbe4086625c186651e9e6efc8ba8bdd7cc77f9d5"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-next-generation-os",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-next-generation-os",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-next-generation-os"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-next-generation-os"
       ],
       "id": "67726257f04b80cf",
       "name": "artifact-template-next-generation-os",
@@ -1812,9 +1812,9 @@
       "skillSHA256": "0baec9efa63b4cc0a5c08512b8d01950ebc006b2c7d9488913defbffd00fb97d"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-operating-calendar",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-operating-calendar",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-operating-calendar"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-operating-calendar"
       ],
       "id": "c8332ea0a9d23c3d",
       "name": "artifact-template-operating-calendar",
@@ -1832,9 +1832,9 @@
       "skillSHA256": "33bb660791a0b9a21628a42c34934932220203b6aabd84e98cb1b45327d0384c"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-photography-portfolio",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-photography-portfolio",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-photography-portfolio"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-photography-portfolio"
       ],
       "id": "57aeae250b4a0e9c",
       "name": "artifact-template-photography-portfolio",
@@ -1864,9 +1864,9 @@
       "skillSHA256": "5819efedf97c99ee08f950e55a45c24e76a37e542332134896e9cee40b5c5f47"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-pitch",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-pitch",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-pitch"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-pitch"
       ],
       "id": "57dbd5b5d3d6a429",
       "name": "artifact-template-product-pitch",
@@ -1884,9 +1884,9 @@
       "skillSHA256": "e4991bd400a9a9acb5f12269406f31c27547b077269d2a4108d8559810672281"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-strategy",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-strategy",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-strategy"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-product-strategy"
       ],
       "id": "09619629e17c2ab0",
       "name": "artifact-template-product-strategy",
@@ -1904,9 +1904,9 @@
       "skillSHA256": "946355cbc7e62f313dbf1f113b08f92a9f3aa98e3fd46b3368e5a4551c6f9ea3"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-kickoff",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-kickoff",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-kickoff"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-kickoff"
       ],
       "id": "23db718b0b1f75b5",
       "name": "artifact-template-project-kickoff",
@@ -1924,9 +1924,9 @@
       "skillSHA256": "aa893ebd89e7c8d1db4261d01cc2b1add35d78d00785871ccaaa5fc8db783ec9"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-tracker",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-tracker",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-tracker"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-project-tracker"
       ],
       "id": "ef3b7fe616ffcd56",
       "name": "artifact-template-project-tracker",
@@ -1944,9 +1944,9 @@
       "skillSHA256": "d97d5be20189b7f53dd269b6e1c5f694eaf53e5a72f6559fcb1578911b7cda82"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-sales-pipeline",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-sales-pipeline",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-sales-pipeline"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-sales-pipeline"
       ],
       "id": "8caec33b0de8287a",
       "name": "artifact-template-sales-pipeline",
@@ -1964,9 +1964,9 @@
       "skillSHA256": "15cfeeedf440021f16ed3f3ad8c7c1ef6d48898b9447741e223d2fb41cfc9800"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-state-of-art",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-state-of-art",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-state-of-art"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-state-of-art"
       ],
       "id": "9daeeb50d53c065d",
       "name": "artifact-template-state-of-art",
@@ -1984,9 +1984,9 @@
       "skillSHA256": "ab2ad2557bd653274454529a9fe38943af4cacf5c6903897795ff1114bdd73f8"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-strategy-memorandum",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-strategy-memorandum",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-strategy-memorandum"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-strategy-memorandum"
       ],
       "id": "45d5970931d4a1df",
       "name": "artifact-template-strategy-memorandum",
@@ -2004,9 +2004,9 @@
       "skillSHA256": "51d7882ac94e8e57b323394825728c33925af878806e37277217c2dc12a912e5"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-system-design",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-system-design",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-system-design"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-system-design"
       ],
       "id": "590adbf263a3f75e",
       "name": "artifact-template-system-design",
@@ -2024,9 +2024,9 @@
       "skillSHA256": "87f7b7ed1b0d8410f5e5971cd7f7db9a4165e2f37069e97e52dbfb469b75a57c"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-three-statement-forecast",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-three-statement-forecast",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-three-statement-forecast"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-three-statement-forecast"
       ],
       "id": "37623891c6b16110",
       "name": "artifact-template-three-statement-forecast",
@@ -2044,9 +2044,9 @@
       "skillSHA256": "74f4a5cccec0107b861548b157e04c51d9b58ec13a990c86394b4c529b8ecf41"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-weekly-business-review",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-weekly-business-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-weekly-business-review"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.6/skills/artifact-template-weekly-business-review"
       ],
       "id": "71caf86991c38987",
       "name": "artifact-template-weekly-business-review",
@@ -2064,9 +2064,9 @@
       "skillSHA256": "b925626f9b4918ee5042148ee5229b5f61f68a2a3777cf8c68a752677c5bd263"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/maintain-space",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/maintain-space",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/maintain-space"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/maintain-space"
       ],
       "id": "cfa43f719edea3e7",
       "name": "maintain-space",
@@ -2084,9 +2084,9 @@
       "skillSHA256": "53570e6cb8663d370dce15ed0d67208876c3b13015832c352daa759213e7378e"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/manage-schedules",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/manage-schedules",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/manage-schedules"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/manage-schedules"
       ],
       "id": "5cc8e475c92a880f",
       "name": "manage-schedules",
@@ -2104,9 +2104,9 @@
       "skillSHA256": "e0a464a83f15a6e896c5536cab775f667ebd0dd61eb64fe3c877a41935d64bd9"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/organize-space",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/organize-space",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/organize-space"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/organize-space"
       ],
       "id": "ec360d94bdce875c",
       "name": "organize-space",
@@ -2124,9 +2124,9 @@
       "skillSHA256": "dfa8bfae86785a98e43b1ca0af67a9c89b90c658eee7fc7ad4ccfe8cc84a267b"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/write-page",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/write-page",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/write-page"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/pages/0.1.23/skills/write-page"
       ],
       "id": "0ecbec4611d72388",
       "name": "write-page",
@@ -2158,9 +2158,9 @@
       "skillSHA256": "7a997ccee8cc3214cb1e9af4a5569bddb74499796aff808e94561109e148a658"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/plugin-management/0.1.0/skills/plugin-management",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/plugin-management/0.1.0/skills/plugin-management",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/plugin-management/0.1.0/skills/plugin-management"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/plugin-management/0.1.0/skills/plugin-management"
       ],
       "id": "eaa2632c48bd1379",
       "name": "plugin-management",
@@ -2203,9 +2203,9 @@
       "skillSHA256": "653841cc21205269f08b0ce135891e1518dac616a766bcfb0b57d788d3f68b10"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/sites/1.0.2-remix-a.1/skills/sites",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/sites/1.0.2-remix-a.1/skills/sites",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/sites/1.0.2-remix-a.1/skills/sites"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/sites/1.0.2-remix-a.1/skills/sites"
       ],
       "id": "3a84202fe6cdae03",
       "name": "sites",
@@ -2582,9 +2582,9 @@
       "skillSHA256": "9e9b6665592a539aa07be8d022ca3c8ceeb6ff9589021894d94e2b956f71b0c8"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/brainstorming",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/brainstorming",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/brainstorming"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/brainstorming"
       ],
       "id": "08008dad354d0c9f",
       "name": "brainstorming",
@@ -2698,9 +2698,9 @@
       "skillSHA256": "a32d2255354775aa124855aa7100cf276bea096fff4ebb3a0edf57be216e6c72"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/diagnosing-superpowers",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/diagnosing-superpowers",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/diagnosing-superpowers"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/diagnosing-superpowers"
       ],
       "id": "2b25da3a54c42b03",
       "name": "diagnosing-superpowers",
@@ -2744,9 +2744,9 @@
       "skillSHA256": "5a652f8132cc901eb5ca61f89157839f87a2f20aed037fc7a2b51051bc37cd19"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/dispatching-parallel-agents",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/dispatching-parallel-agents",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/dispatching-parallel-agents"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/dispatching-parallel-agents"
       ],
       "id": "bcb519b6430392dc",
       "name": "dispatching-parallel-agents",
@@ -2764,9 +2764,9 @@
       "skillSHA256": "1968923066f3b707eb01d1992cdf4c42284c3855f70253b9cd5000ff45fca13c"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/executing-plans",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/executing-plans",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/executing-plans"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/executing-plans"
       ],
       "id": "4be1c1ef4284ee59",
       "name": "executing-plans",
@@ -2797,9 +2797,9 @@
       "skillSHA256": "f38e8f2ddcf079f65493adc713c1fed78421dfaf5f4dbf6b3a6b2b1d95466e71"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/finishing-a-development-branch",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/finishing-a-development-branch",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/finishing-a-development-branch"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/finishing-a-development-branch"
       ],
       "id": "4accc662fb83854e",
       "name": "finishing-a-development-branch",
@@ -2830,9 +2830,9 @@
       "skillSHA256": "8db5a922b242dd4e1bf824cb91c13b3e8d8e8a86d6ceaf7f0774eb9cce909d65"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/receiving-code-review",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/receiving-code-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/receiving-code-review"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/receiving-code-review"
       ],
       "id": "92861325c8b99876",
       "name": "receiving-code-review",
@@ -2850,9 +2850,9 @@
       "skillSHA256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/requesting-code-review",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/requesting-code-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/requesting-code-review"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/requesting-code-review"
       ],
       "id": "72e8d27b39a0fdf2",
       "name": "requesting-code-review",
@@ -2883,9 +2883,9 @@
       "skillSHA256": "cfcee1b06774e7c0517f1e09be1a11f2d5680257072723e709ddbcf7e08b795a"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/subagent-driven-development",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/subagent-driven-development",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/subagent-driven-development"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/subagent-driven-development"
       ],
       "id": "d224aafbdbbc716c",
       "name": "subagent-driven-development",
@@ -2916,9 +2916,9 @@
       "skillSHA256": "8dde5589ee083fb4999106d116f01c8fdaf3116a8a9813fdedeb80329de49046"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/systematic-debugging",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/systematic-debugging",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/systematic-debugging"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/systematic-debugging"
       ],
       "id": "9ceb26a67a46186c",
       "name": "systematic-debugging",
@@ -2996,9 +2996,9 @@
       "skillSHA256": "808fc5717aa88ad65efff312b11c186294d3e6ee301afb584e2f86599b137787"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/test-driven-development",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/test-driven-development",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/test-driven-development"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/test-driven-development"
       ],
       "id": "97241e9f1e1a1b87",
       "name": "test-driven-development",
@@ -3016,9 +3016,9 @@
       "skillSHA256": "64b03fce4aee5a97a93160cea8111f3ba13a17b7c001db4bd5836d67fd10705d"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-git-worktrees",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-git-worktrees",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-git-worktrees"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-git-worktrees"
       ],
       "id": "6094aaca59db4fa0",
       "name": "using-git-worktrees",
@@ -3061,9 +3061,9 @@
       "skillSHA256": "8cfb86f121269e8f7f12361e6795c4f6738828340e28964c9229d365666c9edd"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-superpowers",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-superpowers",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-superpowers"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/using-superpowers"
       ],
       "id": "ad3a46b0abdbc976",
       "name": "using-superpowers",
@@ -3130,9 +3130,9 @@
       "skillSHA256": "82c5c8866ad7f5dd4440ce66bd7806ba48a2f13771beae5cf112e53f08fe36ba"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/verification-before-completion",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/verification-before-completion",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/verification-before-completion"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/verification-before-completion"
       ],
       "id": "bde1dcc5754ed34c",
       "name": "verification-before-completion",
@@ -3163,9 +3163,9 @@
       "skillSHA256": "2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-plans",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-plans",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-plans"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-plans"
       ],
       "id": "0776776a56300716",
       "name": "writing-plans",
@@ -3183,9 +3183,9 @@
       "skillSHA256": "a6c67c1900064347c2a329990dd3c555657c51c3ec53b259a08aa01a2c26139a"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-skills",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-skills",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-skills"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/superpowers/6.4.2/skills/writing-skills"
       ],
       "id": "17ad8340d60d8642",
       "name": "writing-skills",
@@ -3452,9 +3452,9 @@
       "skillSHA256": "bbdfe742f853562e643a3d40d64476359d47881e39cef80a189283fa26d11ab9"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/create-pet",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/create-pet",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/create-pet"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/create-pet"
       ],
       "id": "a9bbd63dfc2f4ca9",
       "name": "create-pet",
@@ -3508,9 +3508,9 @@
       "skillSHA256": "841354fb8116f8fdfd3b643b30828f5180196c594d3fed9b669b948b88892af1"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/pets",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/pets",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/pets"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/pets"
       ],
       "id": "437efa455f00a8a6",
       "name": "pets",
@@ -3528,9 +3528,9 @@
       "skillSHA256": "1bf5d45fd6a6390aab777229293fb05cef7cf898aac882f8955e40c378e52fcd"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/update-pet",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/update-pet",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/update-pet"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/work-pets/0.1.6/skills/update-pet"
       ],
       "id": "45e7b239ff0d5e12",
       "name": "update-pet",
@@ -3548,9 +3548,9 @@
       "skillSHA256": "c63c98d67b6ad781a72a8f9837ba1fb5e2d2a8054a2562e4025890a97d8a0e67"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/write-like-me/0.1.1/skills/write-like-me",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated-remote/write-like-me/0.1.1/skills/write-like-me",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated-remote/write-like-me/0.1.1/skills/write-like-me"
+        "/Users/USER/.codex/plugins/cache/openai-curated-remote/write-like-me/0.1.1/skills/write-like-me"
       ],
       "id": "d6cac48343d8e2bc",
       "name": "write-like-me",
@@ -3581,9 +3581,9 @@
       "skillSHA256": "ae77e51569f882af3af99a4817d3745969e182342292bfa6dd6917bf9d4de475"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-app-intents",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-app-intents",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-app-intents"
+        "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-app-intents"
       ],
       "id": "cadfcabccda2ff10",
       "name": "ios-app-intents",
@@ -3601,9 +3601,9 @@
       "skillSHA256": "ee3ea635ba782e99ac282c14f65a863e6a3b09bb8fbb9ffa7be3c8dc4bd3a44b"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-debugger-agent",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-debugger-agent",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-debugger-agent"
+        "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/ios-debugger-agent"
       ],
       "id": "924ead96d8ad66d4",
       "name": "ios-debugger-agent",
@@ -3621,9 +3621,9 @@
       "skillSHA256": "07000b6744b8cf21bfa76db3bf76c6d158f9ef16a4a33eee9ce15508a7aa8b2e"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-liquid-glass",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-liquid-glass",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-liquid-glass"
+        "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-liquid-glass"
       ],
       "id": "54152281a2518392",
       "name": "swiftui-liquid-glass",
@@ -3641,9 +3641,9 @@
       "skillSHA256": "4894cc1b529a6c383207fbe1bbf92fcdaefc47794510942fe133f42db4a69b52"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-performance-audit",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-performance-audit",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-performance-audit"
+        "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-performance-audit"
       ],
       "id": "e87f96e9d148df81",
       "name": "swiftui-performance-audit",
@@ -3661,9 +3661,9 @@
       "skillSHA256": "55d9bd46c8c9267721331ead8b23967250b473fa3d72c65691b9bbdf125220d8"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-ui-patterns",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-ui-patterns",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-ui-patterns"
+        "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-ui-patterns"
       ],
       "id": "d0c5825280e1786d",
       "name": "swiftui-ui-patterns",
@@ -3681,9 +3681,9 @@
       "skillSHA256": "83099a9386e8cdb8b929ceaa5931af87d8f43bd529edcf0289ddad4f3b28b130"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-view-refactor",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-view-refactor",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-view-refactor"
+        "/Users/USER/.codex/plugins/cache/openai-curated/build-ios-apps/b7ed91c86dc6604b8217892f05c8866518c82852/skills/swiftui-view-refactor"
       ],
       "id": "8968b682bf1ae10c",
       "name": "swiftui-view-refactor",
@@ -3701,9 +3701,9 @@
       "skillSHA256": "5ed2af6c5d7fd4d455479e6defe42a096dfac5749c3b526ff6b442cf992a59f0"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-branded-presentation",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-branded-presentation",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-branded-presentation"
+        "/Users/USER/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-branded-presentation"
       ],
       "id": "afb759432831c14c",
       "name": "canva-branded-presentation",
@@ -3721,9 +3721,9 @@
       "skillSHA256": "110b3ba5a50c22e804067363881c2384f07a32bd704af79b894e04138c915713"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-resize-for-all-social-media",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-resize-for-all-social-media",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-resize-for-all-social-media"
+        "/Users/USER/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-resize-for-all-social-media"
       ],
       "id": "97a2fd8690db67b3",
       "name": "canva-resize-for-all-social-media",
@@ -3741,9 +3741,9 @@
       "skillSHA256": "ca36f9b6cc9e1913b762663d1f68f6caf20cb98923783b3dfcea4aebe6d09ce8"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-translate-design",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-translate-design",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-translate-design"
+        "/Users/USER/.codex/plugins/cache/openai-curated/canva/1ddf5c3f0d9d16a8c152961bbac37d86ed31b0a3/skills/canva-translate-design"
       ],
       "id": "852b096e5414506c",
       "name": "canva-translate-design",
@@ -3761,9 +3761,9 @@
       "skillSHA256": "950145361d04b50807954931549a4f40f8de945286cf304322c4d80a15493aac"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/coderabbit/b7ed91c86dc6604b8217892f05c8866518c82852/skills/coderabbit-review",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/coderabbit/b7ed91c86dc6604b8217892f05c8866518c82852/skills/coderabbit-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/coderabbit/b7ed91c86dc6604b8217892f05c8866518c82852/skills/coderabbit-review"
+        "/Users/USER/.codex/plugins/cache/openai-curated/coderabbit/b7ed91c86dc6604b8217892f05c8866518c82852/skills/coderabbit-review"
       ],
       "id": "b560bf6d17bd9175",
       "name": "code-review",
@@ -3806,9 +3806,9 @@
       "skillSHA256": "dd6ec53a9e1bd8fec0cadadc5528ead5ebd48441fbde26fdc59f74163846f348"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-address-comments",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-address-comments",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-address-comments"
+        "/Users/USER/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-address-comments"
       ],
       "id": "d1e29b8f536ca717",
       "name": "gh-address-comments",
@@ -3851,9 +3851,9 @@
       "skillSHA256": "c1ebc337357402f7faabafe712e0c463981a65f736453efe52abd305bcb74769"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-fix-ci",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-fix-ci",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-fix-ci"
+        "/Users/USER/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/gh-fix-ci"
       ],
       "id": "fdded93de3cc14e4",
       "name": "gh-fix-ci",
@@ -3922,9 +3922,9 @@
       "skillSHA256": "7621a3560d788fb221d25f9753233fe0c393c5cfe63167c88b11f027c277b1f8"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/github",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/github",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/github"
+        "/Users/USER/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/github"
       ],
       "id": "11caf32940b418cc",
       "name": "github",
@@ -3942,9 +3942,9 @@
       "skillSHA256": "81dbdd90934fe86a79ddc4790fd211e5fca866302a74090ad153395f56f2bd42"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/yeet",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/yeet",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/yeet"
+        "/Users/USER/.codex/plugins/cache/openai-curated/github/f09cfd210e21e96a0031f4d247be5f2e416d23b1/skills/yeet"
       ],
       "id": "3f8bf6b8687b3453",
       "name": "yeet",
@@ -3962,9 +3962,9 @@
       "skillSHA256": "93a0bcbc834c9b3ad6a8965c1a273b237b6d226e870cd0c16e08e87bc8769814"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail"
+        "/Users/USER/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail"
       ],
       "id": "39318d1406bc407f",
       "name": "gmail",
@@ -3982,9 +3982,9 @@
       "skillSHA256": "3e8c0052dfd397f66d756626c18d695c6289c19da6909b1b6c65dadeb03fc678"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail-inbox-triage",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail-inbox-triage",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail-inbox-triage"
+        "/Users/USER/.codex/plugins/cache/openai-curated/gmail/bd2122cb/skills/gmail-inbox-triage"
       ],
       "id": "6f63cd9ef142289c",
       "name": "gmail-inbox-triage",
@@ -4002,9 +4002,9 @@
       "skillSHA256": "1ce1ef20bbe99da3e824818e397e50c33238666e528fed8e9ec46250585ec5cc"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/cli",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/cli",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/cli"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/cli"
       ],
       "id": "f1a6b1401919a117",
       "name": "hf-cli",
@@ -4083,9 +4083,9 @@
       "skillSHA256": "ee85209886c4ec3d3d850489368be193d11a8a3fa589012b39a4a5bbf7c7da2e"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/community-evals",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/community-evals",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/community-evals"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/community-evals"
       ],
       "id": "5870315d96a9d508",
       "name": "huggingface-community-evals",
@@ -4192,9 +4192,9 @@
       "skillSHA256": "a97f1c703f55b72427453a76af858237e6392a447fcafa9eeb85f7ac67f0155d"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/datasets",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/datasets",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/datasets"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/datasets"
       ],
       "id": "1730c0c191b5b9a8",
       "name": "huggingface-datasets",
@@ -4268,9 +4268,9 @@
       "skillSHA256": "5af74f3e042313efadf02e85c316a2576bdc0b0ff92c43c3ba5dcb6e2dae1ded"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/gradio",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/gradio",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/gradio"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/gradio"
       ],
       "id": "a0114cdf9c9db453",
       "name": "huggingface-gradio",
@@ -4288,9 +4288,9 @@
       "skillSHA256": "e2f4c232c38682bccfc73115ca7d0a5427f7d625e6fd56b32515fe4c0900f997"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/jobs",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/jobs",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/jobs"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/jobs"
       ],
       "id": "aa32c12022533673",
       "name": "huggingface-jobs",
@@ -4596,9 +4596,9 @@
       "skillSHA256": "b85252f49569e97adc3d85e75ea37ed505028249fe1d9991069a6c52d0a64f35"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/llm-trainer",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/llm-trainer",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/llm-trainer"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/llm-trainer"
       ],
       "id": "c2a9d4d8653f0a93",
       "name": "huggingface-llm-trainer",
@@ -4942,9 +4942,9 @@
       "skillSHA256": "db25c7f1714057a8ff5e7cda0daacfc3be5e68fbd5f674bd4a9236feab20bc33"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/paper-publisher",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/paper-publisher",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/paper-publisher"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/paper-publisher"
       ],
       "id": "0a2a5d3e41f6f50e",
       "name": "huggingface-paper-publisher",
@@ -5057,9 +5057,9 @@
       "skillSHA256": "04b59406cf88054ab365f5bbbc57fe2e2fcb369e942dff2841c4f4297318c353"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/papers",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/papers",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/papers"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/papers"
       ],
       "id": "a2cc340a2bc367d9",
       "name": "huggingface-papers",
@@ -5090,9 +5090,9 @@
       "skillSHA256": "985c2d5c7261aba2b157811cde0c2b30134663694a4ab701280de28f941eb3b2"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/trackio",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/trackio",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/trackio"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/trackio"
       ],
       "id": "fbf61b123f1cce6b",
       "name": "huggingface-trackio",
@@ -5110,9 +5110,9 @@
       "skillSHA256": "893ac9695f8677db4c4f0c15795e789346946f6142305c89d7ee57774e22ffb1"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/transformers.js",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/transformers.js",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/transformers.js"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/transformers.js"
       ],
       "id": "3ae032dde7606358",
       "name": "transformers-js",
@@ -5208,9 +5208,9 @@
       "skillSHA256": "89a70a8a0604fc90cf6ae1063cb0f7d2f625bdf4d337f4f24e3f19cea4f99511"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/vision-trainer",
+      "path": "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/vision-trainer",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/vision-trainer"
+        "/Users/USER/.codex/plugins/cache/openai-curated/hugging-face/b7ed91c86dc6604b8217892f05c8866518c82852/skills/vision-trainer"
       ],
       "id": "f949b3d522f7b275",
       "name": "huggingface-vision-trainer",
@@ -5240,9 +5240,9 @@
       "skillSHA256": "c7aba4de75fa6595ffdaf5c50136786e8346aba0c9ff0261eaee656af4a3b0d9"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/documents/26.1017.11052/skills/documents",
+      "path": "/Users/USER/.codex/plugins/cache/openai-primary-runtime/documents/26.1017.11052/skills/documents",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/documents/26.1017.11052/skills/documents"
+        "/Users/USER/.codex/plugins/cache/openai-primary-runtime/documents/26.1017.11052/skills/documents"
       ],
       "id": "76c71405bc6769ca",
       "name": "documents",
@@ -5360,9 +5360,9 @@
       "skillSHA256": "c9b9ba61ac15f20a600220bc10a380c7753992bbd3c323bfe33fae864adefc21"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/pdf/26.1017.11052/skills/pdf",
+      "path": "/Users/USER/.codex/plugins/cache/openai-primary-runtime/pdf/26.1017.11052/skills/pdf",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/pdf/26.1017.11052/skills/pdf"
+        "/Users/USER/.codex/plugins/cache/openai-primary-runtime/pdf/26.1017.11052/skills/pdf"
       ],
       "id": "c73d064b3e81dedf",
       "name": "pdf",
@@ -5405,9 +5405,9 @@
       "skillSHA256": "a6e20f4ae66364a06d577dd51e0ce66ee2ef955be129cbe195e0a27f403daaf8"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/presentations/26.1017.11052/skills/presentations",
+      "path": "/Users/USER/.codex/plugins/cache/openai-primary-runtime/presentations/26.1017.11052/skills/presentations",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/presentations/26.1017.11052/skills/presentations"
+        "/Users/USER/.codex/plugins/cache/openai-primary-runtime/presentations/26.1017.11052/skills/presentations"
       ],
       "id": "3cfd0ea984fe3c2e",
       "name": "Presentations",
@@ -5568,9 +5568,9 @@
       "skillSHA256": "bbc129458b6eb0dccb2c88ca4e89e51798c527ff5be482b626f5f65c30076465"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/excel-live-control",
+      "path": "/Users/USER/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/excel-live-control",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/excel-live-control"
+        "/Users/USER/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/excel-live-control"
       ],
       "id": "ad8b7abc09492d64",
       "name": "excel-live-control",
@@ -5613,9 +5613,9 @@
       "skillSHA256": "1c27488fa2a59ce2cc8925a12527ee9c7aa40ccf0701f3f2719ab17858586e8b"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/spreadsheets",
+      "path": "/Users/USER/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/spreadsheets",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/spreadsheets"
+        "/Users/USER/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.1017.11052/skills/spreadsheets"
       ],
       "id": "dac385cd9ace8be4",
       "name": "Spreadsheets",
@@ -5669,9 +5669,9 @@
       "skillSHA256": "25da47cec10100f2a08df9feaa252864a738816aca30562ae6ba111d7b1eb48e"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/template-creator/26.1017.11052/skills/template-creator",
+      "path": "/Users/USER/.codex/plugins/cache/openai-primary-runtime/template-creator/26.1017.11052/skills/template-creator",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/plugins/cache/openai-primary-runtime/template-creator/26.1017.11052/skills/template-creator"
+        "/Users/USER/.codex/plugins/cache/openai-primary-runtime/template-creator/26.1017.11052/skills/template-creator"
       ],
       "id": "726de4aeac822a94",
       "name": "template-creator",
@@ -5815,9 +5815,9 @@
       "skillSHA256": "f1d14fd2847a2e879611a8b8f872f5dc4676a0607958d015274d2dc61e812deb"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/.system/imagegen",
+      "path": "/Users/USER/.codex/skills/.system/imagegen",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/.system/imagegen"
+        "/Users/USER/.codex/skills/.system/imagegen"
       ],
       "id": "d7542c15cbc32f7e",
       "name": "imagegen",
@@ -5932,9 +5932,9 @@
       "skillSHA256": "681ddb4ad6d06a2acc78a3535b583f8d0c1ea800ecda3d56370d3310fd2cd4ba"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/.system/openai-docs",
+      "path": "/Users/USER/.codex/skills/.system/openai-docs",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/.system/openai-docs"
+        "/Users/USER/.codex/skills/.system/openai-docs"
       ],
       "id": "0e4c042981f5b548",
       "name": "openai-docs",
@@ -5964,9 +5964,9 @@
       "skillSHA256": "aa6829e21df2223167c85d2e49b6337a7345c84c1033f1ec10182c7882b36d45"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/.system/review-agent",
+      "path": "/Users/USER/.codex/skills/.system/review-agent",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/.system/review-agent"
+        "/Users/USER/.codex/skills/.system/review-agent"
       ],
       "id": "f20d8eccfb7fa0b1",
       "name": "review-agent",
@@ -5984,9 +5984,9 @@
       "skillSHA256": "07079efd0dc76f05fade424e5dfb048dce1de2df7626e1a4f56292a4f3f92228"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/.system/skill-creator",
+      "path": "/Users/USER/.codex/skills/.system/skill-creator",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/.system/skill-creator"
+        "/Users/USER/.codex/skills/.system/skill-creator"
       ],
       "id": "2a9cef905a396572",
       "name": "skill-creator",
@@ -6052,9 +6052,9 @@
       "skillSHA256": "6656e54755638e8efcf275a472b9672eaa8a9a1b9e59dc210e275b03b59e1e66"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/.system/skill-installer",
+      "path": "/Users/USER/.codex/skills/.system/skill-installer",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/.system/skill-installer"
+        "/Users/USER/.codex/skills/.system/skill-installer"
       ],
       "id": "7169456d502a8ffd",
       "name": "skill-installer",
@@ -6109,9 +6109,9 @@
       "skillSHA256": "d68b77e5bbb34dedab89d134da52855f140fc4b4299b80104f534e3b9e98f8ee"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/anthropic-frontend-design",
+      "path": "/Users/USER/.codex/skills/anthropic-frontend-design",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/anthropic-frontend-design"
+        "/Users/USER/.codex/skills/anthropic-frontend-design"
       ],
       "id": "a58d70124ef02e98",
       "name": "frontend-design",
@@ -6143,9 +6143,9 @@
       "skillSHA256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/better-accessibility",
+      "path": "/Users/USER/.codex/skills/better-accessibility",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/better-accessibility"
+        "/Users/USER/.codex/skills/better-accessibility"
       ],
       "id": "1e8bebf8aeea7754",
       "name": "better-accessibility",
@@ -6163,9 +6163,9 @@
       "skillSHA256": "df0cafe0e75a08548cf46a2a430f46c198e7e0ee9d46bdf7884c2afefb44b70e"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/better-colors",
+      "path": "/Users/USER/.codex/skills/better-colors",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/better-colors"
+        "/Users/USER/.codex/skills/better-colors"
       ],
       "id": "bb5254a4c0a10622",
       "name": "better-colors",
@@ -6195,9 +6195,9 @@
       "skillSHA256": "e74f1c413a4094dc2a73fb0baa0da2241465e01d593b0257ba995500df9b0068"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/better-interface",
+      "path": "/Users/USER/.codex/skills/better-interface",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/better-interface"
+        "/Users/USER/.codex/skills/better-interface"
       ],
       "id": "f764f2cf58d1c5c8",
       "name": "better-interface",
@@ -6228,9 +6228,9 @@
       "skillSHA256": "23416fef4d08e0417927b6eb6763b7b08ed832451abfb9e26ea699262a28abcb"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/better-typography",
+      "path": "/Users/USER/.codex/skills/better-typography",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/better-typography"
+        "/Users/USER/.codex/skills/better-typography"
       ],
       "id": "d5de6cb8bf7f3af5",
       "name": "better-typography",
@@ -6248,9 +6248,9 @@
       "skillSHA256": "e60ca6467ba60e68f95ed2d2cfa35f2a850d96ef2a0c0d3fcfcfd9510e51f184"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/better-ui",
+      "path": "/Users/USER/.codex/skills/better-ui",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/better-ui"
+        "/Users/USER/.codex/skills/better-ui"
       ],
       "id": "5caff242d595717f",
       "name": "better-ui",
@@ -6268,9 +6268,9 @@
       "skillSHA256": "fb9807bb5c59a3ca9d4a27b25f56b36e5596251d280fb30c4b7f2ff8b6f4fe2d"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/break",
+      "path": "/Users/USER/.codex/skills/break",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/break"
+        "/Users/USER/.codex/skills/break"
       ],
       "id": "842098913b5b270f",
       "name": "break",
@@ -6301,9 +6301,9 @@
       "skillSHA256": "6b231897f10477fe2a9d335b457e53c670b07a8291a08b5d8dad3981b658b9d0"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/deep-code-review",
+      "path": "/Users/USER/.codex/skills/deep-code-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/deep-code-review"
+        "/Users/USER/.codex/skills/deep-code-review"
       ],
       "id": "17589f90b500fff8",
       "name": "deep-code-review",
@@ -6321,9 +6321,9 @@
       "skillSHA256": "595de77d776e8836a54f72ba40c02717a85ec07f9fc8310ce2a65b0e42ec0f84"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/emil-animate",
+      "path": "/Users/USER/.codex/skills/emil-animate",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/emil-animate"
+        "/Users/USER/.codex/skills/emil-animate"
       ],
       "id": "30426ec6c2c8d6ee",
       "name": "animate",
@@ -6341,9 +6341,9 @@
       "skillSHA256": "b8ede161270458e6ae2e45e8a1985373515d4c63de5568ddb0f9012d7634356c"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/emil-animation-performance",
+      "path": "/Users/USER/.codex/skills/emil-animation-performance",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/emil-animation-performance"
+        "/Users/USER/.codex/skills/emil-animation-performance"
       ],
       "id": "1f6a328cd9a09712",
       "name": "animation-performance",
@@ -6361,9 +6361,9 @@
       "skillSHA256": "ceb9dd3fe912615830f725a0120ccf8d012d15a6218001a5cd6c15d38e39a957"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/emil-design-eng",
+      "path": "/Users/USER/.codex/skills/emil-design-eng",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/emil-design-eng"
+        "/Users/USER/.codex/skills/emil-design-eng"
       ],
       "id": "42d0834c81902cbb",
       "name": "emil-design-eng",
@@ -6381,9 +6381,9 @@
       "skillSHA256": "ffbe68e6007fb42cb8149f089b400a1ca007d59ba23e8948e2be4476f3175939"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/emil-review-animations",
+      "path": "/Users/USER/.codex/skills/emil-review-animations",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/emil-review-animations"
+        "/Users/USER/.codex/skills/emil-review-animations"
       ],
       "id": "012f47622aaa72eb",
       "name": "review-animations",
@@ -6435,9 +6435,9 @@
       "skillSHA256": "6ff590d29e436766135aa3d137be1fac2a867165c7257fc315b189361f1873af"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/impeccable",
+      "path": "/Users/USER/.codex/skills/impeccable",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/impeccable"
+        "/Users/USER/.codex/skills/impeccable"
       ],
       "id": "f1f7bd4ae5ec6925",
       "name": "impeccable",
@@ -7067,9 +7067,9 @@
       "skillSHA256": "5fb0d412928c03e62d2536adfd878ad6aad6f9ce343956aa4f7164da06da3459"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/interface-review",
+      "path": "/Users/USER/.codex/skills/interface-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/interface-review"
+        "/Users/USER/.codex/skills/interface-review"
       ],
       "id": "f24b779a6ec5f114",
       "name": "interface-review",
@@ -7087,9 +7087,9 @@
       "skillSHA256": "8977988d63d7c17b8b0cd334ebd722d4e2dff00af0f152de2bc6f100d13d59ce"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/job-search-os",
+      "path": "/Users/USER/.codex/skills/job-search-os",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/job-search-os"
+        "/Users/USER/.codex/skills/job-search-os"
       ],
       "id": "3eea9597632871ba",
       "name": "job-search-os",
@@ -8271,9 +8271,9 @@
       "skillSHA256": "301ffa262cf21756a1f6f2693eb7d8216eca7e281feebee6068818fbeb600afc"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/minimalist-ui",
+      "path": "/Users/USER/.codex/skills/minimalist-ui",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/minimalist-ui"
+        "/Users/USER/.codex/skills/minimalist-ui"
       ],
       "id": "68132ec2ce37c780",
       "name": "minimalist-ui",
@@ -8291,9 +8291,9 @@
       "skillSHA256": "769ab38eed137bb22c7c09ee08ebb628e9acf3ad37f138d43f772e3af83933e4"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/playwright",
+      "path": "/Users/USER/.codex/skills/playwright",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/playwright"
+        "/Users/USER/.codex/skills/playwright"
       ],
       "id": "1343f8b4a97bc487",
       "name": "playwright",
@@ -8357,9 +8357,9 @@
       "skillSHA256": "0ffaabcc8e0990627c4725f18bf1c7955534a796c1c199e872909de2013ce6a8"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/taste-skill",
+      "path": "/Users/USER/.codex/skills/taste-skill",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/taste-skill"
+        "/Users/USER/.codex/skills/taste-skill"
       ],
       "id": "ab6216768602a7d5",
       "name": "design-taste-frontend",
@@ -9262,9 +9262,9 @@
       "skillSHA256": "ee847084e58f5a81a46120912be9cd15f083570a6ca8f3d1a30372a720633043"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/ui-skills-reviewer",
+      "path": "/Users/USER/.codex/skills/ui-skills-reviewer",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/ui-skills-reviewer"
+        "/Users/USER/.codex/skills/ui-skills-reviewer"
       ],
       "id": "4291357df4f72648",
       "name": "baseline-ui",
@@ -9295,9 +9295,9 @@
       "skillSHA256": "fea3322f36d58fdafafce2aef56e4556dd2ac7b20876b7dff7d8be7f25fa597f"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/variant",
+      "path": "/Users/USER/.codex/skills/variant",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/variant"
+        "/Users/USER/.codex/skills/variant"
       ],
       "id": "2a6e033a446c1a9c",
       "name": "variant",
@@ -9315,9 +9315,9 @@
       "skillSHA256": "2d8eef43768e01d7fcec5ec2fd56dcfc453904b31a23fe8ea53170eb828d24ea"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/verified-job-scout",
+      "path": "/Users/USER/.codex/skills/verified-job-scout",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/verified-job-scout"
+        "/Users/USER/.codex/skills/verified-job-scout"
       ],
       "id": "1b25f50130ad2b15",
       "name": "verified-job-scout",
@@ -9347,9 +9347,9 @@
       "skillSHA256": "7a27680038e507a59155b1ae4dc43390c348e7bd0a84ebc09e5b824b2b6624e4"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/web-design-guidelines",
+      "path": "/Users/USER/.codex/skills/web-design-guidelines",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/web-design-guidelines"
+        "/Users/USER/.codex/skills/web-design-guidelines"
       ],
       "id": "82a695c725e1ef09",
       "name": "web-design-guidelines",
@@ -9367,9 +9367,9 @@
       "skillSHA256": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/webapp-testing",
+      "path": "/Users/USER/.codex/skills/webapp-testing",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/webapp-testing"
+        "/Users/USER/.codex/skills/webapp-testing"
       ],
       "id": "6addb814b9dd7631",
       "name": "webapp-testing",
@@ -9437,9 +9437,9 @@
       "skillSHA256": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2"
     },
     {
-      "path": "/Users/jeshwanthsingh/.codex/skills/workflow-orchestration",
+      "path": "/Users/USER/.codex/skills/workflow-orchestration",
       "aliases": [
-        "/Users/jeshwanthsingh/.codex/skills/workflow-orchestration"
+        "/Users/USER/.codex/skills/workflow-orchestration"
       ],
       "id": "80398cbce3175e80",
       "name": "workflow-orchestration",
@@ -9482,10 +9482,10 @@
       "skillSHA256": "a5e470040e7960af1b23b1b8a9aa397d4cc1a282ebc1ff71743e82505c46732c"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/advisor-mode",
+      "path": "/Users/USER/Projects/codex-kit/skills/advisor-mode",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/advisor-mode",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/advisor-mode"
+        "/Users/USER/.agents/skills/advisor-mode",
+        "/Users/USER/Projects/codex-kit/skills/advisor-mode"
       ],
       "id": "dbe4a500a95a7f8e",
       "name": "advisor-mode",
@@ -9503,10 +9503,10 @@
       "skillSHA256": "8995bb32bd69e23dd2261ab9ffd682a80ba3f3688d1cfb7a7de5b51855996c15"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/architecture-review",
+      "path": "/Users/USER/Projects/codex-kit/skills/architecture-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/architecture-review",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/architecture-review"
+        "/Users/USER/.agents/skills/architecture-review",
+        "/Users/USER/Projects/codex-kit/skills/architecture-review"
       ],
       "id": "bcf67a731cc7d778",
       "name": "architecture-review",
@@ -9524,10 +9524,10 @@
       "skillSHA256": "4c570b0dcda244280572847792496094d0eb23fd2cfd8606b59e3166224999a5"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/code-review",
+      "path": "/Users/USER/Projects/codex-kit/skills/code-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/code-review",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/code-review"
+        "/Users/USER/.agents/skills/code-review",
+        "/Users/USER/Projects/codex-kit/skills/code-review"
       ],
       "id": "f6420045b326205d",
       "name": "code-review",
@@ -9545,10 +9545,10 @@
       "skillSHA256": "e3a036bbf01b79164778af4096f8033d30cbe791e5a1a9b8a41c4c94aa58b1b8"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/debug-loop",
+      "path": "/Users/USER/Projects/codex-kit/skills/debug-loop",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/debug-loop",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/debug-loop"
+        "/Users/USER/.agents/skills/debug-loop",
+        "/Users/USER/Projects/codex-kit/skills/debug-loop"
       ],
       "id": "b05497af365ddfca",
       "name": "debug-loop",
@@ -9566,10 +9566,10 @@
       "skillSHA256": "f7d4b71e454f76f2754d2caec6693792a5cddb420435c34be93db4f257ab808d"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/graphify",
+      "path": "/Users/USER/Projects/codex-kit/skills/graphify",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/graphify",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/graphify"
+        "/Users/USER/.agents/skills/graphify",
+        "/Users/USER/Projects/codex-kit/skills/graphify"
       ],
       "id": "870f1d55d27f4c6b",
       "name": "graphify",
@@ -9649,10 +9649,10 @@
       "skillSHA256": "545bff01c9d140c410b09fa14a378e64b98be448f8905b75754d2efe14c4209e"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/performance-review",
+      "path": "/Users/USER/Projects/codex-kit/skills/performance-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/performance-review",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/performance-review"
+        "/Users/USER/.agents/skills/performance-review",
+        "/Users/USER/Projects/codex-kit/skills/performance-review"
       ],
       "id": "83fa1a8b06645c81",
       "name": "performance-review",
@@ -9670,10 +9670,10 @@
       "skillSHA256": "857b5e840d5d05aee764da363682edabad97932687421b0c1911ce54828eba6c"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/planning",
+      "path": "/Users/USER/Projects/codex-kit/skills/planning",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/planning",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/planning"
+        "/Users/USER/.agents/skills/planning",
+        "/Users/USER/Projects/codex-kit/skills/planning"
       ],
       "id": "a9b5aa4a7ee19fea",
       "name": "planning",
@@ -9691,10 +9691,10 @@
       "skillSHA256": "44b01f0b573c3f18abee08c58503f56085ebf6077a7e7768107b45d7ef5672d1"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/playwright-cli",
+      "path": "/Users/USER/Projects/codex-kit/skills/playwright-cli",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/playwright-cli",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/playwright-cli"
+        "/Users/USER/.agents/skills/playwright-cli",
+        "/Users/USER/Projects/codex-kit/skills/playwright-cli"
       ],
       "id": "f30f230d97711081",
       "name": "playwright-cli",
@@ -9925,10 +9925,10 @@
       "skillSHA256": "9bba755285a4c9ad72a4a41b9c7baef6fb516d329c0b44ed0573715f4479b906"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-context",
+      "path": "/Users/USER/Projects/codex-kit/skills/proof-lab-context",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/proof-lab-context",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-context"
+        "/Users/USER/.agents/skills/proof-lab-context",
+        "/Users/USER/Projects/codex-kit/skills/proof-lab-context"
       ],
       "id": "7d3ad7d41fcec06e",
       "name": "proof-lab-context",
@@ -9959,10 +9959,10 @@
       "skillSHA256": "0a900304cda143d8a785f81c79980bdeb189da9975fb12a88de2928058116a99"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-recall",
+      "path": "/Users/USER/Projects/codex-kit/skills/proof-lab-recall",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/proof-lab-recall",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/proof-lab-recall"
+        "/Users/USER/.agents/skills/proof-lab-recall",
+        "/Users/USER/Projects/codex-kit/skills/proof-lab-recall"
       ],
       "id": "836cebfe26a17821",
       "name": "proof-lab-recall",
@@ -9980,10 +9980,10 @@
       "skillSHA256": "d1e0139d74f647f11e9ebdf98af815738b2c0d51ee02dcfd6532748c6c3a3438"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/qa-test-design",
+      "path": "/Users/USER/Projects/codex-kit/skills/qa-test-design",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/qa-test-design",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/qa-test-design"
+        "/Users/USER/.agents/skills/qa-test-design",
+        "/Users/USER/Projects/codex-kit/skills/qa-test-design"
       ],
       "id": "998c520df5b371ed",
       "name": "qa-test-design",
@@ -10001,10 +10001,10 @@
       "skillSHA256": "d814f1ae6666b561ec78a84e8eabbd55e2cfb42bf45142fa72decd06c305605a"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/release-check",
+      "path": "/Users/USER/Projects/codex-kit/skills/release-check",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/release-check",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/release-check"
+        "/Users/USER/.agents/skills/release-check",
+        "/Users/USER/Projects/codex-kit/skills/release-check"
       ],
       "id": "eeb7a50a9fdb8ea5",
       "name": "release-check",
@@ -10022,10 +10022,10 @@
       "skillSHA256": "1d634acf8e0b61d18e221f646807b29d7667705f9e93f3db17e7be992fd67ac3"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/security-review",
+      "path": "/Users/USER/Projects/codex-kit/skills/security-review",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/security-review",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/security-review"
+        "/Users/USER/.agents/skills/security-review",
+        "/Users/USER/Projects/codex-kit/skills/security-review"
       ],
       "id": "3c0fdfd9880572e0",
       "name": "security-review",
@@ -10043,10 +10043,10 @@
       "skillSHA256": "b58568264e4416c904ab593d767538e44537e8542b1194b4dabd99cb037493be"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/codex-kit/skills/token-discipline",
+      "path": "/Users/USER/Projects/codex-kit/skills/token-discipline",
       "aliases": [
-        "/Users/jeshwanthsingh/.agents/skills/token-discipline",
-        "/Users/jeshwanthsingh/Projects/codex-kit/skills/token-discipline"
+        "/Users/USER/.agents/skills/token-discipline",
+        "/Users/USER/Projects/codex-kit/skills/token-discipline"
       ],
       "id": "2d3c33e2f02bf967",
       "name": "token-discipline",

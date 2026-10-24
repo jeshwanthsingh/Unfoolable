@@ -18,15 +18,15 @@
     "Removal clears displayed work and cannot log back in"
   ],
   "screenshots": [
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/unpaired.png",
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/expired-qr.png",
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/waiting-for-mac.png",
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/390-light.png",
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/390-dark.png",
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/settings.png",
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/proof.png",
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/offline-mac.png",
-    "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/phone1/webkit/removed-device.png"
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/unpaired.png",
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/expired-qr.png",
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/waiting-for-mac.png",
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/390-light.png",
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/390-dark.png",
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/settings.png",
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/proof.png",
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/offline-mac.png",
+    "/Users/USER/Projects/ai-lab/command-center/artifacts/phone1/webkit/removed-device.png"
   ],
   "completed": true
 }

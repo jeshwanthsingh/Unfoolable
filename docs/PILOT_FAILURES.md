@@ -8,4 +8,4 @@ T5 E5: scope/conventions/no unrelated refactoring; a UI snapshot cannot establis
 
 R4 E5: allowed paths/conventions/refactoring review. R4 E6: argument/configuration/persisted-state error handling, outside the selected Candidate slice. Both were UNSUPPORTED in the frozen recipe and blocked a normal result; R4 E1–E4 passed. Verify-only labels unautomated claims explicitly and scores the executable claims. It never uses a --help/disclaimer assertion as evidence for unobserved behavior.
 
-Evidence is retained under /Users/jeshwanthsingh/.bench-private/runs/{A2,R1,T5,R4}/C/automatic and benchmark/runs/<task>/C/cc-data. Historical pilot artifacts and approved benchmark graders have not been rewritten.
+Evidence is retained under /Users/USER/.bench-private/runs/{A2,R1,T5,R4}/C/automatic and benchmark/runs/<task>/C/cc-data. Historical pilot artifacts and approved benchmark graders have not been rewritten.

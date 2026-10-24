@@ -20,7 +20,7 @@ test at tests/ui4-words.test.ts:2:1
   + 'checked'
   - 'accepted'
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-words.test.ts:2:181)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-words.test.ts:2:181)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.start (node:internal/test_runner/test:1262:17)
@@ -35,7 +35,7 @@ test at tests/ui4-words.test.ts:2:1
 
 test at tests/ui4-words.test.ts:3:1
 ✖ short titles keep whole words, eight word plain titles are persisted separately in events (0.671167ms)
-  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/jeshwanthsingh/Projects/ai-lab/command-center/packages/shared/display-title.ts' imported from /Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-words.test.ts
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/USER/Projects/ai-lab/command-center/packages/shared/display-title.ts' imported from /Users/USER/Projects/ai-lab/command-center/tests/ui4-words.test.ts
       at finalizeResolution (node:internal/modules/esm/resolve:272:11)
       at moduleResolve (node:internal/modules/esm/resolve:879:10)
       at defaultResolve (node:internal/modules/esm/resolve:1006:11)
@@ -47,7 +47,7 @@ test at tests/ui4-words.test.ts:3:1
       at node:internal/modules/esm/loader:636:32
       at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
     code: 'ERR_MODULE_NOT_FOUND',
-    url: 'file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/packages/shared/display-title.ts'
+    url: 'file:///Users/USER/Projects/ai-lab/command-center/packages/shared/display-title.ts'
   }
 
 test at tests/ui4-words.test.ts:4:1
@@ -110,7 +110,7 @@ test at tests/ui4-words.test.ts:4:1
     ' return <li key={ticket.id} className="unfool-task" data-status={state.mark}><Hallmark mark={state.mark} event={detail?latestCheckEvent(detail.events):0} sound={sound} ready={detail!==undefined} progress={detail?.events.at(-1)?.sequence??0}/><div className="unfool-task-body"><h2>{ticket.title}</h2><p className="unfool-status">{state.sentence}</p>\n' +
     ` {detail&&<div className="unfool-actions">{review&&(detail.evidenceStale&&detail.recheckAvailable?<button disabled={busy||offline} onClick={()=>ticketAction(detail,'recheck')}>Try`... 1195 more characters
   
-      at TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/ui4-words.test.ts:4:148)
+      at TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/ui4-words.test.ts:4:148)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1402:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:974:18)

@@ -107,11 +107,11 @@
   },
   "limits": "Review tripwire is a heuristic human-review gate, not observation authenticity. Historical zero-project-tests was deletion of a Candidate file; this run includes actual zero-collected native judge.",
   "identity": {
-    "repository": "/Users/jeshwanthsingh/Projects/ai-lab/command-center",
+    "repository": "/Users/USER/Projects/ai-lab/command-center",
     "repositoryHead": "5203e9515a3387cf8f93cbc20a6311388f13076e",
     "baseHead": "99558f3aa1e0bdebd3662d57b109b34d1b19e9a1",
     "baseTree": "200da0e759436a9828f6f6b4a0a75b356aa47b1c",
-    "patchPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/breakout-11/process-isolated/observation-pipe-forgery.patch",
+    "patchPath": "/Users/USER/Projects/ai-lab/command-center/artifacts/breakout-11/process-isolated/observation-pipe-forgery.patch",
     "patchSHA256": "810ffa9d1ef9495d62577014954e2b56273331c3bcbdb1157e8df6d65847d676",
     "baseModuleSHA256": "bd56017c1409fa8342f2ca489bd7412a7a1578bc8dbec2088c8beb6cb7002031",
     "forgedModuleSHA256": "86b984ff2457be3b6c985c1b7404f49e5e798cac4fd9591816be3fa79cf99490",

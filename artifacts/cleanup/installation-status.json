@@ -9,8 +9,8 @@
   },
   "networkSocketsListed": false,
   "destination": "local file replica only",
-  "backupPath": "/Users/jeshwanthsingh/UnfoolableBackups",
-  "physicalBackupPath": "/Users/jeshwanthsingh/.config/unfoolable/backups",
+  "backupPath": "/Users/USER/UnfoolableBackups",
+  "physicalBackupPath": "/Users/USER/.config/unfoolable/backups",
   "health": {
     "status": "ok",
     "version": "0.0.1",

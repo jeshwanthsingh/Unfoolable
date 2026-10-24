@@ -79,7 +79,7 @@
         "verificationId": "67762319-e048-48a6-b677-0efc4eb2e965",
         "evidenceHash": "ba8decb30e5bbe9893bcc3c31038ddad78352eb3e9873086f54234a5af849668",
         "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/09ce1126-0652-4285-8617-11add2a486bc/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/09ce1126-0652-4285-8617-11add2a486bc/bound-result.json",
         "playbookResultHash": "dda720bbaec817de082cdc75e4fbc9da9056030e0ce3102c6bd27c6c95f1ba5c"
       }
     },
@@ -99,7 +99,7 @@
         "verificationId": "e98c623a-2851-44bb-9b30-a86ba13521c2",
         "evidenceHash": "806cffe1496960ed4885099d2ee1dd8348b9212f45f2d00e2ad8f495f07ddbb4",
         "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/c79385f1-8fd4-4b73-889c-26cd83df4669/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/c79385f1-8fd4-4b73-889c-26cd83df4669/bound-result.json",
         "playbookResultHash": "c775578eefe8c4f9dc9169998cc050414bcf12e255b301d83d25a348662c2eb1"
       }
     },
@@ -119,7 +119,7 @@
         "verificationId": "40ec0954-c7da-4ba9-a1d3-1caeae3311f2",
         "evidenceHash": "e53c7760b660b036590b4facfcf40ac0b4668b81ba5e3afb9d29aee7a2bf74b9",
         "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/74191a71-a09f-42cf-8019-c58cca68ca46/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/74191a71-a09f-42cf-8019-c58cca68ca46/bound-result.json",
         "playbookResultHash": "6d113f238262b73850cb2dcadb97fe697eb436a56a9b486472c362eba2c7914c"
       }
     },
@@ -136,7 +136,7 @@
           "Project playbook checks are regression guards; new intent is not independently proved."
         ],
         "playbookHash": "ff4de1504a7a32112a28bf55f6f6dbe5b6dff37f98c0caffc8f67f811b25ef4f",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/648c6eb8-8e6f-4743-914a-9071aff4b916/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/648c6eb8-8e6f-4743-914a-9071aff4b916/bound-result.json",
         "playbookResultHash": "0725e7341e6e5034b522e21e73b03510d152f250cf4d3b3f97a95c053600e71b"
       }
     },
@@ -156,7 +156,7 @@
         "verificationId": "acadd115-7baa-4ee7-af2d-82fd062e4b9c",
         "evidenceHash": "f0283ac2d59aa1859f6a5d80d0511d0ae77b27afe9b437cd1d3ec147de9abaa1",
         "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/ceea0226-b5d7-4698-8d61-54425bb3d375/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/ceea0226-b5d7-4698-8d61-54425bb3d375/bound-result.json",
         "playbookResultHash": "19713f0f1aa137f728f094edd1d7b46d2c0806189ffbd9dee03b5f431d5e2c3a"
       }
     },
@@ -188,7 +188,7 @@
         "verificationId": "fda9608b-9fd9-45e2-b83c-06dc1d8bd359",
         "evidenceHash": "f4b0925368136a40d463d41246dab6c6076cb5982a0822adb1a0007c33a4c577",
         "playbookHash": "12ce997a18dece8699f9959f2fc432086c5d213a159eb8f663695d5b64369133",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a2baa20f-857b-4391-a941-8c9160d26d60/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a2baa20f-857b-4391-a941-8c9160d26d60/bound-result.json",
         "playbookResultHash": "4f5f6c2ca346f942dd244bbff3d0a92d31ab08edacd48d5c0eae785ee194f998"
       }
     },
@@ -274,7 +274,7 @@
           "durationMs": 4543.81695800001
         },
         "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/4f6ffb30-9687-4731-a511-774c78ffe614/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/4f6ffb30-9687-4731-a511-774c78ffe614/bound-result.json",
         "playbookResultHash": "aecc27f4e697ba0c120b732f6f4c6b002fa0dd642765237515a490c7bdaeb265"
       }
     },
@@ -360,7 +360,7 @@
           "durationMs": 3868.162875000009
         },
         "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a7068b9d-e8fb-43b3-8a90-01a638daeee2/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/a7068b9d-e8fb-43b3-8a90-01a638daeee2/bound-result.json",
         "playbookResultHash": "858d1834b771ce06852fd6eecb065b2d516e16268463ad9fda021dbda7f83834"
       }
     },
@@ -428,7 +428,7 @@
             "coveredLines": 1,
             "percent": 100,
             "reason": null,
-            "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/verify-only/24edeba3-38b9-4152-b372-0ef8d99395c8/test-writer/attempt-0-candidate-0/execution/measured-coverage.json",
+            "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/verify-only/24edeba3-38b9-4152-b372-0ef8d99395c8/test-writer/attempt-0-candidate-0/execution/measured-coverage.json",
             "tool": "coverage.py",
             "unmeasuredPaths": []
           },
@@ -438,7 +438,7 @@
             "generated": 0,
             "killed": 0,
             "reason": "Mutation generation failed: ",
-            "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/verify-only/24edeba3-38b9-4152-b372-0ef8d99395c8/test-writer/attempt-0-mutation/mutations.json",
+            "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/verify-only/24edeba3-38b9-4152-b372-0ef8d99395c8/test-writer/attempt-0-mutation/mutations.json",
             "sampled": false,
             "score": null,
             "survived": 0,
@@ -532,7 +532,7 @@
           "durationMs": 3261.8034170000174
         },
         "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/59573087-9328-4bd1-914d-10a50a5f102a/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/59573087-9328-4bd1-914d-10a50a5f102a/bound-result.json",
         "playbookResultHash": "50f69ae84f0910368772597c98187fc02e25bff614e9615fb6b8ebb22c1f5347"
       }
     },
@@ -647,7 +647,7 @@
           "durationMs": 16.44804099999601
         },
         "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/92237a41-1d75-4ab0-b049-83eb84d243f2/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/92237a41-1d75-4ab0-b049-83eb84d243f2/bound-result.json",
         "playbookResultHash": "1c06b4b9cd39866dc25f182531eed0ea16d6400623873fc743c8d68d007581b0"
       }
     },
@@ -768,7 +768,7 @@
           "durationMs": 202.10879099997692
         },
         "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/3b0d9071-c462-4fa7-bf3d-2c5f347bdf4a/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/3b0d9071-c462-4fa7-bf3d-2c5f347bdf4a/bound-result.json",
         "playbookResultHash": "14e816d8c78cf636d893f3d5b26e5b0616bf3ae9a33a0d397abc8390a507e187"
       }
     },
@@ -889,7 +889,7 @@
           "durationMs": 871.7080000000133
         },
         "playbookHash": "a584a9847f6493a8021fe95997f50dbd98ea1ddf7c0e3f2cd06ed3f3affafb37",
-        "playbookResultPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/5ed699fb-87fd-4ed0-b90f-ae1ef1f8b726/bound-result.json",
+        "playbookResultPath": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/playbook-checks/candidates/5ed699fb-87fd-4ed0-b90f-ae1ef1f8b726/bound-result.json",
         "playbookResultHash": "e2a006aaac7a2abcb785763e7b3390060c854a8fa895e29f3b0c7378cec17037"
       }
     }

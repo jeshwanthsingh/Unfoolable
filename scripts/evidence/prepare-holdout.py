@@ -1,6 +1,6 @@
 import pathlib,subprocess,os,json,hashlib
 root=pathlib.Path('.work/evidence/data/holdout').resolve();root.mkdir(parents=True,mode=0o700)
-repo=root/'repo'; source='/Users/jeshwanthsingh/Projects/Therapy2'
+repo=root/'repo'; source=str(pathlib.Path.home()/'Projects/Therapy2')
 env={**os.environ,'GIT_CONFIG_GLOBAL':'/dev/null','GIT_CONFIG_NOSYSTEM':'1','GIT_AUTHOR_NAME':'CC historical holdout','GIT_AUTHOR_EMAIL':'holdout@localhost','GIT_COMMITTER_NAME':'CC historical holdout','GIT_COMMITTER_EMAIL':'holdout@localhost'}
 def git(*args,index=None,input=None):
  e=dict(env)

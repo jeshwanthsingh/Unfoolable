@@ -32,43 +32,43 @@
   "candidateCanaryAbsent": true,
   "records": [
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/base-0-E1.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/base-0-E1.json",
       "hash": "be98c800227a753976094e156049f55b66d3c58570e0a748aab47264bfb21fdd"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/base-0-E1/native-E1-b1cbbb9d-193d-4e4e-8d5e-85ff08805816/observations.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/base-0-E1/native-E1-b1cbbb9d-193d-4e4e-8d5e-85ff08805816/observations.json",
       "hash": "a22b2b46cb187c0b5abcb5f8e4a6b9381676da03998d37db16879c36a224d0f8"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/candidate-E1.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/candidate-E1.json",
       "hash": "9627d76a4fe57d48f42d454fec609cf17efeb91c1825ae7d7e7f53f967ce84db"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/candidate-E1/native-E1-747c1a47-2220-4184-8a29-d03d0b693dcd/observations.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/candidate-E1/native-E1-747c1a47-2220-4184-8a29-d03d0b693dcd/observations.json",
       "hash": "759f9ee04f32c4db5e260ffd2de2084fac1766930c6c6e6cdc07481b0ff43e29"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/base-input.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/base-input.json",
       "hash": "94ed56cc73f6ddd67d9e589bfc2cd770a5b2b64c3c5f7acc6729a49a569d8879"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/author-proposal.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/author-proposal.json",
       "hash": "e4af30eb709dcecf51cb2c1d8e58e2d804c4b6e65d2d13a9c7dbb4bb3f13efc0"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/cost.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/cost.json",
       "hash": "db9de225a74e062ee7e93d5666f26d9342d79f97974ee7cbef0b92b113c08bfe"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/ownership.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/ownership.json",
       "hash": "b74e57590941e8c41873d6cfd2bed0bebc98df35eaa7f429e55fbfd181dfb720"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/cleanup.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/author/cleanup.json",
       "hash": "648064dc0c62d7a06a6259e995f189531f922c74ef06e43ded5eb4d6505049dd"
     },
     {
-      "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/report.json",
+      "path": "/Users/USER/Projects/ai-lab/command-center/.work/test-writer/native-4da2bf74-683b-4d80-a96e-23b72c0d38b8/writer/report.json",
       "hash": "6c96836cf651f3242051a12871eea74dedc63eced9232070cf7e28d29eb1caff"
     }
   ]

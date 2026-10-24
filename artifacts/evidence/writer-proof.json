@@ -39,7 +39,7 @@
     "percent": 100,
     "unmeasuredPaths": [],
     "reason": null,
-    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/writer-proof/attempt-0-candidate-0/execution/measured-coverage.json"
+    "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/writer-proof/attempt-0-candidate-0/execution/measured-coverage.json"
   },
   "mutation": {
     "tool": "mutmut",
@@ -52,6 +52,6 @@
     "sampled": false,
     "survivorLine": null,
     "reason": null,
-    "reportPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/evidence/writer-proof/attempt-0-mutation/mutations.json"
+    "reportPath": "/Users/USER/Projects/ai-lab/command-center/.work/evidence/writer-proof/attempt-0-mutation/mutations.json"
   }
 }

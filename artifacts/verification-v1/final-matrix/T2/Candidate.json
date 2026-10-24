@@ -10,8 +10,8 @@
     "candidateTree": "607ec32c6cf6d0a2f7a2abdd218f9c6168ed9ea6",
     "intent": "Ensure the latest appointment-list request wins when filters or tabs change before earlier requests finish.\n\nDone means:\nAcross deterministic out-of-order success/failure cases, only the newest request can replace appointment data or conclude loading. An older success cannot resurrect data after the latest request fails. Ordinary single-request behavior and existing frontend tests remain intact.\n\nAllowed changed paths: frontend/**\n",
     "projectId": "v1-Therapy2",
-    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
-    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
+    "repoPath": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
+    "repoRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
     "runnerDirectory": "frontend",
     "taskChecks": false
   },
@@ -23,12 +23,12 @@
       "assurance": "IN-PROCESS",
       "baseHead": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
       "componentPath": null,
-      "dependencyRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo/frontend/node_modules",
+      "dependencyRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo/frontend/node_modules",
       "evaluationSignature": "3045a620ec02eab9cbb79f216a8c1aaa3e09c4b54b5aabb24c62e9a7a393326b",
       "id": "dab43f7a-d2ad-41df-8e29-abacb64f527a",
       "runner": "vitest",
       "runnerDirectory": "frontend",
-      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
+      "sourceRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
       "tests": [],
       "version": "process-oracle-v1"
     }
@@ -95,36 +95,36 @@
     "evidence": {
       "candidateExport": {
         "hash": "0ec5f14ccf73eadb4a580343b701606f28867d07712be34414772d55c11f46fb",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/candidate-export",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/candidate-export",
         "sourceTree": "1e3c2174aa880208a600301e796d78a007f0cbf4"
       },
       "executedChecks": [
         {
           "hash": "4b738e92e5fab0c733e6986008ed7dd091063e1aee1df4e30ca92b0f8542699b",
           "id": "protected-existing-tests",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/protected-existing-tests.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/protected-existing-tests.json"
         },
         {
           "hash": "74e87052784c06a18b051e29543c918791fd68322a4549d6e0b0da8b0f2ebf63",
           "id": "recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E1",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E1.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E1.json"
         },
         {
           "hash": "d08f7e7e70033f51449b6a0123802de381ee0f1759776a23143e82c3ea07e634",
           "id": "recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E2",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E2.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E2.json"
         },
         {
           "hash": "08a1693f1cb48476e1b502a93db8400c40b59f870bb170aa913be95fa4d83840",
           "id": "candidate-tests-non-authoritative",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/candidate-tests-non-authoritative.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/candidate-tests-non-authoritative.json"
         }
       ],
       "executionTree": {
         "hash": "6d39efeab1567ae1c2c09ea533edaa150f7884b2303740ee2c2aad90b41cfe88",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/executed-tree",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/executed-tree",
         "trustedLinks": {
-          "frontend/node_modules": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo/frontend/node_modules"
+          "frontend/node_modules": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo/frontend/node_modules"
         }
       },
       "hash": "bf05366e48a9817253f68c291666e8bf3fae26e83cc4d9a59c6324fd704ea0b2",
@@ -132,7 +132,7 @@
       "overlay": {
         "candidateOnlyTests": [],
         "hash": "fc73c7bc7df5be01d2bc55779ef948274305f4f2fdb80621d17a8cec2a597850",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/base-test-overlay",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/base-test-overlay",
         "restored": [
           "backend/__tests__/adminRoutes.test.js",
           "backend/tests/__mocks__/otplib.js",
@@ -164,15 +164,15 @@
       "records": [
         {
           "hash": "8630d96f4e82c02d81230bdfcb8591ebedce1d9fd98f8895cbfaa898bcb257f1",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/existing-tests/native-E1-339f461b-2323-4227-9f45-f5558314972b/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/existing-tests/native-E1-339f461b-2323-4227-9f45-f5558314972b/observations.json"
         },
         {
           "hash": "bab42a985ebad2f10eefb2cde030046b09bca195646ba4e36c632b2de186ca64",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/project-recipes/native-E1-989b192a-955a-4f8d-bcbe-53520e93d447/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/project-recipes/native-E1-989b192a-955a-4f8d-bcbe-53520e93d447/observations.json"
         },
         {
           "hash": "d9586cd6b2268c92a3a54f685154e6310708ef3e07d141c7e61fcd023b2ab11b",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/project-recipes/native-E2-5fe8f825-b9a4-44a3-bbef-7b31ed2547b0/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/dab43f7a-d2ad-41df-8e29-abacb64f527a/project-recipes/native-E2-5fe8f825-b9a4-44a3-bbef-7b31ed2547b0/observations.json"
         }
       ],
       "requiredChecksHash": "62f2723dd1395ed8629b7b4906e06496b075943f087b77e89f8db1de4478908e"

@@ -31,7 +31,7 @@
       "data": {
         "candidate": {
           "commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-          "diffPath": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-seal-OAlemP/diff.patch"
+          "diffPath": "/Users/USER/Projects/ai-lab/command-center/.work/core1/tmp/cc-seal-OAlemP/diff.patch"
         }
       },
       "createdAt": "2026-10-20T18:28:18.467Z"
@@ -60,7 +60,7 @@
           }
         ],
         "verdictSnapshot": {
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/core1/tmp/cc-seal-OAlemP/verdict-facts/1f4b5d7385c4a59aedcf9890da02d56c8999bb0fe152bc2bdb4978b83050b983.json",
+          "path": "/Users/USER/Projects/ai-lab/command-center/.work/core1/tmp/cc-seal-OAlemP/verdict-facts/1f4b5d7385c4a59aedcf9890da02d56c8999bb0fe152bc2bdb4978b83050b983.json",
           "hash": "1f4b5d7385c4a59aedcf9890da02d56c8999bb0fe152bc2bdb4978b83050b983",
           "coreVersion": "verdict-core-v1"
         }

@@ -10,8 +10,8 @@
     "candidateTree": "15ef423520099f19a026c55c20d92ab017f28e7f",
     "intent": "Ensure the latest appointment-list request wins when filters or tabs change before earlier requests finish.\n\nDone means:\nAcross deterministic out-of-order success/failure cases, only the newest request can replace appointment data or conclude loading. An older success cannot resurrect data after the latest request fails. Ordinary single-request behavior and existing frontend tests remain intact.\n\nAllowed changed paths: frontend/**\n",
     "projectId": "v1-Therapy2",
-    "repoPath": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
-    "repoRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
+    "repoPath": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
+    "repoRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
     "runnerDirectory": "frontend",
     "taskChecks": false
   },
@@ -23,12 +23,12 @@
       "assurance": "IN-PROCESS",
       "baseHead": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f",
       "componentPath": null,
-      "dependencyRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo/frontend/node_modules",
+      "dependencyRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo/frontend/node_modules",
       "evaluationSignature": "3045a620ec02eab9cbb79f216a8c1aaa3e09c4b54b5aabb24c62e9a7a393326b",
       "id": "4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f",
       "runner": "vitest",
       "runnerDirectory": "frontend",
-      "sourceRoot": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
+      "sourceRoot": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo",
       "tests": [],
       "version": "process-oracle-v1"
     }
@@ -95,31 +95,31 @@
     "evidence": {
       "candidateExport": {
         "hash": "97a551542e46a2ea1526eb28b5a2b6639a2d04d0298be8a06e02b27b16cc7edf",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/candidate-export",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/candidate-export",
         "sourceTree": "1976e3766bf7145cdfaf17e874d85c82d11a5a3f"
       },
       "executedChecks": [
         {
           "hash": "e84a7fe1c8a56c87674d18177d2c86587d8f5c09d6c7dd081a70566ef51e2093",
           "id": "protected-existing-tests",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/protected-existing-tests.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/protected-existing-tests.json"
         },
         {
           "hash": "43bb43828c1483c0c06fc7ddc00caf76e36881433e4d6fac2006e7a3487eae49",
           "id": "recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E1",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E1.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E1.json"
         },
         {
           "hash": "0a15316cc4f02c00b00c66c448761ff44199bc52aba279a330e7dd4ad168c91b",
           "id": "recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E2",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E2.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/recipe-0c3dd547c1bbeb7728ffb8d26e370a7534c9be41dd1145183ceebd749d219b48-E2.json"
         }
       ],
       "executionTree": {
         "hash": "d8521a606c2188646feed0bc748337ba2fab5a694d14d89045633ac8bd615e1d",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/executed-tree",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/executed-tree",
         "trustedLinks": {
-          "frontend/node_modules": "/Users/jeshwanthsingh/Projects/ai-lab/benchmark/runs-harder/T2/A/repo/frontend/node_modules"
+          "frontend/node_modules": "/Users/USER/Projects/ai-lab/benchmark/runs-harder/T2/A/repo/frontend/node_modules"
         }
       },
       "hash": "ce8ecec1d205212c994a3aac10ab8424f833b85ea53737f1ffacf1588759b70f",
@@ -127,7 +127,7 @@
       "overlay": {
         "candidateOnlyTests": [],
         "hash": "fc73c7bc7df5be01d2bc55779ef948274305f4f2fdb80621d17a8cec2a597850",
-        "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/base-test-overlay",
+        "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/base-test-overlay",
         "restored": [
           "backend/__tests__/adminRoutes.test.js",
           "backend/tests/__mocks__/otplib.js",
@@ -159,15 +159,15 @@
       "records": [
         {
           "hash": "3540d713d588d3fd8a4044289a10161553717f8ce339a817a257508adcd13353",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/existing-tests/native-E1-07372473-b6c0-4c65-82f6-15895fd4b07a/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/existing-tests/native-E1-07372473-b6c0-4c65-82f6-15895fd4b07a/observations.json"
         },
         {
           "hash": "bab42a985ebad2f10eefb2cde030046b09bca195646ba4e36c632b2de186ca64",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/project-recipes/native-E1-42e3c3c3-c274-45c1-9f92-5cc7311e8004/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/project-recipes/native-E1-42e3c3c3-c274-45c1-9f92-5cc7311e8004/observations.json"
         },
         {
           "hash": "d9586cd6b2268c92a3a54f685154e6310708ef3e07d141c7e61fcd023b2ab11b",
-          "path": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/project-recipes/native-E2-16ec3dfc-4c1f-4515-a9cb-f28d9bf3ca13/observations.json"
+          "path": "/Users/USER/Projects/ai-lab/command-center/artifacts/verification-v1/run-data/verify-only/4af53407-5ef2-4a76-ab4f-e6eaf3d7bf5f/project-recipes/native-E2-16ec3dfc-4c1f-4515-a9cb-f28d9bf3ca13/observations.json"
         }
       ],
       "requiredChecksHash": "62f2723dd1395ed8629b7b4906e06496b075943f087b77e89f8db1de4478908e"

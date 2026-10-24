@@ -3,7 +3,7 @@
     "id": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
     "title": "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiv",
     "requestText": "Make merge-tracker-additions.mjs reject a missing or malformed destination tracker table header before writing or archiving additions.",
-    "repoPath": "/Users/jeshwanthsingh/Projects/career-ops",
+    "repoPath": "/Users/USER/Projects/career-ops",
     "baseCommit": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
     "status": "harness_error",
     "attemptCount": 2,
@@ -123,13 +123,13 @@
         "attemptId": "a8b47e15-2130-46db-95f9-3e8e21d0a8a7",
         "generation": 1,
         "owned": {
-          "gitDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo/.git/worktrees/a8b47e15-2130-46db-95f9-3e8e21d0a8a7",
+          "gitDir": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo/.git/worktrees/a8b47e15-2130-46db-95f9-3e8e21d0a8a7",
           "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
           "attemptId": "a8b47e15-2130-46db-95f9-3e8e21d0a8a7",
-          "workspace": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/worktrees/a8b47e15-2130-46db-95f9-3e8e21d0a8a7",
-          "artifactDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/attempts/a8b47e15-2130-46db-95f9-3e8e21d0a8a7",
-          "clone": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo",
-          "gitCommonDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo/.git",
+          "workspace": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/worktrees/a8b47e15-2130-46db-95f9-3e8e21d0a8a7",
+          "artifactDir": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/attempts/a8b47e15-2130-46db-95f9-3e8e21d0a8a7",
+          "clone": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo",
+          "gitCommonDir": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo/.git",
           "seed": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
           "base": "b8a3a12d492a2da472fcc923531badb0b236d7e1"
         }
@@ -153,7 +153,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:433626",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T16:58:23.491Z",
             "exitedAt": null
           }
@@ -178,7 +178,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:433626",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T16:58:23.692Z",
             "exitedAt": null
           },
@@ -188,7 +188,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:504457",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T16:58:23.692Z",
             "exitedAt": null
           }
@@ -213,7 +213,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:433626",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T16:58:23.889Z",
             "exitedAt": null
           },
@@ -223,7 +223,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:504457",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T16:58:23.889Z",
             "exitedAt": null
           },
@@ -278,7 +278,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:433626",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T16:58:24.086Z",
             "exitedAt": null
           },
@@ -288,7 +288,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:504457",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T16:58:24.086Z",
             "exitedAt": null
           },
@@ -353,7 +353,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:433626",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T16:58:24.297Z",
             "exitedAt": null
           },
@@ -363,7 +363,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:504457",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T16:58:24.297Z",
             "exitedAt": null
           },
@@ -438,7 +438,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:433626",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T16:58:25.900Z",
             "exitedAt": null
           },
@@ -448,7 +448,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:504457",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T16:58:25.900Z",
             "exitedAt": null
           },
@@ -523,7 +523,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:433626",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T16:58:25.944Z",
             "exitedAt": "2026-10-10T16:58:27.861Z"
           },
@@ -533,7 +533,7 @@
             "pgid": 27534,
             "sid": 27534,
             "birth": "darwin:1791651503:504457",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T16:58:25.944Z",
             "exitedAt": "2026-10-10T16:58:27.861Z"
           },
@@ -679,13 +679,13 @@
         "attemptId": "b0570525-2974-4e80-b3a3-5cf05150d134",
         "generation": 2,
         "owned": {
-          "gitDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo/.git/worktrees/b0570525-2974-4e80-b3a3-5cf05150d134",
+          "gitDir": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo/.git/worktrees/b0570525-2974-4e80-b3a3-5cf05150d134",
           "ticketId": "cfaaea5b-737e-4e5c-b489-cf16e14d44b8",
           "attemptId": "b0570525-2974-4e80-b3a3-5cf05150d134",
-          "workspace": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/worktrees/b0570525-2974-4e80-b3a3-5cf05150d134",
-          "artifactDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/attempts/b0570525-2974-4e80-b3a3-5cf05150d134",
-          "clone": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo",
-          "gitCommonDir": "/Users/jeshwanthsingh/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo/.git",
+          "workspace": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/worktrees/b0570525-2974-4e80-b3a3-5cf05150d134",
+          "artifactDir": "/Users/USER/Projects/ai-lab/command-center/.work/ticket-loop-v1/app-data/ticket-work/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/attempts/b0570525-2974-4e80-b3a3-5cf05150d134",
+          "clone": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo",
+          "gitCommonDir": "/Users/USER/Projects/ai-lab/command-center/.work/builder-workspaces/156baba3e5db93d123aba17ef78557a08d3d3e189b8b3990bd9a92abcfa0cd2c/cfaaea5b-737e-4e5c-b489-cf16e14d44b8/repo/.git",
           "seed": "b8a3a12d492a2da472fcc923531badb0b236d7e1",
           "base": "b8a3a12d492a2da472fcc923531badb0b236d7e1"
         }
@@ -709,7 +709,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:709326",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T17:01:56.753Z",
             "exitedAt": null
           }
@@ -734,7 +734,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:709326",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T17:01:56.953Z",
             "exitedAt": null
           },
@@ -744,7 +744,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:764549",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T17:01:56.953Z",
             "exitedAt": null
           }
@@ -769,7 +769,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:709326",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T17:01:57.158Z",
             "exitedAt": null
           },
@@ -779,7 +779,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:764549",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T17:01:57.158Z",
             "exitedAt": null
           },
@@ -814,7 +814,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:709326",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T17:01:57.358Z",
             "exitedAt": null
           },
@@ -824,7 +824,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:764549",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T17:01:57.358Z",
             "exitedAt": null
           },
@@ -869,7 +869,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:709326",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T17:01:57.584Z",
             "exitedAt": null
           },
@@ -879,7 +879,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:764549",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T17:01:57.584Z",
             "exitedAt": null
           },
@@ -944,7 +944,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:709326",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T17:01:59.084Z",
             "exitedAt": null
           },
@@ -954,7 +954,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:764549",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T17:01:59.084Z",
             "exitedAt": null
           },
@@ -1019,7 +1019,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:709326",
-            "executable": "/Users/jeshwanthsingh/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
+            "executable": "/Users/USER/.local/share/fnm/node-versions/v24.21.0/installation/bin/node",
             "observedAt": "2026-10-10T17:01:59.178Z",
             "exitedAt": "2026-10-10T17:02:01.570Z"
           },
@@ -1029,7 +1029,7 @@
             "pgid": 28203,
             "sid": 28203,
             "birth": "darwin:1791651716:764549",
-            "executable": "/Users/jeshwanthsingh/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
+            "executable": "/Users/USER/Projects/ai-lab/tooling/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/bin/codex",
             "observedAt": "2026-10-10T17:01:59.178Z",
             "exitedAt": "2026-10-10T17:02:01.570Z"
           },
@@ -1169,7 +1169,7 @@
       ]
     },
     "hash": "ff4de1504a7a32112a28bf55f6f6dbe5b6dff37f98c0caffc8f67f811b25ef4f",
-    "repoRoot": "/Users/jeshwanthsingh/Projects/career-ops",
+    "repoRoot": "/Users/USER/Projects/career-ops",
     "updatedAt": "2026-10-10T12:44:27.777Z"
   },
   "diffAvailable": false,

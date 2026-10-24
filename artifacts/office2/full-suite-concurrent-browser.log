@@ -1094,16 +1094,16 @@ fatal: 'refs/heads/cc/M1' - not a valid ref
 test at tests/debug-store.test.ts:55:1
 ✖ AI prose that Candidate is correct cannot override actual protected failures (27563.652792ms)
   Error: Fixture did not settle
-      at until (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
-      at async run (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:48:131)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/debug-store.test.ts:55:305)
+      at until (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:47:138)
+      at async run (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:48:131)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/debug-store.test.ts:55:305)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
 
 test at tests/mission-workflow.test.ts:55:1
 ✖ genuine native FAIL invokes the existing bounded Debug loop, then native PASS requires the terminal decision (56717.957166ms)
   Error: Workflow did not settle: {"missionId":"ebde9382-2905-4443-9b3e-277a38f96fff","phase":"CORRECTING","specId":"spec-0184fdbe03549132a479bdfb43e7f20903995c59b84deac1461b87ae09c24c7f","accepted":true,"goal":"Make behavior true and preserve guard.","nonGoals":["No dependencies or new APIs."],"claims":[{"claimId":"E1","testName":"oracle_judge.TestOracle.test_behavior","summary":"Native behavior returns true.","assurance":"INTERFACE","classification":"CHANGE","redOnBase":"FAIL","admitted":true},{"claimId":"E2","testName":"oracle_judge.TestOracle.test_guard","summary":"Preserve existing test_guard behavior.","assurance":"INTERFACE","classification":"GUARD","redOnBase":"PASS","admitted":true}],"reason":null,"runId":"2510827f-65fe-463b-a8da-a52b32bb29e3","landing":null,"decisionEvents":[{"kind":"APPROVE_SPEC","createdAt":"2026-10-20T07:32:25.413Z","specId":"spec-0184fdbe03549132a479bdfb43e7f20903995c59b84deac1461b87ae09c24c7f","runId":null}]}
-      at Object.settle (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/mission-workflow.test.ts:49:216)
-      at async TestContext.<anonymous> (file:///Users/jeshwanthsingh/Projects/ai-lab/command-center/tests/mission-workflow.test.ts:55:269)
+      at Object.settle (file:///Users/USER/Projects/ai-lab/command-center/tests/mission-workflow.test.ts:49:216)
+      at async TestContext.<anonymous> (file:///Users/USER/Projects/ai-lab/command-center/tests/mission-workflow.test.ts:55:269)
       at async Test.run (node:internal/test_runner/test:1409:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
