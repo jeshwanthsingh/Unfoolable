@@ -23,3 +23,13 @@ dialog.unfool-proof{top:calc(var(--uf-header-bottom,100px) + 12px);bottom:16px;h
 @media(max-width:799px){.observatory-pass-sheet.unfoolable{inset:0;border-radius:0}.observatory-scrim{top:0}.observatory-phone-safety{padding-top:max(10px,env(safe-area-inset-top))}}
 /* Phone emergency controls live inside the modal; the inert page stays behind it. */
 @media(max-width:799px){.observatory-scrim{z-index:70}.observatory-pass-sheet.unfoolable{z-index:80}}
+/* Keep the selected task grounded in the list while its Proof is open. */
+.unfoolable[data-layout=observatory] .unfool-task[data-proof-selected=true]{padding:16px;grid-template-columns:32px minmax(0,1fr);gap:12px;border-color:var(--obs-focus);box-shadow:inset 3px 0 var(--obs-focus)}
+.unfoolable[data-layout=observatory] .unfool-task[data-proof-selected=true] .hallmark-well,.unfoolable[data-layout=observatory] .unfool-task[data-proof-selected=true] .hallmark-strike{width:32px;height:32px}
+.unfool-task[data-proof-selected=true] .unfool-task-body>*{display:none}
+.unfool-task[data-proof-selected=true] .unfool-task-body>h2,.unfool-task[data-proof-selected=true] .unfool-card-state,.unfool-task[data-proof-selected=true] .unfool-live{display:block}
+.unfool-task[data-proof-selected=true] .unfool-live>*:not(.unfool-status){display:none}
+.observatory-pass .obs2-room-facts button{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border:0;border-radius:0;background:transparent;box-shadow:none;line-height:1.5}
+.observatory-fact-icon{width:18px;height:18px;flex:0 0 18px;margin-top:2px;fill:none;stroke:var(--uf-muted);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.observatory-fact-icon[data-checked=true]{stroke:var(--uf-green)}
+.observatory-probe-hash{overflow-wrap:anywhere}
