@@ -1,0 +1,47 @@
+{
+  "tool": "@playwright/mcp",
+  "version": "0.0.83",
+  "fixture": true,
+  "results": [
+    {
+      "width": 1440,
+      "theme": "light",
+      "observation": [
+        {
+          "type": "text",
+          "text": "### Result\n{\n  \"width\": 1440,\n  \"overflow\": false,\n  \"zoom\": 1,\n  \"summary\": \"What this change containsChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.Some behavior couldn't be checked. Review the changes.\",\n  \"acceptDisabled\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,zoom:visualViewport.scale,summary:document.querySelector(\\'[aria-label=\"Change summary\"]\\').textContent,acceptDisabled:[...document.querySelectorAll(\\'button\\')].find(b=>b.textContent.includes(\\'Accept with\\'))?.disabled})');\n```"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "observation": [
+        {
+          "type": "text",
+          "text": "### Result\n{\n  \"width\": 1440,\n  \"overflow\": false,\n  \"zoom\": 1,\n  \"summary\": \"What this change containsChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.Some behavior couldn't be checked. Review the changes.\",\n  \"acceptDisabled\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,zoom:visualViewport.scale,summary:document.querySelector(\\'[aria-label=\"Change summary\"]\\').textContent,acceptDisabled:[...document.querySelectorAll(\\'button\\')].find(b=>b.textContent.includes(\\'Accept with\\'))?.disabled})');\n```"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "observation": [
+        {
+          "type": "text",
+          "text": "### Result\n{\n  \"width\": 390,\n  \"overflow\": false,\n  \"zoom\": 1,\n  \"summary\": \"What this change containsChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.Some behavior couldn't be checked. Review the changes.\",\n  \"acceptDisabled\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,zoom:visualViewport.scale,summary:document.querySelector(\\'[aria-label=\"Change summary\"]\\').textContent,acceptDisabled:[...document.querySelectorAll(\\'button\\')].find(b=>b.textContent.includes(\\'Accept with\\'))?.disabled})');\n```"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "observation": [
+        {
+          "type": "text",
+          "text": "### Result\n{\n  \"width\": 390,\n  \"overflow\": false,\n  \"zoom\": 1,\n  \"summary\": \"What this change containsChanged literal text in 1 file (cli.py). Code structure is unchanged; behavior may still change.Some behavior couldn't be checked. Review the changes.\",\n  \"acceptDisabled\": true\n}\n### Ran Playwright code\n```js\nawait page.evaluate('()=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,zoom:visualViewport.scale,summary:document.querySelector(\\'[aria-label=\"Change summary\"]\\').textContent,acceptDisabled:[...document.querySelectorAll(\\'button\\')].find(b=>b.textContent.includes(\\'Accept with\\'))?.disabled})');\n```"
+        }
+      ]
+    }
+  ]
+}

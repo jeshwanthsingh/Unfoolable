@@ -1,0 +1,157 @@
+{
+  "baseline": "cfe7c03",
+  "fullSuite": {
+    "tests": 1303,
+    "pass": 1303,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "durationMs": 367070.5465,
+    "logSHA256": "cdf0a88790d9f57b6646d694e8c3ab49f312ff74f94a17dc595302373934cd13"
+  },
+  "build": "PASS, includes typecheck and packaged inventory",
+  "golden": {
+    "baseline": "4abc25a76c46e7f05aa5fcae12788a114b3054e1",
+    "compared": 61,
+    "differences": [],
+    "traceCorrections": [],
+    "hashesPreserved": true,
+    "originalCoreHash": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+    "note": "All decision fields and reasons compared; eligibility rename normalized, combined ERROR trace flag corrected as requested. Original golden files untouched. New unequal-command ERROR and unknown-path behavior have separate regressions."
+  },
+  "controls": {
+    "count": 12,
+    "pass": 0,
+    "results": [
+      {
+        "case": "observation-pipe-forgery-review-on",
+        "result": "INCONCLUSIVE"
+      },
+      {
+        "case": "R1-review-off",
+        "result": "FAIL"
+      },
+      {
+        "case": "native-judge-skipped",
+        "result": "INCONCLUSIVE"
+      },
+      {
+        "case": "native-judge-zero-collected",
+        "result": "INCONCLUSIVE"
+      },
+      {
+        "case": "skipped-existing-test-restored",
+        "result": "FAIL"
+      },
+      {
+        "case": "deleted-existing-test-restored",
+        "result": "FAIL"
+      },
+      {
+        "case": "edited-existing-test-restored",
+        "result": "FAIL"
+      },
+      {
+        "case": "early-exit-0",
+        "result": "INCONCLUSIVE"
+      },
+      {
+        "case": "symlink-escape",
+        "result": "INCONCLUSIVE"
+      },
+      {
+        "case": "dependency-change",
+        "result": "INCONCLUSIVE"
+      },
+      {
+        "case": "oversized-output",
+        "result": "FAIL"
+      },
+      {
+        "case": "timeout",
+        "result": "INCONCLUSIVE"
+      }
+    ]
+  },
+  "probe": {
+    "version": "protected-paths-v1",
+    "sha256": "b3ac13836740445841719716b60ee0fbe47c6d73edd75090e4e6b0ee784d455e",
+    "count": 78
+  },
+  "protectedFiles": {
+    "checked": 231,
+    "unchanged": 231,
+    "exceptions": [
+      "apps/server/self-check.ts",
+      "apps/server/self-check-runner.ts"
+    ]
+  },
+  "restoredRealDataSeals": {
+    "sealed": 6,
+    "olderUnsealed": 8,
+    "broken": 0,
+    "cliExit": 2
+  },
+  "browser": {
+    "clickTests": [
+      {
+        "width": 1440,
+        "theme": "light",
+        "stopVisibleUnobscuredClickable": true
+      },
+      {
+        "width": 1440,
+        "theme": "dark",
+        "stopVisibleUnobscuredClickable": true
+      },
+      {
+        "width": 390,
+        "theme": "light",
+        "stopVisibleUnobscuredClickable": true
+      },
+      {
+        "width": 390,
+        "theme": "dark",
+        "stopVisibleUnobscuredClickable": true
+      }
+    ],
+    "pageOrderAsserted": true,
+    "firstCardFitsAt1440x900": true,
+    "desktopProofBelowHeader": true,
+    "phoneHeadingUncovered": true,
+    "screenshotTool": "Playwright MCP 0.0.83",
+    "zoom": 1,
+    "horizontalOverflow": false,
+    "acceptBeforeFileReview": "disabled",
+    "source": "Labelled isolated TEST fixture using real check, probe and restore observations."
+  },
+  "cleanup": [
+    {
+      "kind": "isolated preview",
+      "pid": 17411,
+      "result": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      }
+    },
+    {
+      "kind": "isolated preview",
+      "pid": 84766,
+      "result": {
+        "verified": true,
+        "ambiguous": false,
+        "remaining": [],
+        "terminalCount": 0,
+        "reason": null
+      }
+    }
+  ],
+  "limits": [
+    "Restore-only duration excludes fresh snapshot creation. Weekly step allows 25 minutes including creation.",
+    "Incomplete initial measurement not counted; only complete protected restore counted.",
+    "Live coordinator and DB unchanged."
+  ]
+}
