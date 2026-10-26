@@ -11,7 +11,7 @@ import {once} from 'node:events';
 
 test('CLI absorbs repeated shutdown signals and releases its lock before exit',async()=>{
  const dir=mkdtempSync(join(tmpdir(),'cc-cli-'));const reservation=createServer();reservation.listen(0,'127.0.0.1');await once(reservation,'listening');const addr=reservation.address();assert.ok(addr&&typeof addr!=='string');const port=addr.port;await new Promise<void>(resolve=>reservation.close(()=>resolve()));
- const child=spawn(process.execPath,[fileURLToPath(new URL('../apps/server/main.ts',import.meta.url))],{env:{...process.env,COMMAND_CENTER_DATA_DIR:dir,COMMAND_CENTER_PORT:String(port)},stdio:['ignore','pipe','pipe']});
+ const child=spawn(process.execPath,[fileURLToPath(new URL('../apps/server/main.ts',import.meta.url))],{env:{...process.env,COMMAND_CENTER_DATA_DIR:dir,COMMAND_CENTER_PROJECT_ROOTS:JSON.stringify([dir]),COMMAND_CENTER_PORT:String(port)},stdio:['ignore','pipe','pipe']});
  const exit=once(child,'exit');const events:string[]=[];let readyResolve:()=>void=()=>{};let stoppingResolve:()=>void=()=>{};
  const ready=new Promise<void>(resolve=>readyResolve=resolve),stopping=new Promise<void>(resolve=>stoppingResolve=resolve);
  createInterface({input:child.stdout}).on('line',line=>{try{const e=JSON.parse(line) as {event:string};events.push(e.event);if(e.event==='server.started')readyResolve();if(e.event==='shutdown.started')stoppingResolve();}catch{}});

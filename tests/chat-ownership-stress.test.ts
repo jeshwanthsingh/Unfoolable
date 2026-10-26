@@ -11,7 +11,7 @@ import type {createChatCodex} from '../apps/server/chat-codex.ts';
 import type {BuildInput,ProcessRecord} from '../packages/shared/build.ts';
 test('50 builder sessions through chat-server with immediate bound-card retries retain kernel identity',async()=>{
  const blockRecording=false,pairs=process.env.CC_STRESS_PAIRS==='50'?50:25;
- mkdirSync(resolve('.work/foreman-fix'),{recursive:true});const root=mkdtempSync(join(tmpdir(),'cc-chat-start-')),repo=join(root,'repo'),data=join(root,'data'),script=join(root,'provider.py');mkdirSync(repo);
+ mkdirSync(resolve('.work/foreman-fix'),{recursive:true});mkdirSync(resolve('.work/touch-id'),{recursive:true});const root=mkdtempSync(join(tmpdir(),'cc-chat-start-')),repo=join(root,'repo'),data=join(root,'data'),script=join(root,'provider.py');mkdirSync(repo);
  const git=(...args:string[])=>execFileSync('git',['-C',repo,...args],{encoding:'utf8'}).trim();git('init','-q');writeFileSync(join(repo,'value.txt'),'BASE');git('add','.');git('-c','user.name=Fixture','-c','user.email=fixture@localhost','commit','-qm','BASE');
  writeFileSync(script,`import os,time,threading,json,sys
 # Force the real Darwin gap: kernel keeps an exited child alive until waitpid,
