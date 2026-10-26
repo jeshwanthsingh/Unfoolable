@@ -1,0 +1,5 @@
+{
+  "extraDenied": true,
+  "ownReadWrite": true,
+  "explanation": "Only the configured extra and common credential roots were denied; no blanket Projects denial was used in this isolated kernel proof."
+}

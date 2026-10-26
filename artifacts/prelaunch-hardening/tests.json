@@ -1,0 +1,30 @@
+{
+  "node": "24.21.0",
+  "runs": {
+    "maintainer": {
+      "tests": 1317,
+      "pass": 1317,
+      "fail": 0,
+      "skipped": 0,
+      "durationMs": 411369.27625
+    },
+    "cleanClone": {
+      "tests": 1317,
+      "pass": 1275,
+      "fail": 0,
+      "skipped": 42,
+      "durationMs": 323957.493083
+    },
+    "initialCleanClone": {
+      "tests": 1317,
+      "pass": 1265,
+      "fail": 11,
+      "skipped": 41,
+      "durationMs": 350567.961208
+    }
+  },
+  "cleanCloneEnvironment": "Independent git clone, own npm ci and locked UI fixture, empty HOME, no personal checkouts or native integration flags. Skips are explicitly labelled setup requirements.",
+  "maintainerEnvironment": "All three native integration flags enabled; no skips.",
+  "typecheck": "PASS",
+  "build": "PASS"
+}

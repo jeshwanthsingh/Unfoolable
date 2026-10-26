@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-25",
+  "run": "08d03e21-4fba-4834-bcf5-ecb271c1c93d",
+  "status": "PASS",
+  "prerequisites": "Real AC power and idle queue, enforced throughout; owned process deadlines; no forced lock removal.",
+  "history": [
+    "First prerequisite check refused on battery; user connected AC.",
+    "First complete attempt passed probe/controls/verify but restore correctly failed because a regular checkpoint held the lock.",
+    "Retried after that checkpoint exited; all four steps passed. Failed history retained in self_check_events."
+  ],
+  "steps": [
+    {
+      "step": "probe",
+      "result": {
+        "count": 84,
+        "extraTargetCount": 0,
+        "denied": 74,
+        "absent": 10,
+        "manifestVersion": "protected-paths-v2",
+        "manifestSHA256": "c47ced2c35f14d344039f4cd48f65f2a5bd5ccff9ba4b07a0b84ee5fb21fc04b",
+        "readable": 0
+      }
+    },
+    {
+      "step": "controls",
+      "result": {
+        "count": 13,
+        "passes": 0
+      }
+    },
+    {
+      "step": "verify",
+      "result": {
+        "broken": 0,
+        "sealed": 6,
+        "older": 8
+      }
+    },
+    {
+      "step": "restore",
+      "result": {
+        "restored": true,
+        "complete": true,
+        "mode": "full",
+        "elapsedSeconds": 499.90190820799035,
+        "files": 214398
+      }
+    }
+  ]
+}

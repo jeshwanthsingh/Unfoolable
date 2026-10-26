@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "file": "packages/shared/cores/verdict-core-v1.ts",
+      "sha256": "9e343a112cb4129e2526a695127949095997eeddcd14c643c5908aafdb627d33",
+      "unchangedFromMain": true
+    },
+    {
+      "file": "packages/shared/verdict-core.ts",
+      "sha256": "109f2081e6954fe2b0145962cb629c043ceb5246a1020be0ffc4976694489911",
+      "unchangedFromMain": true
+    },
+    {
+      "file": "docs/CORE_VERSIONS.json",
+      "sha256": "dfe07a32e2e74a434777a5f3923f147e978d77b46e3d68e001528b8c1e37e938",
+      "unchangedFromMain": true
+    },
+    {
+      "file": "scripts/probe-manifests/protected-paths-v1.json",
+      "sha256": "b3ac13836740445841719716b60ee0fbe47c6d73edd75090e4e6b0ee784d455e",
+      "unchangedFromMain": true
+    }
+  ],
+  "verifyAll": {
+    "sealed": 6,
+    "olderUnsealed": 8,
+    "broken": 0
+  }
+}

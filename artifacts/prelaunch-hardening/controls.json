@@ -1,0 +1,61 @@
+{
+  "count": 13,
+  "fail": 6,
+  "inconclusive": 7,
+  "pass": 0,
+  "coreUnchanged": true,
+  "results": [
+    {
+      "case": "observation-pipe-forgery-review-on",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "case": "R1-review-off",
+      "result": "FAIL"
+    },
+    {
+      "case": "native-judge-skipped",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "case": "native-judge-zero-collected",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "case": "skipped-existing-test-restored",
+      "result": "FAIL"
+    },
+    {
+      "case": "deleted-existing-test-restored",
+      "result": "FAIL"
+    },
+    {
+      "case": "edited-existing-test-restored",
+      "result": "FAIL"
+    },
+    {
+      "case": "early-exit-0",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "case": "symlink-escape",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "case": "dependency-change",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "case": "oversized-output",
+      "result": "FAIL"
+    },
+    {
+      "case": "timeout",
+      "result": "INCONCLUSIVE"
+    },
+    {
+      "case": "career-shared-checker-tampering",
+      "result": "FAIL"
+    }
+  ]
+}

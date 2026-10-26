@@ -1,0 +1,8 @@
+{
+  "baselineCommit": "fc84e8f98dadc909851877038a77928e55420648",
+  "baselineCheckerSHA256": "d02e2c722fd5ef672cf1dec88859dc633f1b8333bedeb832546b655da95fffee",
+  "fixedCheckerSHA256": "a52f20e37a3583d1d084d9dc3522d04e27b440bd596a2a4204d6b018839f69d9",
+  "attack": "Patch node:assert.strict.equal inside the candidate and return wrong for every semantic input.",
+  "before": "PASS: syntax plus all four wrong semantic answers reported PASS. This is the protected command result, not a claim of automatic application acceptance.",
+  "after": "FAIL: syntax PASS; all four semantic assertions FAIL in the trusted parent."
+}

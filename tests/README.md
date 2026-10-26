@@ -1,6 +1,6 @@
 # Test prerequisites and portable fixtures
 
-Use Node 24 and Git on PATH. Run `npm ci`, then `npm test`; no Therapy2 or other personal checkout is required. Application fixtures use their own project roots. Historical migration fixtures read this Git checkout, not a home-directory repository.
+Use Node 24 and Git on PATH. Native subprocess tests also require Python 3; the existing macOS runner expects `/usr/local/bin/python3`. Run `npm ci`, then `npm test`; no Therapy2 or other personal checkout is required. Application fixtures use their own project roots. Historical migration fixtures read this Git checkout, not a home-directory repository.
 
 For native UI tests, install the small locked fixture:
 
