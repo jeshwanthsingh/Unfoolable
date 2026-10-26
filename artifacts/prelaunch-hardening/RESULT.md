@@ -40,3 +40,7 @@ The first weekly attempt was refused on battery. After AC was connected, a real 
 General native in-process result forgery and the universal read-allowlist feasibility study remain open. The career-ops replacement needs an explicit playbook edit/approval; old approvals are not silently migrated. This is local branch work: the coordinator was not restarted onto it. No merge, push, API approval, automatic acceptance, model change or history rewrite occurred.
 
 Evidence: tests.json; probe.json; extra-path-probe.json; control13-before.json; control13-after.json; control13-provenance.json; controls.json; unchanged-and-seals.json; self-check.json. Raw private logs, full backup proof and disposable clones remain in ignored .work.
+
+## Subsequent publication privacy pass
+
+The owner authorized one normal merge/push after review. The duplicate per-target probe label list was removed from this artifact set and all unpublished artifact versions; numerical proof and manifest definitions are unchanged. Original WIP history is retained only on a local private backup ref. Main history and stash are intact. [Scope, findings and preserved security definitions](PRIVACY.md). No real private hostname, home path, credential or personal email was found in the change; Gitleaks reported zero findings. The implementation-stage verification results above are unchanged.

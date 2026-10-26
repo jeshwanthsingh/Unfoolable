@@ -1,0 +1,19 @@
+{
+  "manifest": {
+    "version": "protected-paths-v2",
+    "sha256": "c47ced2c35f14d344039f4cd48f65f2a5bd5ccff9ba4b07a0b84ee5fb21fc04b",
+    "count": 84
+  },
+  "denied": 74,
+  "absent": 10,
+  "readable": 0,
+  "otherErrors": 0,
+  "ownedChecks": {
+    "git_status": true,
+    "git_diff": true,
+    "git_log": true,
+    "sqlite_temp": true,
+    "own_write": true
+  },
+  "privacy": "Per-target labels omitted from this public report. Full target-level proof is retained only in ignored private work. Counts and manifest identity are unchanged."
+}
