@@ -1,16 +1,20 @@
 # Threat model
 
-Updated 2026-10-24. “Unfoolable” is an aspiration, not a guarantee. These boundaries come from [the design](../DESIGN.md); they do not promise resistance to a compromised host.
+Updated 2026-10-25. “Unfoolable” is an aspiration, not a guarantee. These boundaries come from [the design](../DESIGN.md); they do not promise resistance to a compromised host.
 
 ## In scope: the untrusted Builder and its output
 
 The Builder may misunderstand a request, conceal edits, change tests or configuration, introduce dependencies, probe private files, attempt network access, or violate approved project rules. Repository files, parser inputs and diagnostics are untrusted. Builder explanations never authorize work, classify changes, supply signing identity or decide results.
 
-The Builder works in an owned copy under a macOS permission profile. Outside network access and protected reads are denied. The current released inventory is **78 targets, `protected-paths-v1`**. This is a versioned target list, not 78 secrets and not proof that every target exists. [Manifest and hash](../scripts/probe-manifests/registry.json); [dated Builder probe](../artifacts/scion1b/probe.json).
+The Builder works in an owned copy under a macOS permission profile. Outside network access and protected reads are denied. The current released inventory is **84 targets, `protected-paths-v2`**. This is a versioned target list, not 84 secrets and not proof that every target exists. [Manifest and hash](../scripts/probe-manifests/registry.json); [dated Builder probe](../artifacts/prelaunch-hardening/probe.json).
+
+The 2026-10-25 Builder probe recorded **74 denied, 10 absent, zero readable** targets. The six additions are `.npmrc`, `.netrc`, `.pypirc`, `.git-credentials`, `.docker/config.json` and `.kube`. V1 remains available for historical records. Optional `COMMAND_CENTER_EXTRA_PROTECTED_PATHS` adds validated absolute or `~/` paths, including absent paths and canonical symlink targets; extras supplement the versioned manifest rather than rewriting it.
 
 The frozen change is checked separately. Original tests are restored; approved project checks, applicable regression recipes and quality tools feed the pure verdict core. Candidate-authored tests are non-authoritative. Missing coverage stays visible. SCION-1 change classification describes syntax, not semantic equivalence; risk rules only raise baseline risk. Every changed file must still be opened before Accept. Exact-item passkey confirmation is required; no verdict accepts work automatically.
 
 ## In scope: grading-time access and record integrity
+
+The career liveness checker now runs its candidate module in a bounded child; only JSON returns to a parent that owns assertions and check reporting. A shared-assert attack passed before this fix and fails afterwards (control #13). Old approved copies of that checker cannot execute until the isolated replacement is approved. This does not solve all forms of in-process forgery in other native runners.
 
 Candidate code also executes during checking. It must not read separate judge code, private records or signing material, write outside its scratch space, signal the harness, inherit host secrets or make non-loopback outbound connections. Local HTTP test fixtures are deliberately allowed; private application endpoints still require authentication.
 

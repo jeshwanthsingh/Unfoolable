@@ -1,10 +1,11 @@
+import {nativeToolSkip} from './helpers/portable-dependencies.ts';
 import test from 'node:test';import assert from 'node:assert/strict';import {compareTestAssertions} from '../apps/server/test-tampering.ts';
 const row=(ruleId:string,text:string)=>({file:'tests/test_a.py',ruleId,text,range:{start:{line:2}}});
 test('new skips, vacuous tests, deleted assertions and changed expectations raise review flags',()=>{const base=[row('assertion-python','assert result == 1')];const flags=compareTestAssertions(base,[row('assertion-python','assert result == 2'),row('skip-python',"unittest.skip('later')"),row('assert-true-python','assert True')]);assert.equal(flags.length,3);assert.ok(flags.some(f=>f.reason.startsWith('Assertion deleted')));});
 test('existing skips/assertions unchanged never raise new flags',()=>{const rows=[row('skip-python',"unittest.skip('later')"),row('assertion-python','assert value == 1')];assert.deepEqual(compareTestAssertions(rows,rows),[]);});
 
 import {mkdtempSync,writeFileSync,mkdirSync,realpathSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';import {execFileSync} from 'node:child_process';import {runTestTampering} from '../apps/server/test-tampering.ts';
-test('real offline ast-grep catches Python/JS skips and deleted or changed expectations',async()=>{
+test('real offline ast-grep catches Python/JS skips and deleted or changed expectations',{skip:nativeToolSkip},async()=>{
  const dir=realpathSync(mkdtempSync(join(tmpdir(),'cc-tamper-'))),repo=join(dir,'repo');mkdirSync(join(repo,'tests'),{recursive:true});const git=(...args:string[])=>execFileSync('git',['-C',repo,...args],{encoding:'utf8'}).trim();git('init','-q');git('config','user.name','Fixture');git('config','user.email','fixture@invalid');
  writeFileSync(join(repo,'tests/test_value.py'),'import unittest\nclass Value(unittest.TestCase):\n def test_value(self):\n  self.assertEqual(1,1)\n');writeFileSync(join(repo,'tests/value.test.ts'),"test('one',()=>expect(value).toBe(1));\n");git('add','.');git('commit','-qm','base');const base=git('rev-parse','HEAD');
  writeFileSync(join(repo,'tests/test_value.py'),"import unittest\nclass Value(unittest.TestCase):\n @unittest.skip('later')\n def test_value(self):\n  assert True\n");writeFileSync(join(repo,'tests/value.test.ts'),"test.skip('one',()=>expect(value).toBe(2));\n");git('add','.');git('commit','-qm','candidate');

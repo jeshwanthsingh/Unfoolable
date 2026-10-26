@@ -1,5 +1,6 @@
+import {nativeBuilderSkip} from './helpers/portable-dependencies.ts';
 import test from 'node:test';import assert from 'node:assert/strict';import {mkdirSync,rmSync} from 'node:fs';import {resolve,join} from 'node:path';import {homedir} from 'node:os';import {randomUUID} from 'node:crypto';import {execFileSync} from 'node:child_process';import {builderFilesystem} from '../apps/server/builder-filesystem.ts';
-test('whole Projects denial includes a repository created after the native worker starts; owned SQLite stays usable',()=>{
+test('whole Projects denial includes a repository created after the native worker starts; owned SQLite stays usable',{skip:nativeBuilderSkip},()=>{
  const owned=join(homedir(),'.cc-work','native-probe-'+randomUUID()),late=resolve('.work/tripwires','late-'+randomUUID());mkdirSync(owned,{recursive:true});
  try{const filesystem=builderFilesystem([join(homedir(),'Projects')],owned,join(owned,'git'));assert.equal(filesystem[join(homedir(),'Projects')],'deny');
  const profile=JSON.stringify({filesystem,network:{enabled:false}}).replace(/"([^"\n]+)":/g,'"$1"=');const child=`import pathlib,sys,time,json,sqlite3

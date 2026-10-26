@@ -1,8 +1,8 @@
-import {homedir} from 'node:os';
+import {oracleDependencies,uiDependencySkip} from './helpers/portable-dependencies.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
-import {mkdtempSync,mkdirSync,writeFileSync,existsSync,readFileSync,rmSync,realpathSync} from 'node:fs';
+import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,rmSync,realpathSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -10,8 +10,8 @@ import {oracleSandbox} from '../apps/server/oracle-execution.ts';
 import {ownedProcessSnapshot,reconcileOwnedProcesses} from '../apps/server/build-processes.ts';
 import type {ProcessRecord} from '../packages/shared/build.ts';
 
-const deps=join(homedir(),'Projects/Therapy2/frontend/node_modules');
-test('native Vitest judge collects exactly one oracle beneath a denied ancestor package', {skip:process.platform!=='darwin'||!existsSync(join(deps,'vitest/vitest.mjs')),timeout:45000},async()=>{
+const deps=oracleDependencies;
+test('native Vitest judge collects exactly one oracle beneath a denied ancestor package', {skip:process.platform!=='darwin'?'macOS sandbox required':uiDependencySkip,timeout:45000},async()=>{
  const root=realpathSync(mkdtempSync(join(tmpdir(),'oracle-judge-location-'))),parent=join(root,'parent'),scratch=join(parent,'judge');mkdirSync(scratch,{recursive:true});
  const observations=join(root,'observations.json'),oracle=join(root,'oracle.ts'),judge=fileURLToPath(new URL('../scripts/protected-verification/ui-judge.mjs',import.meta.url));
  writeFileSync(join(parent,'package.json'),'{"type":"module","private":true}\n');

@@ -1,6 +1,6 @@
 # Unfoolable
 
-**AI does the work. Nothing fools the check.**
+**AI does the work. It never grades itself.**
 
 A local Mac workflow where the coding agent does the work but is never the authority on whether it passed.
 
@@ -44,16 +44,18 @@ flowchart LR
 
 | Earlier local study | Result |
 | --- | --- |
-| Planted cheats kept from passing | **12/12** — 5 failed, 7 inconclusive |
+| Earlier planted-cheat pack | **12/12 non-PASS** — 5 failed, 7 inconclusive |
 | Wrong changes falsely accepted | **0/8** |
 | Correct changes confirmed in the bounded-context study | **2/11 (18.2%)** |
 | Correct historical fixes confirmed | **1/6 (16.7%)** |
 
 Zero false accepts includes abstentions. It does **not** mean every defect was detected. These are small, correlated studies; four historical artifacts were blocked by the test harness. The independent Test Writer missed its promotion bar and remains advisory.
 
+Prelaunch control #13 exposed a real shared-assert weakness: PASS before isolation, FAIL after. The expanded pack is reported separately; older study denominators are unchanged.
+
 [Read the methods, denominators and limitations](artifacts/warning-signal/RESULT.md).
 
-Current installation snapshot (2026-10-24): **78 protected targets** in `protected-paths-v1`; **6 sealed / 0 broken** latest ticket records, with 8 older records explicitly unsealed. Released verdict cores v1/v2 preserve old replay. SCION-1 adds deterministic change classification, raise-only review rules and idle/AC-only self-checks. New seal format v2 binds the request hash and recorded Builder identity. These are dated observations, not promises about another installation. [ADV-1 status and remaining gaps](docs/ADV_1_STATUS.md).
+Current installation snapshot (2026-10-25): **84 protected targets** in `protected-paths-v2`: **74 denied, 10 absent, zero readable** in the real Builder probe; **6 sealed / 0 broken** latest ticket records, with 8 older records explicitly unsealed. Released verdict cores v1/v2 preserve old replay. SCION-1 adds deterministic change classification, raise-only review rules and idle/AC-only self-checks. New seal format v2 binds the request hash and recorded Builder identity. These are dated observations, not promises about another installation. [ADV-1 status and remaining gaps](docs/ADV_1_STATUS.md).
 
 ## Run it on your Mac
 

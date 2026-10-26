@@ -1,0 +1,13 @@
+{
+  "name": "unfoolable-oracle-test-fixture",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "dependencies": {
+    "vitest": "4.0.18",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "jsdom": "27.4.0",
+    "esbuild": "0.25.12"
+  }
+}

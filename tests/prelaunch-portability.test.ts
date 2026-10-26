@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {execFileSync} from 'node:child_process';
+test('tests never resolve dependencies from the personal frontend checkout',()=>{const forbidden='Projects/'+['Therapy','2'].join('');for(const file of execFileSync('git',['ls-files','tests'],{encoding:'utf8'}).trim().split('\n').filter(f=>f.endsWith('.ts')))assert.ok(!readFileSync(file,'utf8').includes(forbidden),file);});

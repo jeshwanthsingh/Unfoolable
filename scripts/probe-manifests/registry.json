@@ -1,5 +1,5 @@
 {
-  "current": "protected-paths-v1",
+  "current": "protected-paths-v2",
   "releases": [
     {
       "version": "protected-paths-v1",
@@ -7,6 +7,13 @@
       "sha256": "b3ac13836740445841719716b60ee0fbe47c6d73edd75090e4e6b0ee784d455e",
       "count": 78,
       "approval": "SCION-1b user request: restore all historical targets; add Projects-parent coverage. No removals."
+    },
+    {
+      "version": "protected-paths-v2",
+      "file": "protected-paths-v2.json",
+      "sha256": "c47ced2c35f14d344039f4cd48f65f2a5bd5ccff9ba4b07a0b84ee5fb21fc04b",
+      "count": 84,
+      "approval": "2026-10-25 owner prelaunch request: six common credential paths added; no v1 targets removed or edited."
     }
   ]
 }

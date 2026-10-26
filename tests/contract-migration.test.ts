@@ -1,4 +1,3 @@
-import {homedir} from 'node:os';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync,mkdirSync,writeFileSync,rmSync} from 'node:fs';
@@ -11,7 +10,7 @@ const baselineCommit='2141f6e75be823388fa86891e18aa5aedfa26a1d';
 test('exact Breakout 4 upgrades through contract and planning migrations preserve seven entities, FKs and raw mission phase',async()=>{
  const root=mkdtempSync(join(tmpdir(),'cc-b4-contract-upgrade-')),source=join(root,'source'),data=join(root,'data');mkdirSync(source);
  try{
-  for(const file of ['database.ts','log.ts','errors.ts'])writeFileSync(join(source,file),execFileSync('git',['show',baselineCommit+':apps/server/'+file],{cwd:join(homedir(),'Projects/ai-lab/command-center'),encoding:'utf8'}));
+  for(const file of ['database.ts','log.ts','errors.ts'])writeFileSync(join(source,file),execFileSync('git',['show',baselineCommit+':apps/server/'+file],{cwd:process.cwd(),encoding:'utf8'}));
   const baseline=await import(pathToFileURL(join(source,'database.ts')).href) as {openDatabase:typeof openDatabase},old=baseline.openDatabase(data,()=>{});assert.equal(old.version(),5);const db=old.connection;
   db.prepare('INSERT INTO projects VALUES(?,?,?,?,?,?)').run('project','Registered','/not-read','a'.repeat(40),null,'2026-01-01');
   db.prepare('INSERT INTO missions VALUES(?,?,?,?,?)').run('mission','project','  Raw\n intent.\t\n','DRAFT','2026-01-02');

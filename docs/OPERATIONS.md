@@ -1,6 +1,6 @@
 # Unfoolable
 
-**AI does the work. Nothing fools the check.**
+**AI does the work. It never grades itself.**
 
 Unfoolable is a personal, local Mac app. Describe a code change, review the proposed task, and let Codex work in a separate copy. Protected checks report what passed and what could not be checked. You decide whether to Accept or Reject. Accept saves a separate local branch; it never merges or pushes.
 
@@ -83,10 +83,16 @@ npm run build
 
 HTTP and process-ownership tests need an environment that permits local listeners and process inspection. Do not interpret sandbox-denied test infrastructure as a passing run. The completed Observatory verification passed **1,233/1,233 tests**, with no failures or skips, plus typecheck and production build. **61 golden replay comparisons had zero differences**; **281 protected implementation hashes and four decision callbacks were unchanged**. Axe reported **zero violations across 16 combinations** of main, Proof, Settings and room at desktop/phone widths, light/dark. A 30-second idle check recorded no work animations, counter changes or extra requests. These checks do not replace manual screen-reader or real-device testing. [Exact results](../artifacts/obs3/validation.json).
 
-Vite is pinned to **8.3.5**; OSV and npm audit cleared the six baseline advisories. Protected-read probes and planted-cheat results are dated evidence, not checks automatically rerun when you clone. The current released inventory has **78 targets (`protected-paths-v1`)**; the dated Builder probe found none readable. **All 12 planted-cheat controls remained non-PASS**. [Probe](../artifacts/scion1b/probe.json) · [Controls](../artifacts/obs3/negative-controls.json) · [Dependency scans and licenses](OBS_3_SOURCES.md).
+Vite is pinned to **8.3.5**; OSV and npm audit cleared the six baseline advisories. Protected-read probes and planted-cheat results are dated evidence, not checks automatically rerun when you clone. The current released inventory has **84 targets (`protected-paths-v2`)**; the 2026-10-25 Builder probe recorded **74 denied, 10 absent, zero readable**. **All 12 planted-cheat controls remained non-PASS**. [Probe](../artifacts/prelaunch-hardening/probe.json) · [Controls](../artifacts/obs3/negative-controls.json) · [Dependency scans and licenses](OBS_3_SOURCES.md).
 
 Keep live SQLite data, local tools and credentials out of Git. Do not delete `.work/` wholesale: on the configured Mac it contains live application data. [Operational handoff](../HANDOFF.md) and [backup instructions](BACKUPS.md) cover the existing installation.
 
 ## Recovery snapshot — 2026-10-24
 
 The latest activation verification found six sealed, eight older-unsealed and zero broken latest ticket records. Old seals replay registered core v1; new decisions use v2. Format-v2 seals bind the request hash and recorded Builder identity as well as the existing facts, trace and artifact bindings. SCION-1 adds syntax-based change classification, raise-only risk rules, approved project constraints and idle/AC-only weekly self-checks. The earlier Observatory test counts above remain historical. See [threat model](THREAT_MODEL.md), [ADV-1 status](ADV_1_STATUS.md) and [signing](SIGNING.md).
+
+## Additional private paths
+
+Set `COMMAND_CENTER_EXTRA_PROTECTED_PATHS` to a JSON array of absolute or `~/` paths before starting the coordinator, for example `COMMAND_CENTER_EXTRA_PROTECTED_PATHS='["~/.company-credentials"]' ./cc chat`. Absent paths are retained; symlink targets are also denied. Invalid/relative/control-character paths are rejected. Restart the coordinator normally for configuration changes to take effect. These entries supplement the immutable released manifest and are included in probe records; they cannot remove built-in protections. A private ancestor of an owned worktree fails closed instead of weakening its denial.
+
+Tests use the pinned UI fixture described in [tests/README.md](../tests/README.md). Native Builder, browser and offline-quality integrations are explicit opt-ins, so a fresh clone does not need another personal repository.

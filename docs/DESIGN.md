@@ -12,7 +12,7 @@ One left-aligned column, centered, maximum 720px. Slim name/status/Settings bar;
 
 ```text
 Unfoolable                              Settings
-AI does the work. Nothing fools the check.
+AI does the work. It never grades itself.
 What should we work on?                     Ask
 2 waiting for you today.
 [mark] Make cancellation reasons visible

@@ -1,6 +1,6 @@
 import {mkdtempSync,mkdirSync,writeFileSync,realpathSync} from 'node:fs';import {tmpdir} from 'node:os';import {join} from 'node:path';import {execFileSync} from 'node:child_process';
 import {openDatabase} from '../../apps/server/database.ts';import {createVerifyOnly} from '../../apps/server/verify-only.ts';
-export const git=(p:string,...args:string[])=>execFileSync('/opt/homebrew/bin/git',['-c','core.hooksPath=/dev/null','-C',p,...args],{encoding:'utf8'}).trim();
+export const git=(p:string,...args:string[])=>execFileSync('git',['-c','core.hooksPath=/dev/null','-C',p,...args],{encoding:'utf8'}).trim();
 export const refs:NonNullable<Parameters<typeof createVerifyOnly>[5]>=async()=>({correct:[{path:'app.py',before:'False',after:'True'}],wrong:[{label:'still wrong',edits:[{path:'app.py',before:'False',after:'False # wrong'}]}]});
 export const author:NonNullable<Parameters<typeof createVerifyOnly>[3]>=async(input,id)=>{
  const code="import unittest\nfrom oracle_observations import observations\nclass TestOracle(unittest.TestCase):\n def test_e1(self):\n  self.assertTrue(observations[0]['returnValue'])\n";

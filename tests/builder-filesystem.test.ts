@@ -1,6 +1,7 @@
+import {nativeBuilderSkip} from './helpers/portable-dependencies.ts';
 import {homedir} from 'node:os';
 import test from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync,mkdirSync,writeFileSync,readFileSync} from 'node:fs';import {tmpdir} from 'node:os';import {join,resolve} from 'node:path';import {execFileSync} from 'node:child_process';import {ticketWorkspace} from '../apps/server/ticket-workspace.ts';import {prepareBuilderRuntime} from '../apps/server/build-runtime.ts';
-test('real Codex profile permits own Git and SQLite tests; denies shared refs and protected reads',async()=>{
+test('real Codex profile permits own Git and SQLite tests; denies shared refs and protected reads',{skip:nativeBuilderSkip},async()=>{
  const root=mkdtempSync(join(tmpdir(),'cc-builder-fs-')),source=join(root,'source'),data=join(root,'data');mkdirSync(source);mkdirSync(data);const git=(...args:string[])=>execFileSync('git',['-C',source,...args],{encoding:'utf8'}).trim();git('init','-q');writeFileSync(join(source,'file'),'BASE');git('add','.');git('-c','user.name=test','-c','user.email=test@localhost','commit','-qm','BASE');
  const owned=await ticketWorkspace({id:'fixture',repoPath:source,baseCommit:git('rev-parse','HEAD')} as any,data),setup=prepareBuilderRuntime({...owned,generation:1,transportId:'fixture',sourceRoot:owned.clone,dataDir:data});writeFileSync(join(data,'protected-check.txt'),'hidden fixture');
  const config=setup.args.flatMap((x,i)=>x==='-c'&&/^(permissions\.|default_permissions)/.test(setup.args[i+1]??'')?['-c',setup.args[i+1]!]:[]);

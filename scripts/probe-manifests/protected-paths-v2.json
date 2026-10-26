@@ -1,0 +1,519 @@
+{
+  "version": "protected-paths-v2",
+  "targets": [
+    {
+      "id": "Archived verdict core",
+      "root": "repo",
+      "path": "packages/shared/cores/verdict-core-v1.ts",
+      "kind": "file"
+    },
+    {
+      "id": "CC checker",
+      "root": "repo",
+      "path": "apps/server/oracle-execution.ts",
+      "kind": "file"
+    },
+    {
+      "id": "CC database",
+      "root": "data",
+      "path": "command-center.sqlite",
+      "kind": "file"
+    },
+    {
+      "id": "CC playbooks",
+      "root": "data",
+      "path": "playbooks",
+      "kind": "directory"
+    },
+    {
+      "id": "Core registry metadata",
+      "root": "repo",
+      "path": "docs/CORE_VERSIONS.json",
+      "kind": "file"
+    },
+    {
+      "id": "Friendly backup path",
+      "root": "home",
+      "path": "UnfoolableBackups",
+      "kind": "directory"
+    },
+    {
+      "id": "Locked bug reproduction",
+      "root": "probe",
+      "path": "bug-oracles/admitted.json",
+      "kind": "file"
+    },
+    {
+      "id": "Mid-session new repository",
+      "root": "home",
+      "path": "Projects/.unfoolable-probe-mid-session-v1",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/AI-Powered-Digital-Closet",
+      "root": "home",
+      "path": "Projects/AI-Powered-Digital-Closet",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Aegis",
+      "root": "home",
+      "path": "Projects/Aegis",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Email-Recruiter",
+      "root": "home",
+      "path": "Projects/Email-Recruiter",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/JobPipeline",
+      "root": "home",
+      "path": "Projects/JobPipeline",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Milestone5",
+      "root": "home",
+      "path": "Projects/Milestone5",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2",
+      "root": "home",
+      "path": "Projects/Therapy2",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-admin-logout",
+      "root": "home",
+      "path": "Projects/Therapy2-admin-logout",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-admin-review",
+      "root": "home",
+      "path": "Projects/Therapy2-admin-review",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-auth-session",
+      "root": "home",
+      "path": "Projects/Therapy2-auth-session",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-chat-cache-test-db",
+      "root": "home",
+      "path": "Projects/Therapy2-chat-cache-test-db",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-chat-followup",
+      "root": "home",
+      "path": "Projects/Therapy2-chat-followup",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-chat-security",
+      "root": "home",
+      "path": "Projects/Therapy2-chat-security",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-docker-secrets",
+      "root": "home",
+      "path": "Projects/Therapy2-docker-secrets",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-hide-suspended",
+      "root": "home",
+      "path": "Projects/Therapy2-hide-suspended",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-payment-order-debug",
+      "root": "home",
+      "path": "Projects/Therapy2-payment-order-debug",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-pr69-visibility-split",
+      "root": "home",
+      "path": "Projects/Therapy2-pr69-visibility-split",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-pr85-delivery",
+      "root": "home",
+      "path": "Projects/Therapy2-pr85-delivery",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-pr85-integrated",
+      "root": "home",
+      "path": "Projects/Therapy2-pr85-integrated",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-pr85-retryable",
+      "root": "home",
+      "path": "Projects/Therapy2-pr85-retryable",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-pr85-review",
+      "root": "home",
+      "path": "Projects/Therapy2-pr85-review",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-pr85-simplify",
+      "root": "home",
+      "path": "Projects/Therapy2-pr85-simplify",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-pr88-followup",
+      "root": "home",
+      "path": "Projects/Therapy2-pr88-followup",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-qa-payment-ff5d34f",
+      "root": "home",
+      "path": "Projects/Therapy2-qa-payment-ff5d34f",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-qa-pr51",
+      "root": "home",
+      "path": "Projects/Therapy2-qa-pr51",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-qa-pr54",
+      "root": "home",
+      "path": "Projects/Therapy2-qa-pr54",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-qa-pr89-pr94",
+      "root": "home",
+      "path": "Projects/Therapy2-qa-pr89-pr94",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-razorpay",
+      "root": "home",
+      "path": "Projects/Therapy2-razorpay",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-suspended-payment-finalization",
+      "root": "home",
+      "path": "Projects/Therapy2-suspended-payment-finalization",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/Therapy2-upstream-review",
+      "root": "home",
+      "path": "Projects/Therapy2-upstream-review",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/auto_email_sender",
+      "root": "home",
+      "path": "Projects/auto_email_sender",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/career-ops",
+      "root": "home",
+      "path": "Projects/career-ops",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/codex-kit",
+      "root": "home",
+      "path": "Projects/codex-kit",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/coding-agent-crash-tests",
+      "root": "home",
+      "path": "Projects/coding-agent-crash-tests",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/covid-data-exploration",
+      "root": "home",
+      "path": "Projects/covid-data-exploration",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/csc415-filesystem-jeshwanthsingh",
+      "root": "home",
+      "path": "Projects/csc415-filesystem-jeshwanthsingh",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/digital_closet",
+      "root": "home",
+      "path": "Projects/digital_closet",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/hackwithbay",
+      "root": "home",
+      "path": "Projects/hackwithbay",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/jeshwanth.com",
+      "root": "home",
+      "path": "Projects/jeshwanth.com",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/natively-cluely-ai-assistant",
+      "root": "home",
+      "path": "Projects/natively-cluely-ai-assistant",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/playground",
+      "root": "home",
+      "path": "Projects/playground",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/proof-lab",
+      "root": "home",
+      "path": "Projects/proof-lab",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/research-router",
+      "root": "home",
+      "path": "Projects/research-router",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/seismic-ml-analysis",
+      "root": "home",
+      "path": "Projects/seismic-ml-analysis",
+      "kind": "directory"
+    },
+    {
+      "id": "Other Projects/terraform-aws-automation",
+      "root": "home",
+      "path": "Projects/terraform-aws-automation",
+      "kind": "directory"
+    },
+    {
+      "id": "Phone private config",
+      "root": "data",
+      "path": "phone-private",
+      "kind": "directory"
+    },
+    {
+      "id": "Phone push keys",
+      "root": "data",
+      "path": "phone-private/vapid.json",
+      "kind": "file"
+    },
+    {
+      "id": "Protected backup canary",
+      "root": "home",
+      "path": "UnfoolableBackups/read-denial-canary.txt",
+      "kind": "file"
+    },
+    {
+      "id": "Verdict device-bound key blob",
+      "root": "data",
+      "path": "signing/device-key.blob",
+      "kind": "file"
+    },
+    {
+      "id": "Verdict hardware signing helper",
+      "root": "data",
+      "path": "signing/enclave-seal",
+      "kind": "file"
+    },
+    {
+      "id": "Verdict signing helper",
+      "root": "repo",
+      "path": "scripts/seal-helper.mjs",
+      "kind": "file"
+    },
+    {
+      "id": "Verdict signing key",
+      "root": "data",
+      "path": "signing/private.pem",
+      "kind": "file"
+    },
+    {
+      "id": "~/.aws",
+      "root": "home",
+      "path": ".aws",
+      "kind": "directory"
+    },
+    {
+      "id": "~/.bench-private",
+      "root": "home",
+      "path": ".bench-private",
+      "kind": "directory"
+    },
+    {
+      "id": "~/.codex",
+      "root": "home",
+      "path": ".codex",
+      "kind": "directory"
+    },
+    {
+      "id": "~/.codex/auth.json",
+      "root": "home",
+      "path": ".codex/auth.json",
+      "kind": "file"
+    },
+    {
+      "id": "~/.config",
+      "root": "home",
+      "path": ".config",
+      "kind": "directory"
+    },
+    {
+      "id": "~/.gnupg",
+      "root": "home",
+      "path": ".gnupg",
+      "kind": "directory"
+    },
+    {
+      "id": "~/.ssh",
+      "root": "home",
+      "path": ".ssh",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Application Support/Arc",
+      "root": "home",
+      "path": "Library/Application Support/Arc",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Application Support/BraveSoftware/Brave-Browser",
+      "root": "home",
+      "path": "Library/Application Support/BraveSoftware/Brave-Browser",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Application Support/Chromium",
+      "root": "home",
+      "path": "Library/Application Support/Chromium",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Application Support/Firefox",
+      "root": "home",
+      "path": "Library/Application Support/Firefox",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Application Support/Google/Chrome",
+      "root": "home",
+      "path": "Library/Application Support/Google/Chrome",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Application Support/Google/Chrome Beta",
+      "root": "home",
+      "path": "Library/Application Support/Google/Chrome Beta",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Application Support/Microsoft Edge",
+      "root": "home",
+      "path": "Library/Application Support/Microsoft Edge",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Containers/com.apple.Safari",
+      "root": "home",
+      "path": "Library/Containers/com.apple.Safari",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Group Containers/group.com.apple.Safari",
+      "root": "home",
+      "path": "Library/Group Containers/group.com.apple.Safari",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Keychains",
+      "root": "home",
+      "path": "Library/Keychains",
+      "kind": "directory"
+    },
+    {
+      "id": "~/Library/Safari",
+      "root": "home",
+      "path": "Library/Safari",
+      "kind": "directory"
+    },
+    {
+      "id": "Projects parent (new repositories included)",
+      "root": "home",
+      "path": "Projects",
+      "kind": "directory"
+    },
+    {
+      "id": "~/.npmrc",
+      "root": "home",
+      "path": ".npmrc",
+      "kind": "file"
+    },
+    {
+      "id": "~/.netrc",
+      "root": "home",
+      "path": ".netrc",
+      "kind": "file"
+    },
+    {
+      "id": "~/.pypirc",
+      "root": "home",
+      "path": ".pypirc",
+      "kind": "file"
+    },
+    {
+      "id": "~/.git-credentials",
+      "root": "home",
+      "path": ".git-credentials",
+      "kind": "file"
+    },
+    {
+      "id": "~/.docker/config.json",
+      "root": "home",
+      "path": ".docker/config.json",
+      "kind": "file"
+    },
+    {
+      "id": "~/.kube",
+      "root": "home",
+      "path": ".kube",
+      "kind": "directory"
+    }
+  ],
+  "endpoints": [
+    "/api/phone/pairs",
+    "/api/phone/register/options",
+    "/api/phone/alerts",
+    "/api/human/options",
+    "/api/human/confirm",
+    "/api/tickets/probe/keep",
+    "/api/night/drafts/00000000-0000-4000-8000-000000000001/queue",
+    "/api/night/notifications"
+  ]
+}

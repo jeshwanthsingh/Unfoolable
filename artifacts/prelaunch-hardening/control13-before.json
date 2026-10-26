@@ -1,0 +1,35 @@
+{
+  "label": "career-shared-checker-tampering",
+  "status": "PASS",
+  "expected": "FAIL",
+  "exitCode": 0,
+  "tests": [
+    {
+      "id": "liveness.syntax",
+      "status": "PASS"
+    },
+    {
+      "id": "liveness.expired-apply",
+      "status": "PASS"
+    },
+    {
+      "id": "liveness.active-workday",
+      "status": "PASS"
+    },
+    {
+      "id": "liveness.expired-url",
+      "status": "PASS"
+    },
+    {
+      "id": "liveness.listing-only",
+      "status": "PASS"
+    }
+  ],
+  "cleanup": {
+    "verified": true,
+    "ambiguous": false,
+    "remaining": [],
+    "terminalCount": 0,
+    "reason": null
+  }
+}

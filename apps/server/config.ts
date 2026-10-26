@@ -1,3 +1,4 @@
+import {extraProtectedPaths} from './builder-private-paths.ts';
 import {resolve} from 'node:path';
 import {failure} from './errors.ts';
 import {homedir} from 'node:os';
@@ -5,6 +6,7 @@ import {statSync} from 'node:fs';
 import {absoluteRepoPath} from './repository.ts';
 export type AppConfig=Readonly<{port:number;dataDir:string;webRoot:string;development:boolean;projectRoots:readonly string[]}>;
 export function loadConfig(env:NodeJS.ProcessEnv=process.env,projectRoot=process.cwd()):AppConfig {
+ try{extraProtectedPaths(env);}catch{throw failure('INVALID_CONFIG','COMMAND_CENTER_EXTRA_PROTECTED_PATHS must be a JSON array of at most 64 absolute or ~/ paths');}
  const raw=env.COMMAND_CENTER_PORT??'3210';
  if(!/^\d+$/.test(raw)||Number(raw)<1024||Number(raw)>65535)throw failure('INVALID_CONFIG','COMMAND_CENTER_PORT must be an integer between 1024 and 65535');
  const data=env.COMMAND_CENTER_DATA_DIR??'data';

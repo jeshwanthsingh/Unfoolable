@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtempSync} from 'node:fs';import {join} from 'node:path';import {tmpdir} from 'node:os';import {careerNegativeControl} from '../scripts/career-negative-control.ts';
+test('control 13 cannot pass by patching the parent assertion library',{skip:process.platform!=='darwin',timeout:40000},async()=>{const result=await careerNegativeControl(mkdtempSync(join(tmpdir(),'cc-career-13-')));assert.equal(result.status,'FAIL',JSON.stringify(result));});
+
+test('candidate fake CC_CHECKS_JSON stays inside the child and cannot replace the parent report',{skip:process.platform!=='darwin',timeout:40000},async()=>{const result=await careerNegativeControl(mkdtempSync(join(tmpdir(),'cc-career-fake-')),'fake-report');assert.equal(result.status,'FAIL');assert.equal(result.tests.length,5);});

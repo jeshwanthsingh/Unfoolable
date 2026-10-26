@@ -1,3 +1,4 @@
+import {careerNegativeControl} from './career-negative-control.ts';
 import {executeOracleTest} from '../apps/server/oracle-execution.ts';
 import {materializeOracleTree,restoreBaseTests,dependencyChanges,reviewTripwire} from '../apps/server/oracle-tree.ts';
 import {safeBuildGit} from '../apps/server/build-workspace.ts';
@@ -95,6 +96,7 @@ for(const control of controls){
  if(control.native&&!(nativeInvariant as {exact?:boolean}|null)?.exact)throw Error('Native collection proof missing: '+control.label);
  if(status!==control.expected)throw Error('Negative control unexpected status: '+control.label);
 }
+const career=await careerNegativeControl(join(output,'career-control-13'));results.push(career as unknown as Record<string,unknown>);writeFileSync(join(output,'results.json'),JSON.stringify(results,null,2));console.log(career.label,career.status);if(career.status==='PASS')throw Error('STOP: control 13 scored PASS');
 const hashesAfter=coreHashes(),coreUnchanged=JSON.stringify(hashesBefore)===JSON.stringify(hashesAfter);
 writeFileSync(join(output,'summary.json'),JSON.stringify({completed:true,negativePasses:0,results:results.map(({label,status,tree,nativeInvariant})=>({label,status,tree,nativeInvariant})),coreUnchanged,coreHashesAfter:hashesAfter,limits:'Review tripwire is a heuristic human-review gate, not observation authenticity. Historical zero-project-tests was deletion of a Candidate file; this run includes actual zero-collected native judge.',identity},null,2));
 if(!coreUnchanged)throw Error('Oracle core changed during controls; evidence requires review');

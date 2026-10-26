@@ -33,3 +33,9 @@ This diagnostic is not a claim of complete observation authenticity or a new per
 Gitleaks 8.30.1 scanned the complete proposed tracked tree using the unchanged default-rule configuration. Its raw scan reported 17 matches: 13 saved file-integrity hashes, three third-party JavaScript method names and one explicitly fake AWS-shaped redaction fixture. [Exact review](../artifacts/recover-docs/gitleaks-triage.json) found zero real secrets. A second scan with only those exact reviewed fingerprints as baseline reported zero remaining findings; the raw report is retained. No rule or path was broadly excluded.
 
 A separate home-path check still finds personal paths in the two immutable CORE-1 golden files. The owner initially required preserving their bytes and blocking publication. On 2026-10-24 the owner explicitly approved publishing both originals unchanged because the paths contain the public username. This specific publication blocker is resolved by owner approval. Gitleaks is a secret scanner, not a blanket personal-data clearance. The one-time merge/push authorization does not extend to future changes.
+
+## Prelaunch hardening — 2026-10-25
+
+The released Builder manifest is now `protected-paths-v2`, 84 targets: **74 denied, 10 absent, zero readable**, with no unexpected errors in the actual Builder/direct-profile probe. V1 bytes and old records are preserved. [Probe](../artifacts/prelaunch-hardening/probe.json). The 69 denied / nine absent figures above describe the earlier Python grading-time diagnostic, not a claim that all v1 targets existed.
+
+Control #13 is now added: the shared career assertion attack scored PASS before the fix and FAIL after child-process isolation. Fake child check reports are also rejected. The remaining native observation-authenticity limitation and the missing universal read-allowlist feasibility study are not declared solved. See [updated controls](NEGATIVE_CONTROLS.md).

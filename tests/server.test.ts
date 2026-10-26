@@ -7,7 +7,7 @@ import {join} from 'node:path';
 import {createApplication} from '../apps/server/application.ts';
 import {loadConfig} from '../apps/server/config.ts';
 
-async function fixture(){const dir=mkdtempSync(join(tmpdir(),'cc-http-'));const events:unknown[]=[];const app=createApplication({...loadConfig({COMMAND_CENTER_DATA_DIR:dir},'/tmp/example'),port:0},event=>events.push(event));await app.start();const a=app.server.address();assert.ok(a&&typeof a!=='string');return {app,dir,events,url:`http://127.0.0.1:${a.port}`,port:a.port};}
+async function fixture(){const dir=mkdtempSync(join(tmpdir(),'cc-http-'));const events:unknown[]=[];const app=createApplication({...loadConfig({COMMAND_CENTER_PROJECT_ROOTS:JSON.stringify([process.cwd()]),COMMAND_CENTER_DATA_DIR:dir},'/tmp/example'),port:0},event=>events.push(event));await app.start();const a=app.server.address();assert.ok(a&&typeof a!=='string');return {app,dir,events,url:`http://127.0.0.1:${a.port}`,port:a.port};}
 async function cleanup(f:Awaited<ReturnType<typeof fixture>>){await f.app.close();rmSync(f.dir,{recursive:true});}
 test('health reflects a ready database and listener binds to IPv4 loopback',async()=>{
  const f=await fixture();try{const response=await fetch(f.url+'/api/health');assert.equal(response.status,200);assert.deepEqual(await response.json(),{status:'ok',version:'0.0.1',coordinator:'online',database:{status:'ready',schemaVersion:21}});assert.equal((f.app.server.address() as {address:string}).address,'127.0.0.1');}finally{await cleanup(f);}
@@ -34,6 +34,6 @@ test('health never stays green after database failure',async()=>{
  const f=await fixture();try{f.app.database.connection.close();const r=await fetch(f.url+'/api/health');assert.equal(r.status,503);const d=await r.json() as {database:{status:string}};assert.equal(d.database.status,'unavailable');}finally{await cleanup(f);}
 });
 test('failed port binding closes SQLite and releases the new instance lock',async()=>{
- const f=await fixture();const dir=mkdtempSync(join(tmpdir(),'cc-bind-'));const other=createApplication({...loadConfig({COMMAND_CENTER_DATA_DIR:dir},'/tmp/example'),port:f.port},()=>{});
+ const f=await fixture();const dir=mkdtempSync(join(tmpdir(),'cc-bind-'));const other=createApplication({...loadConfig({COMMAND_CENTER_PROJECT_ROOTS:JSON.stringify([process.cwd()]),COMMAND_CENTER_DATA_DIR:dir},'/tmp/example'),port:f.port},()=>{});
  try{await assert.rejects(other.start(),{code:'EADDRINUSE'});assert.equal(other.database.connection.isOpen,false);}finally{await other.close();await cleanup(f);rmSync(dir,{recursive:true});}
 });

@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Unfoolable",
   "short_name": "Unfoolable",
-  "description": "AI does the work. Nothing fools the check.",
+  "description": "AI does the work. It never grades itself.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

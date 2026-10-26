@@ -1,6 +1,6 @@
 # Unfoolable — Design
 
-*AI does the work. Nothing fools the check.*
+*AI does the work. It never grades itself.*
 
 I built Unfoolable because I wanted an AI coding agent to do real work on my projects, but I didn't want to trust its word that the work was correct. This page explains the problem, the design, why I made the choices I did, and what the system does **not** protect against.
 
@@ -28,7 +28,7 @@ Request -> Builder (sandboxed copy) -> frozen change -> Grader (separate process
 ```
 
 1. **Request.** I describe a change in plain English. Starting work needs Touch ID.
-2. **Build.** Codex works in its own copy under `~/.cc-work`, inside a macOS sandbox: no outside network, 78 protected targets (`protected-paths-v1`) (keys, credentials, the grader's own files) blocked from reading, decoy "tripwire" files that stop the run if touched, and token, command and time budgets.
+2. **Build.** Codex works in its own copy under `~/.cc-work`, inside a macOS sandbox: no outside network, 84 protected targets (`protected-paths-v2`) (keys, credentials, the grader's own files) blocked from reading, decoy "tripwire" files that stop the run if touched, and token, command and time budgets.
 3. **Freeze.** When the Builder says it's done, its change is frozen. It can't edit anything after this point.
 4. **Check.** The Grader restores the **original** tests (so edited tests can't sneak through), runs project checks that were approved ahead of time, and runs free code-quality and secret-scanning tools on only the changed lines.
 5. **Decide.** Everything the Grader observed is passed to one small function, `scoreVerdict` in `packages/shared/verdict-core.ts`. It takes facts in and returns a verdict plus a step-by-step trace. It has no database, files, network or clock, so the same facts always give the same answer. Released cores v1/v2 remain registered; old seals replay their recorded version and source hash.
@@ -39,7 +39,7 @@ Two extra flows reuse the same path. **Bug from this log:** the Builder must fir
 
 ## 4. Why it's hard to fool
 
-- **The judge is out of reach.** The Builder can't read the grader's files, the signing key or the protected tests. I prove this with a probe that runs as the real Builder and tries the 78 targets in `protected-paths-v1`. The dated Builder probe found none readable; missing targets are not successful read-denial proofs.
+- **The judge is out of reach.** The Builder can't read the grader's files, the signing key or the protected tests. I prove this with a probe that runs as the real Builder and tries the 84 targets in `protected-paths-v2`. The dated Builder probe recorded 74 denied, 10 absent and zero readable; missing targets are not successful read-denial proofs.
 - **The tester gets tested.** A new test only counts if it **fails on the old code** and **passes on the new code**. A test that passes on both proves nothing, so it isn't admitted.
 - **Planted cheats.** I keep 12 deliberately wrong changes (edited tests, special-casing, empty tests and more). None of them may ever pass. Today: 5 fail, 7 are "not checked", 0 pass.
 - **Caution always wins.** When two checks disagree, the more cautious result wins (FAILED > ERROR > NOT CHECKED > PASSED WITH GAPS > VERIFIED). A missing check can never make a result look better.

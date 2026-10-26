@@ -1,6 +1,6 @@
 # Words
 
-Unfoolable. AI does the work. Nothing fools the check.
+Unfoolable. AI does the work. It never grades itself.
 
 The main screen says what happened and what you can do. Status lines contain at most 12 words. Counts come from recorded results; unknown counts are never invented. User-authored titles and requests remain unchanged; the vocabulary restriction applies to our labels and status sentences, not quotations of the user.
 

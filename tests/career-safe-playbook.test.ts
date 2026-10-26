@@ -4,7 +4,7 @@ import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,readdirSync,symlinkSync
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {execFileSync} from 'node:child_process';
-import {careerSafePlaybook,CAREER_CHECK_IDS} from '../apps/server/career-safe-playbook.ts';
+import {careerSafePlaybook,CAREER_CHECK_IDS,currentCareerChecks} from '../apps/server/career-safe-playbook.ts';
 import {validatePlaybookDefinition} from '../apps/server/project-playbooks.ts';
 import {createPlaybookChecks,parsePlaybookTests} from '../apps/server/playbook-checks.ts';
 import {materializeOracleTree} from '../apps/server/oracle-tree.ts';
@@ -41,3 +41,5 @@ for(const attack of ['symlink','submodule','oversized'] as const)test('selected 
 test('selected export ignores protected agent directories but rejects selecting them',async()=>{
  const root=mkdtempSync(join(tmpdir(),'cc-selected-agent-')),repo=join(root,'repo');mkdirSync(join(repo,'.claude','skills'),{recursive:true});writeFileSync(join(repo,'.claude','skills','SKILL.md'),'fixture');writeFileSync(join(repo,'liveness-core.mjs'),'export const value=1;');const git=(...args:string[])=>execFileSync('git',['-C',repo,...args],{encoding:'utf8'}).trim();git('init','-q');git('add','.');git('-c','user.name=test','-c','user.email=test@localhost','commit','-qm','BASE');const rev=git('rev-parse','HEAD');await materializeOracleTree(repo,rev,join(root,'export'),['liveness-core.mjs']);assert.deepEqual(readdirSync(join(root,'export')),['liveness-core.mjs']);await assert.rejects(materializeOracleTree(repo,rev,join(root,'whole')),/\.claude\/skills\/SKILL.md/);await assert.rejects(materializeOracleTree(repo,rev,join(root,'bad'),['.claude/skills/SKILL.md']),/Invalid oracle export whitelist/);
 });
+
+test('obsolete approved career checker commands are refused without rewriting their approval',async()=>{const root=mkdtempSync(join(tmpdir(),'cc-career-legacy-')),repo=join(root,'repo'),data=join(root,'data');mkdirSync(repo);mkdirSync(data);execFileSync('git',['init','-q',repo]);writeFileSync(join(repo,'liveness-core.mjs'),'export function classifyLiveness(){return {result:"wrong"}}');execFileSync('git',['-C',repo,'add','.']);execFileSync('git',['-C',repo,'-c','user.name=Fixture','-c','user.email=fixture@localhost','commit','-qm','BASE']);const checks=createPlaybookChecks(data),definition=careerSafePlaybook();definition.tests[0]!.argv=['node','-e','throw Error("obsolete shared checker must not execute")'];assert.equal(currentCareerChecks(definition),false);const proposal=checks.store.edit(repo,definition),approved=checks.store.approve(repo,proposal.hash),before=checks.store.show(repo);await assert.rejects(checks.admit(approved,repo,execFileSync('git',['-C',repo,'rev-parse','HEAD'],{encoding:'utf8'}).trim(),new AbortController().signal),{code:'PLAYBOOK_CHANGED'});assert.deepEqual(checks.store.show(repo),before);});
