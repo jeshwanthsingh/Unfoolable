@@ -29,7 +29,7 @@ Expanded pack: **13 controls, 6 FAIL, 7 INCONCLUSIVE, 0 PASS**. The original twe
 | Owned worktree capabilities | Git status/diff/log, SQLite/temp and own writes PASS |
 | Existing seals | 6 sealed, 8 older-unsealed, 0 broken; no stored verdicts rewritten |
 | Weekly self-check | PASS: probe, all 13 controls, verify, fresh full backup/restore |
-| Full restore | 214,398 files, 499.902 seconds, complete/full/digests verified |
+| Fresh checkpoint + full restore | 214,398 files, 499.902 seconds total, complete/full/digests verified |
 
 The default clean-clone run does not claim the 42 skipped native integrations passed. Those same integrations were exercised in the fully enabled maintainer run. No test silently borrowed another personal checkout. Native tests still need the documented host runtime; this was a clean-clone/empty-HOME test on this Mac, not a second physical Mac.
 
