@@ -1,0 +1,11 @@
+{
+  "decodedFrames": 1770,
+  "findings": [],
+  "method": "Every decoded frame; exact-byte duplicates reuse OCR. Local Apple Vision; no network.",
+  "uniqueImagesOCR": 1053,
+  "file": "launch-landscape-1920x1080.mp4",
+  "sha256": "d45552e9104e1e46e920c50c7d73ec5a4bd47cd632e805f5b4616c4d042bd41e",
+  "date": "2026-10-26",
+  "patterns": "Hostnames, home/private/volume paths, local addresses, emails, token-like strings, other project names. Local OCR only.",
+  "visualReview": "Every shot reviewed, including 390px playback previews of Proof, confirmation and diff. OCR is a pattern scan, not a guarantee against every possible secret."
+}

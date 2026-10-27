@@ -1,8 +1,8 @@
 {
-  "decodedFrames" : 5220,
-  "findings" : [
-
-  ],
-  "method" : "Every decoded frame; exact-byte duplicates reuse OCR. Local Apple Vision; no network.",
-  "uniqueImagesOCR" : 2753
+  "decodedFrames": 5220,
+  "findings": [],
+  "method": "Every decoded frame; exact-byte duplicates reuse OCR. Local Apple Vision; no network.",
+  "uniqueImagesOCR": 2753,
+  "scope": "Historical original 58-second exports. Square/vertical remain unchanged; current landscape scan is landscape-refresh-privacy.json.",
+  "currentLandscapeScan": "landscape-refresh-privacy.json"
 }

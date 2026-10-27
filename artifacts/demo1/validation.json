@@ -29,12 +29,12 @@
       "width": 1920,
       "height": 1080,
       "fps": 30,
-      "frames": 1740,
-      "durationSeconds": 58.0,
+      "frames": 1770,
+      "durationSeconds": 59.0,
       "codec": "H.264",
-      "bytes": 1082601,
+      "bytes": 1128832,
       "silent": true,
-      "sha256": "f7cd88a59aec5f7983ef0327070eb56a5b08fc52eadbf1df73913f95f90dc292"
+      "sha256": "d45552e9104e1e46e920c50c7d73ec5a4bd47cd632e805f5b4616c4d042bd41e"
     }
   ],
   "sourceFreeze": {
@@ -46,5 +46,14 @@
   "finalTicket": "1d390abf-3c12-468f-a4bd-79c2cf5673b3",
   "verdict": "NOT CHECKED",
   "accepted": false,
-  "rejected": false
+  "rejected": false,
+  "captionOverrides": {
+    "launch-landscape-1920x1080.mp4": "launch-landscape.srt"
+  },
+  "landscapeRefresh": {
+    "date": "2026-10-26",
+    "validation": "landscape-refresh-validation.json",
+    "privacy": "landscape-refresh-privacy.json",
+    "note": "Square and vertical exports retain their historical 58-second edit and shared subtitles."
+  }
 }

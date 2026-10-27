@@ -1,0 +1,203 @@
+{
+  "date": "2026-10-26",
+  "file": "launch-landscape-1920x1080.mp4",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 1770,
+  "durationSeconds": 59.0,
+  "codec": "H.264",
+  "silent": true,
+  "bytes": 1128832,
+  "sha256": "d45552e9104e1e46e920c50c7d73ec5a4bd47cd632e805f5b4616c4d042bd41e",
+  "previousLandscape": {
+    "file": "launch-landscape-1920x1080.mp4",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "frames": 1740,
+    "durationSeconds": 58.0,
+    "codec": "H.264",
+    "bytes": 1082601,
+    "silent": true,
+    "sha256": "f7cd88a59aec5f7983ef0327070eb56a5b08fc52eadbf1df73913f95f90dc292"
+  },
+  "unchangedAssets": {
+    "launch-square-1080.mp4": "a74f55a4f14b210e1c2c65554fd80ef7901cba6705cc2893a11f1999c8a97051",
+    "launch-vertical-1080x1920.mp4": "440f00a7a54b2663702e5361b093ad7f472f1fb2d6409014d6e64e9d7bfd1428",
+    "launch-demo.srt": "d45b0ae278a25ba439221274284f0f1923a4dffadc87326f94521bf94c415dae",
+    "cover-1080.png": "6affe4f279c0ba140658cd7e9632ada1e0c9e339337f4a10fbb52cec2ebd2061"
+  },
+  "sourceEvidenceSha256": {
+    "artifacts/prelaunch-hardening/controls.json": "decfdbf6f43d3d6c75931b672b50127205abbc7dd1266d53c9425edcb0250be3",
+    "artifacts/prelaunch-hardening/probe.json": "74c40f4b95aa5161ece8f831a87f1e9e1bcc9641c67585923ce14cd56abb840f",
+    "artifacts/prelaunch-hardening/control13-before.json": "f43928b91e5a86de5ebd7c6a0d89860458566230c167e22b262745f34e9d1e7f",
+    "artifacts/prelaunch-hardening/control13-after.json": "44c078f7f60b1d7285e2bb79f820e3a1d000cba95d49d4b7795fd63c5bf82d49"
+  },
+  "controls": {
+    "count": 13,
+    "pass": 0,
+    "fail": 6,
+    "inconclusive": 7
+  },
+  "probe": {
+    "denied": 74,
+    "absent": 10,
+    "readable": 0
+  },
+  "control13": {
+    "before": "PASS",
+    "after": "FAIL",
+    "recordedEvidence": true
+  },
+  "timeline": [
+    {
+      "start": 0,
+      "end": 3,
+      "title": "I don\u2019t let AI\ngrade its own code.",
+      "label": "Real playground task \u00b7 live capture",
+      "caption": [
+        "Unfoolable"
+      ]
+    },
+    {
+      "start": 3,
+      "end": 7,
+      "title": "A small, real request",
+      "label": "Actual Ask capture \u00b7 playground only",
+      "caption": [
+        "One request. A disposable cart.",
+        "Add a clear help example."
+      ]
+    },
+    {
+      "start": 7,
+      "end": 10,
+      "title": "Nothing starts on its own",
+      "label": "Real Start confirmation \u00b7 still",
+      "caption": [
+        "Start needs my Touch ID.",
+        "Bound to this exact request."
+      ]
+    },
+    {
+      "start": 10,
+      "end": 14,
+      "title": "The Builder stays outside",
+      "label": "Live capture \u00b7 time-lapse 3.5\u00d7",
+      "caption": [
+        "No internet. Secrets blocked.",
+        "Every protected file that exists: denied (74 of 74)."
+      ]
+    },
+    {
+      "start": 14,
+      "end": 21,
+      "title": "Tests and quality checks",
+      "label": "Live capture \u00b7 original timing",
+      "caption": [
+        "Five old tests still pass.",
+        "New behavior is not independently proved."
+      ]
+    },
+    {
+      "start": 21,
+      "end": 25,
+      "title": "A separate judge",
+      "label": "Replay \u00b7 this task\u2019s real event log",
+      "caption": [
+        "The Builder can\u2019t read",
+        "or change the judge."
+      ]
+    },
+    {
+      "start": 25,
+      "end": 29,
+      "title": "Test the tester",
+      "label": "Rule illustration \u00b7 not this task\u2019s result",
+      "caption": [
+        "New tests only count if they fail",
+        "on old code and pass on new code."
+      ]
+    },
+    {
+      "start": 29,
+      "end": 33,
+      "title": "Try to fool the checker",
+      "label": "Planted cheat (test case) \u00b7 recorded evidence",
+      "caption": [
+        "13 planted cheats. 0 passed.",
+        "6 failed. 7 inconclusive."
+      ]
+    },
+    {
+      "start": 33,
+      "end": 37,
+      "title": "It does not get through",
+      "label": "Planted cheat (test case) \u00b7 recorded evidence",
+      "caption": [
+        "Original tests were restored.",
+        "A fake passing test did not win."
+      ]
+    },
+    {
+      "start": 37,
+      "end": 40,
+      "title": "The honest result",
+      "label": "Wallet Proof still \u00b7 overall NOT CHECKED",
+      "caption": [
+        "Ready for review. Not checked.",
+        "Accept stays locked."
+      ]
+    },
+    {
+      "start": 40,
+      "end": 42,
+      "title": "Look at the changes",
+      "label": "Exact file diff \u00b7 real review still",
+      "caption": [
+        "One help-text change.",
+        "No Accept or Reject was pressed."
+      ]
+    },
+    {
+      "start": 42,
+      "end": 47,
+      "title": "Seal the result, not a promise",
+      "label": "Real CLI output \u00b7 reformatted card",
+      "caption": [
+        "This verdict is signed",
+        "by my Mac\u2019s security chip."
+      ]
+    },
+    {
+      "start": 47,
+      "end": 51,
+      "title": "A review found a gap",
+      "label": "Recorded evidence \u00b7 control 13 before/after",
+      "caption": [
+        "Recorded evidence: control 13 before/after."
+      ]
+    },
+    {
+      "start": 51,
+      "end": 59,
+      "title": "Unfoolable",
+      "label": "Built by Jeshwanth Singh",
+      "caption": [
+        "AI does the work.",
+        "It never grades itself."
+      ]
+    }
+  ],
+  "privacyScan": "landscape-refresh-privacy.json",
+  "allFramesChecked": 1770,
+  "privacyFindings": 0,
+  "applicationFilesChanged": [],
+  "notes": [
+    "Only the landscape edit is updated.",
+    "Unchanged original scenes retain their source footage, text and duration.",
+    "The real ticket result is NOT CHECKED; no acceptance was added.",
+    "No app tests rerun: media/artifact-only change."
+  ]
+}

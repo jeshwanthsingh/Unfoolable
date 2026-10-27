@@ -17,3 +17,14 @@ Ticket **4093aa6c-3774-46fc-b33f-1e7fa0fdd937**, “Add cart discount code suppo
 ## Recovery — 2026-10-24
 
 Recovered from stash `4378916` without altering any of the three video files. Their visible numbers and UI are historical footage, not today's installation. Current documentation records 78 targets in `protected-paths-v1`, registered verdict cores v1/v2 and six sealed / zero broken latest ticket records. A fresh local OCR privacy pass checked all 5,220 video frames and the recovered cover: zero findings. [Recovery validation](../recover-docs/video-validation.json); [fresh privacy result](../recover-docs/video-privacy.json). No acceptance or new successful verdict was added to the story.
+
+## Landscape refresh — 2026-10-26
+
+Only `launch-landscape-1920x1080.mp4` is refreshed; the square/vertical videos, cover, preview and original shared subtitle file are unchanged. This supersedes the old landscape counts/tagline above, without rewriting the historical edit. The new cut is 59 seconds, 1920×1080, 30 fps H.264, silent, with matching `launch-landscape.srt`.
+
+- Both planted-cheat scenes now report **13 controls: 0 PASS, 6 FAIL, 7 INCONCLUSIVE**, sourced from [prelaunch-hardening controls](../prelaunch-hardening/controls.json). The demonstrated altered-original-test case is still a recorded self-test, not this task's grader result. Inconclusive is not a detected defect.
+- The Builder scene is four seconds, labelled time-lapse 3.5×, and says: “No internet. Secrets blocked. Every protected file that exists: denied (74 of 74).” The [dated probe](../prelaunch-hardening/probe.json) records 84 targets: 74 denied, 10 absent, zero readable. The caption excludes absent targets; it is not a fresh per-task probe.
+- The additional four-second card before the end is labelled recorded evidence, control 13 before/after: [PASS before isolation](../prelaunch-hardening/control13-before.json), [FAIL afterward](../prelaunch-hardening/control13-after.json). These are saved results, not a rerun or an invented live event.
+- The end card says “AI does the work. It never grades itself.”
+- Proof, the real pending passkey confirmation and the exact diff are enlarged crops of the same captures. No new confirmation, acceptance or passing result was created. The actual ticket remains the original recorded **NOT CHECKED** result, with Accept locked.
+- Fresh local Apple Vision OCR checked **all 1,770 encoded-video frames**, reusing OCR only for exact duplicate images: zero privacy-pattern findings. Every scene and the 390px close-ups were visually reviewed. See [privacy result](landscape-refresh-privacy.json) and [format/scope validation](landscape-refresh-validation.json). OCR cannot guarantee the absence of every conceivable secret. No raw/private capture was added.
