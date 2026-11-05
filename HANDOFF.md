@@ -3,8 +3,9 @@ allowed_files:
   - apps/observatory/
   - apps/web/src/annex/
   - tests/observatory/
-test_command: npm test
-target_test_command: npm test -- tests/observatory/office-reader.test.ts
+test_command: node --test tests/observatory/office-reader.test.ts tests/observatory/kid-test.test.ts tests/observatory/office-floor.test.ts
+target_test_command: node --test tests/observatory/office-floor.test.ts
+ship_test_command: npm test
 tests_editable: no
 
 # Unfoolable handoff
