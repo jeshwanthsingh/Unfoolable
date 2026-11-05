@@ -1,3 +1,11 @@
+scope: Office annex (V4 Part 4 plain page, then Part 5 pixel office). Unfoolable server and ticket_events stay untouched.
+allowed_files:
+  - apps/observatory/
+  - apps/web/src/annex/
+  - tests/observatory/
+test_command: node --test --test-concurrency=4 tests/*.test.ts tests/observatory/*.test.ts
+tests_editable: no
+
 # Unfoolable handoff
 
 ## Current state
