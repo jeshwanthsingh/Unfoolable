@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import type {Item, Snapshot} from '../../../observatory/office-data.ts';
-import {COPY, DETAIL_WORDS, lightIcon} from './copy.ts';
+import {COPY, DETAIL_WORDS, FLOOR, lightIcon} from './copy.ts';
+import {Floor} from './Floor.tsx';
 import '../unfoolable.css';
 import './office-annex.css';
 
@@ -23,6 +24,7 @@ const List = ({items}: {items: Item[]}) => items.length === 0 ? <p className="oa
 export function OfficePage() {
   const [snap, setSnap] = useState<Snapshot | null>(null);
   const [err, setErr] = useState('');
+  const [picture, setPicture] = useState(false);
   const [dark, setDark] = useState(() => matchMedia('(prefers-color-scheme: dark)').matches);
   useEffect(() => {
     const m = matchMedia('(prefers-color-scheme: dark)'), f = () => setDark(m.matches);
@@ -56,6 +58,8 @@ export function OfficePage() {
             <span className="oa-light" aria-hidden="true">{lightIcon[snap.light]}</span>
             <strong>{COPY.light[snap.light]}.</strong> {snap.sentence}
           </p>
+          <button type="button" className="oa-toggle" aria-pressed={picture} onClick={() => setPicture(!picture)}>{picture ? FLOOR.viewSimple : FLOOR.viewPicture}</button>
+          {picture ? <Floor snap={snap} /> : null}
           <div className="oa-grid">
             <Panel id="oa-needs" title={COPY.panels.needs.title} help={COPY.panels.needs.help}><List items={snap.needsYou} /></Panel>
             <Panel id="oa-night" title={COPY.panels.night.title} help={COPY.panels.night.help}><List items={snap.lastNight} /></Panel>

@@ -9,6 +9,8 @@ for (const [w, h, scheme] of [[1440, 900, 'light'], [390, 844, 'light'], [1440, 
   const p = await b.newPage({viewport: {width: w, height: h}, colorScheme: scheme});
   await p.goto(r.url); await p.waitForSelector('.oa-line');
   await p.screenshot({path: join(out, `office-${w}-${scheme}.png`), fullPage: true});
+  await p.click('.oa-toggle'); await p.waitForSelector('.oa-floor');
+  await p.screenshot({path: join(out, `office-${w}-${scheme}-picture.png`), fullPage: true});
   if (scheme === 'light' && w === 1440) console.log(await p.innerText('main'));
 }
 await b.close(); r.server.close();

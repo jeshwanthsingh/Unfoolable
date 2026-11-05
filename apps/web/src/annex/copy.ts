@@ -26,11 +26,21 @@ export const DETAIL_WORDS = {
   source: 'Read from usage.jsonl, scoreboard.csv, to-chat.md and garden reports. Read only.'
 } as const;
 
+// The picture view. Words only; the picture itself shows recorded facts or a faded "maybe".
+export const FLOOR = {
+  alt: 'A picture of the office: each helper at a desk or at the place it is working.',
+  bookshelf: 'Books', workbench: 'Workbench', terminal: 'Commands', globe: 'Web', checker: 'Checker',
+  door: 'The guard', guardNo: 'said no today', guardLast: 'last at', guardNone: 'has not said no today',
+  legend: 'Solid helper: seen working just now. Faded: maybe. Empty desk: finished.',
+  viewPicture: 'Show the picture', viewSimple: 'Show the simple view'
+} as const;
+
 export const lightIcon = {green: '✓', amber: '!', red: '✕', grey: '?'} as const;
 
 export function screenStrings(): string[] {
   const out: string[] = [];
   const walk = (v: unknown): void => { if (typeof v === 'string') out.push(v); else if (v && typeof v === 'object') Object.values(v).forEach(walk); };
   walk(COPY);
+  walk(FLOOR);
   return out;
 }

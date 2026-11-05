@@ -5,6 +5,6 @@ import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 export default defineConfig({
-  root: resolve(root, 'apps/web/src/annex'), base: './', plugins: [react()],
+  root: resolve(root, 'apps/web/src/annex'), base: './', publicDir: resolve(root, 'apps/web/public/workshop-pixel'), plugins: [react()],
   build: {outDir: resolve(root, '.work/office-dist'), emptyOutDir: true}
 });
