@@ -3,6 +3,7 @@
 import {readFileSync, readdirSync} from 'node:fs';
 import {join} from 'node:path';
 import {deriveSessions, parseLine, type LogLine} from './annex-events.ts';
+import {buildFloor, type Floor} from './office-floor.ts';
 
 export type Light = 'green' | 'amber' | 'red' | 'grey';
 export type Item = {text: string; at?: string};
@@ -14,6 +15,7 @@ export type Snapshot = {
   lastNight: Item[];
   results: Item[];
   today: {helpers: number; steps: number; guardNo: number; spent: string; list: Item[]};
+  floor: Floor;
   details: string[];
 };
 
@@ -105,7 +107,7 @@ export function buildSnapshot(vault: string, now = new Date()): Snapshot {
   const light: Light = !last ? 'grey' : needs.some((s) => s.needsYou!.what === 'error') ? 'red' : needs.length ? 'amber' : 'green';
   const sentence = !last ? 'No news yet.' : needs.length ? `${plural(needs.length, 'helper needs', 'helpers need')} you.` : `Nothing needs you. Last news at ${hhmm(last.ts)}.`;
   return {
-    generatedAt: nowIso, light, sentence, needsYou, lastNight, results,
+    generatedAt: nowIso, light, sentence, needsYou, lastNight, results, floor: buildFloor(events, nowIso),
     today: {
       helpers: todaySessions.length, steps: todayEv.filter((e) => e.kind === 'tool').length, guardNo, spent: `$${spent.toFixed(2)}`,
       list: todaySessions.slice(0, 8).map((s) => ({text: `${label(s.project)}: ${s.endedAt ? 'finished' : s.needsYou ? 'needs you' : 'no news since ' + hhmm(s.lastAt)}`}))

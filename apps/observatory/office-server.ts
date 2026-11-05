@@ -4,11 +4,11 @@ import {randomBytes, timingSafeEqual} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {join, extname} from 'node:path';
 import {buildSnapshot} from './office-data.ts';
-const TYPES: Record<string, string> = {'.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml'};
+const TYPES: Record<string, string> = {'.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png'};
 export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string}): Promise<{server: Server; port: number; token: string; url: string}> {
   const token = opts.token ?? randomBytes(24).toString('hex');
   const server = createServer((req, res) => {
-    const send = (code: number, body: string, type = 'text/plain; charset=utf-8'): void => {
+    const send = (code: number, body: string | Buffer, type = 'text/plain; charset=utf-8'): void => {
       res.writeHead(code, {'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'content-security-policy': "default-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'"});
       res.end(body);
     };
@@ -27,7 +27,7 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
     if (!opts.staticDir) return send(404, 'Not found.');
     const file = path === '/' ? 'index.html' : path.slice(1);
     if (!/^[\w.-]+(\/[\w.-]+)*$/.test(file) || file.includes('..') || !TYPES[extname(file)]) return send(404, 'Not found.');
-    try { send(200, readFileSync(join(opts.staticDir, file), 'utf8'), TYPES[extname(file)]); } catch { send(404, 'Not found.'); }
+    try { send(200, readFileSync(join(opts.staticDir, file)), TYPES[extname(file)]); } catch { send(404, 'Not found.'); }
   });
   return new Promise((ok, bad) => {
     server.once('error', bad);
