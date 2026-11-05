@@ -32,6 +32,7 @@ export const FLOOR = {
   bookshelf: 'Books', workbench: 'Workbench', terminal: 'Commands', globe: 'Web', checker: 'Checker',
   door: 'The guard', guardNo: 'said no today', guardLast: 'last at', guardNone: 'has not said no today',
   legend: 'Solid helper: seen working just now. Faded: maybe. Empty desk: finished.',
+  mailChat: 'New mail for the planner at', mailCode: 'New mail for the builder at',
   viewPicture: 'Show the picture', viewSimple: 'Show the simple view'
 } as const;
 

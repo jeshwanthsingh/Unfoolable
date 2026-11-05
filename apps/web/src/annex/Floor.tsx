@@ -54,6 +54,13 @@ export function Floor({snap}: {snap: Snapshot}) {
             </g>
           );
         })}
+        {[snap.mail.chat && `${FLOOR.mailChat} ${snap.mail.chat}`, snap.mail.code && `${FLOOR.mailCode} ${snap.mail.code}`].filter(Boolean).map((t, k) => (
+          <g key={k}>
+            <rect x={30 + k * 300} y={304} width={22} height={15} fill="var(--uf-surface)" stroke="var(--uf-text)" />
+            <path d={`M${30 + k * 300} 304 l11 8 l11 -8`} fill="none" stroke="var(--uf-text)" />
+            <text x={58 + k * 300} y={316} fontSize="12" fill="var(--uf-text)">{t}</text>
+          </g>
+        ))}
       </svg>
       <figcaption>{FLOOR.legend}</figcaption>
     </figure>

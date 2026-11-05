@@ -1,6 +1,6 @@
 // Office page reader: READ-ONLY. Reads four files under the vault, returns one small whitelisted snapshot.
 // It never writes, never opens the Unfoolable database or its Keep and checker code.
-import {readFileSync, readdirSync} from 'node:fs';
+import {readFileSync, readdirSync, statSync} from 'node:fs';
 import {join} from 'node:path';
 import {deriveSessions, parseLine, type LogLine} from './annex-events.ts';
 import {buildFloor, type Floor} from './office-floor.ts';
@@ -16,6 +16,7 @@ export type Snapshot = {
   results: Item[];
   today: {helpers: number; steps: number; guardNo: number; spent: string; list: Item[]};
   floor: Floor;
+  mail: {chat: string | null; code: string | null}; // HH:MM of today's change to each mailbox file, else null
   details: string[];
 };
 
@@ -62,6 +63,9 @@ export function parseMailbox(md: string, n: number): Item[] {
   }
   return out;
 }
+// Only the file's change time is read, never a second copy of its words.
+const changedToday = (p: string, today: string): string | null => { try { const t = localIso(statSync(p).mtime); return day(t) === today ? hhmm(t) : null; } catch { return null; } };
+
 export function buildSnapshot(vault: string, now = new Date()): Snapshot {
   const nowIso = localIso(now), today = day(nowIso);
   const usageRaw = read(join(vault, 'logs/usage.jsonl'));
@@ -107,7 +111,7 @@ export function buildSnapshot(vault: string, now = new Date()): Snapshot {
   const light: Light = !last ? 'grey' : needs.some((s) => s.needsYou!.what === 'error') ? 'red' : needs.length ? 'amber' : 'green';
   const sentence = !last ? 'No news yet.' : needs.length ? `${plural(needs.length, 'helper needs', 'helpers need')} you.` : `Nothing needs you. Last news at ${hhmm(last.ts)}.`;
   return {
-    generatedAt: nowIso, light, sentence, needsYou, lastNight, results, floor: buildFloor(events, nowIso),
+    generatedAt: nowIso, light, sentence, needsYou, lastNight, results, floor: buildFloor(events, nowIso), mail: {chat: changedToday(join(vault, 'mailbox/to-chat.md'), today), code: changedToday(join(vault, 'mailbox/to-code.md'), today)},
     today: {
       helpers: todaySessions.length, steps: todayEv.filter((e) => e.kind === 'tool').length, guardNo, spent: `$${spent.toFixed(2)}`,
       list: todaySessions.slice(0, 8).map((s) => ({text: `${label(s.project)}: ${s.endedAt ? 'finished' : s.needsYou ? 'needs you' : 'no news since ' + hhmm(s.lastAt)}`}))
