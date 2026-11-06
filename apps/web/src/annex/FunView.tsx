@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {figure} from './Character.tsx';
-import {GUARD_AT, PLACE, ROOM, SLOTS, SPRITE} from './room-map.ts';
+import {GUARD_AT, PLACE, ROOM, SLOTS, SPRITE, WALLS, ZONES} from './room-map.ts';
 import {BOARD, FUN} from './copy.ts';
 import {boardOf, freshness, type Card} from '../../../observatory/office-board.ts';
 import {look, shouldAnimate} from '../../../observatory/office-motion.ts';
@@ -55,6 +55,7 @@ export function FunView() {
       const floor = new Graphics().rect(0, 0, ROOM.w, ROOM.h).fill(0xcfcadd).rect(0, 0, ROOM.w, 92).fill(0x8d84a6).rect(0, 92, ROOM.w, 6).fill(0x6f6688);
       for (let x = 0; x < ROOM.w; x += 64) for (let y = 98; y < ROOM.h; y += 64) floor.rect(x, y, 32, 32).fill(0xd6d1e3).rect(x + 32, y + 32, 32, 32).fill(0xd6d1e3);
       floor.rect(352, 480, 288, 224).fill(0xdbe7df).rect(0, 480, 320, 224).fill(0xe6dccf).rect(0, 380, 14, 92).fill(0x4a4263); // checker's office, lounge, the door
+      for (const [x, y, w, h] of WALLS) floor.rect(x, y, w, h).fill(0xf7f5fb).stroke({width: 2, color: 0x4a4263});
       app.stage.addChild(floor);
       for (const [name, x, y] of PLACE) { const r = SPRITE[name]; const s = new Sprite(new Texture({source: sheet.source, frame: new Rectangle(r.x, r.y, r.w, r.h)})); s.position.set(x, y); app.stage.addChild(s); }
       const layer = new Container(); app.stage.addChild(layer);
@@ -103,6 +104,7 @@ export function FunView() {
       <div className="fv-row">
         <div className="fv-room" role="group" aria-label={FUN.alt}>
           <div ref={host} className="fv-canvas" />
+          {ZONES.map(([t, x, y]) => <span key={t} className="fv-zone" style={{left: pct(x, ROOM.w), top: pct(y, ROOM.h)}}>{t}</span>)}
           {scene?.figures.map((f) => { const p = at(f); return p ? (
             <div key={f.key} className="fv-spot" style={{left: pct(p[0], ROOM.w), top: pct(p[1] - 64, ROOM.h)}}>
               <button type="button" className={`fv-who${f.loud ? ' loud' : ''}${f.word === "didn't pass" ? ' bad' : ''}`} onClick={() => setPicked(f.key)}><b>{f.label}</b>{f.loud ? f.caption : f.word}</button>

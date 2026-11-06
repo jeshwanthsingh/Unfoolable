@@ -88,3 +88,6 @@ body{margin:0}
 @media (max-width:900px){.fv-row{flex-direction:column}.fv-panel{width:100%}}
 .unfoolable.oa .fv-who{background:#fff;color:#1F2A44}.unfoolable.oa .fv-who.loud{background:#FFD95A}.unfoolable.oa .fv-li{background:none;color:#1F2A44}
 .unfoolable.oa .fv-who.loud,.unfoolable.oa .fv-who.loud b{color:#1F2A44}.unfoolable.oa .fv .oa-muted{color:#4A5672}
+
+.fv-zone{position:absolute;z-index:1;font:700 11px Nunito,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#4A4263;background:rgba(255,255,255,.7);padding:1px 6px}
+.fv-who{max-width:150px;font-size:12px}.fv-who.loud{max-width:210px}
