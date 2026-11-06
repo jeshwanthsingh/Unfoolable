@@ -103,3 +103,5 @@ body{margin:0}
 .fv-row{position:relative}.fv-panel{position:absolute;right:0;top:0;z-index:5}
 .fv-face{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:62px;height:66px;cursor:pointer}
 .fv-li{flex-wrap:wrap}.fv-li time{flex:none}
+
+.fv-detail{margin:8px 0 0;font-size:15px}.fv-detail code{background:#EEF2F8;padding:1px 5px}

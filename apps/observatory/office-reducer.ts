@@ -4,7 +4,7 @@ import type {OfficeEvent} from './office-schema.ts';
 
 export type Status = 'needs_you' | 'working' | 'checking' | 'done' | 'stuck' | 'unknown';
 export const WORKING_SECONDS = 60;
-export type Helper = {sid: string; project: string; status: Status; note: string; lastAt: string; steps: number; gate: {task: string; passed: number; total: number; text: string} | null;
+export type Helper = {sid: string; project: string; status: Status; note: string; lastAt: string; steps: number; gate: {task: string; passed: number; total: number; text: string; command: string | null; firstFailed: string | null} | null;
   tool: {name: string; at: string} | null; // the last tool a step used (a name, never its input); the room uses it only while it is fresh
   slash: 'research' | 'critic' | null;
   idle: string | null}; // time of a finished turn when that is the helper's latest event: it is waiting for its human // a /research or /critic run that has not finished (command NAME only, from the emitter)
@@ -77,7 +77,7 @@ export function reduce(events: readonly OfficeEvent[], now: string): OfficeState
     else if (subagents > 0) { status = 'checking'; note = 'a checker is running'; }
     else if (age <= WORKING_SECONDS) { status = 'working'; note = 'working'; }
     else { status = 'unknown'; note = `no news for ${minsWord(age)}`; }
-    helpers.push({sid, project: last.project, status, note, lastAt: last.ts, steps: list.filter((e) => e.kind === 'tool_end').length, gate: gate ? {task: gate.gate!.task, passed: gate.gate!.passed, total: gate.gate!.total, text: gateText(gate.gate!)} : null, tool, slash, idle: last.kind === 'turn_end' && last.ok !== false ? last.ts : null});
+    helpers.push({sid, project: last.project, status, note, lastAt: last.ts, steps: list.filter((e) => e.kind === 'tool_end').length, gate: gate ? {task: gate.gate!.task, passed: gate.gate!.passed, total: gate.gate!.total, text: gateText(gate.gate!), command: gate.gate!.command ?? null, firstFailed: gate.gate!.firstFailed ?? null} : null, tool, slash, idle: last.kind === 'turn_end' && last.ok !== false ? last.ts : null});
   }
   helpers.sort((a, b) => ORDER.indexOf(a.status) - ORDER.indexOf(b.status) || (a.lastAt < b.lastAt ? 1 : a.lastAt > b.lastAt ? -1 : a.sid < b.sid ? -1 : 1));
   const summary = {needs_you: 0, working: 0, checking: 0, done: 0, stuck: 0, unknown: 0};

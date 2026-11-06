@@ -7,7 +7,7 @@ export const V1_KINDS = ['session_start', 'prompt', 'tool_start', 'tool_end', 't
 export type V1Kind = (typeof V1_KINDS)[number];
 export const CODES = ['permission', 'idle', 'question', 'to_builder', 'to_planner'] as const;
 export type Code = (typeof CODES)[number];
-export type Gate = {task: string; verdict: 'PASS' | 'FAIL' | 'PARTIAL'; passed: number; total: number};
+export type Gate = {task: string; verdict: 'PASS' | 'FAIL' | 'PARTIAL'; passed: number; total: number; command?: string; firstFailed?: string}; // command / firstFailed: optional, short, plain characters only (never file contents)
 export type OfficeEvent = {v: 1; seq: number; ts: string; sid: string; project: string; kind: V1Kind; tool: string | null; ok: boolean | null; code: Code | null; gate: Gate | null};
 
 const TS = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$/;
@@ -28,7 +28,9 @@ export function validate(raw: unknown): OfficeEvent | null {
     const g = r.gate as Record<string, unknown>;
     const task = word(g?.task, 30);
     if (!task || !['PASS', 'FAIL', 'PARTIAL'].includes(String(g.verdict)) || !Number.isInteger(g.passed) || !Number.isInteger(g.total) || (g.passed as number) < 0 || (g.passed as number) > (g.total as number)) return null;
-    gate = {task, verdict: g.verdict as Gate['verdict'], passed: g.passed as number, total: g.total as number};
+    const plain = (v: unknown, n: number): string | undefined => (typeof v === 'string' && v.length <= n && /^[\w .:,'()/=-]+$/.test(v) ? v : undefined); // anything else is dropped, the event stays
+    const command = plain(g.command, 40), firstFailed = plain(g.firstFailed, 60);
+    gate = {task, verdict: g.verdict as Gate['verdict'], passed: g.passed as number, total: g.total as number, ...(command ? {command} : {}), ...(firstFailed ? {firstFailed} : {})};
   }
   if (r.kind === 'gate_result' && !gate) return null;
   return {v: 1, seq: r.seq as number, ts: r.ts, sid: r.sid, project, kind: r.kind as V1Kind, tool: r.tool == null ? null : word(r.tool, 30), ok: typeof r.ok === 'boolean' ? r.ok : null, code, gate};

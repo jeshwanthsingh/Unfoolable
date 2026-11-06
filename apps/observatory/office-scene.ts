@@ -24,7 +24,7 @@ export function sceneOf(state: OfficeState & {away?: {blocked: number}}): Scene 
   const byKey = new Map(state.helpers.map((h) => [h.sid, h]));
   let builders = 0;
   const put = (c: Card, spot: Spot, word: Word): void => {
-    const role: Role = word === 'checking' || spot === 'checker' ? 'checker' : 'builder';
+    const role: Role = word === 'checking' ? 'checker' : 'builder'; // a builder whose check failed is still a builder (its own colour); only the Checker is green
     figures.push({key: c.key, label: c.label, project: c.project, word, spot, slot: used[spot]++, tone: c.tone, caption: c.verb, loud: word === 'needs you', role, tint: role === 'builder' ? PALETTE[builders++ % PALETTE.length]! : ROLE_TINT[role], hat: HAT[role]});
   };
   const station = (c: Card): Spot => { const t = byKey.get(c.key)?.tool; return t && secs(t.at, state.now) <= FRESH_TOOL_SECONDS ? spotOfTool(t.name) : 'desk'; };

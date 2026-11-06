@@ -21,7 +21,8 @@ test('Office view (fake art folder): axe finds no serious problem; every helper 
   let seq = 0;
   const L = (sid: string, project: string, kind: string, o: object = {}) => JSON.stringify({v: 1, seq: ++seq, ts, sid, project, kind, tool: null, ok: null, code: null, gate: null, ...o}) + '\n';
   writeFileSync(join(v, 'logs/office-v1.jsonl'), L('h:aaaaaaaaaaaa', 'command-center', 'needs_you', {code: 'permission'}) + L('h:bbbbbbbbbbbb', 'coding-agent-crash-tests', 'tool_end', {tool: 'Read', ok: true}) +
-    L('h:cccccccccccc', 'muse-guard', 'tool_end', {tool: 'Bash', ok: true}) + L('h:dddddddddddd', 'jeshwanth.com', 'subagent_start') + L('h:eeeeeeeeeeee', 'proof-lab', 'tool_end', {tool: 'Edit', ok: true}));
+    L('h:cccccccccccc', 'muse-guard', 'tool_end', {tool: 'Bash', ok: true}) + L('h:dddddddddddd', 'jeshwanth.com', 'subagent_start') + L('h:eeeeeeeeeeee', 'proof-lab', 'tool_end', {tool: 'Edit', ok: true}) +
+    L('h:00000000a0a0', 'proof-lab', 'gate_result', {gate: {task: 'T-1', verdict: 'FAIL', passed: 0, total: 1, command: 'node --test', firstFailed: 'a test that failed'}}));
   const r = await startOffice({vault: v, staticDir: DIST, logPath: join(v, 'logs/office-v1.jsonl'), open: {}, art: {dir: art}});
   const b = await chromium.launch();
   try {
@@ -33,6 +34,8 @@ test('Office view (fake art folder): axe finds no serious problem; every helper 
       assert.equal(await page.$eval('.fv-side', (e) => e.getBoundingClientRect().width), sideBefore, 'the panel must not squeeze the side list');
       await page.click('.fv-panel .ob-tool'); await page.waitForSelector('.fv-panel', {state: 'detached'});
       await page.focus('.fv-who.loud >> nth=0'); await page.keyboard.press('Enter'); await page.waitForSelector('.fv-panel'); // and the tag opens it from the keyboard
+      await page.click('.fv-who.bad'); // a failed check: the panel names the command and the first failing test
+      assert.match(await page.innerText('.fv-panel'), /Command that failed:\s*node --test[\s\S]*First test that failed: a test that failed/);
       assert.equal(await page.evaluate(() => location.hash), '', 'the key must not stay in the address bar');
       await page.addScriptTag({path: AXE});
       const res = await page.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};

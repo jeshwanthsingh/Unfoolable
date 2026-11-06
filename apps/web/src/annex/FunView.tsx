@@ -98,8 +98,15 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
 
   const fresh = freshness(connected, tick - lastMsg, state?.freshness.lastEventAt ?? null);
   const cards = board ? ([[BOARD.cols.needs, board.needs], [BOARD.cols.working, board.working], [BOARD.cols.checking, board.checking], [BOARD.cols.done, board.done], ...(board.failed.length ? [[BOARD.cols.failed, board.failed]] : [])] as [string, Card[]][]) : [];
-  const sel = scene?.figures.find((f) => f.key === picked) ?? null, selCard = board ? [...board.needs, ...board.working, ...board.checking, ...board.done].find((c) => c.key === picked) : undefined;
+  const sel = scene?.figures.find((f) => f.key === picked) ?? null, selCard = board ? [...board.needs, ...board.working, ...board.checking, ...board.done, ...board.failed].find((c) => c.key === picked) : undefined;
   const at = (f: Figure) => SLOTS[f.spot][f.slot];
+  // Tags that would land on each other (closer than 150 px side by side) are lifted one row (64 px) so no two name tags ever overlap.
+  const lifts = new Map<string, number>(), placed: {x: number; y: number}[] = [];
+  for (const f of [...(scene?.figures ?? [])].sort((a, b) => (at(a)?.[0] ?? 0) - (at(b)?.[0] ?? 0))) {
+    const p = at(f); if (!p) continue;
+    let lift = 0; while (placed.some((q) => Math.abs(q.x - p[0]) < 150 && Math.abs(q.y - (p[1] - lift * 64)) < 64)) lift++;
+    placed.push({x: p[0], y: p[1] - lift * 64}); lifts.set(f.key, lift);
+  }
   const tintOf = (key: string) => scene?.figures.find((f) => f.key === key)?.tint ?? '#9AA8C0';
   return (
     <section className="fv" aria-label={FUN.office}>
@@ -110,7 +117,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
           <div ref={host} className="fv-canvas" />
           {ZONES.map(([t, x, y]) => <span key={t} className="fv-zone" style={{left: pct(x, ROOM.w), top: pct(y, ROOM.h)}}>{t}</span>)}
           {scene?.figures.map((f) => { const p = at(f); return p ? (
-            <div key={f.key} className="fv-spot" style={{left: pct(Math.min(Math.max(p[0], 80), ROOM.w - 80), ROOM.w), top: pct(p[1] - 64, ROOM.h)}}>
+            <div key={f.key} className="fv-spot" style={{left: pct(Math.min(Math.max(p[0], 80), ROOM.w - 80), ROOM.w), top: pct(p[1] - 64 - (lifts.get(f.key) ?? 0) * 64, ROOM.h)}}>
               <button type="button" className={`fv-who${f.loud ? ' loud' : ''}${f.word === "didn't pass" ? ' bad' : ''}`} onClick={() => setPicked(f.key)}><b>{f.label}</b>{f.loud ? f.caption : f.word}</button>
               <div className="fv-face" aria-hidden="true" onClick={() => setPicked(f.key)} />{/* the character itself is clickable too (mouse); the tag button is the keyboard way in */}
             </div>) : null; })}
@@ -132,6 +139,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
             <h2>{sel.label}</h2><p className="fv-badge">{sel.word}</p>
             <h3>{sel.loud ? FUN.asked : FUN.status}</h3>
             <p className="fv-ask">{sel.word === 'needs you' ? FUN.wantsOk : sel.tone === 'red' && selCard.button === 'open' ? FUN.stuck : selCard.verb}</p>
+            {selCard.button === 'see' ? (() => { const g = state?.helpers.find((h) => h.sid === sel.key)?.gate; return <>{g?.command ? <p className="fv-detail">{FUN.failedCommand} <code>{g.command}</code></p> : null}{g?.firstFailed ? <p className="fv-detail">{FUN.failedTest} {g.firstFailed}</p> : null}</>; })() : null}
             <p className="oa-muted">{selCard.time}</p>
             {selCard.button ? <button type="button" className="ob-btn" onClick={() => openHelper(sel.key).then((ok) => setOpenErr(!ok)).catch(() => setOpenErr(true))}>{selCard.button === 'see' ? BOARD.see : `${BOARD.open} ${sel.label}`}</button> : null}
             {openErr ? <p role="alert" className="oa-error">{BOARD.openFailed}</p> : null}

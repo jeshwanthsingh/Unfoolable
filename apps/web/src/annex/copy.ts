@@ -40,6 +40,7 @@ export const FUN = {
   credit: 'Office art: Modern Office by LimeZu (licensed, never shared publicly).',
   office: 'Office', simple: 'Simple view', artMissing: 'The office pictures are not on this computer, so this is the simple view.',
   hint: 'Click a helper to see more.', asked: 'It asked you', wantsOk: 'It wants your OK.', stuck: 'Its last steps did not work.', status: 'What it is doing', close: 'Close',
+  failedCommand: 'Command that failed:', failedTest: 'First test that failed:',
   alt: 'A picture of the office: each helper stands where its status puts it.', guardSays: 'The guard said no'
 } as const;
 
