@@ -16,7 +16,7 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
   const opener = opts.open ? createOpener({logPath: join(opts.vault, 'logs/office-open.log'), ...opts.open}) : null;
   const server = createServer((req, res) => {
     const send = (code: number, body: string | Buffer, type = 'text/plain; charset=utf-8'): void => {
-      res.writeHead(code, {'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'content-security-policy': "default-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'"});
+      res.writeHead(code, {'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'content-security-policy': "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'"});
       res.end(body);
     };
     const port = (server.address() as {port: number}).port;
