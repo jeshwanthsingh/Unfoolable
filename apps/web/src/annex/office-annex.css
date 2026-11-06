@@ -36,3 +36,8 @@
 .ob-card{border:1px solid var(--uf-card-border);border-left-width:4px;border-radius:8px;padding:10px 12px;overflow-wrap:anywhere}
 .ob-card strong{display:block}.ob-card time{color:var(--uf-muted);font-size:.9rem}
 .ob-amber{border-left-color:var(--uf-amber)}.ob-blue{border-left-color:#3b82f6}.ob-purple{border-left-color:#8b5cf6}.ob-green{border-left-color:var(--uf-green)}.ob-red{border-left-color:var(--uf-red)}.ob-grey{border-left-color:var(--uf-border)}
+
+.ob-card{display:flex;gap:10px;align-items:flex-start;list-style:none}.ob-card>div{min-width:0;flex:1}.ob-char{flex:none}
+@keyframes ob-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.ob-bob{animation:ob-bob 1.2s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.ob-bob{animation:none}}
