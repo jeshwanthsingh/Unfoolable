@@ -37,9 +37,9 @@ export function createLive(logPath: string, opts: {pollMs?: number; clock?: () =
   const state = (): LiveState => {
     const now = clock(), r = reduce(events, local(now));
     // v1 keeps every event so seq numbers stay whole (a hidden folder must not look like a gap); hidden helpers are dropped here.
-    const helpers = r.helpers.filter((h) => !hiddenProject(h.project)), summary = {needs_you: 0, working: 0, checking: 0, done: 0, stuck: 0, unknown: 0};
+    const passed = r.passed.filter((g) => !hiddenProject(g.project)), helpers = r.helpers.filter((h) => !hiddenProject(h.project)), summary = {needs_you: 0, working: 0, checking: 0, done: 0, stuck: 0, unknown: 0};
     for (const h of helpers) summary[h.status]++;
-    return {...r, helpers, summary, live: true, serverTime: local(now), version, away: away(events, local(now)), practice: readPractice(opts.scoreboardPath ?? join(dirname(dirname(logPath)), 'evals/scoreboard.csv'), pcache)};
+    return {...r, passed, helpers, summary, live: true, serverTime: local(now), version, away: away(events, local(now)), practice: readPractice(opts.scoreboardPath ?? join(dirname(dirname(logPath)), 'evals/scoreboard.csv'), pcache)};
   };
   const push = (): void => { const s = state(); for (const f of subs) f(s); };
   const read = (): boolean => {

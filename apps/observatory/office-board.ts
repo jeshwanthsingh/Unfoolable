@@ -7,6 +7,7 @@ export type Tone = 'amber' | 'blue' | 'purple' | 'green' | 'red' | 'grey';
 export type Card = {key: string; project: string; label: string; verb: string; time: string; at: string; tone: Tone; button: 'open' | 'see' | null};
 export type Board = {sentence: string; sub: string; light: 'amber' | 'green' | 'grey' | 'red'; needs: Card[]; working: Card[]; checking: Card[]; done: Card[]; failed: Card[]; quietLines: string[]; quiet: number}; // done = PASS only; a failed check is in failed, never in done
 
+export const WAITING_MIN = 15; // a helper that finished its turn waits for its human this long before it counts as quiet
 const hhmm = (ts: string): string => ts.slice(11, 16);
 const secs = (a: string, b: string): number => Math.max(0, Math.round((Date.parse(b) - Date.parse(a)) / 1000));
 const plural = (n: number, one: string, many: string): string => `${n} ${n === 1 ? one : many}`;
@@ -27,7 +28,8 @@ export function freshness(connected: boolean, ageMs: number, lastEventAt: string
 export function boardOf(s: OfficeState): Board {
   const b: Board = {sentence: '', sub: '', light: 'green', needs: [], working: [], checking: [], done: [], failed: [], quietLines: [], quiet: 0};
   const today = s.now.slice(0, 10), byProject = new Map<string, Helper[]>();
-  for (const h of s.helpers) if (h.status !== 'unknown') (byProject.get(h.project) ?? byProject.set(h.project, []).get(h.project)!).push(h);
+  const waiting = (h: Helper): boolean => h.status === 'unknown' && h.idle !== null && secs(h.idle, s.now) <= WAITING_MIN * 60;
+  for (const h of s.helpers) if (h.status !== 'unknown' || waiting(h)) (byProject.get(h.project) ?? byProject.set(h.project, []).get(h.project)!).push(h);
   // Same project, several helpers on the board: "Helper 1 on X" (numbered by id among the visible ones). A lone helper keeps the project name.
   const label = (h: Helper): string => { const all = byProject.get(h.project) ?? [h]; return all.length > 1 ? `Helper ${[...all].sort((x, y) => (x.sid < y.sid ? -1 : 1)).indexOf(h) + 1} on ${h.project}` : h.project; };
   const age = (h: Helper): number => secs(h.lastAt, s.now);
@@ -40,6 +42,7 @@ export function boardOf(s: OfficeState): Board {
     else if (h.status === 'checking') b.checking.push(card(h, "I'm checking the work.", ago(age(h)), 'purple', null));
     else if (h.status === 'working') b.working.push(card(h, "I'm working on it.", ago(age(h)), 'blue', null));
     else if (h.status === 'done') { if (h.lastAt.slice(0, 10) === today) b.done.push(card(h, h.gate && h.gate.total > 0 ? `Saved. ${h.gate.passed} of ${h.gate.total} passed.` : 'Saved. The checker said it works.', ago(age(h)), 'green', null)); }
+    else if (waiting(h)) b.needs.push(card(h, 'I finished my turn. Waiting for your reply.', ago(age(h)), 'amber', 'open'));
     else quiet.set(h.project, (quiet.get(h.project) ?? 0) + 1);
   }
   for (const [p, n] of quiet) { b.quiet += n; b.quietLines.push(`${plural(n, 'quiet helper', 'quiet helpers')} on ${p}, no news for a while`); }

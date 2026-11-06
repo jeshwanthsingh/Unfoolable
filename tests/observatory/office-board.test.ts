@@ -105,3 +105,16 @@ test('property: nothing whose latest check did not PASS is ever in Done today (a
     assert.ok(b.done.every((c) => c.tone === 'green') && b.failed.every((c) => c.tone === 'red'));
   }), {numRuns: 400, seed: 21});
 });
+
+test('a helper that finished its turn is visible: waiting for your reply for 15 minutes, then quiet', () => {
+  const turn = (ts: string) => [ev({ts: '2026-11-05T09:50:00'}), ev({kind: 'turn_end', ts, tool: null})];
+  const soon = boardOf(reduce(turn('2026-11-05T09:58:00'), '2026-11-05T10:01:00'));
+  assert.deepEqual(soon.needs.map((c) => [c.verb, c.tone, c.button]), [['I finished my turn. Waiting for your reply.', 'amber', 'open']]);
+  assert.equal(soon.sentence, 'Unfoolable needs you'); assert.equal(soon.quiet, 0);
+  const late = boardOf(reduce(turn('2026-11-05T09:30:00'), '2026-11-05T10:01:00')); // 31 min ago
+  assert.deepEqual([late.needs.length, late.quiet], [0, 1]);
+  const ended = boardOf(reduce([ev({ts: '2026-11-05T09:50:00'}), ev({kind: 'turn_end', ts: '2026-11-05T09:58:00', tool: null}), ev({kind: 'session_end', ts: '2026-11-05T09:59:00', tool: null})], '2026-11-05T10:01:00'));
+  assert.equal(ended.needs.length, 0); // the session is over: nobody is waiting
+  const failed = boardOf(reduce([ev({ts: '2026-11-05T09:50:00'}), ev({kind: 'turn_end', ts: '2026-11-05T09:58:00', tool: null, ok: false})], '2026-11-05T10:01:00'));
+  assert.equal(failed.needs.length, 0); // a failed turn end is not a reply request
+});

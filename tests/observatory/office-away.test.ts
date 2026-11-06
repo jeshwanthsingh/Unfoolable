@@ -86,3 +86,12 @@ test('practice card: newest scoreboard batch gives "9 of 12 passed" with a time'
   assert.deepEqual([s.practice?.passed, s.practice?.total], [9, 12]);
   assert.match(practiceLine(s.practice!), /^Practice tests: 9 of 12 passed, \d\d:\d\d$/);
 });
+
+test('scratch and tiny folders (r1, r2, tmp ...) never show in the away strip', () => {
+  const E = [ev({ts: '2026-11-05T22:00:00', sid: 'h:aaaaaaaaaaaa', project: 'Unfoolable'}), ev({ts: '2026-11-05T22:01:00', sid: 'h:bbbbbbbbbbbb', project: 'r1'}), ev({ts: '2026-11-05T22:02:00', sid: 'h:cccccccccccc', project: 'scratch-2026-11-05-ab12'}),
+    ev({sid: 'h:dddddddddddd', project: 'r2', kind: 'gate_result', ts: '2026-11-05T22:03:00', gate: {task: 'x', verdict: 'FAIL', passed: 0, total: 1}}),
+    ev({sid: 'h:eeeeeeeeeeee', project: 'Unfoolable', kind: 'gate_result', ts: '2026-11-05T22:04:00', gate: {task: 'T', verdict: 'PASS', passed: 9, total: 12}})];
+  const a = away(E, NOW);
+  assert.deepEqual(a.results.map((r) => [r.project, r.text]), [['Unfoolable', '9 of 12 passed']]);
+  assert.equal(a.helpers, 1);
+});

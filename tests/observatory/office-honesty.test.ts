@@ -112,9 +112,10 @@ test('property: the five status words never contradict the rules, for any event 
     assert.equal(b.done.length, s.helpers.filter((h) => h.status === 'done' && h.lastAt.slice(0, 10) === today).length);
     assert.equal(b.failed.length, s.helpers.filter((h) => h.status === 'stuck' && h.gate && h.lastAt.slice(0, 10) === today).length);
     assert.equal(b.done.filter((c) => c.tone === 'green').length <= s.summary.done, true);
-    assert.equal(b.needs.length, s.summary.needs_you + s.helpers.filter((h) => h.status === 'stuck' && !h.gate).length);
+    const waiting = s.helpers.filter((h) => h.status === 'unknown' && h.idle !== null && (Date.parse(now) - Date.parse(h.idle)) / 1000 <= 900).length; // finished its turn in the last 15 min: waiting for its human
+    assert.equal(b.needs.length, s.summary.needs_you + s.helpers.filter((h) => h.status === 'stuck' && !h.gate).length + waiting);
     assert.equal(b.working.length, s.summary.working); // Working holds only working helpers
-    assert.equal(b.quiet, s.summary.unknown);
+    assert.equal(b.quiet, s.summary.unknown - waiting);
     for (const h of s.helpers) if (h.status === 'working') assert.ok(ago <= 60 || h.lastAt > '2026-11-05T10:00:00', 'working only within 60 s of news');
     const sids = new Set(E.map((e) => e.sid)).size; // a gate-only id is handed to the single helper of its project, so it can be fewer
     assert.ok(s.helpers.length >= 1 && s.helpers.length <= sids);

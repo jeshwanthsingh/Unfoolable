@@ -2,6 +2,7 @@
 // The numbers come from the same reducer the board uses, so the strip can never disagree with it. Results come ONLY from gate_result events.
 import type {OfficeEvent} from './office-schema.ts';
 import {reduce} from './office-reducer.ts';
+import {hiddenProject} from './office-data.ts';
 
 export type Away = {from: string; to: string; helpers: number; steps: number; blocked: number; results: {project: string; text: string; passed: boolean; at: string}[]; gaps: string[]; sentence: string};
 export type Practice = {passed: number; total: number; at: string}; // at = local ISO time of the newest scoreboard change
@@ -22,10 +23,10 @@ export function away(events: readonly OfficeEvent[], now: string): Away {
   const {from, to} = awayWindow(now);
   const inWin = events.filter((e) => e.ts >= from && e.ts < to);
   const r = reduce(inWin, to);
-  const results = r.passed.map((g) => ({project: g.project, text: g.text, passed: g.verdict === 'PASS', at: g.at})).reverse();
+  const results = r.passed.filter((g) => !hiddenProject(g.project)).map((g) => ({project: g.project, text: g.text, passed: g.verdict === 'PASS', at: g.at})).reverse();
   const gaps = r.gaps.map((g) => `I missed some news between ${hhmm(g.from)} and ${hhmm(g.to)}.`);
   const blocked = inWin.filter((e) => e.kind === 'tool_blocked').length;
-  const steps = r.helpers.reduce((a, h) => a + h.steps, 0), helpers = new Set(inWin.filter((e) => e.kind !== 'gate_result').map((e) => e.sid)).size;
+  const steps = r.helpers.filter((h) => !hiddenProject(h.project)).reduce((a, h) => a + h.steps, 0), helpers = new Set(inWin.filter((e) => e.kind !== 'gate_result' && !hiddenProject(e.project)).map((e) => e.sid)).size; // scratch folders (r1, tmp ...) are not shown
   const sentence = inWin.length === 0 ? 'No news from last night.' : `${plural(helpers, 'helper', 'helpers')} worked. ${plural(steps, 'step', 'steps')} done.`;
   return {from, to, helpers, steps, blocked, results, gaps, sentence};
 }
