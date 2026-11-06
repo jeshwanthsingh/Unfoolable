@@ -112,6 +112,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
           {scene?.figures.map((f) => { const p = at(f); return p ? (
             <div key={f.key} className="fv-spot" style={{left: pct(Math.min(Math.max(p[0], 80), ROOM.w - 80), ROOM.w), top: pct(p[1] - 64, ROOM.h)}}>
               <button type="button" className={`fv-who${f.loud ? ' loud' : ''}${f.word === "didn't pass" ? ' bad' : ''}`} onClick={() => setPicked(f.key)}><b>{f.label}</b>{f.loud ? f.caption : f.word}</button>
+              <div className="fv-face" aria-hidden="true" onClick={() => setPicked(f.key)} />{/* the character itself is clickable too (mouse); the tag button is the keyboard way in */}
             </div>) : null; })}
           {scene?.guard ? <div className="fv-spot" style={{left: pct(GUARD_AT[0] + 40, ROOM.w), top: pct(GUARD_AT[1] - 64, ROOM.h)}}><span className="fv-who"><b>Guard</b>{FUN.guardSays} {scene.guard.count}</span></div> : null}
         </div>

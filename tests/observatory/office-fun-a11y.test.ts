@@ -28,7 +28,11 @@ test('Office view (fake art folder): axe finds no serious problem; every helper 
     for (const scheme of ['light', 'dark'] as const) {
       const page = await b.newPage({viewport: {width: 1440, height: 1000}, bypassCSP: true, colorScheme: scheme}); // CSP bypass only so the audit script can run
       await page.goto(r.url); await page.waitForSelector('.fv-who.loud', {timeout: 20000});
-      await page.click('.fv-who.loud'); await page.waitForSelector('.fv-panel');
+      const sideBefore = await page.$eval('.fv-side', (e) => e.getBoundingClientRect().width);
+      await page.click('.fv-face >> nth=1'); await page.waitForSelector('.fv-panel'); // a click on the CHARACTER opens its panel
+      assert.equal(await page.$eval('.fv-side', (e) => e.getBoundingClientRect().width), sideBefore, 'the panel must not squeeze the side list');
+      await page.click('.fv-panel .ob-tool'); await page.waitForSelector('.fv-panel', {state: 'detached'});
+      await page.focus('.fv-who.loud >> nth=0'); await page.keyboard.press('Enter'); await page.waitForSelector('.fv-panel'); // and the tag opens it from the keyboard
       assert.equal(await page.evaluate(() => location.hash), '', 'the key must not stay in the address bar');
       await page.addScriptTag({path: AXE});
       const res = await page.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
