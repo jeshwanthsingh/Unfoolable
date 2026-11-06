@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react';
 import type {OfficeState} from '../../../observatory/office-reducer.ts';
+import type {Away, Practice} from '../../../observatory/office-away.ts';
+import {practiceLine} from '../../../observatory/office-away.ts';
 import {boardOf, freshness, type Card} from '../../../observatory/office-board.ts';
 import {BOARD, lightIcon} from './copy.ts';
 
@@ -14,7 +16,7 @@ async function openHelper(id: string): Promise<boolean> {
 }
 
 export function Board() {
-  const [state, setState] = useState<OfficeState | null>(null);
+  const [state, setState] = useState<(OfficeState & {away?: Away; practice?: Practice | null}) | null>(null);
   const [lastMsg, setLastMsg] = useState(0);
   const [tick, setTick] = useState(Date.now());
   const [connected, setConnected] = useState(false);
@@ -52,6 +54,15 @@ export function Board() {
           </div>
         ))}
       </div>
+      {state?.practice ? <p className="oa-line oa-grey">{practiceLine(state.practice)}</p> : null}
+      {state?.away ? (
+        <section className="ob-away" aria-label={BOARD.away}>
+          <h2>{BOARD.away}</h2>
+          <p>{state.away.sentence}{state.away.blocked ? ` ${state.away.blocked} ${BOARD.blocked}.` : ''}</p>
+          {state.away.results.length ? <ul>{state.away.results.map((r, i) => <li key={i} className={`ob-card ob-${r.passed ? 'green' : 'red'}`}><strong>{r.project}</strong>{r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text} <time>{r.at.slice(11, 16)}</time></li>)}</ul> : null}
+          {state.away.gaps.map((g, i) => <p key={i} className="oa-muted">{g}</p>)}
+        </section>
+      ) : null}
       {openErr ? <p role="alert" className="oa-error">{BOARD.openFailed}</p> : null}
       {b && b.quiet > 0 ? <p className="oa-muted">{b.quiet} {BOARD.quiet}</p> : null}
     </section>

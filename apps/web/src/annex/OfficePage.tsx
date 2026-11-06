@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
-import type {Item, Snapshot} from '../../../observatory/office-data.ts';
-import {BOARD, COPY, DETAIL_WORDS, FLOOR, lightIcon} from './copy.ts';
+import type {Snapshot} from '../../../observatory/office-data.ts';
+import {BOARD, COPY, DETAIL_WORDS, lightIcon} from './copy.ts';
 import {Floor} from './Floor.tsx';
 import {Board} from './Board.tsx';
 import '../unfoolable.css';
@@ -10,22 +10,9 @@ import './office-annex.css';
 const token = () => new URLSearchParams(location.hash.slice(1)).get('t') ?? '';
 const unescape = (s: string) => s.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)));
 
-function Panel({id, title, help, children}: {id: string; title: string; help: string; children: React.ReactNode}) {
-  return (
-    <section className="oa-panel" aria-labelledby={id}>
-      <h2 id={id}>{title}<details className="oa-help"><summary aria-label={`${COPY.help} ${title}`}>?</summary><p>{help}</p></details></h2>
-      {children}
-    </section>
-  );
-}
-const List = ({items}: {items: Item[]}) => items.length === 0 ? <p className="oa-muted">{COPY.empty}</p> : (
-  <ul>{items.map((i, n) => <li key={n}>{i.at ? <time>{i.at}</time> : null} <span>{unescape(i.text)}</span></li>)}</ul>
-);
-
 export function OfficePage() {
   const [snap, setSnap] = useState<Snapshot | null>(null);
   const [err, setErr] = useState('');
-  const [picture, setPicture] = useState(false);
   const [more, setMore] = useState(false);
   const [dark, setDark] = useState(() => matchMedia('(prefers-color-scheme: dark)').matches);
   useEffect(() => {
@@ -62,23 +49,7 @@ export function OfficePage() {
             <span className="oa-light" aria-hidden="true">{lightIcon[snap.light]}</span>
             <strong>{COPY.light[snap.light]}.</strong> {snap.sentence}
           </p>
-          <button type="button" className="oa-toggle" aria-pressed={picture} onClick={() => setPicture(!picture)}>{picture ? FLOOR.viewSimple : FLOOR.viewPicture}</button>
-          {picture ? <Floor snap={snap} /> : null}
-          <div className="oa-grid">
-            <Panel id="oa-needs" title={COPY.panels.needs.title} help={COPY.panels.needs.help}><List items={snap.needsYou} /></Panel>
-            <Panel id="oa-night" title={COPY.panels.night.title} help={COPY.panels.night.help}><List items={snap.lastNight} /></Panel>
-            <Panel id="oa-results" title={COPY.panels.results.title} help={COPY.panels.results.help}><List items={snap.results} /></Panel>
-            <Panel id="oa-jobs" title={COPY.panels.jobs.title} help={COPY.panels.jobs.help}><List items={snap.board} /></Panel>
-            <Panel id="oa-today" title={COPY.panels.today.title} help={COPY.panels.today.help}>
-              <dl className="oa-stats">
-                <div><dt>{COPY.today.helpers}</dt><dd>{snap.today.helpers}</dd></div>
-                <div><dt>{COPY.today.steps}</dt><dd>{snap.today.steps}</dd></div>
-                <div><dt>{COPY.today.guard}</dt><dd>{snap.today.guardNo}</dd></div>
-                <div><dt>{COPY.today.spent}</dt><dd>{snap.today.spent}</dd></div>
-              </dl>
-              <List items={snap.today.list} />
-            </Panel>
-          </div>
+          <Floor snap={snap} />
           <p className="oa-muted">{COPY.updated} {snap.generatedAt.slice(11, 16)}</p>
           <details className="oa-details"><summary>{COPY.showDetails}</summary>
             <p>{DETAIL_WORDS.source}</p>

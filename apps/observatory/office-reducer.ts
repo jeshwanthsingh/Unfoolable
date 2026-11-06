@@ -20,11 +20,25 @@ const secs = (a: string, b: string): number => Math.round((Date.parse(b) - Date.
 const minsWord = (s: number): string => (s < 3600 ? `${Math.max(1, Math.floor(s / 60))} min` : `${Math.floor(s / 3600)} h`);
 const ORDER: Status[] = ['needs_you', 'stuck', 'checking', 'working', 'unknown', 'done'];
 
+// The verdict script has no session id, so its gate_result arrives under an id of its own. Hand each one to the helper of the same
+// project, but only when that project has exactly ONE helper in the stream (never a guess between several); otherwise it keeps its own id.
+export function attachGates(events: readonly OfficeEvent[]): OfficeEvent[] {
+  const gateOnly = new Set<string>(), other = new Set<string>();
+  for (const e of events) (e.kind === 'gate_result' ? gateOnly : other).add(e.sid);
+  for (const s of other) gateOnly.delete(s);
+  const sids = new Map<string, Set<string>>();
+  for (const e of events) if (e.kind !== 'gate_result') (sids.get(e.project) ?? sids.set(e.project, new Set()).get(e.project)!).add(e.sid);
+  return events.map((e) => {
+    const only = e.kind === 'gate_result' && gateOnly.has(e.sid) ? sids.get(e.project) : undefined;
+    return only && only.size === 1 ? {...e, sid: [...only][0]!} : e;
+  });
+}
+
 export function reduce(events: readonly OfficeEvent[], now: string): OfficeState {
   const gaps: Gap[] = [];
   const by = new Map<string, OfficeEvent[]>();
   let prev: OfficeEvent | null = null;
-  for (const e of events) {
+  for (const e of attachGates(events)) {
     if (prev && e.seq > prev.seq + 1) gaps.push({from: prev.ts, to: e.ts, missed: e.seq - prev.seq - 1});
     if (!prev || e.seq > prev.seq) prev = e; // a repeated or older seq (replay after reconnect) changes nothing
     else continue;

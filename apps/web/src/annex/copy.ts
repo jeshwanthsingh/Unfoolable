@@ -28,6 +28,7 @@ export const BOARD = {
   more: 'More views', back: 'Back to the board', quiet: 'quiet helpers (no news for a while)',
   cols: {needs: 'Needs you', working: 'Working', checking: 'Checking', done: 'Done today'},
   open: 'Open', confirm: 'This helper is not in a window I can find. Open a new window that continues it? It may start a second copy of the helper.', openFailed: 'Could not open it.',
+  away: 'While you were away', awayNone: 'Nothing to report.', awayResults: 'Checks', passedWord: 'passed', notPassedWord: 'did not pass', blocked: 'times the guard said no',
   empty: 'Nobody here.', noLink: 'Open the page with the link from the terminal.'
 } as const;
 
