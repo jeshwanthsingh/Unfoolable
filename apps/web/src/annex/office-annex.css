@@ -91,3 +91,7 @@ body{margin:0}
 
 .fv-zone{position:absolute;z-index:1;font:700 11px Nunito,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#4A4263;background:rgba(255,255,255,.7);padding:1px 6px}
 .fv-who{max-width:150px;font-size:12px}.fv-who.loud{max-width:210px}
+
+.fv-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.fv-head .ob-fresh{margin:0}
+.fv-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px;border:1.5px solid #1F2A44}
+.oa-foot{margin:44px 0 0;font-size:14px}.unfoolable.oa .oa-foot{color:#4A5672}

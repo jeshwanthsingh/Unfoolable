@@ -42,18 +42,19 @@ export function OfficePage() {
     return () => { live = false; clearInterval(id); };
   }, []);
 
+  const switcher = (
+    <div className="ob-bar" role="toolbar" aria-label={BOARD.tools}>
+      <button type="button" className="ob-tool" aria-pressed={view === 'office'} onClick={() => setView('office')}>{FUN.office}</button>
+      <button type="button" className="ob-tool" aria-pressed={view === 'simple'} onClick={() => setView('simple')}>{FUN.simple}</button>
+    </div>
+  );
   return (
     <div className="unfoolable oa" data-theme={dark ? 'dark' : 'light'}>
       <main>
         <header className="oa-top">
           <h1>{COPY.title}</h1>
-          <p className="oa-badge" title={COPY.badgeHelp}>{COPY.badge}</p>
         </header>
-        {art && !more ? <div className="ob-bar" role="toolbar" aria-label={BOARD.tools}>
-          <button type="button" className="ob-tool" aria-pressed={view === 'office'} onClick={() => setView('office')}>{FUN.office}</button>
-          <button type="button" className="ob-tool" aria-pressed={view === 'simple'} onClick={() => setView('simple')}>{FUN.simple}</button>
-        </div> : null}
-        {!more && art && view === 'office' ? <Suspense fallback={null}><FunView /></Suspense> : !more ? <Board onMore={() => setMore(true)} moreLabel={BOARD.more} /> : <>
+        {!more && art && view === 'office' ? <Suspense fallback={null}><FunView toolbar={switcher} /></Suspense> : !more ? <>{art ? switcher : null}<Board onMore={() => setMore(true)} moreLabel={BOARD.more} /></> : <>
         <div className="ob-bar"><button type="button" className="ob-tool" onClick={() => setMore(false)}><span aria-hidden="true">◀</span> {BOARD.back}</button></div>
         {err ? <p role="alert" className="oa-error">{err}</p> : null}
         {!snap && !err ? <p>{COPY.loading}</p> : null}
@@ -70,6 +71,7 @@ export function OfficePage() {
           </details>
         </>) : null}
         </>}
+        <p className="oa-muted oa-foot">{COPY.badge}. {COPY.badgeHelp}</p>
       </main>
     </div>
   );

@@ -1,9 +1,9 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {figure} from './Character.tsx';
-import {GUARD_AT, PLACE, ROOM, SLOTS, SPRITE, WALLS, ZONES} from './room-map.ts';
+import {DIVIDERS, GUARD_AT, HARD_HAT, HATS, PLACE, ROOM, RUGS, SLOTS, SPRITE, WALLS, WINDOW, ZONES} from './room-map.ts';
 import {BOARD, FUN} from './copy.ts';
 import {boardOf, freshness, type Card} from '../../../observatory/office-board.ts';
-import {look, shouldAnimate} from '../../../observatory/office-motion.ts';
+import {shouldAnimate} from '../../../observatory/office-motion.ts';
 import {sceneOf, type Figure, type Scene} from '../../../observatory/office-scene.ts';
 import type {Away} from '../../../observatory/office-away.ts';
 import type {OfficeState} from '../../../observatory/office-reducer.ts';
@@ -22,7 +22,7 @@ async function openHelper(id: string): Promise<boolean> {
   return r.ok;
 }
 
-export function FunView() {
+export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
   const [state, setState] = useState<Live | null>(null);
   const [lastMsg, setLastMsg] = useState(0), [tick, setTick] = useState(Date.now()), [connected, setConnected] = useState(false);
   const [picked, setPicked] = useState<string | null>(null), [openErr, setOpenErr] = useState(false);
@@ -55,15 +55,18 @@ export function FunView() {
       const floor = new Graphics().rect(0, 0, ROOM.w, ROOM.h).fill(0xcfcadd).rect(0, 0, ROOM.w, 92).fill(0x8d84a6).rect(0, 92, ROOM.w, 6).fill(0x6f6688);
       for (let x = 0; x < ROOM.w; x += 64) for (let y = 98; y < ROOM.h; y += 64) floor.rect(x, y, 32, 32).fill(0xd6d1e3).rect(x + 32, y + 32, 32, 32).fill(0xd6d1e3);
       floor.rect(352, 480, 288, 224).fill(0xdbe7df).rect(0, 480, 320, 224).fill(0xe6dccf).rect(0, 380, 14, 92).fill(0x4a4263); // checker's office, lounge, the door
+      for (const [x, y, w, h, c] of RUGS) floor.rect(x, y, w, h).fill(c);
+      floor.rect(WINDOW[0], WINDOW[1], WINDOW[2], WINDOW[3]).fill(0xbfe3f4).stroke({width: 3, color: 0x4a4263}).rect(WINDOW[0] + 34, WINDOW[1], 3, WINDOW[3]).fill(0x4a4263);
       for (const [x, y, w, h] of WALLS) floor.rect(x, y, w, h).fill(0xf7f5fb).stroke({width: 2, color: 0x4a4263});
+      for (const [x, y, w, h] of DIVIDERS) floor.rect(x, y, w, h).fill(0xe9e5f2).stroke({width: 2, color: 0x4a4263});
       app.stage.addChild(floor);
       for (const [name, x, y] of PLACE) { const r = SPRITE[name]; const s = new Sprite(new Texture({source: sheet.source, frame: new Rectangle(r.x, r.y, r.w, r.h)})); s.position.set(x, y); app.stage.addChild(s); }
       const layer = new Container(); app.stage.addChild(layer);
       const sprites = new Map<string, {s: InstanceType<typeof Sprite>; tx: number; ty: number}>(), cache = new Map<string, Promise<InstanceType<typeof Texture>>>();
-      const tex = (color: string, mood: string, checker: boolean) => {
-        const k = `${color}|${mood}|${checker}`;
+      const tex = (color: string, mood: string, checker: boolean, hat: number) => {
+        const k = `${color}|${mood}|${checker}|${hat}`;
         if (!cache.has(k)) cache.set(k, (async () => {
-          const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104" width="104" height="104">${figure(color, mood as 'focus', checker)}</svg>`);
+          const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104" width="104" height="104">${hat >= 2 ? figure(color, mood as 'focus', false).replace(HARD_HAT, HATS[hat]!) : figure(color, mood as 'focus', checker)}</svg>`);
           await img.decode();
           const c = document.createElement('canvas'); c.width = c.height = 30; c.getContext('2d')!.drawImage(img, 0, 0, 30, 30); // small, then scaled up with nearest-neighbour: the pixel look
           const t = Texture.from(c); t.source.scaleMode = 'nearest'; return t;
@@ -73,17 +76,17 @@ export function FunView() {
       app.ticker.add(() => { for (const f of sprites.values()) { f.s.x += (f.tx - f.s.x) * 0.2; f.s.y += (f.ty - f.s.y) * 0.2; } });
       draw.current = (sc, anim) => {
         const keep = new Set<string>();
-        const place = (key: string, at: readonly [number, number], color: string, mood: string, checker: boolean) => {
+        const place = (key: string, at: readonly [number, number], color: string, mood: string, checker: boolean, hat: number) => {
           keep.add(key);
-          void tex(color, mood, checker).then((t) => {
+          void tex(color, mood, checker, hat).then((t) => {
             let f = sprites.get(key);
             if (!f) { const s = new Sprite(t); s.anchor.set(0.5, 1); s.scale.set(2); s.position.set(at[0], at[1]); layer.addChild(s); f = {s, tx: at[0], ty: at[1]}; sprites.set(key, f); }
             f.s.texture = t; f.tx = at[0]; f.ty = at[1];
             if (!anim) f.s.position.set(at[0], at[1]); // frozen log or reduced motion: no walking
           });
         };
-        for (const f of sc.figures) { const at = SLOTS[f.spot][f.slot]; if (at) place(f.key, at, f.word === 'checking' || f.spot === 'checker' ? '#2FA36B' : `hsl(222 78% ${[52, 58, 64][look(f.project).hue % 3]}%)`, MOOD[f.word], f.word === 'checking'); }
-        if (sc.guard) place('guard', GUARD_AT, '#7A5AE0', 'focus', false);
+        for (const f of sc.figures) { const at = SLOTS[f.spot][f.slot]; if (at) place(f.key, at, f.tint, MOOD[f.word], f.role === 'checker', f.hat); }
+        if (sc.guard) place('guard', GUARD_AT, '#7A5AE0', 'focus', false, 2);
         for (const [k, f] of sprites) if (!keep.has(k)) { layer.removeChild(f.s); sprites.delete(k); }
       };
       destroy = () => { draw.current = null; app.destroy(true, {children: true}); };
@@ -97,16 +100,17 @@ export function FunView() {
   const cards = board ? ([[BOARD.cols.needs, board.needs], [BOARD.cols.working, board.working], [BOARD.cols.checking, board.checking], [BOARD.cols.done, board.done]] as [string, Card[]][]) : [];
   const sel = scene?.figures.find((f) => f.key === picked) ?? null, selCard = board ? [...board.needs, ...board.working, ...board.checking, ...board.done].find((c) => c.key === picked) : undefined;
   const at = (f: Figure) => SLOTS[f.spot][f.slot];
+  const tintOf = (key: string) => scene?.figures.find((f) => f.key === key)?.tint ?? '#9AA8C0';
   return (
     <section className="fv" aria-label={FUN.office}>
-      <p className={`ob-fresh${fresh.startsWith('LIVE') ? '' : ' off'}`} role="status">{fresh}</p>
+      <div className="fv-head"><p className={`ob-fresh${fresh.startsWith('LIVE') ? '' : ' off'}`} role="status">{fresh}</p>{toolbar}</div>
       {board ? <><h1 className="ob-h1">{board.sentence}</h1>{board.sub ? <p className="ob-sub">{board.sub}</p> : null}</> : null}
       <div className="fv-row">
         <div className="fv-room" role="group" aria-label={FUN.alt}>
           <div ref={host} className="fv-canvas" />
           {ZONES.map(([t, x, y]) => <span key={t} className="fv-zone" style={{left: pct(x, ROOM.w), top: pct(y, ROOM.h)}}>{t}</span>)}
           {scene?.figures.map((f) => { const p = at(f); return p ? (
-            <div key={f.key} className="fv-spot" style={{left: pct(p[0], ROOM.w), top: pct(p[1] - 64, ROOM.h)}}>
+            <div key={f.key} className="fv-spot" style={{left: pct(Math.min(Math.max(p[0], 80), ROOM.w - 80), ROOM.w), top: pct(p[1] - 64, ROOM.h)}}>
               <button type="button" className={`fv-who${f.loud ? ' loud' : ''}${f.word === "didn't pass" ? ' bad' : ''}`} onClick={() => setPicked(f.key)}><b>{f.label}</b>{f.loud ? f.caption : f.word}</button>
             </div>) : null; })}
           {scene?.guard ? <div className="fv-spot" style={{left: pct(GUARD_AT[0] + 40, ROOM.w), top: pct(GUARD_AT[1] - 64, ROOM.h)}}><span className="fv-who"><b>Guard</b>{FUN.guardSays} {scene.guard.count}</span></div> : null}
@@ -114,7 +118,7 @@ export function FunView() {
         <div className="fv-side">
           {cards.map(([name, list]) => (
             <section key={name} className={`fv-box${name === BOARD.cols.needs && list.length ? ' amber' : ''}`}><h2>{name} ({list.length})</h2>
-              {list.length ? <ul>{list.map((c) => <li key={c.key}><button type="button" className="fv-li" onClick={() => setPicked(c.key)}><span>{c.label}: {c.verb}</span><time>{c.time}</time></button></li>)}</ul> : <p className="oa-muted">{BOARD.empty}</p>}
+              {list.length ? <ul>{list.map((c) => <li key={c.key}><button type="button" className="fv-li" onClick={() => setPicked(c.key)}><span><i className="fv-dot" style={{background: tintOf(c.key)}} aria-hidden="true" />{c.label}: {c.verb}</span><time>{c.time}</time></button></li>)}</ul> : <p className="oa-muted">{BOARD.empty}</p>}
             </section>))}
           {state?.away ? <section className="fv-box"><h2>{BOARD.away}</h2><p>{state.away.sentence}</p>{state.away.results.map((r, i) => <p key={i}>{r.project} {r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text}</p>)}</section> : null}
           {board && board.quietLines.length ? <p className="oa-muted">{board.quietLines.join('. ')}.</p> : null}
