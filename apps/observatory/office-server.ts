@@ -1,16 +1,18 @@
 // Office page server: loopback only, GET only, per-launch token, Host and Origin checked. Serves the built page and one JSON route.
 import {createServer, type Server} from 'node:http';
 import {randomBytes, timingSafeEqual} from 'node:crypto';
-import {readFileSync} from 'node:fs';
+import {existsSync, readFileSync} from 'node:fs';
 import {join, extname} from 'node:path';
 import {buildSnapshot} from './office-data.ts';
 import {createLive, type Live} from './office-live.ts';
+import {createOpener, type OpenOpts} from './office-open.ts';
 const TYPES: Record<string, string> = {'.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.ttf': 'font/ttf', '.woff2': 'font/woff2'};
-export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string; repos?: {name: string; path: string}[]; logPath?: string; live?: Live}): Promise<{server: Server; port: number; token: string; url: string}> {
+export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string; repos?: {name: string; path: string}[]; logPath?: string; live?: Live; open?: Partial<OpenOpts>}): Promise<{server: Server; port: number; token: string; url: string}> {
   const token = opts.token ?? randomBytes(24).toString('hex');
   const live = opts.live ?? (opts.logPath ? createLive(opts.logPath) : null);
   const okKey = (given: string): boolean => { const got = Buffer.from(given), want = Buffer.from(token); return got.length === want.length && timingSafeEqual(got, want); };
   const cookieKey = (c: string | undefined): string => /(?:^|;\s*)office_key=([0-9a-f]+)/.exec(c ?? '')?.[1] ?? '';
+  const opener = opts.open ? createOpener({logPath: join(opts.vault, 'logs/office-open.log'), ...opts.open}) : null;
   const server = createServer((req, res) => {
     const send = (code: number, body: string | Buffer, type = 'text/plain; charset=utf-8'): void => {
       res.writeHead(code, {'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'content-security-policy': "default-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'"});
@@ -21,6 +23,19 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
     if (!hosts.includes(req.headers.host ?? '')) return send(403, 'Wrong host.');
     const origin = req.headers.origin;
     if (origin !== undefined && !hosts.some((h) => origin === `http://${h}`)) return send(403, 'Wrong origin.');
+    if (req.method === 'POST' && opener && (req.url ?? '') === '/open') { // the only write route: key in a header AND a matching Origin are both required
+      if (origin === undefined) return send(403, 'Wrong origin.');
+      if (!okKey(String(req.headers['x-office-token'] ?? ''))) return send(401, 'Needs the launch token.');
+      let body = '';
+      req.on('data', (c) => { body += c; if (body.length > 1000) req.destroy(); });
+      req.on('end', async () => {
+        let j: {id?: unknown; resume?: unknown} = {};
+        try { j = JSON.parse(body) as typeof j; } catch { /* bad body is treated as no id */ }
+        const r = await opener(j.id, j.resume === true);
+        send(r.code, JSON.stringify(r.body), 'application/json');
+      });
+      return;
+    }
     if (req.method !== 'GET') return send(405, 'Read only.');
     const path = (req.url ?? '/').split('?')[0]!;
     if (path.startsWith('/k/')) { // opens the live link once: sets a same-site cookie because EventSource cannot send headers
@@ -61,7 +76,7 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
 if (import.meta.url === `file://${process.argv[1]}`) {
   const vault = process.env.OFFICE_VAULT ?? join(process.env.HOME ?? '', 'Projects/proof-lab');
   const staticDir = process.env.OFFICE_STATIC ?? join(import.meta.dirname, '../../.work/office-dist');
-  const logPath = join(vault, 'logs/usage.jsonl');
-  const r = await startOffice({vault, staticDir, repos: [{name: 'AgentRunLab', path: join(process.env.HOME ?? '', 'Projects/coding-agent-crash-tests')}], port: Number(process.env.OFFICE_PORT ?? 0), logPath});
+  const v1 = join(vault, 'logs/office-v1.jsonl'), logPath = existsSync(v1) ? v1 : join(vault, 'logs/usage.jsonl'); // the emitter's file when it exists, else the old log
+  const r = await startOffice({vault, staticDir, repos: [{name: 'AgentRunLab', path: join(process.env.HOME ?? '', 'Projects/coding-agent-crash-tests')}], port: Number(process.env.OFFICE_PORT ?? 0), logPath, open: {}});
   console.log(`Office page (read-only, this computer only): ${r.url}`);
 }

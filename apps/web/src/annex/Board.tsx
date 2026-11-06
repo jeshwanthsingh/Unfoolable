@@ -6,12 +6,20 @@ import {BOARD, lightIcon} from './copy.ts';
 // The live board: reads the SSE stream. Words come from codes (office-board.ts); no raw text from any log is shown here.
 const token = () => new URLSearchParams(location.hash.slice(1)).get('t') ?? '';
 
+async function openHelper(id: string): Promise<boolean> {
+  const call = (resume: boolean) => fetch('/open', {method: 'POST', headers: {'x-office-token': token(), 'content-type': 'application/json'}, body: JSON.stringify({id, resume})});
+  let r = await call(false);
+  if (r.status === 409 && window.confirm(BOARD.confirm)) r = await call(true);
+  return r.ok;
+}
+
 export function Board() {
   const [state, setState] = useState<OfficeState | null>(null);
   const [lastMsg, setLastMsg] = useState(0);
   const [tick, setTick] = useState(Date.now());
   const [connected, setConnected] = useState(false);
   const [err, setErr] = useState('');
+  const [openErr, setOpenErr] = useState(false);
   useEffect(() => {
     const t = token();
     if (!t) { setErr(BOARD.noLink); return; }
@@ -39,11 +47,12 @@ export function Board() {
           <div className="ob-col" key={k}>
             <h2>{BOARD.cols[k]} ({cards.length})</h2>
             {cards.length === 0 ? <p className="oa-muted">{BOARD.empty}</p> : (
-              <ul>{cards.map((c) => <li key={c.key} className={`ob-card ob-${c.tone}`}><strong>{c.project}</strong>{c.verb} <time>{c.time}</time></li>)}</ul>
+              <ul>{cards.map((c) => <li key={c.key} className={`ob-card ob-${c.tone}`}><strong>{c.project}</strong>{c.verb} <time>{c.time}</time>{k === 'needs' ? <button type="button" className="oa-toggle" onClick={() => openHelper(c.key).then((ok) => setOpenErr(!ok)).catch(() => setOpenErr(true))}>{BOARD.open}</button> : null}</li>)}</ul>
             )}
           </div>
         ))}
       </div>
+      {openErr ? <p role="alert" className="oa-error">{BOARD.openFailed}</p> : null}
       {b && b.quiet > 0 ? <p className="oa-muted">{b.quiet} {BOARD.quiet}</p> : null}
     </section>
   );

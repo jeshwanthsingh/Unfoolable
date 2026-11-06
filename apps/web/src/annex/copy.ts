@@ -27,6 +27,7 @@ export const COPY = {
 export const BOARD = {
   more: 'More views', back: 'Back to the board', quiet: 'quiet helpers (no news for a while)',
   cols: {needs: 'Needs you', working: 'Working', checking: 'Checking', done: 'Done today'},
+  open: 'Open', confirm: 'This helper is not in a window I can find. Open a new window that continues it? It may start a second copy of the helper.', openFailed: 'Could not open it.',
   empty: 'Nobody here.', noLink: 'Open the page with the link from the terminal.'
 } as const;
 
