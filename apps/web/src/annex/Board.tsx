@@ -33,14 +33,12 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
   const [lastMsg, setLastMsg] = useState(0);
   const [tick, setTick] = useState(Date.now());
   const [connected, setConnected] = useState(false);
-  const [err, setErr] = useState('');
   const [openErr, setOpenErr] = useState(false);
   const [sound, setSound] = useState(false); // off by default
   const reduce = useReducedMotion() ?? false;
   const prevNeeds = useRef<Set<string> | null>(null);
   useEffect(() => {
     const t = token();
-    if (!t) { setErr(BOARD.noLink); return; }
     let es: EventSource | null = null, live = true;
     // The key becomes a same-site cookie first, because EventSource cannot send headers.
     fetch(`/k/${t}`, {credentials: 'same-origin'}).then(() => {
@@ -58,7 +56,6 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
     if (sound && chimeDue(prevNeeds.current, now)) chime();
     prevNeeds.current = new Set(now);
   }, [state, sound]);
-  if (err) return <p role="alert" className="oa-error">{err}</p>;
   const b = state ? boardOf(state) : null;
   const fresh = freshness(connected, tick - lastMsg, state?.freshness.lastEventAt ?? null);
   const animate = shouldAnimate(state?.freshness.ageSeconds ?? null, reduce);

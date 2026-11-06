@@ -24,9 +24,10 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
     if (!hosts.includes(req.headers.host ?? '')) return send(403, 'Wrong host.');
     const origin = req.headers.origin;
     if (origin !== undefined && !hosts.some((h) => origin === `http://${h}`)) return send(403, 'Wrong origin.');
-    if (req.method === 'POST' && opener && (req.url ?? '') === '/open') { // the only write route: key in a header AND a matching Origin are both required
+    const keyed = (): boolean => okKey(String(req.headers['x-office-token'] ?? '')) || okKey(cookieKey(req.headers.cookie)); // header, or the same-site HttpOnly cookie the link swapped it for
+    if (req.method === 'POST' && opener && (req.url ?? '') === '/open') { // the only write route: the key AND a matching Origin are both required (the cookie is SameSite=Strict)
       if (origin === undefined) return send(403, 'Wrong origin.');
-      if (!okKey(String(req.headers['x-office-token'] ?? ''))) return send(401, 'Needs the launch token.');
+      if (!keyed()) return send(401, 'Needs the launch token.');
       let body = '';
       req.on('data', (c) => { body += c; if (body.length > 1000) req.destroy(); });
       req.on('end', async () => {
@@ -53,7 +54,7 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
       try { return send(200, readFileSync(file), 'image/png'); } catch { return send(404, 'Not found.'); }
     }
     if (live && (path === '/state' || path === '/events')) {
-      if (!okKey(String(req.headers['x-office-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
+      if (!keyed()) return send(401, 'Needs the launch token.');
       if (path === '/state') return send(200, JSON.stringify(live.state()), 'application/json');
       res.writeHead(200, {'content-type': 'text/event-stream', 'cache-control': 'no-store', connection: 'keep-alive', 'x-content-type-options': 'nosniff'});
       const write = (s: {version: number}): void => { res.write(`id: ${s.version}\nevent: state\ndata: ${JSON.stringify(s)}\n\n`); };
@@ -63,8 +64,7 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
       return;
     }
     if (path === '/api/office') {
-      const got = Buffer.from(String(req.headers['x-office-token'] ?? '')), want = Buffer.from(token);
-      if (got.length !== want.length || !timingSafeEqual(got, want)) return send(401, 'Needs the launch token.');
+      if (!keyed()) return send(401, 'Needs the launch token.');
       return send(200, JSON.stringify(buildSnapshot(opts.vault, new Date(), opts.repos)), 'application/json');
     }
     if (!opts.staticDir) return send(404, 'Not found.');

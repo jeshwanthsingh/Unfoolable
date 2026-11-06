@@ -79,3 +79,23 @@ test('POST /open: key header AND Origin required; GET is refused; the server run
     assert.equal(calls.length, 2);
   } finally { r.server.closeAllConnections(); r.server.close(); }
 });
+
+test('the cookie the link was swapped for opens /api/office and /open (with a matching Origin); without the Origin or the key it does not', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'cookie-')); mkdirSync(join(dir, 'logs'));
+  const mapPath = join(dir, 'map.json'); writeFileSync(mapPath, JSON.stringify({[H1]: {session: SESSION, cwd: '/Users/x/p', tmux: 'work:3'}}));
+  const calls: unknown[] = [];
+  const r = await startOffice({vault: dir, open: {mapPath, exec: async (f, a) => { calls.push([f, a]); }}});
+  const base = `http://127.0.0.1:${r.port}`;
+  try {
+    const cookie = /office_key=[0-9a-f]+/.exec((await fetch(`${base}/k/${r.token}`, {redirect: 'manual'})).headers.get('set-cookie') ?? '')![0];
+    assert.match((await fetch(`${base}/k/${r.token}`, {redirect: 'manual'})).headers.get('set-cookie')!, /HttpOnly; SameSite=Strict/);
+    assert.equal((await fetch(`${base}/api/office`, {headers: {cookie}})).status, 200);
+    assert.equal((await fetch(`${base}/api/office`)).status, 401);
+    const post = (h: Record<string, string>) => fetch(`${base}/open`, {method: 'POST', headers: h, body: JSON.stringify({id: H1})});
+    assert.equal((await post({cookie})).status, 403); // no Origin
+    assert.equal((await post({cookie: 'office_key=00', origin: base})).status, 401); // wrong key
+    assert.equal(calls.length, 0);
+    assert.equal((await post({cookie, origin: base})).status, 200);
+    assert.equal(calls.length, 2);
+  } finally { r.server.closeAllConnections(); r.server.close(); }
+});

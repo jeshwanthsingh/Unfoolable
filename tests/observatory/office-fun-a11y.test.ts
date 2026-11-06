@@ -29,6 +29,7 @@ test('Office view (fake art folder): axe finds no serious problem; every helper 
       const page = await b.newPage({viewport: {width: 1440, height: 1000}, bypassCSP: true, colorScheme: scheme}); // CSP bypass only so the audit script can run
       await page.goto(r.url); await page.waitForSelector('.fv-who.loud', {timeout: 20000});
       await page.click('.fv-who.loud'); await page.waitForSelector('.fv-panel');
+      assert.equal(await page.evaluate(() => location.hash), '', 'the key must not stay in the address bar');
       await page.addScriptTag({path: AXE});
       const res = await page.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
       assert.deepEqual(res.violations.filter((x) => x.impact === 'serious' || x.impact === 'critical').map((x) => `${x.impact} ${x.id} x${x.nodes.length}`), [], `accessibility problems (${scheme})`);

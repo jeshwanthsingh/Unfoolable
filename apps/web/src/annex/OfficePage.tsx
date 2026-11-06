@@ -27,14 +27,13 @@ export function OfficePage() {
     document.documentElement.style.background = dark ? '#151719' : '#FAFBFC';
   }, [dark]);
   useEffect(() => {
-    const t = token(); if (!t) return;
+    const t = token();
     fetch(`/k/${t}`, {credentials: 'same-origin'}).then(() => fetch('/art/manifest')).then((r) => (r.ok ? r.json() : null)).then((j: {available?: boolean} | null) => {
       if (j?.available) { setArt(true); if (innerWidth >= 900) setView('office'); } // laptop: the office; phone: the simple view
     }).catch(() => { /* no art: the simple view stays */ });
   }, []);
   useEffect(() => {
     const t = token();
-    if (!t) { setErr(COPY.noLink); return; }
     let live = true;
     const load = () => fetch('/api/office', {headers: {'x-office-token': t}}).then((r) => r.ok ? r.json() : Promise.reject(new Error())).then((s: Snapshot) => { if (live) { setSnap(s); setErr(''); } }).catch(() => live && setErr(COPY.offline));
     load();
