@@ -1,0 +1,37 @@
+{"ts": "2026-11-05T01:57:47", "kind": "session_start", "name": "startup", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:57:47", "kind": "session_start", "name": "startup", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:57:54", "kind": "tool", "name": "mcp__ccd_turn__update_plan", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:57:56", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:57:57", "kind": "tool", "name": "Bash", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:02", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:02", "kind": "tool", "name": "Bash", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:07", "kind": "tool", "name": "Bash", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:10", "kind": "tool", "name": "Bash", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:13", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:13", "kind": "tool", "name": "Bash", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:19", "kind": "tool", "name": "Bash", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:28", "kind": "tool", "name": "Read", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:42", "kind": "stop", "name": "", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:58:49", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:59:00", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:59:01", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:59:06", "kind": "permission_request", "name": "AskUserQuestion", "session": "a50b0449a035", "project": "coding-agent-crash-tests", "needs_you": true}
+{"ts": "2026-11-05T01:59:12", "kind": "notification", "name": "permission_prompt", "session": "a50b0449a035", "project": "coding-agent-crash-tests", "needs_you": true}
+{"ts": "2026-11-05T01:59:14", "kind": "tool", "name": "AskUserQuestion", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T01:59:55", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:00:47", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:01:30", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:01:59", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:02:38", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:02:51", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:20", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:32", "kind": "tool", "name": "Write", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:32", "kind": "tool", "name": "Read", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:32", "kind": "tool", "name": "Bash", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:39", "kind": "tool", "name": "Edit", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:39", "kind": "tool", "name": "Read", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:44", "kind": "tool", "name": "Edit", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:44", "kind": "tool", "name": "mcp__ccd_turn__wrap_up", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T02:03:56", "kind": "stop", "name": "", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T13:06:33", "kind": "session_end", "name": "other", "session": "a50b0449a035", "project": "coding-agent-crash-tests"}
+{"ts": "2026-11-05T13:06:34", "kind": "session_end", "name": "other", "session": "38edf8fb99b5", "project": "coding-agent-crash-tests"}
