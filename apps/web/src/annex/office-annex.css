@@ -105,3 +105,7 @@ body{margin:0}
 .fv-li{flex-wrap:wrap}.fv-li time{flex:none}
 
 .fv-detail{margin:8px 0 0;font-size:15px}.fv-detail code{background:#EEF2F8;padding:1px 5px}
+
+/* Plain zeros: the body font draws a slashed zero, so digits come from Nunito (same bundled file as the headings). */
+@font-face{font-family:Digits;font-weight:100 900;src:url(./fonts/Nunito-700.woff2) format('woff2');unicode-range:U+0030-0039}
+.unfoolable.oa{font-family:Digits,'Atkinson Hyperlegible',system-ui,sans-serif}.oa button,.oa time,.oa summary{font-family:inherit}

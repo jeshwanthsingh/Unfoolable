@@ -31,7 +31,7 @@ test('lanes: Working = news under 60 s only; quiet helpers collapse into one lin
   assert.deepEqual([b.working.length, b.working[0]!.tone, b.checking.length], [1, 'blue', 1]);
   assert.deepEqual(b.done.map((c) => [c.tone, c.verb, c.button]), [['green', 'Saved. 9 of 12 passed.', null]]);
   assert.deepEqual(b.failed.map((c) => [c.tone, c.verb, c.button]), [['red', "Didn't pass: 3 of 12 passed", 'see']]);
-  assert.deepEqual(b.quietLines, ['2 quiet helpers on Unfoolable, no news for a while']);
+  assert.deepEqual(b.quietLines, ['Helper 6, Helper 7 on Unfoolable: quiet, no news for a while']);
   assert.equal(b.quiet, 2); assert.equal(b.light, 'amber');
   assert.equal(b.sentence, 'Helper 1 on Unfoolable needs you'); // same project, several helpers: distinct labels
   assert.equal(new Set([b.needs, b.working, b.checking, b.done, b.failed].flat().map((c) => c.label)).size, 5);
@@ -76,6 +76,8 @@ test('board at 390 and 1280 px: no text is cut off', async (t) => {
       assert.deepEqual(bad, [], `cut-off text at ${w}px`);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `sideways scroll at ${w}px`);
       assert.match(await page.innerText('.ob-fresh'), /LIVE, updated/);
+      assert.match(await page.evaluate(() => getComputedStyle(document.querySelector('.ob-fresh')!).fontFamily), /^Digits/, 'digits come from the plain-zero font'); // the body font draws a slashed zero
+      assert.ok(await page.evaluate(() => document.fonts.check('16px Digits', '0')), 'the digit font is loaded');
       assert.ok(!/session|hook|commit|verdict/i.test(await page.innerText('main')));
       await page.close();
     }
@@ -117,4 +119,19 @@ test('a helper that finished its turn is visible: waiting for your reply for 15 
   assert.equal(ended.needs.length, 0); // the session is over: nobody is waiting
   const failed = boardOf(reduce([ev({ts: '2026-11-05T09:50:00'}), ev({kind: 'turn_end', ts: '2026-11-05T09:58:00', tool: null, ok: false})], '2026-11-05T10:01:00'));
   assert.equal(failed.needs.length, 0); // a failed turn end is not a reply request
+});
+
+test('one label per helper: a helper is never both in a lane and in the quiet line; the same number means the same helper', () => {
+  const E = [ev({sid: 'h:000000000001', ts: '2026-11-05T10:00:50'}), ev({sid: 'h:000000000002', ts: '2026-11-05T08:00:00'}), ev({sid: 'h:000000000003', ts: '2026-11-05T08:05:00'})];
+  const b = boardOf(reduce(E, '2026-11-05T10:01:00'));
+  assert.equal(b.working[0]!.label, 'Helper 1 on Unfoolable');
+  assert.deepEqual(b.quietLines, ['Helper 2, Helper 3 on Unfoolable: quiet, no news for a while']);
+  assert.equal(boardOf(reduce([ev({sid: 'h:000000000009', ts: '2026-11-05T08:00:00'})], '2026-11-05T10:01:00')).quietLines[0], 'Unfoolable: quiet, no news for a while'); // a lone helper keeps the project name
+  const row = fc.record({s: fc.constantFrom('h:000000000001', 'h:000000000002', 'h:000000000003', 'h:000000000004'), p: fc.constantFrom('Unfoolable', 'AgentRunLab'), t: fc.integer({min: 0, max: 7200}), k: fc.constantFrom('tool_end', 'turn_end', 'needs_you')});
+  fc.assert(fc.property(fc.array(row, {minLength: 1, maxLength: 30}), (rows) => {
+    const evs: OfficeEvent[] = rows.map((r, i) => ({v: 1, seq: i + 1, ts: `2026-11-05T${String(8 + Math.floor(r.t / 3600)).padStart(2, '0')}:${String(Math.floor((r.t % 3600) / 60)).padStart(2, '0')}:00`, sid: `${r.s}${r.p === 'AgentRunLab' ? '' : ''}`, project: r.p, kind: r.k as OfficeEvent['kind'], tool: null, ok: null, code: r.k === 'needs_you' ? 'permission' : null, gate: null}));
+    const board = boardOf(reduce(evs, '2026-11-05T10:30:00'));
+    const lane = new Set([board.needs, board.working, board.checking, board.done, board.failed].flat().map((c) => c.label));
+    for (const q of board.quietLines) for (const n of (/^((?:Helper \d+(?:, )?)+) on (.+):/.exec(q)?.[1] ?? '').match(/Helper \d+/g) ?? []) assert.ok(![...lane].some((l) => l.startsWith(`${n} on `) && q.includes(` on ${l.split(' on ')[1]}:`)), `${n} is in a lane and in the quiet line`);
+  }), {numRuns: 300, seed: 33});
 });

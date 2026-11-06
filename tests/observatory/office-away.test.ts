@@ -30,7 +30,7 @@ test('a built night: helpers, steps, the 9 of 12 result and a missed-news gap, a
   assert.equal(a.steps, 4);
   assert.deepEqual(a.results.map((r) => [r.project, r.text, r.passed]), [['Unfoolable', '9 of 12 passed', true]]);
   assert.deepEqual(a.gaps, ['I missed some news between 22:06 and 23:14.']);
-  assert.equal(a.sentence, '2 helpers worked. 4 steps done.');
+  assert.equal(a.sentence, '2 helpers worked for about 1 hour.'); // time, not a step count (first news 22:00, last 23:14)
   assert.equal(away([], NOW).sentence, 'No news from last night.');
 });
 

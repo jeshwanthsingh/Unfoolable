@@ -20,6 +20,13 @@ export function awayWindow(now: string): {from: string; to: string} {
   return {from, to: now < eight ? now : eight};
 }
 
+// "about 3 hours", "about 20 minutes", "less than a minute": time, not a step count.
+export function workedFor(seconds: number): string {
+  if (seconds < 60) return 'less than a minute';
+  if (seconds < 3600) return `about ${plural(Math.round(seconds / 60), 'minute', 'minutes')}`;
+  return `about ${plural(Math.max(1, Math.round(seconds / 3600)), 'hour', 'hours')}`;
+}
+
 export function away(events: readonly OfficeEvent[], now: string): Away {
   const {from, to} = awayWindow(now);
   const inWin = events.filter((e) => e.ts >= from && e.ts < to);
@@ -33,7 +40,8 @@ export function away(events: readonly OfficeEvent[], now: string): Away {
   const gaps = r.gaps.map((g) => `I missed some news between ${hhmm(g.from)} and ${hhmm(g.to)}.`);
   const blocked = inWin.filter((e) => e.kind === 'tool_blocked').length;
   const steps = r.helpers.filter((h) => !hiddenProject(h.project)).reduce((a, h) => a + h.steps, 0), helpers = new Set(inWin.filter((e) => e.kind !== 'gate_result' && !hiddenProject(e.project)).map((e) => e.sid)).size; // scratch folders (r1, tmp ...) are not shown
-  const sentence = inWin.length === 0 ? 'No news from last night.' : `${plural(helpers, 'helper', 'helpers')} worked. ${plural(steps, 'step', 'steps')} done.`;
+  const stamps = inWin.filter((e) => e.kind !== 'gate_result' && !hiddenProject(e.project)).map((e) => Date.parse(e.ts));
+  const sentence = inWin.length === 0 ? 'No news from last night.' : `${plural(helpers, 'helper', 'helpers')} worked for ${stamps.length ? workedFor((Math.max(...stamps) - Math.min(...stamps)) / 1000) : 'a moment'}.`;
   return {from, to, helpers, steps, blocked, results, lines, gaps, sentence};
 }
 

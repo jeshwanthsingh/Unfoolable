@@ -29,12 +29,13 @@ export function boardOf(s: OfficeState): Board {
   const b: Board = {sentence: '', sub: '', light: 'green', needs: [], working: [], checking: [], done: [], failed: [], quietLines: [], quiet: 0};
   const today = s.now.slice(0, 10), byProject = new Map<string, Helper[]>();
   const waiting = (h: Helper): boolean => h.status === 'unknown' && h.idle !== null && secs(h.idle, s.now) <= WAITING_MIN * 60;
-  for (const h of s.helpers) if (h.status !== 'unknown' || waiting(h)) (byProject.get(h.project) ?? byProject.set(h.project, []).get(h.project)!).push(h);
-  // Same project, several helpers on the board: "Helper 1 on X" (numbered by id among the visible ones). A lone helper keeps the project name.
-  const label = (h: Helper): string => { const all = byProject.get(h.project) ?? [h]; return all.length > 1 ? `Helper ${[...all].sort((x, y) => (x.sid < y.sid ? -1 : 1)).indexOf(h) + 1} on ${h.project}` : h.project; };
+  for (const h of s.helpers) (byProject.get(h.project) ?? byProject.set(h.project, []).get(h.project)!).push(h);
+  // Every helper of a project is numbered ONCE by its id ("Helper 3 on X"), whatever its status, so a lane card, a room tag and the quiet line name the same helper the same way. A lone helper keeps the project name.
+  const rank = (h: Helper): number => [...byProject.get(h.project)!].sort((x, y) => (x.sid < y.sid ? -1 : 1)).indexOf(h) + 1;
+  const label = (h: Helper): string => (byProject.get(h.project)!.length > 1 ? `Helper ${rank(h)} on ${h.project}` : h.project);
   const age = (h: Helper): number => secs(h.lastAt, s.now);
   const card = (h: Helper, verb: string, time: string, tone: Tone, button: Card['button']): Card => ({key: h.sid, project: h.project, label: label(h), verb, time, at: hhmm(h.lastAt), tone, button});
-  const quiet = new Map<string, number>();
+  const quiet = new Map<string, Helper[]>();
   for (const h of s.helpers) {
     if (h.status === 'needs_you') b.needs.push(card(h, "I'm waiting for you. Please answer me.", age(h) < 60 ? 'Waiting for less than a minute' : `Waiting for ${plural(Math.floor(age(h) / 60), 'minute', 'minutes')}`, 'amber', 'open'));
     else if (h.status === 'stuck' && !h.gate) b.needs.push(card(h, 'My last 3 steps did not work.', ago(age(h)), 'red', 'open'));
@@ -43,9 +44,9 @@ export function boardOf(s: OfficeState): Board {
     else if (h.status === 'working') b.working.push(card(h, "I'm working on it.", ago(age(h)), 'blue', null));
     else if (h.status === 'done') { if (h.lastAt.slice(0, 10) === today) b.done.push(card(h, h.gate && h.gate.total > 0 ? `Saved. ${h.gate.passed} of ${h.gate.total} passed.` : 'Saved. The checker said it works.', ago(age(h)), 'green', null)); }
     else if (waiting(h)) b.needs.push(card(h, 'I finished my turn. Waiting for your reply.', ago(age(h)), 'amber', 'open'));
-    else quiet.set(h.project, (quiet.get(h.project) ?? 0) + 1);
+    else (quiet.get(h.project) ?? quiet.set(h.project, []).get(h.project)!).push(h);
   }
-  for (const [p, n] of quiet) { b.quiet += n; b.quietLines.push(`${plural(n, 'quiet helper', 'quiet helpers')} on ${p}, no news for a while`); }
+  for (const [p, hs] of quiet) { b.quiet += hs.length; b.quietLines.push(`${byProject.get(p)!.length > 1 ? `${hs.map(rank).sort((x, y) => x - y).map((n) => `Helper ${n}`).join(', ')} on ${p}` : p}: quiet, no news for a while`); }
   const n = b.needs.length, w = b.working.length;
   const f = b.failed.length;
   b.light = !s.freshness.lastEventAt ? 'grey' : n ? 'amber' : f ? 'red' : 'green';
