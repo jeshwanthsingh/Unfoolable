@@ -64,6 +64,7 @@ export function OfficePage() {
             <Panel id="oa-needs" title={COPY.panels.needs.title} help={COPY.panels.needs.help}><List items={snap.needsYou} /></Panel>
             <Panel id="oa-night" title={COPY.panels.night.title} help={COPY.panels.night.help}><List items={snap.lastNight} /></Panel>
             <Panel id="oa-results" title={COPY.panels.results.title} help={COPY.panels.results.help}><List items={snap.results} /></Panel>
+            <Panel id="oa-jobs" title={COPY.panels.jobs.title} help={COPY.panels.jobs.help}><List items={snap.board} /></Panel>
             <Panel id="oa-today" title={COPY.panels.today.title} help={COPY.panels.today.help}>
               <dl className="oa-stats">
                 <div><dt>{COPY.today.helpers}</dt><dd>{snap.today.helpers}</dd></div>

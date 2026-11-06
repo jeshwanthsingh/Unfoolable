@@ -17,6 +17,7 @@ export const COPY = {
     needs: {title: 'Needs you', help: 'A helper is stopped and waits for you. If this is empty, you can relax.'},
     night: {title: 'Last night', help: 'What your helpers did from 8 pm until 8 am.'},
     results: {title: 'Results', help: 'Practice tests, reports and the newest replies. They tell you what happened.'},
+    jobs: {title: 'Jobs', help: 'Each job a helper was sent to do. A job says done only when its save check passed.'},
     today: {title: 'Today', help: 'How many helpers worked today, and what you spent.'}
   },
   today: {helpers: 'Helpers', steps: 'Steps done', guard: 'The guard said no', spent: 'Spent today'}
@@ -33,6 +34,7 @@ export const FLOOR = {
   door: 'The guard', guardNo: 'said no today', guardLast: 'last at', guardNone: 'has not said no today',
   legend: 'Solid helper: seen working just now. Faded: maybe. Empty desk: finished.',
   mailChat: 'New mail for the planner at', mailCode: 'New mail for the builder at',
+  checkerAt: 'Checker ran at', checkerEarlier: 'Checker ran earlier, at', staff: 'Visitor with a report:',
   viewPicture: 'Show the picture', viewSimple: 'Show the simple view'
 } as const;
 

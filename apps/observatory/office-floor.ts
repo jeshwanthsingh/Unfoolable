@@ -9,7 +9,8 @@ export type Desk = {
   at: string; // HH:MM of the latest recorded line
   word: string; // plain words shown under the desk
 };
-export type Floor = {desks: Desk[]; guard: {count: number; last: string | null}};
+// checker: a save check was recorded today (solid if within 15 minutes, else faded). staff: one visitor per report file.
+export type Floor = {desks: Desk[]; guard: {count: number; last: string | null}; checker: {at: string; fresh: boolean} | null; staff: string[]};
 
 // The tool name decides the place. Unknown names stay at the plain desk.
 export function stationOf(e: Pick<LogLine, 'kind' | 'name'>): Station {
@@ -25,7 +26,7 @@ const mins = (a: string, b: string): number => (Date.parse(b) - Date.parse(a)) /
 
 // `now` is a local ISO string like the log's own. Recent = a recorded tool line within 2 minutes (solid);
 // 2 to 15 minutes = faded "maybe"; older = "no news since". A finished helper keeps its desk ("gone home").
-export function buildFloor(events: readonly LogLine[], now: string): Floor {
+export function buildFloor(events: readonly LogLine[], now: string, extra: {checkAt?: string | undefined; staff?: string[]} = {}): Floor {
   const by = new Map<string, LogLine[]>();
   for (const e of events) (by.get(e.project) ?? by.set(e.project, []).get(e.project)!).push(e);
   const desks: Desk[] = [];
@@ -42,5 +43,6 @@ export function buildFloor(events: readonly LogLine[], now: string): Floor {
   }
   desks.sort((a, b) => (a.at < b.at ? 1 : -1));
   const blocks = events.filter((e) => e.kind === 'hook_block' && e.ts.slice(0, 10) === now.slice(0, 10));
-  return {desks: desks.slice(0, 6), guard: {count: blocks.length, last: blocks.length ? blocks[blocks.length - 1]!.ts.slice(11, 16) : null}};
+  const checker = extra.checkAt && extra.checkAt.slice(0, 10) === now.slice(0, 10) ? {at: extra.checkAt.slice(11, 16), fresh: mins(extra.checkAt, now) <= 15} : null;
+  return {desks: desks.slice(0, 6), guard: {count: blocks.length, last: blocks.length ? blocks[blocks.length - 1]!.ts.slice(11, 16) : null}, checker, staff: (extra.staff ?? []).slice(0, 2)};
 }

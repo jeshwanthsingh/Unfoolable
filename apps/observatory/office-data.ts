@@ -16,6 +16,7 @@ export type Snapshot = {
   results: Item[];
   today: {helpers: number; steps: number; guardNo: number; spent: string; list: Item[]};
   floor: Floor;
+  board: Item[]; // one line per dispatched job; 'done' only when that job's own record says PASS
   mail: {chat: string | null; code: string | null}; // HH:MM of today's change to each mailbox file, else null
   details: string[];
 };
@@ -66,16 +67,42 @@ export function parseMailbox(md: string, n: number): Item[] {
 // Only the file's change time is read, never a second copy of its words.
 const changedToday = (p: string, today: string): string | null => { try { const t = localIso(statSync(p).mtime); return day(t) === today ? hhmm(t) : null; } catch { return null; } };
 
-// Reads ONLY `verdict` and `timestamp` from one repo's .claude/last-verify.json (read-only); anything else in the file is never copied.
+// Reads ONLY `verdict` and `timestamp` from one folder's .claude/last-verify.json (read-only); anything else in the file is never copied.
 export type RepoRef = {name: string; path: string};
-function lastCheck(repo: RepoRef): Item {
-  const head = `Last save check (${safe(repo.name, 30)}):`;
+type Check = {verdict: 'PASS' | 'FAIL' | 'PARTIAL'; at: Date};
+function readCheck(dir: string): Check | null {
   try {
-    const j = JSON.parse(readFileSync(join(repo.path, '.claude/last-verify.json'), 'utf8')) as {verdict?: unknown; timestamp?: unknown};
-    const d = new Date(String(j.timestamp)), word = ({PASS: 'it works', FAIL: 'something is broken', PARTIAL: 'only part of it works'} as Record<string, string>)[String(j.verdict)];
-    if (word && !Number.isNaN(d.getTime())) return {text: `${head} ${word} at ${pad(d.getHours())}:${pad(d.getMinutes())}`};
+    const j = JSON.parse(readFileSync(join(dir, '.claude/last-verify.json'), 'utf8')) as {verdict?: unknown; timestamp?: unknown};
+    const at = new Date(String(j.timestamp)), v = String(j.verdict);
+    if ((v === 'PASS' || v === 'FAIL' || v === 'PARTIAL') && !Number.isNaN(at.getTime())) return {verdict: v, at};
   } catch { /* missing or garbled file */ }
-  return {text: `${head} No save check yet`};
+  return null;
+}
+const clock = (d: Date): string => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+function lastCheck(repo: RepoRef): Item {
+  const head = `Last save check (${safe(repo.name, 30)}):`, c = readCheck(repo.path);
+  if (!c) return {text: `${head} No save check yet`};
+  return {text: `${head} ${({PASS: 'it works', FAIL: 'something is broken', PARTIAL: 'only part of it works'})[c.verdict]} at ${clock(c.at)}`};
+}
+
+// Dispatched jobs: <vault>/dispatch/*/meta.json names the work folder. Done ONLY if that folder's own record says PASS
+// and was written after the job was made (an older PASS does not count). The card's words are never shown, only the job name.
+function readBoard(vault: string): {item: Item; check: Check | null}[] {
+  const out: {created: number; item: Item; check: Check | null}[] = [];
+  let ids: string[] = [];
+  try { ids = readdirSync(join(vault, 'dispatch')); } catch { return []; }
+  for (const id of ids) {
+    try {
+      const m = JSON.parse(read(join(vault, 'dispatch', id, 'meta.json'))) as {worktree?: unknown; branch?: unknown; created?: unknown};
+      const created = new Date(String(m.created)).getTime(), name = safe(String(m.branch).replace(/^b\//, '').replace(/[-_]+/g, ' '), 30);
+      const check = typeof m.worktree === 'string' ? readCheck(m.worktree) : null;
+      const fresh = check !== null && !Number.isNaN(created) && check.at.getTime() >= created;
+      const text = fresh && check.verdict === 'PASS' ? `${name}: done at ${clock(check.at)}`
+        : fresh && check.verdict === 'FAIL' ? `${name}: not done, something is broken (${clock(check.at)})` : `${name}: not done yet`;
+      out.push({created: Number.isNaN(created) ? 0 : created, item: {text}, check});
+    } catch { /* a broken meta file is skipped */ }
+  }
+  return out.sort((a, b) => b.created - a.created).slice(0, 8).map(({item, check}) => ({item, check}));
 }
 
 export function buildSnapshot(vault: string, now = new Date(), repos: RepoRef[] = []): Snapshot {
@@ -103,6 +130,9 @@ export function buildSnapshot(vault: string, now = new Date(), repos: RepoRef[] 
     ? [{text: `${plural(nightSessions, 'helper', 'helpers')} worked. ${plural(night.filter((e) => e.kind === 'tool').length, 'step', 'steps')} done.`}, {text: `The guard said no ${plural(night.filter((e) => e.kind === 'hook_block').length, 'time', 'times')}.`}]
     : [{text: 'No news from last night.'}];
   const results: Item[] = repos.map(lastCheck);
+  const jobs = readBoard(vault);
+  // The newest save check recorded today (any listed repo or job) puts the checker helper on the floor.
+  const checkTimes = [...repos.map((r) => readCheck(r.path)), ...jobs.map((j) => j.check)].filter((c): c is Check => c !== null && day(localIso(c.at)) === today).map((c) => c.at.getTime());
   const batches = new Map<string, {date: string; safe: number; bad: number}>();
   for (const r of rows) {
     const b = batches.get(r.batch) ?? {date: r.date, safe: 0, bad: 0};
@@ -119,11 +149,12 @@ export function buildSnapshot(vault: string, now = new Date(), repos: RepoRef[] 
     results.push({text: `Report: ${safe(head.replace(/^#+\s*/, ''), 80)}`});
   }
   for (const m of parseMailbox(read(join(vault, 'mailbox/to-chat.md')), 3)) results.push({at: m.at ?? '', text: `Reply: ${m.text}`});
+  const staff = gardens.map((g) => safe((read(join(vault, 'logs', g)).split('\n').find((l) => l.trim()) ?? g).replace(/^#+\s*/, ''), 30));
   const last = events[events.length - 1];
   const light: Light = !last ? 'grey' : needs.some((s) => s.needsYou!.what === 'error') ? 'red' : needs.length ? 'amber' : 'green';
   const sentence = !last ? 'No news yet.' : needs.length ? `${plural(needs.length, 'helper needs', 'helpers need')} you.` : `Nothing needs you. Last news at ${hhmm(last.ts)}.`;
   return {
-    generatedAt: nowIso, light, sentence, needsYou, lastNight, results, floor: buildFloor(events, nowIso), mail: {chat: changedToday(join(vault, 'mailbox/to-chat.md'), today), code: changedToday(join(vault, 'mailbox/to-code.md'), today)},
+    generatedAt: nowIso, light, sentence, needsYou, lastNight, results, board: jobs.map((j) => j.item), floor: buildFloor(events, nowIso, {checkAt: checkTimes.length ? localIso(new Date(Math.max(...checkTimes))) : undefined, staff}), mail: {chat: changedToday(join(vault, 'mailbox/to-chat.md'), today), code: changedToday(join(vault, 'mailbox/to-code.md'), today)},
     today: {
       helpers: todaySessions.length, steps: todayEv.filter((e) => e.kind === 'tool').length, guardNo, spent: `$${spent.toFixed(2)}`,
       list: todaySessions.slice(0, 8).map((s) => ({text: `${label(s.project)}: ${s.endedAt ? 'finished' : s.needsYou ? 'needs you' : 'no news since ' + hhmm(s.lastAt)}`}))

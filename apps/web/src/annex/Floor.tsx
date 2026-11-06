@@ -24,11 +24,11 @@ const wrap = (t: string, n = 19): string[] => {
 };
 
 export function Floor({snap}: {snap: Snapshot}) {
-  const {desks, guard} = snap.floor;
+  const {desks, guard, checker, staff} = snap.floor;
   return (
     <figure className="oa-floor">
-      <svg viewBox="0 0 960 330" role="img" aria-label={FLOOR.alt}>
-        <rect width="960" height="330" fill="var(--uf-well)" />
+      <svg viewBox="0 0 960 445" role="img" aria-label={FLOOR.alt}>
+        <rect width="960" height="445" fill="var(--uf-well)" />
         {Object.entries(SPOT).map(([k, s]) => (
           <g key={k}>
             <rect x={s.x - 8} y={16} width={120} height={56} rx={6} fill="var(--uf-surface)" stroke="var(--uf-border)" />
@@ -54,6 +54,18 @@ export function Floor({snap}: {snap: Snapshot}) {
             </g>
           );
         })}
+        {checker && (
+          <g>
+            <Sprite x={SPOT.checker!.x + 44} y={70} row={ROW.checker} sheet="./builder.png" faded={!checker.fresh} />
+            <text x={SPOT.checker!.x + 52} y={160} textAnchor="middle" fontSize="11" fill="var(--uf-muted)">{checker.fresh ? FLOOR.checkerAt : FLOOR.checkerEarlier} {checker.at}</text>
+          </g>
+        )}
+        {staff.map((t, k) => (
+          <g key={k}>
+            <Sprite x={700 + k * 130} y={322} row={0} sheet="./builder.png" />
+            {wrap(`${FLOOR.staff} ${t}`, 20).map((w, j) => <text key={j} x={736 + k * 130} y={402 + j * 13} textAnchor="middle" fontSize="11" fill="var(--uf-muted)">{w}</text>)}
+          </g>
+        ))}
         {[snap.mail.chat && `${FLOOR.mailChat} ${snap.mail.chat}`, snap.mail.code && `${FLOOR.mailCode} ${snap.mail.code}`].filter(Boolean).map((t, k) => (
           <g key={k}>
             <rect x={30 + k * 300} y={304} width={22} height={15} fill="var(--uf-surface)" stroke="var(--uf-text)" />
