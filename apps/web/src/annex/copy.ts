@@ -23,6 +23,13 @@ export const COPY = {
   today: {helpers: 'Helpers', steps: 'Steps done', guard: 'The guard said no', spent: 'Spent today'}
 } as const;
 
+// The board (default view). Card sentences are made in observatory/office-board.ts from codes only.
+export const BOARD = {
+  more: 'More views', back: 'Back to the board', quiet: 'quiet helpers (no news for a while)',
+  cols: {needs: 'Needs you', working: 'Working', checking: 'Checking', done: 'Done today'},
+  empty: 'Nobody here.', noLink: 'Open the page with the link from the terminal.'
+} as const;
+
 export const DETAIL_WORDS = {
   source: 'Read from usage.jsonl, scoreboard.csv, to-chat.md and garden reports. Read only.'
 } as const;
@@ -45,5 +52,6 @@ export function screenStrings(): string[] {
   const walk = (v: unknown): void => { if (typeof v === 'string') out.push(v); else if (v && typeof v === 'object') Object.values(v).forEach(walk); };
   walk(COPY);
   walk(FLOOR);
+  walk(BOARD);
   return out;
 }

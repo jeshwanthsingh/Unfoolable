@@ -28,3 +28,11 @@
 .oa-toggle:focus-visible{outline:2px solid var(--uf-text);outline-offset:2px}
 .oa-floor{margin:0 0 16px}.oa-floor svg{display:block;width:100%;height:auto;border:1px solid var(--uf-card-border);border-radius:8px}
 .oa-floor figcaption{margin-top:8px;color:var(--uf-muted);font-size:.9rem}
+
+.ob-fresh{margin:0 0 8px;font-weight:600}.ob-fresh.off{color:var(--uf-red)}
+.ob-cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:16px 0}
+@media (max-width:760px){.ob-cols{grid-template-columns:minmax(0,1fr)}}
+.ob-col h2{margin:0 0 8px;font-size:1.05rem}.ob-col ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ob-card{border:1px solid var(--uf-card-border);border-left-width:4px;border-radius:8px;padding:10px 12px;overflow-wrap:anywhere}
+.ob-card strong{display:block}.ob-card time{color:var(--uf-muted);font-size:.9rem}
+.ob-amber{border-left-color:var(--uf-amber)}.ob-blue{border-left-color:#3b82f6}.ob-purple{border-left-color:#8b5cf6}.ob-green{border-left-color:var(--uf-green)}.ob-red{border-left-color:var(--uf-red)}.ob-grey{border-left-color:var(--uf-border)}

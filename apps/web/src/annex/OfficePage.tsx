@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
 import type {Item, Snapshot} from '../../../observatory/office-data.ts';
-import {COPY, DETAIL_WORDS, FLOOR, lightIcon} from './copy.ts';
+import {BOARD, COPY, DETAIL_WORDS, FLOOR, lightIcon} from './copy.ts';
 import {Floor} from './Floor.tsx';
+import {Board} from './Board.tsx';
 import '../unfoolable.css';
 import './office-annex.css';
 
@@ -25,6 +26,7 @@ export function OfficePage() {
   const [snap, setSnap] = useState<Snapshot | null>(null);
   const [err, setErr] = useState('');
   const [picture, setPicture] = useState(false);
+  const [more, setMore] = useState(false);
   const [dark, setDark] = useState(() => matchMedia('(prefers-color-scheme: dark)').matches);
   useEffect(() => {
     const m = matchMedia('(prefers-color-scheme: dark)'), f = () => setDark(m.matches);
@@ -51,6 +53,8 @@ export function OfficePage() {
           <h1>{COPY.title}</h1>
           <p className="oa-badge" title={COPY.badgeHelp}>{COPY.badge}</p>
         </header>
+        <button type="button" className="oa-toggle" onClick={() => setMore(!more)}>{more ? BOARD.back : BOARD.more}</button>
+        {!more ? <Board /> : <>
         {err ? <p role="alert" className="oa-error">{err}</p> : null}
         {!snap && !err ? <p>{COPY.loading}</p> : null}
         {snap ? (<>
@@ -81,6 +85,7 @@ export function OfficePage() {
             <ul>{snap.details.map((d, n) => <li key={n}>{unescape(d)}</li>)}</ul>
           </details>
         </>) : null}
+        </>}
       </main>
     </div>
   );

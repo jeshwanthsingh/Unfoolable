@@ -1,16 +1,17 @@
-// Takes the office screenshots with Playwright. Usage: node apps/observatory/screenshot.ts <outdir>
+// Takes the board screenshots on the REAL log with Playwright. Usage: node apps/observatory/screenshot.ts <outdir>
 import {chromium} from 'playwright-core';
 import {startOffice} from './office-server.ts';
 import {join} from 'node:path';
 const out = process.argv[2] ?? '.';
-const r = await startOffice({vault: join(process.env.HOME ?? '', 'Projects/proof-lab'), staticDir: join(import.meta.dirname, '../../.work/office-dist')});
+const vault = join(process.env.HOME ?? '', 'Projects/proof-lab');
+const r = await startOffice({vault, staticDir: join(import.meta.dirname, '../../.work/office-dist'), logPath: join(vault, 'logs/usage.jsonl')});
 const b = await chromium.launch();
-for (const [w, h, scheme] of [[1440, 900, 'light'], [390, 844, 'light'], [1440, 900, 'dark'], [390, 844, 'dark']] as const) {
-  const p = await b.newPage({viewport: {width: w, height: h}, colorScheme: scheme});
-  await p.goto(r.url); await p.waitForSelector('.oa-line');
-  await p.screenshot({path: join(out, `office-${w}-${scheme}.png`), fullPage: true});
-  await p.click('.oa-toggle'); await p.waitForSelector('.oa-floor');
-  await p.screenshot({path: join(out, `office-${w}-${scheme}-picture.png`), fullPage: true});
-  if (scheme === 'light' && w === 1440) console.log(await p.innerText('main'));
+for (const [w, h] of [[1280, 900], [390, 844]] as const) {
+  const p = await b.newPage({viewport: {width: w, height: h}});
+  await p.goto(r.url); await p.waitForSelector('.ob-fresh'); await p.waitForTimeout(1500);
+  const cut = await p.evaluate(() => [...document.querySelectorAll('.ob-fresh,.ob-card,.ob-card *,.oa-line,.ob-col h2')].filter((e) => e.scrollWidth > e.clientWidth + 1).length);
+  await p.screenshot({path: join(out, `board-${w}.png`), fullPage: true});
+  console.log(`${w}px: ${cut} cut-off texts`);
+  if (w === 1280) console.log(await p.innerText('main'));
 }
-await b.close(); r.server.close();
+await b.close(); r.server.closeAllConnections(); r.server.close();
