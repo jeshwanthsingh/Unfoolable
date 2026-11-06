@@ -66,7 +66,19 @@ export function parseMailbox(md: string, n: number): Item[] {
 // Only the file's change time is read, never a second copy of its words.
 const changedToday = (p: string, today: string): string | null => { try { const t = localIso(statSync(p).mtime); return day(t) === today ? hhmm(t) : null; } catch { return null; } };
 
-export function buildSnapshot(vault: string, now = new Date()): Snapshot {
+// Reads ONLY `verdict` and `timestamp` from one repo's .claude/last-verify.json (read-only); anything else in the file is never copied.
+export type RepoRef = {name: string; path: string};
+function lastCheck(repo: RepoRef): Item {
+  const head = `Last save check (${safe(repo.name, 30)}):`;
+  try {
+    const j = JSON.parse(readFileSync(join(repo.path, '.claude/last-verify.json'), 'utf8')) as {verdict?: unknown; timestamp?: unknown};
+    const d = new Date(String(j.timestamp)), word = ({PASS: 'it works', FAIL: 'something is broken', PARTIAL: 'only part of it works'} as Record<string, string>)[String(j.verdict)];
+    if (word && !Number.isNaN(d.getTime())) return {text: `${head} ${word} at ${pad(d.getHours())}:${pad(d.getMinutes())}`};
+  } catch { /* missing or garbled file */ }
+  return {text: `${head} No save check yet`};
+}
+
+export function buildSnapshot(vault: string, now = new Date(), repos: RepoRef[] = []): Snapshot {
   const nowIso = localIso(now), today = day(nowIso);
   const usageRaw = read(join(vault, 'logs/usage.jsonl'));
   const events: LogLine[] = usageRaw.split('\n').map(parseLine).filter((e): e is LogLine => e !== null);
@@ -90,7 +102,7 @@ export function buildSnapshot(vault: string, now = new Date()): Snapshot {
   const lastNight: Item[] = night.length
     ? [{text: `${plural(nightSessions, 'helper', 'helpers')} worked. ${plural(night.filter((e) => e.kind === 'tool').length, 'step', 'steps')} done.`}, {text: `The guard said no ${plural(night.filter((e) => e.kind === 'hook_block').length, 'time', 'times')}.`}]
     : [{text: 'No news from last night.'}];
-  const results: Item[] = [];
+  const results: Item[] = repos.map(lastCheck);
   const batches = new Map<string, {date: string; safe: number; bad: number}>();
   for (const r of rows) {
     const b = batches.get(r.batch) ?? {date: r.date, safe: 0, bad: 0};

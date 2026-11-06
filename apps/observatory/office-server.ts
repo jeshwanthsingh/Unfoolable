@@ -5,7 +5,7 @@ import {readFileSync} from 'node:fs';
 import {join, extname} from 'node:path';
 import {buildSnapshot} from './office-data.ts';
 const TYPES: Record<string, string> = {'.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png'};
-export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string}): Promise<{server: Server; port: number; token: string; url: string}> {
+export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string; repos?: {name: string; path: string}[]}): Promise<{server: Server; port: number; token: string; url: string}> {
   const token = opts.token ?? randomBytes(24).toString('hex');
   const server = createServer((req, res) => {
     const send = (code: number, body: string | Buffer, type = 'text/plain; charset=utf-8'): void => {
@@ -22,7 +22,7 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
     if (path === '/api/office') {
       const got = Buffer.from(String(req.headers['x-office-token'] ?? '')), want = Buffer.from(token);
       if (got.length !== want.length || !timingSafeEqual(got, want)) return send(401, 'Needs the launch token.');
-      return send(200, JSON.stringify(buildSnapshot(opts.vault)), 'application/json');
+      return send(200, JSON.stringify(buildSnapshot(opts.vault, new Date(), opts.repos)), 'application/json');
     }
     if (!opts.staticDir) return send(404, 'Not found.');
     const file = path === '/' ? 'index.html' : path.slice(1);
@@ -41,6 +41,6 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
 if (import.meta.url === `file://${process.argv[1]}`) {
   const vault = process.env.OFFICE_VAULT ?? join(process.env.HOME ?? '', 'Projects/proof-lab');
   const staticDir = process.env.OFFICE_STATIC ?? join(import.meta.dirname, '../../.work/office-dist');
-  const r = await startOffice({vault, staticDir, port: Number(process.env.OFFICE_PORT ?? 0)});
+  const r = await startOffice({vault, staticDir, repos: [{name: 'AgentRunLab', path: join(process.env.HOME ?? '', 'Projects/coding-agent-crash-tests')}], port: Number(process.env.OFFICE_PORT ?? 0)});
   console.log(`Office page (read-only, this computer only): ${r.url}`);
 }
