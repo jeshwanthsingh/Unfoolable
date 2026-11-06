@@ -97,3 +97,5 @@ body{margin:0}
 .oa-foot{margin:44px 0 0;font-size:14px}.unfoolable.oa .oa-foot{color:#4A5672}
 
 .ob-failed{background:#FDE7E2;border:2px solid #E9533B}.ob-light.red{background:#E9533B;box-shadow:0 0 0 6px #F9C9BF}
+
+.ob-all{grid-column:1/-1;font-size:15px}.ob-all summary{cursor:pointer;color:#1F2A44;padding:4px 0}.ob-all ul{margin:6px 0 0;padding-left:20px}.unfoolable.oa .ob-all{color:#1F2A44}

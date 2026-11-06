@@ -4,7 +4,7 @@ import fc from 'fast-check';
 import {mkdirSync, mkdtempSync, readFileSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {away, awayWindow, practiceLine} from '../../apps/observatory/office-away.ts';
+import {AWAY_LINES, away, awayWindow, practiceLine} from '../../apps/observatory/office-away.ts';
 import {reduce} from '../../apps/observatory/office-reducer.ts';
 import {fromLegacy, type OfficeEvent} from '../../apps/observatory/office-schema.ts';
 import {createLive} from '../../apps/observatory/office-live.ts';
@@ -94,4 +94,17 @@ test('scratch and tiny folders (r1, r2, tmp ...) never show in the away strip', 
   const a = away(E, NOW);
   assert.deepEqual(a.results.map((r) => [r.project, r.text]), [['Unfoolable', '9 of 12 passed']]);
   assert.equal(a.helpers, 1);
+});
+
+test('the strip is one line per helper (checks, passed, did not pass, ran no tests), at most 4 lines; every result stays available', () => {
+  const g = (project: string, sid: string, sec: number, verdict: 'PASS' | 'FAIL', passed: number, total: number) => ev({sid, project, kind: 'gate_result', ts: `2026-11-05T22:${String(sec).padStart(2, '0')}:00`, gate: {task: 'T', verdict, passed, total}});
+  const E = [ev({ts: '2026-11-05T21:00:00', sid: 'h:00000000000a', project: 'Unfoolable'}),
+    ...Array.from({length: 9}, (_, i) => g('Unfoolable', `h:0000000000${i}1`, 10 + i, 'PASS', 5, 5)), g('Unfoolable', 'h:000000000091', 30, 'FAIL', 0, 0), g('Unfoolable', 'h:000000000092', 31, 'FAIL', 2, 5),
+    ...['AgentRunLab', 'Muse Guard', 'Website', 'Proof Lab', 'Extra Place'].map((p, i) => g(p, `h:00000000b${i}01`, 40 + i, 'PASS', 1, 1))];
+  const a = away(E, NOW);
+  assert.equal(a.lines[0]!.text, 'Unfoolable: 11 checks, 9 passed, 1 did not pass, 1 ran no tests');
+  assert.equal(a.lines[0]!.ok, false);
+  assert.equal(a.lines.length, 6); assert.equal(AWAY_LINES, 4); // the page shows the first 4 and puts the rest behind "Show all"
+  assert.equal(a.results.length, 16); // nothing is thrown away: "Show all" lists every result
+  assert.deepEqual(a.lines.slice(1).map((l) => l.text), ['AgentRunLab: 1 check, 1 passed', 'Extra Place: 1 check, 1 passed', 'Muse Guard: 1 check, 1 passed', 'Proof Lab: 1 check, 1 passed', 'Website: 1 check, 1 passed'].slice(0, 5));
 });

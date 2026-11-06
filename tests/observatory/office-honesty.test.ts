@@ -54,10 +54,10 @@ test('every number on the screen comes from the reducer (counts, sentences, away
       const shown = await page.locator('.ob-col', {has: page.getByRole('heading', {name: new RegExp(`^${name}`)})}).locator('h2 .n').innerText();
       assert.equal(shown, `${list.length} ${list.length === 1 ? 'helper' : 'helpers'}`, `${name} count at ${w}px`);
     }
-    for (const must of [b.sentence, b.sub, ...b.quietLines, state.away.sentence, practiceLine(state.practice), ...state.away.results.map((r: any) => r.text)]) assert.ok(text.includes(must), `missing: ${must}`);
+    for (const must of [b.sentence, b.sub, ...b.quietLines, state.away.sentence, practiceLine(state.practice), ...state.away.lines.slice(0, 4).map((l: any) => l.text)]) assert.ok(text.includes(must), `missing: ${must}`);
     assert.ok(state.away.results.some((r: any) => r.text === '3 of 12 passed' && r.passed === false), 'the failed night check is reported'); // contains, not equals: whether the 3-minute-old events also fall in the overnight window depends on the clock
     assert.equal(state.practice.passed, 9);
-    const allowed = new Set(digits([b.sentence, state.away.sentence, practiceLine(state.practice), ...state.away.results.map((r: any) => r.text), ...[b.needs, b.working, b.checking, b.done].flat().flatMap((c) => [c.verb, c.time, c.label]), b.sub, ...b.quietLines, String(state.away.blocked), String(b.quiet), '0', '1', '2', '3', '4'].join(' ')));
+    const allowed = new Set(digits([b.sentence, state.away.sentence, practiceLine(state.practice), ...state.away.lines.map((l: any) => l.text), ...state.away.results.map((r: any) => r.text), ...[b.needs, b.working, b.checking, b.done].flat().flatMap((c) => [c.verb, c.time, c.label]), b.sub, ...b.quietLines, String(state.away.blocked), String(b.quiet), '0', '1', '2', '3', '4'].join(' ')));
     const shown = digits(text.replace(/\d\d:\d\d/g, '').replace(/updated \d+ s ago/, ''));
     assert.deepEqual(shown.filter((d) => !allowed.has(d)), [], `a number on the page is not in the reducer's data at ${w}px`);
   });

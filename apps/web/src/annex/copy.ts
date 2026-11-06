@@ -31,6 +31,7 @@ export const BOARD = {
   away: 'While you were away', awayNone: 'Nothing to report.', awayResults: 'Checks', passedWord: 'passed', notPassedWord: 'did not pass', blocked: 'times the guard said no',
   soundOff: 'Sound is off', soundOn: 'Sound is on',
   tools: 'Tools', savedToday: 'saved today', see: 'See', emptyNeeds: 'When nobody needs you, this space stays empty.',
+  showAll: 'Show all',
   empty: 'Nobody here.', noLink: 'Open the page with the link from the terminal.'
 } as const;
 

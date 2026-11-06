@@ -4,7 +4,7 @@ import {Character} from './Character.tsx';
 import {chimeDue, poseOf, shouldAnimate} from '../../../observatory/office-motion.ts';
 import type {OfficeState} from '../../../observatory/office-reducer.ts';
 import type {Away, Practice} from '../../../observatory/office-away.ts';
-import {practiceLine} from '../../../observatory/office-away.ts';
+import {AWAY_LINES, practiceLine} from '../../../observatory/office-away.ts';
 import {boardOf, freshness, type Card} from '../../../observatory/office-board.ts';
 import {BOARD} from './copy.ts';
 
@@ -104,7 +104,8 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
         <section className="ob-away" aria-label={BOARD.away}>
           <h2>{BOARD.away}</h2>
           <div className="ob-note"><Character project="Lab" pose="passed" animate={false} checker /><div>{state.away.sentence}{state.away.blocked ? ` ${state.away.blocked} ${BOARD.blocked}.` : ''}</div></div>
-          {state.away.results.map((r, i) => <div key={i} className="ob-note"><Character project={r.project} pose={r.passed ? 'passed' : 'stuck'} animate={false} /><div><strong>{r.project}</strong> {r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text} <time>{r.at.slice(11, 16)}</time></div></div>)}
+          {state.away.lines.slice(0, AWAY_LINES).map((l) => <div key={l.project} className="ob-note"><Character project={l.project} pose={l.ok ? 'passed' : 'stuck'} animate={false} /><div>{l.text}</div></div>)}
+          {state.away.results.length > 0 ? <details className="ob-all"><summary>{BOARD.showAll}</summary><ul>{state.away.results.map((r, i) => <li key={i}>{r.project} {r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text} <time>{r.at.slice(11, 16)}</time></li>)}</ul></details> : null}
           {state.away.gaps.map((g, i) => <div key={i} className="ob-note"><div>{g}</div></div>)}
         </section>
       ) : null}
