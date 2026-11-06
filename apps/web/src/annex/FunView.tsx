@@ -62,7 +62,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
       app.stage.addChild(floor);
       for (const [name, x, y] of PLACE) { const r = SPRITE[name]; const s = new Sprite(new Texture({source: sheet.source, frame: new Rectangle(r.x, r.y, r.w, r.h)})); s.position.set(x, y); app.stage.addChild(s); }
       const layer = new Container(); app.stage.addChild(layer);
-      const sprites = new Map<string, {s: InstanceType<typeof Sprite>; tx: number; ty: number}>(), cache = new Map<string, Promise<InstanceType<typeof Texture>>>();
+      const sprites = new Map<string, {s: InstanceType<typeof Sprite>; tx: number; ty: number; phase: 'steady' | 'out' | 'in'}>(), cache = new Map<string, Promise<InstanceType<typeof Texture>>>();
       const tex = (color: string, mood: string, checker: boolean, hat: number) => {
         const k = `${color}|${mood}|${checker}|${hat}`;
         if (!cache.has(k)) cache.set(k, (async () => {
@@ -73,16 +73,20 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
         })());
         return cache.get(k)!;
       };
-      app.ticker.add(() => { for (const f of sprites.values()) { f.s.x += (f.tx - f.s.x) * 0.2; f.s.y += (f.ty - f.s.y) * 0.2; } });
+      // No gliding across the floor: a figure that changes spot fades out where it stood, then fades in at the new spot. Nothing else ever moves.
+      app.ticker.add(() => { for (const f of sprites.values()) {
+        if (f.phase === 'out') { f.s.alpha = Math.max(0, f.s.alpha - 0.14); if (f.s.alpha === 0) { f.s.position.set(f.tx, f.ty); f.phase = 'in'; } }
+        else if (f.phase === 'in') { f.s.alpha = Math.min(1, f.s.alpha + 0.14); if (f.s.alpha === 1) f.phase = 'steady'; }
+      } });
       draw.current = (sc, anim) => {
         const keep = new Set<string>();
         const place = (key: string, at: readonly [number, number], color: string, mood: string, checker: boolean, hat: number) => {
           keep.add(key);
           void tex(color, mood, checker, hat).then((t) => {
             let f = sprites.get(key);
-            if (!f) { const s = new Sprite(t); s.anchor.set(0.5, 1); s.scale.set(2); s.position.set(at[0], at[1]); layer.addChild(s); f = {s, tx: at[0], ty: at[1]}; sprites.set(key, f); }
-            f.s.texture = t; f.tx = at[0]; f.ty = at[1];
-            if (!anim) f.s.position.set(at[0], at[1]); // frozen log or reduced motion: no walking
+            if (!f) { const s = new Sprite(t); s.anchor.set(0.5, 1); s.scale.set(2); s.position.set(at[0], at[1]); layer.addChild(s); f = {s, tx: at[0], ty: at[1], phase: 'steady'}; sprites.set(key, f); }
+            f.s.texture = t;
+            if (f.tx !== at[0] || f.ty !== at[1]) { f.tx = at[0]; f.ty = at[1]; if (anim) { if (f.phase === 'steady') f.phase = 'out'; } else { f.s.position.set(at[0], at[1]); f.s.alpha = 1; f.phase = 'steady'; } } // reduced motion or a frozen log: the new place at once
           });
         };
         for (const f of sc.figures) { const at = SLOTS[f.spot][f.slot]; if (at) place(f.key, at, f.tint, MOOD[f.word], f.role === 'checker', f.hat); }
@@ -117,7 +121,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
           <div ref={host} className="fv-canvas" />
           {ZONES.map(([t, x, y]) => <span key={t} className="fv-zone" style={{left: pct(x, ROOM.w), top: pct(y, ROOM.h)}}>{t}</span>)}
           {scene?.figures.map((f) => { const p = at(f); return p ? (
-            <div key={f.key} className="fv-spot" style={{left: pct(Math.min(Math.max(p[0], 80), ROOM.w - 80), ROOM.w), top: pct(p[1] - 64 - (lifts.get(f.key) ?? 0) * 64, ROOM.h)}}>
+            <div key={`${f.key}@${f.spot}${f.slot}`} className="fv-spot" style={{left: pct(Math.min(Math.max(p[0], 80), ROOM.w - 80), ROOM.w), top: pct(p[1] - 64 - (lifts.get(f.key) ?? 0) * 64, ROOM.h)}}>
               <button type="button" className={`fv-who${f.loud ? ' loud' : ''}${f.word === "didn't pass" ? ' bad' : ''}`} onClick={() => setPicked(f.key)}><b>{f.label}</b>{f.loud ? f.caption : f.word}</button>
               <div className="fv-face" aria-hidden="true" onClick={() => setPicked(f.key)} />{/* the character itself is clickable too (mouse); the tag button is the keyboard way in */}
             </div>) : null; })}

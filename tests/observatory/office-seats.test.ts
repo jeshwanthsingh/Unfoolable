@@ -66,18 +66,20 @@ test('the live server remembers places: more helpers, a re-sort, a merge and qui
   let seq = 0;
   const put = (sid: string, project: string, kind = 'tool_end', o: object = {}) => appendFileSync(log, JSON.stringify({v: 1, seq: ++seq, ts: iso(now), sid, project, kind, tool: kind === 'tool_end' ? 'Edit' : null, ok: kind === 'tool_end' ? true : null, code: null, gate: null, ...o}) + '\n');
   const live = createLive(log, {pollMs: 40, clock: () => now});
-  const wait = () => new Promise((r) => setTimeout(r, 160));
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  // wait until the server has read the new lines (a slow machine may need longer than a fixed pause)
+  const wait = async (until: () => boolean = () => true) => { await sleep(120); for (let i = 0; i < 100 && !until(); i++) await sleep(50); };
   const seats = () => live.state().seats;
   try {
-    put('h:00000000000a', 'command-center'); put('h:00000000000b', 'muse-guard'); put('h:00000000000c', 'jeshwanth.com'); await wait();
+    put('h:00000000000a', 'command-center'); put('h:00000000000b', 'muse-guard'); put('h:00000000000c', 'jeshwanth.com'); await wait(() => Object.keys(seats()).length === 3);
     const first = {...seats()};
     assert.deepEqual(Object.keys(first).sort(), ['h:00000000000a', 'h:00000000000b', 'h:00000000000c']);
     const same = (label: string) => { const now2 = seats(); for (const [k, v] of Object.entries(first)) if (now2[k]) assert.deepEqual(now2[k], v, `${label}: ${k} moved`); };
-    now = new Date(now.getTime() + 20_000); put('h:00000000000d', 'proof-lab'); put('h:00000000000a', 'command-center'); await wait(); same('a new helper and a re-sort (A has the newest news now)');
+    now = new Date(now.getTime() + 20_000); put('h:00000000000d', 'proof-lab'); put('h:00000000000a', 'command-center'); await wait(() => 'h:00000000000d' in seats()); same('a new helper and a re-sort (A has the newest news now)');
     assert.equal(new Set(Object.values(seats()).map((x) => `${x.spot}#${x.slot}`)).size, 4);
-    now = new Date(now.getTime() + 10_000); put('h:00000000000e', 'muse-guard'); await wait(); same('a second helper in the same project (labels renumber, places do not)');
+    now = new Date(now.getTime() + 10_000); put('h:00000000000e', 'muse-guard'); await wait(() => live.state().helpers.some((h) => h.sid === 'h:00000000000e')); same('a second helper in the same project (labels renumber, places do not)');
     now = new Date(now.getTime() + 120_000); await wait(); // everybody goes quiet: no figures, but the desks stay reserved
-    put('h:00000000000f', 'jeshwanth.com'); put('h:00000000000b', 'muse-guard'); await wait(); same('quiet and back');
+    put('h:00000000000f', 'jeshwanth.com'); put('h:00000000000b', 'muse-guard'); await wait(() => 'h:00000000000f' in seats() && live.state().helpers.some((h) => h.sid === 'h:00000000000f')); same('quiet and back');
     assert.deepEqual(seats()['h:00000000000b'], first['h:00000000000b']);
     const reload = JSON.parse(JSON.stringify(seats())); assert.deepEqual(reload, seats()); // a reload is another read of the same server state
   } finally { live.stop(); }

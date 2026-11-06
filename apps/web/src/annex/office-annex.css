@@ -109,3 +109,8 @@ body{margin:0}
 /* Plain zeros: the body font draws a slashed zero, so digits come from Nunito (same bundled file as the headings). */
 @font-face{font-family:Digits;font-weight:100 900;src:url(./fonts/Nunito-700.woff2) format('woff2');unicode-range:U+0030-0039}
 .unfoolable.oa{font-family:Digits,'Atkinson Hyperlegible',system-ui,sans-serif}.oa button,.oa time,.oa summary{font-family:inherit}
+
+/* No sliding: a name tag stays where it is put; when a helper takes a new spot the tag appears there with a short fade. */
+.fv-spot{transition:none!important;animation:fvin .25s ease-out}.fv-spot *{transition:none!important}
+@keyframes fvin{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.fv-spot{animation:none}}

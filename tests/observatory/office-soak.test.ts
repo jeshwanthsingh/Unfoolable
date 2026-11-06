@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {existsSync, mkdirSync, mkdtempSync, writeFileSync} from 'node:fs';
+import {appendFileSync as require_append, existsSync, mkdirSync, mkdtempSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {chromium} from 'playwright-core';
@@ -32,5 +32,35 @@ test('frozen log: 60 s of identical pictures in the Office view (room and tags i
     for (let t = 0; t <= seconds; t += 5) { frames.push(await page.screenshot({fullPage: true, mask})); await page.waitForTimeout(5000); }
     assert.ok(frames.length >= Math.floor(seconds / 5));
     assert.ok(frames.every((f) => f.equals(frames[0]!)), `the Office view changed within ${seconds} s with no new news`);
+  } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
+});
+
+// No gliding: a helper that takes another spot (Edit at the desk, then Read at the library) shows its tag only at the old place or the new one,
+// never at a place in between, and a helper that did not change is never seen moving.
+test('a helper that changes spot never slides: its tag is only ever at the old place or the new place', {skip}, async () => {
+  const art = mkdtempSync(join(tmpdir(), 'glideart-')); mkdirSync(join(art, '1_Room_Builder_Office'));
+  writeFileSync(join(art, 'Modern_Office_32x32.png'), PNG); writeFileSync(join(art, '1_Room_Builder_Office/Room_Builder_Office_32x32.png'), PNG);
+  const v = mkdtempSync(join(tmpdir(), 'glide-')); mkdirSync(join(v, 'logs')); const log = join(v, 'logs/office-v1.jsonl');
+  let seq = 0;
+  const put = (sid: string, project: string, tool: string) => require_append(log, JSON.stringify({v: 1, seq: ++seq, ts: stamp(new Date()), sid, project, kind: 'tool_end', tool, ok: true, code: null, gate: null}) + '\n');
+  writeFileSync(log, '');
+  put('h:00000000000a', 'command-center', 'Edit'); put('h:00000000000b', 'muse-guard', 'Edit');
+  const r = await startOffice({vault: v, staticDir: DIST, logPath: log, art: {dir: art}});
+  const b = await chromium.launch();
+  try {
+    const page = await b.newPage({viewport: {width: 1440, height: 1000}});
+    await page.goto(r.url); await page.waitForSelector('.fv-who', {timeout: 20000}); await page.waitForTimeout(800);
+    // A box reported at exactly 0,0 (or with no width) is not laid out or just detached (seen on a loaded machine), not a place: it is left out.
+    const where = () => page.$$eval('.fv-spot', (els) => Object.fromEntries(els.filter((e) => { const q = e.getBoundingClientRect(); return q.width > 0 && (q.left !== 0 || q.top !== 0); }).map((e) => [e.querySelector('b')!.textContent, `${Math.round(e.getBoundingClientRect().left)},${Math.round(e.getBoundingClientRect().top)}`])));
+    const before = await where();
+    put('h:00000000000a', 'command-center', 'Read'); // A goes to the library; B stays at its desk
+    const seen: Record<string, Set<string>> = {};
+    let moved = false, extra = 0; // sample until the move has happened (a slow machine may delay the event), then a little longer to catch any slide
+    for (let i = 0; i < 400 && extra < 15; i++) { const w = await where(); for (const [k, p] of Object.entries(w)) (seen[k] ??= new Set()).add(p); if (w['Unfoolable'] && w['Unfoolable'] !== before['Unfoolable']) moved = true; if (moved) extra++; await page.waitForTimeout(40); }
+    assert.ok(moved, 'the helper never reached the library');
+    assert.equal(seen['Muse Guard']?.size, 1, 'a helper that did not change was seen moving');
+    assert.deepEqual([...seen['Muse Guard']!], [before['Muse Guard']]);
+    assert.ok(seen['Unfoolable']!.size <= 2, `the tag slid through ${[...seen['Unfoolable']!].join(' -> ')}`);
+    assert.ok(!seen['Unfoolable']!.has(before['Unfoolable']!) || seen['Unfoolable']!.size === 2, 'the tag should have moved to the library');
   } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
 });
