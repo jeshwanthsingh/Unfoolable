@@ -52,7 +52,7 @@ async function withBoard(fresh: boolean, reducedMotion: 'reduce' | 'no-preferenc
 
 test('characters are decoration: hidden from screen readers, one per card, sound off by default', {skip}, async () => {
   await withBoard(false, 'no-preference', async (page) => {
-    assert.equal(await page.locator('.ob-char').count(), await page.locator('.ob-card').count());
+    assert.equal(await page.locator('.ob-card .ob-char').count(), await page.locator('.ob-card').count());
     assert.equal(await page.locator('.ob-char:not([aria-hidden="true"])').count(), 0);
     assert.equal(await page.getByRole('button', {name: 'Sound is off'}).getAttribute('aria-pressed'), 'false');
   });
@@ -68,7 +68,7 @@ test('fresh news: characters move; reduced-motion setting: they do not; old news
 test('frozen log: 60 s of identical pictures', {skip}, async () => {
   const seconds = Number(process.env.OFFICE_MOTION_SECONDS ?? 60);
   await withBoard(false, 'no-preference', async (page) => {
-    const mask = [page.locator('.ob-fresh')], frames: Buffer[] = [];
+    const mask = [page.locator('.ob-fresh'), page.locator('.ob-when'), page.locator('.ob-sub')], frames: Buffer[] = [];
     for (let t = 0; t <= seconds; t += 4) { frames.push(await page.screenshot({fullPage: true, mask})); await page.waitForTimeout(4000); }
     assert.ok(frames.length >= Math.floor(seconds / 4));
     assert.ok(frames.every((f) => f.equals(frames[0]!)), `the picture changed within ${seconds} s with no new news`);

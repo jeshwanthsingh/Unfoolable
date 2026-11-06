@@ -50,11 +50,14 @@ const digits = (t: string) => t.match(/\d+/g) ?? [];
 test('every number on the screen comes from the reducer (counts, sentences, away strip, practice line)', {skip}, async () => {
   for (const w of [390, 1280]) await withPage(false, w, async ({page, state}) => {
     const b = boardOf(state), text = await page.innerText('main');
-    for (const [name, list] of [['Needs you', b.needs], ['Working', b.working], ['Checking', b.checking], ['Done today', b.done]] as const) assert.ok(text.includes(`${name} (${list.length})`), `${name} count at ${w}px`);
-    for (const must of [b.sentence, state.away.sentence, practiceLine(state.practice), ...state.away.results.map((r: any) => r.text)]) assert.ok(text.includes(must), `missing: ${must}`);
+    for (const [name, list] of [['Needs you', b.needs], ['Working', b.working], ['Checking', b.checking], ['Done today', b.done]] as const) {
+      const shown = await page.locator('.ob-col', {has: page.getByRole('heading', {name: new RegExp(`^${name}`)})}).locator('h2 .n').innerText();
+      assert.equal(shown, `${list.length} ${list.length === 1 ? 'helper' : 'helpers'}`, `${name} count at ${w}px`);
+    }
+    for (const must of [b.sentence, b.sub, ...b.quietLines, state.away.sentence, practiceLine(state.practice), ...state.away.results.map((r: any) => r.text)]) assert.ok(text.includes(must), `missing: ${must}`);
     assert.deepEqual(state.away.results.map((r: any) => [r.text, r.passed]), [['3 of 12 passed', false]]);
     assert.equal(state.practice.passed, 9);
-    const allowed = new Set(digits([b.sentence, state.away.sentence, practiceLine(state.practice), ...state.away.results.map((r: any) => r.text), ...[b.needs, b.working, b.checking, b.done].flat().map((c) => c.verb), String(state.away.blocked), String(b.quiet), '0', '1', '2', '3', '4'].join(' ')));
+    const allowed = new Set(digits([b.sentence, state.away.sentence, practiceLine(state.practice), ...state.away.results.map((r: any) => r.text), ...[b.needs, b.working, b.checking, b.done].flat().flatMap((c) => [c.verb, c.time, c.label]), b.sub, ...b.quietLines, String(state.away.blocked), String(b.quiet), '0', '1', '2', '3', '4'].join(' ')));
     const shown = digits(text.replace(/\d\d:\d\d/g, '').replace(/updated \d+ s ago/, ''));
     assert.deepEqual(shown.filter((d) => !allowed.has(d)), [], `a number on the page is not in the reducer's data at ${w}px`);
   });
@@ -63,7 +66,7 @@ test('every number on the screen comes from the reducer (counts, sentences, away
 // Pixel compare done by the browser itself (canvas), so no image package is needed. Set UPDATE_BASELINE=1 to rewrite the pictures.
 test('visual diff: the board matches its baseline picture within a small tolerance', {skip}, async () => {
   for (const w of [390, 1280]) await withPage(false, w, async ({page, browser}) => {
-    await page.evaluate(() => { const t = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); for (let n = t.nextNode(); n; n = t.nextNode()) n.textContent = (n.textContent ?? '').replace(/\d\d:\d\d/g, '00:00').replace(/updated \d+ s/, 'updated 0 s').replace(/No news for \d+ min/, 'No news for 5 min'); });
+    await page.evaluate(() => { const t = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); for (let n = t.nextNode(); n; n = t.nextNode()) n.textContent = (n.textContent ?? '').replace(/\d\d:\d\d/g, '00:00').replace(/updated \d+ s/, 'updated 0 s').replace(/\d+ (second|minute|hour)s? ago/g, '1 minute ago').replace(/Waiting for \d+ minutes/, 'Waiting for 4 minutes'); });
     const shot = await page.screenshot({fullPage: true}), file = join(FIX, `board-baseline-${w}.png`);
     if (process.env.UPDATE_BASELINE) { writeFileSync(file, shot); return; }
     assert.ok(existsSync(file), 'baseline missing: run with UPDATE_BASELINE=1');
@@ -83,7 +86,7 @@ test('visual diff: the board matches its baseline picture within a small toleran
 test('frozen log: the screen does not move (identical pictures over time)', {skip}, async () => {
   const seconds = Number(process.env.OFFICE_FREEZE_SECONDS ?? 8); // the nightly run uses 60
   await withPage(true, 1280, async ({page}) => {
-    const mask = [page.locator('.ob-fresh')], frames: Buffer[] = [];
+    const mask = [page.locator('.ob-fresh'), page.locator('.ob-when'), page.locator('.ob-sub')], frames: Buffer[] = [];
     for (let t = 0; t <= seconds; t += 2) { frames.push(await page.screenshot({fullPage: true, mask})); await page.waitForTimeout(2000); }
     assert.ok(frames.length >= 5);
     assert.ok(frames.every((f) => f.equals(frames[0]!)), `the picture changed within ${seconds} s with no new news`);
@@ -105,8 +108,12 @@ test('property: the five status words never contradict the rules, for any event 
     const E: OfficeEvent[] = rows.map((r, i) => ({v: 1, seq: i + 1, ts: '2026-11-05T10:00:00', sid: r.s, project: 'Unfoolable', kind: r.k, tool: r.k === 'tool_end' ? 'Bash' : null, ok: r.k === 'tool_end' ? r.ok : null, code: r.k === 'needs_you' ? 'permission' : null, gate: r.k === 'gate_result' ? {task: 'T', verdict: r.v as 'PASS', passed: 1, total: 2} : null}));
     const now = stamp(new Date(new Date(2026, 10, 5, 10, 0, 0).getTime() + ago * 1000)), s = reduce(E, now), b = boardOf(s);
     assert.equal(s.summary.done <= E.filter((e) => e.kind === 'gate_result' && e.gate!.verdict === 'PASS').length, true);
-    assert.equal(b.done.length, s.helpers.filter((h) => h.status === 'done' && h.lastAt.slice(0, 10) === now.slice(0, 10)).length);
-    assert.equal(b.needs.length, s.summary.needs_you + s.summary.stuck);
+    const today = now.slice(0, 10);
+    assert.equal(b.done.length, s.helpers.filter((h) => (h.status === 'done' || (h.status === 'stuck' && h.gate)) && h.lastAt.slice(0, 10) === today).length);
+    assert.equal(b.done.filter((c) => c.tone === 'green').length <= s.summary.done, true);
+    assert.equal(b.needs.length, s.summary.needs_you + s.helpers.filter((h) => h.status === 'stuck' && !h.gate).length);
+    assert.equal(b.working.length, s.summary.working); // Working holds only working helpers
+    assert.equal(b.quiet, s.summary.unknown);
     for (const h of s.helpers) if (h.status === 'working') assert.ok(ago <= 60 || h.lastAt > '2026-11-05T10:00:00', 'working only within 60 s of news');
     const sids = new Set(E.map((e) => e.sid)).size; // a gate-only id is handed to the single helper of its project, so it can be fewer
     assert.ok(s.helpers.length >= 1 && s.helpers.length <= sids);

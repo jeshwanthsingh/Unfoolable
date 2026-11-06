@@ -30,6 +30,7 @@ export const BOARD = {
   open: 'Open', confirm: 'This helper is not in a window I can find. Open a new window that continues it? It may start a second copy of the helper.', openFailed: 'Could not open it.',
   away: 'While you were away', awayNone: 'Nothing to report.', awayResults: 'Checks', passedWord: 'passed', notPassedWord: 'did not pass', blocked: 'times the guard said no',
   soundOff: 'Sound is off', soundOn: 'Sound is on',
+  tools: 'Tools', savedToday: 'saved today', see: 'See', emptyNeeds: 'When nobody needs you, this space stays empty.',
   empty: 'Nobody here.', noLink: 'Open the page with the link from the terminal.'
 } as const;
 

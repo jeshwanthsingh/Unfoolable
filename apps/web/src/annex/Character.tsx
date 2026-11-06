@@ -1,22 +1,38 @@
 import {look, type Pose} from '../../../observatory/office-motion.ts';
 
-// An original little blob with a hat. Decoration only (aria-hidden): the card's words carry every fact.
-const BODY = ['M6 28 C4 12 14 4 20 4 C26 4 36 12 34 28 Z', 'M5 28 C5 14 12 6 20 6 C28 6 35 14 35 28 Z', 'M8 28 C2 18 10 3 20 3 C30 3 38 18 32 28 Z', 'M4 28 C6 10 15 5 20 5 C25 5 34 10 36 28 Z'];
-const HAT = ['M10 9 L20 -2 L30 9 Z', 'M9 8 H31 V3 H9 Z M14 3 V-3 H26 V3 Z', 'M8 9 C10 -1 30 -1 32 9 Z', 'M12 8 L28 8 L20 1 Z M18 1 L22 1 L20 -4 Z'];
+// Original characters after the design mockup: a rounded body, a face, and one tool that says the job.
+// Builders wear a hard hat; the checker has a magnifier. Decoration only (aria-hidden): the card's words carry every fact.
+// The markup is built here from fixed pieces and numbers only (never from log text), so it is safe to set as inner HTML.
+type Mood = 'focus' | 'read' | 'happy' | 'wave' | 'dizzy';
+const INK = '#1F2A44';
+const stroke = (d: string, w = 3.4): string => `<path d="${d}" stroke="${INK}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`;
+const EYES: Record<Mood, string> = {
+  focus: `<circle cx="40" cy="44" r="4.2" fill="${INK}"/><circle cx="60" cy="44" r="4.2" fill="${INK}"/>`,
+  read: stroke('M35 45 q5 -4 10 0') + stroke('M55 45 q5 -4 10 0'),
+  happy: stroke('M35 46 q5 -6 10 0') + stroke('M55 46 q5 -6 10 0'),
+  wave: `<circle cx="40" cy="43" r="5" fill="${INK}"/><circle cx="60" cy="43" r="5" fill="${INK}"/><circle cx="41.5" cy="41.5" r="1.6" fill="#fff"/><circle cx="61.5" cy="41.5" r="1.6" fill="#fff"/>`,
+  dizzy: `<path d="M36 44 a4 4 0 1 1 4 4 a2.5 2.5 0 1 1 -2 -2.5" stroke="${INK}" stroke-width="2.6" fill="none"/><path d="M56 44 a4 4 0 1 1 4 4 a2.5 2.5 0 1 1 -2 -2.5" stroke="${INK}" stroke-width="2.6" fill="none"/>`
+};
+const MOUTH: Record<Mood, string> = {
+  focus: stroke('M44 57 q6 4 12 0', 3), read: stroke('M46 58 h8', 3),
+  happy: `<path d="M41 55 q9 10 18 0" stroke="${INK}" stroke-width="3" fill="#fff" stroke-linecap="round"/>`,
+  wave: `<ellipse cx="50" cy="59" rx="6" ry="7" fill="${INK}"/><ellipse cx="50" cy="62" rx="3.5" ry="2.5" fill="#F27C6B"/>`,
+  dizzy: stroke('M42 59 q4 -3 8 0 q4 3 8 0', 3)
+};
+const HAT = '<path d="M24 24 q26 -22 52 0 v6 h-52z" fill="#FFC93C" stroke="#E2A800" stroke-width="2"/><rect x="20" y="28" width="60" height="6" rx="3" fill="#E2A800"/>';
+const LENS = `<circle cx="84" cy="78" r="11" fill="#fff" stroke="${INK}" stroke-width="4"/><path d="M92 86 l8 8" stroke="${INK}" stroke-width="5" stroke-linecap="round"/><path d="M79 78 l4 4 l7 -8" stroke="#2FA36B" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+const MOOD: Record<Pose, Mood> = {typing: 'focus', waiting: 'wave', checking: 'focus', passed: 'happy', stuck: 'dizzy', quiet: 'read'};
 
-export function Character({project, pose, animate}: {project: string; pose: Pose; animate: boolean}) {
-  const {hue, body, hat} = look(project), fill = `hsl(${hue} 55% 62%)`, dark = `hsl(${hue} 45% 32%)`;
+export function figure(color: string, mood: Mood, checker: boolean): string {
+  const arm = mood === 'wave' ? `<path d="M80 60 q14 -10 12 -30" stroke="${color}" stroke-width="10" fill="none" stroke-linecap="round"/><circle cx="92" cy="27" r="7" fill="${color}"/>` : `<path d="M80 66 q8 6 6 14" stroke="${color}" stroke-width="10" fill="none" stroke-linecap="round"/>`;
+  return `<ellipse cx="50" cy="96" rx="30" ry="5" fill="${INK}" opacity=".12"/><path d="M18 60 q0 -42 32 -42 q32 0 32 42 v20 q0 14 -14 14 h-36 q-14 0 -14 -14z" fill="${color}"/>` +
+    `<path d="M20 72 q-8 6 -6 14" stroke="${color}" stroke-width="10" fill="none" stroke-linecap="round"/>${arm}<ellipse cx="50" cy="50" rx="24" ry="20" fill="#fff" opacity=".92"/>` +
+    `<circle cx="33" cy="56" r="4" fill="#F5A3A3" opacity=".7"/><circle cx="67" cy="56" r="4" fill="#F5A3A3" opacity=".7"/>${EYES[mood]}${MOUTH[mood]}${checker ? LENS : HAT}`;
+}
+
+export function Character({project, pose, animate, big = false, checker = false}: {project: string; pose: Pose; animate: boolean; big?: boolean; checker?: boolean}) {
+  const lightness = [52, 58, 64][look(project).hue % 3]!, color = checker ? '#2FA36B' : `hsl(222 78% ${lightness}%)`, size = big ? 104 : 62;
   return (
-    <svg className={`ob-char${animate && pose !== 'quiet' ? ' ob-bob' : ''}`} viewBox="0 -6 40 40" width="36" height="36" aria-hidden="true" focusable="false">
-      <path d={BODY[body]} fill={fill} stroke={dark} strokeWidth="1.5" />
-      <path d={HAT[hat]} fill={dark} />
-      <circle cx="15" cy="19" r="2" fill="#222" /><circle cx="25" cy="19" r="2" fill="#222" />
-      {pose === 'waiting' ? <text x="29" y="8" fontSize="14" fontWeight="700" fill="#b45309">!</text> : null}
-      {pose === 'typing' ? <path d="M12 26 H28" stroke="#222" strokeWidth="2" strokeDasharray="3 3" /> : null}
-      {pose === 'checking' ? <><circle cx="29" cy="24" r="4" fill="none" stroke="#6d28d9" strokeWidth="1.5" /><path d="M32 27 L36 31" stroke="#6d28d9" strokeWidth="1.5" /></> : null}
-      {pose === 'passed' ? <path d="M13 25 L18 29 L28 23" fill="none" stroke="#166534" strokeWidth="2.5" /> : null}
-      {pose === 'stuck' ? <path d="M13 26 Q20 22 27 26" fill="none" stroke="#b91c1c" strokeWidth="2" /> : null}
-      {pose === 'quiet' ? <path d="M13 26 H27" stroke="#555" strokeWidth="2" /> : null}
-    </svg>
+    <svg className={`ob-char${animate && pose !== 'quiet' ? ' ob-bob' : ''}`} viewBox="0 0 104 104" width={size} height={size} aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{__html: figure(color, MOOD[pose], checker)}} />
   );
 }

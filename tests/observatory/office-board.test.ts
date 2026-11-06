@@ -13,9 +13,9 @@ const JARGON = ['hook', 'commit', 'diff', 'verdict', 'token', 'handoff', 'sessio
 const hits = (t: string) => JARGON.filter((w) => new RegExp(`\\b${w}s?\\b`, 'i').test(t));
 let n = 0;
 const ev = (o: Partial<OfficeEvent>): OfficeEvent => ({v: 1, seq: ++n, ts: '2026-11-05T10:00:00', sid: 'h:aaaaaaaaaaaa', project: 'Unfoolable', kind: 'tool_end', tool: 'Bash', ok: true, code: null, gate: null, ...o});
-const all = (b: ReturnType<typeof boardOf>) => [b.sentence, ...[b.needs, b.working, b.checking, b.done].flat().flatMap((c) => [c.project, c.verb, c.time])];
+const all = (b: ReturnType<typeof boardOf>) => [b.sentence, b.sub, ...b.quietLines, ...[b.needs, b.working, b.checking, b.done].flat().flatMap((c) => [c.project, c.label, c.verb, c.time])];
 
-test('columns: needs you / working / checking / done only from a gate PASS; old quiet helpers are only counted', () => {
+test('lanes: Working = news under 60 s only; quiet helpers collapse into one line; a failed check is in Done today, not Needs you; done only from a PASS', () => {
   const E = [
     ev({sid: 'h:000000000001', kind: 'needs_you', code: 'permission', ts: '2026-11-05T10:00:50'}),
     ev({sid: 'h:000000000002', ts: '2026-11-05T10:00:55'}),
@@ -26,12 +26,16 @@ test('columns: needs you / working / checking / done only from a gate PASS; old 
     ev({sid: 'h:000000000007', ts: '2026-11-05T09:50:00'}),
   ];
   const b = boardOf(reduce(E, '2026-11-05T10:01:00'));
-  assert.equal(b.needs.length, 2); assert.ok(b.needs.some((c) => c.tone === 'red' && c.verb === 'Did not pass: 3 of 12 passed'));
-  assert.equal(b.checking.length, 1);
-  assert.deepEqual(b.working.map((c) => c.tone).sort(), ['blue', 'grey']);
-  assert.equal(b.done.length, 1); assert.equal(b.done[0]!.verb, 'Passed: 9 of 12 passed');
-  assert.equal(b.quiet, 1); assert.equal(b.light, 'red');
-  assert.equal(boardOf(reduce([ev({ts: '2026-11-05T10:00:30'})], '2026-11-05T10:01:00')).sentence, 'Nothing needs you. 1 helper is working.');
+  assert.deepEqual(b.needs.map((c) => [c.tone, c.button]), [['amber', 'open']]);
+  assert.deepEqual([b.working.length, b.working[0]!.tone, b.checking.length], [1, 'blue', 1]);
+  assert.deepEqual(b.done.map((c) => [c.tone, c.verb, c.button]).sort(), [['green', 'Saved. 9 of 12 passed.', null], ['red', "Didn't pass: 3 of 12", 'see']]);
+  assert.deepEqual(b.quietLines, ['2 quiet helpers on Unfoolable, no news for a while']);
+  assert.equal(b.quiet, 2); assert.equal(b.light, 'amber');
+  assert.equal(b.sentence, 'Helper 1 on Unfoolable needs you'); // same project, several helpers: distinct labels
+  assert.equal(new Set([b.needs, b.working, b.checking, b.done].flat().map((c) => c.label)).size, 5);
+  assert.equal(boardOf(reduce([ev({ts: '2026-11-05T10:00:30'})], '2026-11-05T10:01:00')).sentence, 'All good. 1 helper working.');
+  assert.equal(boardOf(reduce([ev({ts: '2026-11-05T09:00:00'}), ev({sid: 'h:000000000002', ts: '2026-11-05T09:10:00'})], '2026-11-05T10:01:00')).sentence, 'All good. Nothing is running.'); // the top line never claims more than Working shows
+  assert.equal(boardOf(reduce([ev({ts: '2026-11-05T10:00:30'})], '2026-11-05T10:01:00')).working[0]!.label, 'Unfoolable'); // a lone helper keeps the project name
   assert.equal(boardOf(reduce([], '2026-11-05T10:01:00')).sentence, 'No news yet.');
 });
 

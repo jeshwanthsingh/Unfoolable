@@ -6,7 +6,7 @@ import type {OfficeState} from '../../../observatory/office-reducer.ts';
 import type {Away, Practice} from '../../../observatory/office-away.ts';
 import {practiceLine} from '../../../observatory/office-away.ts';
 import {boardOf, freshness, type Card} from '../../../observatory/office-board.ts';
-import {BOARD, lightIcon} from './copy.ts';
+import {BOARD} from './copy.ts';
 
 // The live board: reads the SSE stream. Words come from codes (office-board.ts); no raw text from any log is shown here.
 const token = () => new URLSearchParams(location.hash.slice(1)).get('t') ?? '';
@@ -26,8 +26,9 @@ function chime(): void {
     o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime + 0.6);
   } catch { /* no sound is fine */ }
 }
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
-export function Board() {
+export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: string}) {
   const [state, setState] = useState<(OfficeState & {away?: Away; practice?: Practice | null}) | null>(null);
   const [lastMsg, setLastMsg] = useState(0);
   const [tick, setTick] = useState(Date.now());
@@ -61,38 +62,56 @@ export function Board() {
   const b = state ? boardOf(state) : null;
   const fresh = freshness(connected, tick - lastMsg, state?.freshness.lastEventAt ?? null);
   const animate = shouldAnimate(state?.freshness.ageSeconds ?? null, reduce);
-  const cols: [keyof typeof BOARD.cols, Card[]][] = b ? [['needs', b.needs], ['working', b.working], ['checking', b.checking], ['done', b.done]] : [];
+  const lanes: [string, keyof typeof BOARD.cols, Card[], string][] = b ? [['needs', 'needs', b.needs, ''], ['working', 'working', b.working, ''], ['checking', 'checking', b.checking, ''], ['done', 'done', b.done, '']] : [];
   return (
     <section aria-label="Board">
-      <p className={`ob-fresh${fresh.startsWith('LIVE') ? '' : ' off'}`} role="status">{fresh}</p>
-      {b ? <p className={`oa-line oa-${b.light}`}><span className="oa-light" aria-hidden="true">{lightIcon[b.light]}</span><strong>{b.sentence}</strong></p> : null}
-      <button type="button" className="oa-toggle" aria-pressed={sound} onClick={() => setSound(!sound)}>{sound ? BOARD.soundOn : BOARD.soundOff}</button>
+      <div className="ob-bar" role="toolbar" aria-label={BOARD.tools}>
+        <button type="button" className="ob-tool" onClick={onMore}><span aria-hidden="true">▦</span> {moreLabel}</button>
+        <button type="button" className="ob-tool" aria-pressed={sound} onClick={() => setSound(!sound)}><span aria-hidden="true">{sound ? '♪' : '✕'}</span> {sound ? BOARD.soundOn : BOARD.soundOff}</button>
+      </div>
+      <div className="ob-top">
+        <div className="ob-status">
+          <span className={`ob-light ${b?.light ?? 'grey'}`} aria-hidden="true" />
+          <div>
+            <p className={`ob-fresh${fresh.startsWith('LIVE') ? '' : ' off'}`} role="status">{fresh}</p>
+            {b ? <><h1 className="ob-h1">{b.sentence}</h1>{b.sub ? <p className="ob-sub">{b.sub}</p> : null}</> : null}
+          </div>
+        </div>
+        {b ? <div className="ob-chips">
+          <span className="ob-chip"><b>{b.done.filter((c) => c.tone === 'green').length}</b> {BOARD.savedToday}</span>
+          {state?.practice ? <span className="ob-chip">{practiceLine(state.practice)}</span> : null}
+        </div> : null}
+      </div>
       <LayoutGroup><div className="ob-cols">
-        {cols.map(([k, cards]) => (
-          <div className="ob-col" key={k}>
-            <h2>{BOARD.cols[k]} ({cards.length})</h2>
-            {cards.length === 0 ? <p className="oa-muted">{BOARD.empty}</p> : (
-              <ul>{cards.map((c) => (
-                <motion.li key={c.key} layout={animate} layoutId={c.key} transition={{duration: animate ? 0.35 : 0}} className={`ob-card ob-${c.tone}`}>
-                  <Character project={c.project} pose={poseOf(c.tone)} animate={animate} />
-                  <div><strong>{c.project}</strong>{c.verb} <time>{c.time}</time>{k === 'needs' ? <button type="button" className="oa-toggle" onClick={() => openHelper(c.key).then((ok) => setOpenErr(!ok)).catch(() => setOpenErr(true))}>{BOARD.open}</button> : null}</div>
-                </motion.li>
-              ))}</ul>
+        {lanes.map(([cls, k, cards]) => (
+          <div className={`ob-col ob-${cls}`} key={k}>
+            <h2>{BOARD.cols[k]} <span className="n">{plural(cards.length, 'helper', 'helpers')}</span></h2>
+            {cards.length === 0 ? <p className="ob-empty">{k === 'needs' ? BOARD.emptyNeeds : BOARD.empty}</p> : (
+              <ul>{cards.map((c, i) => {
+                const big = k === 'needs' && i === 0;
+                return (
+                  <motion.li key={c.key} layout={animate} layoutId={c.key} transition={{duration: animate ? 0.35 : 0}} className={`ob-card ${c.tone}${big ? ' big' : ''}`}>
+                    <Character project={c.project} pose={poseOf(c.tone)} animate={animate} big={big} checker={k === 'checking'} />
+                    <div><p className="ob-who">{c.label}</p><div className="ob-bubble">{c.verb}</div>
+                      {c.button ? <button type="button" className={`ob-btn${c.button === 'see' ? ' see' : ''}`} onClick={() => openHelper(c.key).then((ok) => setOpenErr(!ok)).catch(() => setOpenErr(true))}>{c.button === 'see' ? BOARD.see : `${BOARD.open} ${c.label}`}</button> : null}
+                      <p className="ob-when"><time title={c.at}>{c.time}</time></p></div>
+                  </motion.li>
+                );
+              })}</ul>
             )}
+            {k === 'working' && b && b.quietLines.map((q) => <p key={q} className="ob-more">{q}</p>)}
           </div>
         ))}
       </div></LayoutGroup>
-      {state?.practice ? <p className="oa-line oa-grey">{practiceLine(state.practice)}</p> : null}
       {state?.away ? (
         <section className="ob-away" aria-label={BOARD.away}>
           <h2>{BOARD.away}</h2>
-          <p>{state.away.sentence}{state.away.blocked ? ` ${state.away.blocked} ${BOARD.blocked}.` : ''}</p>
-          {state.away.results.length ? <ul>{state.away.results.map((r, i) => <li key={i} className={`ob-card ob-${r.passed ? 'green' : 'red'}`}><strong>{r.project}</strong>{r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text} <time>{r.at.slice(11, 16)}</time></li>)}</ul> : null}
-          {state.away.gaps.map((g, i) => <p key={i} className="oa-muted">{g}</p>)}
+          <div className="ob-note"><Character project="Lab" pose="passed" animate={false} checker /><div>{state.away.sentence}{state.away.blocked ? ` ${state.away.blocked} ${BOARD.blocked}.` : ''}</div></div>
+          {state.away.results.map((r, i) => <div key={i} className="ob-note"><Character project={r.project} pose={r.passed ? 'passed' : 'stuck'} animate={false} /><div><strong>{r.project}</strong> {r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text} <time>{r.at.slice(11, 16)}</time></div></div>)}
+          {state.away.gaps.map((g, i) => <div key={i} className="ob-note"><div>{g}</div></div>)}
         </section>
       ) : null}
       {openErr ? <p role="alert" className="oa-error">{BOARD.openFailed}</p> : null}
-      {b && b.quiet > 0 ? <p className="oa-muted">{b.quiet} {BOARD.quiet}</p> : null}
     </section>
   );
 }

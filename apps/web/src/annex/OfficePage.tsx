@@ -40,8 +40,8 @@ export function OfficePage() {
           <h1>{COPY.title}</h1>
           <p className="oa-badge" title={COPY.badgeHelp}>{COPY.badge}</p>
         </header>
-        <button type="button" className="oa-toggle" onClick={() => setMore(!more)}>{more ? BOARD.back : BOARD.more}</button>
-        {!more ? <Board /> : <>
+        {!more ? <Board onMore={() => setMore(true)} moreLabel={BOARD.more} /> : <>
+        <div className="ob-bar"><button type="button" className="ob-tool" onClick={() => setMore(false)}><span aria-hidden="true">◀</span> {BOARD.back}</button></div>
         {err ? <p role="alert" className="oa-error">{err}</p> : null}
         {!snap && !err ? <p>{COPY.loading}</p> : null}
         {snap ? (<>
