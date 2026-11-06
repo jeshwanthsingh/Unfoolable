@@ -72,3 +72,14 @@ test('schema v1 rejects free text, bad codes and a gate_result without a gate', 
   assert.ok(!('text' in validate({...ok, text: 'extra field'})!));
   assert.equal(parseV1('not json'), null);
 });
+
+test('last tool and a live /research or /critic run are tracked as names only', () => {
+  const E = [ev({ts: at('00:00'), tool: 'Read'}), ev({ts: at('00:05'), tool: 'Edit'}), ev({ts: at('00:06'), kind: 'prompt', tool: 'research', ok: null})];
+  const h = reduce(E, at('00:10')).helpers[0]!;
+  assert.deepEqual([h.tool, h.slash], [{name: 'Edit', at: at('00:05')}, 'research']);
+  assert.deepEqual(reduce(E, at('00:10')).activity, {research: true, critic: false});
+  const ended = reduce([...E, ev({ts: at('00:08'), kind: 'turn_end', tool: null})], at('00:10'));
+  assert.deepEqual([ended.helpers[0]!.slash, ended.activity], [null, {research: false, critic: false}]);
+  assert.equal(reduce([...E, ev({ts: at('00:09'), kind: 'prompt', tool: null, ok: null})], at('00:10')).helpers[0]!.slash, null); // an ordinary prompt replaces the old run
+  assert.equal(reduce([ev({ts: at('00:00'), kind: 'prompt', tool: 'deploy', ok: null})], at('00:10')).helpers[0]!.slash, null); // only the two known commands count
+});

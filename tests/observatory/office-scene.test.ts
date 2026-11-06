@@ -4,7 +4,7 @@ import fc from 'fast-check';
 import {boardOf} from '../../apps/observatory/office-board.ts';
 import {reduce} from '../../apps/observatory/office-reducer.ts';
 import type {OfficeEvent} from '../../apps/observatory/office-schema.ts';
-import {sceneOf} from '../../apps/observatory/office-scene.ts';
+import {sceneOf, PALETTE, ROLE_TINT} from '../../apps/observatory/office-scene.ts';
 import {COPY, FUN, screenStrings} from '../../apps/web/src/annex/copy.ts';
 
 let n = 0;
@@ -57,4 +57,32 @@ test('words: the badge and the credit line exist, and the new words carry no jar
   assert.ok(screenStrings().includes(FUN.credit));
   const JARGON = ['hook', 'commit', 'diff', 'verdict', 'token', 'handoff', 'session', 'repo', 'eval', 'json', 'stderr', 'pid', 'verifier', 'gate'];
   assert.deepEqual(Object.values(FUN).filter((t) => t !== FUN.credit && JARGON.some((w) => new RegExp(`\\b${w}s?\\b`, 'i').test(t))), []);
+});
+
+const at = (s: number) => `2026-11-05T10:00:${String(s).padStart(2, '0')}`;
+const helper = (sid: string, tool: string, sec: number) => ev({sid, tool, ts: at(sec)});
+
+test('stations by last tool: reading, commands and web only while the tool is under 30 s old; editing and old news stay at the desk', () => {
+  const E2 = [helper('h:00000000000a', 'Read', 50), helper('h:00000000000b', 'Bash', 55), helper('h:00000000000c', 'WebSearch', 58), helper('h:00000000000d', 'Edit', 59), helper('h:00000000000e', 'Read', 20)];
+  const sc = sceneOf(reduce(E2, '2026-11-05T10:01:00')); // 60 s on the clock: Read at :20 is 40 s old
+  const spot = (sid: string) => sc.figures.find((f) => f.key === sid)!.spot;
+  assert.deepEqual(['h:00000000000a', 'h:00000000000b', 'h:00000000000c', 'h:00000000000d'].map(spot), ['library', 'terminal', 'window', 'desk']);
+  assert.equal(spot('h:00000000000e'), 'desk'); // still working (under 60 s) but its Read is 40 s old: back to the desk
+  const stale = sceneOf(reduce([helper('h:00000000000a', 'Read', 40), ev({sid: 'h:00000000000a', kind: 'turn_end', ts: at(41)}), helper('h:00000000000a', 'Edit', 55)], '2026-11-05T10:01:00'));
+  assert.equal(stale.figures[0]!.spot, 'desk');
+  const old = sceneOf(reduce([helper('h:00000000000a', 'Read', 5), helper('h:00000000000a', 'Edit', 6)], '2026-11-05T10:00:50'));
+  assert.equal(old.figures[0]!.spot, 'desk');
+});
+
+test('Researcher and Critic stand in the room ONLY while their run is live; every builder has its own colour', () => {
+  const none = sceneOf(reduce([ev({ts: at(55)})], '2026-11-05T10:01:00'));
+  assert.deepEqual(none.figures.filter((f) => f.role === 'researcher' || f.role === 'critic'), []);
+  const run = [ev({sid: 'h:00000000000a', kind: 'prompt', tool: 'research', ts: at(50)}), ev({sid: 'h:00000000000b', kind: 'prompt', tool: 'critic', ts: at(52)}), ev({sid: 'h:00000000000b', ts: at(54)})];
+  const live = sceneOf(reduce(run, '2026-11-05T10:01:00'));
+  assert.deepEqual(live.figures.filter((f) => f.role === 'researcher' || f.role === 'critic').map((f) => [f.role, f.spot, f.tint]), [['researcher', 'library', ROLE_TINT.researcher], ['critic', 'meeting', ROLE_TINT.critic]]);
+  const done = sceneOf(reduce([...run, ev({sid: 'h:00000000000a', kind: 'turn_end', ts: at(56)}), ev({sid: 'h:00000000000b', kind: 'turn_end', ts: at(57)})], '2026-11-05T10:01:00'));
+  assert.deepEqual(done.figures.filter((f) => f.role === 'researcher' || f.role === 'critic'), []);
+  const six = sceneOf(reduce(Array.from({length: 6}, (_, i) => ev({sid: `h:0000000000${i}0`, ts: at(55)})), '2026-11-05T10:01:00'));
+  assert.equal(new Set(six.figures.map((f) => f.tint)).size, 6);
+  assert.deepEqual(six.figures.map((f) => f.tint), [...PALETTE]);
 });

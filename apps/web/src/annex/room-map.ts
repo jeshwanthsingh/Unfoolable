@@ -23,7 +23,8 @@ export const PLACE: [SpriteName, number, number][] = [
 export const SLOTS = {
   desk: [[96, 214], [256, 214], [416, 214], [96, 414], [256, 414], [416, 414]],
   checker: [[448, 668], [512, 668], [384, 668]],
-  lounge: [[72, 660], [144, 660], [216, 668], [288, 668]]
+  lounge: [[72, 660], [144, 660], [216, 668], [288, 668]],
+  library: [[150, 106], [118, 106], [186, 106]], terminal: [[560, 452], [596, 452], [524, 452]], window: [[478, 106], [512, 106]], meeting: [[572, 284], [540, 284]]
 } as const;
 // Walls: [x, y, w, h, fill]. Doorways are gaps. Zone labels: [text, x, y] (room pixels, top-left of the label).
 export const WALLS: [number, number, number, number][] = [[0, 0, 640, 8], [0, 696, 640, 8], [0, 0, 8, 704], [632, 0, 8, 704], [0, 466, 300, 8], [340, 466, 300, 8], [330, 474, 8, 230], [500, 92, 8, 130], [500, 280, 8, 14]];

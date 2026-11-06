@@ -4,7 +4,9 @@ import type {OfficeEvent} from './office-schema.ts';
 
 export type Status = 'needs_you' | 'working' | 'checking' | 'done' | 'stuck' | 'unknown';
 export const WORKING_SECONDS = 60;
-export type Helper = {sid: string; project: string; status: Status; note: string; lastAt: string; steps: number; gate: {task: string; passed: number; total: number; text: string} | null};
+export type Helper = {sid: string; project: string; status: Status; note: string; lastAt: string; steps: number; gate: {task: string; passed: number; total: number; text: string} | null;
+  tool: {name: string; at: string} | null; // the last tool a step used (a name, never its input); the room uses it only while it is fresh
+  slash: 'research' | 'critic' | null}; // a /research or /critic run that has not finished (command NAME only, from the emitter)
 export type Gap = {from: string; to: string; missed: number};
 export type OfficeState = {
   now: string;
@@ -14,6 +16,7 @@ export type OfficeState = {
   gaps: Gap[];
   passed: {task: string; project: string; verdict: string; text: string; at: string}[]; // every gate_result, newest first
   events: number;
+  activity: {research: boolean; critic: boolean}; // true only while some helper's /research or /critic run is live
 };
 
 const secs = (a: string, b: string): number => Math.round((Date.parse(b) - Date.parse(a)) / 1000);
@@ -48,8 +51,11 @@ export function reduce(events: readonly OfficeEvent[], now: string): OfficeState
   const passed: OfficeState['passed'] = [];
   for (const [sid, list] of by) {
     const last = list[list.length - 1]!;
-    let open: OfficeEvent | null = null, subagents = 0, gate: OfficeEvent | null = null, gateStale = false;
+    let open: OfficeEvent | null = null, subagents = 0, gate: OfficeEvent | null = null, gateStale = false, tool: Helper['tool'] = null, slash: Helper['slash'] = null;
     for (const e of list) {
+      if (e.kind === 'tool_end' && e.tool) tool = {name: e.tool, at: e.ts};
+      if (e.kind === 'prompt') slash = e.tool === 'research' || e.tool === 'critic' ? e.tool : null; // a new prompt replaces the old run
+      if (e.kind === 'turn_end' || e.kind === 'session_end') slash = null;
       if (e.kind === 'needs_you') open = open ?? e;
       else if (e.kind !== 'tool_blocked') open = null;
       if (e.kind === 'subagent_start') subagents++;
@@ -68,12 +74,12 @@ export function reduce(events: readonly OfficeEvent[], now: string): OfficeState
     else if (subagents > 0) { status = 'checking'; note = 'a checker is running'; }
     else if (age <= WORKING_SECONDS) { status = 'working'; note = 'working'; }
     else { status = 'unknown'; note = `no news for ${minsWord(age)}`; }
-    helpers.push({sid, project: last.project, status, note, lastAt: last.ts, steps: list.filter((e) => e.kind === 'tool_end').length, gate: gate ? {task: gate.gate!.task, passed: gate.gate!.passed, total: gate.gate!.total, text: `${gate.gate!.passed} of ${gate.gate!.total} passed`} : null});
+    helpers.push({sid, project: last.project, status, note, lastAt: last.ts, steps: list.filter((e) => e.kind === 'tool_end').length, gate: gate ? {task: gate.gate!.task, passed: gate.gate!.passed, total: gate.gate!.total, text: `${gate.gate!.passed} of ${gate.gate!.total} passed`} : null, tool, slash});
   }
   helpers.sort((a, b) => ORDER.indexOf(a.status) - ORDER.indexOf(b.status) || (a.lastAt < b.lastAt ? 1 : a.lastAt > b.lastAt ? -1 : a.sid < b.sid ? -1 : 1));
   const summary = {needs_you: 0, working: 0, checking: 0, done: 0, stuck: 0, unknown: 0};
   for (const h of helpers) summary[h.status]++;
   passed.sort((a, b) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0));
   const lastEventAt = prev ? prev.ts : null;
-  return {now, freshness: {lastEventAt, ageSeconds: lastEventAt ? secs(lastEventAt, now) : null}, summary, helpers, gaps, passed, events: events.length};
+  return {now, freshness: {lastEventAt, ageSeconds: lastEventAt ? secs(lastEventAt, now) : null}, summary, helpers, gaps, passed, events: events.length, activity: {research: helpers.some((h) => h.slash === 'research'), critic: helpers.some((h) => h.slash === 'critic')}};
 }
