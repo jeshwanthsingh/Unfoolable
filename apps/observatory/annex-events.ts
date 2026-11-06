@@ -1,7 +1,8 @@
 // Claude Code annex: the event line and the session state derived from lines. Pure code, no I/O. Reads only; never a verdict kind.
 export const KINDS = ['session_start', 'session_end', 'tool', 'tool_fail', 'permission_request', 'notification', 'subagent_start', 'subagent_stop', 'stop', 'stop_failure', 'slash', 'tool_warn', 'hook_block', 'hook_warn'] as const;
 export type Kind = (typeof KINDS)[number];
-export type LogLine = {ts: string; kind: Kind; name: string; session: string; project: string; needsYou: boolean};
+export type LogLine = {ts: string; kind: Kind; name: string; session: string; project: string; needsYou: boolean; args?: string; ok?: boolean};
+// args = short salted hash of a tool's input (equal inputs in one session look equal); ok = the step worked. Both optional: old lines have neither.
 const TS = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$/;
 const SESSION = /^[0-9a-f]{12}$/;
 // Names and projects are labels, not content: keep printable ASCII without markup characters, cap the length.
@@ -13,7 +14,9 @@ export function parseLine(raw: string): LogLine | null {
   const r = o as Record<string, unknown>;
   const kind = (KINDS as readonly string[]).includes(String(r.kind)) ? (r.kind as Kind) : null;
   if (!kind || typeof r.ts !== 'string' || !TS.test(r.ts) || typeof r.session !== 'string' || !SESSION.test(r.session)) return null;
-  return {ts: r.ts, kind, name: clean(r.name), session: r.session, project: clean(r.project) || '?', needsYou: r.needs_you === true};
+  const args = typeof r.args === 'string' && /^[0-9a-f]{1,16}$/.test(r.args) ? {args: r.args} : {};
+  const ok = typeof r.ok === 'boolean' ? {ok: r.ok} : {};
+  return {ts: r.ts, kind, name: clean(r.name), session: r.session, project: clean(r.project) || '?', needsYou: r.needs_you === true, ...args, ...ok};
 }
 export type SessionView = {
   session: string; project: string; startedAt: string | null; endedAt: string | null; lastAt: string; toolCalls: number;

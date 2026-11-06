@@ -8,6 +8,7 @@ export type Desk = {
   state: 'working' | 'maybe' | 'needs' | 'home' | 'quiet';
   at: string; // HH:MM of the latest recorded line
   word: string; // plain words shown under the desk
+  loop: boolean; // a guess: the last 3 steps were the same step. Drawn faded; never changes `state`.
 };
 // checker: a save check was recorded today (solid if within 15 minutes, else faded). staff: one visitor per report file.
 export type Floor = {desks: Desk[]; guard: {count: number; last: string | null}; checker: {at: string; fresh: boolean} | null; staff: string[]};
@@ -22,6 +23,11 @@ export function stationOf(e: Pick<LogLine, 'kind' | 'name'>): Station {
   return 'desk';
 }
 const WHERE: Record<Station, string> = {bookshelf: 'reading', workbench: 'editing', terminal: 'running a command', globe: 'on the web', checker: 'at the checker', desk: 'at the desk'};
+// The last 3 recorded steps (worked or failed) are the same tool with the same args hash. Needs the args field; without it, never true.
+const circling = (list: readonly LogLine[]): boolean => {
+  const last = list.filter((e) => e.kind === 'tool' || e.kind === 'tool_fail').slice(-3);
+  return last.length === 3 && last[0]!.args !== undefined && last.every((e) => e.name === last[0]!.name && e.args === last[0]!.args);
+};
 const mins = (a: string, b: string): number => (Date.parse(b) - Date.parse(a)) / 60000;
 
 // `now` is a local ISO string like the log's own. Recent = a recorded tool line within 2 minutes (solid);
@@ -39,7 +45,9 @@ export function buildFloor(events: readonly LogLine[], now: string, extra: {chec
     else if (last.kind === 'session_end') { state = 'home'; word = `Finished at ${at}`; }
     else if (tool && mins(tool.ts, now) <= 2) { state = 'working'; word = `${WHERE[station]} at ${tool.ts.slice(11, 16)}`; }
     else if (tool && mins(tool.ts, now) <= 15) { state = 'maybe'; word = `Maybe ${WHERE[station]} (last news ${at})`; }
-    desks.push({project: project.slice(0, 30), station, state, at, word});
+    const loop = circling(list) && state !== 'needs' && state !== 'home';
+    if (loop) word = 'Maybe going in circles (same step 3 times)';
+    desks.push({project: project.slice(0, 30), station, state, at, word, loop});
   }
   desks.sort((a, b) => (a.at < b.at ? 1 : -1));
   const blocks = events.filter((e) => e.kind === 'hook_block' && e.ts.slice(0, 10) === now.slice(0, 10));

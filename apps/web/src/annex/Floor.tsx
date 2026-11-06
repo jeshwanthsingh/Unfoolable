@@ -44,11 +44,11 @@ export function Floor({snap}: {snap: Snapshot}) {
         {desks.map((d, i) => {
           const home = {x: 30 + i * 135, y: 170}, stand = SPOT[d.station];
           const at = d.state === 'working' || d.state === 'maybe' ? {x: (stand?.x ?? home.x) + 10, y: 70} : home;
-          const mark = d.state === 'needs' ? '!' : d.state === 'maybe' ? '?' : d.state === 'working' ? '✓' : d.state === 'home' ? '⌂' : '…';
+          const mark = d.state === 'needs' ? '!' : d.state === 'maybe' || d.loop ? '?' : d.state === 'working' ? '✓' : d.state === 'home' ? '⌂' : '…';
           return (
             <g key={d.project}>
               <rect x={home.x} y={home.y + 74} width={118} height={30} rx={4} fill="var(--uf-surface)" stroke="var(--uf-border)" />
-              {d.state !== 'home' && <Sprite x={at.x + (at === home ? 23 : 0)} y={at.y} row={d.state === 'needs' ? 10 : d.state === 'quiet' ? 0 : ROW[d.station]} sheet="./builder.png" faded={d.state === 'maybe' || d.state === 'quiet'} />}
+              {d.state !== 'home' && <Sprite x={at.x + (at === home ? 23 : 0)} y={at.y} row={d.state === 'needs' ? 10 : d.state === 'quiet' ? 0 : ROW[d.station]} sheet="./builder.png" faded={d.state === 'maybe' || d.state === 'quiet' || d.loop} />}
               <text x={home.x + 59} y={home.y + 94} textAnchor="middle" fontSize="12" fill="var(--uf-text)">{mark} {d.project.length > 14 ? d.project.slice(0, 13) + '\u2026' : d.project}</text>
               {wrap(d.word).map((t, k) => <text key={k} x={home.x + 59} y={home.y + 120 + k * 13} textAnchor="middle" fontSize="11" fill="var(--uf-muted)">{t}</text>)}
             </g>
