@@ -5,11 +5,13 @@ import {createTail} from './office-tail.ts';
 import {fromLegacy, parseV1, type OfficeEvent} from './office-schema.ts';
 import {friendly, hiddenProject, parseScoreboard} from './office-data.ts';
 import {away, type Away, type Practice} from './office-away.ts';
+import {createSeatTracker, type Seat} from './office-seats.ts';
+import {sceneOf} from './office-scene.ts';
 import {readFileSync, statSync} from 'node:fs';
 import {reduce, type OfficeState} from './office-reducer.ts';
 import {basename, dirname, join} from 'node:path';
 
-export type LiveState = OfficeState & {live: true; serverTime: string; version: number; practice: Practice | null; away: Away};
+export type LiveState = OfficeState & {live: true; serverTime: string; version: number; practice: Practice | null; away: Away; seats: Record<string, Seat>};
 const pad = (n: number): string => String(n).padStart(2, '0');
 const local = (d: Date): string => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 const MAX_EVENTS = 20_000;
@@ -32,6 +34,7 @@ export function createLive(logPath: string, opts: {pollMs?: number; clock?: () =
   const pcache = {m: -1, v: null as Practice | null};
   const tail = createTail(logPath), clock = opts.clock ?? (() => new Date());
   let events: OfficeEvent[] = [], version = 0;
+  const firstSeen = new Map<string, number>(), tracker = createSeatTracker(), SILENT_SECONDS = 1800; // seats: who was seen first, and the one tracker that remembers every place
   const subs = new Set<(s: LiveState) => void>();
   const v1 = basename(logPath) === 'office-v1.jsonl'; // the emitter's own file: events already have codes and real seq numbers
   const state = (): LiveState => {
@@ -39,7 +42,12 @@ export function createLive(logPath: string, opts: {pollMs?: number; clock?: () =
     // v1 keeps every event so seq numbers stay whole (a hidden folder must not look like a gap); hidden helpers are dropped here.
     const passed = r.passed.filter((g) => !hiddenProject(g.project)), helpers = r.helpers.filter((h) => !hiddenProject(h.project)), summary = {needs_you: 0, working: 0, checking: 0, done: 0, stuck: 0, unknown: 0};
     for (const h of helpers) summary[h.status]++;
-    return {...r, passed, helpers, summary, live: true, serverTime: local(now), version, away: away(events, local(now)), practice: readPractice(opts.scoreboardPath ?? join(dirname(dirname(logPath)), 'evals/scoreboard.csv'), pcache)};
+    const base = {...r, passed, helpers, summary, away: away(events, local(now))};
+    const figs = sceneOf(base).figures; // where each helper should stand; the tracker decides the exact place and never moves anybody who is already placed
+    const alive = new Set(helpers.filter((h) => !h.ended && (Date.parse(local(now)) - Date.parse(h.lastAt)) / 1000 <= SILENT_SECONDS).map((h) => h.sid));
+    for (const f of figs) if (f.key.startsWith('role:')) alive.add(f.key);
+    const seats = Object.fromEntries(tracker.update(figs.map((f) => ({key: f.key, spot: f.spot, order: firstSeen.get(f.key) ?? Number.MAX_SAFE_INTEGER})), alive));
+    return {...r, passed, helpers, summary, seats, live: true, serverTime: local(now), version, away: away(events, local(now)), practice: readPractice(opts.scoreboardPath ?? join(dirname(dirname(logPath)), 'evals/scoreboard.csv'), pcache)};
   };
   const push = (): void => { const s = state(); for (const f of subs) f(s); };
   const read = (): boolean => {
@@ -48,6 +56,7 @@ export function createLive(logPath: string, opts: {pollMs?: number; clock?: () =
     if (!lines.length && !reset) return false;
     const base = events.length ? events[events.length - 1]!.seq : 0;
     const add = v1 ? lines.map(parseV1).filter((e): e is OfficeEvent => e !== null).map((e) => ({...e, project: friendly(e.project)})) : fromLegacy(lines).map((e) => ({...e, seq: e.seq + base}));
+    for (const e of add) if (!firstSeen.has(e.sid)) firstSeen.set(e.sid, e.seq);
     events = events.concat(add).slice(-MAX_EVENTS);
     version++;
     return true;

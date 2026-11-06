@@ -4,13 +4,13 @@ import {DIVIDERS, GUARD_AT, HARD_HAT, HATS, PLACE, ROOM, RUGS, SLOTS, SPRITE, WA
 import {BOARD, FUN} from './copy.ts';
 import {boardOf, freshness, type Card} from '../../../observatory/office-board.ts';
 import {shouldAnimate} from '../../../observatory/office-motion.ts';
-import {sceneOf, type Figure, type Scene} from '../../../observatory/office-scene.ts';
+import {sceneOf, type Figure, type Scene, type SeatMap} from '../../../observatory/office-scene.ts';
 import {AWAY_LINES, type Away} from '../../../observatory/office-away.ts';
 import type {OfficeState} from '../../../observatory/office-reducer.ts';
 
 // The pixel office: the SAME state and the same board model as the simple view, drawn as a room. Nothing here is a fact the board does not have.
 // Pictures come from a local licensed folder through the server's /art route; they are never part of the repo.
-type Live = OfficeState & {away?: Away};
+type Live = OfficeState & {away?: Away; seats?: SeatMap}; // seats: where the SERVER put every helper (never re-derived here)
 const token = () => new URLSearchParams(location.hash.slice(1)).get('t') ?? '';
 const MOOD = {'needs you': 'wave', working: 'focus', checking: 'focus', done: 'happy', "didn't pass": 'dizzy'} as const;
 const pct = (v: number, of: number) => `${(v / of) * 100}%`;

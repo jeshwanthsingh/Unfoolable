@@ -8,6 +8,7 @@ export type Spot = 'desk' | 'checker' | 'lounge' | 'library' | 'terminal' | 'win
 export type Word = 'needs you' | 'working' | 'checking' | 'done' | "didn't pass";
 export type Role = 'builder' | 'checker' | 'researcher' | 'critic' | 'guard';
 export type Figure = {key: string; label: string; project: string; word: Word; spot: Spot; slot: number; tone: Card['tone']; caption: string; loud: boolean; role: Role; tint: string; hat: number};
+export type SeatMap = Record<string, {spot: Spot; slot: number}>;
 export type Scene = {figures: Figure[]; guard: {count: number} | null; quiet: number};
 
 export const FRESH_TOOL_SECONDS = 30;
@@ -19,13 +20,15 @@ const WORD: Record<Card['tone'], Word> = {amber: 'needs you', red: "didn't pass"
 export const spotOfTool = (t: string): Spot => (/^(Read|Grep|Glob|LS|NotebookRead)$/.test(t) ? 'library' : /^(Bash|BashOutput)$/.test(t) ? 'terminal' : /^(WebFetch|WebSearch)$|browser|fetch|search/i.test(t) ? 'window' : 'desk');
 const secs = (a: string, b: string): number => (Date.parse(b) - Date.parse(a)) / 1000;
 
-export function sceneOf(state: OfficeState & {away?: {blocked: number}}): Scene {
+export function sceneOf(state: OfficeState & {away?: {blocked: number}; seats?: SeatMap}): Scene {
   const b = boardOf(state), figures: Figure[] = [], used: Record<Spot, number> = {desk: 0, checker: 0, lounge: 0, library: 0, terminal: 0, window: 0, meeting: 0};
   const byKey = new Map(state.helpers.map((h) => [h.sid, h]));
+  // With a seat map from the server a helper stands exactly where the server put it (-1 = no free place: listed on the side only). Without one (pure tests) places are handed out in order.
+  const seatOf = (key: string, spot: Spot): number => (state.seats ? (state.seats[key]?.spot === spot ? state.seats[key]!.slot : -1) : used[spot]++);
   let builders = 0;
   const put = (c: Card, spot: Spot, word: Word): void => {
     const role: Role = word === 'checking' ? 'checker' : 'builder'; // a builder whose check failed is still a builder (its own colour); only the Checker is green
-    figures.push({key: c.key, label: c.label, project: c.project, word, spot, slot: used[spot]++, tone: c.tone, caption: c.verb, loud: word === 'needs you', role, tint: role === 'builder' ? PALETTE[builders++ % PALETTE.length]! : ROLE_TINT[role], hat: HAT[role]});
+    figures.push({key: c.key, label: c.label, project: c.project, word, spot, slot: seatOf(c.key, spot), tone: c.tone, caption: c.verb, loud: word === 'needs you', role, tint: role === 'builder' ? PALETTE[builders++ % PALETTE.length]! : ROLE_TINT[role], hat: HAT[role]});
   };
   const station = (c: Card): Spot => { const t = byKey.get(c.key)?.tool; return t && secs(t.at, state.now) <= FRESH_TOOL_SECONDS ? spotOfTool(t.name) : 'desk'; };
   for (const c of b.needs) put(c, 'desk', c.tone === 'red' ? "didn't pass" : 'needs you');
@@ -35,7 +38,7 @@ export function sceneOf(state: OfficeState & {away?: {blocked: number}}): Scene 
   for (const c of b.done) put(c, 'lounge', 'done');
   // Staff who exist only while their run is live (the command name comes from the emitter; none arrives until that patch is installed).
   const staff = (key: string, label: string, role: 'researcher' | 'critic', spot: Spot, caption: string): void => {
-    figures.push({key, label, project: label, word: 'working', spot, slot: used[spot]++, tone: 'blue', caption, loud: false, role, tint: ROLE_TINT[role], hat: HAT[role]});
+    figures.push({key, label, project: label, word: 'working', spot, slot: seatOf(key, spot), tone: 'blue', caption, loud: false, role, tint: ROLE_TINT[role], hat: HAT[role]});
   };
   if (state.activity.research) staff('role:researcher', 'Researcher', 'researcher', 'library', 'looking things up');
   if (state.activity.critic) staff('role:critic', 'Critic', 'critic', 'meeting', 'reading the plan');
