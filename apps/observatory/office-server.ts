@@ -4,7 +4,7 @@ import {randomBytes, timingSafeEqual} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {join, extname} from 'node:path';
 import {buildSnapshot} from './office-data.ts';
-const TYPES: Record<string, string> = {'.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png'};
+const TYPES: Record<string, string> = {'.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.ttf': 'font/ttf', '.woff2': 'font/woff2'};
 export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string; repos?: {name: string; path: string}[]}): Promise<{server: Server; port: number; token: string; url: string}> {
   const token = opts.token ?? randomBytes(24).toString('hex');
   const server = createServer((req, res) => {

@@ -31,6 +31,16 @@ export const redact = (s: string): string =>
 // Escape every returned string so the page can never run it as markup, even without React.
 export const esc = (s: string): string => s.replace(/[&<>"'`]/g, (c) => `&#${c.charCodeAt(0)};`);
 const safe = (s: string, max = 140): string => esc(redact(s.replace(/[^\x20-\x7e]/g, ' ').replace(/\s+/g, ' ').trim())).slice(0, max * 2);
+// Friendly names for desks. Unknown folders keep their own name, shortened at a word break (never mid-word, never "...").
+const NAMES: Record<string, string> = {'command-center': 'Unfoolable', 'coding-agent-crash-tests': 'AgentRunLab', 'proof-lab': 'Proof Lab', 'muse-guard': 'Muse Guard', 'jeshwanth.com': 'Website'};
+export const hiddenProject = (p: string): boolean => /^(scratch|tmp)|^[-?]$/i.test(p) || p.length < 3;
+export function friendly(p: string): string {
+  if (NAMES[p]) return NAMES[p]!;
+  const words = safe(p, 40).split(/[-_ ]+/).filter(Boolean);
+  let out = '';
+  for (const w of words) { const next = out ? `${out} ${w}` : w; if (next.length > 14 && out) break; out = next; }
+  return out || '?';
+}
 const cut = (s: string, max: number): string => (s.length > max ? s.slice(0, max - 1).trimEnd() + '...' : s);
 
 const hhmm = (ts: string): string => ts.slice(11, 16);
@@ -39,17 +49,17 @@ const pad = (n: number): string => String(n).padStart(2, '0');
 const localIso = (d: Date): string => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 const plural = (n: number, one: string, many: string): string => `${n} ${n === 1 ? one : many}`;
 
-export function parseScoreboard(csv: string): {date: string; batch: string; verdict: string; cost: number}[] {
+export function parseScoreboard(csv: string): {date: string; batch: string; verdict: string; cost: number; hidden?: boolean}[] {
   const lines = csv.split('\n').filter(Boolean);
   const head = (lines.shift() ?? '').split(',');
   const i = (n: string): number => head.indexOf(n);
-  const [d, b, v, c, ok] = [i('date'), i('batch'), i('verdict'), i('cost_usd'), i('valid_run')];
+  const [d, b, v, c, ok, hp] = [i('date'), i('batch'), i('verdict'), i('cost_usd'), i('valid_run'), i('hidden_pass')];
   if (d < 0 || b < 0 || v < 0) return [];
   const out = [];
   for (const l of lines) {
     const f = l.split(',');
     if (ok >= 0 && f[ok] !== 'true') continue;
-    out.push({date: (f[d] ?? '').slice(0, 10), batch: (f[b] ?? '').slice(0, 60), verdict: f[v] ?? '', cost: c >= 0 ? Number(f[c]) || 0 : 0});
+    out.push({date: (f[d] ?? '').slice(0, 10), batch: (f[b] ?? '').slice(0, 60), verdict: f[v] ?? '', cost: c >= 0 ? Number(f[c]) || 0 : 0, ...(hp >= 0 && (f[hp] === 'true' || f[hp] === 'false') ? {hidden: f[hp] === 'true'} : {})});
   }
   return out;
 }
@@ -108,9 +118,9 @@ function readBoard(vault: string): {item: Item; check: Check | null}[] {
 export function buildSnapshot(vault: string, now = new Date(), repos: RepoRef[] = []): Snapshot {
   const nowIso = localIso(now), today = day(nowIso);
   const usageRaw = read(join(vault, 'logs/usage.jsonl'));
-  const events: LogLine[] = usageRaw.split('\n').map(parseLine).filter((e): e is LogLine => e !== null);
+  const events: LogLine[] = usageRaw.split('\n').map(parseLine).filter((e): e is LogLine => e !== null && !hiddenProject(e.project));
   const sessions = deriveSessions(events);
-  const label = (p: string): string => safe(p, 30);
+  const label = (p: string): string => friendly(p);
   const needs = sessions.filter((s) => s.needsYou);
   const needsYou: Item[] = needs.map((s) => ({
     text: `A helper on ${label(s.project)} ${s.needsYou!.what === 'permission' ? 'wants your OK' : s.needsYou!.what === 'error' ? 'hit a problem' : 'asked you something'}.`,
@@ -133,32 +143,35 @@ export function buildSnapshot(vault: string, now = new Date(), repos: RepoRef[] 
   const jobs = readBoard(vault);
   // The newest save check recorded today (any listed repo or job) puts the checker helper on the floor.
   const checkTimes = [...repos.map((r) => readCheck(r.path)), ...jobs.map((j) => j.check)].filter((c): c is Check => c !== null && day(localIso(c.at)) === today).map((c) => c.at.getTime());
-  const batches = new Map<string, {date: string; safe: number; bad: number}>();
+  const batches = new Map<string, {date: string; safe: number; bad: number; hidden: boolean}>();
   for (const r of rows) {
-    const b = batches.get(r.batch) ?? {date: r.date, safe: 0, bad: 0};
-    if (r.verdict === 'safe') b.safe++; else b.bad++;
+    const b = batches.get(r.batch) ?? {date: r.date, safe: 0, bad: 0, hidden: false};
+    // The practice test's own answer is hidden_pass; the old verdict column is only the fallback for files without it.
+    if (r.hidden !== undefined) { b.hidden = true; if (r.hidden) b.safe++; else b.bad++; } else if (r.verdict === 'safe') b.safe++; else b.bad++;
     if (r.date > b.date) b.date = r.date;
     batches.set(r.batch, b);
   }
   [...batches].sort((a, b) => (a[1].date < b[1].date ? 1 : -1)).slice(0, 3).forEach(([name, b]) =>
-    results.push({at: b.date, text: `Practice test ${safe(name, 40)}: ${b.safe} worked, ${b.bad} did not.`}));
+    results.push({at: b.date, text: b.hidden ? `Practice test ${safe(name, 40)}: ${b.safe} of ${b.safe + b.bad} passed.` : `Practice test ${safe(name, 40)}: ${b.safe} worked, ${b.bad} did not.`}));
   let gardens: string[] = [];
   try { gardens = readdirSync(join(vault, 'logs')).filter((f) => /^garden-[\w.-]+\.md$/.test(f)).sort().reverse().slice(0, 2); } catch { /* no reports yet */ }
+  const rawLines: string[] = [];
   for (const g of gardens) {
     const head = read(join(vault, 'logs', g)).split('\n').find((l) => l.trim()) ?? g;
-    results.push({text: `Report: ${safe(head.replace(/^#+\s*/, ''), 80)}`});
+    results.push({text: 'A new report came in.'});
+    rawLines.push(`report: ${safe(head.replace(/^#+\s*/, ''), 80)}`);
   }
-  for (const m of parseMailbox(read(join(vault, 'mailbox/to-chat.md')), 3)) results.push({at: m.at ?? '', text: `Reply: ${m.text}`});
-  const staff = gardens.map((g) => safe((read(join(vault, 'logs', g)).split('\n').find((l) => l.trim()) ?? g).replace(/^#+\s*/, ''), 30));
+  for (const m of parseMailbox(read(join(vault, 'mailbox/to-chat.md')), 3)) { results.push({at: m.at ?? '', text: 'Claude Code sent you a reply.'}); rawLines.push(`reply: ${m.text}`); }
+  const staff = gardens.map(() => 'Gardener report');
   const last = events[events.length - 1];
   const light: Light = !last ? 'grey' : needs.some((s) => s.needsYou!.what === 'error') ? 'red' : needs.length ? 'amber' : 'green';
   const sentence = !last ? 'No news yet.' : needs.length ? `${plural(needs.length, 'helper needs', 'helpers need')} you.` : `Nothing needs you. Last news at ${hhmm(last.ts)}.`;
   return {
-    generatedAt: nowIso, light, sentence, needsYou, lastNight, results, board: jobs.map((j) => j.item), floor: buildFloor(events, nowIso, {checkAt: checkTimes.length ? localIso(new Date(Math.max(...checkTimes))) : undefined, staff}), mail: {chat: changedToday(join(vault, 'mailbox/to-chat.md'), today), code: changedToday(join(vault, 'mailbox/to-code.md'), today)},
+    generatedAt: nowIso, light, sentence, needsYou, lastNight, results, board: jobs.map((j) => j.item), floor: (({desks, ...f}) => ({...f, desks: desks.map((d) => ({...d, project: friendly(d.project)}))}))(buildFloor(events, nowIso, {checkAt: checkTimes.length ? localIso(new Date(Math.max(...checkTimes))) : undefined, staff})), mail: {chat: changedToday(join(vault, 'mailbox/to-chat.md'), today), code: changedToday(join(vault, 'mailbox/to-code.md'), today)},
     today: {
       helpers: todaySessions.length, steps: todayEv.filter((e) => e.kind === 'tool').length, guardNo, spent: `$${spent.toFixed(2)}`,
       list: todaySessions.slice(0, 8).map((s) => ({text: `${label(s.project)}: ${s.endedAt ? 'finished' : s.needsYou ? 'needs you' : 'no news since ' + hhmm(s.lastAt)}`}))
     },
-    details: [`log lines read: ${events.length}`, `helper ids: ${todaySessions.slice(0, 8).map((s) => s.session).join(' ') || 'none'}`, `scoreboard rows: ${rows.length}`, `report files: ${gardens.length}`]
+    details: [`log lines read: ${events.length}`, `helper ids: ${todaySessions.slice(0, 8).map((s) => s.session).join(' ') || 'none'}`, `scoreboard rows: ${rows.length}`, `report files: ${gardens.length}`, ...rawLines]
   };
 }
