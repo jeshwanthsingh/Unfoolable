@@ -34,6 +34,14 @@ export const BOARD = {
   empty: 'Nobody here.', noLink: 'Open the page with the link from the terminal.'
 } as const;
 
+// The pixel office (the Office view). Words only; the room shows what the board shows.
+export const FUN = {
+  credit: 'Office art: Modern Office by LimeZu (licensed, never shared publicly).',
+  office: 'Office', simple: 'Simple view', artMissing: 'The office pictures are not on this computer, so this is the simple view.',
+  hint: 'Click a helper to see more.', asked: 'It asked you', wantsOk: 'It wants your OK.', stuck: 'Its last steps did not work.', status: 'What it is doing', close: 'Close',
+  alt: 'A picture of the office: each helper stands where its status puts it.', guardSays: 'The guard said no'
+} as const;
+
 export const DETAIL_WORDS = {
   source: 'Read from usage.jsonl, scoreboard.csv, to-chat.md and garden reports. Read only.'
 } as const;
@@ -57,5 +65,6 @@ export function screenStrings(): string[] {
   walk(COPY);
   walk(FLOOR);
   walk(BOARD);
+  walk(FUN);
   return out;
 }

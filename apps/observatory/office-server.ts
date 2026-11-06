@@ -6,8 +6,9 @@ import {join, extname} from 'node:path';
 import {buildSnapshot} from './office-data.ts';
 import {createLive, type Live} from './office-live.ts';
 import {createOpener, type OpenOpts} from './office-open.ts';
+import {ART_FILES, artAvailable, artPath, defaultArtDir} from './office-art.ts';
 const TYPES: Record<string, string> = {'.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.ttf': 'font/ttf', '.woff2': 'font/woff2'};
-export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string; repos?: {name: string; path: string}[]; logPath?: string; live?: Live; open?: Partial<OpenOpts>}): Promise<{server: Server; port: number; token: string; url: string}> {
+export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string; repos?: {name: string; path: string}[]; logPath?: string; live?: Live; open?: Partial<OpenOpts>; art?: {dir?: string}}): Promise<{server: Server; port: number; token: string; url: string}> {
   const token = opts.token ?? randomBytes(24).toString('hex');
   const live = opts.live ?? (opts.logPath ? createLive(opts.logPath) : null);
   const okKey = (given: string): boolean => { const got = Buffer.from(given), want = Buffer.from(token); return got.length === want.length && timingSafeEqual(got, want); };
@@ -43,6 +44,14 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
       res.writeHead(302, {location: '/', 'set-cookie': `office_key=${token}; Path=/; HttpOnly; SameSite=Strict`, 'cache-control': 'no-store'});
       return res.end();
     }
+    if (opts.art && path.startsWith('/art/')) { // licensed art, read from a local folder, allowlisted names only, same key rule as the stream
+      if (!okKey(String(req.headers['x-office-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
+      const dir = opts.art.dir ?? defaultArtDir(), name = path.slice(5);
+      if (name === 'manifest') return send(200, JSON.stringify({available: artAvailable(dir), files: Object.keys(ART_FILES)}), 'application/json');
+      const file = artPath(dir, name);
+      if (!file) return send(404, 'Not found.');
+      try { return send(200, readFileSync(file), 'image/png'); } catch { return send(404, 'Not found.'); }
+    }
     if (live && (path === '/state' || path === '/events')) {
       if (!okKey(String(req.headers['x-office-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
       if (path === '/state') return send(200, JSON.stringify(live.state()), 'application/json');
@@ -77,6 +86,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const vault = process.env.OFFICE_VAULT ?? join(process.env.HOME ?? '', 'Projects/proof-lab');
   const staticDir = process.env.OFFICE_STATIC ?? join(import.meta.dirname, '../../.work/office-dist');
   const v1 = join(vault, 'logs/office-v1.jsonl'), logPath = existsSync(v1) ? v1 : join(vault, 'logs/usage.jsonl'); // the emitter's file when it exists, else the old log
-  const r = await startOffice({vault, staticDir, repos: [{name: 'AgentRunLab', path: join(process.env.HOME ?? '', 'Projects/coding-agent-crash-tests')}], port: Number(process.env.OFFICE_PORT ?? 0), logPath, open: {}});
+  const r = await startOffice({vault, staticDir, repos: [{name: 'AgentRunLab', path: join(process.env.HOME ?? '', 'Projects/coding-agent-crash-tests')}], port: Number(process.env.OFFICE_PORT ?? 0), logPath, open: {}, art: {}});
   console.log(`Office page (read-only, this computer only): ${r.url}`);
 }
