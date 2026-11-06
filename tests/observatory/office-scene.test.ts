@@ -25,9 +25,10 @@ test('both views show the same helpers in the same states (board lanes = scene w
   for (const c of b.needs) boardWords.set(c.key, c.tone === 'red' ? "didn't pass" : 'needs you');
   for (const c of b.working) boardWords.set(c.key, 'working');
   for (const c of b.checking) boardWords.set(c.key, 'checking');
-  for (const c of b.done) boardWords.set(c.key, c.tone === 'red' ? "didn't pass" : 'done');
+  for (const c of b.done) boardWords.set(c.key, 'done');
+  for (const c of b.failed) boardWords.set(c.key, "didn't pass");
   assert.deepEqual(new Map(sc.figures.map((f) => [f.key, f.word])), boardWords);
-  assert.deepEqual(sc.figures.map((f) => f.label).sort(), [...b.needs, ...b.working, ...b.checking, ...b.done].map((c) => c.label).sort());
+  assert.deepEqual(sc.figures.map((f) => f.label).sort(), [...b.needs, ...b.working, ...b.checking, ...b.done, ...b.failed].map((c) => c.label).sort());
   assert.equal(sc.quiet, b.quiet); assert.deepEqual(sc.guard, {count: 2});
   assert.equal(sceneOf({...s, away: {blocked: 0}}).guard, null);
   assert.deepEqual(sc.figures.filter((f) => f.loud).map((f) => f.word), ['needs you']);

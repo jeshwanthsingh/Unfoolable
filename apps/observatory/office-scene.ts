@@ -31,7 +31,8 @@ export function sceneOf(state: OfficeState & {away?: {blocked: number}}): Scene 
   for (const c of b.needs) put(c, 'desk', c.tone === 'red' ? "didn't pass" : 'needs you');
   for (const c of b.working) put(c, station(c), 'working');
   for (const c of b.checking) put(c, 'checker', 'checking');
-  for (const c of b.done) put(c, c.tone === 'red' ? 'checker' : 'lounge', c.tone === 'red' ? "didn't pass" : 'done');
+  for (const c of b.failed) put(c, 'checker', "didn't pass");
+  for (const c of b.done) put(c, 'lounge', 'done');
   // Staff who exist only while their run is live (the command name comes from the emitter; none arrives until that patch is installed).
   const staff = (key: string, label: string, role: 'researcher' | 'critic', spot: Spot, caption: string): void => {
     figures.push({key, label, project: label, word: 'working', spot, slot: used[spot]++, tone: 'blue', caption, loud: false, role, tint: ROLE_TINT[role], hat: HAT[role]});

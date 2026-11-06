@@ -5,7 +5,7 @@ import type {OfficeState, Helper} from './office-reducer.ts';
 
 export type Tone = 'amber' | 'blue' | 'purple' | 'green' | 'red' | 'grey';
 export type Card = {key: string; project: string; label: string; verb: string; time: string; at: string; tone: Tone; button: 'open' | 'see' | null};
-export type Board = {sentence: string; sub: string; light: 'amber' | 'green' | 'grey'; needs: Card[]; working: Card[]; checking: Card[]; done: Card[]; quietLines: string[]; quiet: number};
+export type Board = {sentence: string; sub: string; light: 'amber' | 'green' | 'grey' | 'red'; needs: Card[]; working: Card[]; checking: Card[]; done: Card[]; failed: Card[]; quietLines: string[]; quiet: number}; // done = PASS only; a failed check is in failed, never in done
 
 const hhmm = (ts: string): string => ts.slice(11, 16);
 const secs = (a: string, b: string): number => Math.max(0, Math.round((Date.parse(b) - Date.parse(a)) / 1000));
@@ -25,7 +25,7 @@ export function freshness(connected: boolean, ageMs: number, lastEventAt: string
 }
 
 export function boardOf(s: OfficeState): Board {
-  const b: Board = {sentence: '', sub: '', light: 'green', needs: [], working: [], checking: [], done: [], quietLines: [], quiet: 0};
+  const b: Board = {sentence: '', sub: '', light: 'green', needs: [], working: [], checking: [], done: [], failed: [], quietLines: [], quiet: 0};
   const today = s.now.slice(0, 10), byProject = new Map<string, Helper[]>();
   for (const h of s.helpers) if (h.status !== 'unknown') (byProject.get(h.project) ?? byProject.set(h.project, []).get(h.project)!).push(h);
   // Same project, several helpers on the board: "Helper 1 on X" (numbered by id among the visible ones). A lone helper keeps the project name.
@@ -36,7 +36,7 @@ export function boardOf(s: OfficeState): Board {
   for (const h of s.helpers) {
     if (h.status === 'needs_you') b.needs.push(card(h, "I'm waiting for you. Please answer me.", age(h) < 60 ? 'Waiting for less than a minute' : `Waiting for ${plural(Math.floor(age(h) / 60), 'minute', 'minutes')}`, 'amber', 'open'));
     else if (h.status === 'stuck' && !h.gate) b.needs.push(card(h, 'My last 3 steps did not work.', ago(age(h)), 'red', 'open'));
-    else if (h.status === 'stuck') { if (h.lastAt.slice(0, 10) === today) b.done.push(card(h, `Didn't pass: ${h.gate!.passed} of ${h.gate!.total}`, ago(age(h)), 'red', 'see')); }
+    else if (h.status === 'stuck') { if (h.lastAt.slice(0, 10) === today) b.failed.push(card(h, h.gate!.total === 0 ? 'No tests ran. Check the setup.' : `Didn't pass: ${h.gate!.passed} of ${h.gate!.total} passed`, ago(age(h)), 'red', 'see')); }
     else if (h.status === 'checking') b.checking.push(card(h, "I'm checking the work.", ago(age(h)), 'purple', null));
     else if (h.status === 'working') b.working.push(card(h, "I'm working on it.", ago(age(h)), 'blue', null));
     else if (h.status === 'done') { if (h.lastAt.slice(0, 10) === today) b.done.push(card(h, h.gate && h.gate.total > 0 ? `Saved. ${h.gate.passed} of ${h.gate.total} passed.` : 'Saved. The checker said it works.', ago(age(h)), 'green', null)); }
@@ -44,8 +44,9 @@ export function boardOf(s: OfficeState): Board {
   }
   for (const [p, n] of quiet) { b.quiet += n; b.quietLines.push(`${plural(n, 'quiet helper', 'quiet helpers')} on ${p}, no news for a while`); }
   const n = b.needs.length, w = b.working.length;
-  b.light = !s.freshness.lastEventAt ? 'grey' : n ? 'amber' : 'green';
-  b.sentence = !s.freshness.lastEventAt ? 'No news yet.' : n === 1 ? `${b.needs[0]!.label} needs you` : n ? `${n} helpers need you` : w ? `All good. ${plural(w, 'helper', 'helpers')} working.` : 'All good. Nothing is running.';
-  b.sub = s.freshness.lastEventAt ? `${n ? 'Everyone else is fine. ' : ''}Last news ${ago(s.freshness.ageSeconds ?? 0)}.` : '';
+  const f = b.failed.length;
+  b.light = !s.freshness.lastEventAt ? 'grey' : n ? 'amber' : f ? 'red' : 'green';
+  b.sentence = !s.freshness.lastEventAt ? 'No news yet.' : n === 1 ? `${b.needs[0]!.label} needs you` : n ? `${n} helpers need you` : f ? `${plural(f, 'thing', 'things')} didn't pass` : w ? `All good. ${plural(w, 'helper', 'helpers')} working.` : 'All good. Nothing is running.';
+  b.sub = s.freshness.lastEventAt ? `${n ? (f ? '' : 'Everyone else is fine. ') : ''}${n && f ? `${plural(f, 'thing', 'things')} didn't pass. ` : ''}Last news ${ago(s.freshness.ageSeconds ?? 0)}.` : '';
   return b;
 }

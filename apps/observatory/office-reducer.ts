@@ -19,6 +19,8 @@ export type OfficeState = {
   activity: {research: boolean; critic: boolean}; // true only while some helper's /research or /critic run is live
 };
 
+// "No tests ran" (0 of 0) is a setup problem, not a pass or a fail.
+export const gateText = (g: {passed: number; total: number}): string => (g.total === 0 ? 'No tests ran' : `${g.passed} of ${g.total} passed`);
 const secs = (a: string, b: string): number => Math.round((Date.parse(b) - Date.parse(a)) / 1000);
 const minsWord = (s: number): string => (s < 3600 ? `${Math.max(1, Math.floor(s / 60))} min` : `${Math.floor(s / 3600)} h`);
 const ORDER: Status[] = ['needs_you', 'stuck', 'checking', 'working', 'unknown', 'done'];
@@ -60,7 +62,7 @@ export function reduce(events: readonly OfficeEvent[], now: string): OfficeState
       else if (e.kind !== 'tool_blocked') open = null;
       if (e.kind === 'subagent_start') subagents++;
       if (e.kind === 'subagent_end') subagents = Math.max(0, subagents - 1);
-      if (e.kind === 'gate_result') { gate = e; gateStale = false; passed.push({task: e.gate!.task, project: e.project, verdict: e.gate!.verdict, text: `${e.gate!.passed} of ${e.gate!.total} passed`, at: e.ts}); }
+      if (e.kind === 'gate_result') { gate = e; gateStale = false; passed.push({task: e.gate!.task, project: e.project, verdict: e.gate!.verdict, text: gateText(e.gate!), at: e.ts}); }
       else if (gate && e.kind !== 'session_end' && e.kind !== 'turn_end') gateStale = true; // new work after the gate: its result no longer covers it
     }
     const age = secs(last.ts, now);
@@ -74,7 +76,7 @@ export function reduce(events: readonly OfficeEvent[], now: string): OfficeState
     else if (subagents > 0) { status = 'checking'; note = 'a checker is running'; }
     else if (age <= WORKING_SECONDS) { status = 'working'; note = 'working'; }
     else { status = 'unknown'; note = `no news for ${minsWord(age)}`; }
-    helpers.push({sid, project: last.project, status, note, lastAt: last.ts, steps: list.filter((e) => e.kind === 'tool_end').length, gate: gate ? {task: gate.gate!.task, passed: gate.gate!.passed, total: gate.gate!.total, text: `${gate.gate!.passed} of ${gate.gate!.total} passed`} : null, tool, slash});
+    helpers.push({sid, project: last.project, status, note, lastAt: last.ts, steps: list.filter((e) => e.kind === 'tool_end').length, gate: gate ? {task: gate.gate!.task, passed: gate.gate!.passed, total: gate.gate!.total, text: gateText(gate.gate!)} : null, tool, slash});
   }
   helpers.sort((a, b) => ORDER.indexOf(a.status) - ORDER.indexOf(b.status) || (a.lastAt < b.lastAt ? 1 : a.lastAt > b.lastAt ? -1 : a.sid < b.sid ? -1 : 1));
   const summary = {needs_you: 0, working: 0, checking: 0, done: 0, stuck: 0, unknown: 0};

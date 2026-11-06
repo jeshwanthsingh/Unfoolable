@@ -95,3 +95,5 @@ body{margin:0}
 .fv-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.fv-head .ob-fresh{margin:0}
 .fv-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px;border:1.5px solid #1F2A44}
 .oa-foot{margin:44px 0 0;font-size:14px}.unfoolable.oa .oa-foot{color:#4A5672}
+
+.ob-failed{background:#FDE7E2;border:2px solid #E9533B}.ob-light.red{background:#E9533B;box-shadow:0 0 0 6px #F9C9BF}

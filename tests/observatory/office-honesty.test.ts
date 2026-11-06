@@ -109,7 +109,8 @@ test('property: the five status words never contradict the rules, for any event 
     const now = stamp(new Date(new Date(2026, 10, 5, 10, 0, 0).getTime() + ago * 1000)), s = reduce(E, now), b = boardOf(s);
     assert.equal(s.summary.done <= E.filter((e) => e.kind === 'gate_result' && e.gate!.verdict === 'PASS').length, true);
     const today = now.slice(0, 10);
-    assert.equal(b.done.length, s.helpers.filter((h) => (h.status === 'done' || (h.status === 'stuck' && h.gate)) && h.lastAt.slice(0, 10) === today).length);
+    assert.equal(b.done.length, s.helpers.filter((h) => h.status === 'done' && h.lastAt.slice(0, 10) === today).length);
+    assert.equal(b.failed.length, s.helpers.filter((h) => h.status === 'stuck' && h.gate && h.lastAt.slice(0, 10) === today).length);
     assert.equal(b.done.filter((c) => c.tone === 'green').length <= s.summary.done, true);
     assert.equal(b.needs.length, s.summary.needs_you + s.helpers.filter((h) => h.status === 'stuck' && !h.gate).length);
     assert.equal(b.working.length, s.summary.working); // Working holds only working helpers

@@ -59,7 +59,7 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
   const b = state ? boardOf(state) : null;
   const fresh = freshness(connected, tick - lastMsg, state?.freshness.lastEventAt ?? null);
   const animate = shouldAnimate(state?.freshness.ageSeconds ?? null, reduce);
-  const lanes: [string, keyof typeof BOARD.cols, Card[], string][] = b ? [['needs', 'needs', b.needs, ''], ['working', 'working', b.working, ''], ['checking', 'checking', b.checking, ''], ['done', 'done', b.done, '']] : [];
+  const lanes: [string, keyof typeof BOARD.cols, Card[], string][] = b ? [['needs', 'needs', b.needs, ''], ['working', 'working', b.working, ''], ['checking', 'checking', b.checking, ''], ['done', 'done', b.done, ''], ...(b.failed.length ? [['failed', 'failed', b.failed, ''] as [string, keyof typeof BOARD.cols, Card[], string]] : [])] : [];
   return (
     <section aria-label="Board">
       <div className="ob-bar" role="toolbar" aria-label={BOARD.tools}>

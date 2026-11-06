@@ -97,7 +97,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
   useEffect(() => { if (scene) draw.current?.(scene, animate); }, [scene, animate]);
 
   const fresh = freshness(connected, tick - lastMsg, state?.freshness.lastEventAt ?? null);
-  const cards = board ? ([[BOARD.cols.needs, board.needs], [BOARD.cols.working, board.working], [BOARD.cols.checking, board.checking], [BOARD.cols.done, board.done]] as [string, Card[]][]) : [];
+  const cards = board ? ([[BOARD.cols.needs, board.needs], [BOARD.cols.working, board.working], [BOARD.cols.checking, board.checking], [BOARD.cols.done, board.done], ...(board.failed.length ? [[BOARD.cols.failed, board.failed]] : [])] as [string, Card[]][]) : [];
   const sel = scene?.figures.find((f) => f.key === picked) ?? null, selCard = board ? [...board.needs, ...board.working, ...board.checking, ...board.done].find((c) => c.key === picked) : undefined;
   const at = (f: Figure) => SLOTS[f.spot][f.slot];
   const tintOf = (key: string) => scene?.figures.find((f) => f.key === key)?.tint ?? '#9AA8C0';

@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import {existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync} from 'node:fs';
 import {homedir, tmpdir} from 'node:os';
 import {join} from 'node:path';
+import fc from 'fast-check';
 import {boardOf, freshness} from '../../apps/observatory/office-board.ts';
-import {reduce} from '../../apps/observatory/office-reducer.ts';
+import {attachGates, reduce} from '../../apps/observatory/office-reducer.ts';
 import {fromLegacy, type OfficeEvent} from '../../apps/observatory/office-schema.ts';
 import {startOffice} from '../../apps/observatory/office-server.ts';
 import {screenStrings} from '../../apps/web/src/annex/copy.ts';
@@ -15,7 +16,7 @@ let n = 0;
 const ev = (o: Partial<OfficeEvent>): OfficeEvent => ({v: 1, seq: ++n, ts: '2026-11-05T10:00:00', sid: 'h:aaaaaaaaaaaa', project: 'Unfoolable', kind: 'tool_end', tool: 'Bash', ok: true, code: null, gate: null, ...o});
 const all = (b: ReturnType<typeof boardOf>) => [b.sentence, b.sub, ...b.quietLines, ...[b.needs, b.working, b.checking, b.done].flat().flatMap((c) => [c.project, c.label, c.verb, c.time])];
 
-test('lanes: Working = news under 60 s only; quiet helpers collapse into one line; a failed check is in Done today, not Needs you; done only from a PASS', () => {
+test('lanes: Working = news under 60 s only; quiet helpers collapse into one line; a failed check is in its own Didn\'t pass lane, never in Needs you or Done; done only from a PASS', () => {
   const E = [
     ev({sid: 'h:000000000001', kind: 'needs_you', code: 'permission', ts: '2026-11-05T10:00:50'}),
     ev({sid: 'h:000000000002', ts: '2026-11-05T10:00:55'}),
@@ -28,11 +29,12 @@ test('lanes: Working = news under 60 s only; quiet helpers collapse into one lin
   const b = boardOf(reduce(E, '2026-11-05T10:01:00'));
   assert.deepEqual(b.needs.map((c) => [c.tone, c.button]), [['amber', 'open']]);
   assert.deepEqual([b.working.length, b.working[0]!.tone, b.checking.length], [1, 'blue', 1]);
-  assert.deepEqual(b.done.map((c) => [c.tone, c.verb, c.button]).sort(), [['green', 'Saved. 9 of 12 passed.', null], ['red', "Didn't pass: 3 of 12", 'see']]);
+  assert.deepEqual(b.done.map((c) => [c.tone, c.verb, c.button]), [['green', 'Saved. 9 of 12 passed.', null]]);
+  assert.deepEqual(b.failed.map((c) => [c.tone, c.verb, c.button]), [['red', "Didn't pass: 3 of 12 passed", 'see']]);
   assert.deepEqual(b.quietLines, ['2 quiet helpers on Unfoolable, no news for a while']);
   assert.equal(b.quiet, 2); assert.equal(b.light, 'amber');
   assert.equal(b.sentence, 'Helper 1 on Unfoolable needs you'); // same project, several helpers: distinct labels
-  assert.equal(new Set([b.needs, b.working, b.checking, b.done].flat().map((c) => c.label)).size, 5);
+  assert.equal(new Set([b.needs, b.working, b.checking, b.done, b.failed].flat().map((c) => c.label)).size, 5);
   assert.equal(boardOf(reduce([ev({ts: '2026-11-05T10:00:30'})], '2026-11-05T10:01:00')).sentence, 'All good. 1 helper working.');
   assert.equal(boardOf(reduce([ev({ts: '2026-11-05T09:00:00'}), ev({sid: 'h:000000000002', ts: '2026-11-05T09:10:00'})], '2026-11-05T10:01:00')).sentence, 'All good. Nothing is running.'); // the top line never claims more than Working shows
   assert.equal(boardOf(reduce([ev({ts: '2026-11-05T10:00:30'})], '2026-11-05T10:01:00')).working[0]!.label, 'Unfoolable'); // a lone helper keeps the project name
@@ -78,4 +80,28 @@ test('board at 390 and 1280 px: no text is cut off', async (t) => {
       await page.close();
     }
   } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
+});
+
+test("a failed check: top line says it didn't pass (light red), zero tests is \"No tests ran\", and a later PASS clears it", () => {
+  const fail = (sid: string, passed: number, total: number, ts: string) => ev({sid, kind: 'gate_result', ts, gate: {task: 'T', verdict: 'FAIL', passed, total}});
+  const one = boardOf(reduce([ev({sid: 'h:000000000001', ts: '2026-11-05T09:30:00'}), fail('h:000000000002', 0, 1, '2026-11-05T09:31:00')], '2026-11-05T10:01:00'));
+  assert.equal(one.sentence, "1 thing didn't pass"); assert.equal(one.light, 'red');
+  assert.equal(one.failed[0]!.verb, "Didn't pass: 0 of 1 passed"); assert.ok(!/1 of 1/.test(one.failed[0]!.verb));
+  assert.equal(boardOf(reduce([ev({sid: 'h:000000000001', ts: '2026-11-05T09:30:00'}), fail('h:000000000002', 0, 0, '2026-11-05T09:31:00')], '2026-11-05T10:01:00')).failed[0]!.verb, 'No tests ran. Check the setup.');
+  const fixed = boardOf(reduce([ev({ts: '2026-11-05T09:30:00'}), ev({sid: 'h:000000000002', kind: 'gate_result', ts: '2026-11-05T09:31:00', gate: {task: 'T', verdict: 'FAIL', passed: 0, total: 1}}), ev({sid: 'h:000000000002', kind: 'gate_result', ts: '2026-11-05T09:40:00', gate: {task: 'T', verdict: 'PASS', passed: 1, total: 1}})], '2026-11-05T10:01:00'));
+  assert.equal(fixed.failed.length, 0); assert.ok(fixed.sentence.startsWith('All good'));
+});
+
+test('property: nothing whose latest check did not PASS is ever in Done today (any event order)', () => {
+  const row = fc.record({k: fc.constantFrom('tool_end', 'turn_end', 'needs_you', 'gate_result', 'gate_result', 'session_end'), s: fc.constantFrom('h:aaaaaaaaaaaa', 'h:bbbbbbbbbbbb', 'h:gate00000001', 'h:gate00000002'), p: fc.constantFrom('Unfoolable', 'AgentRunLab'), v: fc.constantFrom('PASS', 'FAIL', 'PARTIAL'), pass: fc.integer({min: 0, max: 5}), tot: fc.integer({min: 0, max: 5})});
+  fc.assert(fc.property(fc.array(row, {minLength: 1, maxLength: 40}), (rows) => {
+    const E: OfficeEvent[] = rows.map((r, i) => ({v: 1, seq: i + 1, ts: '2026-11-05T10:00:00', sid: r.s, project: r.p, kind: r.k as OfficeEvent['kind'], tool: null, ok: null, code: r.k === 'needs_you' ? 'permission' : null,
+      gate: r.k === 'gate_result' ? {task: 'T', verdict: r.v as 'PASS', passed: Math.min(r.pass, r.tot), total: r.tot} : null}));
+    const b = boardOf(reduce(E, '2026-11-05T10:05:00'));
+    const last = new Map<string, string>(); // helper id -> verdict of its latest gate result (gate-only ids are handed to their project's single helper first)
+    for (const e of attachGates(E)) if (e.kind === 'gate_result') last.set(e.sid, e.gate!.verdict);
+    for (const c of b.done) assert.equal(last.get(c.key), 'PASS', `${c.label} is in Done without a PASS`);
+    for (const c of b.failed) assert.equal(last.get(c.key), 'FAIL');
+    assert.ok(b.done.every((c) => c.tone === 'green') && b.failed.every((c) => c.tone === 'red'));
+  }), {numRuns: 400, seed: 21});
 });
