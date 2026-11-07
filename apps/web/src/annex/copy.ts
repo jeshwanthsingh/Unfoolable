@@ -70,3 +70,5 @@ export function screenStrings(): string[] {
   walk(FUN);
   return out;
 }
+
+export const FEED = {off: (n: number) => `Not live: can't reach the feed, trying again (${n})`};

@@ -1,3 +1,4 @@
+import {useFeed} from './feed.ts';
 import {useEffect, useRef, useState} from 'react';
 import {LayoutGroup, motion, useReducedMotion} from 'motion/react';
 import {Character} from './Character.tsx';
@@ -6,7 +7,7 @@ import type {OfficeState} from '../../../observatory/office-reducer.ts';
 import type {Away, Practice} from '../../../observatory/office-away.ts';
 import {AWAY_LINES, practiceLine} from '../../../observatory/office-away.ts';
 import {boardOf, freshness, type Card} from '../../../observatory/office-board.ts';
-import {BOARD} from './copy.ts';
+import {BOARD, FEED} from './copy.ts';
 
 // The live board: reads the SSE stream. Words come from codes (office-board.ts); no raw text from any log is shown here.
 const token = () => new URLSearchParams(location.hash.slice(1)).get('t') ?? '';
@@ -29,27 +30,11 @@ function chime(): void {
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
 export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: string}) {
-  const [state, setState] = useState<(OfficeState & {away?: Away; practice?: Practice | null}) | null>(null);
-  const [lastMsg, setLastMsg] = useState(0);
-  const [tick, setTick] = useState(Date.now());
-  const [connected, setConnected] = useState(false);
+  const {state, connected, lastMsg, tick, attempt, snapshot} = useFeed<OfficeState & {away?: Away; practice?: Practice | null}>();
   const [openErr, setOpenErr] = useState(false);
   const [sound, setSound] = useState(false); // off by default
   const reduce = useReducedMotion() ?? false;
   const prevNeeds = useRef<Set<string> | null>(null);
-  useEffect(() => {
-    const t = token();
-    let es: EventSource | null = null, live = true;
-    // The key becomes a same-site cookie first, because EventSource cannot send headers.
-    fetch(`/k/${t}`, {credentials: 'same-origin'}).then(() => {
-      if (!live) return;
-      es = new EventSource('/events');
-      es.addEventListener('state', (e) => { setState(JSON.parse((e as MessageEvent).data) as OfficeState); setLastMsg(Date.now()); setConnected(true); });
-      es.onerror = () => setConnected(false);
-    }).catch(() => setConnected(false));
-    const id = setInterval(() => setTick(Date.now()), 1000);
-    return () => { live = false; es?.close(); clearInterval(id); };
-  }, []);
   useEffect(() => {
     if (!state) return;
     const now = boardOf(state).needs.map((c) => c.key);
@@ -71,6 +56,7 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
           <span className={`ob-light ${b?.light ?? 'grey'}`} aria-hidden="true" />
           <div>
             <p className={`ob-fresh${fresh.startsWith('LIVE') ? '' : ' off'}`} role="status">{fresh}</p>
+            {!b && attempt ? <><p className="ob-feedoff" role="status">{FEED.off(attempt)}</p>{snapshot ? <h1 className="ob-h1">{snapshot}</h1> : null}</> : null}
             {b ? <><h1 className="ob-h1">{b.sentence}</h1>{b.sub ? <p className="ob-sub">{b.sub}</p> : null}</> : null}
           </div>
         </div>

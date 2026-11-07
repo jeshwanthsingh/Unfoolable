@@ -1,7 +1,8 @@
+import {useFeed} from './feed.ts';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {figure} from './Character.tsx';
 import {DIVIDERS, GUARD_AT, HARD_HAT, HATS, PLACE, ROOM, RUGS, SLOTS, SPRITE, WALLS, WINDOW, ZONES} from './room-map.ts';
-import {BOARD, FUN} from './copy.ts';
+import {FEED, BOARD, FUN} from './copy.ts';
 import {boardOf, freshness, type Card} from '../../../observatory/office-board.ts';
 import {shouldAnimate} from '../../../observatory/office-motion.ts';
 import {sceneOf, type Figure, type Scene, type SeatMap} from '../../../observatory/office-scene.ts';
@@ -23,21 +24,9 @@ async function openHelper(id: string): Promise<boolean> {
 }
 
 export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
-  const [state, setState] = useState<Live | null>(null);
-  const [lastMsg, setLastMsg] = useState(0), [tick, setTick] = useState(Date.now()), [connected, setConnected] = useState(false);
+  const {state, connected, lastMsg, tick, attempt, snapshot} = useFeed<Live>();
   const [picked, setPicked] = useState<string | null>(null), [openErr, setOpenErr] = useState(false);
   const host = useRef<HTMLDivElement>(null), draw = useRef<((s: Scene, animate: boolean) => void) | null>(null);
-  useEffect(() => {
-    const t = token(); let es: EventSource | null = null, live = true;
-    fetch(`/k/${t}`, {credentials: 'same-origin'}).then(() => { // the key becomes a same-site cookie first (EventSource cannot send headers)
-      if (!live) return;
-      es = new EventSource('/events');
-      es.addEventListener('state', (e) => { setState(JSON.parse((e as MessageEvent).data) as Live); setLastMsg(Date.now()); setConnected(true); });
-      es.onerror = () => setConnected(false);
-    }).catch(() => setConnected(false));
-    const id = setInterval(() => setTick(Date.now()), 1000);
-    return () => { live = false; es?.close(); clearInterval(id); };
-  }, []);
   const scene = useMemo(() => (state ? sceneOf(state) : null), [state]);
   const board = useMemo(() => (state ? boardOf(state) : null), [state]);
   const animate = shouldAnimate(state?.freshness.ageSeconds ?? null, matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -115,6 +104,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
   return (
     <section className="fv" aria-label={FUN.office}>
       <div className="fv-head"><p className={`ob-fresh${fresh.startsWith('LIVE') ? '' : ' off'}`} role="status">{fresh}</p>{toolbar}</div>
+      {!state && attempt ? <><p className="ob-feedoff" role="status">{FEED.off(attempt)}</p>{snapshot ? <h1 className="ob-h1">{snapshot}</h1> : null}</> : null}
       {board ? <><h1 className="ob-h1">{board.sentence}</h1>{board.sub ? <p className="ob-sub">{board.sub}</p> : null}</> : null}
       <div className="fv-row">
         <div className="fv-room" role="group" aria-label={FUN.alt}>
