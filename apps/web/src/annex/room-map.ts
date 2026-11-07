@@ -24,15 +24,15 @@ export const PLACE: [SpriteName, number, number][] = [
 ];
 // Where a helper stands, by spot and slot (room pixels, feet position). Extra helpers beyond the slots are listed on the side only.
 export const SLOTS = {
-  desk: [[96, 214], [256, 214], [416, 214], [96, 414], [256, 414], [416, 414]],
-  checker: [[448, 668], [512, 668], [384, 668]],
-  lounge: [[72, 660], [144, 660], [216, 668], [288, 668]],
-  library: [[150, 106], [118, 106], [186, 106]], terminal: [[560, 452], [596, 452], [524, 452]], window: [[478, 106], [512, 106]], meeting: [[572, 284], [540, 284]]
+  desk: [[96, 208], [256, 208], [416, 208], [96, 416], [256, 416], [416, 416]],
+  checker: [[448, 672], [512, 672], [384, 672]],
+  lounge: [[64, 656], [144, 656], [224, 672], [288, 672]],
+  library: [[144, 112], [112, 112], [192, 112]], terminal: [[560, 448], [592, 448], [528, 448]], window: [[480, 112], [512, 112]], meeting: [[576, 288], [544, 288]]
 } as const;
 // Walls: [x, y, w, h, fill]. Doorways are gaps. Zone labels: [text, x, y] (room pixels, top-left of the label).
 export const WALLS: [number, number, number, number][] = [[0, 0, 640, 8], [0, 696, 640, 8], [0, 0, 8, 704], [632, 0, 8, 704], [0, 466, 300, 8], [340, 466, 300, 8], [330, 474, 8, 230], [500, 92, 8, 130], [500, 280, 8, 14]];
 export const ZONES: [string, number, number][] = [['Desks', 14, 100], ["Checker's office", 346, 480], ['Lounge', 14, 480], ['Meeting corner', 516, 98]];
-export const GUARD_AT: [number, number] = [28, 456];
+export const GUARD_AT: [number, number] = [32, 448]; // every standing place is on the 16 px tile grid (half a floor tile)
 export const LABELS = {desk: 'Desks', checker: "Checker's office", lounge: 'Lounge'} as const;
 
 // Cubicle dividers and rugs are drawn shapes (x, y, w, h), not sprites.

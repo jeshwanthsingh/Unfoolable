@@ -72,7 +72,7 @@ body{margin:0}
 .ob-bar{justify-content:flex-end}
 
 .fv-row{display:flex;gap:22px;align-items:flex-start;margin-top:16px}
-.fv-room{position:relative;width:min(666px,100%);flex:none;border:3px solid #1F2A44;box-shadow:6px 6px 0 #1F2A44;background:#d9d5e6;aspect-ratio:640/704}
+.fv-room{position:relative;flex:none;border:3px solid #1F2A44;box-shadow:6px 6px 0 #1F2A44;background:#d9d5e6}
 .fv-canvas canvas{width:100%;height:auto;display:block;image-rendering:pixelated}
 .fv-spot{position:absolute;transform:translate(-50%,-100%);z-index:2}
 .fv-who{display:block;max-width:190px;background:#fff;color:#1F2A44;border:2px solid #1F2A44;padding:3px 8px;font:inherit;font-size:13px;line-height:1.25;text-align:left;cursor:pointer;box-shadow:2px 2px 0 #1F2A44}
@@ -101,7 +101,7 @@ body{margin:0}
 .ob-all{grid-column:1/-1;font-size:15px}.ob-all summary{cursor:pointer;color:#1F2A44;padding:4px 0}.ob-all ul{margin:6px 0 0;padding-left:20px}.unfoolable.oa .ob-all{color:#1F2A44}
 
 .fv-row{position:relative}.fv-panel{position:absolute;right:0;top:0;z-index:5}
-.fv-face{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:62px;height:66px;cursor:pointer}
+.fv-face{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:40px;height:66px;cursor:pointer}
 .fv-li{flex-wrap:wrap}.fv-li time{flex:none}
 
 .fv-detail{margin:8px 0 0;font-size:15px}.fv-detail code{background:#EEF2F8;padding:1px 5px}
