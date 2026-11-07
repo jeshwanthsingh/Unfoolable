@@ -99,3 +99,63 @@ test('the cookie the link was swapped for opens /api/office and /open (with a ma
     assert.equal(calls.length, 2);
   } finally { r.server.closeAllConnections(); r.server.close(); }
 });
+
+// A failed open says WHY (a class only: timeout, denied, or an exit number), in the log and in the 502 body; never folders, text or session ids.
+test('failed open: the class is logged and returned (timeout / denied / exit number), with nothing private', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'why-')), mapPath = join(dir, 'm.json'), logPath = join(dir, 'l.log');
+  writeFileSync(mapPath, JSON.stringify({[H2]: {session: SESSION, cwd: '/Users/x/Projects/my app', tmux: null}}));
+  let t = 1000; let failure: unknown = null;
+  const opener = createOpener({mapPath, logPath, windowsPath: join(dir, 'w.json'), exec: async () => { throw failure; }, now: () => (t += 1500)});
+  for (const [err, why] of [[Object.assign(new Error('Command failed'), {killed: true, signal: 'SIGTERM'}), 'timeout'], [Object.assign(new Error('Command failed'), {code: 1, stderr: 'execution error: Not authorized to send Apple events to Terminal. (-1743)'}), 'denied'], [Object.assign(new Error('Command failed'), {code: 7}), 'exit 7'], [new Error('boom'), 'error']] as const) {
+    failure = err;
+    const r = await opener(H2, true);
+    assert.equal(r.code, 502); assert.equal(r.body.why, why);
+  }
+  const log = readFileSync(logPath, 'utf8');
+  assert.match(log, /failed: timeout/); assert.match(log, /failed: denied/); assert.match(log, /failed: exit 7/);
+  assert.ok(!log.includes(SESSION) && !log.includes('/Users/x') && !log.includes('Apple events'));
+});
+
+// One window per hand-started helper: the first confirmed Open makes ONE window and remembers its id; later Opens only bring it forward.
+test('one window: two Opens give one "do script" and one focus call; a closed window asks for the confirm again', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'win-')), mapPath = join(dir, 'm.json'), logPath = join(dir, 'l.log'), windowsPath = join(dir, 'w.json');
+  writeFileSync(mapPath, JSON.stringify({[H2]: {session: SESSION, cwd: '/Users/x/Projects/my app', tmux: null}}));
+  const calls: string[][] = []; let nextId = 41, closed = false;
+  const exec = async (_f: string, a: string[]) => {
+    calls.push(a);
+    if (a.some((x) => x.includes('do script'))) return `${++nextId}\n`;
+    if (a.some((x) => x.includes('set index of window id')) && closed) throw Object.assign(new Error('gone'), {code: 1});
+    return '';
+  };
+  let t = 1000; const opener = createOpener({mapPath, logPath, windowsPath, exec, now: () => (t += 1500)});
+  const doScripts = () => calls.filter((a) => a.some((x) => x.includes('do script'))).length, focuses = () => calls.filter((a) => a.some((x) => x.includes('set index of window id'))).length;
+  assert.equal((await opener(H2, false)).code, 409); // first time: the confirm
+  assert.equal((await opener(H2, true)).body.how, 'resume');
+  assert.equal(doScripts(), 1); assert.deepEqual(JSON.parse(readFileSync(windowsPath, 'utf8')), {[H2]: 42});
+  const again = await opener(H2, false); // later: no confirm, no new window
+  assert.deepEqual(again, {code: 200, body: {ok: true, how: 'focus'}});
+  assert.equal(doScripts(), 1); assert.equal(focuses(), 1);
+  assert.ok(calls.some((a) => a.includes('tell application "Terminal" to set index of window id 42 to 1')));
+  closed = true; // the window was closed: ask again, then open ONE new one
+  assert.equal((await opener(H2, false)).code, 409);
+  assert.equal((await opener(H2, true)).body.how, 'resume');
+  assert.equal(doScripts(), 2); assert.deepEqual(JSON.parse(readFileSync(windowsPath, 'utf8')), {[H2]: 43});
+});
+
+test('window file: a null or odd file is treated as empty; a focus that times out or is denied keeps the record (no second window)', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'win2-')), mapPath = join(dir, 'm.json'), logPath = join(dir, 'l.log'), windowsPath = join(dir, 'w.json');
+  writeFileSync(mapPath, JSON.stringify({[H2]: {session: SESSION, cwd: '/Users/x/Projects/my app', tmux: null}}));
+  let t = 1000, focusErr: unknown = null; const calls: string[][] = [];
+  const exec = async (_f: string, a: string[]) => { calls.push(a); if (a.some((x) => x.includes('set index of window id')) && focusErr) throw focusErr; return a.some((x) => x.includes('do script')) ? '7\n' : ''; };
+  const opener = createOpener({mapPath, logPath, windowsPath, exec, now: () => (t += 1500)});
+  for (const odd of ['null', '[1]', '"x"', '{not json']) { writeFileSync(windowsPath, odd); assert.equal((await opener(H2, false)).code, 409, odd); } // no crash, just the confirm
+  assert.equal((await opener(H2, true)).body.how, 'resume'); // window 7 recorded
+  for (const [err, why] of [[Object.assign(new Error('x'), {killed: true}), 'timeout'], [Object.assign(new Error('x'), {stderr: '(-1743)'}), 'denied']] as const) {
+    focusErr = err; const r = await opener(H2, false);
+    assert.equal(r.code, 502); assert.equal(r.body.why, why);
+    assert.deepEqual(JSON.parse(readFileSync(windowsPath, 'utf8')), {[H2]: 7}, 'the window is probably still there: keep the record');
+  }
+  focusErr = Object.assign(new Error('gone'), {code: 1}); // a real "no such window"
+  assert.equal((await opener(H2, false)).code, 409);
+  assert.deepEqual(JSON.parse(readFileSync(windowsPath, 'utf8')), {});
+});

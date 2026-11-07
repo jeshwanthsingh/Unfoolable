@@ -19,7 +19,7 @@ const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
 export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
   const {state, connected, lastMsg, tick, attempt, snapshot, expired} = useFeed<Live>();
-  const [picked, setPicked] = useState<string | null>(null), [openErr, setOpenErr] = useState(false);
+  const [picked, setPicked] = useState<string | null>(null), [openErr, setOpenErr] = useState('');
   const host = useRef<HTMLDivElement>(null), draw = useRef<((s: Scene, animate: boolean) => void) | null>(null);
   const scene = useMemo(() => (state ? sceneOf(state) : null), [state]);
   const board = useMemo(() => (state ? boardOf(state) : null), [state]);
@@ -112,9 +112,10 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
           {scene?.guard ? <div className="fv-spot" style={{left: pct(GUARD_AT[0] + 40, ROOM.w), top: pct(GUARD_AT[1] - 64, ROOM.h)}}><span className="fv-who"><b>Guard</b>{FUN.guardSays} {scene.guard.count}</span></div> : null}
         </div>
         <div className="fv-side">
+          {openErr && !sel ? <p role="alert" className="oa-error">{openErr}</p> : null}
           {cards.map(([name, list]) => (
             <section key={name} className={`fv-box${name === BOARD.cols.needs && list.length ? ' amber' : ''}`}><h2>{name} ({list.length})</h2>
-              {list.length ? <ul>{list.map((c) => <li key={c.key}><button type="button" className="fv-li" onClick={() => setPicked(c.key)}><span><i className="fv-dot" style={{background: tintOf(c.key)}} aria-hidden="true" />{c.label}: {c.verb}</span><time>{c.time}</time></button><button type="button" className="ob-btn see fv-open" onClick={() => openHelper(c.key).then((ok) => setOpenErr(!ok)).catch(() => setOpenErr(true))}>{c.button === 'see' ? BOARD.see : BOARD.open}<span className="vh"> {c.label}</span></button></li>)}</ul> : <p className="oa-muted">{BOARD.empty}</p>}
+              {list.length ? <ul>{list.map((c) => <li key={c.key}><button type="button" className="fv-li" onClick={() => setPicked(c.key)}><span><i className="fv-dot" style={{background: tintOf(c.key)}} aria-hidden="true" />{c.label}: {c.verb}</span><time>{c.time}</time></button><button type="button" className="ob-btn see fv-open" onClick={() => openHelper(c.key).then(setOpenErr).catch(() => setOpenErr(BOARD.openFailed))}>{c.button === 'see' ? BOARD.see : BOARD.open}<span className="vh"> {c.label}</span></button></li>)}</ul> : <p className="oa-muted">{BOARD.empty}</p>}
             </section>))}
           {state?.away ? <section className="fv-box"><h2>{BOARD.away}</h2><p>{state.away.sentence}</p>{state.away.lines.slice(0, AWAY_LINES).map((l) => <p key={l.project}>{l.text}</p>)}{state.away.results.length > 0 ? <details className="ob-all"><summary>{BOARD.showAll}</summary><ul>{state.away.results.map((r, i) => <li key={i}>{r.project} {r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text}</li>)}</ul></details> : null}</section> : null}
           {board && board.quietLines.length ? <p className="oa-muted">{board.quietLines.join('. ')}.</p> : null}
@@ -129,8 +130,8 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
             <p className="fv-ask">{sel.word === 'needs you' ? FUN.wantsOk : sel.tone === 'red' && selCard.button === 'open' ? FUN.stuck : selCard.verb}</p>
             {selCard.button === 'see' ? (() => { const g = state?.helpers.find((h) => h.sid === sel.key)?.gate; return <>{g?.command ? <p className="fv-detail">{FUN.failedCommand} <code>{g.command}</code></p> : null}{g?.firstFailed ? <p className="fv-detail">{FUN.failedTest} {g.firstFailed}</p> : null}</>; })() : null}
             <p className="oa-muted">{selCard.time}</p>
-            {selCard.button ? <button type="button" className="ob-btn" onClick={() => openHelper(sel.key).then((ok) => setOpenErr(!ok)).catch(() => setOpenErr(true))}>{selCard.button === 'see' ? BOARD.see : `${BOARD.open} ${sel.label}`}</button> : null}
-            {openErr ? <p role="alert" className="oa-error">{BOARD.openFailed}</p> : null}
+            {selCard.button ? <button type="button" className="ob-btn" onClick={() => openHelper(sel.key).then(setOpenErr).catch(() => setOpenErr(BOARD.openFailed))}>{selCard.button === 'see' ? BOARD.see : `${BOARD.open} ${sel.label}`}</button> : null}
+            {openErr ? <p role="alert" className="oa-error">{openErr}</p> : null}
           </aside>) : null}
       </div>
     </section>

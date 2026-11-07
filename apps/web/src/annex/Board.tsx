@@ -25,7 +25,7 @@ const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one :
 
 export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: string}) {
   const {state, connected, lastMsg, tick, attempt, snapshot, expired} = useFeed<OfficeState & {away?: Away; practice?: Practice | null}>();
-  const [openErr, setOpenErr] = useState(false);
+  const [openErr, setOpenErr] = useState('');
   const [sound, setSound] = useState(false); // off by default
   const reduce = useReducedMotion() ?? false;
   const prevNeeds = useRef<Set<string> | null>(null);
@@ -70,7 +70,7 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
                   <motion.li key={c.key} layout={animate} layoutId={c.key} transition={{duration: animate ? 0.35 : 0}} className={`ob-card ${c.tone}${big ? ' big' : ''}`}>
                     <Character project={c.project} pose={poseOf(c.tone)} animate={animate} big={big} checker={k === 'checking'} />
                     <div><p className="ob-who">{c.label}</p><div className="ob-bubble">{c.verb}</div>
-                      {c.button ? <button type="button" className={`ob-btn${c.button === 'see' ? ' see' : ''}`} onClick={() => openHelper(c.key).then((ok) => setOpenErr(!ok)).catch(() => setOpenErr(true))}>{c.button === 'see' ? BOARD.see : `${BOARD.open} ${c.label}`}</button> : null}
+                      {c.button ? <button type="button" className={`ob-btn${c.button === 'see' ? ' see' : ''}`} onClick={() => openHelper(c.key).then(setOpenErr).catch(() => setOpenErr(BOARD.openFailed))}>{c.button === 'see' ? BOARD.see : `${BOARD.open} ${c.label}`}</button> : null}
                       <p className="ob-when"><time title={c.at}>{c.time}</time></p></div>
                   </motion.li>
                 );
@@ -89,7 +89,7 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
           {state.away.gaps.map((g, i) => <div key={i} className="ob-note"><div>{g}</div></div>)}
         </section>
       ) : null}
-      {openErr ? <p role="alert" className="oa-error">{BOARD.openFailed}</p> : null}
+      {openErr ? <p role="alert" className="oa-error">{openErr}</p> : null}
     </section>
   );
 }

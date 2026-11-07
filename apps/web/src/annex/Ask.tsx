@@ -18,6 +18,7 @@ export function Ask() {
     <form className="oa-ask" onSubmit={(e) => { e.preventDefault(); void send(); }}>
       <textarea aria-label={ASK.placeholder} placeholder={ASK.placeholder} value={text} maxLength={2000} rows={2} onChange={(e) => setText(e.target.value)} />
       <button type="submit" className="ob-btn" disabled={busy || !text.trim()}>{ASK.send}</button>
+      <p className="oa-hint">{ASK.hint}</p>
       {msg ? <p className={msg.ok ? 'oa-sent' : 'oa-sent bad'} role="status"><span aria-hidden="true">{msg.ok ? '✉ ' : ''}</span>{msg.t}</p> : null}
     </form>
   );

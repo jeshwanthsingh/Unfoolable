@@ -142,3 +142,51 @@ test('Office view: every entry in the side list has an Open or See button', {ski
     assert.ok(entries.length >= 3 && entries.every(Boolean), `entries without a button: ${entries.join()}`);
   } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
 });
+
+test('the mailbox keeps its file mode (644 stays 644) even when the office runs under umask 077', async () => {
+  const {r, tok, file, base} = await office(); const {chmodSync, statSync} = await import('node:fs'); const old = process.umask(0o077);
+  try {
+    chmodSync(file, 0o644);
+    const res = await fetch(`${base}/ask`, {method: 'POST', headers: {origin: base, 'x-office-token': tok, 'content-type': 'application/json'}, body: JSON.stringify({text: 'mode check'})});
+    assert.equal(res.status, 200);
+    assert.equal((statSync(file).mode & 0o777).toString(8), '644');
+  } finally { process.umask(old); r.server.closeAllConnections(); r.server.close(); }
+});
+
+for (const [name, art] of [['Simple view', false], ['Office view', true]] as const) {
+  test(`${name}: a real mouse click on the Ask box does not scroll the page and leaves the cursor in the box (1280 and 390 px, live events arriving); the caption is there`, {skip, timeout: 90000}, async () => {
+    const {r, v} = await office(art);
+    const log = join(v, 'logs/office-v1.jsonl'); let seq = 0;
+    const ev = (n: number, kind: string, o: object = {}) => JSON.stringify({v: 1, seq: ++seq, ts: new Date().toISOString().slice(0, 19), sid: `h:${String(n).repeat(12)}`, project: 'proj' + n, kind, tool: null, ok: null, code: null, gate: null, ...o}) + '\n';
+    writeFileSync(log, [1, 2, 3, 4, 5, 6].map((n) => ev(n, n === 1 ? 'needs_you' : 'tool_end', n === 1 ? {code: 'permission'} : {tool: 'Read', ok: true})).join(''));
+    const b = await chromium.launch(), timer = setInterval(() => { try { writeFileSync(log, ev(2, 'tool_end', {tool: 'Bash', ok: true}), {flag: 'a'}); } catch { /* the folder may be gone */ } }, 400);
+    try {
+      for (const [w, h] of [[1280, 800], [390, 844]] as const) {
+        const page = await b.newPage({viewport: {width: w, height: h}});
+        await page.goto(r.url); await page.waitForSelector('.oa-ask textarea', {timeout: 20000}); await page.waitForTimeout(1500);
+        assert.match(await page.innerText('.oa-hint'), /This goes to the mailbox\. Claude Code reads it when you say: see mailbox \(in Claude Code\)\./);
+        const box = (await page.locator('.oa-ask textarea').boundingBox())!;
+        await page.mouse.click(box.x + 20, box.y + 15);
+        for (let i = 0; i < 6; i++) { assert.deepEqual(await page.evaluate(() => [Math.round(scrollY), document.activeElement?.tagName]), [0, 'TEXTAREA'], `${w}px, after ${i * 400} ms`); await page.waitForTimeout(400); }
+        await page.close();
+      }
+    } finally { clearInterval(timer); await b.close(); r.server.closeAllConnections(); r.server.close(); }
+  });
+}
+
+test('Office view: a refused Open shows the plain sentence for its reason (timeout / denied / anything else)', {skip, timeout: 60000}, async () => {
+  const {r, v} = await office(true); needsYou(v);
+  const b = await chromium.launch();
+  try {
+    const page = await b.newPage({viewport: {width: 1440, height: 1000}});
+    let why: string | undefined = 'timeout';
+    await page.route('**/open', (route) => route.fulfill({status: 502, contentType: 'application/json', body: JSON.stringify({ok: false, error: 'could not open', ...(why ? {why} : {})})}));
+    await page.goto(r.url); await page.waitForSelector('.fv-open', {timeout: 20000});
+    for (const [w, re] of [['timeout', /Terminal did not answer in time\. If a permission box is waiting, click Allow, then try again\./], ['denied', /Terminal said no\. Allow it in System Settings, Privacy and Security, Automation\./], [undefined, /^Could not open it\.$/]] as const) {
+      why = w; await page.click('.fv-open >> nth=0');
+      await page.waitForFunction((src) => new RegExp(src).test(document.querySelector('.fv-side .oa-error')?.textContent ?? ''), re.source, {timeout: 5000});
+      assert.match(await page.innerText('.fv-side .oa-error'), re);
+      await page.waitForTimeout(1100); // the open route allows one call per second
+    }
+  } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
+});

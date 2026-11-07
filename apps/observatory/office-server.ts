@@ -1,7 +1,7 @@
 // Office page server: loopback only, GET plus two small POST routes (/open, /ask), per-launch token, Host and Origin checked. Serves the built page and one JSON route.
 import {createServer, type Server} from 'node:http';
 import {randomBytes, timingSafeEqual} from 'node:crypto';
-import {existsSync, readFileSync, renameSync, writeFileSync} from 'node:fs';
+import {chmodSync, existsSync, readFileSync, renameSync, statSync, writeFileSync} from 'node:fs';
 import {join, extname} from 'node:path';
 import {buildSnapshot} from './office-data.ts';
 import {createLive, type Live} from './office-live.ts';
@@ -15,7 +15,7 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
   const okKey = (given: string): boolean => { const got = Buffer.from(given), want = Buffer.from(token); return got.length === want.length && timingSafeEqual(got, want); };
   const cookieKey = (c: string | undefined): string => /(?:^|;\s*)office_key=([0-9a-f]+)/.exec(c ?? '')?.[1] ?? '';
   const opener = opts.open ? createOpener({logPath: join(opts.vault, 'logs/office-open.log'), ...opts.open}) : null;
-  const asker = opts.mailbox ? createAsker({file: opts.mailbox, fs: {read: (p) => readFileSync(p, 'utf8'), write: (p, t) => { writeFileSync(`${p}.tmp`, t); renameSync(`${p}.tmp`, p); }}}) : null; // one atomic rewrite of the one mailbox file
+  const asker = opts.mailbox ? createAsker({file: opts.mailbox, fs: {read: (p) => readFileSync(p, 'utf8'), write: (p, t) => { let mode = 0o644; try { mode = statSync(p).mode & 0o777; } catch { /* a new file */ } writeFileSync(`${p}.tmp`, t, {mode}); chmodSync(`${p}.tmp`, mode); renameSync(`${p}.tmp`, p); /* the file keeps its mode, whatever umask the office was started under */ }}}) : null; // one atomic rewrite of the one mailbox file
   const server = createServer((req, res) => {
     const send = (code: number, body: string | Buffer, type = 'text/plain; charset=utf-8'): void => {
       res.writeHead(code, {'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'content-security-policy': "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'"});

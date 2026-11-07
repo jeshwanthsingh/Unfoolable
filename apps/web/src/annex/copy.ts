@@ -73,4 +73,6 @@ export function screenStrings(): string[] {
 
 export const FEED = {old: 'This office link is old (the office restarted). Open a fresh one: type `office` in Terminal.', off: (n: number) => `Not live: can't reach the feed, trying again (${n})`};
 
-export const ASK = {placeholder: 'What should the builder do?', send: 'Send', sent: 'Sent. In Claude Code say: see mailbox', slow: 'One moment, then send again.', long: 'That is too long (2000 letters at most).', failed: 'Could not send it.'};
+export const ASK = {placeholder: 'What should the builder do?', send: 'Send', sent: 'Sent. In Claude Code say: see mailbox', slow: 'One moment, then send again.', long: 'That is too long (2000 letters at most).', failed: 'Could not send it.', hint: 'This goes to the mailbox. Claude Code reads it when you say: see mailbox (in Claude Code).'};
+
+export const OPEN_WHY = {timeout: 'Could not open: Terminal did not answer in time. If a permission box is waiting, click Allow, then try again.', denied: 'Could not open: Terminal said no. Allow it in System Settings, Privacy and Security, Automation.'};
