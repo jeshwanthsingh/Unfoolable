@@ -116,7 +116,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
               {list.length ? <ul>{list.map((c) => <li key={c.key}><button type="button" className="fv-li" onClick={() => setPicked(c.key)}><span><i className="fv-dot" style={{background: tintOf(c.key)}} aria-hidden="true" />{c.label}: {c.verb}</span><time>{c.time}</time></button><button type="button" className="ob-btn see fv-open" onClick={() => openHelper(c.key).then(setOpenErr).catch(() => setOpenErr(BOARD.openFailed))}>{c.button === 'see' ? BOARD.see : BOARD.open}<span className="vh"> {c.label}</span></button></li>)}</ul> : <p className="oa-muted">{BOARD.empty}</p>}
             </section>))}
           {state?.away ? <section className="fv-box"><h2>{BOARD.away}</h2><p>{state.away.sentence}</p>{state.away.lines.slice(0, AWAY_LINES).map((l) => <p key={l.project}>{l.text}</p>)}{state.away.results.length > 0 ? <details className="ob-all"><summary>{BOARD.showAll}</summary><ul>{state.away.results.map((r, i) => <li key={i}>{r.project} {r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text}</li>)}</ul></details> : null}</section> : null}
-          {board && board.quietLines.length ? <p className="oa-muted">{board.quietLines.join('. ')}.</p> : null}
+          {board && board.quietLines.length ? <p className="oa-muted">{fresh.startsWith('LIVE') ? `${board.quietLines.join('. ')}.` : BOARD.quietUnknown}</p> : null}
           <p className="oa-muted">{FUN.hint}</p>
           <p className="fv-credit">{FUN.credit}</p>
         </div>

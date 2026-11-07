@@ -335,3 +335,75 @@ test('a null, array or odd JSON body never crashes the server (every route answe
     assert.equal((await fetch(`${base}/builders`, {headers: {'x-office-token': r.token}})).status, 200);
   } finally { r.server.closeAllConnections(); r.server.close(); }
 });
+
+// ---- slice 4: the page ----
+import {existsSync} from 'node:fs';
+import {chromium} from 'playwright-core';
+const DIST = new URL('../../.work/office-dist', import.meta.url).pathname, AXE = new URL('../../node_modules/axe-core/axe.min.js', import.meta.url).pathname;
+const skipPage = existsSync(join(DIST, 'index.html')) && existsSync(AXE) ? false : 'page not built or axe-core missing';
+
+test('page: start a builder from the office; an ask is an amber Needs-you item (no tool input shown); Yes/No answer it; a risky Yes asks the Mac; a result sets a mark that opening clears; a stale ask is withdrawn; Stop; axe clean', {skip: skipPage, timeout: 120000}, async () => {
+  const d = mkdtempSync(join(tmpdir(), 'pg-')); mkdirSync(join(d, 'logs')); const f = setup(); const r = await startOffice({vault: d, staticDir: DIST, builders: f.deps});
+  const b = await chromium.launch(); const page = await b.newPage({viewport: {width: 1280, height: 1000}, bypassCSP: true});
+  try {
+    await page.goto(r.url); await page.waitForSelector('.oa-builders', {timeout: 20000});
+    await page.fill('.oa-bstart input[name=repo]', 'r'); await page.fill('.oa-bstart input[name=name]', 'demo'); await page.click('.oa-bstart button');
+    await page.waitForSelector('.oa-b'); assert.match(await page.innerText('.oa-b'), /demo/);
+    const c = f.children[0]!;
+    c.say(ask('q1', 'Write', {file_path: '/w/a.txt', content: 'SECRET-BODY'})); await page.waitForSelector('.oa-askitem', {timeout: 8000});
+    assert.match(await page.innerText('.oa-askitem'), /Write/); assert.ok(!(await page.innerText('body')).includes('SECRET-BODY'));
+    await page.click('.oa-askitem .oa-yes'); await page.waitForSelector('.oa-askitem.done', {timeout: 8000});
+    assert.equal(f.dialogs.length, 1); assert.equal(c.sent().at(-1)!.response.response.behavior, 'allow');
+    c.say(ask('q2', 'Read')); await page.waitForSelector('.oa-askitem:not(.done)', {timeout: 8000}); await page.click('.oa-askitem:not(.done) .oa-no');
+    await page.waitForFunction(() => document.querySelectorAll('.oa-askitem.done').length === 2, null, {timeout: 8000});
+    assert.equal(c.sent().at(-1)!.response.response.behavior, 'deny'); assert.equal(f.dialogs.length, 1, 'a No never opens a box');
+    c.say({type: 'result', subtype: 'success'}); await page.waitForSelector('.oa-new', {timeout: 8000});
+    assert.match(await page.innerText('.oa-b'), /Finished a turn/); assert.doesNotMatch(await page.innerText('.oa-b'), /\bdone\b/i);
+    await page.click('.oa-btitle'); await page.waitForSelector('.oa-new', {state: 'detached', timeout: 8000});
+    c.say(ask('q3', 'Bash')); await page.waitForSelector('.oa-askitem:not(.done)', {timeout: 8000}); f.tick(16 * 60_000);
+    await page.waitForSelector('.oa-askitem.stale', {timeout: 8000}); assert.equal(await page.$('.oa-askitem.stale .oa-yes'), null); assert.match(await page.innerText('.oa-askitem.stale'), /stale/i);
+    for (const scheme of ['light', 'dark'] as const) for (const w of [1280, 390]) {
+      await page.emulateMedia({colorScheme: scheme}); await page.setViewportSize({width: w, height: 900}); await page.waitForTimeout(300);
+      await page.addScriptTag({path: AXE}); const res = await page.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: {target: string[]}[]}[]};
+      assert.deepEqual(res.violations.filter((x) => x.impact === 'serious' || x.impact === 'critical').map((x) => `${x.id} ${x.nodes.map((n) => n.target.join(' ')).join(' | ')}`), [], `axe ${scheme} ${w}`);
+    }
+    await page.click('.oa-bstop'); await wait(() => c.kills.includes('SIGINT')); assert.ok(c.kills.includes('SIGINT'));
+  } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
+});
+
+test('S8: "quiet" is withdrawn when the feed is not live (the page says it cannot tell), and never implies anything else', {skip: skipPage, timeout: 90000}, async () => {
+  const d = mkdtempSync(join(tmpdir(), 'q8-')); mkdirSync(join(d, 'logs')); const p2 = (n: number) => String(n).padStart(2, '0'), t = new Date(Date.now() - 300_000);
+  const ts = `${t.getFullYear()}-${p2(t.getMonth() + 1)}-${p2(t.getDate())}T${p2(t.getHours())}:${p2(t.getMinutes())}:${p2(t.getSeconds())}`;
+  const log = join(d, 'logs/office-v1.jsonl'); writeFileSync(log, JSON.stringify({v: 1, seq: 1, ts, sid: 'h:aaaaaaaaaaaa', project: 'proof-lab', kind: 'tool_end', tool: 'Read', ok: true, code: null, gate: null}) + '\n');
+  const r = await startOffice({vault: d, staticDir: DIST, logPath: log}); const b = await chromium.launch(); const page = await b.newPage({viewport: {width: 1280, height: 900}});
+  try {
+    await page.goto(r.url); await page.waitForFunction(() => /quiet/i.test(document.body.innerText) && /LIVE/.test(document.body.innerText), null, {timeout: 20000});
+    await page.route('**/events', (route) => route.abort()); r.server.closeAllConnections();
+    await page.waitForFunction(() => /Not live/.test(document.body.innerText), null, {timeout: 20000});
+    const text = await page.innerText('body'); assert.doesNotMatch(text, /quiet, no news/i); assert.match(text, /can't tell who is quiet/i);
+  } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
+});
+
+test('page: when /builders answers 404 or 401 the strip disappears AND polling stops (no endless requests or console errors)', {skip: skipPage, timeout: 60000}, async () => {
+  const d = mkdtempSync(join(tmpdir(), 'np-')); mkdirSync(join(d, 'logs')); const r = await startOffice({vault: d, staticDir: DIST}); const b = await chromium.launch();
+  try {
+    for (const url of [r.url, `http://127.0.0.1:${r.port}/`]) { // no builders configured (404), then no key in the link (401, cookie not set yet)
+      const ctx = await b.newContext(), page = await ctx.newPage(); let n = 0; page.on('request', (q) => { if (q.url().endsWith('/builders')) n++; });
+      await page.goto(url); await page.waitForTimeout(4500); assert.ok(n <= 2, `${n} requests to /builders in 4.5 s (${url === r.url ? '404' : '401'})`); assert.equal(await page.$('.oa-builders'), null); await ctx.close();
+    }
+  } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
+});
+
+test('page: if the builders list cannot be reached the strip says it may be old and the Yes/No buttons are off; a failed Yes says why in plain words', {skip: skipPage, timeout: 90000}, async () => {
+  const d = mkdtempSync(join(tmpdir(), 'dn-')); mkdirSync(join(d, 'logs')); const f = setup(); const r = await startOffice({vault: d, staticDir: DIST, builders: f.deps}); const b = await chromium.launch(); const page = await b.newPage({viewport: {width: 1280, height: 900}});
+  try {
+    await page.goto(r.url); await page.waitForSelector('.oa-builders'); await page.fill('.oa-bstart input[name=repo]', 'r'); await page.fill('.oa-bstart input[name=name]', 'demo'); await page.click('.oa-bstart button'); await page.waitForSelector('.oa-b');
+    f.children[0]!.say(ask('q1', 'Read')); await page.waitForSelector('.oa-askitem .oa-yes', {timeout: 8000});
+    assert.match(await page.innerText('.oa-b'), /demo/); await page.route('**/builders', (route) => route.abort());
+    await page.waitForFunction(() => /can't reach the builders/i.test(document.querySelector('.oa-builders')?.textContent ?? ''), null, {timeout: 8000});
+    assert.equal(await page.isDisabled('.oa-askitem .oa-yes'), true); assert.equal(await page.isDisabled('.oa-askitem .oa-no'), true);
+    await page.unroute('**/builders'); await page.waitForFunction(() => !/can't reach the builders/i.test(document.querySelector('.oa-builders')?.textContent ?? ''), null, {timeout: 8000});
+    await page.route('**/answer', (route) => route.fulfill({status: 410, contentType: 'application/json', body: JSON.stringify({ok: false, error: 'that ask is closed'})}));
+    await page.click('.oa-askitem .oa-yes'); await page.waitForSelector('.oa-builders [role=alert]'); assert.match(await page.innerText('.oa-builders [role=alert]'), /that ask is closed/); assert.doesNotMatch(await page.innerText('.oa-builders [role=alert]'), /Could not start/);
+  } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
+});

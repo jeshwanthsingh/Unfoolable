@@ -25,7 +25,7 @@ export const COPY = {
 
 // The board (default view). Card sentences are made in observatory/office-board.ts from codes only.
 export const BOARD = {
-  more: 'More views', back: 'Back to the board', quiet: 'quiet helpers (no news for a while)',
+  more: 'More views', back: 'Back to the board', quiet: 'quiet helpers (no news for a while)', quietUnknown: "Not live: I can't tell who is quiet.",
   cols: {needs: 'Needs you', working: 'Working', checking: 'Checking', done: 'Done today', failed: "Didn't pass"},
   open: 'Open', confirm: 'This helper is not in a window I can find. Open a new window that continues it? It may start a second copy of the helper.', openFailed: 'Could not open it.',
   away: 'While you were away', awayNone: 'Nothing to report.', awayResults: 'Checks', passedWord: 'passed', notPassedWord: 'did not pass', blocked: 'times the guard said no',
@@ -76,3 +76,10 @@ export const FEED = {old: 'This office link is old (the office restarted). Open 
 export const ASK = {placeholder: 'What should the builder do?', send: 'Send', sent: 'Sent. In Claude Code say: see mailbox', slow: 'One moment, then send again.', long: 'That is too long (2000 letters at most).', failed: 'Could not send it.', hint: 'This goes to the mailbox. Claude Code reads it when you say: see mailbox (in Claude Code).'};
 
 export const OPEN_WHY = {timeout: 'Could not open: Terminal did not answer in time. If a permission box is waiting, click Allow, then try again.', denied: 'Could not open: Terminal said no. Allow it in System Settings, Privacy and Security, Automation.'};
+
+export const BUILD = {
+  title: 'Builders', start: 'Start a builder', repo: 'Project folder (for example command-center)', name: 'Task name (for example fix-login)', needs: 'Needs you', yes: 'Yes', no: 'No', stop: 'Stop',
+  yesBox: 'Yes (a box will ask on your Mac)', waitBox: 'Waiting for the box on your Mac...', stale: 'Stale, withdrawn: nothing was allowed', newResult: 'New result since you looked', answered: 'Answered', withdrawn: 'Withdrawn',
+  working: 'Working', turn: 'Finished a turn, waiting for what comes next', stopped: 'Stopped by you', ended: 'Ended without a gate PASS', lost: 'Lost when the office restarted. Resume by hand, from its worktree', human: 'Needs a human: its worktree has unsaved work',
+  failed: 'That did not work.', down: "Not live: I can't reach the builders list, so what is shown may be old.", hint: 'Starts a builder on a card you already approved. A builder asks here before it does anything that is not read-only.'
+};

@@ -76,7 +76,7 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
                 );
               })}</ul>
             )}
-            {k === 'working' && b && b.quietLines.map((q) => <p key={q} className="ob-more">{q}</p>)}
+            {k === 'working' && b && (fresh.startsWith('LIVE') ? b.quietLines.map((q) => <p key={q} className="ob-more">{q}</p>) : b.quietLines.length ? <p className="ob-more">{BOARD.quietUnknown}</p> : null)}
           </div>
         ))}
       </div></LayoutGroup>
