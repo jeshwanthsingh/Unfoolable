@@ -71,4 +71,4 @@ export function screenStrings(): string[] {
   return out;
 }
 
-export const FEED = {off: (n: number) => `Not live: can't reach the feed, trying again (${n})`};
+export const FEED = {old: 'This office link is old (the office restarted). Open a fresh one: type `office` in Terminal.', off: (n: number) => `Not live: can't reach the feed, trying again (${n})`};

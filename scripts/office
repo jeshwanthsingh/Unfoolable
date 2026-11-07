@@ -1,0 +1,25 @@
+#!/bin/bash
+# office: open the Office page in Chrome with a working link. Starts (or restarts) the office server when needed.
+# The link holds this run's key; it goes straight to `open` and is never printed.
+set -u
+SRC="$0"; [ -L "$SRC" ] && SRC=$(readlink "$SRC")
+ROOT=$(cd "$(dirname "$SRC")/.." && pwd)
+PORT=${OFFICE_PORT:-4173}
+WORK=${OFFICE_WORK:-$ROOT/.work}
+mkdir -p "$WORK"
+STAMP=${OFFICE_STAMP:-}
+if [ -z "$STAMP" ]; then STAMP=$(cd "$ROOT" && (git rev-parse HEAD; git status --porcelain apps/web apps/observatory) | shasum | cut -c1-12); fi
+alive() { [ -f "$WORK/office.pid" ] && kill -0 "$(cat "$WORK/office.pid")" 2>/dev/null; }
+link() { grep -o 'http://127[^ ]*' "$WORK/office.log" 2>/dev/null | tail -1; }
+if ! { alive && [ "$(cat "$WORK/office.stamp" 2>/dev/null)" = "$STAMP" ] && [ -n "$(link)" ]; }; then
+  if alive; then kill "$(cat "$WORK/office.pid")" 2>/dev/null; sleep 1; fi   # only the server this script started
+  if lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/null 2>&1; then echo "Port $PORT is used by something else I did not start. Stop it, then type office again."; exit 1; fi
+  [ -f "$HOME/Projects/ai-lab/env.sh" ] && . "$HOME/Projects/ai-lab/env.sh" >/dev/null 2>&1
+  cd "$ROOT" || exit 1
+  if [ -z "${OFFICE_NO_BUILD:-}" ]; then npx vite build --config apps/observatory/vite.config.ts >"$WORK/office-build.log" 2>&1 || { echo "The build failed. See $WORK/office-build.log"; exit 1; }; fi
+  ( umask 077; : >"$WORK/office.log"; OFFICE_PORT=$PORT nohup node apps/observatory/office-server.ts >>"$WORK/office.log" 2>&1 & echo $! >"$WORK/office.pid" )
+  for _ in $(seq 1 50); do [ -n "$(link)" ] && break; sleep 0.3; done
+  [ -n "$(link)" ] || { echo "The office did not start. See $WORK/office.log"; exit 1; }
+  echo "$STAMP" >"$WORK/office.stamp"
+fi
+open -a "Google Chrome" "$(link)" && echo "Opened the office in Chrome."

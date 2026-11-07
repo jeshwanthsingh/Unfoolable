@@ -30,7 +30,7 @@ function chime(): void {
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
 export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: string}) {
-  const {state, connected, lastMsg, tick, attempt, snapshot} = useFeed<OfficeState & {away?: Away; practice?: Practice | null}>();
+  const {state, connected, lastMsg, tick, attempt, snapshot, expired} = useFeed<OfficeState & {away?: Away; practice?: Practice | null}>();
   const [openErr, setOpenErr] = useState(false);
   const [sound, setSound] = useState(false); // off by default
   const reduce = useReducedMotion() ?? false;
@@ -56,7 +56,7 @@ export function Board({onMore, moreLabel}: {onMore: () => void; moreLabel: strin
           <span className={`ob-light ${b?.light ?? 'grey'}`} aria-hidden="true" />
           <div>
             <p className={`ob-fresh${fresh.startsWith('LIVE') ? '' : ' off'}`} role="status">{fresh}</p>
-            {!b && attempt ? <><p className="ob-feedoff" role="status">{FEED.off(attempt)}</p>{snapshot ? <h1 className="ob-h1">{snapshot}</h1> : null}</> : null}
+            {!b && attempt ? <><p className={expired ? 'ob-feedold' : 'ob-feedoff'} role="status">{expired ? FEED.old : FEED.off(attempt)}</p>{snapshot ? <h1 className="ob-h1">{snapshot}</h1> : null}</> : null}
             {b ? <><h1 className="ob-h1">{b.sentence}</h1>{b.sub ? <p className="ob-sub">{b.sub}</p> : null}</> : null}
           </div>
         </div>

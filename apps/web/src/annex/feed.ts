@@ -5,12 +5,16 @@ export const backoffMs = (n: number) => Math.min(30000, 1000 * 2 ** Math.max(0, 
 
 // The live feed (/events) with retry. EventSource gives up for good after a 503, so a failed stream is closed and reopened here.
 // While nothing live has arrived, `snapshot` holds the one-sentence answer from /api/office, so the page is never blank.
-export function useFeed<T>(): {state: T | null; connected: boolean; lastMsg: number; tick: number; attempt: number; snapshot: string} {
+export function useFeed<T>(): {state: T | null; connected: boolean; lastMsg: number; tick: number; attempt: number; snapshot: string; expired: boolean} {
   const [state, setState] = useState<T | null>(null), [connected, setConnected] = useState(false);
-  const [lastMsg, setLastMsg] = useState(0), [tick, setTick] = useState(Date.now()), [attempt, setAttempt] = useState(0), [snapshot, setSnapshot] = useState('');
+  const [lastMsg, setLastMsg] = useState(0), [tick, setTick] = useState(Date.now()), [attempt, setAttempt] = useState(0), [snapshot, setSnapshot] = useState(''), [expired, setExpired] = useState(false);
   useEffect(() => {
     let es: EventSource | null = null, live = true, timer: ReturnType<typeof setTimeout> | undefined, fails = 0;
-    const retry = () => { es?.close(); es = null; setConnected(false); if (!live) return; setAttempt(++fails); timer = setTimeout(open, backoffMs(fails)); };
+    const retry = () => {
+      es?.close(); es = null; setConnected(false); if (!live) return; setAttempt(++fails);
+      // A 401 means this page's key is from an older office run: retrying can never fix that, so stop and say so.
+      fetch('/api/office', {headers: {'x-office-token': token()}}).then((r) => r.status).catch(() => 0).then((code) => { if (!live) return; if (code === 401) setExpired(true); else timer = setTimeout(open, backoffMs(fails)); });
+    };
     const open = () => {
       // The key becomes a same-site cookie first, because EventSource cannot send headers.
       fetch(`/k/${token()}`, {credentials: 'same-origin'}).then(() => {
@@ -28,5 +32,5 @@ export function useFeed<T>(): {state: T | null; connected: boolean; lastMsg: num
     if (state || !attempt) return;
     fetch('/api/office', {headers: {'x-office-token': token()}}).then((r) => (r.ok ? r.json() : null)).then((s: {sentence?: string} | null) => { if (s?.sentence) setSnapshot(s.sentence); }).catch(() => {});
   }, [state, attempt]);
-  return {state, connected, lastMsg, tick, attempt, snapshot};
+  return {state, connected, lastMsg, tick, attempt, snapshot, expired};
 }

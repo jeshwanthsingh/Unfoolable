@@ -49,3 +49,21 @@ test('a second and third viewer also get the stream (no viewer cap)', async () =
     for (const c of cs) await c.body?.cancel();
   } finally { r.server.closeAllConnections(); r.server.close(); }
 });
+
+// An old cookie (the office restarted): /api/office answers 401, so retrying can never help. The page says so and stops asking.
+test('old link: 401 shows "type office" and does not loop', {skip, timeout: 60000}, async () => {
+  const r = await setup(false), b = await chromium.launch();
+  try {
+    const page = await b.newPage({viewport: {width: 1440, height: 1000}});
+    let events = 0;
+    await page.route('**/events', (route) => { events++; return route.fulfill({status: 503, body: 'down'}); });
+    await page.route('**/api/office', (route) => route.fulfill({status: 401, body: 'Needs the launch token.'}));
+    await page.goto(r.url);
+    await page.waitForSelector('.ob-feedold', {timeout: 10000});
+    assert.match(await page.innerText('.ob-feedold'), /This office link is old \(the office restarted\)\. Open a fresh one: type `office` in Terminal\./);
+    assert.equal(await page.$('.ob-feedoff'), null, 'no "trying again" banner');
+    const before = events; await page.waitForTimeout(5000);
+    assert.equal(events, before, 'no more /events requests once the link is known to be old');
+    assert.ok(events <= 1, `only the first try (${events})`);
+  } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
+});

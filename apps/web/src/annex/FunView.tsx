@@ -24,7 +24,7 @@ async function openHelper(id: string): Promise<boolean> {
 }
 
 export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
-  const {state, connected, lastMsg, tick, attempt, snapshot} = useFeed<Live>();
+  const {state, connected, lastMsg, tick, attempt, snapshot, expired} = useFeed<Live>();
   const [picked, setPicked] = useState<string | null>(null), [openErr, setOpenErr] = useState(false);
   const host = useRef<HTMLDivElement>(null), draw = useRef<((s: Scene, animate: boolean) => void) | null>(null);
   const scene = useMemo(() => (state ? sceneOf(state) : null), [state]);
@@ -104,7 +104,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
   return (
     <section className="fv" aria-label={FUN.office}>
       <div className="fv-head"><p className={`ob-fresh${fresh.startsWith('LIVE') ? '' : ' off'}`} role="status">{fresh}</p>{toolbar}</div>
-      {!state && attempt ? <><p className="ob-feedoff" role="status">{FEED.off(attempt)}</p>{snapshot ? <h1 className="ob-h1">{snapshot}</h1> : null}</> : null}
+      {!state && attempt ? <><p className={expired ? 'ob-feedold' : 'ob-feedoff'} role="status">{expired ? FEED.old : FEED.off(attempt)}</p>{snapshot ? <h1 className="ob-h1">{snapshot}</h1> : null}</> : null}
       {board ? <><h1 className="ob-h1">{board.sentence}</h1>{board.sub ? <p className="ob-sub">{board.sub}</p> : null}</> : null}
       <div className="fv-row">
         <div className="fv-room" role="group" aria-label={FUN.alt}>
