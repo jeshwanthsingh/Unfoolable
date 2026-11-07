@@ -19,7 +19,9 @@ const READ_ONLY = new Set(['Read', 'Grep', 'Glob', 'LS']); // these may be answe
 const REPO = /^[A-Za-z0-9][\w.-]{0,59}$/, NAME = /^[a-z0-9][a-z0-9-]{0,39}$/;
 const clean = (s: unknown, n = 120): string => String(s ?? '').replace(/[\u0000-\u001f\u007f"\\\p{Cf}]/gu, ' ').replace(/\s+/g, ' ').trim().slice(0, n); // also hidden formatting characters (bidi, zero-width)
 const MAX_OPEN = 20, MAX_KEPT = 50, STATUSES = ['running', 'stopped', 'ended', 'lost', 'needs-human'];
-const realInput = (i: unknown): string => { const o = (i && typeof i === 'object' ? i : {}) as Record<string, unknown>; const k = ['command', 'file_path', 'path', 'url', 'pattern'].find((x) => typeof o[x] === 'string'); return k ? clean(o[k], 200) : ''; };
+// What the dialog shows: the real command, path or url; for any other tool the input itself as JSON. If it does not fit, the answer is no (never shown cut off and then allowed in full).
+const SHOWN = 200;
+const realInput = (i: unknown): string => { const o = (i && typeof i === 'object' ? i : {}) as Record<string, unknown>; const k = ['command', 'file_path', 'path', 'url', 'pattern'].find((x) => typeof o[x] === 'string'); try { return k ? String(o[k]) : JSON.stringify(i ?? {}); } catch { return ''; } };
 // A saved record is trusted only as far as it parses: odd ones are dropped, an unknown status can never read as done.
 const coerce = (r: unknown): Rec | null => {
   const x = r as Partial<Rec> | null; if (!x || typeof x !== 'object' || [x.id, x.repo, x.name, x.worktree].some((v) => typeof v !== 'string')) return null;
@@ -27,14 +29,15 @@ const coerce = (r: unknown): Rec | null => {
   return {id: x.id!, repo: x.repo!, name: x.name!, worktree: x.worktree!, sessionId: typeof x.sessionId === 'string' ? clean(x.sessionId, 64) : '', version: typeof x.version === 'string' ? clean(x.version, 20) : '', status: x.status === 'running' || !STATUSES.includes(String(x.status)) ? 'lost' : x.status!, turnDone: x.turnDone === true, unread: x.unread === true, asks};
 };
 
-export function createBuilders(deps: Deps, o: {maxRunning?: number; expiryMs?: number; stopGraceMs?: number} = {}) {
+export function createBuilders(deps: Deps, o: {maxRunning?: number; expiryMs?: number; stopGraceMs?: number; dialogMs?: number} = {}) {
+  const dialogMs = o.dialogMs ?? 130_000; // the Mac box gives up at 120 s by itself
   const maxRunning = o.maxRunning ?? 3, expiryMs = o.expiryMs ?? 15 * 60_000, grace = o.stopGraceMs ?? 5000;
   type Live = {rec: Rec; child?: Child; inputs: Map<string, {requestId: string; input: unknown}>; stopping: boolean; n: number};
   const all = new Map<string, Live>();
-  const save = (): void => deps.store.save([...all.values()].map((l) => l.rec));
+  const save = (): void => { try { deps.store.save([...all.values()].map((l) => l.rec)); } catch { /* a full disk must not stop a running builder */ } };
   let loaded: unknown = []; try { loaded = deps.store.load(); } catch { /* a missing or broken store starts empty */ }
   for (const raw of Array.isArray(loaded) ? loaded : []) { // a restart ends every child: what was running is "lost, resume by hand", every ask is withdrawn
-    const r = coerce(raw); if (r) all.set(r.id, {rec: r, inputs: new Map(), stopping: false, n: r.asks.length});
+    const r = coerce(raw); if (r) all.set(r.id, {rec: r, inputs: new Map(), stopping: false, n: Math.max(0, ...r.asks.map((a) => Number(a.id.match(/^a(\d+)$/)?.[1]) || 0))});
   }
   save();
   const send = (l: Live, o2: object): void => { try { l.child?.write(JSON.stringify(o2)); } catch { /* the child is gone: nothing to tell */ } };
@@ -103,7 +106,9 @@ export function createBuilders(deps: Deps, o: {maxRunning?: number; expiryMs?: n
       let allow = b.choice === 'yes';
       if (allow && !READ_ONLY.has(a.tool)) { // the risky tools need a click on the Mac itself, not only in the page; it shows the REAL input, not only the model's words
         const real = realInput(held.input);
-        try { allow = await deps.dialog(`Allow ${a.tool}${real ? `: ${real}` : ''}  (the helper says: ${clean(a.summary.replace(/^[^:]*:\s*/, ''), 80)})`); } catch { allow = false; }
+        if (real.length > SHOWN) { a.state = 'answered'; l.inputs.delete(a.id); save(); respond(l, held.requestId, {behavior: 'deny', message: 'too long to review in a dialog: ask for a shorter step'}); return {code: 200, body: {ok: true, behavior: 'deny'}}; }
+        const box = deps.dialog(`Allow ${a.tool}${real ? `: ${clean(real, SHOWN)}` : ''}  (the helper says: ${clean(a.summary.replace(/^[^:]*:\s*/, ''), 80)})`);
+        try { allow = await Promise.race([box, new Promise<boolean>((ok) => { const t = setTimeout(() => ok(false), dialogMs); t.unref?.(); })]); } catch { allow = false; } // an error or a box nobody answers is a no
       }
       if (a.state !== 'deciding' || l.rec.status !== 'running') return {code: 410, body: {ok: false, error: 'that ask is closed'}}; // the child went away while the box was open
       a.state = 'answered'; l.inputs.delete(a.id); save();

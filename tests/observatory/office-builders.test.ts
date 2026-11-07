@@ -11,7 +11,7 @@ function fakeChild() {
   const child: Child = {write: (l) => { written.push(l); }, kill: (s) => { kills.push(s); }, onLine: (cb) => { line = cb; }, onExit: (cb) => { exit = cb; }};
   return {child, written, kills, say: (o: object) => line(JSON.stringify(o)), die: (c: number | null = 0) => exit(c), sent: () => written.map((w) => JSON.parse(w) as Record<string, any>)};
 }
-function setup(over: Partial<Deps> = {}, opts: {expiryMs?: number; stopGraceMs?: number} = {}) {
+function setup(over: Partial<Deps> = {}, opts: {expiryMs?: number; stopGraceMs?: number; dialogMs?: number} = {}) {
   const children: ReturnType<typeof fakeChild>[] = [], spawns: {args: string[]; cwd: string}[] = [], dialogs: string[] = [], dispatches: string[] = []; let t = 1_000_000, saved: Rec[] = [], dialogAnswer = true;
   const deps: Deps = {
     dispatch: async (repo, name) => { dispatches.push(`${repo}/${name}`); return {ok: true, worktree: `/w/${repo}-wt/${name}`, prompt: `Do the card for ${name}.`, id: `t-${name}`}; },
@@ -149,4 +149,90 @@ test('S9 (property, fixed seed): whatever repo and name are asked for, the child
 test('guard: the new code has no bypass flag outside its refusal list, no shell string, no delete of a worktree', () => {
   const src = readFileSync(join(new URL('../../apps/observatory/', import.meta.url).pathname, 'office-builders.ts'), 'utf8').split('\n').filter((l) => !l.includes('const BANNED')).join('\n');
   assert.doesNotMatch(src, /dangerously|bypassPermissions|--bare|shell:\s*true|\bexec\(|rmSync|unlinkSync|worktree\s+remove|--force|approve-card|approvals/i);
+});
+
+// ---- found by the first verifier ----
+test('a child that exits while the dialog is open: the answer is 410, nothing is written to the dead child, the ask stays withdrawn', async () => {
+  let release: (v: boolean) => void = () => {}; const s = setup({dialog: () => new Promise<boolean>((ok) => { release = ok; })});
+  await s.b.start({repo: 'r', name: 'x'}); const c = s.children[0]!, id = s.b.list()[0]!.id; c.say(ask('r1', 'Bash')); const a = s.b.list()[0]!.asks[0]!;
+  const pending = s.b.answer({builder: id, ask: a.id, choice: 'yes'}); c.die(1); const writes = c.written.length; release(true);
+  assert.equal((await pending).code, 410); assert.equal(c.written.length, writes); assert.equal(s.b.list()[0]!.asks[0]!.state, 'withdrawn');
+});
+
+test('a dialog that throws counts as no (deny), never a hang', async () => {
+  const s = setup({dialog: async () => { throw new Error('osascript missing'); }}); await s.b.start({repo: 'r', name: 'x'}); const c = s.children[0]!, id = s.b.list()[0]!.id; c.say(ask('r1', 'Edit'));
+  const r = await s.b.answer({builder: id, ask: s.b.list()[0]!.asks[0]!.id, choice: 'yes'});
+  assert.equal(r.code, 200); assert.equal(c.sent().at(-1)!.response.response.behavior, 'deny'); assert.equal(s.b.list()[0]!.asks[0]!.state, 'answered');
+});
+
+test('five starts at the same moment: only 3 children (the cap counts a start that is still being dispatched)', async () => {
+  const s = setup(); const rs = await Promise.all(['a', 'b', 'c', 'd', 'e'].map((n) => s.b.start({repo: 'r', name: n})));
+  assert.deepEqual(rs.map((r) => r.code).sort(), [200, 200, 200, 429, 429]); assert.equal(s.spawns.length, 3);
+});
+
+test('the same id twice is refused (409): the first builder is not overwritten', async () => {
+  const s = setup({dispatch: async () => ({ok: true, worktree: '/w/x', prompt: 'p', id: 'same'})}); await s.b.start({repo: 'r', name: 'x'});
+  assert.equal((await s.b.start({repo: 'r', name: 'y'})).code, 409); assert.equal(s.b.list().length, 1); assert.equal(s.spawns.length, 1);
+  const d = setup({existing: () => ({worktree: '/w/x', dirty: true})}); await d.b.start({repo: 'r', name: 'x'});
+  assert.equal((await d.b.start({repo: 'r', name: 'x'})).code, 409);
+});
+
+test('a tampered store never stops the office from booting; odd records are dropped, an odd status becomes "lost" (never "done")', () => {
+  const odd = [null, 5, {id: 'only'}, {id: 'a', repo: 'r', name: 'n', worktree: '/w', status: 'done', asks: 'zz', sessionId: 7}, {id: 'b', repo: 'r', name: 'n2', worktree: '/w2', status: 'stopped', asks: [null, {id: 'a1', tool: 'Bash', summary: 's', state: 'open', createdAt: 1, expiresAt: 2}]}] as unknown as Rec[];
+  const s = setup({store: {load: () => odd, save: () => {}}}); const l = s.b.list();
+  assert.deepEqual(l.map((r) => [r.id, r.status]), [['a', 'lost'], ['b', 'stopped']]);
+  assert.equal(l[0]!.sessionId, ''); assert.deepEqual(l[0]!.asks, []); assert.equal(l[1]!.asks.length, 1); assert.equal(l[1]!.asks[0]!.state, 'withdrawn');
+  assert.equal(createBuilders({...s.deps, store: {load: () => 'nope' as unknown as Rec[], save: () => {}}}).list().length, 0);
+});
+
+test('the native dialog shows the REAL command or path (not only the model\'s words) and no hidden formatting characters', async () => {
+  const s = setup(); await s.b.start({repo: 'r', name: 'x'}); const c = s.children[0]!, id = s.b.list()[0]!.id;
+  c.say({type: 'control_request', request_id: 'r1', request: {subtype: 'can_use_tool', tool_name: 'Bash', input: {command: 'rm -rf ./build'}, description: 'Run a harmless ‮test​'}});
+  await s.b.answer({builder: id, ask: s.b.list()[0]!.asks[0]!.id, choice: 'yes'});
+  assert.match(s.dialogs[0]!, /Bash/); assert.match(s.dialogs[0]!, /rm -rf \.\/build/); assert.doesNotMatch(s.dialogs[0]!, /[‮​]/);
+  assert.doesNotMatch(JSON.stringify(s.b.list()), /[‮​]/);
+});
+
+test('too many open asks: the 21st is denied at once and not stored; old closed asks are pruned', async () => {
+  const s = setup(); await s.b.start({repo: 'r', name: 'x'}); const c = s.children[0]!;
+  for (let i = 0; i < 25; i++) c.say(ask(`r${i}`, 'Read'));
+  assert.equal(s.b.list()[0]!.asks.filter((a) => a.state === 'open').length, 20);
+  assert.equal(c.sent().filter((m) => m.type === 'control_response' && m.response.response.behavior === 'deny').length, 5);
+  const id = s.b.list()[0]!.id; for (const a of s.b.list()[0]!.asks.slice()) await s.b.answer({builder: id, ask: a.id, choice: 'no'});
+  for (let i = 0; i < 80; i++) c.say(ask(`q${i}`, 'Read')); for (const a of s.b.list()[0]!.asks.filter((x) => x.state === 'open').slice()) await s.b.answer({builder: id, ask: a.id, choice: 'no'});
+  assert.ok(s.b.list()[0]!.asks.length <= 50, `asks kept: ${s.b.list()[0]!.asks.length}`);
+});
+
+test('a child that cannot start (spawn throws) is "needs-human" with a 502, not a crash; a cancelled ask is withdrawn without a reply; stop twice stacks nothing', async () => {
+  const bad = setup({spawn: () => { throw new Error('ENOENT'); }}); const r = await bad.b.start({repo: 'r', name: 'x'});
+  assert.equal(r.code, 502); assert.equal(bad.b.list()[0]!.status, 'needs-human');
+  const s = setup({}, {stopGraceMs: 10}); await s.b.start({repo: 'r', name: 'y'}); const c = s.children[0]!, id = s.b.list()[0]!.id; c.say(ask('r1', 'Bash'));
+  const w = c.written.length; c.say({type: 'control_cancel_request', request_id: 'r1'}); assert.equal(s.b.list()[0]!.asks[0]!.state, 'withdrawn'); assert.equal(c.written.length, w);
+  assert.equal(s.b.stop({builder: id}).code, 200); assert.equal(s.b.stop({builder: id}).code, 409);
+  await new Promise((x) => setTimeout(x, 40)); assert.deepEqual(c.kills, ['SIGINT', 'SIGTERM']);
+});
+
+// ---- found by the second verifier ----
+test('a command too long to read in the dialog is DENIED at once (never shown cut off and then allowed in full)', async () => {
+  const s = setup(); await s.b.start({repo: 'r', name: 'x'}); const c = s.children[0]!, id = s.b.list()[0]!.id;
+  c.say({type: 'control_request', request_id: 'r1', request: {subtype: 'can_use_tool', tool_name: 'Bash', input: {command: 'echo ' + 'a'.repeat(240) + ' ; rm -rf ~'}, description: 'x'}});
+  const r = await s.b.answer({builder: id, ask: s.b.list()[0]!.asks[0]!.id, choice: 'yes'});
+  assert.equal(r.code, 200); assert.equal(s.dialogs.length, 0);
+  assert.deepEqual(c.sent().at(-1)!.response.response, {behavior: 'deny', message: 'too long to review in a dialog: ask for a shorter step'});
+});
+
+test('a tool with no known input key still shows its real input (as JSON), never only the model\'s words', async () => {
+  const s = setup(); await s.b.start({repo: 'r', name: 'x'}); const c = s.children[0]!, id = s.b.list()[0]!.id;
+  c.say({type: 'control_request', request_id: 'r1', request: {subtype: 'can_use_tool', tool_name: 'mcp__thing__send', input: {to: 'bob', body: 'hi'}, description: 'Send a harmless note'}});
+  await s.b.answer({builder: id, ask: s.b.list()[0]!.asks[0]!.id, choice: 'yes'});
+  assert.match(s.dialogs[0]!, /to\W+bob/);
+});
+
+test('a store that cannot save never breaks start or the stream; a dialog that nobody answers becomes a deny', async () => {
+  const full = setup({store: {load: () => [], save: () => { throw new Error('disk full'); }}}); assert.equal((await full.b.start({repo: 'r', name: 'x'})).code, 200); full.children[0]!.say(ask('r1', 'Read')); full.children[0]!.die(0);
+  const slow = setup({dialog: () => new Promise<boolean>(() => {})}, {dialogMs: 30}); await slow.b.start({repo: 'r', name: 'x'}); const c = slow.children[0]!; c.say(ask('r1', 'Bash'));
+  const r = await slow.b.answer({builder: slow.b.list()[0]!.id, ask: slow.b.list()[0]!.asks[0]!.id, choice: 'yes'});
+  assert.equal(r.code, 200); assert.equal(c.sent().at(-1)!.response.response.behavior, 'deny');
+  const old: Rec = {id: 'old', repo: 'r', name: 'n', worktree: '/w', sessionId: '', version: '', status: 'stopped', turnDone: false, unread: false, asks: [{id: 'a51', tool: 'Read', summary: 's', state: 'answered', createdAt: 1, expiresAt: 2}]};
+  const again = setup({store: {load: () => [old], save: () => {}}}); assert.equal(again.b.list()[0]!.asks[0]!.id, 'a51');
 });
