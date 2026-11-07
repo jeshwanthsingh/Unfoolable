@@ -76,6 +76,7 @@ export function createBuilders(deps: Deps, o: {maxRunning?: number; expiryMs?: n
   return {
     async start(b: {repo?: unknown; name?: unknown}): Promise<Reply> {
       if (typeof b.repo !== 'string' || typeof b.name !== 'string' || !REPO.test(b.repo) || !NAME.test(b.name)) return {code: 400, body: {ok: false, error: 'bad repo or name'}};
+      if (b.repo === b.name) return {code: 400, body: {ok: false, error: 'Use a task name that is different from the folder name.'}}; // the dispatch script mixes the two up when they are equal
       if (running() >= maxRunning) return {code: 429, body: {ok: false, error: `at most ${maxRunning} builders at once`}};
       const old = deps.existing(b.repo, b.name);
       if (old) { // never deleted, never recreated

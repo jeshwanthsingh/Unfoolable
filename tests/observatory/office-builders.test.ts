@@ -407,3 +407,10 @@ test('page: if the builders list cannot be reached the strip says it may be old 
     await page.click('.oa-askitem .oa-yes'); await page.waitForSelector('.oa-builders [role=alert]'); assert.match(await page.innerText('.oa-builders [role=alert]'), /that ask is closed/); assert.doesNotMatch(await page.innerText('.oa-builders [role=alert]'), /Could not start/);
   } finally { await b.close(); r.server.closeAllConnections(); r.server.close(); }
 });
+
+// ---- follow-ups (c): the dispatch script cannot start a task named like its folder ----
+test('start: a task name equal to the project folder name is refused in plain words (dispatch would fail with an odd message)', async () => {
+  const s = setup(); const r = await s.b.start({repo: 'demo', name: 'demo'});
+  assert.equal(r.code, 400); assert.equal(r.body.error, 'Use a task name that is different from the folder name.'); assert.equal(s.dispatches.length, 0);
+  assert.equal((await s.b.start({repo: 'demo', name: 'demo-fix'})).code, 200);
+});
