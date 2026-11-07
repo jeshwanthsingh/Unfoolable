@@ -6,16 +6,18 @@ import {join, extname} from 'node:path';
 import {buildSnapshot} from './office-data.ts';
 import {createLive, type Live} from './office-live.ts';
 import {createAsker} from './office-act.ts';
+import {createBuilders, realDeps, type Deps as BuilderDeps} from './office-builders.ts';
 import {createOpener, type OpenOpts} from './office-open.ts';
 import {ART_FILES, artAvailable, artPath, defaultArtDir} from './office-art.ts';
 const TYPES: Record<string, string> = {'.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.ttf': 'font/ttf', '.woff2': 'font/woff2'};
-export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string; repos?: {name: string; path: string}[]; logPath?: string; live?: Live; open?: Partial<OpenOpts>; mailbox?: string; art?: {dir?: string}}): Promise<{server: Server; port: number; token: string; url: string}> {
+export function startOffice(opts: {vault: string; staticDir?: string; port?: number; token?: string; repos?: {name: string; path: string}[]; logPath?: string; live?: Live; open?: Partial<OpenOpts>; mailbox?: string; builders?: BuilderDeps; art?: {dir?: string}}): Promise<{server: Server; port: number; token: string; url: string}> {
   const token = opts.token ?? randomBytes(24).toString('hex');
   const live = opts.live ?? (opts.logPath ? createLive(opts.logPath) : null);
   const okKey = (given: string): boolean => { const got = Buffer.from(given), want = Buffer.from(token); return got.length === want.length && timingSafeEqual(got, want); };
   const cookieKey = (c: string | undefined): string => /(?:^|;\s*)office_key=([0-9a-f]+)/.exec(c ?? '')?.[1] ?? '';
   const opener = opts.open ? createOpener({logPath: join(opts.vault, 'logs/office-open.log'), ...opts.open}) : null;
   const asker = opts.mailbox ? createAsker({file: opts.mailbox, fs: {read: (p) => readFileSync(p, 'utf8'), write: (p, t) => { let mode = 0o644; try { mode = statSync(p).mode & 0o777; } catch { /* a new file */ } writeFileSync(`${p}.tmp`, t, {mode}); chmodSync(`${p}.tmp`, mode); renameSync(`${p}.tmp`, p); /* the file keeps its mode, whatever umask the office was started under */ }}}) : null; // one atomic rewrite of the one mailbox file
+  const mgr = opts.builders ? createBuilders(opts.builders) : null; // the office can start builders only when it was given the means to
   const server = createServer((req, res) => {
     const send = (code: number, body: string | Buffer, type = 'text/plain; charset=utf-8'): void => {
       res.writeHead(code, {'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'content-security-policy': "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'"});
@@ -54,6 +56,19 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
       });
       return;
     }
+    if (req.method === 'POST' && mgr && ['/start', '/answer', '/stop', '/seen'].includes(req.url ?? '')) { // same rules as /open and /ask: the key AND a matching Origin
+      if (origin === undefined) return send(403, 'Wrong origin.');
+      if (!keyed()) return send(401, 'Needs the launch token.');
+      const route = req.url!; let body = '', big = false;
+      req.on('data', (c) => { body += c; if (body.length > 4000) { big = true; body = ''; } });
+      req.on('end', () => {
+        if (big) return send(413, JSON.stringify({ok: false, error: 'too long'}), 'application/json');
+        let j: Record<string, unknown> = {}; try { const p = JSON.parse(body) as unknown; if (p && typeof p === 'object' && !Array.isArray(p)) j = p as typeof j; } catch { /* a bad body is treated as empty */ }
+        Promise.resolve(route === '/start' ? mgr.start(j) : route === '/answer' ? mgr.answer(j) : route === '/stop' ? mgr.stop(j) : mgr.seen(j))
+          .then((r) => send(r.code, JSON.stringify(r.body), 'application/json')).catch(() => send(500, JSON.stringify({ok: false}), 'application/json'));
+      });
+      return;
+    }
     if (req.method !== 'GET') return send(405, 'Read only.');
     const path = (req.url ?? '/').split('?')[0]!;
     if (path.startsWith('/k/')) { // opens the live link once: sets a same-site cookie because EventSource cannot send headers
@@ -79,6 +94,10 @@ export function startOffice(opts: {vault: string; staticDir?: string; port?: num
       req.on('close', off);
       return;
     }
+    if (mgr && path === '/builders') { // the builders and their asks (summaries only: a tool's input never leaves the server)
+      if (!keyed()) return send(401, 'Needs the launch token.');
+      return send(200, JSON.stringify({builders: mgr.list()}), 'application/json');
+    }
     if (path === '/api/office') {
       if (!keyed()) return send(401, 'Needs the launch token.');
       return send(200, JSON.stringify(buildSnapshot(opts.vault, new Date(), opts.repos)), 'application/json');
@@ -102,6 +121,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const vault = process.env.OFFICE_VAULT ?? join(process.env.HOME ?? '', 'Projects/proof-lab');
   const staticDir = process.env.OFFICE_STATIC ?? join(import.meta.dirname, '../../.work/office-dist');
   const v1 = join(vault, 'logs/office-v1.jsonl'), logPath = existsSync(v1) ? v1 : join(vault, 'logs/usage.jsonl'); // the emitter's file when it exists, else the old log
-  const r = await startOffice({vault, staticDir, repos: [{name: 'AgentRunLab', path: join(process.env.HOME ?? '', 'Projects/coding-agent-crash-tests')}], port: Number(process.env.OFFICE_PORT ?? 0), logPath, open: {}, art: {}, mailbox: join(vault, 'mailbox/to-code.md')});
+  const r = await startOffice({vault, staticDir, repos: [{name: 'AgentRunLab', path: join(process.env.HOME ?? '', 'Projects/coding-agent-crash-tests')}], port: Number(process.env.OFFICE_PORT ?? 0), logPath, open: {}, art: {}, mailbox: join(vault, 'mailbox/to-code.md'), builders: realDeps({vault})});
   console.log(`Office page (read-only, this computer only): ${r.url}`);
 }

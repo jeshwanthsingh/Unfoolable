@@ -1,7 +1,12 @@
+import {execFile, execFileSync, spawn} from 'node:child_process';
+import {existsSync, mkdirSync, readFileSync, renameSync, writeFileSync, chmodSync} from 'node:fs';
+import {homedir} from 'node:os';
+import {join} from 'node:path';
+import {createInterface} from 'node:readline';
 // The office starts a builder: ONE `claude` child per approved card (made by the /dispatch script), asks come back as Needs-you items.
 // Everything outside this file is injected (the dispatch call, the child, the dialog, the store), so tests use fakes. No shell strings.
 export type Child = {write: (line: string) => void; kill: (sig: 'SIGINT' | 'SIGTERM') => void; onLine: (cb: (line: string) => void) => void; onExit: (cb: (code: number | null) => void) => void};
-export type Dispatched = {ok: true; worktree: string; prompt: string; id: string} | {ok: false; why: string};
+export type Dispatched = {ok: true; worktree: string; prompt: string; id: string; settings?: string} | {ok: false; why: string};
 export type Deps = {
   dispatch: (repo: string, name: string) => Promise<Dispatched>;
   existing: (repo: string, name: string) => {worktree: string; dirty: boolean} | null;
@@ -84,6 +89,7 @@ export function createBuilders(deps: Deps, o: {maxRunning?: number; expiryMs?: n
       if (!d.ok) return {code: 403, body: {ok: false, error: d.why}};
       if (all.has(d.id)) return {code: 409, body: {ok: false, error: 'that builder already exists'}};
       const args = ['-p', '--input-format', 'stream-json', '--output-format', 'stream-json', '--verbose', '--permission-prompt-tool', 'stdio', '--permission-mode', 'default', '--name', `builder ${b.name}`];
+      if (d.settings) args.push('--settings', d.settings); // the card's own walls (what may be written, which secrets are off limits, the network) that dispatch made; anything else still asks
       if (args.some((a) => BANNED.some((x) => a.includes(x)))) return {code: 500, body: {ok: false, error: 'refused'}};
       const rec: Rec = {id: d.id, repo: b.repo, name: b.name, worktree: d.worktree, sessionId: '', version: '', status: 'running', turnDone: false, unread: false, asks: []};
       let child: Child;
@@ -125,5 +131,37 @@ export function createBuilders(deps: Deps, o: {maxRunning?: number; expiryMs?: n
     },
     seen(b: {builder?: unknown}): Reply { const l = all.get(String(b.builder)); if (!l) return {code: 404, body: {ok: false}}; l.rec.unread = false; save(); return {code: 200, body: {ok: true}}; },
     list(): Rec[] { sweep(); return [...all.values()].map((l) => l.rec); }
+  };
+}
+
+// ---- the real pieces: the dispatch script, the claude program, the Mac dialog, the saved list (each one is an argument list, never a shell string) ----
+export function realDeps(o: {vault: string; dispatchPath?: string; claudeBin?: string; projects?: string}): Deps {
+  const home = homedir(), projects = o.projects ?? join(home, 'Projects'), file = join(o.vault, 'logs/office-builders.json');
+  const dispatchPath = o.dispatchPath ?? process.env.OFFICE_DISPATCH ?? join(home, 'Projects/proof-lab/scripts/dispatch'), claudeBin = o.claudeBin ?? process.env.OFFICE_CLAUDE ?? join(home, '.local/bin/claude');
+  const PATHISH = /^\/[\w ./-]{1,300}$/;
+  return {
+    dispatch: (repo, name) => new Promise<Dispatched>((ok) => execFile('python3', [dispatchPath, repo, '--name', name], {timeout: 60_000}, (e, out, err) => {
+      if (e) { const last = String(err).trim().split('\n').filter(Boolean).pop() ?? ''; return ok({ok: false, why: clean(last.replace(/^dispatch:\s*/, ''), 160) || 'dispatch failed'}); }
+      const wt = out.match(/^worktree\s+(\S.*?)\s+\(branch /m)?.[1], dd = out.match(/^sandbox\s+(.+)\/settings\.json\s*$/m)?.[1];
+      if (!wt || !dd || !PATHISH.test(wt) || !PATHISH.test(dd) || wt.includes('..') || dd.includes('..')) return ok({ok: false, why: 'dispatch printed something unexpected'});
+      try { ok({ok: true, worktree: wt, prompt: readFileSync(join(dd, 'prompt.md'), 'utf8'), id: dd.split('/').pop()!, settings: join(dd, 'settings.json')}); } catch { ok({ok: false, why: 'the task prompt is missing'}); }
+    })),
+    existing: (repo, name) => { // same place dispatch puts it; read only
+      const wt = join(projects, `${repo}-wt`, name); if (!existsSync(join(wt, '.git'))) return null;
+      try { // uncommitted work, ignoring the helper files dispatch itself puts there; if git cannot answer, a human looks
+        const dirty = execFileSync('git', ['-C', wt, 'status', '--porcelain'], {encoding: 'utf8', timeout: 10_000}).split('\n').filter((l) => l.trim() && !/(^|\/)(\.claude\/(card\.md|last-verify\.json)|\.verify-env|node_modules)$/.test(l.slice(3).trim()));
+        return {worktree: wt, dirty: dirty.length > 0};
+      } catch { return {worktree: wt, dirty: true}; }
+    },
+    spawn: (args, cwd) => {
+      const c = spawn(claudeBin, args, {cwd, stdio: ['pipe', 'pipe', 'ignore']}), rl = createInterface({input: c.stdout!}); c.stdin!.on('error', () => {});
+      return {write: (l) => { c.stdin!.write(l + '\n'); }, kill: (sig) => { c.kill(sig); }, onLine: (cb) => { rl.on('line', cb); }, onExit: (cb) => { let done = false; const end = (x: number | null) => { if (!done) { done = true; cb(x); } }; c.on('close', end); c.on('error', () => end(null)); }};
+    },
+    dialog: (text) => new Promise<boolean>((ok) => execFile('osascript', ['-e', 'on run argv', '-e', 'display dialog (item 1 of argv) buttons {"Deny", "Allow"} default button "Deny" with title "Office: allow a tool?" with icon caution giving up after 120', '-e', 'end run', text], {timeout: 125_000}, (e, out) => ok(!e && /button returned:Allow/.test(String(out)) && !/gave up:true/.test(String(out))))),
+    store: {
+      load: () => { try { const j = JSON.parse(readFileSync(file, 'utf8')) as unknown; return Array.isArray(j) ? (j as Rec[]) : []; } catch { return []; } },
+      save: (r) => { mkdirSync(join(o.vault, 'logs'), {recursive: true}); const tmp = `${file}.tmp`; writeFileSync(tmp, JSON.stringify(r), {mode: 0o600}); chmodSync(tmp, 0o600); renameSync(tmp, file); }
+    },
+    now: Date.now
   };
 }

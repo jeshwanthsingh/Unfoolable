@@ -236,3 +236,102 @@ test('a store that cannot save never breaks start or the stream; a dialog that n
   const old: Rec = {id: 'old', repo: 'r', name: 'n', worktree: '/w', sessionId: '', version: '', status: 'stopped', turnDone: false, unread: false, asks: [{id: 'a51', tool: 'Read', summary: 's', state: 'answered', createdAt: 1, expiresAt: 2}]};
   const again = setup({store: {load: () => [old], save: () => {}}}); assert.equal(again.b.list()[0]!.asks[0]!.id, 'a51');
 });
+
+// ---- slice 3: the real pieces (shims, no real Claude, Terminal or dialog) and the HTTP routes ----
+import {chmodSync, mkdirSync, mkdtempSync, statSync, writeFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {execFileSync} from 'node:child_process';
+import {startOffice} from '../../apps/observatory/office-server.ts';
+import {realDeps} from '../../apps/observatory/office-builders.ts';
+const sh = (dir: string, name: string, body: string) => { const p = join(dir, name); writeFileSync(p, body); chmodSync(p, 0o755); return p; };
+const wait = async (f: () => boolean, ms = 4000) => { const t = Date.now(); while (!f() && Date.now() - t < ms) await new Promise((x) => setTimeout(x, 20)); };
+
+test('real dispatch: the dispatch script runs with an argument list; its worktree and prompt are read; a refusal becomes the reason', async () => {
+  const d = mkdtempSync(join(tmpdir(), 'rd-')), dd = join(d, 'dispatch', 't-demo'); mkdirSync(dd, {recursive: true}); writeFileSync(join(dd, 'prompt.md'), 'You are a Builder.');
+  const ok = sh(d, 'ok.py', `#!/usr/bin/env python3\nimport sys\nopen("${d}/argv.txt","w").write("|".join(sys.argv[1:]))\nprint("dispatched.\\nrepo      /x\\nworktree  ${d}/r-wt/demo  (branch b/demo)\\nsandbox   ${dd}/settings.json")\n`);
+  assert.deepEqual(await realDeps({vault: d, dispatchPath: ok}).dispatch('r', 'demo'), {ok: true, worktree: `${d}/r-wt/demo`, prompt: 'You are a Builder.', id: 't-demo', settings: `${dd}/settings.json`});
+  assert.equal(readFileSync(join(d, 'argv.txt'), 'utf8'), 'r|--name|demo');
+  const no = sh(d, 'no.py', '#!/usr/bin/env python3\nimport sys\nsys.exit("dispatch: the card was never approved (run approve-card)")\n');
+  const bad = await realDeps({vault: d, dispatchPath: no}).dispatch('r', 'demo');
+  assert.equal(bad.ok, false); assert.match((bad as {why: string}).why, /never approved/);
+});
+
+test('real existing(): a worktree with uncommitted work is dirty; a clean or missing one is not', () => {
+  const home = mkdtempSync(join(tmpdir(), 'ex-')), wt = join(home, 'r-wt', 'demo'); mkdirSync(wt, {recursive: true});
+  execFileSync('git', ['init', '-q', wt]); execFileSync('git', ['-C', wt, '-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-q', '--allow-empty', '-m', 'x']);
+  const deps = realDeps({vault: home, projects: home});
+  assert.deepEqual(deps.existing('r', 'demo'), {worktree: wt, dirty: false}); writeFileSync(join(wt, 'edit.txt'), 'x');
+  assert.deepEqual(deps.existing('r', 'demo'), {worktree: wt, dirty: true}); assert.equal(deps.existing('r', 'other'), null);
+});
+
+test('real child: the claude program is run with the argument list in the worktree; lines in, lines out, exit reported', async () => {
+  const d = mkdtempSync(join(tmpdir(), 'ch-')), claude = sh(d, 'claude', '#!/usr/bin/env node\nprocess.stdin.setEncoding("utf8");let b="";process.stdin.on("data",(c)=>{b+=c;if(b.includes("\\n")){console.log(JSON.stringify({cwd:process.cwd(),argv:process.argv.slice(2),got:b.trim()}));process.exit(3);}});\n');
+  const child = realDeps({vault: d, claudeBin: claude}).spawn(['-p', '--name', 'builder demo'], d); const lines: string[] = []; let code: number | null | undefined;
+  child.onLine((l) => lines.push(l)); child.onExit((c) => { code = c; }); child.write('{"type":"user"}');
+  await wait(() => code !== undefined); const m = JSON.parse(lines[0]!);
+  assert.equal(code, 3); assert.deepEqual(m.argv, ['-p', '--name', 'builder demo']); assert.equal(m.got, '{"type":"user"}'); assert.equal(m.cwd.replace('/private', ''), d.replace('/private', ''));
+});
+
+test('real dialog: osascript gets the text as an argument (never inside the script); Allow is yes; Deny, gave up, failure are no', async () => {
+  const d = mkdtempSync(join(tmpdir(), 'dl-')), bin = join(d, 'bin'); mkdirSync(bin); const was = process.env.PATH; process.env.PATH = `${bin}:${was}`;
+  try {
+    const text = 'Allow Bash: echo "hi"; do shell script "x"';
+    for (const [out, want] of [['button returned:Allow, gave up:false', true], ['button returned:Deny, gave up:false', false], ['button returned:Allow, gave up:true', false], ['', false]] as const) {
+      sh(bin, 'osascript', `#!/bin/sh\nfor a; do echo "$a" >> "${d}/args.txt"; done\n${out === '' ? 'exit 1' : `echo "${out}"`}\n`);
+      assert.equal(await realDeps({vault: d}).dialog(text), want, out);
+    }
+    const args = readFileSync(join(d, 'args.txt'), 'utf8').split('\n');
+    assert.ok(args.includes(text), 'the text is one argument'); assert.ok(!args.filter((a) => a.startsWith('display dialog') || a === 'on run argv').some((a) => a.includes('do shell script "x"')), 'never inside the script');
+  } finally { process.env.PATH = was; }
+});
+
+test('real store: saved owner-only and loaded back; a missing or broken file loads as empty', () => {
+  const d = mkdtempSync(join(tmpdir(), 'st-')), deps = realDeps({vault: d}); mkdirSync(join(d, 'logs'));
+  assert.deepEqual(deps.store.load(), []); deps.store.save([{id: 'a'} as never]); assert.deepEqual(deps.store.load(), [{id: 'a'}]);
+  assert.equal((statSync(join(d, 'logs/office-builders.json')).mode & 0o777).toString(8), '600'); writeFileSync(join(d, 'logs/office-builders.json'), '{nope'); assert.deepEqual(deps.store.load(), []);
+});
+
+test('routes: /start /answer /stop /seen and GET /builders need the key AND a matching Origin; a round trip works; the tool input never leaves the server', async () => {
+  const d = mkdtempSync(join(tmpdir(), 'rt-')); mkdirSync(join(d, 'logs')); const f = setup(); const r = await startOffice({vault: d, builders: f.deps});
+  const base = `http://127.0.0.1:${r.port}`, tok = r.token, dialogs = f.dialogs;
+  const post = (path: string, body: object, h: Record<string, string> = {origin: base, 'x-office-token': tok}) => fetch(`${base}${path}`, {method: 'POST', headers: {'content-type': 'application/json', ...h}, body: JSON.stringify(body)});
+  try {
+    for (const path of ['/start', '/answer', '/stop', '/seen']) {
+      assert.equal((await post(path, {}, {origin: base})).status, 401, `${path} no key`); assert.equal((await post(path, {}, {'x-office-token': tok})).status, 403, `${path} no origin`);
+      assert.equal((await post(path, {}, {origin: 'http://evil.example', 'x-office-token': tok})).status, 403, `${path} wrong origin`);
+    }
+    assert.equal((await fetch(`${base}/builders`)).status, 401);
+    assert.equal((await post('/start', {repo: 'r', name: 'demo'})).status, 200);
+    f.children[0]!.say({type: 'control_request', request_id: 'q1', request: {subtype: 'can_use_tool', tool_name: 'Write', input: {file_path: '/w/a.txt', content: 'SECRET-BODY'}, description: 'Write a file'}});
+    const list = await (await fetch(`${base}/builders`, {headers: {'x-office-token': tok}})).json() as {builders: {id: string; asks: {id: string}[]}[]};
+    assert.ok(!JSON.stringify(list).includes('SECRET-BODY')); const b = list.builders[0]!;
+    assert.equal((await post('/answer', {builder: b.id, ask: b.asks[0]!.id, choice: 'yes'})).status, 200); assert.equal(dialogs.length, 1);
+    assert.equal(f.children[0]!.sent().at(-1)!.response.response.behavior, 'allow');
+    assert.equal((await post('/seen', {builder: b.id})).status, 200); assert.equal((await post('/stop', {builder: b.id})).status, 200);
+    assert.equal((await post('/start', {repo: '--bare', name: 'x'})).status, 400);
+  } finally { r.server.closeAllConnections(); r.server.close(); }
+});
+
+test('without builders configured the routes do not exist (405 for POST, 404 for GET)', async () => {
+  const d = mkdtempSync(join(tmpdir(), 'nb-')); const r = await startOffice({vault: d}); const base = `http://127.0.0.1:${r.port}`;
+  try {
+    assert.equal((await fetch(`${base}/start`, {method: 'POST', headers: {origin: base, 'x-office-token': r.token}, body: '{}'})).status, 405);
+    assert.equal((await fetch(`${base}/builders`, {headers: {'x-office-token': r.token}})).status, 404);
+  } finally { r.server.closeAllConnections(); r.server.close(); }
+});
+
+test('the sandbox that dispatch made for the card is applied to the child (--settings), after the fixed arguments; without one the arguments are unchanged', async () => {
+  const s = setup({dispatch: async (repo, name) => ({ok: true, worktree: `/w/${repo}-wt/${name}`, prompt: 'p', id: `t-${name}`, settings: `/d/t-${name}/settings.json`})});
+  await s.b.start({repo: 'r', name: 'x'});
+  assert.deepEqual(s.spawns[0]!.args.slice(-4), ['--name', 'builder x', '--settings', '/d/t-x/settings.json']);
+});
+
+test('a null, array or odd JSON body never crashes the server (every route answers with an error code)', async () => {
+  const d = mkdtempSync(join(tmpdir(), 'nul-')); mkdirSync(join(d, 'logs')); const f = setup(); const r = await startOffice({vault: d, builders: f.deps}); const base = `http://127.0.0.1:${r.port}`;
+  try {
+    for (const path of ['/start', '/answer', '/stop', '/seen']) for (const body of ['null', '[]', '"x"', '5', '{']) {
+      const res = await fetch(`${base}${path}`, {method: 'POST', headers: {origin: base, 'x-office-token': r.token}, body}); assert.ok(res.status >= 400 && res.status < 500, `${path} ${body} -> ${res.status}`);
+    }
+    assert.equal((await fetch(`${base}/builders`, {headers: {'x-office-token': r.token}})).status, 200);
+  } finally { r.server.closeAllConnections(); r.server.close(); }
+});
