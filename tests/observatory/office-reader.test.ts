@@ -76,7 +76,12 @@ test('read-only: the reader never changes the source files', async () => {
 
 test('reader source never touches the database, ticket_events, Keep or verdict code', () => {
   for (const f of ['office-data.ts', 'office-server.ts', 'annex-events.ts']) {
-    const src = readFileSync(new URL(`../../apps/observatory/${f}`, import.meta.url), 'utf8');
+    let src = readFileSync(new URL(`../../apps/observatory/${f}`, import.meta.url), 'utf8');
+    if (f === 'office-server.ts') { // the one write the server has: the Ask box's atomic rewrite of the mailbox file (its fs import line and the createAsker statement); any other write still fails
+      const lines = src.split('\n');
+      assert.equal(lines.filter((l) => l.includes('createAsker({')).length, 1, 'exactly one mailbox writer');
+      src = lines.filter((l) => !l.includes('createAsker({') && !/^import .* from 'node:fs';$/.test(l)).join('\n');
+    }
     assert.ok(!/ticket_events|node:sqlite|apps\/server|writeFile|appendFile|unlink|rmSync/.test(src), f);
   }
 });
