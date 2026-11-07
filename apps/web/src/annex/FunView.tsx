@@ -1,4 +1,5 @@
 import {useFeed} from './feed.ts';
+import {openHelper} from './open.ts';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {figure} from './Character.tsx';
 import {DIVIDERS, GUARD_AT, HARD_HAT, HATS, PLACE, ROOM, RUGS, SLOTS, SPRITE, WALLS, WINDOW, ZONES} from './room-map.ts';
@@ -12,16 +13,9 @@ import type {OfficeState} from '../../../observatory/office-reducer.ts';
 // The pixel office: the SAME state and the same board model as the simple view, drawn as a room. Nothing here is a fact the board does not have.
 // Pictures come from a local licensed folder through the server's /art route; they are never part of the repo.
 type Live = OfficeState & {away?: Away; seats?: SeatMap}; // seats: where the SERVER put every helper (never re-derived here)
-const token = () => new URLSearchParams(location.hash.slice(1)).get('t') ?? '';
 const MOOD = {'needs you': 'wave', working: 'focus', checking: 'focus', done: 'happy', "didn't pass": 'dizzy'} as const;
 const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
-async function openHelper(id: string): Promise<boolean> {
-  const call = (resume: boolean) => fetch('/open', {method: 'POST', headers: {'x-office-token': token(), 'content-type': 'application/json'}, body: JSON.stringify({id, resume})});
-  let r = await call(false);
-  if (r.status === 409 && window.confirm(BOARD.confirm)) r = await call(true);
-  return r.ok;
-}
 
 export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
   const {state, connected, lastMsg, tick, attempt, snapshot, expired} = useFeed<Live>();
@@ -120,7 +114,7 @@ export function FunView({toolbar}: {toolbar?: React.ReactNode}) {
         <div className="fv-side">
           {cards.map(([name, list]) => (
             <section key={name} className={`fv-box${name === BOARD.cols.needs && list.length ? ' amber' : ''}`}><h2>{name} ({list.length})</h2>
-              {list.length ? <ul>{list.map((c) => <li key={c.key}><button type="button" className="fv-li" onClick={() => setPicked(c.key)}><span><i className="fv-dot" style={{background: tintOf(c.key)}} aria-hidden="true" />{c.label}: {c.verb}</span><time>{c.time}</time></button></li>)}</ul> : <p className="oa-muted">{BOARD.empty}</p>}
+              {list.length ? <ul>{list.map((c) => <li key={c.key}><button type="button" className="fv-li" onClick={() => setPicked(c.key)}><span><i className="fv-dot" style={{background: tintOf(c.key)}} aria-hidden="true" />{c.label}: {c.verb}</span><time>{c.time}</time></button><button type="button" className="ob-btn see fv-open" onClick={() => openHelper(c.key).then((ok) => setOpenErr(!ok)).catch(() => setOpenErr(true))}>{c.button === 'see' ? BOARD.see : BOARD.open}<span className="vh"> {c.label}</span></button></li>)}</ul> : <p className="oa-muted">{BOARD.empty}</p>}
             </section>))}
           {state?.away ? <section className="fv-box"><h2>{BOARD.away}</h2><p>{state.away.sentence}</p>{state.away.lines.slice(0, AWAY_LINES).map((l) => <p key={l.project}>{l.text}</p>)}{state.away.results.length > 0 ? <details className="ob-all"><summary>{BOARD.showAll}</summary><ul>{state.away.results.map((r, i) => <li key={i}>{r.project} {r.passed ? BOARD.passedWord : BOARD.notPassedWord}: {r.text}</li>)}</ul></details> : null}</section> : null}
           {board && board.quietLines.length ? <p className="oa-muted">{board.quietLines.join('. ')}.</p> : null}

@@ -2,6 +2,7 @@ import {Suspense, lazy, useEffect, useState} from 'react';
 import type {Snapshot} from '../../../observatory/office-data.ts';
 import {BOARD, COPY, DETAIL_WORDS, FUN, lightIcon} from './copy.ts';
 import {Floor} from './Floor.tsx';
+import {Ask} from './Ask.tsx';
 import {Board} from './Board.tsx';
 import '../unfoolable.css';
 import './office-annex.css';
@@ -53,6 +54,7 @@ export function OfficePage() {
         <header className="oa-top">
           <h1>{COPY.title}</h1>
         </header>
+        {!more ? <Ask /> : null}
         {!more && art && view === 'office' ? <Suspense fallback={null}><FunView toolbar={switcher} /></Suspense> : !more ? <>{art ? switcher : null}<Board onMore={() => setMore(true)} moreLabel={BOARD.more} /></> : <>
         <div className="ob-bar"><button type="button" className="ob-tool" onClick={() => setMore(false)}><span aria-hidden="true">◀</span> {BOARD.back}</button></div>
         {err ? <p role="alert" className="oa-error">{err}</p> : null}

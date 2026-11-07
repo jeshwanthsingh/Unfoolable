@@ -1,4 +1,5 @@
 import {useFeed} from './feed.ts';
+import {openHelper} from './open.ts';
 import {useEffect, useRef, useState} from 'react';
 import {LayoutGroup, motion, useReducedMotion} from 'motion/react';
 import {Character} from './Character.tsx';
@@ -10,14 +11,7 @@ import {boardOf, freshness, type Card} from '../../../observatory/office-board.t
 import {BOARD, FEED} from './copy.ts';
 
 // The live board: reads the SSE stream. Words come from codes (office-board.ts); no raw text from any log is shown here.
-const token = () => new URLSearchParams(location.hash.slice(1)).get('t') ?? '';
 
-async function openHelper(id: string): Promise<boolean> {
-  const call = (resume: boolean) => fetch('/open', {method: 'POST', headers: {'x-office-token': token(), 'content-type': 'application/json'}, body: JSON.stringify({id, resume})});
-  let r = await call(false);
-  if (r.status === 409 && window.confirm(BOARD.confirm)) r = await call(true);
-  return r.ok;
-}
 
 // One soft chime (a short sine beep). Only runs after the user switched sound on, because browsers need a click first anyway.
 function chime(): void {
