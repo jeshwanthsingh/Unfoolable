@@ -27,9 +27,8 @@ export function Ask() {
   );
 }
 
-type AskItem = {id: string; tool: string; summary: string; state: 'open' | 'deciding' | 'answered' | 'withdrawn'; createdAt: number; expiresAt: number};
+type AskItem = {id: string; tool: string; summary: string; state: 'open' | 'deciding' | 'answered' | 'withdrawn'; createdAt: number; expiresAt: number; box: boolean};
 type Built = {id: string; repo: string; name: string; sessionId: string; version: string; status: 'running' | 'stopped' | 'ended' | 'lost' | 'needs-human'; turnDone: boolean; unread: boolean; asks: AskItem[]};
-const READ_ONLY = ['Read', 'Grep', 'Glob', 'LS']; // the server decides; this only words the button
 const post = async (path: string, body: object): Promise<{ok: boolean; status: number; error?: string | undefined}> => {
   const r = await fetch(path, {method: 'POST', headers: {'x-office-token': token(), 'content-type': 'application/json'}, body: JSON.stringify(body)});
   return {ok: r.ok, status: r.status, error: ((await r.json().catch(() => ({}))) as {error?: string}).error};
@@ -70,7 +69,7 @@ export function Builders() {
               {b.status === 'running' ? <button type="button" className="ob-btn see oa-bstop" onClick={() => void act(`stop${b.id}`, () => post('/stop', {builder: b.id}))}>{BUILD.stop}</button> : null}
             </div>
             {b.asks.map((a) => {
-              const open = a.state === 'open', risky = !READ_ONLY.includes(a.tool);
+              const open = a.state === 'open', risky = a.box !== false; // the server decides whether a Yes needs the Mac box
               return (
                 <div key={a.id} className={`oa-askitem${open || a.state === 'deciding' ? '' : a.state === 'withdrawn' ? ' done stale' : ' done'}`}>
                   <p><b>{BUILD.needs}:</b> {a.summary}</p>

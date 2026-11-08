@@ -233,7 +233,7 @@ test('a store that cannot save never breaks start or the stream; a dialog that n
   const slow = setup({dialog: () => new Promise<boolean>(() => {})}, {dialogMs: 30}); await slow.b.start({repo: 'r', name: 'x'}); const c = slow.children[0]!; c.say(ask('r1', 'Bash'));
   const r = await slow.b.answer({builder: slow.b.list()[0]!.id, ask: slow.b.list()[0]!.asks[0]!.id, choice: 'yes'});
   assert.equal(r.code, 200); assert.equal(c.sent().at(-1)!.response.response.behavior, 'deny');
-  const old: Rec = {id: 'old', repo: 'r', name: 'n', worktree: '/w', sessionId: '', version: '', status: 'stopped', turnDone: false, unread: false, asks: [{id: 'a51', tool: 'Read', summary: 's', state: 'answered', createdAt: 1, expiresAt: 2}]};
+  const old: Rec = {id: 'old', repo: 'r', name: 'n', worktree: '/w', sessionId: '', version: '', status: 'stopped', turnDone: false, unread: false, asks: [{id: 'a51', tool: 'Read', summary: 's', state: 'answered', createdAt: 1, expiresAt: 2, box: true}]};
   const again = setup({store: {load: () => [old], save: () => {}}}); assert.equal(again.b.list()[0]!.asks[0]!.id, 'a51');
 });
 
@@ -413,4 +413,47 @@ test('start: a task name equal to the project folder name is refused in plain wo
   const s = setup(); const r = await s.b.start({repo: 'demo', name: 'demo'});
   assert.equal(r.code, 400); assert.equal(r.body.error, 'Use a task name that is different from the folder name.'); assert.equal(s.dispatches.length, 0);
   assert.equal((await s.b.start({repo: 'demo', name: 'demo-fix'})).code, 200);
+});
+
+// ---- follow-ups (d): a fixed read-only Bash list is answered from the page (no Mac box); everything else keeps the box ----
+import {readOnlyCommand} from '../../apps/observatory/office-builders.ts';
+const READ_ONLY_OK = ['ls', 'ls -la', 'ls -R src', 'pwd', 'cat README.md', 'cat src/a.ts src/b.ts', 'head -20 src/a.ts', 'head -n 5 file.txt', 'tail -n 20 build.log', 'wc -l src/a.ts',
+  'git status', 'git status --short', 'git log --oneline -5', 'git diff --stat', 'git diff HEAD', 'git show HEAD', 'git rev-parse HEAD', 'git ls-files', 'git branch --list', 'git log --format=%h -3'];
+const HOSTILE = ['cat > f', 'cat a > b', 'cat a >> b', 'ls | wc', 'ls; rm -rf x', 'ls && rm x', 'ls $(rm x)', 'ls `id`', 'cat /etc/passwd', 'cat ~/x', 'cat $HOME/x', 'cat ../x', 'cat a/../../x', 'cat .env', 'cat .env.local', 'cat key.pem', 'head secrets.txt', 'cat .ssh/id_rsa', 'cat .claude/card.md', 'cat .git/config',
+  'python3 -c print(1)', 'sed -i s/a/b/ f', 'find . -exec rm {} +', 'awk 1 f', 'curl http://x', 'git -c core.pager=x log', 'git diff --output=x', 'git log --ext-diff', 'git diff --textconv', 'git commit -m x', 'git push', 'git status\nrm x', 'ls\trm', 'grep -r foo .', 'grep -R foo src', 'grep -f pats file', 'tail -f log', 'tail -F log', 'wc --files0-from=x', 'cat', 'grep foo', 'git diff --no-index a b', 'ls  -la', 'LS', 'cat a​b', 'сat a', 'echo hi', 'rm x', 'git show HEAD:.env', 'git log --output=x', 'cat file --x=/etc/passwd', 'git branch -D x', 'git branch newname', 'git rev-parse --git-dir > x', "cat 'a b'", 'cat "a"', 'cat a*', 'cat a?', 'cat [a]', ' ls', 'ls ', '', 'x'.repeat(400)];
+// found by the verifier's 250,000-command fuzz run: recursion by another flag name, writes by tool config, stdin that never ends, secret-looking names, help/pager/signature programs
+const MORE_OK = ['cat package.json', 'git show HEAD:src/a.ts', 'git diff src/a.ts', 'git log --oneline -5 src', 'ls -la src', 'head -n 5 a.txt', 'head -5 a.txt', 'tail -c 5 a.txt', 'ls -lah', 'wc -lw a.txt', 'cat -n a.txt', 'git log --stat', 'git diff --name-only', 'git show --stat HEAD'];
+// the second verifier: grep with a DIRECTORY operand recurses under ugrep and printed secret files, and a name heuristic cannot be complete: grep is off the list altogether (the Grep tool already searches), file operands must be known safe file types
+const HOSTILE5 = ['git diff HEAD:src/a.ts sec', 'git diff HEAD:a.ts config', 'git diff --stat HEAD:a.ts sec', 'git diff HEAD:README.md outdir/o.txt', 'git show HEAD:a.ts sec', 'git log HEAD:a.ts', 'git diff HEAD:a.ts HEAD:b.ts', 'git show HEAD:a.ts HEAD:b.ts', 'head -5x a.ts', 'head -nc 5 a.ts', 'head -n5 a.ts', 'tail -vn5 a.ts']; // a blob:path token only ever stands alone in `git show` (a blob diffed against ANY worktree file would print an untracked file)
+const HOSTILE4 = ['head a.ts -n .bash_history', 'tail a.ts b.ts -vn sec', 'tail Makefile -c a.p8 session.log -5', 'head a.rs -c .bash_history', 'head seed.txt -0 -n .bash_history', 'head a.ts -c database.yml', 'head a.ts -n config', 'tail a.ts -n .s3cfg', 'cat a.ts -n', 'wc a.ts -l', 'ls src -la', // flags after a file operand: BSD head/tail read the "value" as another FILE
+  'head -n config a.ts', 'head -n .bash_history a.ts', 'tail -c abc a.ts', 'head -n 5x a.ts', 'head -n 1234567 a.ts', 'tail -n -5 a.ts', // a value flag takes digits only
+  'grep -n a.ts b.ts', 'grep -c a.ts b.ts', 'git log -p database.yml', 'git diff config.yml', 'git show HEAD:database.yml']; // grep as a program even with file-like operands; dotted git paths must be safe types
+const HOSTILE3 = ['grep -n foo .', 'grep -in foo .', 'grep x . foo', 'grep . -e foo a.ts', 'grep -n foo config', 'grep -n foo src', 'grep -in foo src a.ts', 'grep -n foo src/a.ts', 'grep -c TODO a.ts b.ts', 'grep -i error build.log', 'grep -n foo a.ts',
+  'cat serviceAccountKey.json', 'cat apikey.txt', 'cat private_key.json', 'cat .bash_history', 'cat .s3cfg', 'cat .boto', 'cat .dev.vars', 'cat database.yml', 'cat wp-config.php', 'cat .config/gh/hosts.yml', 'cat a.p8', 'cat a.ppk', 'cat a.kdbx', 'cat sec', 'cat config', 'cat src', 'head -5 database.yml', 'tail -5 .boto', 'wc -l config', 'git show HEAD:serviceAccountKey.json', 'git show HEAD:config', 'cat Makefile.env', 'cat data.json', 'cat settings.yaml'];
+const HOSTILE2 = ['grep -3 hunter2 .', 'grep --dereference-recursive hunter2 .', 'grep -S x .', 'grep --save-config foo f', 'grep --save-config=0 foo f', 'grep --pager=sh x f', 'grep --filter=x x f', 'grep -Q x f', 'grep --config=x x f', 'grep -rn x .', 'grep -nr x .', 'grep -e foo -e bar', 'grep -A 3 foo', 'grep -n foo',
+  'head -n 5', 'head -c 2000', 'tail -c 5', 'tail -n 0', 'tail +1', 'head --bytes 5', 'head -', 'cat -', 'cat -- a', 'git diff --stdin', 'git show --stdin', 'git diff -Ox --stdin', 'git log --help', 'git show HEAD --help', 'git diff -h', 'git log --show-signature', 'git log --format=%GS', 'git log --paginate', 'git log --pager=x',
+  'cat prod.env', 'cat config/production.env', 'cat app.env', 'cat .gitconfig', 'cat .docker/config.json', 'cat .kube/config', 'cat .pypirc', 'cat .pgpass', 'cat .htpasswd', 'cat .vault-token', 'cat id_ecdsa', 'cat keystore.jks', 'cat terraform.tfstate', 'cat prod.tfvars', 'cat token.txt', 'cat password.txt', 'git show HEAD:prod.env', 'grep -n x prod.env', 'ls -la --color=always', 'ls --help', 'wc --help', 'pwd -P', 'pwd x', 'ls -Z', 'head --lines=5 a'];
+test('S(d): the fixed read-only Bash list is classified read-only; a long list of hostile or write commands never is', () => {
+  for (const c of [...READ_ONLY_OK, ...MORE_OK]) assert.equal(readOnlyCommand(c), true, c);
+  for (const c of [...HOSTILE, ...HOSTILE2, ...HOSTILE3, ...HOSTILE4, ...HOSTILE5]) assert.equal(readOnlyCommand(c), false, JSON.stringify(c).slice(0, 60));
+  for (const c of [5, null, undefined, {}, ['ls']] as unknown[]) assert.equal(readOnlyCommand(c), false);
+  assert.ok(READ_ONLY_OK.length >= 20 && HOSTILE.length >= 30);
+});
+
+test('S(d) property (fixed seed): a command with any forbidden character is never read-only, whatever else it holds', () => {
+  const bad = [';', '|', '&', '>', '<', '`', '$', '(', ')', '{', '}', '\n', '\t', '"', "'", '\\', '*', '?', '[', '~', '‮', '​'];
+  fc.assert(fc.property(fc.constantFrom(...READ_ONLY_OK), fc.constantFrom(...bad), fc.nat(40), (cmd, ch, at) => {
+    const i = at % (cmd.length + 1); assert.equal(readOnlyCommand(cmd.slice(0, i) + ch + cmd.slice(i)), false);
+  }), {seed: 20261107, numRuns: 400});
+});
+
+test('S(d): a read-only Bash ask is answered with no Mac box and says so (box:false); a write, python3 -c or unknown tool still opens the box (box:true)', async () => {
+  const s = setup(); await s.b.start({repo: 'r', name: 'x'}); const c = s.children[0]!, id = s.b.list()[0]!.id;
+  const bash = (rid: string, command: string) => c.say({type: 'control_request', request_id: rid, request: {subtype: 'can_use_tool', tool_name: 'Bash', input: {command}, description: 'x'}});
+  bash('q1', 'git status --short'); bash('q2', 'python3 -c print(1)'); bash('q3', 'cat > f'); bash('q4', 'ls -la');
+  const asks = s.b.list()[0]!.asks; assert.deepEqual(asks.map((a) => a.box), [false, true, true, false]);
+  await s.b.answer({builder: id, ask: asks[0]!.id, choice: 'yes'}); assert.equal(s.dialogs.length, 0); assert.equal(c.sent().at(-1)!.response.response.behavior, 'allow');
+  await s.b.answer({builder: id, ask: asks[3]!.id, choice: 'yes'}); assert.equal(s.dialogs.length, 0);
+  await s.b.answer({builder: id, ask: asks[1]!.id, choice: 'yes'}); assert.equal(s.dialogs.length, 1); assert.match(s.dialogs[0]!, /python3/);
+  await s.b.answer({builder: id, ask: asks[2]!.id, choice: 'yes'}); assert.equal(s.dialogs.length, 2);
 });
