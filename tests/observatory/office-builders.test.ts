@@ -358,7 +358,7 @@ test('page: start a builder from the office; an ask is an amber Needs-you item (
     await page.waitForFunction(() => document.querySelectorAll('.oa-askitem.done').length === 2, null, {timeout: 8000});
     assert.equal(c.sent().at(-1)!.response.response.behavior, 'deny'); assert.equal(f.dialogs.length, 1, 'a No never opens a box');
     c.say({type: 'result', subtype: 'success'}); await page.waitForSelector('.oa-new', {timeout: 8000});
-    assert.match(await page.innerText('.oa-b'), /Finished a turn/); assert.doesNotMatch(await page.innerText('.oa-b'), /\bdone\b/i);
+    assert.match(await page.innerText('.oa-b'), /Done with this step\. Waiting for you to say what's next\./); assert.doesNotMatch(await page.innerText('.oa-b'), /Saved|passed|finished a turn/i); // the words never claim a gate PASS
     await page.click('.oa-btitle'); await page.waitForSelector('.oa-new', {state: 'detached', timeout: 8000});
     c.say(ask('q3', 'Bash')); await page.waitForSelector('.oa-askitem:not(.done)', {timeout: 8000}); f.tick(16 * 60_000);
     await page.waitForSelector('.oa-askitem.stale', {timeout: 8000}); assert.equal(await page.$('.oa-askitem.stale .oa-yes'), null); assert.match(await page.innerText('.oa-askitem.stale'), /stale/i);

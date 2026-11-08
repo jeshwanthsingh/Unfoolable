@@ -35,7 +35,7 @@ export function boardOf(s: OfficeState): Board {
   const label = (h: Helper): string => (byProject.get(h.project)!.length > 1 ? `Helper ${rank(h)} on ${h.project}` : h.project);
   const age = (h: Helper): number => secs(h.lastAt, s.now);
   const card = (h: Helper, verb: string, time: string, tone: Tone, button: Card['button']): Card => ({key: h.sid, project: h.project, label: label(h), verb, time, at: hhmm(h.lastAt), tone, button});
-  const quiet = new Map<string, Helper[]>();
+  const quiet = new Map<string, Helper[]>(), waits: Card[] = []; // "waiting for you" items go below the real asks
   for (const h of s.helpers) {
     if (h.status === 'needs_you') b.needs.push(card(h, "I'm waiting for you. Please answer me.", age(h) < 60 ? 'Waiting for less than a minute' : `Waiting for ${plural(Math.floor(age(h) / 60), 'minute', 'minutes')}`, 'amber', 'open'));
     else if (h.status === 'stuck' && !h.gate) b.needs.push(card(h, 'My last 3 steps did not work.', ago(age(h)), 'red', 'open'));
@@ -43,9 +43,10 @@ export function boardOf(s: OfficeState): Board {
     else if (h.status === 'checking') b.checking.push(card(h, "I'm checking the work.", ago(age(h)), 'purple', null));
     else if (h.status === 'working') b.working.push(card(h, "I'm working on it.", ago(age(h)), 'blue', null));
     else if (h.status === 'done') { if (h.lastAt.slice(0, 10) === today) b.done.push(card(h, h.gate && h.gate.total > 0 ? `Saved. ${h.gate.passed} of ${h.gate.total} passed.` : 'Saved. The checker said it works.', ago(age(h)), 'green', null)); }
-    else if (waiting(h)) b.needs.push(card(h, 'I finished my turn. Waiting for your reply.', ago(age(h)), 'amber', 'open'));
+    else if (waiting(h)) waits.push(card(h, "Done with this step. Waiting for you to say what's next.", ago(age(h)), 'amber', 'open'));
     else (quiet.get(h.project) ?? quiet.set(h.project, []).get(h.project)!).push(h);
   }
+  b.needs.push(...waits);
   for (const [p, hs] of quiet) { b.quiet += hs.length; b.quietLines.push(`${byProject.get(p)!.length > 1 ? `${hs.map(rank).sort((x, y) => x - y).map((n) => `Helper ${n}`).join(', ')} on ${p}` : p}: quiet, no news for a while`); }
   const n = b.needs.length, w = b.working.length;
   const f = b.failed.length;

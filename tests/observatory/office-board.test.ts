@@ -111,7 +111,7 @@ test('property: nothing whose latest check did not PASS is ever in Done today (a
 test('a helper that finished its turn is visible: waiting for your reply for 15 minutes, then quiet', () => {
   const turn = (ts: string) => [ev({ts: '2026-11-05T09:50:00'}), ev({kind: 'turn_end', ts, tool: null})];
   const soon = boardOf(reduce(turn('2026-11-05T09:58:00'), '2026-11-05T10:01:00'));
-  assert.deepEqual(soon.needs.map((c) => [c.verb, c.tone, c.button]), [['I finished my turn. Waiting for your reply.', 'amber', 'open']]);
+  assert.deepEqual(soon.needs.map((c) => [c.verb, c.tone, c.button]), [["Done with this step. Waiting for you to say what's next.", 'amber', 'open']]);
   assert.equal(soon.sentence, 'Unfoolable needs you'); assert.equal(soon.quiet, 0);
   const late = boardOf(reduce(turn('2026-11-05T09:30:00'), '2026-11-05T10:01:00')); // 31 min ago
   assert.deepEqual([late.needs.length, late.quiet], [0, 1]);
@@ -134,4 +134,19 @@ test('one label per helper: a helper is never both in a lane and in the quiet li
     const lane = new Set([board.needs, board.working, board.checking, board.done, board.failed].flat().map((c) => c.label));
     for (const q of board.quietLines) for (const n of (/^((?:Helper \d+(?:, )?)+) on (.+):/.exec(q)?.[1] ?? '').match(/Helper \d+/g) ?? []) assert.ok(![...lane].some((l) => l.startsWith(`${n} on `) && q.includes(` on ${l.split(' on ')[1]}:`)), `${n} is in a lane and in the quiet line`);
   }), {numRuns: 300, seed: 33});
+});
+
+test('W6: "waiting for you" items sit BELOW real asks in the Needs-you lane, whatever order the events came in; the old words are gone', () => {
+  const ask = (sid: string, project: string) => ev({sid, project, kind: 'needs_you', code: 'permission', tool: null, ts: '2026-11-05T09:59:00'});
+  const wait = (sid: string, project: string) => [ev({sid, project, ts: '2026-11-05T09:50:00'}), ev({sid, project, kind: 'turn_end', tool: null, ts: '2026-11-05T09:58:00'})];
+  for (const events of [[...wait('h:bbbbbbbbbbbb', 'Waiter'), ask('h:aaaaaaaaaaaa', 'Asker')], [ask('h:aaaaaaaaaaaa', 'Asker'), ...wait('h:bbbbbbbbbbbb', 'Waiter')], [...wait('h:aaaaaaaaaaaa', 'Waiter'), ask('h:bbbbbbbbbbbb', 'Asker')]]) {
+    const st = reduce(events, '2026-11-05T10:01:00');
+    for (const helpers of [st.helpers, [...st.helpers].reverse()]) { // the reducer already sorts asks first; the board must not depend on that (a hand-reversed list is the proof)
+      const rb = boardOf({...st, helpers});
+      assert.deepEqual(rb.needs.map((c) => c.project), ['Asker', 'Waiter'], 'the real ask first, whatever order the helpers arrive in');
+    }
+    const b = boardOf(st);
+    assert.equal(b.needs[1]!.verb, "Done with this step. Waiting for you to say what's next.");
+    assert.doesNotMatch(JSON.stringify(b), /finished my turn|Waiting for your reply/i);
+  }
 });
