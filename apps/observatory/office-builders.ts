@@ -15,7 +15,7 @@ export type Deps = {
   store: {load: () => Rec[]; save: (r: Rec[]) => void};
   now: () => number;
 };
-export type AskPub = {id: string; tool: string; summary: string; state: 'open' | 'deciding' | 'answered' | 'withdrawn'; createdAt: number; expiresAt: number; box: boolean}; // box: a Yes needs the native Mac box
+export type AskPub = {id: string; tool: string; summary: string; phrase: string; detail: string; unknown: boolean; state: 'open' | 'deciding' | 'answered' | 'withdrawn'; createdAt: number; expiresAt: number; box: boolean}; // box: a Yes needs the native Mac box
 export type Rec = {id: string; repo: string; name: string; worktree: string; sessionId: string; version: string; status: 'running' | 'stopped' | 'ended' | 'lost' | 'needs-human'; turnDone: boolean; unread: boolean; asks: AskPub[]};
 export type Reply = {code: number; body: Record<string, unknown>};
 
@@ -24,6 +24,74 @@ const READ_ONLY = new Set(['Read', 'Grep', 'Glob', 'LS']); // these may be answe
 // A FIXED read-only Bash list may also be answered from the page (the human still presses Yes; only the Mac box is skipped). It is a strict ALLOW-list per program, not a shell parser and not a ban-list:
 // one simple command, a tiny character set, a handful of programs, only the short flags listed here (no long options at all except for git, which has a ban-list), only relative paths, nothing that looks like a secret.
 // Anything else (python3 -c, sed -i, find, pipes, unknown flags...) keeps the Mac box. Known limits: a committed symlink or tracked secret can still be read, as the Read tool can already.
+// W3, plain words: an ask is ONE of eight fixed phrases chosen from the tool and a fixed pattern, never the raw text; the exact command or path is only behind a tap (and in the native Mac box).
+// A benign sentence ("run the tests", "install something") must be EARNED by a strict shape: a known runner or installer, no chaining character, and only plain names after it (a flag that writes, runs a program or fetches a URL
+// breaks the shape). Anything unusual reads "run a command". A destructive word in ANY spelling reads "delete" and is checked first; the exact command is behind a tap and in the Mac box, so the sentence is a label, not the safety.
+const TEST_START = /^(?:node --test|npm (?:run )?test|npm t|pnpm (?:run )?test|yarn (?:run )?test|pytest|python3? -m (?:pytest|unittest)|cargo test|go test|npx (?:vitest|jest)|make test)(?= |$)/;
+const SAFE_FLAG = /^-{1,2}(?:q|v|x|s|silent|verbose|quiet|run|bail|no-cache|coverage)$/;
+const PLAIN_NAME = /^[\w@][\w./@:+-]*$/;
+const INSTALL_START = /^(?:npm|pnpm|yarn|pip3?|brew|cargo|gem|go) (?:install|add|i|ci)(?= |$)|^(?:apt|apt-get) install(?= |$)|^python3? -m pip install(?= |$)/;
+const INSTALL_FLAG = /^(?:-D|-g|-y|--save-dev|--save)$/;
+const PKG_NAME = /^@?[a-z0-9](?:[\w.-]*[a-z0-9])?(?:\/[\w.-]*[a-z0-9])?(?:@[\w.^~-]+)?$/i;
+const SEPS = String.fromCharCode(0x2028, 0x2029, 0x85, 0x0b, 0x0c); // unicode line separators, vertical tab, form feed
+const JOINERS = new RegExp('[;|&<>`$(){}\\n\\r\\t\\\\"\'' + SEPS + ']'); // anything that chains, hides or quotes a second command: no benign sentence then
+const shapeOk = (rest: string, ok: (t: string) => boolean): boolean => (rest === '' || rest.startsWith(' ')) && rest.split(' ').filter(Boolean).every(ok);
+const isTests = (c: string): boolean => { if (/^make test /.test(c)) return false; /* make runs every target named after it */ const m = c.match(TEST_START); return !!m && shapeOk(c.slice(m[0].length), (t) => SAFE_FLAG.test(t) || t === './...' || (PLAIN_NAME.test(t) && !t.startsWith('/') && !t.includes('..'))); };
+const isInstall = (c: string): boolean => { const m = c.match(INSTALL_START); return !!m && shapeOk(c.slice(m[0].length), (t) => INSTALL_FLAG.test(t) || PKG_NAME.test(t)); };
+const WRAPPERS = new Set(['sudo', 'env', 'xargs', 'time', 'nohup', 'command', 'exec', 'nice', 'builtin', 'doas', 'caffeinate', 'stdbuf', 'eval', 'npx', 'pnpx', 'bunx']);
+const DELETE_PROGS = new Set(['rm', 'rmdir', 'unlink', 'trash', 'trash-put', 'trash-empty', 'srm', 'shred', 'rimraf', 'rm_rf', 'truncate']);
+const GIT_VALUE_OPTS = new Set(['-c', '-C', '--git-dir', '--work-tree', '--namespace']);
+const baseOf = (t: string): string => t.split('/').pop() ?? t;
+// Delete detection is token based and case-insensitive: quotes and backslashes are dropped (r""m), every chaining character starts a new command, wrapper words (sudo, env, A=b, xargs...) are skipped, a path is judged by its last part.
+function deletes(cmd: string): boolean {
+  for (const seg of cmd.toLowerCase().replace(/[\\"'`]/g, '').split(new RegExp('[;&|(){}\\n\\r' + SEPS + ']+|\\$\\('))) {
+    const t = seg.split(/\s+/).filter(Boolean); let i = 0;
+    while (i < t.length && (WRAPPERS.has(baseOf(t[i]!)) || /^[a-z_]\w*=/.test(t[i]!) || (i > 0 && t[i]!.startsWith('-') && WRAPPERS.has(baseOf(t[i - 1]!))))) i++;
+    const prog = baseOf(t[i] ?? ''), args = t.slice(i + 1);
+    if (DELETE_PROGS.has(prog)) return true;
+    if (args.some((a, k) => ['-exec', '-execdir', '-toolexec', '--exec', '-ok'].includes(a) && DELETE_PROGS.has(baseOf(args[k + 1] ?? '')))) return true;
+    if (prog === 'find' && args.includes('-delete')) return true;
+    if (prog === 'rsync' && args.some((a) => a === '--delete' || a.startsWith('--delete-') || a === '--remove-source-files')) return true;
+    if (prog === 'dd' && args.some((a) => a.startsWith('of='))) return true;
+    if (['rm', 'rmi', 'prune', 'delete', 'destroy', 'rb', 'unpublish'].includes(args[0] ?? '') && ['docker', 'kubectl', 'terraform', 'aws', 'npm'].includes(prog)) return true;
+    if (prog === 'docker' && args.includes('prune')) return true;
+    if (prog === 'aws' && args.some((a) => a === 'rb' || a === 'rm' || a.startsWith('delete-') || a.startsWith('terminate-'))) return true;
+    if (prog === 'gh' && args.includes('delete')) return true;
+    if (prog === 'diskutil' && (args[0] ?? '').startsWith('erase')) return true;
+    if (['npm', 'pnpm', 'yarn', 'pip', 'pip3', 'brew', 'apt', 'apt-get', 'cargo', 'gem'].includes(prog) && args.slice(0, 2).some((a) => ['uninstall', 'remove', 'purge', 'rm', 'unpublish', 'autoremove'].includes(a))) return true;
+    if (prog === 'git') {
+      let k = 0; while (k < args.length && args[k]!.startsWith('-')) k += GIT_VALUE_OPTS.has(args[k]!) ? 2 : 1;
+      const sub = args[k] ?? '', rest = args.slice(k + 1);
+      if (sub === 'clean' || sub === 'filter-branch' || sub === 'filter-repo') return true;
+      if (sub === 'reset' && rest.includes('--hard')) return true;
+      if (sub === 'branch' && rest.some((a) => /^-[a-z]*d/.test(a) || a === '--delete')) return true;
+      if (sub === 'tag' && rest.some((a) => a === '-d' || a === '--delete')) return true;
+      if (sub === 'checkout' && (rest.includes('-f') || rest.includes('--force') || (rest.includes('--') && rest.includes('.')))) return true;
+      if (sub === 'restore' && !rest.includes('--staged')) return true;
+      if (sub === 'stash' && ['drop', 'clear'].includes(rest[0] ?? '')) return true;
+      if (sub === 'push' && rest.some((a) => ['--force', '-f', '--force-with-lease', '--delete', '-d'].includes(a) || a.startsWith('+') || a.startsWith(':') || a.startsWith('--force-with'))) return true;
+      if (sub === 'worktree' && ['remove', 'prune'].includes(rest[0] ?? '')) return true;
+      if (sub === 'reflog' && ['expire', 'delete'].includes(rest[0] ?? '')) return true;
+      if (sub === 'gc' && rest.some((a) => a.startsWith('--prune'))) return true;
+    }
+  }
+  return false;
+}
+const GROUP: Record<string, string> = {Read: 'read', Grep: 'read', Glob: 'read', LS: 'read', NotebookRead: 'read', Edit: 'change', Write: 'change', MultiEdit: 'change', NotebookEdit: 'change', WebSearch: 'web', WebFetch: 'web', AskUserQuestion: 'question', Bash: 'bash'};
+export function askPhrase(tool: string, input: unknown): {phrase: string; unknown: boolean; detail: string} {
+  const o = (input && typeof input === 'object' ? input : {}) as Record<string, unknown>, g = GROUP[tool] ?? '';
+  const named = [o.file_path, o.notebook_path].find((v) => typeof v === 'string') as string | undefined;
+  if (g === 'read') return {phrase: 'wants to read a file', unknown: false, detail: clean([o.file_path, o.notebook_path, o.path, o.pattern].find((v) => typeof v === 'string'))};
+  if (g === 'change') { const base = (named ?? '').split('/').pop() ?? ''; const fileShown = /^[A-Za-z0-9][\w.-]*$/.test(base) && !/^\.+$/.test(base) ? base.slice(0, 40) : 'a file'; return {phrase: `wants to change ${fileShown}`, unknown: false, detail: clean(named)}; } // only a plain file name is ever shown: no spaces, so no sentence can be smuggled in
+  if (g === 'web') return {phrase: 'wants to search the web', unknown: false, detail: clean(typeof o.url === 'string' ? o.url : o.query)};
+  if (g === 'question') return {phrase: 'is asking you a question', unknown: false, detail: ''};
+  if (g === 'bash') {
+    const c = typeof o.command === 'string' ? o.command : '', plain = !JOINERS.test(c);
+    return {phrase: deletes(c) ? 'wants to delete something' : plain && isInstall(c) ? 'wants to install something' : plain && isTests(c) ? 'wants to run the tests' : 'wants to run a command', unknown: false, detail: shown(c.replace(/\r?\n|\r/g, ' ⏎ '))};
+  }
+  let raw = ''; try { raw = JSON.stringify(input ?? {}); } catch { /* unreadable input: no detail */ }
+  return {phrase: "wants to do something I can't name", unknown: true, detail: shown(raw)};
+}
 const RO_CHARS = /^[\w ./=,:@%+-]+$/, RO_OPT = /^-{1,2}[A-Za-z0-9][\w=,.:%+-]*$/;
 const RO_SECRET = /\.env|(^|[/:=_-])env($|[/.:_-])|\.pem|key|\.jks|\.p12|\.pfx|\.tfstate|\.tfvars|secret|token|passw|credential|\.ssh|\.gnupg|\.claude|\.git\/config|\.gitconfig|\.docker|\.kube|\.aws|\.npmrc|\.pypirc|\.pgpass|\.htpasswd|\.netrc|vault|id_(rsa|dsa|ecdsa|ed25519)|keystore/i;
 // File operands are an ALLOW-list of known safe file TYPES (a name deny-list can never be complete); a name with no such type (a directory, .env, .boto, database.yml, ...) keeps the Mac box.
@@ -73,15 +141,16 @@ export function readOnlyCommand(cmd: unknown): boolean {
 }
 
 const REPO = /^[A-Za-z0-9][\w.-]{0,59}$/, NAME = /^[a-z0-9][a-z0-9-]{0,39}$/;
-const clean = (s: unknown, n = 120): string => String(s ?? '').replace(/[\u0000-\u001f\u007f"\\\p{Cf}]/gu, ' ').replace(/\s+/g, ' ').trim().slice(0, n); // also hidden formatting characters (bidi, zero-width)
+const clean = (s: unknown, n = 120): string => String(s ?? '').replace(/[\u0000-\u001f\u007f\u0080-\u009f"\\\p{Cf}]/gu, ' ').replace(/\s+/g, ' ').trim().slice(0, n); // also hidden formatting characters (bidi, zero-width)
 const MAX_OPEN = 20, MAX_KEPT = 50, STATUSES = ['running', 'stopped', 'ended', 'lost', 'needs-human'];
 // What the dialog shows: the real command, path or url; for any other tool the input itself as JSON. If it does not fit, the answer is no (never shown cut off and then allowed in full).
 const SHOWN = 200;
+const shown = (t: string): string => { const c = clean(t, 100000); return c.length > SHOWN ? `${c.slice(0, SHOWN - 1)}…` : c; }; // cut with a visible ellipsis, never silently
 const realInput = (i: unknown): string => { const o = (i && typeof i === 'object' ? i : {}) as Record<string, unknown>; const k = ['command', 'file_path', 'path', 'url', 'pattern'].find((x) => typeof o[x] === 'string'); try { return k ? String(o[k]) : JSON.stringify(i ?? {}); } catch { return ''; } };
 // A saved record is trusted only as far as it parses: odd ones are dropped, an unknown status can never read as done.
 const coerce = (r: unknown): Rec | null => {
   const x = r as Partial<Rec> | null; if (!x || typeof x !== 'object' || [x.id, x.repo, x.name, x.worktree].some((v) => typeof v !== 'string')) return null;
-  const asks = (Array.isArray(x.asks) ? x.asks : []).filter((a): a is AskPub => !!a && typeof a === 'object' && typeof (a as AskPub).id === 'string').map((a) => ({id: a.id, tool: clean(a.tool, 40), summary: clean(a.summary), state: a.state === 'answered' ? 'answered' as const : 'withdrawn' as const, createdAt: Number(a.createdAt) || 0, expiresAt: Number(a.expiresAt) || 0, box: true}));
+  const asks = (Array.isArray(x.asks) ? x.asks : []).filter((a): a is AskPub => !!a && typeof a === 'object' && typeof (a as AskPub).id === 'string').map((a) => ({id: a.id, tool: clean(a.tool, 40), summary: clean(a.summary), phrase: clean(a.phrase) || "wants to do something I can't name", detail: clean(a.detail, 200), unknown: a.unknown === true, state: a.state === 'answered' ? 'answered' as const : 'withdrawn' as const, createdAt: Number(a.createdAt) || 0, expiresAt: Number(a.expiresAt) || 0, box: true}));
   return {id: x.id!, repo: x.repo!, name: x.name!, worktree: x.worktree!, sessionId: typeof x.sessionId === 'string' ? clean(x.sessionId, 64) : '', version: typeof x.version === 'string' ? clean(x.version, 20) : '', status: x.status === 'running' || !STATUSES.includes(String(x.status)) ? 'lost' : x.status!, turnDone: x.turnDone === true, unread: x.unread === true, asks};
 };
 
@@ -111,7 +180,7 @@ export function createBuilders(deps: Deps, o: {maxRunning?: number; expiryMs?: n
       const id = `a${++l.n}`, t = deps.now(), tool = clean(m.request.tool_name, 40);
       if (l.rec.asks.filter((a) => a.state === 'open' || a.state === 'deciding').length >= MAX_OPEN) { respond(l, String(m.request_id), {behavior: 'deny', message: 'too many open asks'}); return; }
       l.inputs.set(id, {requestId: String(m.request_id), input: m.request.input});
-      l.rec.asks.push({id, tool, summary: clean(`${tool}: ${m.request.description ?? ''}`), state: 'open', createdAt: t, expiresAt: t + expiryMs, box: !(READ_ONLY.has(tool) || (tool === 'Bash' && readOnlyCommand((m.request.input as {command?: unknown} | undefined)?.command)))});
+      l.rec.asks.push({id, tool, summary: clean(`${tool}: ${m.request.description ?? ''}`), ...askPhrase(tool, m.request.input), state: 'open', createdAt: t, expiresAt: t + expiryMs, box: !(READ_ONLY.has(tool) || (tool === 'Bash' && readOnlyCommand((m.request.input as {command?: unknown} | undefined)?.command)))});
       prune(l);
     } else if (m?.type === 'control_cancel_request') { // the child no longer needs an answer
       for (const [aid, held] of l.inputs) if (held.requestId === String(m.request_id)) { const a = l.rec.asks.find((x) => x.id === aid); if (a) a.state = 'withdrawn'; l.inputs.delete(aid); }

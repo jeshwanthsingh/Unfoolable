@@ -129,3 +129,5 @@ body{margin:0}
 .oa-builders .oa-muted,.oa-askitem .oa-muted{color:#3F4B66}
 .unfoolable.oa .oa-builders h2,.unfoolable.oa .oa-builders p,.unfoolable.oa .oa-btitle,.unfoolable.oa .oa-builders .oa-muted,.unfoolable.oa .oa-askitem p{color:#1F2A44}.unfoolable.oa .oa-bstatus,.unfoolable.oa .oa-builders .oa-hint{color:#3F4B66}.unfoolable.oa .oa-builders .oa-error{color:#B42318}
 .unfoolable.oa .oa-btitle:hover,.unfoolable.oa .oa-btitle:active{background:transparent;color:#1F2A44}.unfoolable.oa .oa-btitle:hover .oa-muted{color:#3F4B66}
+.oa-what{margin:4px 0 0}.oa-what summary{cursor:pointer;font-weight:700;color:#1F2A44}.oa-detail{margin:4px 0 0;font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;color:#1F2A44}
+.unfoolable.oa .oa-what summary,.unfoolable.oa .oa-detail{color:#1F2A44}

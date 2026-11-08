@@ -81,5 +81,5 @@ export const BUILD = {
   title: 'Builders', start: 'Start a builder', repo: 'Project folder (for example command-center)', name: 'Task name (for example fix-login)', needs: 'Needs you', yes: 'Yes', no: 'No', stop: 'Stop',
   yesBox: 'Yes (a box will ask on your Mac)', waitBox: 'Waiting for the box on your Mac...', stale: 'Stale, withdrawn: nothing was allowed', newResult: 'New result since you looked', answered: 'Answered', withdrawn: 'Withdrawn',
   working: 'Working', turn: "Done with this step. Waiting for you to say what's next.", stopped: 'Stopped by you', ended: 'Ended without a gate PASS', lost: 'Lost when the office restarted. Resume by hand, from its worktree', human: 'Needs a human: its worktree has unsaved work',
-  failed: 'That did not work.', down: "Not live: I can't reach the builders list, so what is shown may be old.", hint: 'Starts a builder on a card you already approved. A builder asks here before it does anything that is not read-only.'
+  failed: 'That did not work.', what: 'Show details', down: "Not live: I can't reach the builders list, so what is shown may be old.", hint: 'Starts a builder on a card you already approved. A builder asks here before it does anything that is not read-only.'
 };

@@ -27,7 +27,7 @@ export function Ask() {
   );
 }
 
-type AskItem = {id: string; tool: string; summary: string; state: 'open' | 'deciding' | 'answered' | 'withdrawn'; createdAt: number; expiresAt: number; box: boolean};
+type AskItem = {id: string; tool: string; summary: string; phrase: string; detail: string; unknown: boolean; state: 'open' | 'deciding' | 'answered' | 'withdrawn'; createdAt: number; expiresAt: number; box: boolean};
 type Built = {id: string; repo: string; name: string; sessionId: string; version: string; status: 'running' | 'stopped' | 'ended' | 'lost' | 'needs-human'; turnDone: boolean; unread: boolean; asks: AskItem[]};
 const post = async (path: string, body: object): Promise<{ok: boolean; status: number; error?: string | undefined}> => {
   const r = await fetch(path, {method: 'POST', headers: {'x-office-token': token(), 'content-type': 'application/json'}, body: JSON.stringify(body)});
@@ -72,7 +72,8 @@ export function Builders() {
               const open = a.state === 'open', risky = a.box !== false; // the server decides whether a Yes needs the Mac box
               return (
                 <div key={a.id} className={`oa-askitem${open || a.state === 'deciding' ? '' : a.state === 'withdrawn' ? ' done stale' : ' done'}`}>
-                  <p><b>{BUILD.needs}:</b> {a.summary}</p>
+                  <p><b>{BUILD.needs}:</b> {a.phrase}</p>
+                  {open && a.detail ? <details className="oa-what"><summary>{BUILD.what}</summary><p className="oa-detail">{a.detail}</p></details> : null}
                   {open ? (
                     <p className="oa-abtns">
                       <button type="button" className="ob-btn oa-yes" disabled={down || busy === `a${b.id}${a.id}`} onClick={() => void act(`a${b.id}${a.id}`, () => post('/answer', {builder: b.id, ask: a.id, choice: 'yes'}))}>{risky ? BUILD.yesBox : BUILD.yes}</button>
