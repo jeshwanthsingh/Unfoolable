@@ -422,6 +422,140 @@ describe('Your Turn page tells the truth', () => {
     });
   });
 
+  describe('the Map view', () => {
+    const mp = (pieces: object[], part: object = {}) => JSON.stringify({project: 'proj', repo: '/x/none', parts: [{id: 'p1', name: 'Part one', plain: 'About part one', pieces, ...part}, {id: 'p2', name: 'Part two', plain: 'About part two', pieces: []}]});
+    const pc = (id: string, o: object = {}) => ({id, name: `Piece ${id}`, plain: `plain ${id}`, status: 'idea', needs: [], model: 'claude', ...o});
+    const mapWorld = (text: string | null): World => {
+      const w = world({cards: []});
+      mkdirSync(join(w.vault, 'maps'));
+      if (text !== null) writeFileSync(join(w.vault, 'maps', 'proj.json'), text);
+      return w;
+    };
+    const POPMAP = () => mapWorld(mp([pc('a', {status: 'queued', model: 'codex'}), pc('b', {needs: ['a', 'ghost'], card: 'nothing-here', model: 'either'}), pc('c', {status: 'planned', needs: ['b']})]));
+    const openMap = async (p: Page) => {
+      await wait(p, 'empty', 3000).catch(() => undefined);
+      await p.getByRole('tab', {name: /^Map$/}).or(p.getByRole('button', {name: /^Map$/})).first().click({timeout: 3000});
+    };
+
+    it('Turn stays the default view; a Map tab or button sits next to it', {timeout: 60000}, async () => {
+      await run(POPMAP(), async (p) => {
+        await wait(p, 'empty');
+        assert.equal(await count(p, 'map-part'), 0);
+        assert.equal(await p.getByRole('tab', {name: /^Map$/}).or(p.getByRole('button', {name: /^Map$/})).count(), 1);
+      });
+    });
+
+    it('one card per part with its pieces; each piece has name, state word, model, from line; plan label only when isPlan', {timeout: 60000}, async () => {
+      await run(POPMAP(), async (p) => {
+        await openMap(p);
+        await wait(p, 'map-part');
+        assert.equal(await count(p, 'map-part'), 2);
+        assert.equal(await count(p, 'map-piece'), 3);
+        const a = p.getByTestId('map-piece').filter({hasText: 'Piece a'});
+        assert.equal((await a.getByTestId('piece-state').innerText()).trim().toLowerCase(), 'queued');
+        assert.match(await a.innerText(), /codex/i);
+        assert.match(await a.innerText(), /the map file \(plan\)/);
+        assert.equal(await a.getByTestId('piece-plan').count(), 1);
+        assert.match(await a.getByTestId('piece-plan').innerText(), /plan/i);
+        assert.match(await p.getByTestId('map-part').first().innerText(), /Part one/);
+      });
+    });
+
+    it('needs and blocked by: needs text for every piece with needs, blocked by only when blocked; no card gives "no card yet"', {timeout: 60000}, async () => {
+      await run(POPMAP(), async (p) => {
+        await openMap(p);
+        await wait(p, 'map-piece');
+        const a = p.getByTestId('map-piece').filter({hasText: 'Piece a'}), b = p.getByTestId('map-piece').filter({hasText: 'Piece b'});
+        assert.ok(!/needs:/.test(await a.innerText()));
+        assert.ok(!/blocked by/.test(await a.innerText()));
+        const bt = await b.innerText();
+        assert.match(bt, /needs: a, ghost/);
+        assert.match(bt, /blocked by: a, ghost/);
+        assert.match(bt, /no card yet/); // its card matches nothing
+        assert.match(await a.innerText(), /no card yet/); // no card at all
+      });
+    });
+
+    it('a piece with a real, computed state is not a plan and says where it came from', {timeout: 60000}, async () => {
+      const w = world({cards: [['c1', '/x/none', 'scope']]});
+      mkdirSync(join(w.vault, 'maps'));
+      writeFileSync(join(w.vault, 'maps', 'proj.json'), mp([pc('a', {card: 'c1'})]));
+      await run(w, async (p) => {
+        await openMap(p);
+        await wait(p, 'map-piece');
+        const a = p.getByTestId('map-piece').first();
+        assert.match(await a.getByTestId('piece-state').innerText(), /Waiting for your approval/);
+        assert.equal(await a.getByTestId('piece-plan').count(), 0);
+        assert.match(await a.innerText(), /the cards folder/);
+        assert.ok(!/no card yet/.test(await a.innerText()));
+      });
+    });
+
+    it('an empty map shows a plain empty state', {timeout: 60000}, async () => {
+      await run(mapWorld(null), async (p) => {
+        await openMap(p);
+        await wait(p, 'map-empty');
+        assert.equal(await count(p, 'map-part'), 0);
+        assert.equal(await count(p, 'not-live'), 0);
+      });
+    });
+
+    it('an unreadable map says "Not live: the map file cannot be read" and shows no parts', {timeout: 60000}, async () => {
+      await run(mapWorld('{not json'), async (p) => {
+        await openMap(p);
+        await p.getByText('Not live: the map file cannot be read', {exact: false}).first().waitFor({timeout: 10000});
+        assert.equal(await count(p, 'map-part'), 0);
+        assert.equal(await count(p, 'map-empty'), 0);
+      });
+    });
+
+    it('hostile text from the file is plain text: no element, no script, bidi controls gone', {timeout: 60000}, async () => {
+      const evil = '<img src=x id=pwn onerror="window.__pwn=1"><b id=bold>x</b>';
+      await run(mapWorld(mp([pc('a', {name: evil + '‮RTL⁦', plain: '<script>window.__pwn=2</script>'})])), async (p) => {
+        await openMap(p);
+        await wait(p, 'map-piece');
+        assert.equal(await p.locator('#pwn, #bold, [data-testid=map-piece] img, [data-testid=map-piece] script').count(), 0);
+        assert.equal(await p.evaluate(() => (globalThis as any).__pwn), undefined);
+        const t = await id(p, 'map-piece').innerText();
+        assert.ok(t.includes('<img src=x'));
+        assert.ok(!/[‪-‮⁦-⁩]/.test(t));
+      });
+    });
+
+    it('the Map view has no form, input, or button that changes anything, and sends only GETs', {timeout: 60000}, async () => {
+      await run(POPMAP(), async (p, {reqs}) => {
+        await openMap(p);
+        await wait(p, 'map-piece');
+        assert.equal(await p.locator('form, input, textarea, select').count(), 0);
+        assert.equal(await p.locator('[data-testid=map-part] button, [data-testid=map-part] a[href]').count(), 0);
+        assert.ok(reqs.every((q) => q.startsWith('GET ')), reqs.join('\n'));
+      });
+    });
+
+    it('axe: no serious or critical problem with a populated map at 1280 and 390 px; no horizontal scroll at 390', {timeout: 180000}, async () => {
+      assert.ok(existsSync(AXE), 'axe-core missing');
+      for (const width of [1280, 390]) {
+        await run(POPMAP(), async (p) => {
+          await openMap(p);
+          await wait(p, 'map-piece');
+          await p.addScriptTag({path: AXE});
+          const res = await p.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
+          assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `map at ${width}`);
+          if (width === 390) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 390);
+        }, {viewport: {width, height: width === 390 ? 800 : 900}});
+      }
+    });
+  });
+
+  it('source checks: the new web file Map.tsx exists and is covered by the banned-call scan', () => {
+    const f = join(ROOT, 'apps/turn/web/Map.tsx');
+    assert.ok(existsSync(f), 'apps/turn/web/Map.tsx is missing');
+    const s = readFileSync(f, 'utf8');
+    for (const b of ['child_process', 'dangerouslySetInnerHTML', 'innerHTML', "method: 'POST'", 'method: "POST"', 'XMLHttpRequest', 'eval(', 'new Function', '<form', '<input']) assert.ok(!s.includes(b), `Map.tsx contains ${b}`);
+    assert.ok(!/(?<![.\w])exec\(/.test(s));
+    assert.ok(!/method:\s*['"](POST|PUT|DELETE|PATCH)/i.test(s));
+  });
+
   it('source checks: the page has source files and none uses a banned call', () => {
     const web = readdirSync(join(ROOT, 'apps/turn/web'), {recursive: true}).map((f) => join(ROOT, 'apps/turn/web', String(f))).filter((f) => statSync(f).isFile());
     assert.ok(web.length > 0, 'no page source in apps/turn/web');

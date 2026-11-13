@@ -1,6 +1,7 @@
 // "Your Turn", slice 1: shows what the rail is waiting for, read only. Nothing on this page changes anything:
 // no form, no POST. Everything it shows is text from rail files (written by agents), so it is only ever rendered as plain text.
 import {useEffect, useState, type ReactElement, type ReactNode} from 'react';
+import {MapView} from './Map.tsx';
 
 type Pending = {name: string; repo: string; scope: string; approveLine: string | null};
 type Ship = {repo: string; head: string; title?: string};
@@ -132,15 +133,20 @@ function ReceiptView({r}: {r?: Receipt | undefined}) {
 
 export function Turn() {
   const {data, state, tries} = useFeed();
+  const [view, setView] = useState<'turn' | 'map'>('turn'); // Turn is the default view; Map is a second, read-only view
   const live = state === 'ok' && data !== null && data.notLive.length === 0;
   const clock = data ? new Date(data.at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) : '';
   const shell = (body: ReactNode): ReactElement => (
     <div className="page">
       <header className="top">
         <p className="brand">Your <i>Turn</i></p>
+        <div className="views" role="tablist" aria-label="Views">
+          <button type="button" role="tab" aria-selected={view === 'turn'} className="vtab" onClick={() => setView('turn')}>Turn</button>
+          <button type="button" role="tab" aria-selected={view === 'map'} className="vtab" onClick={() => setView('map')}>Map</button>
+        </div>
         <p className={live ? 'live' : 'live off'}><b aria-hidden="true" />{live ? `Live · checked ${clock}` : 'Not live'}</p>
       </header>
-      {body}
+      {view === 'map' ? <MapView /> : body}
     </div>
   );
   const banner = state === 'down'

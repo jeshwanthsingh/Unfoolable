@@ -9,6 +9,9 @@ body { background: radial-gradient(circle at 50% 46%, #fff9ec 0, var(--paper) 55
 .live { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
 .live b { width: 9px; height: 9px; border-radius: 50%; background: var(--green); display: inline-block; }
 .live.off b { background: var(--amber-ink); }
+.views { display: flex; gap: 6px; }
+.vtab { font: inherit; font-size: 13px; font-weight: 700; padding: 5px 14px; border: 2px solid var(--ink); border-radius: 999px; background: #fff; color: var(--ink); cursor: pointer; }
+.vtab[aria-selected="true"] { background: var(--ink); color: #fff; }
 .notlive, .oldlink { margin: 16px 0 0; padding: 10px 14px; background: #fff3d6; border: 2px solid var(--ink); border-radius: 12px; font-size: 14px; font-weight: 600; }
 .grid { display: grid; grid-template-columns: 224px minmax(0, 1fr) 372px; gap: 40px; margin-top: 36px; align-items: start; }
 .lab { font-size: 12px; letter-spacing: 0.9px; font-weight: 700; color: var(--muted); margin-bottom: 10px; }
