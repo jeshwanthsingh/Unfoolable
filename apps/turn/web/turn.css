@@ -15,6 +15,11 @@ body { background: radial-gradient(circle at 50% 46%, #fff9ec 0, var(--paper) 55
 .mini { background: #fff; border: 2px solid var(--ink); border-radius: 14px; padding: 10px 12px; margin-bottom: 10px; font-size: 13px; line-height: 1.3; overflow-wrap: anywhere; }
 .mini em { display: block; font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; color: var(--amber-ink); margin-bottom: 2px; }
 .mini.ship em { color: var(--green); }
+.older { margin-top: 18px; font-size: 13px; }
+.older summary { cursor: pointer; font-weight: 700; color: var(--muted); letter-spacing: 0.3px; padding: 4px 0; }
+.older summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.oldrow { padding: 6px 0; border-top: 1.5px dashed var(--line); overflow-wrap: anywhere; color: #3a4259; }
+.oldrow span { display: block; font-size: 11.5px; color: var(--muted); }
 .quiet { font-size: 12.5px; color: var(--muted); margin-top: 16px; line-height: 1.5; }
 .center { max-width: 640px; width: 100%; margin: 0 auto; }
 .card { background: #fff; border: 3px solid var(--ink); border-radius: 26px; box-shadow: 8px 8px 0 var(--ink); padding: 30px 36px 28px; }

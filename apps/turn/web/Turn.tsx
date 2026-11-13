@@ -4,8 +4,9 @@ import {useEffect, useState, type ReactElement, type ReactNode} from 'react';
 
 type Pending = {name: string; repo: string; scope: string; approveLine: string | null};
 type Ship = {repo: string; head: string};
-type Receipt = {repo: string; shipped: boolean; fields: Record<string, string>};
-type Data = {at: string; notLive: string[]; pending: Pending[]; ships: Ship[]; receipts: Receipt[]};
+type Older = {name: string; repo: string};
+type Receipt = {repo: string; shipped: boolean; title: string; fields: Record<string, string>};
+type Data = {at: string; notLive: string[]; pending: Pending[]; older: Older[]; settled: string[]; ships: Ship[]; receipts: Receipt[]};
 type Feed = {data: Data | null; state: 'loading' | 'ok' | 'down' | 'old'; tries: number};
 
 const base = (p: string): string => p.split('/').filter(Boolean).pop() ?? p;
@@ -17,7 +18,8 @@ const shape = (d: unknown): d is Data => {
   const x = d as Data | null;
   return obj(x) && Array.isArray(x!.pending) && Array.isArray(x!.ships) && Array.isArray(x!.receipts) && Array.isArray(x!.notLive)
     && x!.notLive.every(str) && x!.pending.every((p) => obj(p) && str(p.name) && str(p.repo) && str(p.scope) && (p.approveLine === null || str(p.approveLine)))
-    && x!.ships.every((s) => obj(s) && str(s.repo)) && x!.receipts.every((r) => obj(r) && str(r.repo) && obj(r.fields) && typeof r.shipped === 'boolean');
+    && Array.isArray(x!.older) && x!.older.every((o) => obj(o) && str(o.name) && str(o.repo)) && Array.isArray(x!.settled) && x!.settled.every(str)
+    && x!.ships.every((s) => obj(s) && str(s.repo)) && x!.receipts.every((r) => obj(r) && str(r.repo) && str(r.title) && obj(r.fields) && typeof r.shipped === 'boolean');
 };
 const SAFE_LINE = /^~\/Projects\/proof-lab\/scripts\/approve-card [A-Za-z0-9][A-Za-z0-9._-]{0,99}$/;
 
@@ -106,7 +108,9 @@ function ReceiptView({r}: {r?: Receipt | undefined}) {
   const seal = r.fields['seal'] ?? 'not recorded';
   return (
     <div className="rc" data-testid="receipt">
-      <h3 data-testid="receipt-project">{base(r.repo)}</h3>
+      <h3 data-testid="receipt-title">{r.title ? words(r.title) : base(r.repo)}</h3>
+      <p className="c" data-testid="receipt-project">{base(r.repo)}</p>
+      {r.title && <p className="c" data-testid="receipt-title-note">The card now approved for this project. It may not be the card the last check ran under.</p>}
       <hr />
       <p className={r.shipped ? 'big' : 'big not'} data-testid="receipt-banner">{r.shipped ? 'Really done. Checked, not claimed.' : 'Checked. Not shipped yet.'}</p>
       <hr />
@@ -161,10 +165,19 @@ export function Turn() {
           {rest.slice(0, 6).map((i) => <div className={i.kind === 'SHIP' ? 'mini ship' : 'mini'} key={i.key} data-testid="next-item"><em>{i.kind}</em>{i.text}</div>)}
           {rest.length > 6 && <p className="quiet">and {rest.length - 6} more</p>}
           {decided && rest.length === 0 && live && <p className="quiet">Nothing else needs you.</p>}
+          {data.older.length > 0 && (
+            <details className="older" data-testid="older">
+              <summary>Older (hidden): {data.older.length}{data.older.length >= 200 ? '+' : ''} {data.older.length === 1 ? 'card' : 'cards'}</summary>
+              <p className="quiet">Drafts not approved as far as this page can tell, and more than 3 days old or of unknown age. Names only: no approve line.</p>
+              {data.older.slice(0, 50).map((o) => <p className="oldrow" key={`${o.repo}:${o.name}`} data-testid="older-item">{o.name.slice(0, 80)}<span>{base(o.repo)}</span></p>)}
+              {data.older.length > 50 && <p className="quiet">and {data.older.length - 50} more</p>}
+            </details>
+          )}
+          {data.settled.length > 0 && <p className="quiet" data-testid="settled-note">{data.settled.length}{data.settled.length >= 200 ? '+' : ''} {data.settled.length === 1 ? 'card is' : 'cards are'} already approved and not shown here.</p>}
         </aside>
         <section className="center" aria-label="Your turn">
           {decided ? <Decision pending={first} ship={firstShip} /> : live ? (
-            <article className="card" data-testid="empty"><h1>Nothing needs you.</h1><p>No card is waiting for your approval and nothing is waiting to ship, in the projects this page watches.</p></article>
+            <article className="card" data-testid="empty"><h1>Nothing needs you.</h1><p>No card is waiting for your approval and nothing is waiting to ship, in the projects this page watches.</p>{data.older.length > 0 && <p>Older drafts are listed under "Older (hidden)".</p>}</article>
           ) : (
             <article className="card" data-testid="cant-tell"><h1>Can't tell what needs you</h1><p>Some of the rail could not be read: see the note above.</p></article>
           )}

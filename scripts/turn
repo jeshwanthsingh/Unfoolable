@@ -11,7 +11,9 @@ PORT=${TURN_PORT:-4174}
 case "$PORT" in ''|*[!0-9]*) echo "TURN_PORT must be a number from 1 to 65535."; exit 1 ;; esac
 { [ "$PORT" -ge 1 ] && [ "$PORT" -le 65535 ]; } || { echo "TURN_PORT must be a number from 1 to 65535."; exit 1; }
 WORK=${TURN_WORK:-$ROOT/.work}
+[ -L "$WORK" ] && { echo "TURN_WORK must not be a symlink."; exit 1; }
 mkdir -p "$WORK"
+[ -O "$WORK" ] && chmod 700 "$WORK"   # the work folder holds the log with the key: private even if it already existed (only a folder this user owns)
 LOCK="$WORK/turn.lock"
 mkdir "$LOCK" 2>/dev/null || { echo "Another turn command is starting the page. Try again in a moment (if this stays, remove $LOCK)."; exit 1; }
 trap 'rmdir "$LOCK" 2>/dev/null' EXIT

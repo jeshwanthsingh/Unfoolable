@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, statSync, writeFileSync} from 'node:fs';
+import {chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, statSync, symlinkSync, writeFileSync} from 'node:fs';
 import {createServer as netServer} from 'node:net';
 import {get} from 'node:http';
 import {tmpdir} from 'node:os';
@@ -131,6 +131,30 @@ test('scripts/turn: a lock held by another call refuses plainly; the log is priv
     assert.equal(statSync(join(t.work, 'turn.log')).mode & 0o777, 0o600, 'the log holding the key is private');
     assert.equal(existsSync(join(t.work, 'turn.lock')), false, 'the lock is released');
   } finally { t.stop(); }
+});
+
+test('scripts/turn: the work folder is private (0700) and turn.log, turn.pid, turn.stamp are 0600', {timeout: 60000}, async () => {
+  const t = await setup();
+  try {
+    assert.equal(statSync(t.work).mode & 0o777, 0o755, 'setup made the folder with default permissions');
+    const r = t.run();
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(statSync(t.work).mode & 0o777, 0o700, 'work folder');
+    for (const f of ['turn.log', 'turn.pid', 'turn.stamp']) assert.equal(statSync(join(t.work, f)).mode & 0o777, 0o600, f);
+  } finally { t.stop(); }
+});
+
+test('scripts/turn: a TURN_WORK that is a symlink is refused and the folder it points at keeps its mode', {timeout: 60000}, async () => {
+  const t = await setup();
+  const target = join(t.tmp, 'shared'), link = join(t.tmp, 'work-link');
+  mkdirSync(target);
+  symlinkSync(target, link);
+  const before = statSync(target).mode & 0o777;
+  const r = spawnSync('bash', [SCRIPT], {env: {...t.env, TURN_WORK: link, TURN_STAMP: 'x'}, encoding: 'utf8', cwd: ROOT, timeout: 30000});
+  assert.notEqual(r.status, 0);
+  assert.match(r.stdout + r.stderr, /TURN_WORK must not be a symlink/);
+  assert.equal(statSync(target).mode & 0o777, before, 'the folder behind the symlink was not touched');
+  assert.equal(t.links().length, 0, 'open was not called');
 });
 
 test('scripts/turn: source checks (unsets ANTHROPIC_API_KEY, never prints the link or key; the server stays read-only)', () => {

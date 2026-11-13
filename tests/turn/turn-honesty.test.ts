@@ -1,7 +1,7 @@
 import {before, describe, it} from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import {existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, statSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, statSync, utimesSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {basename, join} from 'node:path';
 import {chromium, type Page} from 'playwright-core';
@@ -217,6 +217,124 @@ describe('Your Turn page tells the truth', () => {
         assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `${name} at ${width}`);
       }, {viewport: {width, height: width === 390 ? 800 : 900}});
     }
+  });
+
+  describe('older cards, settled cards and receipt titles', () => {
+    const DAY = 86400000;
+    const age = (w: World, name: string, days: number) => { const t = new Date(Date.now() - days * DAY); utimesSync(join(w.vault, 'cards', `${name}.md`), t, t); };
+    const approve = (w: World, repo: string, source: string) => writeFileSync(join(w.approvalsDir, `${source}.json`), JSON.stringify({repo, source: `${source}.md`, card_sha256: SHA, approved_at: new Date().toISOString()}));
+    const oldWorld = (): World => { const w = world({cards: [['stale-card', '/x/oldproj', 'Old scope']]}); age(w, 'stale-card', 4); return w; };
+
+    it('an old unapproved card is hidden under a closed Older list with no approve line, copy button, code or button; the page says Nothing needs you', {timeout: 60000}, async () => {
+      await run(oldWorld(), async (p) => {
+        await wait(p, 'older');
+        assert.equal(await count(p, 'decision'), 0);
+        assert.equal(await count(p, 'next-item'), 0);
+        assert.match(await txt(p, 'empty'), /Nothing needs you\./);
+        const o = p.locator('details[data-testid=older]');
+        assert.equal(await o.count(), 1);
+        assert.equal(await o.getAttribute('open'), null);
+        const summary = await o.locator('summary').innerText();
+        assert.ok(summary.includes('Older (hidden)') && summary.includes('1'), summary);
+        const item = o.getByTestId('older-item');
+        assert.equal(await item.count(), 1);
+        const t = (await item.first().textContent()) ?? ''; // textContent: the list is closed, so innerText would be empty
+        assert.ok(t.includes('stale-card') && !t.includes('stale-card.md') && t.includes('oldproj'), t);
+        for (const bad of ['approve-line', 'copy-button', 'decision']) assert.equal(await o.getByTestId(bad).count(), 0, bad);
+        assert.equal(await o.locator('code, button').count(), 0);
+        assert.equal(await o.getByRole('button').count(), 0);
+      });
+    });
+
+    it('a fresh card is the decision and an old one is under Older', {timeout: 60000}, async () => {
+      const w = world({cards: [['fresh-card', '/x/freshproj', 'Fresh scope'], ['stale-card', '/x/oldproj', 'Old scope']]});
+      age(w, 'stale-card', 4);
+      await run(w, async (p) => {
+        await wait(p, 'older');
+        assert.equal(await count(p, 'decision'), 1);
+        assert.equal(await txt(p, 'project'), 'freshproj');
+        assert.equal(await txt(p, 'approve-line'), `${APPROVE}fresh-card`);
+        assert.equal(await count(p, 'older-item'), 1);
+        assert.match((await p.getByTestId('older-item').first().textContent()) ?? '', /stale-card/);
+        assert.equal(await count(p, 'empty'), 0);
+      });
+    });
+
+    it('a card named in approvals-history.jsonl is neither waiting nor older', {timeout: 60000}, async () => {
+      const w = world({cards: [['fresh-card', '/x/a', 's'], ['stale-card', '/x/b', 's']]});
+      age(w, 'stale-card', 4);
+      mkdirSync(join(w.vault, 'logs'));
+      writeFileSync(join(w.vault, 'logs', 'approvals-history.jsonl'), '{"card":"fresh-card.md"}\n{"card":"stale-card.md"}\n');
+      await run(w, async (p) => {
+        await wait(p, 'empty');
+        assert.equal(await count(p, 'decision'), 0);
+        assert.equal(await count(p, 'older'), 0);
+        assert.equal(await count(p, 'older-item'), 0);
+      });
+    });
+
+    it('a card named by an approval record is neither waiting nor older', {timeout: 60000}, async () => {
+      const w = world({cards: [['fresh-card', '/x/a', 's'], ['stale-card', '/x/b', 's']]});
+      age(w, 'stale-card', 4);
+      approve(w, '/x/a', 'fresh-card'); approve(w, '/x/b', 'stale-card');
+      await run(w, async (p) => {
+        await wait(p, 'empty');
+        assert.equal(await count(p, 'decision'), 0);
+        assert.equal(await count(p, 'older'), 0);
+        assert.equal(await count(p, 'older-item'), 0);
+      });
+    });
+
+    it('a card settled by the history is counted, not silently gone: the page says how many are already approved', {timeout: 60000}, async () => {
+      const w = world({cards: [['done-card', '/x/p', 'S'], ['todo-card', '/x/p', 'S']]});
+      mkdirSync(join(w.vault, 'logs'), {recursive: true});
+      writeFileSync(join(w.vault, 'logs', 'approvals-history.jsonl'), JSON.stringify({card: 'done-card.md'}) + '\n');
+      await run(w, async (p) => {
+        await wait(p, 'decision');
+        assert.equal(await txt(p, 'project'), 'p');
+        assert.match(await txt(p, 'approve-line'), /todo-card$/);
+        assert.match(await txt(p, 'settled-note'), /1 card is already approved/);
+      });
+    });
+
+    it('the empty state points at the older list when older drafts exist', {timeout: 60000}, async () => {
+      await run(oldWorld(), async (p) => {
+        await wait(p, 'empty');
+        assert.match(await txt(p, 'empty'), /Older \(hidden\)/);
+      });
+    });
+
+    it('receipt: with an approval record the heading is the card name in words and the project sits under it with a note; without one the heading is the project', {timeout: 60000}, async () => {
+      const w = world({repos: ['done']});
+      approve(w, w.repos[0]!, 'command-center-last-check');
+      await run(w, async (p) => {
+        await wait(p, 'receipt');
+        assert.equal(await txt(p, 'receipt-title'), 'Command center last check');
+        assert.equal(await txt(p, 'receipt-project'), basename(w.repos[0]!));
+        assert.match(await txt(p, 'receipt-title-note'), /card now approved/);
+        assert.match(await txt(p, 'receipt-title-note'), /may not be the card the last check ran under/, 'the page says this is not proven');
+      });
+      const w2 = world({repos: ['done']});
+      await run(w2, async (p) => {
+        await wait(p, 'receipt');
+        assert.equal(await txt(p, 'receipt-title'), basename(w2.repos[0]!));
+        assert.equal(await txt(p, 'receipt-project'), basename(w2.repos[0]!));
+        assert.equal(await count(p, 'receipt-title-note'), 0);
+      });
+    });
+
+    it('axe: no serious or critical problem with the Older list open at 1280 and 390 px', {timeout: 120000}, async () => {
+      for (const width of [1280, 390]) {
+        await run(oldWorld(), async (p) => {
+          await wait(p, 'older');
+          await p.locator('details[data-testid=older] summary').click();
+          await p.getByTestId('older-item').first().waitFor();
+          await p.addScriptTag({path: AXE});
+          const res = await p.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
+          assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `older open at ${width}`);
+        }, {viewport: {width, height: width === 390 ? 800 : 900}});
+      }
+    });
   });
 
   it('source checks: the page has source files and none uses a banned call', () => {
