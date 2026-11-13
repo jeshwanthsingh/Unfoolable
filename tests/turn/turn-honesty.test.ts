@@ -28,6 +28,7 @@ function world(o: {cards?: [string, string, string][] | null; repos?: Repo[]; fs
     const r = join(root, `repo${i}`); mkdirSync(join(r, '.claude'), {recursive: true});
     const w = (f: string, v: object) => writeFileSync(join(r, '.claude', f), JSON.stringify(v));
     if (k !== 'bare') w(VERIFY, {verdict: k === 'fail' ? 'FAIL' : 'PASS', card_sha256: SHA});
+    if (k === 'ship') w('job.json', {ship_waiting: true}); // a bare check PASS is no longer "waiting to ship"
     if (k === 'done') w('last-ship.json', {verdict: 'PASS', head: 'abc123'});
     return r;
   });

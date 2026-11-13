@@ -173,6 +173,7 @@ test('/api/turn reports pending card, a repo waiting to ship, and its receipt', 
   const f = fixture();
   writeFileSync(join(f.vault, 'cards', 'new.md'), 'repo: /r\nscope: s\n');
   writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  writeFileSync(join(f.repo, '.claude', 'job.json'), JSON.stringify({ship_waiting: true}));
   const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k4', headOf: () => 'abc123'});
   try {
     const r = await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k4'});

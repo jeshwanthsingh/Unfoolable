@@ -98,21 +98,26 @@ test('pendingCards: an approval whose source differs only in case still settles 
 });
 
 const verify = (verdict: string, extra: object = {}) => JSON.stringify({verdict, ...extra});
+const JOB = (r: string) => `${r}/.claude/job.json`;
+const CARDMD = (r: string) => `${r}/.claude/card.md`;
+const job = (o: object = {}) => JSON.stringify(o);
+const WAIT = job({ship_waiting: true});
+const fmt = (ms: number) => `${new Date(ms).toISOString().slice(0, 16).replace('T', ' ')} UTC`;
 const ship = (verdict: string, head: string) => JSON.stringify({verdict, head});
 
 test('shipsWaiting: waiting when verify PASS, head known, no matching PASS ship; input order kept', () => {
   const fs = fakeFs({
-    [VERIFY('/a')]: verify('PASS'),
-    [VERIFY('/b')]: verify('PASS'),
+    [VERIFY('/a')]: verify('PASS'), [JOB('/a')]: WAIT,
+    [VERIFY('/b')]: verify('PASS'), [JOB('/b')]: WAIT,
     [SHIP('/b')]: ship('PASS', 'old'),
-    [VERIFY('/c')]: verify('PASS'),
+    [VERIFY('/c')]: verify('PASS'), [JOB('/c')]: WAIT,
     [SHIP('/c')]: ship('PASS', 'h3'),
-    [VERIFY('/d')]: verify('FAIL'),
-    [VERIFY('/e')]: '{broken',
-    [VERIFY('/f')]: verify('PASS'),
-    [VERIFY('/g')]: verify('PASS'),
+    [VERIFY('/d')]: verify('FAIL'), [JOB('/d')]: WAIT,
+    [VERIFY('/e')]: '{broken', [JOB('/e')]: WAIT,
+    [VERIFY('/f')]: verify('PASS'), [JOB('/f')]: WAIT,
+    [VERIFY('/g')]: verify('PASS'), [JOB('/g')]: WAIT,
     [SHIP('/g')]: ship('FAIL', 'h7'),
-    [VERIFY('/h')]: verify('PASS'),
+    [VERIFY('/h')]: verify('PASS'), [JOB('/h')]: WAIT,
     [SHIP('/h')]: 'garbage',
   });
   const heads: Record<string, string | null> = {
@@ -127,8 +132,27 @@ test('shipsWaiting: waiting when verify PASS, head known, no matching PASS ship;
   ]);
 });
 
-const KEYS = ['checks', 'tests written first', 'serious problems', 'files touched', 'tried by you', 'proof', 'cost', 'time', 'seal'];
+const KEYS = ['checks', 'tests written first', 'reviewer', 'files touched', 'started', 'finished', 'tried by you', 'proof', 'cost', 'seal'];
 const NR = 'not recorded';
+
+test('shipsWaiting: a bare check PASS is not listed; needs job.json ship_waiting === true', () => {
+  const fs = fakeFs({
+    [VERIFY('/a')]: verify('PASS'),
+    [VERIFY('/b')]: verify('PASS'), [JOB('/b')]: job({ship_waiting: false}),
+    [VERIFY('/c')]: verify('PASS'), [JOB('/c')]: job({ship_waiting: 'true'}),
+    [VERIFY('/d')]: verify('PASS'), [JOB('/d')]: '[true]',
+    [VERIFY('/e')]: verify('PASS'), [JOB('/e')]: WAIT,
+  });
+  assert.deepEqual(shipsWaiting(fs, ['/a', '/b', '/c', '/d', '/e'], () => 'h'), [{repo: '/e', head: 'h'}]);
+});
+
+test('shipsWaiting: a job record made for another commit is stale and not listed; the same commit is listed', () => {
+  const fs = fakeFs({
+    [VERIFY('/a')]: verify('PASS'), [JOB('/a')]: job({ship_waiting: true, head: 'old'}),
+    [VERIFY('/b')]: verify('PASS'), [JOB('/b')]: job({ship_waiting: true, head: 'h'}),
+  });
+  assert.deepEqual(shipsWaiting(fs, ['/a', '/b'], () => 'h'), [{repo: '/b', head: 'h'}]);
+});
 
 test('receipt: null when verify file missing, unparseable, or not PASS', () => {
   assert.equal(receipt(fakeFs({}), '/r', () => 'h'), null);
@@ -141,9 +165,12 @@ test('receipt: PASS gives exact keys in order, unknowns are "not recorded"', () 
   assert.equal(r.repo, '/r');
   assert.deepEqual(Object.keys(r.fields), KEYS);
   assert.deepEqual(r.fields, {
-    'checks': 'passed', 'tests written first': NR, 'serious problems': NR, 'files touched': NR,
-    'tried by you': NR, 'proof': NR, 'cost': NR, 'time': NR, 'seal': NR,
+    'checks': 'passed', 'tests written first': NR, 'reviewer': NR, 'files touched': NR, 'started': NR,
+    'finished': fmt(NOW), 'tried by you': NR, 'proof': NR, 'cost': NR, 'seal': NR,
   });
+  assert.equal(r.title, undefined);
+  const bare = receipt({...fakeFs({[VERIFY('/r')]: verify('PASS')}), mtime: () => null}, '/r', () => 'h')!; // no mtime: finished unknown too
+  assert.equal(bare.fields['finished'], NR);
 });
 
 test('receipt: shipped only when a ship PASS matches the current head', () => {
@@ -155,20 +182,21 @@ test('receipt: shipped only when a ship PASS matches the current head', () => {
   assert.equal(receipt(fakeFs({...base, [SHIP('/r')]: ship('PASS', 'h')}), '/r', () => null)!.shipped, false);
 });
 
-test('receipt: seal is first 12 chars of card_sha256; serious problems counts lines starting with P1', () => {
+test('receipt: seal is first 12 chars of card_sha256; reviewer counts P1 / P2 / P3', () => {
   const fs = fakeFs({
     [VERIFY('/r')]: verify('PASS', {card_sha256: 'abcdef0123456789'.repeat(4)}),
     '/r/.claude/critic.md': '## spec\na.ts:1 | P1 | wrong\nb.ts:2 | P2 | meh\n\n## security\nc.ts:3 |P1| bad\n',
   });
   const r = receipt(fs, '/r', () => 'h')!;
   assert.equal(r.fields['seal'], 'abcdef012345');
-  assert.equal(r.fields['serious problems'], '2');
+  assert.equal(r.fields['reviewer'], '2 / 1 / 0');
 });
 
-test('receipt: serious problems is 0 only when findings are parseable or a lens said "none"; else not recorded', () => {
-  const crit = (text: string) => receipt(fakeFs({[VERIFY('/r')]: verify('PASS'), '/r/.claude/critic.md': text}), '/r', () => 'h')!.fields['serious problems'];
-  assert.equal(crit('## spec\nnone\n## security\nnone\n'), '0');
-  assert.equal(crit('a.ts:1 | P2 | only minor\n'), '0');
+test('receipt: reviewer is counts only when findings are parseable or a lens said "none"; else not recorded', () => {
+  const crit = (text: string) => receipt(fakeFs({[VERIFY('/r')]: verify('PASS'), '/r/.claude/critic.md': text}), '/r', () => 'h')!.fields['reviewer'];
+  assert.equal(crit('## spec\nnone\n## security\nnone\n'), '0 / 0 / 0');
+  assert.equal(crit('a.ts:1 | P2 | only minor\n'), '0 / 1 / 0');
+  assert.equal(crit('a.ts:1 | P2 | x\nb.ts:2 | P2 | y\nc.ts:3 | P3 | z\n'), '0 / 2 / 1');
   assert.equal(crit(''), NR);
   assert.equal(crit('looks fine to me\n'), NR);
   assert.equal(crit('P1 start of line only\n'), NR);
@@ -176,7 +204,7 @@ test('receipt: serious problems is 0 only when findings are parseable or a lens 
   for (const bad of ['p1 | x', 'P1: lowercase colon', 'P1/P2 | x', 'a.ts:1 | P10 | x', '| P1 | leading pipe', 'x | P0 | y']) {
     assert.equal(crit(`## a\nnone\n## b\n${bad}\n`), NR, bad);
   }
-  assert.equal(crit('## a\nnone\n## b\nf.ts:1 | P1 | real\n'), '1');
+  assert.equal(crit('## a\nnone\n## b\nf.ts:1 | P1 | real\n'), '1 / 0 / 0');
 });
 
 test('receipt: seal shows only a real 64-hex hash', () => {
@@ -205,7 +233,7 @@ test('pendingCards: repo and scope show at most 400 characters', () => {
 test('files bigger than 200000 chars read as missing (no stall on a huge agent-written file)', () => {
   const huge = 'x'.repeat(200_001);
   const fs = fakeFs({[VERIFY('/r')]: verify('PASS'), '/r/.claude/critic.md': huge, [`${V}/cards/big.md`]: `repo: ${huge}\n`});
-  assert.equal(receipt(fs, '/r', () => 'h')!.fields['serious problems'], NR);
+  assert.equal(receipt(fs, '/r', () => 'h')!.fields['reviewer'], NR);
   assert.equal(pendingCards(fs, V, A)[0]!.repo, '');
   assert.equal(receipt(fakeFs({[VERIFY('/r')]: huge}), '/r', () => 'h'), null);
 });
@@ -403,9 +431,10 @@ test('receipt property: arbitrary contents never throw; the P1 count equals the 
       assert.deepEqual(Object.keys(r.fields), KEYS);
       const findings = lines.filter((l) => l.kind !== 'noise');
       const said = lines.some((l) => l.text.trim().toLowerCase() === 'none');
-      const want = findings.length === 0 && !said ? NR : String(findings.filter((l) => l.kind === 'P1').length);
-      assert.equal(r.fields['serious problems'], want);
-      for (const k of ['tests written first', 'files touched', 'tried by you', 'proof', 'cost', 'time']) assert.equal(r.fields[k], NR);
+      const n = (k: string) => findings.filter((l) => l.kind === k).length;
+      const want = findings.length === 0 && !said ? NR : `${n('P1')} / ${n('P2')} / ${n('P3')}`;
+      assert.equal(r.fields['reviewer'], want);
+      for (const k of ['tests written first', 'files touched', 'started', 'tried by you', 'proof', 'cost']) assert.equal(r.fields[k], NR);
     }),
     {numRuns: 200},
   );
@@ -417,4 +446,97 @@ test('receipt property: arbitrary contents never throw; the P1 count equals the 
     }),
     {numRuns: 200},
   );
+});
+
+// ---------- receipt: job record, files touched, times, reviewer ----------
+
+const PASSV = (extra: object = {}) => verify('PASS', extra);
+const rcpt = (files: Record<string, string>, mtime?: (p: string) => number | null) => {
+  const f = fakeFs({[VERIFY('/r')]: PASSV(), ...files});
+  return receipt(mtime ? {...f, mtime} : f, '/r', () => 'h')!;
+};
+const CARD = (...a: string[]) => `repo: /r\nallowed_files:\n${a.map((x) => `  - ${x}`).join('\n')}\nscope: s\n`;
+const changed = (...c: string[]) => JSON.stringify({verdict: 'PASS', changed_files: c});
+
+test('receipt: files touched compares changed_files with the card allowed_files', () => {
+  const ft = (card: string, v: string) => rcpt({[VERIFY('/r')]: v, [CARDMD('/r')]: card}).fields['files touched'];
+  assert.equal(ft(CARD('a.ts', 'src/'), changed('a.ts', 'src/x/y.ts')), '2 of 2 allowed files');
+  assert.equal(ft(CARD('a.ts', 'src/'), changed('a.ts', 'b.ts', 'c.ts')), '3 of 2 allowed files, 2 outside the card');
+  assert.equal(ft(CARD('a.ts'), changed('a.ts', '.claude/card.md', '.claude/last-verify.json')), '1 of 1 allowed files');
+  assert.equal(ft(CARD('a.ts'), changed('.claude/card.md', '.claude/last-verify.json')), '0 of 1 allowed files');
+  assert.equal(ft(CARD('a.ts'), changed()), '0 of 1 allowed files');
+  assert.equal(ft(CARD('src/'), changed('src')), '1 of 1 allowed files, 1 outside the card'); // a '/' entry matches files under it only
+  assert.equal(ft(CARD('a.ts'), changed('a.tsx')), '1 of 1 allowed files, 1 outside the card'); // exact match otherwise
+  assert.equal(ft('repo: /r\nallowed_files:\n  - a.ts\n  - b.ts\nscope: s\n  - c.ts\n', changed('a.ts', 'c.ts')), '2 of 2 allowed files, 1 outside the card'); // list ends at the next non-indented key
+});
+
+test('receipt: files touched is not recorded when the card or changed_files is missing or wrong', () => {
+  const ft = (files: Record<string, string>) => rcpt(files).fields['files touched'];
+  assert.equal(ft({[CARDMD('/r')]: CARD('a.ts')}), NR); // no changed_files
+  assert.equal(ft({[VERIFY('/r')]: changed('a.ts')}), NR); // no card
+  assert.equal(ft({[VERIFY('/r')]: changed('a.ts'), [CARDMD('/r')]: 'repo: /r\nscope: s\n'}), NR); // no allowed_files
+  assert.equal(ft({[VERIFY('/r')]: changed('a.ts'), [CARDMD('/r')]: 'allowed_files:\nscope: s\n'}), NR); // empty list
+  assert.equal(ft({[VERIFY('/r')]: JSON.stringify({verdict: 'PASS', changed_files: 'a.ts'}), [CARDMD('/r')]: CARD('a.ts')}), NR);
+  assert.equal(ft({[VERIFY('/r')]: JSON.stringify({verdict: 'PASS', changed_files: ['a.ts', 5]}), [CARDMD('/r')]: CARD('a.ts')}), NR);
+  assert.equal(ft({[VERIFY('/r')]: changed('a.ts'), [CARDMD('/r')]: 'x'.repeat(200_001)}), NR);
+});
+
+test('receipt: started and finished are "YYYY-MM-DD HH:MM UTC"; finished falls back to the verify file mtime', () => {
+  const j = job({started_at: '2026-03-04T05:06:07Z', finished_at: '2026-03-04T07:08:09.123Z'});
+  const r = rcpt({[JOB('/r')]: j}, () => 1_000_000_000_000);
+  assert.equal(r.fields['started'], '2026-03-04 05:06 UTC');
+  assert.equal(r.fields['finished'], '2026-03-04 07:08 UTC');
+  const fb = rcpt({[JOB('/r')]: job({started_at: '2026-03-04T05:06:07Z'})}, () => 1_000_000_000_000);
+  assert.equal(fb.fields['finished'], '2001-09-09 01:46 UTC');
+  const bad = rcpt({[JOB('/r')]: job({started_at: 'yesterday', finished_at: 'nope'})}, () => 0); // bad dates; mtime 0 does not count
+  assert.equal(bad.fields['started'], NR);
+  assert.equal(bad.fields['finished'], NR);
+  assert.equal(rcpt({[JOB('/r')]: job({started_at: 5, finished_at: {}})}, () => null).fields['finished'], NR);
+  assert.equal(rcpt({}, () => -5).fields['finished'], NR);
+});
+
+test('receipt: job.json fields map to rows; a wrong type makes only that field not recorded', () => {
+  const r = rcpt({[JOB('/r')]: job({card: 'my card', tests_first: true, cost_usd: 1.234, tried: 'clicked it'})});
+  assert.equal(r.fields['tests written first'], 'yes');
+  assert.equal(r.fields['cost'], '$1.23');
+  assert.equal(r.fields['tried by you'], 'clicked it');
+  assert.equal(r.title, 'my card');
+  assert.equal(rcpt({[JOB('/r')]: job({tests_first: false})}).fields['tests written first'], 'no');
+  assert.equal(rcpt({[JOB('/r')]: job({cost_usd: 0})}).fields['cost'], '$0.00');
+  assert.equal(rcpt({[JOB('/r')]: job({cost_usd: 12})}).fields['cost'], '$12.00');
+  for (const c of [-1, 'abc', '1.5', null, true]) assert.equal(rcpt({[JOB('/r')]: job({cost_usd: c})}).fields['cost'], NR, String(c));
+  assert.equal(rcpt({[JOB('/r')]: '{"cost_usd": 1e999}'}).fields['cost'], NR); // too big to be finite
+  const mixed = rcpt({[JOB('/r')]: job({card: 7, tests_first: 'yes', tried: 9, cost_usd: 2, started_at: 'x'})});
+  assert.equal(mixed.fields['tests written first'], NR);
+  assert.equal(mixed.fields['tried by you'], NR);
+  assert.equal(mixed.fields['cost'], '$2.00'); // the right field survives its neighbours' wrong types
+  assert.equal(mixed.title, undefined);
+});
+
+test('receipt: job.json tried and card are cleaned and cut to 120 chars; hostile text stays text', () => {
+  const evil = `<img src=x onerror=alert(1)>‮abc\u0007\n${'z'.repeat(300)}`;
+  const r = rcpt({[JOB('/r')]: job({tried: evil, card: evil})});
+  for (const v of [r.fields['tried by you'], r.title!]) {
+    assert.ok(v.length <= 120);
+    assert.ok(v.startsWith('<img src=x onerror=alert(1)>abc'), v);
+    assert.ok(!/[\u0000-\u001f‪-‮⁦-⁩]/.test(v));
+  }
+  assert.equal(rcpt({[JOB('/r')]: job({tried: 'q'.repeat(500)})}).fields['tried by you'].length, 120);
+  assert.equal(rcpt({[JOB('/r')]: job({card: 'q'.repeat(500)})}).title!.length, 120);
+});
+
+test('receipt: job.json bigger than 200000 chars or a JSON array reads as missing', () => {
+  const huge = JSON.stringify({card: 'c', tests_first: true, tried: 'x'.repeat(200_001)});
+  const a = rcpt({[JOB('/r')]: huge});
+  assert.equal(a.fields['tests written first'], NR);
+  assert.equal(a.title, undefined);
+  const b = rcpt({[JOB('/r')]: '[{"card":"c","tests_first":true}]'});
+  assert.equal(b.fields['tests written first'], NR);
+  assert.equal(b.title, undefined);
+  assert.equal(rcpt({[JOB('/r')]: '{nope'}).fields['cost'], NR);
+  assert.equal(shipsWaiting(fakeFs({[VERIFY('/r')]: PASSV(), [JOB('/r')]: '[{"ship_waiting":true}]'}), ['/r'], () => 'h').length, 0);
+});
+
+test('receipt: ship_waiting in job.json never changes the receipt fields', () => {
+  assert.deepEqual(rcpt({[JOB('/r')]: job({ship_waiting: true})}).fields, rcpt({}).fields);
 });

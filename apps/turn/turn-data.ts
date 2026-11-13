@@ -7,11 +7,11 @@ export type Older = {name: string; repo: string};
 export type CardOpts = {historyPath?: string; now?: number};
 // approveLine is null when the card's file name is not safe to paste into a shell (the page then says so).
 export type Pending = {name: string; repo: string; scope: string; approveLine: string | null};
-export type Ship = {repo: string; head: string};
-export type Receipt = {repo: string; shipped: boolean; fields: Record<string, string>};
+export type Ship = {repo: string; head: string; title?: string};
+export type Receipt = {repo: string; shipped: boolean; fields: Record<string, string>; title?: string};
 
 const NOT_RECORDED = 'not recorded';
-const KEYS = ['checks', 'tests written first', 'serious problems', 'files touched', 'tried by you', 'proof', 'cost', 'time', 'seal'];
+const KEYS = ['checks', 'tests written first', 'reviewer', 'files touched', 'started', 'finished', 'tried by you', 'proof', 'cost', 'seal'];
 const MAX_CHARS = 200_000; // a file bigger than this reads as missing
 const MAX_FILES = 500;
 const SAFE_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$/;
@@ -100,37 +100,70 @@ export function approvedTitle(fs: Fs, approvalsDir: string, repo: string): strin
   return best === null ? '' : clean(best.source.replace(/\.md$/, '')).slice(0, 120);
 }
 
-// Waiting to ship: the verifier said PASS and no ship PASS exists for the current HEAD.
+// Waiting to ship: the verifier said PASS, the job record says a ship step is waiting, and no ship PASS exists for the current HEAD.
+// A bare check PASS is not a ship decision.
 export function shipsWaiting(fs: Fs, repos: string[], headOf: (repo: string) => string | null): Ship[] {
   const out: Ship[] = [];
   for (const repo of repos) {
     const head = headOf(repo);
     if (head === null || readJson(fs, `${repo}/.claude/last-verify.json`)?.verdict !== 'PASS') continue;
+    const job = readJson(fs, `${repo}/.claude/job.json`);
+    if (job?.ship_waiting !== true) continue;
+    if (job.head !== undefined && job.head !== head) continue; // the record was made for another commit: stale
     const shipped = readJson(fs, `${repo}/.claude/last-ship.json`);
     if (shipped?.verdict === 'PASS' && shipped.head === head) continue;
-    out.push({repo, head});
+    const card = job.card;
+    const title = typeof card === 'string' ? clean(card).trim().slice(0, 120) : '';
+    out.push(title !== '' ? {repo, head, title} : {repo, head});
   }
   return out;
 }
 
 // The reviewer's finding format is `file:line | P1|P2|P3 | reason`; a lens with nothing to report writes `none`.
-// Count P1 findings from that format only. Anything else (empty file, free text) is "not recorded".
+// Count findings from that format only, as "P1 / P2 / P3". Anything else (empty file, free text) is "not recorded".
 // Strict: blank lines and `#` headings are ignored; any other line that is neither a finding nor `none`
 // makes the whole count "not recorded", so one lens's `none` can never hide another lens's malformed P1.
-function seriousProblems(critic: string | null): string {
+function reviewerCounts(critic: string | null): string {
   if (critic === null) return NOT_RECORDED;
-  let p1 = 0;
+  const n = {P1: 0, P2: 0, P3: 0};
   let seen = 0;
   for (const raw of critic.split(/\r?\n/)) {
     const l = raw.trim();
     if (l === '' || l.startsWith('#')) continue;
     const m = l.match(/^[^|]+\|\s*(P[123])\s*\|/);
-    if (m) p1 += m[1] === 'P1' ? 1 : 0;
+    if (m) n[m[1] as 'P1' | 'P2' | 'P3']++;
     else if (l.toLowerCase() !== 'none') return NOT_RECORDED;
     seen++;
   }
-  return seen === 0 ? NOT_RECORDED : String(p1);
+  return seen === 0 ? NOT_RECORDED : `${n.P1} / ${n.P2} / ${n.P3}`;
 }
+
+// The card's allowed_files entries (lines `  - path` under `allowed_files:`), or null when there is no usable list.
+function allowedFiles(card: string | null): string[] | null {
+  if (card === null) return null;
+  const out: string[] = [];
+  let inList = false;
+  for (const line of card.split(/\r?\n/)) {
+    if (line.startsWith('allowed_files:')) inList = true;
+    else if (inList && /^\s+-\s+\S/.test(line)) out.push(line.replace(/^\s+-\s+/, '').trim());
+    else if (inList && line.trim() !== '') inList = false;
+  }
+  return out.length > 0 ? out : null;
+}
+
+// "N of M allowed files" (+ ", K outside the card"): the check's changed files against the card's allowed_files.
+function filesTouched(verify: Record<string, unknown>, card: string | null): string {
+  const allowed = allowedFiles(card), changed = verify.changed_files;
+  if (allowed === null || !Array.isArray(changed) || !changed.every((c) => typeof c === 'string')) return NOT_RECORDED;
+  if (changed.length > MAX_FILES || allowed.length > MAX_FILES) return NOT_RECORDED; // a flood is not compared (it would freeze the poll)
+  const files = (changed as string[]).filter((c) => c !== '.claude/card.md' && c !== '.claude/last-verify.json');
+  const outside = files.filter((f) => !allowed.some((a) => (a.endsWith('/') ? f.startsWith(a) : f === a))).length;
+  return `${files.length} of ${allowed.length} allowed files${outside > 0 ? `, ${outside} outside the card` : ''}`;
+}
+
+// Only times from 2000 to 2200 are shown; anything else (or a time that would make toISOString throw) is "not recorded".
+const stamp = (ms: number): string | null => (Number.isFinite(ms) && ms > 9.46e11 && ms < 7.26e12 ? `${new Date(ms).toISOString().slice(0, 16).replace('T', ' ')} UTC` : null);
+const isoStamp = (v: unknown): string | null => (typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v) ? stamp(Date.parse(v)) : null);
 
 // A receipt exists only for a PASS. `shipped` is true only when a ship PASS matches the current HEAD.
 // Fields come from the gate's own files, else "not recorded".
@@ -143,7 +176,19 @@ export function receipt(fs: Fs, repo: string, headOf: (repo: string) => string |
   const sha = verify.card_sha256;
   const fields: Record<string, string> = Object.fromEntries(KEYS.map((k) => [k, NOT_RECORDED]));
   fields['checks'] = 'passed';
-  fields['serious problems'] = seriousProblems(read(fs, `${repo}/.claude/critic.md`));
+  fields['reviewer'] = reviewerCounts(read(fs, `${repo}/.claude/critic.md`));
+  fields['files touched'] = filesTouched(verify, read(fs, `${repo}/.claude/card.md`));
+  const job = readJson(fs, `${repo}/.claude/job.json`) ?? {}; // every field optional; a wrong type only blanks that field
+  if (typeof job.tests_first === 'boolean') fields['tests written first'] = job.tests_first ? 'yes' : 'no';
+  const mtime = typeof fs.mtime === 'function' ? fs.mtime(`${repo}/.claude/last-verify.json`) : null;
+  const finished = isoStamp(job.finished_at) ?? (typeof mtime === 'number' ? stamp(mtime) : null);
+  if (finished !== null) fields['finished'] = finished;
+  const started = isoStamp(job.started_at);
+  if (started !== null) fields['started'] = started;
+  if (typeof job.cost_usd === 'number' && Number.isFinite(job.cost_usd) && job.cost_usd >= 0) fields['cost'] = `$${job.cost_usd.toFixed(2)}`;
+  const tried = typeof job.tried === 'string' ? clean(job.tried).trim().slice(0, 120) : '';
+  if (tried !== '') fields['tried by you'] = tried;
   if (typeof sha === 'string' && /^[0-9a-f]{64}$/.test(sha)) fields['seal'] = sha.slice(0, 12);
-  return {repo, shipped, fields};
+  const title = typeof job.card === 'string' ? clean(job.card).trim().slice(0, 120) : '';
+  return {repo, shipped, fields, ...(title !== '' ? {title} : {})};
 }
