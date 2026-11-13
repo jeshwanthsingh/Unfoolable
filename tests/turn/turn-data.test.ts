@@ -638,3 +638,141 @@ test('receipt: builder-says.json fields touch nothing else: no title, no ship, n
   const fs = fakeFs({[VERIFY('/r')]: PASSV({head: 'h'}), [BS()]: lie});
   assert.deepEqual(shipsWaiting(fs, ['/r'], () => 'h'), []);
 });
+
+// ---------- records from worktrees (vault given): main, live and archived places ----------
+
+// Fake with real folders (a folder lists the first path piece of every file under it) and a per-file mtime.
+function treeFs(files: Record<string, string>, mt: Record<string, number> = {}): Fs {
+  const m = new Map(Object.entries(files));
+  return {
+    read: (p) => (m.has(p) ? m.get(p)! : null),
+    list: (p) => {
+      const names = new Set<string>();
+      for (const k of m.keys()) if (k.startsWith(p + '/')) names.add(k.slice(p.length + 1).split('/')[0]!);
+      return names.size ? [...names] : null;
+    },
+    mtime: (p) => (p in mt ? mt[p]! : NOW),
+  };
+}
+const RP = '/p/repo', LW = '/p/repo-wt/w1', AR = '/vault/90-archive/worktrees/2026-11-13-repo-a';
+const VF = 'last-' + 'verify.json';
+const gitList = {[`${RP}/.git/worktrees/w1/gitdir`]: `${LW}/.git\n`};
+const cl = (root: string, n: string) => `${root}/.claude/${n}`; // main and live
+const heads = (m: Record<string, string>) => (p: string) => m[p] ?? null;
+
+test('receipt with a vault: the live place wins over an OLD main record, every field from the live place', () => {
+  const fs = treeFs({
+    ...gitList,
+    [cl(RP, VF)]: verify('PASS'), [cl(RP, 'job.json')]: job({card: 'main-card', cost_usd: 9}),
+    [cl(LW, VF)]: verify('PASS', {card_sha256: 'abcdef0123456789'.repeat(4)}), [cl(LW, 'job.json')]: job({card: 'live-card', cost_usd: 1.5}),
+  }, {[cl(RP, VF)]: NOW - 90_000, [cl(LW, VF)]: NOW - 1000});
+  const r = receipt(fs, RP, () => 'h', '/vault')!;
+  assert.equal(r.where, 'a build in progress');
+  assert.equal(r.title, 'live-card');
+  assert.equal(r.fields['cost'], '$1.50');
+  assert.equal(r.fields['seal'], 'abcdef012345');
+  assert.equal(r.repo, RP);
+});
+
+test('receipt with a vault: nothing is mixed between places (main data never fills a gap in the winner)', () => {
+  const fs = treeFs({
+    ...gitList,
+    [cl(RP, VF)]: verify('PASS'), [cl(RP, 'job.json')]: job({checked_by: 'script', tests_first: true, card: 'main-card', started_at: '2026-11-13T10:00:00Z', tried: 'main tried'}),
+    [cl(RP, 'builder-says.json')]: job({summary: 'main says'}), [cl(RP, 'critic.md')]: 'a.ts:1 | P1 | bad\n',
+    [cl(RP, 'card.md')]: 'allowed_files:\n  - a.ts\n', [cl(LW, VF)]: verify('PASS', {changed_files: ['a.ts']}),
+    [cl(LW, 'job.json')]: job({}),
+  }, {[cl(RP, VF)]: NOW - 90_000, [cl(LW, VF)]: NOW - 1000});
+  const r = receipt(fs, RP, () => 'h', '/vault')!;
+  assert.equal(r.where, 'a build in progress');
+  assert.equal(r.title, undefined);
+  for (const k of ['tests written first', 'reviewer', 'files touched', 'started', 'tried by you', 'builder says', 'builder checked by hand']) assert.equal(r.fields[k], NR, k);
+  assert.equal(r.fields['checks'], 'passed');
+});
+
+test('receipt with a vault: the main place can win, and says so', () => {
+  const fs = treeFs({...gitList, [cl(RP, VF)]: verify('PASS'), [cl(LW, VF)]: verify('PASS')}, {[cl(RP, VF)]: NOW - 1000, [cl(LW, VF)]: NOW - 90_000});
+  assert.equal(receipt(fs, RP, () => 'h', '/vault')!.where, 'the main folder');
+});
+
+test('receipt with a vault: an archived place gives the receipt, flat files, label with the date', () => {
+  const fs = treeFs({
+    [`${AR}/${VF}`]: verify('PASS', {changed_files: ['a.ts']}), [`${AR}/job.json`]: job({card: 'arch-card', checked_by: 'script', tests_first: true}),
+    [`${AR}/critic.md`]: 'none\n', [`${AR}/card.md`]: 'allowed_files:\n  - a.ts\n', [`${AR}/builder-says.json`]: job({summary: 'archived says'}),
+  });
+  const r = receipt(fs, RP, () => 'h', '/vault')!;
+  assert.equal(r.where, 'an archived build (2026-11-13)');
+  assert.equal(r.title, 'arch-card');
+  assert.equal(r.fields['reviewer'], '0 / 0 / 0');
+  assert.equal(r.fields['files touched'], '1 of 1 allowed files');
+  assert.equal(r.fields['builder says'], 'archived says');
+  assert.equal(r.fields['finished'], fmt(NOW));
+});
+
+test('receipt with a vault: an archived receipt is shipped only by the MAIN ship record at the repo head', () => {
+  const base = {[`${AR}/${VF}`]: verify('PASS')};
+  assert.equal(receipt(treeFs(base), RP, () => 'h', '/vault')!.shipped, false);
+  assert.equal(receipt(treeFs({...base, [cl(RP, 'last-ship.json')]: ship('PASS', 'h')}), RP, () => 'h', '/vault')!.shipped, true);
+  assert.equal(receipt(treeFs({...base, [cl(RP, 'last-ship.json')]: ship('PASS', 'old')}), RP, () => 'h', '/vault')!.shipped, false);
+  assert.equal(receipt(treeFs({...base, [`${AR}/last-ship.json`]: ship('PASS', 'h')}), RP, () => 'h', '/vault')!.shipped, false); // the archive's own ship file is not the repo's
+});
+
+test('receipt with a vault: a live place is shipped by its own ship record at ITS head', () => {
+  const fs = treeFs({...gitList, [cl(LW, VF)]: verify('PASS'), [cl(LW, 'last-ship.json')]: ship('PASS', 'hw'), [cl(RP, 'last-ship.json')]: ship('PASS', 'hm')});
+  assert.equal(receipt(fs, RP, heads({[RP]: 'hm', [LW]: 'hw'}), '/vault')!.shipped, true);
+  assert.equal(receipt(fs, RP, heads({[RP]: 'hm', [LW]: 'other'}), '/vault')!.shipped, false); // main's ship record does not ship the worktree
+  assert.equal(receipt(fs, RP, heads({[RP]: 'hm'}), '/vault')!.shipped, false); // unknown head
+});
+
+test('receipt with a vault: no PASS in any place is null; without a vault only main counts and there is no where', () => {
+  assert.equal(receipt(treeFs({...gitList, [cl(LW, VF)]: verify('FAIL')}), RP, () => 'h', '/vault'), null);
+  const fs = treeFs({...gitList, [cl(RP, VF)]: verify('PASS'), [cl(LW, VF)]: verify('PASS'), [cl(LW, 'job.json')]: job({card: 'live'})}, {[cl(RP, VF)]: NOW - 90_000});
+  const r = receipt(fs, RP, () => 'h')!;
+  assert.equal(r.where, undefined);
+  assert.equal(r.title, undefined);
+  assert.equal(receipt(treeFs({...gitList, [cl(LW, VF)]: verify('PASS')}), RP, () => 'h'), null);
+});
+
+const WAITJ = job({ship_waiting: true, card: 'the-card'});
+
+test('shipsWaiting with a vault: a live worktree gives a Ship with the repo path, the worktree head and where', () => {
+  const fs = treeFs({...gitList, [cl(LW, VF)]: verify('PASS'), [cl(LW, 'job.json')]: WAITJ});
+  assert.deepEqual(shipsWaiting(fs, [RP], heads({[RP]: 'hm', [LW]: 'hw'}), '/vault'), [{repo: RP, head: 'hw', title: 'the-card', where: 'a build in progress'}]);
+});
+
+test('shipsWaiting with a vault: main and live each give one, main first', () => {
+  const fs = treeFs({...gitList, [cl(RP, VF)]: verify('PASS'), [cl(RP, 'job.json')]: WAIT, [cl(LW, VF)]: verify('PASS'), [cl(LW, 'job.json')]: WAITJ});
+  assert.deepEqual(shipsWaiting(fs, [RP], heads({[RP]: 'hm', [LW]: 'hw'}), '/vault'), [
+    {repo: RP, head: 'hm', where: 'the main folder'},
+    {repo: RP, head: 'hw', title: 'the-card', where: 'a build in progress'},
+  ]);
+});
+
+test('shipsWaiting with a vault: the existing rule is applied per place (shipped head, job.head, FAIL, not waiting)', () => {
+  const fs = treeFs({
+    ...gitList,
+    [cl(RP, VF)]: verify('PASS', {head: 'rec'}), [cl(RP, 'job.json')]: job({ship_waiting: true, head: 'stale'}), // main: stale job.head
+    [cl(LW, VF)]: verify('PASS'), [cl(LW, 'job.json')]: WAIT, [cl(LW, 'last-ship.json')]: ship('PASS', 'hw'), // live: shipped at its own head
+  });
+  assert.deepEqual(shipsWaiting(fs, [RP], heads({[RP]: 'hm', [LW]: 'hw'}), '/vault'), []);
+  const fs2 = treeFs({...gitList, [cl(LW, VF)]: verify('FAIL'), [cl(LW, 'job.json')]: WAIT, [cl(RP, VF)]: verify('PASS'), [cl(RP, 'job.json')]: job({ship_waiting: false})});
+  assert.deepEqual(shipsWaiting(fs2, [RP], heads({[RP]: 'hm', [LW]: 'hw'}), '/vault'), []);
+  const fs3 = treeFs({...gitList, [cl(LW, VF)]: verify('PASS'), [cl(LW, 'job.json')]: WAIT});
+  assert.deepEqual(shipsWaiting(fs3, [RP], heads({[RP]: 'hm'}), '/vault'), []); // the worktree's head is unknown
+});
+
+test('shipsWaiting with a vault: an archived place NEVER gives a Ship, even with ship_waiting true', () => {
+  const fs = treeFs({[`${AR}/${VF}`]: verify('PASS'), [`${AR}/job.json`]: WAITJ});
+  assert.deepEqual(shipsWaiting(fs, [RP], () => 'h', '/vault'), []);
+});
+
+test('shipsWaiting without a vault: main only, no where, live worktrees are not looked at', () => {
+  const fs = treeFs({...gitList, [cl(RP, VF)]: verify('PASS'), [cl(RP, 'job.json')]: WAIT, [cl(LW, VF)]: verify('PASS'), [cl(LW, 'job.json')]: WAIT});
+  assert.deepEqual(shipsWaiting(fs, [RP], () => 'h'), [{repo: RP, head: 'h'}]);
+});
+
+test('shipsWaiting with a vault: a head is read only for a place that has a PASS and ship_waiting (reading a head can be costly)', () => {
+  const asked: string[] = [];
+  const fs = treeFs({...gitList, [cl(RP, VF)]: verify('FAIL'), [cl(RP, 'job.json')]: WAIT, [cl(LW, VF)]: verify('PASS'), [cl(LW, 'job.json')]: job({ship_waiting: false})});
+  assert.deepEqual(shipsWaiting(fs, [RP], (p) => { asked.push(p); return 'h'; }, '/vault'), []);
+  assert.deepEqual(asked, []);
+});
