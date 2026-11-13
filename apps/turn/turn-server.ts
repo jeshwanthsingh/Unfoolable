@@ -5,6 +5,7 @@ import {createServer, type Server} from 'node:http';
 import {randomBytes, timingSafeEqual} from 'node:crypto';
 import {closeSync, constants, fstatSync, lstatSync, openSync, readdirSync, readSync, realpathSync} from 'node:fs';
 import {basename, extname, join, resolve, sep} from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {pendingCards, receipt, shipsWaiting, type Fs} from './turn-data.ts';
 
 const TEXT_MAX = 200_000; // a rail file bigger than this reads as missing
@@ -143,4 +144,18 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
       ok({server, port, token, url: `http://127.0.0.1:${port}/#t=${token}`});
     });
   });
+}
+
+// Run directly: node apps/turn/turn-server.ts  (prints this launch's link into the log; scripts/turn reads it there and opens Chrome).
+// An empty setting counts as unset, so the launcher can pass every TURN_* name without caring which are set.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const home = process.env.HOME;
+  const port = Number(process.env.TURN_PORT || 0);
+  if (!home || !Number.isInteger(port) || port < 0 || port > 65535) { console.error('Your Turn needs HOME set and TURN_PORT to be a number from 0 to 65535.'); process.exit(1); }
+  const repos = (process.env.TURN_REPOS || [join(home, 'Projects/ai-lab/command-center'), join(home, 'Projects/proof-lab'), join(home, 'Projects/coding-agent-crash-tests')].join(':')).split(':').filter(Boolean);
+  const r = await startTurn({
+    vault: process.env.TURN_VAULT || join(home, 'Projects/proof-lab'), approvalsDir: process.env.TURN_APPROVALS || join(home, '.claude', 'approvals'), repos,
+    staticDir: process.env.TURN_STATIC || join(import.meta.dirname, '../../.work/turn-dist'), port,
+  });
+  console.log(`Your Turn page (read-only, this computer only): ${r.url}`);
 }

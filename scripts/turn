@@ -1,0 +1,44 @@
+#!/bin/bash
+# turn: open the "Your Turn" page in Chrome with a working link. Starts (or restarts) its read-only server when needed.
+# The link holds this launch's key; it goes straight to `open` and is never printed to the terminal. The server writes it to its own
+# log file (mode 600), the same way scripts/office does.
+set -u
+umask 077   # everything this script creates (pid, stamp, logs, the lock) is private to this user
+SRC="$0"
+if [ -L "$SRC" ]; then SRC=$(readlink "$SRC"); case "$SRC" in /*) ;; *) SRC="$(dirname "$0")/$SRC" ;; esac; fi
+ROOT=$(cd "$(dirname "$SRC")/.." && pwd)
+PORT=${TURN_PORT:-4174}
+case "$PORT" in ''|*[!0-9]*) echo "TURN_PORT must be a number from 1 to 65535."; exit 1 ;; esac
+{ [ "$PORT" -ge 1 ] && [ "$PORT" -le 65535 ]; } || { echo "TURN_PORT must be a number from 1 to 65535."; exit 1; }
+WORK=${TURN_WORK:-$ROOT/.work}
+mkdir -p "$WORK"
+LOCK="$WORK/turn.lock"
+mkdir "$LOCK" 2>/dev/null || { echo "Another turn command is starting the page. Try again in a moment (if this stays, remove $LOCK)."; exit 1; }
+trap 'rmdir "$LOCK" 2>/dev/null' EXIT
+STAMP=${TURN_STAMP:-}
+if [ -z "$STAMP" ]; then STAMP=$(cd "$ROOT" && (git rev-parse HEAD; git status --porcelain apps/turn; git diff HEAD -- apps/turn) | shasum | cut -c1-12); fi
+# mine: turn.pid names a live process that really is this server. A stale or planted pid must never get a signal.
+mine() { local p; p=$(cat "$WORK/turn.pid" 2>/dev/null); case "$p" in ''|*[!0-9]*|0|1) return 1 ;; esac; kill -0 "$p" 2>/dev/null && ps -p "$p" -o command= 2>/dev/null | grep -q 'apps/turn/turn-server.ts'; }
+link() { grep -oE "http://127\.0\.0\.1:$PORT/#t=[0-9a-f]+" "$WORK/turn.log" 2>/dev/null | tail -1; }
+if ! { mine && [ "$(cat "$WORK/turn.stamp" 2>/dev/null)" = "$STAMP" ] && [ -n "$(link)" ]; }; then
+  [ -f "$HOME/Projects/ai-lab/env.sh" ] && { set +u; . "$HOME/Projects/ai-lab/env.sh" >/dev/null 2>&1; set -u; }
+  unset ANTHROPIC_API_KEY   # nothing here calls a model; a later driver must never inherit an API key from this server
+  cd "$ROOT" || exit 1
+  # build first, so a failed build leaves the old server and its link working
+  if [ -z "${TURN_NO_BUILD:-}" ]; then npx vite build --config apps/turn/vite.config.ts >"$WORK/turn-build.log" 2>&1 || { echo "The build failed. See $WORK/turn-build.log"; exit 1; }; fi
+  if mine; then   # only a server this script started
+    OLD=$(cat "$WORK/turn.pid"); kill "$OLD" 2>/dev/null
+    for _ in $(seq 1 25); do kill -0 "$OLD" 2>/dev/null || break; sleep 0.2; done
+    kill -0 "$OLD" 2>/dev/null && kill -9 "$OLD" 2>/dev/null
+  fi
+  if lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/null 2>&1; then echo "Port $PORT is used by something else I did not start. Stop it, then type turn again."; exit 1; fi
+  rm -f "$WORK/turn.log" "$WORK/turn.pid" "$WORK/turn.stamp"
+  : >"$WORK/turn.log"   # created under umask 077, so it is private
+  # the server gets a minimal environment: no tokens or keys from this shell
+  env -i HOME="$HOME" PATH="$PATH" TURN_PORT="$PORT" TURN_VAULT="${TURN_VAULT:-}" TURN_APPROVALS="${TURN_APPROVALS:-}" TURN_REPOS="${TURN_REPOS:-}" TURN_STATIC="${TURN_STATIC:-}" nohup node apps/turn/turn-server.ts >>"$WORK/turn.log" 2>&1 &
+  echo $! >"$WORK/turn.pid"
+  for _ in $(seq 1 50); do [ -n "$(link)" ] && break; kill -0 "$(cat "$WORK/turn.pid")" 2>/dev/null || break; sleep 0.3; done
+  [ -n "$(link)" ] || { echo "Your Turn did not start. See $WORK/turn.log"; exit 1; }
+  echo "$STAMP" >"$WORK/turn.stamp"
+fi
+open -a "Google Chrome" "$(link)" && echo "Opened Your Turn in Chrome."
