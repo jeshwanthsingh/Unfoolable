@@ -103,7 +103,7 @@ describe('Your Turn page tells the truth', () => {
       assert.match(await next.first().innerText(), /SHIP[\s\S]*repo0|repo0[\s\S]*SHIP/);
       assert.equal(await txt(p, 'receipt-project'), basename(w.repos[1]!));
       assert.equal(await txt(p, 'receipt-banner'), 'Really done. Checked, not claimed.');
-      assert.ok(await count(p, 'receipt-row') >= 5);
+      assert.equal(await count(p, 'receipt-row'), 9);
       assert.match(await p.getByTestId('receipt-row').filter({hasText: /checks/i}).first().innerText(), /passed/);
       assert.match(await p.getByTestId('receipt-row').filter({hasText: /you tried it/i}).first().innerText(), /not recorded/);
     });
@@ -321,6 +321,44 @@ describe('Your Turn page tells the truth', () => {
         assert.equal(await txt(p, 'receipt-title'), basename(w2.repos[0]!));
         assert.equal(await txt(p, 'receipt-project'), basename(w2.repos[0]!));
         assert.equal(await count(p, 'receipt-title-note'), 0);
+      });
+    });
+
+    it('receipt rows: labels in order; reviewer ok only at P1 0; outside the card is bad; not recorded is na; title note only for the approvals record', {timeout: 60000}, async () => {
+      const put = (w: World, f: string, v: object | string) => writeFileSync(join(w.repos[0]!, '.claude', f), typeof v === 'string' ? v : JSON.stringify(v));
+      const rows = async (p: Page) => p.getByTestId('receipt-row').evaluateAll((els) => els.map((e) => ({label: e.children[0]!.textContent, value: e.children[1]!.textContent, cls: e.children[1]!.className})));
+      const w = world({repos: ['done']});
+      put(w, 'critic.md', 'a.ts:1 | P2 | x\nb.ts:2 | P3 | y\n');
+      put(w, 'card.md', 'repo: /x\nallowed_files:\n  - a.ts\nscope: s\n');
+      put(w, VERIFY, {verdict: 'PASS', card_sha256: SHA, changed_files: ['a.ts', 'b.ts']});
+      put(w, 'job.json', {card: 'job-card-name', tests_first: true, started_at: '2026-03-04T05:06:07Z', finished_at: '2026-03-04T07:08:09Z', cost_usd: 1.5, tried: 'opened it'});
+      approve(w, w.repos[0]!, 'approved-other-name');
+      await run(w, async (p) => {
+        await wait(p, 'receipt');
+        const r = await rows(p);
+        assert.deepEqual(r.map((x) => x.label), ['Checks', 'Written before the code', 'Reviewer (P1 / P2 / P3)', 'Files touched', 'Started', 'Finished', 'You tried it', 'Proof beyond tests', 'AI work (estimate)']);
+        const by = Object.fromEntries(r.map((x) => [x.label, x]));
+        assert.equal(by['Reviewer (P1 / P2 / P3)']!.value, '0 / 1 / 1');
+        assert.equal(by['Reviewer (P1 / P2 / P3)']!.cls, 'ok');
+        assert.equal(by['Files touched']!.value, '2 of 1 allowed files, 1 outside the card');
+        assert.equal(by['Files touched']!.cls, 'bad');
+        assert.equal(by['Started']!.value, '2026-03-04 05:06 UTC');
+        assert.equal(by['Finished']!.value, '2026-03-04 07:08 UTC');
+        assert.equal(by['AI work (estimate)']!.value, '$1.50');
+        assert.equal(by['Proof beyond tests']!.cls, 'na');
+        assert.equal(await txt(p, 'receipt-title'), 'Job card name'); // the job record's card name wins over the approvals record
+        assert.equal(await count(p, 'receipt-title-note'), 0); // the note is only for a title from the approvals record
+      });
+      put(w, 'critic.md', 'a.ts:1 | P1 | x\n');
+      put(w, 'job.json', {});
+      await run(w, async (p) => {
+        await wait(p, 'receipt');
+        const by = Object.fromEntries((await rows(p)).map((x) => [x.label, x]));
+        assert.equal(by['Reviewer (P1 / P2 / P3)']!.cls, 'bad');
+        assert.equal(by['Started']!.cls, 'na');
+        assert.equal(by['Started']!.value, 'not recorded');
+        assert.equal(await txt(p, 'receipt-title'), 'Approved other name');
+        assert.match(await txt(p, 'receipt-title-note'), /may not be the card the last check ran under/);
       });
     });
 

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync, utimesSync} from 'node:fs';
 import {tmpdir} from 'node:os';
-import {join} from 'node:path';
+import {basename, join} from 'node:path';
 import http from 'node:http';
 import {startTurn, realFs, gitHead} from '../../apps/turn/turn-server.ts';
 
@@ -384,7 +384,7 @@ test('/api/turn: historyPath overrides the default history file', async () => {
   } finally { await close(t.server); }
 });
 
-test('/api/turn: a receipt title is the approved card name for that repo, empty with no record', async () => {
+test('/api/turn: a receipt title is the approved card name for that repo, absent with no record', async () => {
   const f = fixture();
   const g = fixture();
   for (const x of [f, g]) writeFileSync(join(x.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
@@ -392,7 +392,41 @@ test('/api/turn: a receipt title is the approved card name for that repo, empty 
   const t = await startTurn({vault: f.vault, repos: [f.repo, g.repo], approvalsDir: f.approvals, token: 'w7', headOf: () => 'abc123'});
   try {
     const j = await getTurn(t, 'w7');
-    assert.deepEqual(j.receipts.map((r: {repo: string; title: string}) => [r.repo, r.title]), [[f.repo, 'my-card'], [g.repo, '']]);
+    assert.deepEqual(j.receipts.map((r: {repo: string; title?: string}) => [r.repo, r.title]), [[f.repo, 'my-card'], [g.repo, undefined]]);
+    assert.deepEqual(j.receipts.map((r: {titleSource?: string}) => r.titleSource), ['approved', undefined]);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: a job.json card name beats the approved name (titleSource job); a bad one falls back; a bare check PASS is not a ship', async () => {
+  const [f, g, h] = [fixture(), fixture(), fixture()];
+  for (const x of [f, g, h]) {
+    writeFileSync(join(x.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+    writeFileSync(join(f.approvals, `${basename(x.repo)}.json`), JSON.stringify({repo: x.repo, source: 'approved-name.md', card_sha256: 'c'.repeat(64), approved_at: '2026-01-01T00:00:00Z'}));
+  }
+  writeFileSync(join(f.repo, '.claude', 'job.json'), JSON.stringify({card: 'job-name'}));
+  writeFileSync(join(g.repo, '.claude', 'job.json'), JSON.stringify({card: 42})); // wrong type: not a title
+  const t = await startTurn({vault: f.vault, repos: [f.repo, g.repo, h.repo], approvalsDir: f.approvals, token: 'w8', headOf: () => 'abc123'});
+  try {
+    const j = await getTurn(t, 'w8');
+    assert.deepEqual(j.receipts.map((r: {title?: string; titleSource?: string}) => [r.title, r.titleSource]), [['job-name', 'job'], ['approved-name', 'approved'], ['approved-name', 'approved']]);
+    assert.deepEqual(j.ships, []); // no job.json ship_waiting anywhere
+    assert.equal(j.receipts[0].fields['reviewer'], 'not recorded');
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: a symlinked or huge job.json counts as missing (no title, no ship, not recorded)', async () => {
+  const [f, g] = [fixture(), fixture()];
+  const real = join(tmp(), 'real-job.json');
+  writeFileSync(real, JSON.stringify({card: 'linked', ship_waiting: true, tests_first: true}));
+  symlinkSync(real, join(f.repo, '.claude', 'job.json'));
+  writeFileSync(join(g.repo, '.claude', 'job.json'), JSON.stringify({card: 'huge', ship_waiting: true, tried: 'x'.repeat(200001)}));
+  for (const x of [f, g]) writeFileSync(join(x.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo, g.repo], approvalsDir: f.approvals, token: 'w9', headOf: () => 'abc123'});
+  try {
+    const j = await getTurn(t, 'w9');
+    assert.deepEqual(j.ships, []);
+    assert.deepEqual(j.receipts.map((r: {title?: string}) => r.title), [undefined, undefined]);
+    assert.deepEqual(j.receipts.map((r: {fields: Record<string, string>}) => r.fields['tests written first']), ['not recorded', 'not recorded']);
   } finally { await close(t.server); }
 });
 

@@ -116,7 +116,14 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
         const copts: CardOpts = {...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), ...(opts.clock ? {now: opts.clock()} : {})};
         const {waiting: pending, older, settled} = cardLists(fs, opts.vault, opts.approvalsDir, copts); // one scan per request
         const ships = shipsWaiting(fs, opts.repos, headOf);
-        const receipts = opts.repos.flatMap((r) => { const x = receipt(fs, r, headOf); return x ? [{...x, title: approvedTitle(fs, opts.approvalsDir, r)}] : []; });
+        // Title: the job record's card name (what the check ran under), else the card now approved for the repo (it may differ), else none.
+        const receipts = opts.repos.flatMap((r) => {
+          const x = receipt(fs, r, headOf);
+          if (!x) return [];
+          if (x.title !== undefined) return [{...x, titleSource: 'job'}];
+          const approved = approvedTitle(fs, opts.approvalsDir, r);
+          return [approved !== '' ? {...x, title: approved, titleSource: 'approved'} : x];
+        });
         // What could not be read at all: the page must say "Not live", never "Nothing needs you" from an empty read.
         const cardsDir = `${opts.vault}/cards`;
         // Files that are listed but cannot be read (too big, a symlink, a folder named like a file) or whose json is broken.
