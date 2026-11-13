@@ -6,7 +6,7 @@ import {randomBytes, timingSafeEqual} from 'node:crypto';
 import {closeSync, constants, fstatSync, lstatSync, openSync, readdirSync, readSync, realpathSync} from 'node:fs';
 import {basename, extname, join, resolve, sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {pendingCards, receipt, shipsWaiting, type Fs} from './turn-data.ts';
+import {approvedTitle, cardLists, receipt, shipsWaiting, type CardOpts, type Fs} from './turn-data.ts';
 
 const TEXT_MAX = 200_000; // a rail file bigger than this reads as missing
 const STATIC_MAX = 5_000_000;
@@ -30,8 +30,29 @@ function readBytes(path: string, max: number): Buffer | null {
   }
 }
 
+// The last `max` bytes of a regular file (same rules as readBytes): for a history that grows for ever.
+function readTailBytes(path: string, max: number): Buffer | null {
+  let fd = -1;
+  try {
+    fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+    const st = fstatSync(fd);
+    if (!st.isFile()) return null;
+    const n = Math.min(st.size, max);
+    const buf = Buffer.alloc(n);
+    return buf.subarray(0, readSync(fd, buf, 0, n, st.size - n));
+  } catch {
+    return null;
+  } finally {
+    if (fd >= 0) closeSync(fd);
+  }
+}
+
 export const realFs: Fs = {
   read: (path) => readBytes(path, TEXT_MAX)?.toString('utf8') ?? null,
+  readTail: (path, maxChars) => readTailBytes(path, maxChars)?.toString('utf8').slice(-maxChars) ?? null,
+  mtime: (path) => { // lstat: a symlink has no age of its own that counts
+    try { const s = lstatSync(path); return s.isFile() ? s.mtimeMs : null; } catch { return null; }
+  },
   list: (path) => {
     try {
       return lstatSync(path).isDirectory() ? readdirSync(path) : null; // lstat: a symlinked directory is not followed
@@ -69,7 +90,7 @@ export function gitHead(repo: string): string | null {
   }
 }
 
-export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: string; staticDir?: string; port?: number; token?: string; fs?: Fs; headOf?: (repo: string) => string | null}): Promise<{server: Server; port: number; token: string; url: string}> {
+export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: string; staticDir?: string; port?: number; token?: string; fs?: Fs; headOf?: (repo: string) => string | null; historyPath?: string; clock?: () => number}): Promise<{server: Server; port: number; token: string; url: string}> {
   const token = opts.token ?? randomBytes(24).toString('hex');
   const fs = opts.fs ?? realFs;
   const headOf = opts.headOf ?? gitHead;
@@ -92,9 +113,10 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
     if (path === '/api/turn') {
       if (!okKey(String(req.headers['x-turn-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
       try {
-        const pending = pendingCards(fs, opts.vault, opts.approvalsDir);
+        const copts: CardOpts = {...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), ...(opts.clock ? {now: opts.clock()} : {})};
+        const {waiting: pending, older, settled} = cardLists(fs, opts.vault, opts.approvalsDir, copts); // one scan per request
         const ships = shipsWaiting(fs, opts.repos, headOf);
-        const receipts = opts.repos.flatMap((r) => receipt(fs, r, headOf) ?? []);
+        const receipts = opts.repos.flatMap((r) => { const x = receipt(fs, r, headOf); return x ? [{...x, title: approvedTitle(fs, opts.approvalsDir, r)}] : []; });
         // What could not be read at all: the page must say "Not live", never "Nothing needs you" from an empty read.
         const cardsDir = `${opts.vault}/cards`;
         // Files that are listed but cannot be read (too big, a symlink, a folder named like a file) or whose json is broken.
@@ -119,7 +141,7 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
             return records.includes('last-verify.json') && headOf(r) === null ? [`the current version of the project ${basename(r)}`] : [];
           }),
         ];
-        return send(200, JSON.stringify({at: new Date().toISOString(), notLive, pending, ships, receipts}), 'application/json');
+        return send(200, JSON.stringify({at: new Date().toISOString(), notLive, pending, older, settled, ships, receipts}), 'application/json');
       } catch {
         return send(500, JSON.stringify({ok: false, error: 'could not read the rail files'}), 'application/json');
       }

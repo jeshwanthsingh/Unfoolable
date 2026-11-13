@@ -143,7 +143,7 @@ describe('Your Turn page tells the truth', () => {
 
   it('server answers 5xx: banner, then it goes away by itself when the server is fine again', {timeout: 60000}, async () => {
     let fail = false;
-    const flaky: Fs = {read: (x) => { if (fail) throw new Error('boom'); return realFs.read(x); }, list: (x) => { if (fail) throw new Error('boom'); return realFs.list(x); }};
+    const flaky: Fs = {...realFs, read: (x) => { if (fail) throw new Error('boom'); return realFs.read(x); }, list: (x) => { if (fail) throw new Error('boom'); return realFs.list(x); }};
     await run({...POP(), fs: flaky}, async (p) => {
       await wait(p, 'decision');
       fail = true;
