@@ -7,6 +7,7 @@ import {closeSync, constants, fstatSync, lstatSync, openSync, readdirSync, readS
 import {basename, extname, join, resolve, sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {approvedTitle, cardLists, receipt, shipsWaiting, type CardOpts, type Fs} from './turn-data.ts';
+import {buildMap, listMaps} from './turn-map.ts';
 
 const TEXT_MAX = 200_000; // a rail file bigger than this reads as missing
 const STATIC_MAX = 5_000_000;
@@ -109,6 +110,18 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
       if (!okKey(path.slice(3))) return send(401, 'Needs the launch token.');
       res.writeHead(302, {location: '/', 'set-cookie': `turn_key=${token}; Path=/; HttpOnly; SameSite=Strict`, ...HEADERS});
       return res.end();
+    }
+    if (path === '/api/map') { // the Map view: a hand-written vault file plus the rail's own records, read only
+      if (!okKey(String(req.headers['x-turn-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
+      const project = new URLSearchParams((req.url ?? '').split('?')[1] ?? '').get('project') ?? '';
+      if (!/^[a-z0-9-]{1,40}$/.test(project)) return send(400, 'Bad project name.');
+      try {
+        const r = buildMap(fs, {vault: opts.vault, approvalsDir: opts.approvalsDir, project, headOf, repos: opts.repos, ...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), ...(opts.clock ? {now: opts.clock()} : {})});
+        const map = r.ok ? {project: r.project, parts: r.parts} : null; // the folder path is not sent to the page
+        return send(200, JSON.stringify({at: new Date().toISOString(), project, projects: listMaps(fs, opts.vault), map, notLive: !r.ok && r.why === 'unreadable' ? ['the map file'] : []}), 'application/json');
+      } catch {
+        return send(500, JSON.stringify({ok: false, error: 'could not read the map'}), 'application/json');
+      }
     }
     if (path === '/api/turn') {
       if (!okKey(String(req.headers['x-turn-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');

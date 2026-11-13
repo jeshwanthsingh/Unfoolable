@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync, utimesSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync, utimesSync, rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {basename, join} from 'node:path';
 import http from 'node:http';
@@ -749,4 +749,133 @@ test('gitHead: garbage inputs give null and never throw', () => {
 
   const empty = tmp();
   assert.equal(gitHead(empty), null);
+});
+
+// ---------- /api/map ----------
+
+const MAPJ = (pieces: object[] = [{id: 'a', name: 'Alpha', plain: 'first', status: 'idea', needs: [], model: 'claude'}]) => JSON.stringify({project: 'proj', repo: '/r/none', parts: [{id: 'p1', name: 'Part one', plain: 'pp', pieces}]});
+const mapFix = (text: string | null) => {
+  const f = fixture();
+  mkdirSync(join(f.vault, 'maps'));
+  if (text !== null) writeFileSync(join(f.vault, 'maps', 'proj.json'), text);
+  return f;
+};
+const getMap = (t: {port: number}, key: string, q = '?project=proj') => req(t.port, 'GET', `/api/map${q}`, {'x-turn-token': key});
+
+test('/api/map is 401 without a key or with a wrong one, and leaks nothing', async () => {
+  const f = mapFix(MAPJ([{id: 'a', name: 'TOPSECRETPIECE', plain: 'p', status: 'idea', needs: [], model: 'claude'}]));
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'mk1', headOf: () => null});
+  try {
+    for (const r of [await req(t.port, 'GET', '/api/map?project=proj'), await getMap(t, 'wrong'), await req(t.port, 'GET', '/api/map?project=proj', {cookie: 'turn_key=wrong'})]) {
+      assert.equal(r.status, 401);
+      assert.ok(!r.body.includes('TOPSECRETPIECE') && !r.body.includes('mk1'));
+    }
+  } finally { await close(t.server); }
+});
+
+test('/api/map works with the header and with the cookie', async () => {
+  const f = mapFix(MAPJ());
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'mk2', headOf: () => null});
+  try {
+    for (const h of [{'x-turn-token': 'mk2'}, {cookie: 'a=b; turn_key=mk2'}]) {
+      const r = await req(t.port, 'GET', '/api/map?project=proj', h);
+      assert.equal(r.status, 200);
+      assert.match(String(r.headers['content-type']), /application\/json/);
+    }
+  } finally { await close(t.server); }
+});
+
+test('/api/map: a bad or missing project name is 400', async () => {
+  const f = mapFix(MAPJ());
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'mk3', headOf: () => null});
+  try {
+    for (const q of ['', '?project=', '?project=..%2Fx', '?project=A', '?project=a%20b', `?project=${'x'.repeat(41)}`, '?project=a.json', '?other=proj']) assert.equal((await getMap(t, 'mk3', q)).status, 400, q);
+  } finally { await close(t.server); }
+});
+
+test('/api/map: a readable map gives at, project, projects, map.parts and an empty notLive', async () => {
+  const f = mapFix(MAPJ());
+  writeFileSync(join(f.vault, 'maps', 'zzz.json'), '{}');
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'mk4', headOf: () => null});
+  try {
+    const r = await getMap(t, 'mk4');
+    assert.equal(r.status, 200);
+    const j = JSON.parse(r.body);
+    assert.equal(typeof j.at, 'string');
+    assert.equal(j.project, 'proj');
+    assert.deepEqual(j.projects, ['proj', 'zzz']);
+    assert.deepEqual(j.notLive, []);
+    assert.equal(j.map.parts[0].pieces[0].name, 'Alpha');
+    assert.equal(j.map.parts[0].pieces[0].state, 'idea');
+    assert.equal(j.map.parts[0].pieces[0].isPlan, true);
+  } finally { await close(t.server); }
+});
+
+test('/api/map: computes states from the records of the map repo through realFs (job, verify, ship)', async () => {
+  const f = fixture();
+  mkdirSync(join(f.vault, 'maps'));
+  writeFileSync(join(f.vault, 'maps', 'proj.json'), JSON.stringify({project: 'proj', repo: f.repo, parts: [{id: 'p1', name: 'n', plain: 'p', pieces: [{id: 'a', name: 'A', plain: 'p', status: 'idea', needs: [], model: 'codex', card: 'c1'}, {id: 'b', name: 'B', plain: 'p', status: 'queued', needs: ['a'], model: 'either'}]}]}));
+  writeFileSync(join(f.repo, '.claude', 'job.json'), JSON.stringify({card: 'c1', started_at: '2026-11-13T10:00:00Z'}));
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  writeFileSync(join(f.repo, '.claude', SHIP), JSON.stringify({verdict: 'PASS', head: 'abc123'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'mk5', headOf: () => 'abc123'}); // the map's repo must be one the server watches
+  try {
+    const j = JSON.parse((await getMap(t, 'mk5')).body);
+    const [a, b] = j.map.parts[0].pieces;
+    assert.equal(a.state, 'Shipped');
+    assert.equal(b.state, 'queued');
+    assert.deepEqual(b.blockedBy, []);
+  } finally { await close(t.server); }
+});
+
+test('/api/map: a missing map file is the empty state: map null, notLive []', async () => {
+  const f = mapFix(null);
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'mk6', headOf: () => null});
+  try {
+    const r = await getMap(t, 'mk6');
+    assert.equal(r.status, 200);
+    const j = JSON.parse(r.body);
+    assert.equal(j.map, null);
+    assert.deepEqual(j.notLive, []);
+    assert.deepEqual(j.projects, []);
+  } finally { await close(t.server); }
+});
+
+test('/api/map: an unreadable map (bad json, huge, symlink, no parts) is map null with notLive naming the map file', async () => {
+  const f = mapFix(null);
+  const real = join(f.vault, 'real-map.json');
+  writeFileSync(real, MAPJ());
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'mk7', headOf: () => null});
+  try {
+    const p = join(f.vault, 'maps', 'proj.json');
+    for (const bad of ['{not json', 'x'.repeat(200_001), '[]', '{"parts":"no"}', 'link']) {
+      rmSync(p, {force: true});
+      if (bad === 'link') symlinkSync(real, p); else writeFileSync(p, bad);
+      const j = JSON.parse((await getMap(t, 'mk7')).body);
+      assert.equal(j.map, null, bad.slice(0, 15));
+      assert.ok(j.notLive.includes('the map file'), bad.slice(0, 15));
+    }
+  } finally { await close(t.server); }
+});
+
+test('/api/map: non-GET is 405, and a wrong Host or Origin is 403', async () => {
+  const f = mapFix(MAPJ());
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'mk8', headOf: () => null});
+  try {
+    for (const m of ['POST', 'PUT', 'DELETE', 'PATCH']) assert.equal((await req(t.port, m, '/api/map?project=proj', {'x-turn-token': 'mk8'})).status, 405, m);
+    assert.equal((await req(t.port, 'GET', '/api/map?project=proj', {'x-turn-token': 'mk8', host: 'evil.example'})).status, 403);
+    assert.equal((await req(t.port, 'GET', '/api/map?project=proj', {'x-turn-token': 'mk8', origin: 'http://evil.example'})).status, 403);
+  } finally { await close(t.server); }
+});
+
+test('/api/map: GET reads the vault but writes nothing', async () => {
+  const f = mapFix(MAPJ());
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'mk9', headOf: () => null});
+  const snap = () => JSON.stringify([walk(f.vault), walk(f.approvals)]);
+  const before = snap();
+  try {
+    await getMap(t, 'mk9');
+    await getMap(t, 'mk9', '?project=nope');
+    assert.equal(snap(), before);
+  } finally { await close(t.server); }
 });
