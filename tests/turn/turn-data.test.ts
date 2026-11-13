@@ -132,8 +132,9 @@ test('shipsWaiting: waiting when verify PASS, head known, no matching PASS ship;
   ]);
 });
 
-const KEYS = ['checks', 'tests written first', 'reviewer', 'files touched', 'started', 'finished', 'tried by you', 'proof', 'cost', 'seal'];
+const KEYS = ['checks', 'tests written first', 'reviewer', 'files touched', 'started', 'finished', 'tried by you', 'proof', 'cost', 'builder says', 'builder checked by hand', 'seal'];
 const NR = 'not recorded';
+const YES = 'yes (script check, can be fooled)';
 
 test('shipsWaiting: a bare check PASS is not listed; needs job.json ship_waiting === true', () => {
   const fs = fakeFs({
@@ -146,12 +147,18 @@ test('shipsWaiting: a bare check PASS is not listed; needs job.json ship_waiting
   assert.deepEqual(shipsWaiting(fs, ['/a', '/b', '/c', '/d', '/e'], () => 'h'), [{repo: '/e', head: 'h'}]);
 });
 
-test('shipsWaiting: a job record made for another commit is stale and not listed; the same commit is listed', () => {
+test('shipsWaiting: job.head must equal the check record head (not the git HEAD); no job.head is listed', () => {
   const fs = fakeFs({
-    [VERIFY('/a')]: verify('PASS'), [JOB('/a')]: job({ship_waiting: true, head: 'old'}),
-    [VERIFY('/b')]: verify('PASS'), [JOB('/b')]: job({ship_waiting: true, head: 'h'}),
+    [VERIFY('/a')]: verify('PASS', {head: 'rec'}), [JOB('/a')]: job({ship_waiting: true, head: 'old'}), // differs from the record: stale
+    [VERIFY('/b')]: verify('PASS', {head: 'rec'}), [JOB('/b')]: job({ship_waiting: true, head: 'rec'}), // equals the record, not the git HEAD: listed
+    [VERIFY('/c')]: verify('PASS'), [JOB('/c')]: job({ship_waiting: true, head: 'rec'}), // record has no head: not listed
+    [VERIFY('/d')]: verify('PASS', {head: 'rec'}), [JOB('/d')]: WAIT, // no job.head: listed
+    [VERIFY('/e')]: verify('PASS', {head: 5}), [JOB('/e')]: job({ship_waiting: true, head: 5}), // record head not a string: not listed
+    [VERIFY('/f')]: verify('PASS', {head: 'rec'}), [JOB('/f')]: job({ship_waiting: true, head: 5}), // job.head not a string: not listed
+    [VERIFY('/g')]: verify('PASS', {head: 'rec'}), [JOB('/g')]: job({ship_waiting: true, head: 'rec'}), [SHIP('/g')]: ship('PASS', 'h'), // shipped at the current head
   });
-  assert.deepEqual(shipsWaiting(fs, ['/a', '/b'], () => 'h'), [{repo: '/b', head: 'h'}]);
+  assert.deepEqual(shipsWaiting(fs, ['/a', '/b', '/c', '/d', '/e', '/f', '/g'], () => 'h'), [{repo: '/b', head: 'h'}, {repo: '/d', head: 'h'}]);
+  assert.deepEqual(shipsWaiting(fs, ['/b'], () => null), []); // unknown head: not listed
 });
 
 test('receipt: null when verify file missing, unparseable, or not PASS', () => {
@@ -166,7 +173,7 @@ test('receipt: PASS gives exact keys in order, unknowns are "not recorded"', () 
   assert.deepEqual(Object.keys(r.fields), KEYS);
   assert.deepEqual(r.fields, {
     'checks': 'passed', 'tests written first': NR, 'reviewer': NR, 'files touched': NR, 'started': NR,
-    'finished': fmt(NOW), 'tried by you': NR, 'proof': NR, 'cost': NR, 'seal': NR,
+    'finished': fmt(NOW), 'tried by you': NR, 'proof': NR, 'cost': NR, 'builder says': NR, 'builder checked by hand': NR, 'seal': NR,
   });
   assert.equal(r.title, undefined);
   const bare = receipt({...fakeFs({[VERIFY('/r')]: verify('PASS')}), mtime: () => null}, '/r', () => 'h')!; // no mtime: finished unknown too
@@ -496,12 +503,12 @@ test('receipt: started and finished are "YYYY-MM-DD HH:MM UTC"; finished falls b
 });
 
 test('receipt: job.json fields map to rows; a wrong type makes only that field not recorded', () => {
-  const r = rcpt({[JOB('/r')]: job({card: 'my card', tests_first: true, cost_usd: 1.234, tried: 'clicked it'})});
-  assert.equal(r.fields['tests written first'], 'yes');
+  const r = rcpt({[JOB('/r')]: job({card: 'my card', tests_first: true, checked_by: 'script', cost_usd: 1.234, tried: 'clicked it'})});
+  assert.equal(r.fields['tests written first'], YES);
   assert.equal(r.fields['cost'], '$1.23');
   assert.equal(r.fields['tried by you'], 'clicked it');
   assert.equal(r.title, 'my card');
-  assert.equal(rcpt({[JOB('/r')]: job({tests_first: false})}).fields['tests written first'], 'no');
+  assert.equal(rcpt({[JOB('/r')]: job({tests_first: false, checked_by: 'script'})}).fields['tests written first'], 'no (script check)');
   assert.equal(rcpt({[JOB('/r')]: job({cost_usd: 0})}).fields['cost'], '$0.00');
   assert.equal(rcpt({[JOB('/r')]: job({cost_usd: 12})}).fields['cost'], '$12.00');
   for (const c of [-1, 'abc', '1.5', null, true]) assert.equal(rcpt({[JOB('/r')]: job({cost_usd: c})}).fields['cost'], NR, String(c));
@@ -539,4 +546,95 @@ test('receipt: job.json bigger than 200000 chars or a JSON array reads as missin
 
 test('receipt: ship_waiting in job.json never changes the receipt fields', () => {
   assert.deepEqual(rcpt({[JOB('/r')]: job({ship_waiting: true})}).fields, rcpt({}).fields);
+});
+
+// ---------- R1c: honest labels ----------
+
+const TW = 'tests written first';
+const tw = (j: object) => rcpt({[JOB('/r')]: job(j)}).fields[TW];
+const BS = (r = '/r') => `${r}/.claude/builder-says.json`;
+const says = (files: Record<string, string>) => rcpt(files).fields;
+
+test('receipt: tests written first is only ever a script-check label', () => {
+  assert.equal(tw({tests_first: true, checked_by: 'script'}), YES);
+  assert.equal(tw({tests_first: false, checked_by: 'script'}), 'no (script check)');
+  assert.equal(tw({tests_first: false, checked_by: 'script', tests_first_reason: '  no tests existed  '}), 'no (script check): no tests existed');
+  assert.equal(tw({tests_first: false, checked_by: 'script', tests_first_reason: ''}), 'no (script check)');
+  assert.equal(tw({tests_first: false, checked_by: 'script', tests_first_reason: '   '}), 'no (script check)');
+  assert.equal(tw({tests_first: false, checked_by: 'script', tests_first_reason: 7}), 'no (script check)');
+  assert.equal(tw({tests_first: true, checked_by: 'script', tests_first_reason: 'ignored for yes'}), YES);
+  assert.equal(tw({tests_first: true, checked_by: 'script', starts: 2}), `${YES}, started again`);
+  assert.equal(tw({tests_first: false, checked_by: 'script', starts: 3, tests_first_reason: 'r'}), 'no (script check): r, started again');
+  for (const s of [1, 0, '2', null, true]) assert.equal(tw({tests_first: true, checked_by: 'script', starts: s}), YES, String(s));
+  // not recorded: missing or wrong checked_by, or tests_first not a boolean
+  for (const c of [undefined, 'Script', 'script ', 'human', 'builder', '', 1, null, true, ['script']]) assert.equal(tw({tests_first: true, checked_by: c}), NR, String(c));
+  for (const t of [undefined, 'yes', 'true', 1, 0, null, 'false']) assert.equal(tw({tests_first: t, checked_by: 'script'}), NR, String(t));
+  assert.equal(tw({checked_by: 'script', starts: 2}), NR);
+});
+
+test('receipt: tests_first_reason is cleaned, trimmed and cut to 120; it cannot change the fixed words', () => {
+  const evil = `<img src=x onerror=alert(1)>‮abc\u0007\n${'z'.repeat(300)}`;
+  const v = tw({tests_first: false, checked_by: 'script', tests_first_reason: evil});
+  const prefix = 'no (script check): ';
+  assert.ok(v.startsWith(`${prefix}<img src=x onerror=alert(1)>abc`), v);
+  assert.ok(v.length <= prefix.length + 120, String(v.length));
+  assert.ok(!/[\u0000-\u001f‪-‮⁦-⁩]/.test(v));
+  assert.equal(tw({tests_first: false, checked_by: 'script', tests_first_reason: 'q'.repeat(500)}).length, prefix.length + 120);
+  // a reason that tries to pose as a plain yes or to drop the label still sits after the fixed label
+  for (const reason of ['yes', 'yes (verified by a human)', 'script check removed']) {
+    const w = tw({tests_first: false, checked_by: 'script', tests_first_reason: reason});
+    assert.ok(w.startsWith('no (script check)'), w);
+  }
+});
+
+test('receipt: a plain yes never occurs for tests written first (property)', () => {
+  const any = fc.oneof(fc.boolean(), fc.string(), fc.integer(), fc.constant(null), fc.constantFrom('script', 'yes', 'Script'));
+  fc.assert(
+    fc.property(any, any, any, any, (t, c, r, n) => {
+      const v = tw({tests_first: t, checked_by: c, tests_first_reason: r, starts: n});
+      assert.ok(v === NR || v === YES || v.startsWith('no (script check)') || v === `${YES}, started again`, v);
+      assert.ok(!/^yes(?! \(script check, can be fooled\))/.test(v), v);
+      if (v.startsWith('yes')) assert.ok(v.startsWith(YES), v);
+    }),
+    {numRuns: 300},
+  );
+});
+
+test('receipt: builder-says.json gives the two builder fields, cleaned, trimmed, cut to 160', () => {
+  const f = says({[BS()]: JSON.stringify({summary: '  built it  ', checked_by_hand: 'ran the page'})});
+  assert.equal(f['builder says'], 'built it');
+  assert.equal(f['builder checked by hand'], 'ran the page');
+  assert.deepEqual(Object.keys(f), KEYS);
+  const evil = `<img src=x onerror=alert(1)>‮abc\u0007\n${'z'.repeat(300)}`;
+  const e = says({[BS()]: JSON.stringify({summary: evil, checked_by_hand: evil})});
+  for (const v of [e['builder says'], e['builder checked by hand']]) {
+    assert.ok(v.length <= 160, String(v.length));
+    assert.ok(v.startsWith('<img src=x onerror=alert(1)>abc'), v);
+    assert.ok(!/[\u0000-\u001f‪-‮⁦-⁩]/.test(v));
+  }
+  assert.equal(says({[BS()]: JSON.stringify({summary: 'q'.repeat(500)})})['builder says'].length, 160);
+  assert.equal(says({[BS()]: JSON.stringify({summary: 'only one'})})['builder checked by hand'], NR); // each field on its own
+});
+
+test('receipt: builder-says.json that is missing, huge, an array, broken, or has wrong types is not recorded', () => {
+  const both = (f: Record<string, string>) => { const x = says(f); return [x['builder says'], x['builder checked by hand']]; };
+  assert.deepEqual(both({}), [NR, NR]);
+  assert.deepEqual(both({[BS()]: JSON.stringify({summary: 'x'.repeat(200_001), checked_by_hand: 'y'})}), [NR, NR]);
+  assert.deepEqual(both({[BS()]: '[{"summary":"a","checked_by_hand":"b"}]'}), [NR, NR]);
+  assert.deepEqual(both({[BS()]: '{nope'}), [NR, NR]);
+  assert.deepEqual(both({[BS()]: JSON.stringify({summary: 5, checked_by_hand: ['x']})}), [NR, NR]);
+  assert.deepEqual(both({[BS()]: JSON.stringify({summary: '', checked_by_hand: '  \u0007 '})}), [NR, NR]);
+  assert.deepEqual(both({[BS()]: JSON.stringify({summary: null, checked_by_hand: {}})}), [NR, NR]);
+});
+
+test('receipt: builder-says.json fields touch nothing else: no title, no ship, no tests_first, no other field', () => {
+  const lie = JSON.stringify({summary: 's', checked_by_hand: 'c', tests_first: true, checked_by: 'script', ship_waiting: true, card: 'Lie', head: 'h', cost_usd: 9, tried: 'x', seal: 'y'});
+  const without = rcpt({});
+  const withIt = rcpt({[BS()]: lie});
+  assert.equal(withIt.title, undefined);
+  const strip = (f: Record<string, string>) => Object.fromEntries(Object.entries(f).filter(([k]) => !k.startsWith('builder')));
+  assert.deepEqual(strip(withIt.fields), strip(without.fields));
+  assert.equal(withIt.shipped, without.shipped);
+  const fs = fakeFs({[VERIFY('/r')]: PASSV({head: 'h'}), [BS()]: lie});
+  assert.deepEqual(shipsWaiting(fs, ['/r'], () => 'h'), []);
 });

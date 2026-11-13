@@ -52,6 +52,8 @@ const id = (p: Page, t: string) => p.getByTestId(t).first();
 const wait = (p: Page, t: string, ms = 10000) => id(p, t).waitFor({timeout: ms});
 const txt = (p: Page, t: string) => id(p, t).innerText();
 const count = (p: Page, t: string) => p.getByTestId(t).count();
+const LABELS = ['Checks', 'Written before the code', 'Reviewer (P1 / P2 / P3)', 'Files touched', 'Started', 'Finished', 'You tried it', 'Proof beyond tests', 'AI work (estimate)', 'Builder says', 'Builder says it checked by hand'];
+const lab = (t: string): string => LABELS.filter((l) => t.startsWith(l)).sort((a, b) => b.length - a.length)[0] ?? t; // the longest label that starts the text
 const POP = (): World => world({cards: [['alpha-card', '/x/proj', 'Build the thing']], repos: ['ship', 'done']});
 
 describe('Your Turn page tells the truth', () => {
@@ -103,7 +105,7 @@ describe('Your Turn page tells the truth', () => {
       assert.match(await next.first().innerText(), /SHIP[\s\S]*repo0|repo0[\s\S]*SHIP/);
       assert.equal(await txt(p, 'receipt-project'), basename(w.repos[1]!));
       assert.equal(await txt(p, 'receipt-banner'), 'Really done. Checked, not claimed.');
-      assert.equal(await count(p, 'receipt-row'), 9);
+      assert.equal(await count(p, 'receipt-row'), 11);
       assert.match(await p.getByTestId('receipt-row').filter({hasText: /checks/i}).first().innerText(), /passed/);
       assert.match(await p.getByTestId('receipt-row').filter({hasText: /you tried it/i}).first().innerText(), /not recorded/);
     });
@@ -331,13 +333,18 @@ describe('Your Turn page tells the truth', () => {
       put(w, 'critic.md', 'a.ts:1 | P2 | x\nb.ts:2 | P3 | y\n');
       put(w, 'card.md', 'repo: /x\nallowed_files:\n  - a.ts\nscope: s\n');
       put(w, VERIFY, {verdict: 'PASS', card_sha256: SHA, changed_files: ['a.ts', 'b.ts']});
-      put(w, 'job.json', {card: 'job-card-name', tests_first: true, started_at: '2026-03-04T05:06:07Z', finished_at: '2026-03-04T07:08:09Z', cost_usd: 1.5, tried: 'opened it'});
+      put(w, 'job.json', {card: 'job-card-name', tests_first: true, checked_by: 'script', started_at: '2026-03-04T05:06:07Z', finished_at: '2026-03-04T07:08:09Z', cost_usd: 1.5, tried: 'opened it'});
       approve(w, w.repos[0]!, 'approved-other-name');
       await run(w, async (p) => {
         await wait(p, 'receipt');
         const r = await rows(p);
-        assert.deepEqual(r.map((x) => x.label), ['Checks', 'Written before the code', 'Reviewer (P1 / P2 / P3)', 'Files touched', 'Started', 'Finished', 'You tried it', 'Proof beyond tests', 'AI work (estimate)']);
-        const by = Object.fromEntries(r.map((x) => [x.label, x]));
+        assert.deepEqual(r.map((x) => lab(x.label!)), LABELS); // the label span may carry a note after the label
+        const by = Object.fromEntries(r.map((x) => [lab(x.label!), x]));
+        assert.equal(by['Written before the code']!.value, 'yes (script check, can be fooled)');
+        assert.notEqual(by['Written before the code']!.cls, 'ok');
+        assert.equal(by['Builder says']!.value, 'not recorded');
+        assert.equal(by['Builder says']!.cls, 'na');
+        assert.equal(by['Builder says it checked by hand']!.cls, 'na');
         assert.equal(by['Reviewer (P1 / P2 / P3)']!.value, '0 / 1 / 1');
         assert.equal(by['Reviewer (P1 / P2 / P3)']!.cls, 'ok');
         assert.equal(by['Files touched']!.value, '2 of 1 allowed files, 1 outside the card');
@@ -353,12 +360,51 @@ describe('Your Turn page tells the truth', () => {
       put(w, 'job.json', {});
       await run(w, async (p) => {
         await wait(p, 'receipt');
-        const by = Object.fromEntries((await rows(p)).map((x) => [x.label, x]));
+        const by = Object.fromEntries((await rows(p)).map((x) => [lab(x.label!), x]));
+        assert.equal(by['Written before the code']!.value, 'not recorded');
+        assert.equal(by['Written before the code']!.cls, 'na');
         assert.equal(by['Reviewer (P1 / P2 / P3)']!.cls, 'bad');
         assert.equal(by['Started']!.cls, 'na');
         assert.equal(by['Started']!.value, 'not recorded');
         assert.equal(await txt(p, 'receipt-title'), 'Approved other name');
         assert.match(await txt(p, 'receipt-title-note'), /may not be the card the last check ran under/);
+      });
+    });
+
+    it('receipt labels: notes in the reviewer and builder labels; Written before the code shows the fixed words; hostile builder text stays text', {timeout: 60000}, async () => {
+      const put = (w: World, f: string, v: object) => writeFileSync(join(w.repos[0]!, '.claude', f), JSON.stringify(v));
+      const evil = '<img src=x onerror="window.__pwned=1"><b>BOLD</b>‮RTL\u0007END';
+      const w = world({repos: ['done']});
+      put(w, 'job.json', {tests_first: false, checked_by: 'script', tests_first_reason: evil, starts: 2});
+      put(w, 'builder-says.json', {summary: evil, checked_by_hand: 'I clicked every button', tests_first: true, ship_waiting: true, card: 'Lie', head: 'x'});
+      await run(w, async (p) => {
+        await wait(p, 'receipt');
+        const rows = await p.getByTestId('receipt-row').evaluateAll((els) => els.map((e) => ({label: e.children[0]!.textContent ?? '', value: e.children[1]!.textContent ?? '', cls: e.children[1]!.className})));
+        const by = Object.fromEntries(rows.map((x) => [lab(x.label), x]));
+        assert.match(by['Reviewer (P1 / P2 / P3)']!.label, /from the reviewers' file; the builder writes it/);
+        for (const k of ['Builder says', 'Builder says it checked by hand']) assert.match(by[k]!.label, /the builder's own words, not checked/, k);
+        for (const k of ['Checks', 'Written before the code', 'Files touched']) assert.ok(!by[k]!.label.includes("the builder's own words"), k);
+        const wb = by['Written before the code']!;
+        assert.ok(wb.value.startsWith('no (script check): <img src=x onerror="window.__pwned=1"><b>BOLD</b>'), wb.value);
+        assert.ok(wb.value.endsWith(', started again'), wb.value);
+        assert.ok(!wb.value.includes('‮') && !wb.value.includes('\u0007'));
+        assert.notEqual(wb.cls, 'ok');
+        assert.ok(by['Builder says']!.value.startsWith('<img src=x onerror="window.__pwned=1"><b>BOLD</b>'));
+        assert.equal(by['Builder says it checked by hand']!.value, 'I clicked every button');
+        for (const k of ['Builder says', 'Builder says it checked by hand']) assert.ok(!/\b(ok|bad)\b/.test(by[k]!.cls), `${k}: ${by[k]!.cls}`);
+        assert.equal(await p.getByTestId('receipt').locator('img, script, b').count(), 0);
+        assert.equal(await p.evaluate(() => (window as any).__pwned), undefined);
+        assert.equal(await txt(p, 'receipt-title'), basename(w.repos[0]!)); // builder-says never sets the title
+      });
+    });
+
+    it('the Ship card and next list ignore builder-says: no ship appears from builder-says.json alone', {timeout: 60000}, async () => {
+      const w = world({repos: ['done']});
+      writeFileSync(join(w.repos[0]!, '.claude', 'builder-says.json'), JSON.stringify({summary: 's', checked_by_hand: 'c', ship_waiting: true, card: 'Lie'}));
+      await run(w, async (p) => {
+        await wait(p, 'receipt');
+        assert.equal(await count(p, 'decision'), 0);
+        assert.equal(await count(p, 'next-item'), 0);
       });
     });
 

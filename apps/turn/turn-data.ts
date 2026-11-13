@@ -11,7 +11,7 @@ export type Ship = {repo: string; head: string; title?: string};
 export type Receipt = {repo: string; shipped: boolean; fields: Record<string, string>; title?: string};
 
 const NOT_RECORDED = 'not recorded';
-const KEYS = ['checks', 'tests written first', 'reviewer', 'files touched', 'started', 'finished', 'tried by you', 'proof', 'cost', 'seal'];
+const KEYS = ['checks', 'tests written first', 'reviewer', 'files touched', 'started', 'finished', 'tried by you', 'proof', 'cost', 'builder says', 'builder checked by hand', 'seal'];
 const MAX_CHARS = 200_000; // a file bigger than this reads as missing
 const MAX_FILES = 500;
 const SAFE_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$/;
@@ -106,10 +106,12 @@ export function shipsWaiting(fs: Fs, repos: string[], headOf: (repo: string) => 
   const out: Ship[] = [];
   for (const repo of repos) {
     const head = headOf(repo);
-    if (head === null || readJson(fs, `${repo}/.claude/last-verify.json`)?.verdict !== 'PASS') continue;
+    const verify = readJson(fs, `${repo}/.claude/last-verify.json`);
+    if (head === null || verify?.verdict !== 'PASS') continue;
     const job = readJson(fs, `${repo}/.claude/job.json`);
     if (job?.ship_waiting !== true) continue;
-    if (job.head !== undefined && job.head !== head) continue; // the record was made for another commit: stale
+    // job.head is the commit the check ran on (the record is written before the commit), so it is compared with the gate's own record, not with git HEAD
+    if (job.head !== undefined && !(typeof job.head === 'string' && job.head === verify.head)) continue;
     const shipped = readJson(fs, `${repo}/.claude/last-ship.json`);
     if (shipped?.verdict === 'PASS' && shipped.head === head) continue;
     const card = job.card;
@@ -165,6 +167,17 @@ function filesTouched(verify: Record<string, unknown>, card: string | null): str
 const stamp = (ms: number): string | null => (Number.isFinite(ms) && ms > 9.46e11 && ms < 7.26e12 ? `${new Date(ms).toISOString().slice(0, 16).replace('T', ' ')} UTC` : null);
 const isoStamp = (v: unknown): string | null => (typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v) ? stamp(Date.parse(v)) : null);
 
+// The script's check of "tests first", worded in code: the file can never turn it into a plain "yes".
+function testsFirst(job: Record<string, unknown>): string {
+  if (job.checked_by !== 'script' || typeof job.tests_first !== 'boolean') return NOT_RECORDED;
+  const again = typeof job.starts === 'number' && job.starts > 1 ? ', started again' : '';
+  if (job.tests_first) return `yes (script check, can be fooled)${again}`;
+  const why = typeof job.tests_first_reason === 'string' ? clean(job.tests_first_reason).trim().slice(0, 120) : '';
+  return `no (script check)${why !== '' ? `: ${why}` : ''}${again}`;
+}
+
+const ownWords = (v: unknown): string => (typeof v === 'string' && clean(v).trim() !== '' ? clean(v).trim().slice(0, 160) : NOT_RECORDED);
+
 // A receipt exists only for a PASS. `shipped` is true only when a ship PASS matches the current HEAD.
 // Fields come from the gate's own files, else "not recorded".
 export function receipt(fs: Fs, repo: string, headOf: (repo: string) => string | null): Receipt | null {
@@ -179,7 +192,10 @@ export function receipt(fs: Fs, repo: string, headOf: (repo: string) => string |
   fields['reviewer'] = reviewerCounts(read(fs, `${repo}/.claude/critic.md`));
   fields['files touched'] = filesTouched(verify, read(fs, `${repo}/.claude/card.md`));
   const job = readJson(fs, `${repo}/.claude/job.json`) ?? {}; // every field optional; a wrong type only blanks that field
-  if (typeof job.tests_first === 'boolean') fields['tests written first'] = job.tests_first ? 'yes' : 'no';
+  fields['tests written first'] = testsFirst(job);
+  const says = readJson(fs, `${repo}/.claude/builder-says.json`) ?? {}; // the builder's own words: shown as such, never used for anything else
+  fields['builder says'] = ownWords(says.summary);
+  fields['builder checked by hand'] = ownWords(says.checked_by_hand);
   const mtime = typeof fs.mtime === 'function' ? fs.mtime(`${repo}/.claude/last-verify.json`) : null;
   const finished = isoStamp(job.finished_at) ?? (typeof mtime === 'number' ? stamp(mtime) : null);
   if (finished !== null) fields['finished'] = finished;

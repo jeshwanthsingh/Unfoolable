@@ -101,7 +101,11 @@ function Decision({pending, ship}: {pending?: Pending | undefined; ship?: Ship |
 const LABELS: Record<string, string> = {
   'checks': 'Checks', 'tests written first': 'Written before the code', 'reviewer': 'Reviewer (P1 / P2 / P3)',
   'files touched': 'Files touched', 'started': 'Started', 'finished': 'Finished', 'tried by you': 'You tried it', 'proof': 'Proof beyond tests', 'cost': 'AI work (estimate)',
+  'builder says': 'Builder says', 'builder checked by hand': 'Builder says it checked by hand',
 };
+// Small notes under a label: who wrote the line. Fixed words in code, never taken from a file.
+const OWN = "the builder's own words, not checked";
+const NOTES: Record<string, string> = {'reviewer': "from the reviewers' file; the builder writes it", 'builder says': OWN, 'builder checked by hand': OWN};
 
 function ReceiptView({r}: {r?: Receipt | undefined}) {
   if (!r) return <div className="rc empty" data-testid="no-receipt"><p>No receipt yet</p><p>A receipt appears here once a piece has passed its checks.</p></div>;
@@ -117,7 +121,7 @@ function ReceiptView({r}: {r?: Receipt | undefined}) {
       {Object.entries(LABELS).map(([key, label]) => {
         const v = r.fields[key] ?? 'not recorded';
         const cls = v === 'not recorded' ? 'na' : key === 'reviewer' ? (v.startsWith('0 /') ? 'ok' : 'bad') : key === 'files touched' ? (v.includes('outside the card') ? 'bad' : '') : key === 'checks' ? 'ok' : '';
-        return <div className="l" key={key} data-testid="receipt-row"><span>{label}</span><span className={cls}>{v}</span></div>;
+        return <div className="l" key={key} data-testid="receipt-row"><span>{label}{NOTES[key] && <small className="note">{NOTES[key]}</small>}</span><span className={cls}>{v}</span></div>;
       })}
       <hr />
       <p className="c">{seal === 'not recorded' ? 'no seal recorded' : `seal ${seal}…`}</p>

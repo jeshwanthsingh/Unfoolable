@@ -430,6 +430,29 @@ test('/api/turn: a symlinked or huge job.json counts as missing (no title, no sh
   } finally { await close(t.server); }
 });
 
+test('/api/turn: receipts carry the script-check label and the builder-says fields; a symlinked builder-says.json is not recorded', async () => {
+  const [f, g] = [fixture(), fixture()];
+  for (const x of [f, g]) writeFileSync(join(x.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS', head: 'rec'}));
+  writeFileSync(join(f.repo, '.claude', 'job.json'), JSON.stringify({tests_first: true, checked_by: 'script', starts: 2, ship_waiting: true, head: 'rec'}));
+  writeFileSync(join(f.repo, '.claude', 'builder-says.json'), JSON.stringify({summary: 'did the thing', checked_by_hand: 'opened it'}));
+  const real = join(tmp(), 'bs.json');
+  writeFileSync(real, JSON.stringify({summary: 'linked', checked_by_hand: 'linked'}));
+  symlinkSync(real, join(g.repo, '.claude', 'builder-says.json'));
+  const t = await startTurn({vault: f.vault, repos: [f.repo, g.repo], approvalsDir: f.approvals, token: 'bs1', headOf: () => 'abc123'});
+  try {
+    const j = await getTurn(t, 'bs1');
+    const [a, b] = j.receipts.map((r: {fields: Record<string, string>}) => r.fields);
+    assert.equal(a['tests written first'], 'yes (script check, can be fooled), started again');
+    assert.equal(a['builder says'], 'did the thing');
+    assert.equal(a['builder checked by hand'], 'opened it');
+    assert.deepEqual(Object.keys(a).slice(-3), ['builder says', 'builder checked by hand', 'seal']);
+    assert.equal(b['tests written first'], 'not recorded');
+    assert.equal(b['builder says'], 'not recorded');
+    assert.equal(b['builder checked by hand'], 'not recorded');
+    assert.deepEqual(j.ships, [{repo: f.repo, head: 'abc123'}]); // job.head equals the record head, not the git HEAD: listed
+  } finally { await close(t.server); }
+});
+
 // ---------- read only ----------
 
 test('GET routes read the rail but write nothing', async () => {

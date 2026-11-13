@@ -44,6 +44,7 @@ body { background: radial-gradient(circle at 50% 46%, #fff9ec 0, var(--paper) 55
 .rc .l span:last-child { text-align: right; overflow-wrap: anywhere; }
 .rc .c { text-align: center; color: var(--muted); font-size: 11px; }
 .rc .na { color: #626a7e; font-style: italic; }
+.rc .note { display: block; font-size: 11px; color: var(--muted); }
 .ok { color: var(--green); font-weight: 700; }
 .bad { color: #a31d1d; font-weight: 700; }
 .big { font: 700 15px var(--sans); text-align: center; background: var(--mint); border-radius: 8px; padding: 6px; margin: 6px 0 2px; }
