@@ -1,13 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, lstatSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import http from 'node:http';
-import {startTurn, realFs} from '../../apps/turn/turn-server.ts';
+import {startTurn, realFs, gitHead} from '../../apps/turn/turn-server.ts';
 
 const VERIFY = 'last-' + 'verify.json';
 const SHIP = 'last-ship.json';
+const HEX = 'a'.repeat(40);
+const HEX2 = 'b1'.repeat(20);
 
 function tmp(): string {
   return mkdtempSync(join(tmpdir(), 'turn-test-'));
@@ -347,4 +349,202 @@ test('responses carry no-store, nosniff and a CSP', async () => {
       assert.ok(csp.includes("frame-ancestors 'none'"), csp);
     }
   } finally { await close(t.server); }
+});
+
+// ---------- static ----------
+
+test('without staticDir every other GET path is 404', async () => {
+  const f = fixture();
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'k11', headOf: () => null});
+  try {
+    for (const p of ['/', '/index.html', '/a.js', '/x/y']) {
+      assert.equal((await req(t.port, 'GET', p)).status, 404, p);
+    }
+  } finally { await close(t.server); }
+});
+
+test('staticDir serves allowlisted extensions, / is index.html, others 404', async () => {
+  const f = fixture();
+  const root = tmp();
+  const sd = join(root, 'static');
+  mkdirSync(join(sd, 'sub'), {recursive: true});
+  writeFileSync(join(sd, 'index.html'), '<h1>INDEX</h1>');
+  writeFileSync(join(sd, 'app.js'), 'console.log("APPJS")');
+  writeFileSync(join(sd, 'style.css'), 'body{}/*CSSBODY*/');
+  writeFileSync(join(sd, 'sub', 'icon.svg'), '<svg>SVGBODY</svg>');
+  writeFileSync(join(sd, 'notes.txt'), 'TXTBODY');
+  writeFileSync(join(sd, 'data.json'), '{"JSONBODY":1}');
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, staticDir: sd, token: 'k12', headOf: () => null});
+  try {
+    const idx = await req(t.port, 'GET', '/');
+    assert.equal(idx.status, 200);
+    assert.ok(idx.body.includes('INDEX'));
+    assert.equal(idx.headers['cache-control'], 'no-store');
+    assert.ok(String(idx.headers['content-security-policy']).includes("default-src 'self'"));
+    const js = await req(t.port, 'GET', '/app.js');
+    assert.equal(js.status, 200);
+    assert.ok(js.body.includes('APPJS'));
+    assert.equal((await req(t.port, 'GET', '/style.css')).status, 200);
+    const svg = await req(t.port, 'GET', '/sub/icon.svg');
+    assert.equal(svg.status, 200);
+    assert.ok(svg.body.includes('SVGBODY'));
+    for (const p of ['/notes.txt', '/data.json', '/missing.js', '/sub', '/sub/']) {
+      const r = await req(t.port, 'GET', p);
+      assert.equal(r.status, 404, p);
+      assert.ok(!r.body.includes('TXTBODY') && !r.body.includes('JSONBODY'));
+    }
+  } finally { await close(t.server); }
+});
+
+test('path traversal never serves a file outside staticDir', async () => {
+  const f = fixture();
+  const root = tmp();
+  const sd = join(root, 'static');
+  mkdirSync(sd, {recursive: true});
+  writeFileSync(join(sd, 'index.html'), 'inside');
+  writeFileSync(join(root, 'x.js'), 'OUTSIDE_SECRET');
+  writeFileSync(join(root, 'b.js'), 'OUTSIDE_SECRET');
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, staticDir: sd, token: 'k13', headOf: () => null});
+  try {
+    const paths = [
+      '/../x.js', '/%2e%2e/x.js', '/a/../../b.js', '/..%2fx.js', '/%2e%2e%2fx.js',
+      '/%2E%2E/x.js', '/..\\x.js', '/static/../x.js', '//etc/passwd', '/sub/..//..//x.js',
+    ];
+    for (const p of paths) {
+      const r = await req(t.port, 'GET', p);
+      assert.ok(r.status === 404 || r.status === 400, `${p} -> ${r.status}`);
+      assert.ok(!r.body.includes('OUTSIDE_SECRET'), p);
+    }
+  } finally { await close(t.server); }
+});
+
+test('a symlinked folder or file inside staticDir never serves what it points at', async () => {
+  const f = fixture();
+  const root = tmp();
+  const sd = join(root, 'static');
+  const outside = join(root, 'outside');
+  mkdirSync(sd, {recursive: true});
+  mkdirSync(outside);
+  writeFileSync(join(sd, 'index.html'), 'inside');
+  writeFileSync(join(outside, 's.js'), 'OUTSIDE_SECRET');
+  symlinkSync(outside, join(sd, 'assets'));
+  symlinkSync(join(outside, 's.js'), join(sd, 'link.js'));
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, staticDir: sd, token: 'k18', headOf: () => null});
+  try {
+    for (const p of ['/assets/s.js', '/link.js']) {
+      const r = await req(t.port, 'GET', p);
+      assert.equal(r.status, 404, p);
+      assert.ok(!r.body.includes('OUTSIDE_SECRET'), p);
+    }
+    assert.equal((await req(t.port, 'GET', '/')).status, 200);
+  } finally { await close(t.server); }
+});
+
+// ---------- realFs ----------
+
+test('realFs.read: regular file only, max 200000 chars, no symlinks', () => {
+  const d = tmp();
+  const file = join(d, 'f.txt');
+  writeFileSync(file, 'hello');
+  assert.equal(realFs.read(file), 'hello');
+  const big = 'x'.repeat(200000);
+  writeFileSync(join(d, 'big.txt'), big);
+  assert.equal(realFs.read(join(d, 'big.txt')), big);
+  writeFileSync(join(d, 'toobig.txt'), 'x'.repeat(200001));
+  assert.equal(realFs.read(join(d, 'toobig.txt')), null);
+  symlinkSync(file, join(d, 'link-file'));
+  assert.equal(realFs.read(join(d, 'link-file')), null);
+  mkdirSync(join(d, 'sub'));
+  symlinkSync(join(d, 'sub'), join(d, 'link-dir'));
+  assert.equal(realFs.read(join(d, 'link-dir')), null);
+  assert.equal(realFs.read(join(d, 'sub')), null);
+  assert.equal(realFs.read(join(d, 'missing')), null);
+});
+
+test('realFs.list: names of a real directory, null for missing, file or symlink', () => {
+  const d = tmp();
+  mkdirSync(join(d, 'real'));
+  writeFileSync(join(d, 'real', 'a.md'), '1');
+  writeFileSync(join(d, 'real', 'b.md'), '2');
+  const names = realFs.list(join(d, 'real'));
+  assert.ok(names);
+  assert.deepEqual([...names!].sort(), ['a.md', 'b.md']);
+  assert.equal(realFs.list(join(d, 'nope')), null);
+  assert.equal(realFs.list(join(d, 'real', 'a.md')), null);
+  symlinkSync(join(d, 'real'), join(d, 'linkdir'));
+  assert.equal(realFs.list(join(d, 'linkdir')), null);
+});
+
+// ---------- gitHead ----------
+
+test('gitHead: loose ref', () => {
+  const repo = tmp();
+  mkdirSync(join(repo, '.git', 'refs', 'heads'), {recursive: true});
+  writeFileSync(join(repo, '.git', 'HEAD'), 'ref: refs/heads/main\n');
+  writeFileSync(join(repo, '.git', 'refs', 'heads', 'main'), HEX + '\n');
+  assert.equal(gitHead(repo), HEX);
+});
+
+test('gitHead: packed refs', () => {
+  const repo = tmp();
+  mkdirSync(join(repo, '.git'), {recursive: true});
+  writeFileSync(join(repo, '.git', 'HEAD'), 'ref: refs/heads/main\n');
+  writeFileSync(
+    join(repo, '.git', 'packed-refs'),
+    `# pack-refs with: peeled fully-peeled sorted\n${HEX2} refs/heads/other\n${HEX} refs/heads/main\n`,
+  );
+  assert.equal(gitHead(repo), HEX);
+});
+
+test('gitHead: a packed-refs bigger than 200000 characters is still read', () => {
+  const repo = tmp();
+  mkdirSync(join(repo, '.git'), {recursive: true});
+  writeFileSync(join(repo, '.git', 'HEAD'), 'ref: refs/heads/main\n');
+  writeFileSync(join(repo, '.git', 'packed-refs'), `${`${HEX2} refs/tags/t\n`.repeat(6000)}${HEX} refs/heads/main\n`);
+  assert.equal(gitHead(repo), HEX);
+});
+
+test('gitHead: detached HEAD', () => {
+  const repo = tmp();
+  mkdirSync(join(repo, '.git'), {recursive: true});
+  writeFileSync(join(repo, '.git', 'HEAD'), HEX2 + '\n');
+  assert.equal(gitHead(repo), HEX2);
+});
+
+test('gitHead: linked worktree via gitdir file and commondir', () => {
+  const root = tmp();
+  const main = join(root, 'main');
+  const wtGit = join(main, '.git', 'worktrees', 'wt');
+  mkdirSync(wtGit, {recursive: true});
+  mkdirSync(join(main, '.git', 'refs', 'heads', 'b'), {recursive: true});
+  writeFileSync(join(wtGit, 'HEAD'), 'ref: refs/heads/b/wt\n');
+  writeFileSync(join(wtGit, 'commondir'), '../..');
+  writeFileSync(join(main, '.git', 'refs', 'heads', 'b', 'wt'), HEX + '\n');
+  const wt = join(root, 'wt');
+  mkdirSync(wt);
+  writeFileSync(join(wt, '.git'), `gitdir: ${wtGit}\n`);
+  assert.equal(gitHead(wt), HEX);
+});
+
+test('gitHead: garbage inputs give null and never throw', () => {
+  const missing = join(tmp(), 'nope');
+  assert.equal(gitHead(missing), null);
+
+  const bad = tmp();
+  mkdirSync(join(bad, '.git'), {recursive: true});
+  writeFileSync(join(bad, '.git', 'HEAD'), 'not-a-hex-value\n');
+  assert.equal(gitHead(bad), null);
+
+  const short = tmp();
+  mkdirSync(join(short, '.git', 'refs', 'heads'), {recursive: true});
+  writeFileSync(join(short, '.git', 'HEAD'), 'ref: refs/heads/main\n');
+  writeFileSync(join(short, '.git', 'refs', 'heads', 'main'), 'abc123\n');
+  assert.equal(gitHead(short), null);
+
+  const out = tmp();
+  writeFileSync(join(out, '.git'), `gitdir: ${join(tmp(), 'does', 'not', 'exist')}\n`);
+  assert.equal(gitHead(out), null);
+
+  const empty = tmp();
+  assert.equal(gitHead(empty), null);
 });
