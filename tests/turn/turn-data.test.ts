@@ -336,6 +336,27 @@ test('settled names ignore case and the .md suffix, in records and in the histor
   assert.deepEqual(lists.settled, ['my-card', 'other', 'third']);
 });
 
+test('history window: a plain-read history over 200000 characters (up to 2 MB) is still read', () => {
+  const lines = Array.from({length: 3000}, (_, i) => JSON.stringify({card: i === 0 ? 'target.md' : `p${i}.md`, pad: 'x'.repeat(100)}));
+  const text = lines.join('\n');
+  assert.ok(text.length > 200_000 && text.length < 2_000_000, String(text.length));
+  assert.deepEqual(pendingCards(fakeFs({[`${V}/cards/target.md`]: card(), [HIST]: text}), V, A, {now: NOW}), []);
+});
+
+test('a flood of card files is bounded: at most 700 card reads per call', () => {
+  const files = Object.fromEntries(Array.from({length: 3000}, (_, i) => [`${V}/cards/f${String(i).padStart(4, '0')}.md`, card()]));
+  const base = fakeFs(files);
+  let reads = 0;
+  const counting: Fs = {...base, read: (p) => { if (p.startsWith(`${V}/cards/`)) reads++; return base.read(p); }, mtime: () => NOW - 9 * DAY};
+  assert.equal(cardLists(counting, V, A, {now: NOW}).older.length, 200);
+  assert.ok(reads <= 700, String(reads));
+});
+
+test('older names and repos have control and bidi characters stripped', () => {
+  const fs = agedFs({[`${V}/cards/ev\u202Eil.md`]: 'repo: /x/\u202Ey\n'}, {'ev\u202Eil.md': 9 * DAY});
+  assert.deepEqual(olderCards(fs, V, A, {now: NOW}), [{name: 'evil', repo: '/x/y'}]);
+});
+
 // ---------- approvedTitle ----------
 
 test('approvedTitle: the source name without .md for the record whose repo matches, else empty', () => {
@@ -349,6 +370,14 @@ test('approvedTitle: the source name without .md for the record whose repo match
   assert.equal(approvedTitle(fs, A, '/r/b'), 'beta-card');
   for (const r of ['/r/c', '/r/d', '/r/none', '/r/A', '']) assert.equal(approvedTitle(fs, A, r), '', r);
   assert.equal(approvedTitle(fakeFs({}), A, '/r/a'), '');
+});
+
+test('approvedTitle: the newest record for a repo wins; control and bidi characters are stripped', () => {
+  const fs = fakeFs({
+    [`${A}/1.json`]: JSON.stringify({repo: '/r/a', source: 'old-card.md', approved_at: '2026-11-01T00:00:00+00:00'}),
+    [`${A}/2.json`]: JSON.stringify({repo: '/r/a', source: 'new\u202Ecard\n.md', approved_at: '2026-11-12T00:00:00+00:00'}),
+  });
+  assert.equal(approvedTitle(fs, A, '/r/a'), 'newcard');
 });
 
 test('approvedTitle: a repo path that differs only by a trailing slash does not match', () => {

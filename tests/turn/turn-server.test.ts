@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync, utimesSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import http from 'node:http';
@@ -305,6 +305,96 @@ test('/api/turn flags a check record that is valid json but not an object, and a
   } finally { await close(t.server); }
 });
 
+// ---------- waiting, older, settled, titles ----------
+
+const DAY_S = 86400;
+const getTurn = async (t: {port: number}, key: string) => JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': key})).body);
+
+test('/api/turn: a fresh card waits (pending, not older)', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'new.md'), 'repo: /r\nscope: s\n');
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'w1', headOf: () => null});
+  try {
+    const j = await getTurn(t, 'w1');
+    assert.deepEqual(j.pending.map((p: {name: string}) => p.name), ['new']);
+    assert.deepEqual(j.older, []);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: a card whose file is 4 days old is older, with only name and repo', async () => {
+  const f = fixture();
+  const file = join(f.vault, 'cards', 'new.md');
+  writeFileSync(file, 'repo: /r\nscope: s\n');
+  const past = Date.now() / 1000 - 4 * DAY_S;
+  utimesSync(file, past, past);
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'w2', headOf: () => null});
+  try {
+    const j = await getTurn(t, 'w2');
+    assert.deepEqual(j.pending, []);
+    assert.deepEqual(j.older, [{name: 'new', repo: '/r'}]);
+    assert.ok(!('approveLine' in j.older[0]));
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: the clock option feeds the age rule', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'new.md'), 'repo: /r\n');
+  const later = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'w3', headOf: () => null, clock: () => Date.now() + 4 * DAY_S * 1000});
+  const now = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'w4', headOf: () => null, clock: () => Date.now()});
+  try {
+    const a = await getTurn(later, 'w3');
+    assert.deepEqual(a.pending, []);
+    assert.deepEqual(a.older, [{name: 'new', repo: '/r'}]);
+    const b = await getTurn(now, 'w4');
+    assert.equal(b.pending.length, 1);
+    assert.deepEqual(b.older, []);
+  } finally { await close(later.server); await close(now.server); }
+});
+
+test('/api/turn: a card named in the history file is in neither list', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'gone.md'), 'repo: /r\n');
+  writeFileSync(join(f.vault, 'cards', 'kept.md'), 'repo: /r\n');
+  const old = join(f.vault, 'cards', 'gone-old.md');
+  writeFileSync(old, 'repo: /r\n');
+  const past = Date.now() / 1000 - 9 * DAY_S;
+  utimesSync(old, past, past);
+  mkdirSync(join(f.vault, 'logs'));
+  writeFileSync(join(f.vault, 'logs', 'approvals-history.jsonl'), `{broken\n${JSON.stringify({card: 'gone.md'})}\n${JSON.stringify({card: 'gone-old.md'})}\n`);
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'w5', headOf: () => null});
+  try {
+    const j = await getTurn(t, 'w5');
+    assert.deepEqual(j.pending.map((p: {name: string}) => p.name), ['kept']);
+    assert.deepEqual(j.older, []);
+    assert.deepEqual(j.settled, ['gone-old', 'gone'], 'a card settled by the history stays visible as a name, never silently gone (sorted by file name)');
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: historyPath overrides the default history file', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'gone.md'), 'repo: /r\n');
+  const hist = join(tmp(), 'h.jsonl');
+  writeFileSync(hist, JSON.stringify({card: 'gone.md'}) + '\n');
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'w6', headOf: () => null, historyPath: hist});
+  try {
+    const j = await getTurn(t, 'w6');
+    assert.deepEqual(j.pending, []);
+    assert.deepEqual(j.older, []);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: a receipt title is the approved card name for that repo, empty with no record', async () => {
+  const f = fixture();
+  const g = fixture();
+  for (const x of [f, g]) writeFileSync(join(x.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  writeFileSync(join(f.approvals, 'one.json'), JSON.stringify({repo: f.repo, source: 'my-card.md', card_sha256: 'c'.repeat(64), approved_at: '2026-01-01T00:00:00Z'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo, g.repo], approvalsDir: f.approvals, token: 'w7', headOf: () => 'abc123'});
+  try {
+    const j = await getTurn(t, 'w7');
+    assert.deepEqual(j.receipts.map((r: {repo: string; title: string}) => [r.repo, r.title]), [[f.repo, 'my-card'], [g.repo, '']]);
+  } finally { await close(t.server); }
+});
+
 // ---------- read only ----------
 
 test('GET routes read the rail but write nothing', async () => {
@@ -499,6 +589,34 @@ test('realFs.list: names of a real directory, null for missing, file or symlink'
   assert.equal(realFs.list(join(d, 'real', 'a.md')), null);
   symlinkSync(join(d, 'real'), join(d, 'linkdir'));
   assert.equal(realFs.list(join(d, 'linkdir')), null);
+});
+
+test('realFs.mtime: ms since epoch for a regular file, null for missing or symlink', () => {
+  const d = tmp();
+  const file = join(d, 'f.txt');
+  writeFileSync(file, 'x');
+  const m = realFs.mtime!(file);
+  assert.equal(typeof m, 'number');
+  assert.ok(Math.abs(m! - Date.now()) < 1000, `mtime ${m} vs ${Date.now()}`);
+  assert.equal(realFs.mtime!(join(d, 'missing')), null);
+  symlinkSync(file, join(d, 'link'));
+  assert.equal(realFs.mtime!(join(d, 'link')), null);
+});
+
+test('realFs.readTail: last N chars of a big file, whole text of a small one, null for symlink, folder, missing', () => {
+  const d = tmp();
+  writeFileSync(join(d, 'big.txt'), 'a'.repeat(500000) + 'END12345');
+  assert.equal(realFs.readTail!(join(d, 'big.txt'), 10), 'aaEND12345');
+  assert.equal(realFs.readTail!(join(d, 'big.txt'), 200000)!.length, 200000);
+  writeFileSync(join(d, 'small.txt'), 'hello');
+  assert.equal(realFs.readTail!(join(d, 'small.txt'), 200000), 'hello');
+  assert.equal(realFs.readTail!(join(d, 'small.txt'), 5), 'hello');
+  assert.equal(realFs.readTail!(join(d, 'small.txt'), 3), 'llo');
+  symlinkSync(join(d, 'small.txt'), join(d, 'link'));
+  assert.equal(realFs.readTail!(join(d, 'link'), 10), null);
+  mkdirSync(join(d, 'sub'));
+  assert.equal(realFs.readTail!(join(d, 'sub'), 10), null);
+  assert.equal(realFs.readTail!(join(d, 'missing'), 10), null);
 });
 
 // ---------- gitHead ----------
