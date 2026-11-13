@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fc from 'fast-check';
 import {pendingCards, shipsWaiting, receipt} from '../../apps/turn/turn-data.ts';
 
 type Fs = { read(path: string): string | null; list(path: string): string[] | null };
@@ -166,4 +167,59 @@ test('receipt: seal shows only a real 64-hex hash', () => {
   const seal = (s: string) => receipt(fakeFs({[VERIFY('/r')]: verify('PASS', {card_sha256: s})}), '/r', () => 'h')!.fields['seal'];
   assert.equal(seal('0123456789abcdef'.repeat(4)), '0123456789ab');
   for (const s of ['short', 'g'.repeat(64), 'A'.repeat(64), '<b>x</b>']) assert.equal(seal(s), NR, s);
+});
+
+test('pendingCards: a file name unsafe to paste in a shell gets approveLine null, and is still listed', () => {
+  const names = ['x; rm -rf ~', 'a b', '$(id)', '`id`', 'a\nb', '-flag', '.hidden', 'a'.repeat(101), 'ok-name_1.v2'];
+  const fs = fakeFs(Object.fromEntries(names.map((n) => [`${V}/cards/${n}.md`, 'repo: r\n'])));
+  const got = Object.fromEntries(pendingCards(fs, V, A).map((p) => [p.name, p.approveLine]));
+  assert.deepEqual(Object.keys(got).sort(), [...names].sort());
+  for (const n of names.slice(0, -1)) assert.equal(got[n], null, n);
+  assert.equal(got['ok-name_1.v2'], approveLine('ok-name_1.v2'));
+});
+
+test('pendingCards: repo and scope show at most 400 characters', () => {
+  const fs = fakeFs({[`${V}/cards/c.md`]: `repo: ${'r'.repeat(5000)}\nscope: ${'s'.repeat(5000)}\n`});
+  const [p] = pendingCards(fs, V, A);
+  assert.equal(p!.repo.length, 400);
+  assert.equal(p!.scope.length, 400);
+});
+
+test('files bigger than 200000 chars read as missing (no stall on a huge agent-written file)', () => {
+  const huge = 'x'.repeat(200_001);
+  const fs = fakeFs({[VERIFY('/r')]: verify('PASS'), '/r/.claude/critic.md': huge, [`${V}/cards/big.md`]: `repo: ${huge}\n`});
+  assert.equal(receipt(fs, '/r', () => 'h')!.fields['serious problems'], NR);
+  assert.equal(pendingCards(fs, V, A)[0]!.repo, '');
+  assert.equal(receipt(fakeFs({[VERIFY('/r')]: huge}), '/r', () => 'h'), null);
+});
+
+test('receipt property: arbitrary contents never throw; the P1 count equals the number of well-formed P1 findings', () => {
+  // Noise lines never contain "|", so they can never be findings.
+  // The only non-finding lines a well-formed critic.md has: blanks, headings and "none".
+  const noise = fc.constantFrom('', '# P1 heading', '## spec', 'none');
+  const line = fc.oneof(
+    noise.map((t) => ({kind: 'noise', text: t})),
+    fc.constantFrom('P1', 'P2', 'P3').map((p) => ({kind: p, text: `f.ts:1 | ${p} | reason`})),
+  );
+  fc.assert(
+    fc.property(fc.array(line, {maxLength: 30}), (lines) => {
+      const critic = lines.map((l) => l.text).join('\n');
+      const r = receipt(fakeFs({[VERIFY('/r')]: verify('PASS'), '/r/.claude/critic.md': critic}), '/r', () => 'h')!;
+      assert.deepEqual(Object.keys(r.fields), KEYS);
+      const findings = lines.filter((l) => l.kind !== 'noise');
+      const said = lines.some((l) => l.text.trim().toLowerCase() === 'none');
+      const want = findings.length === 0 && !said ? NR : String(findings.filter((l) => l.kind === 'P1').length);
+      assert.equal(r.fields['serious problems'], want);
+      for (const k of ['tests written first', 'files touched', 'tried by you', 'proof', 'cost', 'time']) assert.equal(r.fields[k], NR);
+    }),
+    {numRuns: 200},
+  );
+  // Arbitrary text in any of the files must never make receipt throw or invent a value.
+  fc.assert(
+    fc.property(fc.string(), fc.string(), fc.string(), (v, c, s) => {
+      const r = receipt(fakeFs({[VERIFY('/r')]: v, '/r/.claude/critic.md': c, [SHIP('/r')]: s}), '/r', () => 'h');
+      if (r !== null) assert.deepEqual(Object.keys(r.fields), KEYS);
+    }),
+    {numRuns: 200},
+  );
 });
