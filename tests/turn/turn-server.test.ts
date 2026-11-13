@@ -184,7 +184,7 @@ test('/api/turn reports pending card, a repo waiting to ship, and its receipt', 
     assert.equal(j.pending[0].repo, '/r');
     assert.equal(j.pending[0].scope, 's');
     assert.equal(j.pending[0].approveLine, '~/Projects/proof-lab/scripts/approve-card new');
-    assert.deepEqual(j.ships, [{repo: f.repo, head: 'abc123'}]);
+    assert.deepEqual(j.ships, [{repo: f.repo, head: 'abc123', where: 'the main folder'}]);
     assert.equal(j.receipts.length, 1);
     assert.equal(j.receipts[0].repo, f.repo);
     assert.equal(j.receipts[0].shipped, false);
@@ -449,7 +449,7 @@ test('/api/turn: receipts carry the script-check label and the builder-says fiel
     assert.equal(b['tests written first'], 'not recorded');
     assert.equal(b['builder says'], 'not recorded');
     assert.equal(b['builder checked by hand'], 'not recorded');
-    assert.deepEqual(j.ships, [{repo: f.repo, head: 'abc123'}]); // job.head equals the record head, not the git HEAD: listed
+    assert.deepEqual(j.ships, [{repo: f.repo, head: 'abc123', where: 'the main folder'}]); // job.head equals the record head, not the git HEAD: listed
   } finally { await close(t.server); }
 });
 
@@ -877,5 +877,91 @@ test('/api/map: GET reads the vault but writes nothing', async () => {
     await getMap(t, 'mk9');
     await getMap(t, 'mk9', '?project=nope');
     assert.equal(snap(), before);
+  } finally { await close(t.server); }
+});
+
+
+// ---------- records in a real linked worktree (realFs, real git, no fakes) ----------
+
+test('real worktree: /api/turn reads the receipt and the Ship from a worktree under <repo>-wt/, with where', async () => {
+  const {execFileSync} = await import('node:child_process');
+  const {realpathSync} = await import('node:fs');
+  const root = realpathSync(tmp()); // git writes real paths into its worktree files
+  const repo = join(root, 'proj'), wt = join(root, 'proj-wt', 'w1');
+  mkdirSync(repo, {recursive: true});
+  mkdirSync(join(root, 'proj-wt'), {recursive: true});
+  const git = (cwd: string, ...a: string[]) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@example.com', '-c', 'commit.gpgsign=false', ...a], {cwd, encoding: 'utf8'}).trim();
+  git(repo, 'init', '-q');
+  writeFileSync(join(repo, 'a.txt'), 'a');
+  git(repo, 'add', 'a.txt');
+  git(repo, 'commit', '-q', '-m', 'one');
+  git(repo, 'worktree', 'add', '-q', '-b', 'wtb', wt);
+  const wtHead = git(wt, 'rev-parse', 'HEAD');
+  assert.equal(gitHead(wt), wtHead); // .git is a FILE here: HEAD is read through its gitdir
+  mkdirSync(join(wt, '.claude'), {recursive: true});
+  writeFileSync(join(wt, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  writeFileSync(join(wt, '.claude', 'job.json'), JSON.stringify({card: 'real-wt-card', ship_waiting: true}));
+  const vault = tmp(), approvals = tmp();
+  mkdirSync(join(vault, 'cards'), {recursive: true});
+  const t = await startTurn({vault, repos: [repo], approvalsDir: approvals, token: 'kw'}); // default realFs and gitHead
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'kw'})).body);
+    assert.equal(j.receipts.length, 1);
+    assert.equal(j.receipts[0].where, 'a build in progress');
+    assert.equal(j.receipts[0].title, 'real-wt-card');
+    assert.equal(j.receipts[0].repo, repo);
+    assert.equal(j.ships.length, 1);
+    assert.equal(j.ships[0].repo, repo);
+    assert.equal(j.ships[0].head, wtHead);
+    assert.equal(j.ships[0].where, 'a build in progress');
+    assert.ok(!JSON.stringify(j).includes(wt), 'the worktree path is never sent to the page');
+  } finally { await close(t.server); }
+});
+
+test('real worktree: a worktree outside <repo>-wt/ is not read', async () => {
+  const {execFileSync} = await import('node:child_process');
+  const {realpathSync} = await import('node:fs');
+  const root = realpathSync(tmp());
+  const repo = join(root, 'proj'), wt = join(root, 'elsewhere', 'w1');
+  mkdirSync(repo, {recursive: true});
+  mkdirSync(join(root, 'elsewhere'), {recursive: true});
+  const git = (cwd: string, ...a: string[]) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@example.com', '-c', 'commit.gpgsign=false', ...a], {cwd, encoding: 'utf8'}).trim();
+  git(repo, 'init', '-q');
+  writeFileSync(join(repo, 'a.txt'), 'a');
+  git(repo, 'add', 'a.txt');
+  git(repo, 'commit', '-q', '-m', 'one');
+  git(repo, 'worktree', 'add', '-q', '-b', 'wtb', wt);
+  mkdirSync(join(wt, '.claude'), {recursive: true});
+  writeFileSync(join(wt, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  const vault = tmp(), approvals = tmp();
+  mkdirSync(join(vault, 'cards'), {recursive: true});
+  const t = await startTurn({vault, repos: [repo], approvalsDir: approvals, token: 'kx'});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'kx'})).body);
+    assert.deepEqual(j.receipts, []);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: a receipt from the main folder says where it came from', async () => {
+  const f = fixture();
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'ky', headOf: () => 'abc123'});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'ky'})).body);
+    assert.equal(j.receipts[0].where, 'the main folder');
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: a receipt from an archived build in the vault says so (flat files)', async () => {
+  const f = fixture();
+  const dir = join(f.vault, '90-archive', 'worktrees', `2026-11-13-${basename(f.repo)}-w9`);
+  mkdirSync(dir, {recursive: true});
+  writeFileSync(join(dir, VERIFY), JSON.stringify({verdict: 'PASS'}));
+  writeFileSync(join(dir, 'job.json'), JSON.stringify({card: 'arch', ship_waiting: true}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'kz', headOf: () => 'abc123'});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'kz'})).body);
+    assert.equal(j.receipts[0].where, 'an archived build (2026-11-13)');
+    assert.deepEqual(j.ships, []); // an archived job is never waiting to ship
   } finally { await close(t.server); }
 });

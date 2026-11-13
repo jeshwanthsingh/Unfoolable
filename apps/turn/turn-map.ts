@@ -4,6 +4,7 @@
 // Every file it reads can be written by an agent: all text is data, cleaned and capped.
 import {resolve} from 'node:path';
 import type {Fs} from './turn-data.ts';
+import {findPlaces, newestBy, placeFile, type Place} from './turn-roots.ts';
 
 // repos: the projects the server watches. When given, a map's `repo` (written in an agent-writable file) must be one of them,
 // or its records are not read at all: otherwise a map could point at a planted folder and forge "Built" or "Shipped".
@@ -77,24 +78,34 @@ export function buildMap(fs: Fs, o: MapOpts): MapResult {
   const claimed = typeof doc.repo === 'string' && doc.repo.startsWith('/') && !doc.repo.includes('\0') ? doc.repo : '';
   const repo = claimed !== '' && (o.repos === undefined || o.repos.some((r) => resolve(r) === resolve(claimed))) ? claimed : '';
 
-  // The records of the map's own repo (never another path): the card names they carry decide a piece's state.
-  const job = repo ? readJson(fs, `${repo}/.claude/job.json`) : null;
-  const verify = repo ? readJson(fs, `${repo}/.claude/last-verify.json`) : null;
-  const ship = repo ? readJson(fs, `${repo}/.claude/last-ship.json`) : null;
+  // The places of the map's own repo (never another path): the main folder, live worktrees and archived builds. A piece's records come from
+  // the NEWEST place whose job record names the piece's card; the check and ship records are then read from that same place.
+  const places = repo ? findPlaces(fs, repo, o.vault).places : [];
+  const mainShip = repo ? readJson(fs, placeFile(places[0]!, 'last-ship.json')) : null; // the repo's own ship record
   const head = repo ? o.headOf(repo) : null;
   const archive = (fs.list(`${o.vault}/90-archive/cards`) ?? []).slice(0, 5000);
   const cardFiles = new Set((fs.list(`${o.vault}/cards`) ?? []).map((n) => norm(n)));
   const ok = approved(fs, o);
+  // Each place's job record is read once per request, however many pieces there are.
+  const jobs = new Map<Place, Record<string, unknown> | null>();
+  const jobOf = (p: Place): Record<string, unknown> | null => { if (!jobs.has(p)) jobs.set(p, readJson(fs, placeFile(p, 'job.json'))); return jobs.get(p) ?? null; };
+  const newest = new Map<string, Place | null>();
 
-  const stateOf = (card: string | undefined, status: unknown): {state: string; from: string; isPlan: boolean} => {
+  const stateOf =(card: string | undefined, status: unknown): {state: string; from: string; isPlan: boolean} => {
     if (card !== undefined) {
-      const mine = repo !== '' && job !== null && job.card === card;
-      // "Built" needs the check PASS to be for THIS job's card: when both records carry the card's hash they must agree
-      // (an old PASS must not make a newly started card look Built).
-      const built = mine && verify?.verdict === 'PASS' && !(typeof job.card_sha256 === 'string' && typeof verify.card_sha256 === 'string' && job.card_sha256 !== verify.card_sha256);
-      if (built && ship?.verdict === 'PASS' && head !== null && ship.head === head) return {state: 'Shipped', from: 'the ship record', isPlan: false}; // never without being Built
+      if (!newest.has(card)) newest.set(card, newestBy(fs, places, 'job.json', (p) => jobOf(p)?.card === card)); // once per card, not once per piece
+      const at = newest.get(card) ?? null;
+      const job = at ? jobOf(at) : null;
+      const verify = at ? readJson(fs, placeFile(at, 'last-verify.json')) : null;
+      // "Built" needs the check PASS to be in the SAME place as this job record and for THIS job's card: when both records carry the card's
+      // hash they must agree (an old PASS must not make a newly started card look Built).
+      const built = at !== null && job !== null && verify?.verdict === 'PASS' && !(typeof job.card_sha256 === 'string' && typeof verify.card_sha256 === 'string' && job.card_sha256 !== verify.card_sha256);
+      // Shipped: never without being Built, and a ship PASS at the right head: the place's own record at its own head (not an archived one), or the repo's main record at the repo head.
+      const own = built && at.kind !== 'archived' ? readJson(fs, placeFile(at, 'last-ship.json')) : null;
+      const ownHead = own?.verdict === 'PASS' ? o.headOf(at!.root) : null; // a head is read only when there is a ship PASS to compare it with
+      if (built && ((own?.verdict === 'PASS' && ownHead !== null && own.head === ownHead) || (mainShip?.verdict === 'PASS' && head !== null && mainShip.head === head))) return {state: 'Shipped', from: 'the ship record', isPlan: false};
       if (built) return {state: 'Built', from: 'the check record', isPlan: false};
-      if (mine && validIso(job.started_at) && (job.finished_at === undefined || job.finished_at === null)) return {state: 'Started, not finished', from: 'the job record', isPlan: false};
+      if (job !== null && validIso(job.started_at) && (job.finished_at === undefined || job.finished_at === null)) return {state: 'Started, not finished', from: 'the job record', isPlan: false};
       if (archive.some((n) => n.endsWith(`-${card}.md`))) return {state: 'Finished (card archived)', from: 'the archive', isPlan: false};
       if (ok.has(norm(card))) return {state: 'Approved, not started', from: 'the approval records', isPlan: false};
       if (cardFiles.has(norm(card))) return {state: 'Waiting for your approval', from: 'the cards folder', isPlan: false};

@@ -8,6 +8,7 @@ import {basename, extname, join, resolve, sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {approvedTitle, cardLists, receipt, shipsWaiting, type CardOpts, type Fs} from './turn-data.ts';
 import {buildMap, listMaps} from './turn-map.ts';
+import {findPlaces} from './turn-roots.ts';
 
 const TEXT_MAX = 200_000; // a rail file bigger than this reads as missing
 const STATIC_MAX = 5_000_000;
@@ -128,10 +129,10 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
       try {
         const copts: CardOpts = {...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), ...(opts.clock ? {now: opts.clock()} : {})};
         const {waiting: pending, older, settled} = cardLists(fs, opts.vault, opts.approvalsDir, copts); // one scan per request
-        const ships = shipsWaiting(fs, opts.repos, headOf);
+        const ships = shipsWaiting(fs, opts.repos, headOf, opts.vault); // records come from the main folder, live worktrees and archived builds
         // Title: the job record's card name (what the check ran under), else the card now approved for the repo (it may differ), else none.
         const receipts = opts.repos.flatMap((r) => {
-          const x = receipt(fs, r, headOf);
+          const x = receipt(fs, r, headOf, opts.vault);
           if (!x) return [];
           if (x.title !== undefined) return [{...x, titleSource: 'job'}];
           const approved = approvedTitle(fs, opts.approvalsDir, r);
@@ -160,6 +161,7 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
             if (bad(`${r}/.claude`, records, 'record').length > 0) return [`a check record of the project ${basename(r)}`];
             return records.includes('last-verify.json') && headOf(r) === null ? [`the current version of the project ${basename(r)}`] : [];
           }),
+          ...[...new Set(opts.repos.flatMap((r) => findPlaces(fs, r, opts.vault).unreadable))], // a build folder git lists but this page cannot read (archived folders that cannot be read are skipped silently)
         ];
         return send(200, JSON.stringify({at: new Date().toISOString(), notLive, pending, older, settled, ships, receipts}), 'application/json');
       } catch {

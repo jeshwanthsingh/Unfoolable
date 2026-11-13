@@ -324,3 +324,115 @@ test('listMaps: names of maps/*.json, safe names only, sorted, at most 50', () =
   assert.equal(got.length, 50);
   assert.deepEqual(got, [...got].sort());
 });
+
+// ---------- pieces from worktrees: the newest place whose job record names the card ----------
+
+function treeFs(files: Record<string, string>, mt: Record<string, number> = {}): Fs {
+  const m = new Map(Object.entries(files));
+  return {
+    read: (p) => (m.has(p) ? m.get(p)! : null),
+    list: (p) => {
+      const names = new Set<string>();
+      for (const k of m.keys()) if (k.startsWith(p + '/')) names.add(k.slice(p.length + 1).split('/')[0]!);
+      return names.size ? [...names] : null;
+    },
+    mtime: (p) => (p in mt ? mt[p]! : NOW),
+  };
+}
+const LW = '/r/main-wt/w1', AR = `${V}/90-archive/worktrees/2026-11-13-main-a`;
+const gitList = {[`${R}/.git/worktrees/w1/gitdir`]: `${LW}/.git\n`};
+const LHEAD = 'e'.repeat(40);
+const lp = (root: string, n: string) => `${root}/.claude/${n}`;
+const ap = (n: string) => `${AR}/${n}`;
+const started = {card: 'c1', started_at: '2026-11-13T10:00:00Z'};
+const stateOf = (files: Record<string, string>, mt: Record<string, number> = {}, o: Partial<MapOpts> = {}) =>
+  first(treeFs({[MAP]: mapJson([piece('a', {card: 'c1'})]), ...files}, mt), {repos: [R], ...o})[0]!;
+
+test('worktrees: a piece is Built from an ARCHIVED place (check PASS in that place)', () => {
+  const p = stateOf({[ap('job.json')]: J(started), [ap(VERIFY)]: J({verdict: 'PASS'})});
+  assert.equal(p.state, 'Built');
+  assert.equal(p.from, 'the check record');
+});
+
+test('worktrees: the check record must be in the SAME place as the job record', () => {
+  // the archived job names the card, the PASS is in main (another job): not Built
+  const p = stateOf({[ap('job.json')]: J(started), ...verify('PASS')});
+  assert.notEqual(p.state, 'Built');
+  assert.notEqual(p.state, 'Shipped');
+  // card hashes that disagree inside the place: not Built
+  const q = stateOf({[ap('job.json')]: J({...started, card_sha256: 'a'.repeat(64)}), [ap(VERIFY)]: J({verdict: 'PASS', card_sha256: 'b'.repeat(64)})});
+  assert.notEqual(q.state, 'Built');
+});
+
+test('worktrees: a live Started beats an OLDER archived Built (the newest place wins)', () => {
+  const files = {...gitList, [lp(LW, 'job.json')]: J(started), [ap('job.json')]: J(started), [ap(VERIFY)]: J({verdict: 'PASS'})};
+  assert.equal(stateOf(files, {[lp(LW, 'job.json')]: NOW - 1000, [ap('job.json')]: NOW - 90_000}).state, 'Started, not finished');
+});
+
+test('worktrees: an archived Built NEWER than a live Started wins', () => {
+  const files = {...gitList, [lp(LW, 'job.json')]: J(started), [ap('job.json')]: J(started), [ap(VERIFY)]: J({verdict: 'PASS'})};
+  assert.equal(stateOf(files, {[lp(LW, 'job.json')]: NOW - 90_000, [ap('job.json')]: NOW - 1000}).state, 'Built');
+});
+
+test('worktrees: ties go live over archived; unknown or future job times are the oldest', () => {
+  const files = {...gitList, [lp(LW, 'job.json')]: J(started), [ap('job.json')]: J(started), [ap(VERIFY)]: J({verdict: 'PASS'})};
+  assert.equal(stateOf(files).state, 'Started, not finished'); // same mtime: live beats archived
+  assert.equal(stateOf(files, {[lp(LW, 'job.json')]: NOW + 3_600_000, [ap('job.json')]: NOW - 5000}).state, 'Built'); // future = oldest
+  assert.equal(stateOf(files, {[lp(LW, 'job.json')]: -1, [ap('job.json')]: NOW - 5000}).state, 'Built');
+});
+
+test('worktrees: only a place whose job record names THIS card counts, however new', () => {
+  const files = {...gitList, [lp(LW, 'job.json')]: J({card: 'other', started_at: '2026-11-13T10:00:00Z'}), [ap('job.json')]: J(started), [ap(VERIFY)]: J({verdict: 'PASS'})};
+  assert.equal(stateOf(files, {[lp(LW, 'job.json')]: NOW, [ap('job.json')]: NOW - 90_000}).state, 'Built');
+});
+
+test('worktrees: Shipped through the MAIN ship record at the repo head after an ARCHIVED Built', () => {
+  const built = {[ap('job.json')]: J(started), [ap(VERIFY)]: J({verdict: 'PASS'})};
+  assert.equal(stateOf({...built, ...ship('PASS')}).state, 'Shipped');
+  assert.equal(stateOf({...built, ...ship('PASS')}).from, 'the ship record');
+  assert.equal(stateOf({...built, ...ship('PASS', 'd'.repeat(40))}).state, 'Built');
+  assert.equal(stateOf({...built, ...ship('FAIL')}).state, 'Built');
+  assert.equal(stateOf({...built, ...ship('PASS')}, {}, {headOf: () => null}).state, 'Built');
+});
+
+test('worktrees: a LIVE Built is Shipped by its own ship record at its own head, or by the main one at the repo head', () => {
+  const built = {...gitList, [lp(LW, 'job.json')]: J(started), [lp(LW, VERIFY)]: J({verdict: 'PASS'})};
+  const headOf = (p: string) => (p === LW ? LHEAD : HEAD);
+  assert.equal(stateOf({...built, [lp(LW, 'last-ship.json')]: J({verdict: 'PASS', head: LHEAD})}, {}, {headOf}).state, 'Shipped');
+  assert.equal(stateOf({...built, [lp(LW, 'last-ship.json')]: J({verdict: 'PASS', head: HEAD})}, {}, {headOf}).state, 'Built'); // the repo head is not the worktree's
+  assert.equal(stateOf({...built, ...ship('PASS')}, {}, {headOf}).state, 'Shipped');
+  assert.equal(stateOf(built, {}, {headOf}).state, 'Built');
+});
+
+test('worktrees: the map repo must still be one of the watched repos', () => {
+  const files = {...gitList, [ap('job.json')]: J(started), [ap(VERIFY)]: J({verdict: 'PASS'})};
+  assert.equal(stateOf(files, {}, {repos: ['/somewhere/else']}).isPlan, true);
+});
+
+test('worktrees: hostile records in a place do not throw and do not count', () => {
+  const huge = J({...started, pad: 'x'.repeat(200_001)});
+  for (const bad of ['[1]', 'null', '{nope', huge, J({card: {a: 1}}), J({card: 'c1‮', started_at: 5}), '"c1"']) {
+    const p = stateOf({...gitList, [lp(LW, 'job.json')]: bad, [ap('job.json')]: bad, [ap(VERIFY)]: J({verdict: 'PASS'})});
+    assert.notEqual(p.state, 'Built', bad.slice(0, 20));
+    assert.notEqual(p.state, 'Shipped');
+  }
+  // a gitdir file that points anywhere else, and odd archive names, are ignored
+  const fs = treeFs({[MAP]: mapJson([piece('a', {card: 'c1'})]), [`${R}/.git/worktrees/x/gitdir`]: '/etc/../../evil/.git\n', '/evil/.claude/job.json': J(started), ['/evil/.claude/' + VERIFY]: J({verdict: 'PASS'}), [`${V}/90-archive/worktrees/../x/job.json`]: J(started)});
+  assert.doesNotThrow(() => buildMap(fs, opts({repos: [R]})));
+  assert.notEqual(first(fs, {repos: [R]})[0]!.state, 'Built');
+});
+
+test('worktrees: work is bounded: each place job record is read once per request, however many pieces name a card', () => {
+  const files: Record<string, string> = {[MAP]: mapJson(Array.from({length: 40}, (_, i) => piece(`p${i}`, {card: 'c1'})))};
+  for (let i = 0; i < 30; i++) {
+    files[`${R}/.git/worktrees/w${i}/gitdir`] = `/r/main-wt/w${i}/.git\n`;
+    files[`/r/main-wt/w${i}/.claude/job.json`] = J({card: i === 29 ? 'c1' : 'other', started_at: '2026-11-13T10:00:00Z'});
+  }
+  const base = treeFs(files);
+  const reads: Record<string, number> = {};
+  const fs: Fs = {...base, read: (p) => { reads[p] = (reads[p] ?? 0) + 1; return base.read(p); }};
+  const pieces = first(fs, {repos: [R]});
+  assert.equal(pieces.length, 40);
+  assert.ok(pieces.every((x) => x.state === 'Started, not finished'));
+  for (const [p, n] of Object.entries(reads)) if (p.endsWith('/job.json')) assert.equal(n, 1, p);
+});
