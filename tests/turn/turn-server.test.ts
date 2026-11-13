@@ -272,10 +272,36 @@ test('/api/turn also says so for files that exist but cannot be read, and for an
   const t = await startTurn({vault: f.vault, repos: [f.repo, g.repo], approvalsDir: f.approvals, token: 'k19', headOf: () => null});
   try {
     const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k19'})).body);
-    assert.deepEqual(j.notLive.slice(0, 2), ['a card file', 'an approval record']);
-    assert.ok(j.notLive.some((s: string) => s.startsWith('a check record of the project ')));
-    assert.ok(j.notLive.some((s: string) => s.startsWith('the current version of the project ')));
-    assert.equal(j.notLive.length, 4);
+    const name = (p: string) => p.split('/').pop();
+    assert.deepEqual(j.notLive, [
+      'the card file big.md', 'the approval record broken.json',
+      `a check record of the project ${name(f.repo)}`, `the current version of the project ${name(g.repo)}`,
+    ]);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn does not cry wolf: stray valid files, a project with no .claude, a lone verifier record', async () => {
+  const f = fixture();
+  const bare = tmp(); // a project with no .claude folder at all
+  writeFileSync(join(f.approvals, 'str.json'), '"just a string"'); // valid json that is not an approval: the data layer skips it too
+  writeFileSync(join(f.approvals, 'num.json'), '42');
+  writeFileSync(join(f.approvals, 'notes.txt'), 'not read at all');
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'})); // only a verify record, no ship record
+  const t = await startTurn({vault: f.vault, repos: [f.repo, bare], approvalsDir: f.approvals, token: 'k20', headOf: () => 'abc123'});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k20'})).body);
+    assert.deepEqual(j.notLive, []);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn flags a check record that is valid json but not an object, and a folder named like a card', async () => {
+  const f = fixture();
+  writeFileSync(join(f.repo, '.claude', VERIFY), '["PASS"]');
+  mkdirSync(join(f.vault, 'cards', 'dir.md'));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k21', headOf: () => 'abc123'});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k21'})).body);
+    assert.deepEqual(j.notLive, ['the card file dir.md', `a check record of the project ${f.repo.split('/').pop()}`]);
   } finally { await close(t.server); }
 });
 

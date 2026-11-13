@@ -96,21 +96,25 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
         const receipts = opts.repos.flatMap((r) => receipt(fs, r, headOf) ?? []);
         // What could not be read at all: the page must say "Not live", never "Nothing needs you" from an empty read.
         const cardsDir = `${opts.vault}/cards`;
-        const unreadable = (dir: string, names: string[], json: boolean): boolean => names.some((n) => {
-          const text = fs.read(`${dir}/${n}`); // listed but unreadable (too big, a symlink, odd) or, for json, not valid json
+        // Files that are listed but cannot be read (too big, a symlink, a folder named like a file) or whose json is broken.
+        // 'record' also needs an object; 'loose' flags only broken json, because the data layer skips a stray valid-json file.
+        const bad = (dir: string, names: string[], mode: 'text' | 'loose' | 'record'): string[] => names.slice(0, 500).filter((n) => {
+          const text = fs.read(`${dir}/${n}`);
           if (text === null) return true;
-          try { return json && (JSON.parse(text) === null || typeof JSON.parse(text) !== 'object'); } catch { return true; }
+          if (mode === 'text') return false;
+          try { const v: unknown = JSON.parse(text); return mode === 'record' && (v === null || typeof v !== 'object' || Array.isArray(v)); } catch { return true; }
         });
+        const cards = fs.list(cardsDir), approvals = fs.list(opts.approvalsDir);
         const notLive = [
-          ...(fs.list(cardsDir) === null ? ['the cards folder'] : []),
-          ...(unreadable(cardsDir, (fs.list(cardsDir) ?? []).filter((n) => n.endsWith('.md')), false) ? ['a card file'] : []),
-          ...(fs.list(opts.approvalsDir) === null ? ['the approvals folder'] : []),
-          ...(unreadable(opts.approvalsDir, (fs.list(opts.approvalsDir) ?? []).filter((n) => n.endsWith('.json')), true) ? ['an approval record'] : []),
+          ...(cards === null ? ['the cards folder'] : []),
+          ...bad(cardsDir, (cards ?? []).filter((n) => n.endsWith('.md')), 'text').map((n) => `the card file ${n.slice(0, 60)}`),
+          ...(approvals === null ? ['the approvals folder'] : []),
+          ...bad(opts.approvalsDir, (approvals ?? []).filter((n) => n.endsWith('.json')), 'loose').map((n) => `the approval record ${n.slice(0, 60)}`),
           ...opts.repos.flatMap((r) => {
             if (fs.list(r) === null) return [`the project ${basename(r)}`];
-            const known = fs.list(`${r}/.claude`) ?? [];
+            const known = fs.list(`${r}/.claude`) ?? []; // known limit: a .claude that is a symlink reads like an absent one
             const records = ['last-verify.json', 'last-ship.json'].filter((n) => known.includes(n));
-            if (unreadable(`${r}/.claude`, records, true)) return [`a check record of the project ${basename(r)}`];
+            if (bad(`${r}/.claude`, records, 'record').length > 0) return [`a check record of the project ${basename(r)}`];
             return records.includes('last-verify.json') && headOf(r) === null ? [`the current version of the project ${basename(r)}`] : [];
           }),
         ];
