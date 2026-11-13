@@ -1,13 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync, mkdirSync, writeFileSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, lstatSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import http from 'node:http';
-import {startTurn} from '../../apps/turn/turn-server.ts';
+import {startTurn, realFs} from '../../apps/turn/turn-server.ts';
+
+const VERIFY = 'last-' + 'verify.json';
+const SHIP = 'last-ship.json';
 
 function tmp(): string {
   return mkdtempSync(join(tmpdir(), 'turn-test-'));
+}
+
+
+function walk(dir: string, out: Record<string, string> = {}): Record<string, string> {
+  for (const name of readdirSync(dir).sort()) {
+    const p = join(dir, name);
+    const st = lstatSync(p);
+    if (st.isDirectory()) { out[p + '/'] = 'dir'; walk(p, out); }
+    else out[p] = st.isSymbolicLink() ? 'link' : readFileSync(p, 'utf8');
+  }
+  return out;
 }
 
 
@@ -147,6 +161,190 @@ test('/api/turn keyed by header or by cookie returns 200 JSON', async () => {
       assert.deepEqual(j.pending, []);
       assert.deepEqual(j.ships, []);
       assert.deepEqual(j.receipts, []);
+    }
+  } finally { await close(t.server); }
+});
+
+// ---------- /api/turn content ----------
+
+test('/api/turn reports pending card, a repo waiting to ship, and its receipt', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'new.md'), 'repo: /r\nscope: s\n');
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k4', headOf: () => 'abc123'});
+  try {
+    const r = await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k4'});
+    assert.equal(r.status, 200);
+    const j = JSON.parse(r.body);
+    assert.equal(j.pending.length, 1);
+    assert.equal(j.pending[0].name, 'new');
+    assert.equal(j.pending[0].repo, '/r');
+    assert.equal(j.pending[0].scope, 's');
+    assert.equal(j.pending[0].approveLine, '~/Projects/proof-lab/scripts/approve-card new');
+    assert.deepEqual(j.ships, [{repo: f.repo, head: 'abc123'}]);
+    assert.equal(j.receipts.length, 1);
+    assert.equal(j.receipts[0].repo, f.repo);
+    assert.equal(j.receipts[0].shipped, false);
+    assert.equal(typeof j.receipts[0].fields, 'object');
+  } finally { await close(t.server); }
+});
+
+test('a FAIL verifier record appears in neither ships nor receipts', async () => {
+  const f = fixture();
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'FAIL'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k5', headOf: () => 'abc123'});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k5'})).body);
+    assert.deepEqual(j.ships, []);
+    assert.deepEqual(j.receipts, []);
+  } finally { await close(t.server); }
+});
+
+test('a ship record matching HEAD: not in ships, receipt shipped=true', async () => {
+  const f = fixture();
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  writeFileSync(join(f.repo, '.claude', SHIP), JSON.stringify({verdict: 'PASS', head: 'abc123'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k6', headOf: () => 'abc123'});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k6'})).body);
+    assert.deepEqual(j.ships, []);
+    assert.equal(j.receipts.length, 1);
+    assert.equal(j.receipts[0].shipped, true);
+  } finally { await close(t.server); }
+});
+
+test('receipts follow repos order and skip repos without a record', async () => {
+  const a = fixture();
+  const b = fixture();
+  const c = fixture();
+  writeFileSync(join(b.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  writeFileSync(join(a.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  const t = await startTurn({vault: a.vault, repos: [b.repo, c.repo, a.repo], approvalsDir: a.approvals, token: 'k7', headOf: () => 'h1'});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k7'})).body);
+    assert.deepEqual(j.receipts.map((r: {repo: string}) => r.repo), [b.repo, a.repo]);
+  } finally { await close(t.server); }
+});
+
+test('a fake fs whose read throws once: that request answers 500 JSON and the server survives', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'new.md'), 'repo: /r\nscope: s\n');
+  let thrown = false;
+  const fs = {
+    read(p: string) {
+      if (!thrown) { thrown = true; throw new Error('boom'); }
+      return realFs.read(p);
+    },
+    list: (p: string) => realFs.list(p),
+  };
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k8', fs, headOf: () => 'abc123'});
+  try {
+    const first = await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k8'});
+    assert.equal(first.status, 500);
+    assert.equal(JSON.parse(first.body).ok, false);
+    const second = await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k8'});
+    assert.equal(second.status, 200);
+    JSON.parse(second.body);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn says what it could not read, and nothing when all is readable', async () => {
+  const f = fixture();
+  const ok = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k14', headOf: () => null});
+  const bad = await startTurn({vault: join(f.vault, 'gone'), repos: [join(f.repo, 'gone')], approvalsDir: join(f.approvals, 'gone'), token: 'k15', headOf: () => null});
+  try {
+    assert.deepEqual(JSON.parse((await req(ok.port, 'GET', '/api/turn', {'x-turn-token': 'k14'})).body).notLive, []);
+    const j = JSON.parse((await req(bad.port, 'GET', '/api/turn', {'x-turn-token': 'k15'})).body);
+    assert.deepEqual(j.notLive, ['the cards folder', 'the approvals folder', 'the project gone']);
+    assert.deepEqual(j.pending, []);
+  } finally { await close(ok.server); await close(bad.server); }
+});
+
+test('/api/turn also says so for files that exist but cannot be read, and for an unknown HEAD', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'big.md'), 'x'.repeat(200001));
+  writeFileSync(join(f.approvals, 'broken.json'), '{nope');
+  writeFileSync(join(f.repo, '.claude', VERIFY), '{"verdict": "PA');
+  const g = fixture();
+  writeFileSync(join(g.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo, g.repo], approvalsDir: f.approvals, token: 'k19', headOf: () => null});
+  try {
+    const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k19'})).body);
+    assert.deepEqual(j.notLive.slice(0, 2), ['a card file', 'an approval record']);
+    assert.ok(j.notLive.some((s: string) => s.startsWith('a check record of the project ')));
+    assert.ok(j.notLive.some((s: string) => s.startsWith('the current version of the project ')));
+    assert.equal(j.notLive.length, 4);
+  } finally { await close(t.server); }
+});
+
+// ---------- read only ----------
+
+test('GET routes read the rail but write nothing', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'new.md'), 'repo: /r\nscope: s\n');
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k16', headOf: () => 'abc123'});
+  const snap = () => JSON.stringify([walk(f.vault), walk(f.repo), walk(f.approvals)]);
+  const before = snap();
+  try {
+    await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k16'});
+    await req(t.port, 'GET', '/k/k16');
+    await req(t.port, 'GET', '/');
+    assert.equal(snap(), before);
+  } finally { await close(t.server); }
+});
+
+test('a non-GET with a wrong Host or Origin still answers 405', async () => {
+  const f = fixture();
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'k17', headOf: () => null});
+  try {
+    for (const method of ['POST', 'DELETE']) {
+      assert.equal((await req(t.port, method, '/api/turn', {host: 'evil.example:' + t.port})).status, 405);
+      assert.equal((await req(t.port, method, '/api/turn', {origin: 'http://evil.example'})).status, 405);
+    }
+  } finally { await close(t.server); }
+});
+
+test('every non-GET method answers 405 "Read only." and writes nothing', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'new.md'), 'repo: /r\nscope: s\n');
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'k9', headOf: () => 'abc123'});
+  const snap = () => JSON.stringify([walk(f.vault), walk(f.repo), walk(f.approvals)]);
+  const before = snap();
+  try {
+    for (const method of ['POST', 'PUT', 'PATCH', 'DELETE']) {
+      for (const path of ['/api/turn', '/k/x', '/k/k9', '/', '/anything']) {
+        for (const h of [{}, {'x-turn-token': 'k9'}]) {
+          const r = await req(t.port, method, path, h);
+          assert.equal(r.status, 405, `${method} ${path}`);
+          assert.ok(r.body.includes('Read only.'), `${method} ${path} body`);
+        }
+      }
+    }
+    assert.equal(snap(), before);
+  } finally { await close(t.server); }
+});
+
+// ---------- headers ----------
+
+test('responses carry no-store, nosniff and a CSP', async () => {
+  const f = fixture();
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'k10', headOf: () => null});
+  try {
+    const rs = [
+      await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'k10'}),
+      await req(t.port, 'GET', '/api/turn'),
+      await req(t.port, 'GET', '/nothing'),
+      await req(t.port, 'POST', '/api/turn'),
+      await req(t.port, 'GET', '/k/k10'),
+    ];
+    for (const r of rs) {
+      assert.equal(r.headers['cache-control'], 'no-store');
+      assert.equal(r.headers['x-content-type-options'], 'nosniff');
+      const csp = String(r.headers['content-security-policy']);
+      assert.ok(csp.includes("default-src 'self'"), csp);
+      assert.ok(csp.includes("frame-ancestors 'none'"), csp);
     }
   } finally { await close(t.server); }
 });
