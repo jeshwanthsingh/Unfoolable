@@ -11,6 +11,7 @@ import {buildMap, listMaps} from './turn-map.ts';
 import {findPlaces} from './turn-roots.ts';
 import {watchedRepos} from './turn-watch.ts';
 import {railWeek} from './turn-week.ts';
+import {readAsks} from './turn-asks.ts';
 
 const TEXT_MAX = 200_000; // a rail file bigger than this reads as missing
 const STATIC_MAX = 5_000_000;
@@ -139,6 +140,7 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
         const repos = watched(); // one read of the list per request
         const copts: CardOpts = {...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), ...(opts.clock ? {now: opts.clock()} : {})};
         const {waiting: pending, older, settled} = cardLists(fs, opts.vault, opts.approvalsDir, copts); // one scan per request
+        const {asks, unreadable: askBad} = readAsks(fs, opts.vault); // ANSWER and TRY IT cards: plain files in <vault>/questions, read on every request
         const ships = shipsWaiting(fs, repos, headOf, opts.vault); // records come from the main folder, live worktrees and archived builds
         // Title: the job record's card name (what the check ran under), else the card now approved for the repo (it may differ), else none.
         const receipts = repos.flatMap((r) => {
@@ -160,6 +162,7 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
         });
         const cards = fs.list(cardsDir), approvals = fs.list(opts.approvalsDir);
         const notLive = [
+          ...askBad.map((n) => (/^\d+ more files not read$/.test(n) ? `${n} in the questions folder` : `the question file ${n}`)),
           ...(cards === null ? ['the cards folder'] : []),
           ...bad(cardsDir, (cards ?? []).filter((n) => n.endsWith('.md')), 'text').map((n) => `the card file ${n.slice(0, 60)}`),
           ...(approvals === null ? ['the approvals folder'] : []),
@@ -184,8 +187,8 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
             return [];
           }
         });
-        const {strip, week} = railWeek(fs, {repos, vault: opts.vault, now, headOf, needYou: pending.length + ships.length, maps});
-        return send(200, JSON.stringify({at: new Date().toISOString(), notLive, pending, older, settled, ships, receipts, strip, week}), 'application/json');
+        const {strip, week} = railWeek(fs, {repos, vault: opts.vault, now, headOf, needYou: pending.length + asks.length + ships.length, maps});
+        return send(200, JSON.stringify({at: new Date().toISOString(), notLive, pending, older, settled, ships, receipts, strip, week, asks}), 'application/json');
       } catch {
         return send(500, JSON.stringify({ok: false, error: 'could not read the rail files'}), 'application/json');
       }

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync, utimesSync, rmSync, realpathSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync, utimesSync, rmSync, realpathSync, renameSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {basename, join} from 'node:path';
 import http from 'node:http';
@@ -885,7 +885,7 @@ test('/api/map: GET reads the vault but writes nothing', async () => {
 
 test('real worktree: /api/turn reads the receipt and the Ship from a worktree under <repo>-wt/, with where', async () => {
   const {execFileSync} = await import('node:child_process');
-  const {realpathSync} = await import('node:fs');
+  const {realpathSync, renameSync} = await import('node:fs');
   const root = realpathSync(tmp()); // git writes real paths into its worktree files
   const repo = join(root, 'proj'), wt = join(root, 'proj-wt', 'w1');
   mkdirSync(repo, {recursive: true});
@@ -920,7 +920,7 @@ test('real worktree: /api/turn reads the receipt and the Ship from a worktree un
 
 test('real worktree: a worktree outside <repo>-wt/ is not read', async () => {
   const {execFileSync} = await import('node:child_process');
-  const {realpathSync} = await import('node:fs');
+  const {realpathSync, renameSync} = await import('node:fs');
   const root = realpathSync(tmp());
   const repo = join(root, 'proj'), wt = join(root, 'elsewhere', 'w1');
   mkdirSync(repo, {recursive: true});
@@ -1153,5 +1153,128 @@ test('strip and week are computed on every request: a record added later shows w
     assert.equal((await getTurn(t, 'rw4')).week.cost.now, 1.25);
     writeFileSync(join(f.repo, '.claude', 'job.json'), JSON.stringify({card: 'c1', started_at: rwIso(3), cost_usd: 4}));
     assert.equal((await getTurn(t, 'rw4')).week.cost.now, 4);
+  } finally { await close(t.server); }
+});
+
+// ---------- answer and try-it files: <vault>/questions/<name>.json ----------
+
+const ASK_A = {kind: 'answer', title: 'Which login?', repo: '/p/proj', question: 'Email or passkey?', why: 'Changes the data we keep.', options: ['Email', 'Passkey']};
+const ASK_T = {kind: 'try', title: 'Try the export', repo: 'proj', where: 'http://localhost:5173', checklist: ['Click Export']};
+const putAsk = (f: Fixture, name: string, v: unknown) => {
+  mkdirSync(join(f.vault, 'questions'), {recursive: true});
+  writeFileSync(join(f.vault, 'questions', name), typeof v === 'string' ? v : JSON.stringify(v));
+};
+
+test('/api/turn carries asks: an empty array with no questions folder, and no notLive entry for that', async () => {
+  const f = fixture();
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'as1', headOf: () => null});
+  try {
+    const j = await getTurn(t, 'as1');
+    assert.deepEqual(j.asks, []);
+    assert.deepEqual(j.notLive, []);
+    assert.deepEqual(j.strip.needYou, 0);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn asks: each file becomes {id, kind, title, repo, ...} sorted by file name; the old keys are still answered', async () => {
+  const f = fixture();
+  putAsk(f, 'b-try.json', ASK_T);
+  putAsk(f, 'a-answer.json', ASK_A);
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'as2', headOf: () => null});
+  try {
+    const j = await getTurn(t, 'as2');
+    assert.deepEqual(j.asks, [
+      {id: 'a-answer.json', kind: 'answer', title: 'Which login?', repo: 'proj', question: 'Email or passkey?', why: 'Changes the data we keep.', options: ['Email', 'Passkey'], checklist: []},
+      {id: 'b-try.json', kind: 'try', title: 'Try the export', repo: 'proj', where: 'http://localhost:5173', options: [], checklist: ['Click Export']},
+    ]);
+    assert.deepEqual(j.notLive, []);
+    for (const old of ['pending', 'older', 'settled', 'ships', 'receipts', 'notLive', 'at', 'strip', 'week']) assert.ok(old in j, old);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: a bad question file is named in notLive ("the question file NAME"), the good ones still show', async () => {
+  const f = fixture();
+  putAsk(f, 'good.json', ASK_A);
+  putAsk(f, 'broken.json', '{nope');
+  putAsk(f, 'Bad_Name.json', ASK_T);
+  putAsk(f, 'huge.json', JSON.stringify({kind: 'try', title: 'T', why: 'y'.repeat(25_000)}));
+  mkdirSync(join(f.vault, 'questions', 'dir.json'));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'as3', headOf: () => null});
+  try {
+    const j = await getTurn(t, 'as3');
+    assert.deepEqual(j.asks.map((a: {id: string}) => a.id), ['good.json']);
+    assert.deepEqual([...j.notLive].sort(), ['Bad_Name.json', 'broken.json', 'dir.json', 'huge.json'].map((n) => `the question file ${n}`).sort());
+  } finally { await close(t.server); }
+});
+
+test('/api/turn: a question file that is a symlink is skipped and named, never followed', async () => {
+  const f = fixture();
+  const outside = join(tmp(), 'outside-target.json');
+  writeFileSync(outside, JSON.stringify({kind: 'answer', title: 'TOPSECRETTITLE', question: 'q'}));
+  mkdirSync(join(f.vault, 'questions'));
+  symlinkSync(outside, join(f.vault, 'questions', 'link.json'));
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'as4', headOf: () => null});
+  try {
+    const r = await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'as4'});
+    assert.ok(!r.body.includes('TOPSECRETTITLE'));
+    const j = JSON.parse(r.body);
+    assert.deepEqual(j.asks, []);
+    assert.deepEqual(j.notLive, ['the question file link.json']);
+  } finally { await close(t.server); }
+});
+
+test('strip.needYou counts cards waiting + asks + ships waiting', async () => {
+  const f = fixture();
+  writeFileSync(join(f.vault, 'cards', 'waiting.md'), 'repo: /r\nscope: s\n'); // fresh: waiting
+  writeFileSync(join(f.repo, '.claude', VERIFY), JSON.stringify({verdict: 'PASS', head: 'abc123'}));
+  writeFileSync(join(f.repo, '.claude', 'job.json'), JSON.stringify({ship_waiting: true, head: 'abc123'}));
+  putAsk(f, 'a1.json', ASK_A);
+  putAsk(f, 'a2.json', ASK_A);
+  putAsk(f, 't1.json', ASK_T);
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'as5', headOf: () => 'abc123'});
+  try {
+    const j = await getTurn(t, 'as5');
+    assert.equal(j.pending.length, 1);
+    assert.equal(j.ships.length, 1);
+    assert.equal(j.asks.length, 3);
+    assert.equal(j.strip.needYou, 5);
+  } finally { await close(t.server); }
+});
+
+test('an unreadable question file does not count in needYou; only the asks that show do', async () => {
+  const f = fixture();
+  putAsk(f, 'good.json', ASK_A);
+  putAsk(f, 'broken.json', '{nope');
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'as6', headOf: () => null});
+  try { assert.equal((await getTurn(t, 'as6')).strip.needYou, 1); } finally { await close(t.server); }
+});
+
+test('asks: 401 without the key leaks nothing, non-GET is 405, a GET writes nothing (the file stays where it is)', async () => {
+  const f = fixture();
+  putAsk(f, 'a1.json', ASK_A);
+  putAsk(f, 'broken.json', '{nope');
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'as7', headOf: () => null});
+  const snap = () => JSON.stringify([walk(f.vault), walk(f.repo), walk(f.approvals)]);
+  const before = snap();
+  try {
+    const none = await req(t.port, 'GET', '/api/turn');
+    assert.equal(none.status, 401);
+    assert.ok(!none.body.includes('Which login'));
+    for (const method of ['POST', 'PUT', 'PATCH', 'DELETE']) assert.equal((await req(t.port, method, '/api/turn', {'x-turn-token': 'as7'})).status, 405);
+    await getTurn(t, 'as7');
+    await getTurn(t, 'as7');
+    assert.equal(snap(), before);
+  } finally { await close(t.server); }
+});
+
+test('asks are read on every request: moving a file out (as the archive step does) makes it leave the answer, a new one shows', async () => {
+  const f = fixture();
+  putAsk(f, 'a1.json', ASK_A);
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'as8', headOf: () => null});
+  try {
+    assert.equal((await getTurn(t, 'as8')).asks.length, 1);
+    renameSync(join(f.vault, 'questions', 'a1.json'), join(f.vault, 'a1-archived.json'));
+    putAsk(f, 'b1.json', ASK_T);
+    assert.deepEqual((await getTurn(t, 'as8')).asks.map((a: {id: string}) => a.id), ['b1.json']);
   } finally { await close(t.server); }
 });
