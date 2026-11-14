@@ -10,6 +10,7 @@ import {approvedTitle, cardLists, receipt, shipsWaiting, type CardOpts, type Fs}
 import {buildMap, listMaps} from './turn-map.ts';
 import {findPlaces} from './turn-roots.ts';
 import {watchedRepos} from './turn-watch.ts';
+import {railWeek} from './turn-week.ts';
 
 const TEXT_MAX = 200_000; // a rail file bigger than this reads as missing
 const STATIC_MAX = 5_000_000;
@@ -98,6 +99,7 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
   const projectsRoot = opts.projectsRoot ?? join(process.env.HOME ?? '/nonexistent', 'Projects'); // lines of <vault>/maps/repos.txt must be under this
   const watched = (): string[] => watchedRepos(opts.vault, opts.repos, projectsRoot); // asked on every request: a project added later shows without a restart
   const fs = opts.fs ?? realFs;
+  const mapNames = (): string[] => listMaps(fs, opts.vault).filter((n) => fs.mtime?.(`${opts.vault}/maps/${n}.json`) !== null); // plain files only: a link or a folder named like a map is not one
   const headOf = opts.headOf ?? gitHead;
   const okKey = (given: string): boolean => { const got = Buffer.from(given), want = Buffer.from(token); return got.length === want.length && timingSafeEqual(got, want); };
   const cookieKey = (c: string | undefined): string => /(?:^|;\s*)turn_key=([\w-]+)/.exec(c ?? '')?.[1] ?? '';
@@ -117,8 +119,7 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
     }
     if (path === '/api/maps') { // the picker's list: names only, from plain files (a link or a folder named like a map is not one)
       if (!okKey(String(req.headers['x-turn-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
-      const projects = listMaps(fs, opts.vault).filter((n) => fs.mtime?.(`${opts.vault}/maps/${n}.json`) !== null);
-      return send(200, JSON.stringify({at: new Date().toISOString(), projects}), 'application/json');
+      return send(200, JSON.stringify({at: new Date().toISOString(), projects: mapNames()}), 'application/json');
     }
     if (path === '/api/map') { // the Map view: a hand-written vault file plus the rail's own records, read only
       if (!okKey(String(req.headers['x-turn-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
@@ -172,7 +173,19 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
           }),
           ...[...new Set(repos.flatMap((r) => findPlaces(fs, r, opts.vault).unreadable))], // a build folder git lists but this page cannot read (archived folders that cannot be read are skipped silently)
         ];
-        return send(200, JSON.stringify({at: new Date().toISOString(), notLive, pending, older, settled, ships, receipts}), 'application/json');
+        // the rail strip and the week's figures: records only, computed on every request, never written
+        const now = opts.clock ? opts.clock() : Date.now();
+        const maps = mapNames().flatMap((project) => {
+          try { // one odd map must not turn the whole feed into an error
+            const r = buildMap(fs, {vault: opts.vault, approvalsDir: opts.approvalsDir, project, headOf, repos, ...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), now});
+            const pieces = r.ok ? r.parts.flatMap((pt) => pt.pieces) : [];
+            return [{shipped: pieces.filter((x) => x.state === 'Shipped').length, total: pieces.length}];
+          } catch {
+            return [];
+          }
+        });
+        const {strip, week} = railWeek(fs, {repos, vault: opts.vault, now, headOf, needYou: pending.length + ships.length, maps});
+        return send(200, JSON.stringify({at: new Date().toISOString(), notLive, pending, older, settled, ships, receipts, strip, week}), 'application/json');
       } catch {
         return send(500, JSON.stringify({ok: false, error: 'could not read the rail files'}), 'application/json');
       }

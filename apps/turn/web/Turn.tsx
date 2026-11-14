@@ -2,12 +2,13 @@
 // no form, no POST. Everything it shows is text from rail files (written by agents), so it is only ever rendered as plain text.
 import {useCallback, useEffect, useState, type ReactElement, type ReactNode} from 'react';
 import {MapView, mapBanner, type MapProblem} from './Map.tsx';
+import {RailStrip, WeekPanel, type StripData, type WeekData} from './Strip.tsx';
 
 type Pending = {name: string; repo: string; scope: string; approveLine: string | null};
 type Ship = {repo: string; head: string; title?: string; where?: string};
 type Older = {name: string; repo: string};
 type Receipt = {repo: string; shipped: boolean; title?: string; titleSource?: string; where?: string; fields: Record<string, string>};
-type Data = {at: string; notLive: string[]; pending: Pending[]; older: Older[]; settled: string[]; ships: Ship[]; receipts: Receipt[]};
+type Data = {at: string; notLive: string[]; pending: Pending[]; older: Older[]; settled: string[]; ships: Ship[]; receipts: Receipt[]; strip?: StripData; week?: WeekData}; // strip and week are absent from an older server: then nothing is drawn
 type Feed = {data: Data | null; state: 'loading' | 'ok' | 'down' | 'old'; tries: number};
 
 const base = (p: string): string => p.split('/').filter(Boolean).pop() ?? p;
@@ -159,6 +160,7 @@ export function Turn() {
         </div>
         <p className={live ? 'live' : 'live off'}><b aria-hidden="true" />{live ? `Live · checked ${clock}` : 'Not live'}</p>
       </header>
+      {state !== 'old' && data?.strip && obj(data.strip) && <RailStrip s={data.strip} />}
       {view === 'map' ? <>{banner && <p className="notlive" role="status" data-testid="not-live">{banner}</p>}<MapView report={report} /></> : body}
     </div>
   );
@@ -207,6 +209,7 @@ export function Turn() {
           <ReceiptView r={receipt} />
         </aside>
       </main>
+      {data.week && obj(data.week) && <WeekPanel w={data.week} />}
     </>,
   );
 }

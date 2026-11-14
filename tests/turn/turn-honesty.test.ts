@@ -844,3 +844,137 @@ describe('one status source for the header and the banners', () => {
     });
   });
 });
+
+describe('rail strip and this week', () => {
+  before(() => { execFileSync(process.execPath, ['node_modules/vite/bin/vite.js', 'build', '--config', 'apps/turn/vite.config.ts'], {cwd: ROOT, stdio: 'pipe'}); }); // own build: this block also runs alone
+  const header = (p: Page) => p.locator('header.top p.live').first();
+  const WEEK_LABELS = ['Pieces shipped with proof', 'Problems found after shipping', 'Times you had to step in', 'Typical start-to-checked time', 'AI work (estimate)'];
+  const hoursAgo = (h: number) => new Date(Date.now() - h * 3_600_000).toISOString();
+  const openMap = async (p: Page) => { await p.getByRole('tab', {name: /^Map$/}).or(p.getByRole('button', {name: /^Map$/})).first().click({timeout: 5000}); };
+  // A repo whose records give a real ship, a 10 minute start-to-check time and a recorded cost; one card waits, so "1 need you". One map with two pieces.
+  const recorded = (): World => {
+    const w = world({cards: [['alpha-card', '/x/proj', 'Build the thing']], repos: ['bare']});
+    const put = (f: string, v: object) => writeFileSync(join(w.repos[0]!, '.claude', f), JSON.stringify(v));
+    put(VERIFY, {verdict: 'PASS', head: 'abc123', timestamp: hoursAgo(0.5)});
+    put('job.json', {card: 'c1', started_at: hoursAgo(0.5 + 10 / 60), finished_at: hoursAgo(0.5), cost_usd: 1.25, head: 'abc123'});
+    put('last-ship.json', {verdict: 'PASS', head: 'abc123', timestamp: hoursAgo(0.25)});
+    mkdirSync(join(w.vault, 'maps'));
+    const pc = (id: string) => ({id, name: `Piece ${id}`, plain: 'p', status: 'idea', needs: [], model: 'claude'});
+    writeFileSync(join(w.vault, 'maps', 'proj.json'), JSON.stringify({project: 'proj', repo: w.repos[0], parts: [{id: 'p1', name: 'Part one', plain: 'About', pieces: [pc('a'), pc('b')]}]}));
+    return w;
+  };
+  // Records that exist today: a check PASS and nothing else (no ship, no cost, no map).
+  const norecord = (): World => world({cards: [], repos: ['done']});
+  const rowOf = (p: Page, label: string) => p.getByTestId('week-row').filter({hasText: label}).first();
+
+  it('the strip line sits under the header in the Turn view and the Map view, in plain words, from the same answer', {timeout: 60000}, async () => {
+    await run(recorded(), async (p) => {
+      await wait(p, 'rail-strip');
+      const line = (await txt(p, 'rail-strip')).replace(/\s+/g, ' ').trim();
+      assert.match(line, /^\d+ building · \d+ need you/);
+      assert.match(line, /^0 building · 1 need you · /);
+      assert.match(line, /\d+ of 2 pieces shipped with proof/);
+      assert.match(line, /AI work today: \$1\.25$/);
+      assert.ok(await p.evaluate(() => { const h = document.querySelector('header.top'); const s = document.querySelector('[data-testid=rail-strip]'); return !!h && !!s && !!(h.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING); }), 'the strip comes after the header');
+      await openMap(p);
+      await wait(p, 'map-part');
+      assert.equal(await count(p, 'rail-strip'), 1);
+      assert.equal((await txt(p, 'rail-strip')).replace(/\s+/g, ' ').trim(), line);
+    });
+  });
+
+  it('with no map pieces and no cost source the strip leaves out "X of Y" and says "AI work today: not recorded"', {timeout: 60000}, async () => {
+    await run(norecord(), async (p) => {
+      await wait(p, 'rail-strip');
+      const line = (await txt(p, 'rail-strip')).replace(/\s+/g, ' ').trim();
+      assert.match(line, /^0 building · 0 need you/);
+      assert.doesNotMatch(line, /pieces shipped with proof/);
+      assert.match(line, /AI work today: not recorded$/);
+      assert.ok(!line.includes('$'));
+    });
+  });
+
+  it('"This week" panel: only on the Turn view, five rows in order, a number beside each "last week: ...", and the honesty line', {timeout: 60000}, async () => {
+    await run(recorded(), async (p) => {
+      await wait(p, 'week-panel');
+      assert.match(await txt(p, 'week-panel'), /This week/);
+      assert.equal(await count(p, 'week-row'), 5);
+      const rows = p.getByTestId('week-row');
+      for (let i = 0; i < 5; i++) assert.ok((await rows.nth(i).innerText()).includes(WEEK_LABELS[i]!), `row ${i + 1} is ${WEEK_LABELS[i]}`);
+      for (const l of WEEK_LABELS) assert.match(await rowOf(p, l).getByTestId('week-before').innerText(), /^last week: (\d[\d.,:a-z ]*|not recorded)$/i);
+      assert.match(await rowOf(p, 'Pieces shipped').getByTestId('week-now').innerText(), /^1\b/);
+      assert.match(await rowOf(p, 'Typical start').getByTestId('week-now').innerText(), /10/); // ten minutes
+      assert.match(await rowOf(p, 'AI work').getByTestId('week-now').innerText(), /\$1\.25/);
+      assert.match(await txt(p, 'week-note'), /every number comes from the rail's records only/i);
+      assert.match(await txt(p, 'week-note'), /not recorded.*nothing writes it yet/i);
+      await openMap(p);
+      await wait(p, 'map-part');
+      assert.equal(await count(p, 'week-panel'), 0);
+      assert.equal(await count(p, 'week-row'), 0);
+    });
+  });
+
+  it('figures nobody writes read "not recorded", never 0 and never a guess; the mockup numbers never appear', {timeout: 60000}, async () => {
+    await run(norecord(), async (p) => {
+      await wait(p, 'week-panel');
+      for (const l of ['Problems found after shipping', 'Times you had to step in', 'Typical start-to-checked time', 'AI work (estimate)']) {
+        assert.equal((await rowOf(p, l).getByTestId('week-now').innerText()).trim(), 'not recorded', l);
+        assert.equal((await rowOf(p, l).getByTestId('week-before').innerText()).trim(), 'last week: not recorded', l);
+      }
+      assert.match(await rowOf(p, 'Pieces shipped').getByTestId('week-now').innerText(), /^(0|not recorded)\b/);
+      const body = await p.locator('body').innerText();
+      for (const made of ['$31', '7 shipped', 'was 4', '$0', '$ 0']) assert.ok(!body.includes(made), `made-up number on the page: ${made}`);
+      assert.ok(!body.includes('$'));
+      await openMap(p);
+      assert.ok(!(await p.locator('body').innerText()).includes('$31'));
+    });
+  });
+
+  it('when /api/turn is down on load: header "Not live", the one banner, and no strip or panel drawn from nothing', {timeout: 60000}, async () => {
+    await run(recorded(), async (p) => {
+      await p.route('**/api/turn', (route) => route.abort('connectionrefused'));
+      await p.reload();
+      await p.getByTestId('not-live').filter({hasText: /^Not live: can't reach this page's server, trying again \(\d+\)\.$/}).first().waitFor({timeout: 15000});
+      assert.equal((await header(p).innerText()).trim(), 'Not live');
+      assert.equal(await count(p, 'rail-strip'), 0);
+      assert.equal(await count(p, 'week-panel'), 0);
+    });
+  });
+
+  it('when /api/turn goes down after a good load: the strip and panel never show without the Not live banner', {timeout: 60000}, async () => {
+    await run(recorded(), async (p) => {
+      await wait(p, 'week-panel');
+      await wait(p, 'rail-strip');
+      await p.route('**/api/turn', (route) => route.abort('connectionrefused'));
+      await p.getByTestId('not-live').filter({hasText: /^Not live: can't reach this page's server, trying again \(\d+\)\.$/}).first().waitFor({timeout: 30000});
+      assert.equal((await header(p).innerText()).trim(), 'Not live');
+      assert.equal(await p.locator('p.notlive[role=status]').count(), 1); // still ONE status
+      assert.equal(await count(p, 'rail-strip') + await count(p, 'week-panel') === 0 || await count(p, 'not-live') > 0, true);
+    });
+  });
+
+  it('when the link turns old (401) after a good load: "This link is old" shows and no strip or panel is drawn above it', {timeout: 60000}, async () => {
+    await run(recorded(), async (p) => {
+      await wait(p, 'rail-strip');
+      await p.route('**/api/turn', (route) => route.fulfill({status: 401, body: 'Needs the launch token.'}));
+      await p.getByTestId('old-link').waitFor({timeout: 30000});
+      assert.equal(await count(p, 'rail-strip'), 0);
+      assert.equal(await count(p, 'week-panel'), 0);
+    });
+  });
+
+  it('axe: no serious or critical problem with the strip and the panel, in both views, at 1280 and 390 px; no horizontal scroll at 390', {timeout: 240000}, async () => {
+    assert.ok(existsSync(AXE), 'axe-core missing');
+    for (const width of [1280, 390]) for (const view of ['turn', 'map'] as const) {
+      await run(recorded(), async (p) => {
+        await wait(p, 'week-panel');
+        if (view === 'map') { await openMap(p); await wait(p, 'map-part'); }
+        await wait(p, 'rail-strip');
+        await p.addScriptTag({path: AXE});
+        const res = await p.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
+        assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `${view} at ${width}`);
+        if (width === 390) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 390, `${view} scrolls sideways`);
+      }, {viewport: {width, height: width === 390 ? 800 : 900}});
+    }
+  });
+});

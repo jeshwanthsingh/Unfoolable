@@ -1079,3 +1079,79 @@ test('a map whose repo is listed only in repos.txt gets its states without a res
     assert.equal(await state(), 'Built');
   } finally { await close(t.server); }
 });
+
+// ---------- the rail strip and the weekly scoreboard in /api/turn ----------
+
+const RW_NOW = Date.parse('2026-11-13T12:00:00Z');
+const rwIso = (hoursAgo: number) => new Date(RW_NOW - hoursAgo * 3_600_000).toISOString();
+function railWeekFixture(): Fixture {
+  const f = fixture();
+  const w = (name: string, v: unknown) => writeFileSync(join(f.repo, '.claude', name), JSON.stringify(v));
+  w(VERIFY, {verdict: 'PASS', head: 'abc123', timestamp: rwIso(2)});
+  w('job.json', {card: 'c1', started_at: rwIso(2 + 10 / 60), finished_at: rwIso(2), cost_usd: 1.25, head: 'abc123'}); // 10 minutes start to check
+  w(SHIP, {verdict: 'PASS', head: 'abc123', timestamp: rwIso(1)});
+  writeFileSync(join(f.vault, 'cards', 'waiting.md'), 'repo: /r\nscope: s\n');
+  utimesSync(join(f.vault, 'cards', 'waiting.md'), RW_NOW / 1000, RW_NOW / 1000);
+  mkdirSync(join(f.vault, 'maps'));
+  const pc = (id: string, card?: string) => ({id, name: id, plain: 'p', status: 'idea', needs: [], model: 'claude', ...(card ? {card} : {})});
+  writeFileSync(join(f.vault, 'maps', 'proj.json'), JSON.stringify({project: 'proj', repo: f.repo, parts: [{id: 'p1', name: 'P', plain: 'p', pieces: [pc('a', 'c1'), pc('b')]}]}));
+  return f;
+}
+
+test('/api/turn carries strip and week: the five figures each {now, before, source}, computed from the rail records and the clock option', async () => {
+  const f = railWeekFixture();
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'rw1', headOf: () => 'abc123', clock: () => RW_NOW});
+  try {
+    const j = await getTurn(t, 'rw1');
+    assert.deepEqual(Object.keys(j.strip).sort(), ['building', 'costToday', 'mapShipped', 'mapTotal', 'needYou']);
+    assert.equal(j.strip.building, 0); // the job record is finished and sits in the main folder
+    assert.equal(j.strip.needYou, 1); // one card waiting, nothing waiting to ship
+    assert.equal(j.strip.mapTotal, 2);
+    assert.ok(Number.isInteger(j.strip.mapShipped) && j.strip.mapShipped >= 0 && j.strip.mapShipped <= 2);
+    assert.equal(j.strip.costToday, 1.25);
+    assert.deepEqual(Object.keys(j.week).sort(), ['cost', 'problems', 'shipped', 'stepIns', 'typicalTime']);
+    for (const k of Object.keys(j.week)) assert.deepEqual(Object.keys(j.week[k]).sort(), ['before', 'now', 'source']);
+    assert.deepEqual([j.week.shipped.now, j.week.shipped.before], [1, 0]);
+    assert.deepEqual([j.week.typicalTime.now, j.week.typicalTime.before], [600, null]);
+    assert.deepEqual([j.week.cost.now, j.week.cost.before], [1.25, null]);
+    for (const k of ['problems', 'stepIns']) assert.deepEqual([j.week[k].now, j.week[k].before], [null, null]);
+    for (const old of ['pending', 'older', 'settled', 'ships', 'receipts', 'notLive', 'at']) assert.ok(old in j, `${old} is still answered`);
+  } finally { await close(t.server); }
+});
+
+test('/api/turn strip and week with an empty rail: nothing is made up (no cost, no time, no map pieces)', async () => {
+  const f = fixture();
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'rw2', headOf: () => null, clock: () => RW_NOW});
+  try {
+    const j = await getTurn(t, 'rw2');
+    assert.deepEqual(j.strip, {building: 0, needYou: 0, mapShipped: null, mapTotal: null, costToday: null});
+    assert.equal(j.week.cost.now, null);
+    assert.equal(j.week.typicalTime.now, null);
+  } finally { await close(t.server); }
+});
+
+test('strip and week: 401 without the key is unchanged and leaks neither; a non-GET still answers 405; a GET writes nothing', async () => {
+  const f = railWeekFixture();
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'rw3', headOf: () => 'abc123', clock: () => RW_NOW});
+  const snap = () => JSON.stringify([walk(f.vault), walk(f.repo), walk(f.approvals)]);
+  const before = snap();
+  try {
+    const none = await req(t.port, 'GET', '/api/turn');
+    assert.equal(none.status, 401);
+    assert.equal(none.body, 'Needs the launch token.');
+    for (const method of ['POST', 'PUT', 'PATCH', 'DELETE']) assert.equal((await req(t.port, method, '/api/turn', {'x-turn-token': 'rw3'})).status, 405);
+    await getTurn(t, 'rw3');
+    await getTurn(t, 'rw3');
+    assert.equal(snap(), before);
+  } finally { await close(t.server); }
+});
+
+test('strip and week are computed on every request: a record added later shows without a restart', async () => {
+  const f = railWeekFixture();
+  const t = await startTurn({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'rw4', headOf: () => 'abc123', clock: () => RW_NOW});
+  try {
+    assert.equal((await getTurn(t, 'rw4')).week.cost.now, 1.25);
+    writeFileSync(join(f.repo, '.claude', 'job.json'), JSON.stringify({card: 'c1', started_at: rwIso(3), cost_usd: 4}));
+    assert.equal((await getTurn(t, 'rw4')).week.cost.now, 4);
+  } finally { await close(t.server); }
+});

@@ -68,3 +68,14 @@ body { background: radial-gradient(circle at 50% 46%, #fff9ec 0, var(--paper) 55
   .row { flex-direction: column; gap: 2px; }
   .row dt { flex: none; }
 }
+.strip { margin: 0 0 14px; font-size: 14px; font-weight: 700; color: var(--ink); overflow-wrap: anywhere; }
+.week { margin-top: 18px; background: #fff; border: 2px solid var(--ink); border-radius: 16px; padding: 14px 18px; }
+.week h2 { font-family: var(--serif); font-size: 19px; margin: 0 0 8px; }
+.weekrows { display: grid; gap: 8px; }
+.wk { display: grid; grid-template-columns: minmax(8rem, 2fr) minmax(5rem, 1fr) minmax(8rem, 1fr); gap: 4px 12px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 8px; }
+.wk:first-child { border-top: 0; padding-top: 0; }
+.wl, .wn, .wb { min-width: 0; overflow-wrap: anywhere; }
+.wn { font-weight: 800; font-size: 17px; }
+.wn.na { font-weight: 600; font-size: 14px; color: var(--muted); }
+.wb { font-size: 13px; color: var(--muted); }
+@media (max-width: 600px) { .wk { grid-template-columns: 1fr 1fr; } .wl { grid-column: 1 / -1; font-weight: 700; } }
