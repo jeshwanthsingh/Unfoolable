@@ -1,0 +1,7 @@
+#!/bin/bash
+# map-add <name> <repo-folder>: add a project to the Your Turn Map (creates maps/<name>.json in the vault and lists the repo). Run it yourself.
+SRC="$0"
+if [ -L "$SRC" ]; then SRC=$(readlink "$SRC"); case "$SRC" in /*) ;; *) SRC="$(dirname "$0")/$SRC" ;; esac; fi
+ROOT=$(cd "$(dirname "$SRC")/.." && pwd)
+[ -f "$HOME/Projects/ai-lab/env.sh" ] && . "$HOME/Projects/ai-lab/env.sh" >/dev/null 2>&1   # the node this project needs, as scripts/turn does
+exec node "$ROOT/apps/turn/map-add.ts" "$@"

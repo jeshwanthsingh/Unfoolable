@@ -7,7 +7,7 @@ import './map.css';
 type Piece = {id: string; name: string; plain: string; model: string; state: string; from: string; isPlan: boolean; card?: string; needs: string[]; blockedBy: string[]};
 type Part = {id: string; name: string; plain: string; pieces: Piece[]};
 type MapAnswer = {project: string; projects: string[]; map: {parts: Part[]} | null; notLive: string[]};
-type View = {data: MapAnswer | null; down: boolean; old: boolean};
+type View = {data: MapAnswer | null; names: string[]; down: boolean; old: boolean};
 
 const str = (v: unknown): boolean => typeof v === 'string';
 const strs = (v: unknown): boolean => Array.isArray(v) && v.every(str);
@@ -19,7 +19,14 @@ const shape = (d: unknown): d is MapAnswer => {
     && p.pieces.every((q) => !!q && str(q.id) && str(q.name) && str(q.plain) && str(q.model) && str(q.state) && str(q.from) && typeof q.isPlan === 'boolean' && strs(q.needs) && strs(q.blockedBy))));
 };
 
-// The page does not know the project names yet: it asks once with a name nobody uses (the answer lists the maps), then asks for the first map.
+// The picker's list: the map names, from GET /api/maps. A map is then asked for by name.
+async function askNames(): Promise<string[] | 'old' | null> {
+  const r = await fetch('/api/maps', {credentials: 'same-origin', signal: AbortSignal.timeout(10000)});
+  if (r.status === 401) return 'old';
+  const d = r.ok ? ((await r.json()) as {projects?: unknown}) : null;
+  return d && strs(d.projects) ? (d.projects as string[]) : null;
+}
+
 async function ask(project: string): Promise<MapAnswer | 'old' | null> {
   const r = await fetch(`/api/map?project=${encodeURIComponent(project)}`, {credentials: 'same-origin', signal: AbortSignal.timeout(10000)});
   if (r.status === 401) return 'old';
@@ -27,18 +34,21 @@ async function ask(project: string): Promise<MapAnswer | 'old' | null> {
   return shape(data) ? data : null;
 }
 
-function useMap(): View {
-  const [view, setView] = useState<View>({data: null, down: false, old: false});
+function useMap(chosen: string | null): View {
+  const [view, setView] = useState<View>({data: null, names: [], down: false, old: false});
   useEffect(() => {
     let stop = false, timer = 0;
     const tick = async (): Promise<void> => {
       try {
-        let a = await ask('projects');
-        if (a !== 'old' && a !== null && a.projects[0] && a.projects[0] !== 'projects') a = await ask(a.projects[0]);
+        const names = await askNames();
+        if (names === 'old') { if (!stop) setView({data: null, names: [], down: false, old: true}); return; }
+        if (names === null) throw new Error('bad answer');
+        const project = chosen !== null && names.includes(chosen) ? chosen : names[0] ?? 'projects'; // no maps: ask with a name nobody uses, the answer is an empty map
+        const a = await ask(project);
         if (stop) return;
-        if (a === 'old') { setView({data: null, down: false, old: true}); return; }
+        if (a === 'old') { setView({data: null, names: [], down: false, old: true}); return; }
         if (a === null) throw new Error('bad answer');
-        setView({data: a, down: false, old: false});
+        setView({data: a, names, down: false, old: false});
       } catch {
         if (!stop) setView((v) => ({...v, down: true}));
       }
@@ -46,7 +56,7 @@ function useMap(): View {
     };
     void tick();
     return () => { stop = true; window.clearTimeout(timer); };
-  }, []);
+  }, [chosen]);
   return view;
 }
 
@@ -66,23 +76,34 @@ function PieceCard({p}: {p: Piece}) {
   );
 }
 
+// One small tab per map, only when there are two or more. Buttons that only change which map is asked for: nothing is written.
+function Picker({names, open, pick}: {names: string[]; open: string; pick: (n: string) => void}) {
+  if (names.length < 2) return null;
+  return (
+    <div className="picker" role="tablist" aria-label="Maps" data-testid="map-picker">
+      {names.map((n) => <button key={n} type="button" role="tab" aria-selected={n === open} className={n === open ? 'tab on' : 'tab'} onClick={() => pick(n)}>{n}</button>)}
+    </div>
+  );
+}
+
 export function MapView() {
-  const {data, down, old} = useMap();
+  const [chosen, setChosen] = useState<string | null>(null);
+  const {data, names, down, old} = useMap(chosen);
   if (old) return <main><div className="oldlink" data-testid="old-link"><h1>This link is old</h1><p>The page was restarted. Open a fresh link the same way you opened this one.</p></div></main>;
   if (!data) return <main>{down ? <p className="notlive" role="status">Not live: can't reach this page's server, trying again.</p> : <p className="quiet">Looking at the map…</p>}</main>;
   const unreadable = data.notLive.length > 0;
   return (
     <main className="mapwrap">
       {down && <p className="notlive" role="status">Not live: can't reach this page's server. What you see may be old.</p>}
+      <Picker names={names} open={chosen !== null && names.includes(chosen) ? chosen : names[0] ?? ''} pick={setChosen} />
       {unreadable && <p className="notlive" role="status">Not live: the map file cannot be read.</p>}
       {!unreadable && (data.map === null || data.map.parts.length === 0) && (
-        <article className="card" data-testid="map-empty"><h1>No map yet</h1><p>A map is a plain file in the vault, <code>maps/&lt;project&gt;.json</code>. Nothing is drawn until one exists.</p></article>
+        <article className="card" data-testid="map-empty"><h1>No map yet</h1><p>A map is a plain file in the vault, <code>maps/&lt;project&gt;.json</code>. Nothing is drawn until one has parts. To add a project, run <code>scripts/map-add &lt;name&gt; &lt;repo-folder&gt;</code> in your terminal, then edit its parts by hand or have /plan fill them.</p></article>
       )}
       {data.map !== null && !unreadable && data.map.parts.length > 0 && (
         <>
           <h1 className="maptitle">Map: {data.project}</h1>
           <p className="quiet">Each state below comes from the rail's own records. Lines marked "plan" come only from the map file.</p>
-          {data.projects.length > 1 && <p className="quiet">Other maps (not shown yet): {data.projects.filter((n) => n !== data.project).join(', ')}</p>}
           <div className="parts">
             {data.map.parts.map((pt) => (
               <section className="part" key={pt.id} data-testid="map-part" aria-label={pt.name}>

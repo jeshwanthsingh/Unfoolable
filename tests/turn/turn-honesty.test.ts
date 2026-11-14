@@ -545,6 +545,63 @@ describe('Your Turn page tells the truth', () => {
         }, {viewport: {width, height: width === 390 ? 800 : 900}});
       }
     });
+
+    // A project picker: one small tab per map file (data-testid=map-picker holds role=tab buttons), only when there are two or more maps.
+    const second = JSON.stringify({project: 'second', repo: '/x/none', parts: [{id: 's1', name: 'Second only part', plain: 'About second', pieces: [pc('z')]}]});
+    const TWOMAPS = (): World => { const w = POPMAP(); writeFileSync(join(w.vault, 'maps', 'zeta.json'), second); return w; }; // maps sort: proj, zeta
+    const picker = (p: Page) => id(p, 'map-picker').getByRole('tab');
+
+    it('two maps: one tab per map, the first open; clicking the other shows that map; no inputs, only GETs', {timeout: 60000}, async () => {
+      await run(TWOMAPS(), async (p, {reqs}) => {
+        await openMap(p);
+        await wait(p, 'map-piece');
+        assert.deepEqual(await picker(p).allInnerTexts(), ['proj', 'zeta']);
+        assert.equal(await picker(p).first().getAttribute('aria-selected'), 'true');
+        assert.equal(await picker(p).last().getAttribute('aria-selected'), 'false');
+        assert.equal(await p.getByTestId('map-part').filter({hasText: 'Part one'}).count(), 1);
+        await picker(p).last().click();
+        await p.getByTestId('map-part').filter({hasText: 'Second only part'}).waitFor({timeout: 10000});
+        assert.equal(await p.getByTestId('map-part').filter({hasText: 'Part one'}).count(), 0);
+        assert.equal(await picker(p).last().getAttribute('aria-selected'), 'true');
+        assert.equal(await p.locator('form, input, textarea, select').count(), 0);
+        assert.equal(await p.locator('[data-testid=map-part] button, [data-testid=map-part] a[href]').count(), 0);
+        assert.ok(reqs.every((q) => q.startsWith('GET ')), reqs.join('\n'));
+        assert.ok(reqs.some((q) => q.includes('/api/map?project=zeta')), reqs.join('\n'));
+      });
+    });
+
+    it('a single map draws no picker', {timeout: 60000}, async () => {
+      await run(POPMAP(), async (p) => {
+        await openMap(p);
+        await wait(p, 'map-piece');
+        assert.equal(await count(p, 'map-picker'), 0);
+      });
+    });
+
+    it('the picker is keyboard operable (focus a tab, press Enter) and axe-clean at 1280 and 390 px', {timeout: 180000}, async () => {
+      assert.ok(existsSync(AXE), 'axe-core missing');
+      for (const width of [1280, 390]) {
+        await run(TWOMAPS(), async (p) => {
+          await openMap(p);
+          await wait(p, 'map-piece');
+          await picker(p).last().focus();
+          await p.keyboard.press('Enter');
+          await p.getByTestId('map-part').filter({hasText: 'Second only part'}).waitFor({timeout: 10000});
+          await p.addScriptTag({path: AXE});
+          const res = await p.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
+          assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `picker at ${width}`);
+          if (width === 390) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 390);
+        }, {viewport: {width, height: width === 390 ? 800 : 900}});
+      }
+    });
+
+    it('no maps: the empty state names the command', {timeout: 60000}, async () => {
+      await run(mapWorld(null), async (p) => {
+        await openMap(p);
+        await wait(p, 'map-empty');
+        assert.match(await txt(p, 'map-empty'), /scripts\/map-add <name> <repo-folder>/);
+      });
+    });
   });
 
   it('source checks: the new web file Map.tsx exists and is covered by the banned-call scan', () => {

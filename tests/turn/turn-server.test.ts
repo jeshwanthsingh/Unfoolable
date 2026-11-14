@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync, utimesSync, rmSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, lstatSync, utimesSync, rmSync, realpathSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {basename, join} from 'node:path';
 import http from 'node:http';
@@ -963,5 +963,119 @@ test('/api/turn: a receipt from an archived build in the vault says so (flat fil
     const j = JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'kz'})).body);
     assert.equal(j.receipts[0].where, 'an archived build (2026-11-13)');
     assert.deepEqual(j.ships, []); // an archived job is never waiting to ship
+  } finally { await close(t.server); }
+});
+
+// ---------- /api/maps and repos.txt (a map for any project) ----------
+// startTurn takes projectsRoot: the folder a line of <vault>/maps/repos.txt must be under (the real server defaults it to TURN_PROJECTS_ROOT or $HOME/Projects).
+
+const getMaps = (t: {port: number}, key: string) => req(t.port, 'GET', '/api/maps', {'x-turn-token': key});
+const withRoot = (o: Parameters<typeof startTurn>[0], projectsRoot: string): Parameters<typeof startTurn>[0] => ({...o, projectsRoot} as Parameters<typeof startTurn>[0]);
+
+test('/api/maps is 401 without a key or with a wrong one, and leaks nothing', async () => {
+  const f = mapFix(MAPJ());
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'ms1', headOf: () => null});
+  try {
+    for (const r of [await req(t.port, 'GET', '/api/maps'), await getMaps(t, 'wrong'), await req(t.port, 'GET', '/api/maps', {cookie: 'turn_key=wrong'})]) {
+      assert.equal(r.status, 401);
+      assert.ok(!r.body.includes('proj') && !r.body.includes('ms1'));
+    }
+  } finally { await close(t.server); }
+});
+
+test('/api/maps lists the sorted map names with the header and with the cookie; names only', async () => {
+  const f = mapFix(MAPJ([{id: 'a', name: 'TOPSECRETPIECE', plain: 'p', status: 'idea', needs: [], model: 'claude'}]));
+  writeFileSync(join(f.vault, 'maps', 'beta.json'), '{}');
+  writeFileSync(join(f.vault, 'maps', 'alpha.json'), '{}');
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'ms2', headOf: () => null});
+  try {
+    for (const h of [{'x-turn-token': 'ms2'}, {cookie: 'a=b; turn_key=ms2'}]) {
+      const r = await req(t.port, 'GET', '/api/maps', h);
+      assert.equal(r.status, 200);
+      assert.match(String(r.headers['content-type']), /application\/json/);
+      const j = JSON.parse(r.body);
+      assert.equal(typeof j.at, 'string');
+      assert.deepEqual(j.projects, ['alpha', 'beta', 'proj']);
+      assert.ok(!r.body.includes('TOPSECRETPIECE') && !r.body.includes('Part one'));
+    }
+  } finally { await close(t.server); }
+});
+
+test('/api/maps ignores non-json files, bad names, folders and symlinks; no maps folder gives an empty list', async () => {
+  const f = mapFix(MAPJ());
+  const m = join(f.vault, 'maps');
+  writeFileSync(join(m, 'repos.txt'), '');
+  writeFileSync(join(m, 'notes.md'), 'x');
+  writeFileSync(join(m, 'Upper.json'), '{}');
+  writeFileSync(join(m, 'has space.json'), '{}');
+  writeFileSync(join(m, 'a.b.json'), '{}');
+  writeFileSync(join(m, `${'x'.repeat(41)}.json`), '{}');
+  symlinkSync(join(m, 'proj.json'), join(m, 'linked.json'));
+  mkdirSync(join(m, 'adir.json'));
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'ms3', headOf: () => null});
+  const g = mapFix(null);
+  rmSync(join(g.vault, 'maps'), {recursive: true});
+  const t2 = await startTurn({vault: g.vault, repos: [], approvalsDir: g.approvals, token: 'ms3b', headOf: () => null});
+  try {
+    assert.deepEqual(JSON.parse((await getMaps(t, 'ms3')).body).projects, ['proj']);
+    const r = await getMaps(t2, 'ms3b');
+    assert.equal(r.status, 200);
+    assert.deepEqual(JSON.parse(r.body).projects, []);
+  } finally { await close(t.server); await close(t2.server); }
+});
+
+test('/api/maps: non-GET is 405, a wrong Host or Origin is 403, and a GET writes nothing', async () => {
+  const f = mapFix(MAPJ());
+  const t = await startTurn({vault: f.vault, repos: [], approvalsDir: f.approvals, token: 'ms4', headOf: () => null});
+  const snap = () => JSON.stringify([walk(f.vault), walk(f.approvals)]);
+  const before = snap();
+  try {
+    for (const m of ['POST', 'PUT', 'DELETE', 'PATCH']) assert.equal((await req(t.port, m, '/api/maps', {'x-turn-token': 'ms4'})).status, 405, m);
+    assert.equal((await req(t.port, 'GET', '/api/maps', {'x-turn-token': 'ms4', host: 'evil.example'})).status, 403);
+    assert.equal((await req(t.port, 'GET', '/api/maps', {'x-turn-token': 'ms4', origin: 'http://evil.example'})).status, 403);
+    assert.equal((await getMaps(t, 'ms4')).status, 200);
+    assert.equal(snap(), before);
+  } finally { await close(t.server); }
+});
+
+test('a repo added to repos.txt after the server started shows in /api/turn without a restart', async () => {
+  const f = fixture();
+  const projects = realpathSync(tmp());
+  const late = join(projects, 'late');
+  mkdirSync(join(late, '.claude'), {recursive: true});
+  writeFileSync(join(late, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  writeFileSync(join(late, '.claude', 'job.json'), JSON.stringify({ship_waiting: true}));
+  const t = await startTurn(withRoot({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'ms5', headOf: () => 'abc123'}, projects));
+  try {
+    const turn = async () => JSON.parse((await req(t.port, 'GET', '/api/turn', {'x-turn-token': 'ms5'})).body);
+    assert.deepEqual((await turn()).receipts.map((r: {repo: string}) => r.repo), []);
+    mkdirSync(join(f.vault, 'maps'), {recursive: true});
+    writeFileSync(join(f.vault, 'maps', 'repos.txt'), late + '\n');
+    const j = await turn();
+    assert.deepEqual(j.receipts.map((r: {repo: string}) => r.repo), [late]);
+    assert.deepEqual(j.ships.map((s: {repo: string}) => s.repo), [late]);
+    // a line outside the projects folder, or a symlink, adds nothing
+    const elsewhere = realpathSync(tmp());
+    const link = join(projects, 'link'); symlinkSync(late, link);
+    writeFileSync(join(f.vault, 'maps', 'repos.txt'), `${elsewhere}\n${link}\n`);
+    assert.deepEqual((await turn()).receipts, []);
+  } finally { await close(t.server); }
+});
+
+test('a map whose repo is listed only in repos.txt gets its states without a restart; before listing, it does not', async () => {
+  const f = fixture();
+  const projects = realpathSync(tmp());
+  const late = join(projects, 'late');
+  mkdirSync(join(late, '.claude'), {recursive: true});
+  writeFileSync(join(late, '.claude', 'job.json'), JSON.stringify({card: 'c1', started_at: '2026-11-13T10:00:00Z'}));
+  writeFileSync(join(late, '.claude', VERIFY), JSON.stringify({verdict: 'PASS'}));
+  mkdirSync(join(f.vault, 'maps'));
+  writeFileSync(join(f.vault, 'maps', 'late.json'), JSON.stringify({project: 'late', repo: late, parts: [{id: 'p1', name: 'n', plain: 'p', pieces: [{id: 'a', name: 'A', plain: 'p', status: 'idea', needs: [], model: 'claude', card: 'c1'}]}]}));
+  const t = await startTurn(withRoot({vault: f.vault, repos: [f.repo], approvalsDir: f.approvals, token: 'ms6', headOf: () => 'abc123'}, projects));
+  try {
+    const state = async () => JSON.parse((await getMap(t, 'ms6', '?project=late')).body).map.parts[0].pieces[0].state;
+    assert.equal(await state(), 'idea'); // not watched: the repo's records are not read
+    writeFileSync(join(f.vault, 'maps', 'repos.txt'), late + '\n');
+    assert.equal(await state(), 'Built');
   } finally { await close(t.server); }
 });

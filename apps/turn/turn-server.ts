@@ -9,6 +9,7 @@ import {pathToFileURL} from 'node:url';
 import {approvedTitle, cardLists, receipt, shipsWaiting, type CardOpts, type Fs} from './turn-data.ts';
 import {buildMap, listMaps} from './turn-map.ts';
 import {findPlaces} from './turn-roots.ts';
+import {watchedRepos} from './turn-watch.ts';
 
 const TEXT_MAX = 200_000; // a rail file bigger than this reads as missing
 const STATIC_MAX = 5_000_000;
@@ -92,8 +93,10 @@ export function gitHead(repo: string): string | null {
   }
 }
 
-export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: string; staticDir?: string; port?: number; token?: string; fs?: Fs; headOf?: (repo: string) => string | null; historyPath?: string; clock?: () => number}): Promise<{server: Server; port: number; token: string; url: string}> {
+export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: string; staticDir?: string; port?: number; token?: string; fs?: Fs; headOf?: (repo: string) => string | null; historyPath?: string; clock?: () => number; projectsRoot?: string}): Promise<{server: Server; port: number; token: string; url: string}> {
   const token = opts.token ?? randomBytes(24).toString('hex');
+  const projectsRoot = opts.projectsRoot ?? join(process.env.HOME ?? '/nonexistent', 'Projects'); // lines of <vault>/maps/repos.txt must be under this
+  const watched = (): string[] => watchedRepos(opts.vault, opts.repos, projectsRoot); // asked on every request: a project added later shows without a restart
   const fs = opts.fs ?? realFs;
   const headOf = opts.headOf ?? gitHead;
   const okKey = (given: string): boolean => { const got = Buffer.from(given), want = Buffer.from(token); return got.length === want.length && timingSafeEqual(got, want); };
@@ -112,12 +115,17 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
       res.writeHead(302, {location: '/', 'set-cookie': `turn_key=${token}; Path=/; HttpOnly; SameSite=Strict`, ...HEADERS});
       return res.end();
     }
+    if (path === '/api/maps') { // the picker's list: names only, from plain files (a link or a folder named like a map is not one)
+      if (!okKey(String(req.headers['x-turn-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
+      const projects = listMaps(fs, opts.vault).filter((n) => fs.mtime?.(`${opts.vault}/maps/${n}.json`) !== null);
+      return send(200, JSON.stringify({at: new Date().toISOString(), projects}), 'application/json');
+    }
     if (path === '/api/map') { // the Map view: a hand-written vault file plus the rail's own records, read only
       if (!okKey(String(req.headers['x-turn-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
       const project = new URLSearchParams((req.url ?? '').split('?')[1] ?? '').get('project') ?? '';
       if (!/^[a-z0-9-]{1,40}$/.test(project)) return send(400, 'Bad project name.');
       try {
-        const r = buildMap(fs, {vault: opts.vault, approvalsDir: opts.approvalsDir, project, headOf, repos: opts.repos, ...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), ...(opts.clock ? {now: opts.clock()} : {})});
+        const r = buildMap(fs, {vault: opts.vault, approvalsDir: opts.approvalsDir, project, headOf, repos: watched(), ...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), ...(opts.clock ? {now: opts.clock()} : {})});
         const map = r.ok ? {project: r.project, parts: r.parts} : null; // the folder path is not sent to the page
         return send(200, JSON.stringify({at: new Date().toISOString(), project, projects: listMaps(fs, opts.vault), map, notLive: !r.ok && r.why === 'unreadable' ? ['the map file'] : []}), 'application/json');
       } catch {
@@ -127,11 +135,12 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
     if (path === '/api/turn') {
       if (!okKey(String(req.headers['x-turn-token'] ?? '')) && !okKey(cookieKey(req.headers.cookie))) return send(401, 'Needs the launch token.');
       try {
+        const repos = watched(); // one read of the list per request
         const copts: CardOpts = {...(opts.historyPath !== undefined ? {historyPath: opts.historyPath} : {}), ...(opts.clock ? {now: opts.clock()} : {})};
         const {waiting: pending, older, settled} = cardLists(fs, opts.vault, opts.approvalsDir, copts); // one scan per request
-        const ships = shipsWaiting(fs, opts.repos, headOf, opts.vault); // records come from the main folder, live worktrees and archived builds
+        const ships = shipsWaiting(fs, repos, headOf, opts.vault); // records come from the main folder, live worktrees and archived builds
         // Title: the job record's card name (what the check ran under), else the card now approved for the repo (it may differ), else none.
-        const receipts = opts.repos.flatMap((r) => {
+        const receipts = repos.flatMap((r) => {
           const x = receipt(fs, r, headOf, opts.vault);
           if (!x) return [];
           if (x.title !== undefined) return [{...x, titleSource: 'job'}];
@@ -154,14 +163,14 @@ export function startTurn(opts: {vault: string; repos: string[]; approvalsDir: s
           ...bad(cardsDir, (cards ?? []).filter((n) => n.endsWith('.md')), 'text').map((n) => `the card file ${n.slice(0, 60)}`),
           ...(approvals === null ? ['the approvals folder'] : []),
           ...bad(opts.approvalsDir, (approvals ?? []).filter((n) => n.endsWith('.json')), 'loose').map((n) => `the approval record ${n.slice(0, 60)}`),
-          ...opts.repos.flatMap((r) => {
+          ...repos.flatMap((r) => {
             if (fs.list(r) === null) return [`the project ${basename(r)}`];
             const known = fs.list(`${r}/.claude`) ?? []; // known limit: a .claude that is a symlink reads like an absent one
             const records = ['last-verify.json', 'last-ship.json'].filter((n) => known.includes(n));
             if (bad(`${r}/.claude`, records, 'record').length > 0) return [`a check record of the project ${basename(r)}`];
             return records.includes('last-verify.json') && headOf(r) === null ? [`the current version of the project ${basename(r)}`] : [];
           }),
-          ...[...new Set(opts.repos.flatMap((r) => findPlaces(fs, r, opts.vault).unreadable))], // a build folder git lists but this page cannot read (archived folders that cannot be read are skipped silently)
+          ...[...new Set(repos.flatMap((r) => findPlaces(fs, r, opts.vault).unreadable))], // a build folder git lists but this page cannot read (archived folders that cannot be read are skipped silently)
         ];
         return send(200, JSON.stringify({at: new Date().toISOString(), notLive, pending, older, settled, ships, receipts}), 'application/json');
       } catch {
@@ -199,7 +208,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const repos = (process.env.TURN_REPOS || [join(home, 'Projects/ai-lab/command-center'), join(home, 'Projects/proof-lab'), join(home, 'Projects/coding-agent-crash-tests')].join(':')).split(':').filter(Boolean);
   const r = await startTurn({
     vault: process.env.TURN_VAULT || join(home, 'Projects/proof-lab'), approvalsDir: process.env.TURN_APPROVALS || join(home, '.claude', 'approvals'), repos,
-    staticDir: process.env.TURN_STATIC || join(import.meta.dirname, '../../.work/turn-dist'), port,
+    staticDir: process.env.TURN_STATIC || join(import.meta.dirname, '../../.work/turn-dist'), port, projectsRoot: process.env.TURN_PROJECTS_ROOT || join(home, 'Projects'),
   });
   console.log(`Your Turn page (read-only, this computer only): ${r.url}`);
 }
