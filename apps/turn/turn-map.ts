@@ -9,8 +9,8 @@ import {findPlaces, newestBy, placeFile, type Place} from './turn-roots.ts';
 // repos: the projects the server watches. When given, a map's `repo` (written in an agent-writable file) must be one of them,
 // or its records are not read at all: otherwise a map could point at a planted folder and forge "Built" or "Shipped".
 export type MapOpts = {vault: string; approvalsDir: string; project: string; headOf: (repo: string) => string | null; historyPath?: string; now?: number; repos?: string[]};
-export type PieceView = {id: string; name: string; plain: string; model: string; plan: string; state: string; from: string; isPlan: boolean; card?: string; needs: string[]; blockedBy: string[]};
-export type PartView = {id: string; name: string; plain: string; pieces: PieceView[]};
+export type PieceView = {risks: string[]; explain?: string; id: string; name: string; plain: string; model: string; plan: string; state: string; from: string; isPlan: boolean; card?: string; needs: string[]; blockedBy: string[]};
+export type PartView = {risks: string[]; id: string; name: string; plain: string; pieces: PieceView[]};
 export type MapResult = {ok: true; project: string; repo: string; parts: PartView[]} | {ok: false; why: 'missing' | 'unreadable'};
 
 const NOT_RECORDED = 'not recorded';
@@ -23,6 +23,8 @@ const MODELS = ['claude', 'codex', 'either'];
 const DONE = ['Built', 'Shipped', 'Finished (card archived)'];
 
 const clean = (s: string): string => s.replace(/[\p{C}‪-‮⁦-⁩]/gu, '');
+// Up to 3 short plain lines ("what could go wrong"): only text items count, cleaned and cut; anything else is ignored.
+const lines = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string').map((x) => clean(x).trim().slice(0, 200)).filter((x) => x !== '').slice(0, 3) : []);
 const text = (v: unknown, max: number): string => (typeof v === 'string' && clean(v).trim() !== '' ? clean(v).trim().slice(0, max) : NOT_RECORDED);
 const norm = (n: string): string => n.replace(/\.md$/i, '').toLowerCase();
 const obj = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v);
@@ -124,13 +126,15 @@ export function buildMap(fs: Fs, o: MapOpts): MapResult {
       seen.add(p.id);
       const card = typeof p.card === 'string' && CARD.test(p.card) ? p.card.replace(/\.md$/i, '') : undefined;
       const s = stateOf(card, p.status);
+      // An explanation is only for a piece that has earned one: its state, computed from the records, is Shipped. The map file cannot make it so.
+      const explain = s.state === 'Shipped' && typeof p.explain === 'string' ? clean(p.explain).trim().slice(0, 600) : '';
       pieces.push({
-        id: p.id, name: text(p.name, 80), plain: text(p.plain, 200), model: typeof p.model === 'string' && MODELS.includes(p.model) ? p.model : NOT_RECORDED,
+        risks: lines(p.risks), ...(explain !== '' ? {explain} : {}), id: p.id, name: text(p.name, 80), plain: text(p.plain, 200), model: typeof p.model === 'string' && MODELS.includes(p.model) ? p.model : NOT_RECORDED,
         plan: typeof p.status === 'string' && PLANS.includes(p.status) ? p.status : NOT_RECORDED, ...s, ...(card !== undefined ? {card} : {}),
         needs: (Array.isArray(p.needs) ? p.needs : []).filter((n): n is string => typeof n === 'string' && NAME.test(n)).slice(0, MAX_NEEDS), blockedBy: [],
       });
     }
-    parts.push({id: rawPart.id, name: text(rawPart.name, 80), plain: text(rawPart.plain, 200), pieces});
+    parts.push({risks: lines(rawPart.risks), id: rawPart.id, name: text(rawPart.name, 80), plain: text(rawPart.plain, 200), pieces});
   }
   // A needed piece blocks until it is Built, Shipped or Finished; a needed id that is not on the map blocks too.
   const states = new Map<string, string>(); // the FIRST piece with an id counts: a later one cannot overwrite its state

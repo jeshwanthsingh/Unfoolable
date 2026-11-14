@@ -1,4 +1,4 @@
-import test from 'node:test';
+import test, {describe, it} from 'node:test';
 import assert from 'node:assert/strict';
 import fc from 'fast-check';
 import {buildMap, listMaps, type MapOpts} from '../../apps/turn/turn-map.ts';
@@ -435,4 +435,88 @@ test('worktrees: work is bounded: each place job record is read once per request
   assert.equal(pieces.length, 40);
   assert.ok(pieces.every((x) => x.state === 'Started, not finished'));
   for (const [p, n] of Object.entries(reads)) if (p.endsWith('/job.json')) assert.equal(n, 1, p);
+});
+
+// ---------- risk notes and explain (read only fields of the map file) ----------
+// Expected shape: PartView.risks: string[] and PieceView.risks: string[] (always present, [] when none); PieceView.explain?: string (key absent unless Shipped).
+
+describe('risk notes, proof and explain: map reader', () => {
+  const BAD = '‮⁦\u0007\u0000';
+  const part = (extra: P) => JSON.stringify({project: 'proj', repo: R, parts: [{id: 'p1', name: 'Part one', plain: 'pp', pieces: [piece('a', {card: 'c1'})], ...extra}]});
+  const partRisks = (risks: unknown): string[] => {
+    const r = buildMap(fakeFs({[MAP]: part({risks})}), opts());
+    assert.ok(r.ok);
+    return (r.parts[0] as unknown as {risks: string[]}).risks;
+  };
+  const pieceOf = (extra: P, files: Record<string, string> = {}) => one(files, {card: 'c1', ...extra}) as unknown as {risks: string[]; explain?: string; state: string};
+  const SHIPPED = {...job(), ...verify('PASS'), ...ship('PASS')};
+
+  it('a part keeps at most 3 risk lines, each cut to 200 chars and cleaned', () => {
+    assert.deepEqual(partRisks(['a', 'b', 'c', 'd', 'e']), ['a', 'b', 'c']);
+    const r = partRisks([`x${BAD}y`, 'q'.repeat(500)]);
+    assert.equal(r[0], 'xy');
+    assert.equal(r[1]!.length, 200);
+  });
+
+  it('a part: non-string items are dropped, a non-array is ignored, an empty list gives none', () => {
+    assert.deepEqual(partRisks(['ok', 5, null, {a: 1}, ['x'], 'two']), ['ok', 'two']);
+    for (const v of ['just text', 7, {a: 'b'}, null, true]) assert.deepEqual(partRisks(v), [], String(v));
+    assert.deepEqual(partRisks([]), []);
+    assert.deepEqual(partRisks(undefined), []);
+  });
+
+  it('a piece keeps risks the same way (3 lines, 200 chars, cleaned, non-strings dropped, non-array ignored)', () => {
+    assert.deepEqual(pieceOf({risks: ['a', 'b', 'c', 'd']}).risks, ['a', 'b', 'c']);
+    assert.deepEqual(pieceOf({risks: [`x${BAD}y`, 'q'.repeat(500)]}).risks.map((l) => l.length), [2, 200]);
+    assert.deepEqual(pieceOf({risks: ['ok', 5, null, 'two']}).risks, ['ok', 'two']);
+    assert.deepEqual(pieceOf({risks: 'text'}).risks, []);
+    assert.deepEqual(pieceOf({risks: []}).risks, []);
+    assert.deepEqual(pieceOf({}).risks, []);
+  });
+
+  it('explain comes out for a Shipped piece, cleaned and cut to 600', () => {
+    const p = pieceOf({explain: `  why${BAD} it works  `}, SHIPPED);
+    assert.equal(p.state, 'Shipped');
+    assert.equal(p.explain, 'why it works');
+    assert.equal(pieceOf({explain: 'e'.repeat(900)}, SHIPPED).explain!.length, 600);
+  });
+
+  it('explain is absent for Built, started, idea, queued and card-less pieces', () => {
+    const cases: [string, Record<string, string>, P][] = [
+      ['Built', {...job(), ...verify('PASS')}, {}],
+      ['Started, not finished', {...job()}, {}],
+      ['idea', {}, {status: 'idea'}],
+      ['queued', {}, {status: 'queued'}],
+      ['planned', {}, {status: 'planned', card: undefined}],
+    ];
+    for (const [state, files, extra] of cases) {
+      const p = pieceOf({explain: 'trust me', ...extra}, files);
+      assert.equal(p.state, state);
+      assert.ok(!('explain' in p), `explain present for ${state}`);
+    }
+  });
+
+  it('a map file cannot make a piece Shipped by claiming it; explain stays out', () => {
+    const p = pieceOf({explain: 'trust me', state: 'Shipped', status: 'Shipped', shipped: true, from: 'the ship record'});
+    assert.notEqual(p.state, 'Shipped');
+    assert.ok(!('explain' in p));
+  });
+
+  it('explain that is empty, only control characters or not a string is absent even when Shipped', () => {
+    for (const v of ['', '   ', '\u0007\u202e', 5, ['x'], {a: 1}, null]) assert.ok(!('explain' in pieceOf({explain: v}, SHIPPED)), JSON.stringify(v));
+  });
+
+  it('hostile text stays a plain string and never throws', () => {
+    const evil = '<img src=x onerror=alert(1)><script>window.__pwn=1</script>‮abc⁦';
+    const p = pieceOf({risks: [evil], explain: evil}, SHIPPED);
+    assert.equal(p.risks[0], '<img src=x onerror=alert(1)><script>window.__pwn=1</script>abc');
+    assert.equal(p.explain, p.risks[0]);
+    assert.deepEqual(partRisks([evil]), [p.risks[0]]);
+    fc.assert(fc.property(fc.anything(), fc.anything(), (a, b) => {
+      assert.ok(buildMap(fakeFs({[MAP]: part({risks: a}), ...SHIPPED}), opts()).ok);
+      const q = buildMap(fakeFs({[MAP]: mapJson([piece('a', {card: 'c1', risks: a, explain: b})]), ...SHIPPED}), opts());
+      assert.ok(q.ok);
+      for (const l of (q.parts[0]!.pieces[0] as unknown as {risks: string[]}).risks) assert.ok(typeof l === 'string' && l.length <= 200);
+    }), {numRuns: 100});
+  });
 });

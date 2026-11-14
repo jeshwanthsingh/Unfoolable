@@ -604,6 +604,147 @@ describe('Your Turn page tells the truth', () => {
     });
   });
 
+  describe('risk notes, proof and explain: page', () => {
+    // Expected hooks: data-testid="risk-box" (orange box, on a part as a direct child of map-part, and inside a map-piece), text "What could go wrong"
+    // plus the note "from the map file, a plan, not a check"; data-testid="explain-fold" is a <details> whose <summary> says "Explain it to me", inside a Shipped map-piece only.
+    const EVIL = '<img src=x id=pwn onerror="window.__pwn=1"><b id=bold>x</b><script>window.__pwn=2</script>‮RTL⁦';
+    const LONG = 'W'.repeat(190);
+    const NOTE = /from the map file, a plan, not a check/i;
+    const OWNNOTE = "the builder's own words, not checked";
+    const pc = (id: string, o: object = {}) => ({id, name: `Piece ${id}`, plain: `plain ${id}`, status: 'idea', needs: [], model: 'claude', ...o});
+    // repo0 is Shipped for card c1 (job + check PASS + ship PASS at the head the server reports); piece "s" uses it, "i" (idea) and "q" (queued) never can.
+    function shipWorld(o: {risk?: string; explain?: string | null; proof?: unknown; partRisk?: string} = {}): World {
+      const w = world({cards: [], repos: ['done']});
+      const dot = join(w.repos[0]!, '.claude');
+      writeFileSync(join(dot, 'job.json'), JSON.stringify({card: 'c1', started_at: '2026-11-13T10:00:00Z', finished_at: '2026-11-13T11:00:00Z'}));
+      writeFileSync(join(dot, 'builder-says.json'), JSON.stringify({summary: 'did it', proof: 'proof' in o ? o.proof : 'I opened the page and clicked every fold'}));
+      mkdirSync(join(w.vault, 'maps'));
+      const risk = o.risk ?? 'A stale cache could show old data';
+      const explain = o.explain === null ? {} : {explain: o.explain ?? 'It reads the file and draws a box'};
+      writeFileSync(join(w.vault, 'maps', 'proj.json'), JSON.stringify({project: 'proj', repo: w.repos[0], parts: [{id: 'p1', name: 'Part one', plain: 'About part one', risks: [o.partRisk ?? 'Part level worry'], pieces: [
+        pc('s', {card: 'c1', risks: [risk], ...explain}), pc('i', {risks: ['Idea risk'], explain: 'IDEA EXPLAIN'}), pc('q', {status: 'queued', explain: 'QUEUED EXPLAIN'})]}]}));
+      return w;
+    }
+    const openMap = async (p: Page) => { await p.getByRole('tab', {name: /^Map$/}).or(p.getByRole('button', {name: /^Map$/})).first().click({timeout: 8000}); await wait(p, 'map-piece'); };
+    const piece = (p: Page, name: string) => p.getByTestId('map-piece').filter({hasText: `Piece ${name}`});
+    const orange = (loc: ReturnType<Page['locator']>) => loc.evaluate((e) => {
+      const cs = getComputedStyle(e);
+      return [cs.backgroundColor, cs.borderLeftColor, cs.borderTopColor, cs.borderBottomColor].some((c) => { const m = c.match(/\d+(\.\d+)?/g)?.map(Number) ?? []; return m.length >= 3 && (m[3] ?? 1) > 0 && m[0]! >= 150 && m[0]! - m[2]! >= 60 && m[0]! >= m[1]! && m[1]! > m[2]!; });
+    });
+    const proofRow = (p: Page) => p.getByTestId('receipt-row').filter({hasText: /Proof beyond tests/});
+    const isOpen = (loc: ReturnType<Page['locator']>) => loc.evaluate((e) => (e as HTMLDetailsElement).open);
+
+    it('a part and a piece each show an orange "What could go wrong" box labelled as the map file\'s own plan, not a check', {timeout: 60000}, async () => {
+      await run(shipWorld(), async (p) => {
+        await openMap(p);
+        const partBox = p.locator('[data-testid=map-part] > [data-testid=risk-box]');
+        assert.equal(await partBox.count(), 1);
+        for (const box of [partBox, piece(p, 's').getByTestId('risk-box')]) {
+          assert.equal(await box.count(), 1);
+          const t = await box.innerText();
+          assert.match(t, /What could go wrong/);
+          assert.match(t, NOTE);
+          assert.ok(await orange(box), 'box is not orange');
+        }
+        assert.match(await partBox.innerText(), /Part level worry/);
+        assert.match(await piece(p, 's').getByTestId('risk-box').innerText(), /A stale cache could show old data/);
+        assert.equal(await piece(p, 'q').getByTestId('risk-box').count(), 0); // no risks, no box
+        assert.equal(await piece(p, 'i').getByTestId('risk-box').count(), 1); // an idea may have risks
+      });
+    });
+
+    it('"Explain it to me" is a closed <details> only on the Shipped piece; it opens on click and on the keyboard', {timeout: 60000}, async () => {
+      await run(shipWorld(), async (p) => {
+        await openMap(p);
+        assert.equal(await count(p, 'explain-fold'), 1);
+        for (const n of ['i', 'q']) assert.equal(await piece(p, n).getByTestId('explain-fold').count(), 0, n);
+        const body = await p.locator('body').innerText();
+        assert.ok(!body.includes('IDEA EXPLAIN') && !body.includes('QUEUED EXPLAIN'));
+        const fold = piece(p, 's').getByTestId('explain-fold');
+        assert.equal(await fold.evaluate((e) => e.tagName), 'DETAILS');
+        assert.equal(await isOpen(fold), false);
+        const sum = fold.locator('summary');
+        assert.match(await sum.innerText(), /Explain it to me/);
+        await sum.click();
+        assert.equal(await isOpen(fold), true);
+        assert.match(await fold.innerText(), /It reads the file and draws a box/);
+        await sum.click();
+        assert.equal(await isOpen(fold), false);
+        await sum.focus();
+        await p.keyboard.press('Enter');
+        assert.equal(await isOpen(fold), true);
+        await p.keyboard.press('Enter');
+        assert.equal(await isOpen(fold), false);
+      });
+    });
+
+    it('no Explain fold when nothing was written for a Shipped piece', {timeout: 60000}, async () => {
+      await run(shipWorld({explain: null}), async (p) => { await openMap(p); assert.equal(await count(p, 'explain-fold'), 0); });
+    });
+
+    it('the receipt proof row shows the proof text with the builder\'s-own-words note', {timeout: 60000}, async () => {
+      await run(shipWorld(), async (p) => {
+        await wait(p, 'receipt');
+        assert.equal(await proofRow(p).count(), 1);
+        const t = await proofRow(p).innerText();
+        assert.match(t, /I opened the page and clicked every fold/);
+        assert.ok(!/not recorded/.test(t), t);
+        assert.ok(t.includes(OWNNOTE), t);
+        assert.equal(await count(p, 'receipt-row'), 11);
+      });
+    });
+
+    it('the proof row stays "not recorded" when the proof line is not text', {timeout: 60000}, async () => {
+      await run(shipWorld({proof: 7}), async (p) => {
+        await wait(p, 'receipt');
+        assert.match(await proofRow(p).innerText(), /not recorded/);
+      });
+    });
+
+    it('hostile text in risks, explain and proof is plain text: no element, no script, direction characters gone', {timeout: 60000}, async () => {
+      await run(shipWorld({risk: EVIL, explain: EVIL, partRisk: EVIL, proof: EVIL}), async (p) => {
+        await wait(p, 'receipt');
+        const prow = await proofRow(p).innerText();
+        assert.ok(prow.includes('<img src=x id=pwn'), prow);
+        await openMap(p);
+        await piece(p, 's').getByTestId('explain-fold').locator('summary').click();
+        assert.equal(await p.locator('#pwn, #bold, [data-testid=map-part] img, [data-testid=map-part] script').count(), 0);
+        const t = await p.locator('[data-testid=map-part]').innerText();
+        assert.ok(t.includes('<img src=x id=pwn') && t.includes('<script>window.__pwn=2</script>'));
+        assert.ok(!/[‪-‮⁦-⁩]/.test(t + prow));
+        await p.waitForTimeout(500);
+        assert.equal(await p.evaluate(() => (globalThis as any).__pwn), undefined);
+      });
+    });
+
+    it('no form, input, textarea or select; only GETs; no button in the map', {timeout: 60000}, async () => {
+      await run(shipWorld(), async (p, {reqs}) => {
+        await openMap(p);
+        await piece(p, 's').getByTestId('explain-fold').locator('summary').click();
+        assert.equal(await p.locator('form, input, textarea, select').count(), 0);
+        assert.equal(await p.locator('[data-testid=map-part] button, [data-testid=map-part] a[href]').count(), 0);
+        assert.ok(reqs.every((q) => q.startsWith('GET ')), reqs.join('\n'));
+      });
+    });
+
+    it('axe: no serious or critical problem at 1280 and 390 px (fold open); no horizontal scroll at 390 with 190 unbroken characters', {timeout: 180000}, async () => {
+      assert.ok(existsSync(AXE), 'axe-core missing');
+      for (const width of [1280, 390]) {
+        await run(shipWorld({risk: LONG, explain: LONG, partRisk: LONG, proof: LONG}), async (p) => {
+          await wait(p, 'receipt');
+          assert.ok((await proofRow(p).innerText()).includes(LONG), 'proof text missing');
+          if (width === 390) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 390, 'turn view scrolls sideways');
+          await openMap(p);
+          await piece(p, 's').getByTestId('explain-fold').locator('summary').click();
+          await p.addScriptTag({path: AXE});
+          const res = await p.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
+          assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `risk notes at ${width}`);
+          if (width === 390) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 390, 'map view scrolls sideways');
+        }, {viewport: {width, height: width === 390 ? 800 : 900}});
+      }
+    });
+  });
+
   it('source checks: the new web file Map.tsx exists and is covered by the banned-call scan', () => {
     const f = join(ROOT, 'apps/turn/web/Map.tsx');
     assert.ok(existsSync(f), 'apps/turn/web/Map.tsx is missing');

@@ -185,7 +185,7 @@ function testsFirst(job: Record<string, unknown>): string {
   return `no (script check)${why !== '' ? `: ${why}` : ''}${again}`;
 }
 
-const ownWords = (v: unknown): string => (typeof v === 'string' && clean(v).trim() !== '' ? clean(v).trim().slice(0, 160) : NOT_RECORDED);
+const ownWords = (v: unknown, max = 160): string => (typeof v === 'string' && clean(v).trim() !== '' ? clean(v).trim().slice(0, max) : NOT_RECORDED);
 
 // A receipt exists only for a PASS. `shipped` is true only when a ship PASS matches the current HEAD.
 // Fields come from the gate's own files, else "not recorded".
@@ -210,6 +210,7 @@ export function receipt(fs: Fs, repo: string, headOf: (repo: string) => string |
   const job = readJson(fs, placeFile(place, 'job.json')) ?? {}; // every field optional; a wrong type only blanks that field
   fields['tests written first'] = testsFirst(job);
   const says = readJson(fs, placeFile(place, 'builder-says.json')) ?? {}; // the builder's own words: shown as such, never used for anything else
+  fields['proof'] = ownWords(says.proof, 200); // a proof line the builder wrote: shown as the builder's own words, never as a check
   fields['builder says'] = ownWords(says.summary);
   fields['builder checked by hand'] = ownWords(says.checked_by_hand);
   const mtime = typeof fs.mtime === 'function' ? fs.mtime(placeFile(place, 'last-verify.json')) : null;

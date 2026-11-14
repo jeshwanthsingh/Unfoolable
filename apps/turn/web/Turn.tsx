@@ -147,7 +147,7 @@ const LABELS: Record<string, string> = {
 };
 // Small notes under a label: who wrote the line. Fixed words in code, never taken from a file.
 const OWN = "the builder's own words, not checked";
-const NOTES: Record<string, string> = {'reviewer': "from the reviewers' file; the builder writes it", 'builder says': OWN, 'builder checked by hand': OWN};
+const NOTES: Record<string, string> = {'reviewer': "from the reviewers' file; the builder writes it", 'proof': OWN, 'builder says': OWN, 'builder checked by hand': OWN};
 
 function ReceiptView({r}: {r?: Receipt | undefined}) {
   if (!r) return <div className="rc empty" data-testid="no-receipt"><p>No receipt yet</p><p>A receipt appears here once a piece has passed its checks.</p></div>;

@@ -1,4 +1,4 @@
-import test from 'node:test';
+import test, {describe, it} from 'node:test';
 import assert from 'node:assert/strict';
 import fc from 'fast-check';
 import {pendingCards, olderCards, cardLists, approvedTitle, shipsWaiting, receipt} from '../../apps/turn/turn-data.ts';
@@ -775,4 +775,37 @@ test('shipsWaiting with a vault: a head is read only for a place that has a PASS
   const fs = treeFs({...gitList, [cl(RP, VF)]: verify('FAIL'), [cl(RP, 'job.json')]: WAIT, [cl(LW, VF)]: verify('PASS'), [cl(LW, 'job.json')]: job({ship_waiting: false})});
   assert.deepEqual(shipsWaiting(fs, [RP], (p) => { asked.push(p); return 'h'; }, '/vault'), []);
   assert.deepEqual(asked, []);
+});
+
+describe('risk notes, proof and explain: receipt proof line', () => {
+  const proof = (files: Record<string, string>) => says(files)['proof'];
+  const P = (v: unknown) => ({[BS()]: JSON.stringify({proof: v})});
+
+  it('shows the proof line from builder-says.json, trimmed and cleaned', () => {
+    assert.equal(proof(P('  ran the page by hand  ')), 'ran the page by hand');
+    assert.equal(proof(P('a\u0007b‮c⁦d')), 'abcd');
+  });
+
+  it('is cut to 200 characters and stays plain text', () => {
+    assert.equal(proof(P('p'.repeat(500))).length, 200);
+    assert.equal(proof(P('<img src=x onerror=alert(1)><b>x</b>')), '<img src=x onerror=alert(1)><b>x</b>');
+  });
+
+  it('stays "not recorded" for no file, no field, a number, array, object, empty string or only control characters', () => {
+    assert.equal(proof({}), NR);
+    assert.equal(proof({[BS()]: JSON.stringify({summary: 's'})}), NR);
+    for (const v of [5, ['x'], {a: 'b'}, '', '   ', '\u0007\u202e\n', null, true]) assert.equal(proof(P(v)), NR, JSON.stringify(v));
+    assert.equal(proof({[BS()]: '{nope'}), NR);
+    assert.equal(proof({[BS()]: '["proof"]'}), NR);
+  });
+
+  it('never changes any other receipt field, the keys or the shipped flag', () => {
+    const lie = {[BS()]: JSON.stringify({proof: 'p', summary: 's', checked_by_hand: 'c'})};
+    const a = rcpt({[BS()]: JSON.stringify({summary: 's', checked_by_hand: 'c'})}), b = rcpt(lie);
+    const { proof: _p, ...restA } = a.fields, { proof: _q, ...restB } = b.fields;
+    assert.deepEqual(restB, restA);
+    assert.deepEqual(Object.keys(b.fields), KEYS);
+    assert.equal(b.shipped, a.shipped);
+    assert.equal(b.title, a.title);
+  });
 });

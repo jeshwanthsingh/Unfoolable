@@ -4,8 +4,8 @@
 import {useEffect, useState} from 'react';
 import './map.css';
 
-type Piece = {id: string; name: string; plain: string; model: string; state: string; from: string; isPlan: boolean; card?: string; needs: string[]; blockedBy: string[]};
-type Part = {id: string; name: string; plain: string; pieces: Piece[]};
+type Piece = {risks?: string[]; explain?: string; id: string; name: string; plain: string; model: string; state: string; from: string; isPlan: boolean; card?: string; needs: string[]; blockedBy: string[]};
+type Part = {risks?: string[]; id: string; name: string; plain: string; pieces: Piece[]};
 type MapAnswer = {project: string; projects: string[]; map: {parts: Part[]} | null; notLive: string[]};
 type View = {data: MapAnswer | null; names: string[]; down: boolean; old: boolean; older: boolean};
 // What the Map tells the page about itself. The page draws the header and the one "Not live" banner from it (and from the rail feed), so they always agree.
@@ -21,7 +21,7 @@ const shape = (d: unknown): d is MapAnswer => {
   const x = d as MapAnswer | null;
   if (!x || typeof x !== 'object' || !str(x.project) || !strs(x.projects) || !strs(x.notLive)) return false;
   return x.map === null || (!!x.map && Array.isArray(x.map.parts) && x.map.parts.every((p) => !!p && str(p.id) && str(p.name) && str(p.plain) && Array.isArray(p.pieces)
-    && p.pieces.every((q) => !!q && str(q.id) && str(q.name) && str(q.plain) && str(q.model) && str(q.state) && str(q.from) && typeof q.isPlan === 'boolean' && strs(q.needs) && strs(q.blockedBy))));
+    && (p.risks === undefined || strs(p.risks)) && p.pieces.every((q) => !!q && (q.risks === undefined || strs(q.risks)) && (q.explain === undefined || str(q.explain)) && str(q.id) && str(q.name) && str(q.plain) && str(q.model) && str(q.state) && str(q.from) && typeof q.isPlan === 'boolean' && strs(q.needs) && strs(q.blockedBy))));
 };
 
 // The picker's list: the map names, from GET /api/maps. A map is then asked for by name.
@@ -69,12 +69,26 @@ function useMap(chosen: string | null): View {
 
 const chip = (state: string): string => (state === 'Shipped' || state === 'Built' ? 'chip ok' : state === 'Waiting for your approval' ? 'chip wait' : state === 'not recorded' ? 'chip na' : 'chip');
 
+// The part's or piece's own "what could go wrong" lines: the map file's words, a plan, never a check result.
+function RiskBox({risks}: {risks?: string[] | undefined}) {
+  if (!risks || risks.length === 0) return null;
+  return (
+    <div className="risk" role="group" aria-label="What could go wrong" data-testid="risk-box">
+      <p className="riskhead">What could go wrong</p>
+      <p className="from">from the map file, a plan, not a check</p>
+      <ul>{risks.map((r, i) => <li key={i}>{r}</li>)}</ul>
+    </div>
+  );
+}
+
 function PieceCard({p}: {p: Piece}) {
   return (
     <article className="piece" data-testid="map-piece">
       <h4>{p.name}</h4>
       <p className="chips"><span className={chip(p.state)} data-testid="piece-state">{p.state}</span><span className="chip model">{p.model}</span>{p.isPlan && <span className="chip plan" data-testid="piece-plan">plan</span>}</p>
       <p className="plain">{p.plain}</p>
+      <RiskBox risks={p.risks} />
+      {p.explain && <details className="explain" data-testid="explain-fold"><summary>Explain it to me</summary><p>{p.explain}</p></details>}
       <p className="from">from: {p.from}</p>
       {p.isPlan && <p className="from">no card yet</p>}
       {p.needs.length > 0 && <p className="needs">needs: {p.needs.join(', ')}</p>}
@@ -116,6 +130,7 @@ export function MapView({report}: {report: (p: MapProblem) => void}) {
               <section className="part" key={pt.id} data-testid="map-part" aria-label={pt.name}>
                 <h3>{pt.name}</h3>
                 <p className="plain">{pt.plain}</p>
+                <RiskBox risks={pt.risks} />
                 {pt.pieces.map((p) => <PieceCard key={p.id} p={p} />)}
               </section>
             ))}
