@@ -4,14 +4,19 @@ import {useEffect, useState, type ReactElement, type ReactNode} from 'react';
 import {MapView} from './Map.tsx';
 
 type Pending = {name: string; repo: string; scope: string; approveLine: string | null};
-type Ship = {repo: string; head: string; title?: string};
+type Ship = {repo: string; head: string; title?: string; where?: string};
 type Older = {name: string; repo: string};
-type Receipt = {repo: string; shipped: boolean; title?: string; titleSource?: string; fields: Record<string, string>};
+type Receipt = {repo: string; shipped: boolean; title?: string; titleSource?: string; where?: string; fields: Record<string, string>};
 type Data = {at: string; notLive: string[]; pending: Pending[]; older: Older[]; settled: string[]; ships: Ship[]; receipts: Receipt[]};
 type Feed = {data: Data | null; state: 'loading' | 'ok' | 'down' | 'old'; tries: number};
 
 const base = (p: string): string => p.split('/').filter(Boolean).pop() ?? p;
 const words = (n: string): string => { const t = n.replace(/[-_]+/g, ' ').trim(); return t.charAt(0).toUpperCase() + t.slice(1); };
+// Where a record came from ("a build in progress", ...), in the server's own words: untrusted text, cleaned and capped, never an error if it is odd.
+const whereOf = (w: unknown): string => {
+  const t = typeof w === 'string' ? w.replace(/[\p{C}‪-‮⁦-⁩]/gu, '').trim().slice(0, 80) : '';
+  return t === '' ? '' : ` · ${t}`;
+};
 const str = (v: unknown): boolean => typeof v === 'string';
 const obj = (v: unknown): boolean => !!v && typeof v === 'object';
 // The answer must have the shape the page renders: an odd record must not blank the page.
@@ -89,7 +94,7 @@ function Decision({pending, ship}: {pending?: Pending | undefined; ship?: Ship |
   const repo = ship?.repo ?? '';
   return (
     <article className="card" data-testid="decision" aria-label="A decision for you">
-      <p><span className="tag" data-testid="kind">SHIP</span><span className="proj" data-testid="project">{base(repo)}</span></p>
+      <p><span className="tag" data-testid="kind">SHIP</span><span className="proj" data-testid="project">{base(repo)}{whereOf(ship?.where)}</span></p>
       <h1>{ship?.title ? words(ship.title) : base(repo)} passed its last check</h1>
       <dl>
         <div className="row"><dt>WHAT HAPPENED</dt><dd>It passed its checks. It has not been shipped at this version.</dd></div>
@@ -114,7 +119,7 @@ function ReceiptView({r}: {r?: Receipt | undefined}) {
   return (
     <div className="rc" data-testid="receipt">
       <h3 data-testid="receipt-title">{r.title ? words(r.title) : base(r.repo)}</h3>
-      <p className="c" data-testid="receipt-project">{base(r.repo)}</p>
+      <p className="c" data-testid="receipt-project">{base(r.repo)}{whereOf(r.where)}</p>
       {r.title && r.titleSource !== 'job' && <p className="c" data-testid="receipt-title-note">The card now approved for this project. It may not be the card the last check ran under.</p>}
       <hr />
       <p className={r.shipped ? 'big' : 'big not'} data-testid="receipt-banner">{r.shipped ? 'Really done. Checked, not claimed.' : 'Checked. Not shipped yet.'}</p>

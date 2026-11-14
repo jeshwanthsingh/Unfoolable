@@ -43,9 +43,11 @@ body { background: radial-gradient(circle at 50% 46%, #fff9ec 0, var(--paper) 55
 .rc { background: #fffefa; padding: 24px 24px 30px; font-family: var(--mono); font-size: 12.5px; line-height: 1.75; box-shadow: 0 10px 26px #1b223826; color: var(--ink); transform: rotate(1.4deg); }
 .rc h3 { font-family: var(--serif); font-size: 19px; text-align: center; overflow-wrap: anywhere; }
 .rc hr { border: 0; border-top: 1.5px dashed #8a8372; margin: 9px 0; }
-.rc .l { display: flex; justify-content: space-between; gap: 12px; }
+/* a label column that never gets squeezed below 8rem (the small note lives inside it), the value takes the rest and wraps inside the panel */
+.rc .l { display: grid; grid-template-columns: minmax(8rem, 40%) minmax(0, 1fr); gap: 4px 12px; }
+.rc .l span:first-child { min-width: 0; overflow-wrap: anywhere; }
 .rc .l span:last-child { text-align: right; overflow-wrap: anywhere; }
-.rc .c { text-align: center; color: var(--muted); font-size: 11px; }
+.rc .c { text-align: center; color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
 .rc .na { color: #626a7e; font-style: italic; }
 .rc .note { display: block; font-size: 11px; color: var(--muted); }
 .ok { color: var(--green); font-weight: 700; }

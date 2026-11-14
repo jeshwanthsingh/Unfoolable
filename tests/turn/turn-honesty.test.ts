@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, statSync, utimesSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
-import {basename, join} from 'node:path';
+import {basename, dirname, join} from 'node:path';
 import {chromium, type Page} from 'playwright-core';
 import {realFs, startTurn} from '../../apps/turn/turn-server.ts';
 import type {Fs} from '../../apps/turn/turn-data.ts';
@@ -89,7 +89,7 @@ describe('Your Turn page tells the truth', () => {
     await run(world({repos: ['ship']}), async (p) => {
       await wait(p, 'decision');
       assert.equal(await txt(p, 'kind'), 'SHIP');
-      assert.equal(await txt(p, 'project'), 'repo0');
+      assert.equal(await txt(p, 'project'), 'repo0 · the main folder'); // the project tag now also says where the record came from
       assert.equal(await count(p, 'approve-line'), 0);
       assert.equal(await txt(p, 'receipt-banner'), 'Checked. Not shipped yet.');
       assert.equal(await count(p, 'empty'), 0);
@@ -103,7 +103,7 @@ describe('Your Turn page tells the truth', () => {
       const next = p.getByTestId('next-item');
       assert.equal(await next.count(), 1);
       assert.match(await next.first().innerText(), /SHIP[\s\S]*repo0|repo0[\s\S]*SHIP/);
-      assert.equal(await txt(p, 'receipt-project'), basename(w.repos[1]!));
+      assert.equal(await txt(p, 'receipt-project'), `${basename(w.repos[1]!)} · the main folder`);
       assert.equal(await txt(p, 'receipt-banner'), 'Really done. Checked, not claimed.');
       assert.equal(await count(p, 'receipt-row'), 11);
       assert.match(await p.getByTestId('receipt-row').filter({hasText: /checks/i}).first().innerText(), /passed/);
@@ -313,7 +313,7 @@ describe('Your Turn page tells the truth', () => {
       await run(w, async (p) => {
         await wait(p, 'receipt');
         assert.equal(await txt(p, 'receipt-title'), 'Command center last check');
-        assert.equal(await txt(p, 'receipt-project'), basename(w.repos[0]!));
+        assert.equal(await txt(p, 'receipt-project'), `${basename(w.repos[0]!)} · the main folder`);
         assert.match(await txt(p, 'receipt-title-note'), /card now approved/);
         assert.match(await txt(p, 'receipt-title-note'), /may not be the card the last check ran under/, 'the page says this is not proven');
       });
@@ -321,7 +321,7 @@ describe('Your Turn page tells the truth', () => {
       await run(w2, async (p) => {
         await wait(p, 'receipt');
         assert.equal(await txt(p, 'receipt-title'), basename(w2.repos[0]!));
-        assert.equal(await txt(p, 'receipt-project'), basename(w2.repos[0]!));
+        assert.equal(await txt(p, 'receipt-project'), `${basename(w2.repos[0]!)} · the main folder`);
         assert.equal(await count(p, 'receipt-title-note'), 0);
       });
     });
@@ -565,6 +565,125 @@ describe('Your Turn page tells the truth', () => {
       const s = readFileSync(f, 'utf8');
       for (const b of banned) assert.ok(!s.includes(b), `${f} contains ${b}`);
       assert.ok(!/(?<![.\w])exec\(/.test(s), `${f} calls exec(`);
+    }
+  });
+});
+
+describe('where a receipt came from, and the receipt column layout', () => {
+  before(() => { execFileSync(process.execPath, ['node_modules/vite/bin/vite.js', 'build', '--config', 'apps/turn/vite.config.ts'], {cwd: ROOT, stdio: 'pipe'}); }); // own build: this block also runs alone
+  const put = (dir: string, f: string, v: object) => writeFileSync(join(dir, f), JSON.stringify(v));
+  const PASS = {verdict: 'PASS', card_sha256: SHA};
+  // A receipt from the main folder, a live worktree or an archived folder. For live/archived the main folder has no check record, so that place wins.
+  function placed(kind: 'main' | 'live' | 'archived', o: {ship?: boolean} = {}): {w: World; name: string} {
+    const w = world({repos: [kind === 'main' ? 'done' : 'bare']});
+    const repo = w.repos[0]!, name = basename(repo);
+    if (kind === 'live') {
+      const wt = join(dirname(repo), `${name}-wt`, 'w1'), g = join(repo, '.git', 'worktrees', 'w1');
+      mkdirSync(join(wt, '.claude'), {recursive: true}); mkdirSync(g, {recursive: true});
+      writeFileSync(join(g, 'gitdir'), `${wt}/.git\n`);
+      put(join(wt, '.claude'), VERIFY, PASS);
+      put(join(wt, '.claude'), 'job.json', o.ship ? {ship_waiting: true} : {card: 'live-card'});
+    }
+    if (kind === 'archived') {
+      const d = join(w.vault, '90-archive', 'worktrees', `2026-11-13-${name}-w9`);
+      mkdirSync(d, {recursive: true});
+      put(d, VERIFY, PASS); put(d, 'job.json', {card: 'arch-card'});
+    }
+    return {w, name};
+  }
+  // Rewrites the /api/turn answer, then reloads so the page's first render uses it.
+  const edit = async (p: Page, f: (j: any) => void) => {
+    await p.route('**/api/turn', async (route) => { const res = await route.fetch(); const j = await res.json(); f(j); await route.fulfill({response: res, json: j}); });
+    await p.reload();
+  };
+
+  for (const [kind, phrase] of [['main', 'the main folder'], ['live', 'a build in progress'], ['archived', 'an archived build (2026-11-13)']] as const) {
+    it(`the receipt project line shows "<project> · ${phrase}"`, {timeout: 60000}, async () => {
+      const {w, name} = placed(kind);
+      await run(w, async (p) => {
+        await wait(p, 'receipt');
+        assert.equal(await txt(p, 'receipt-project'), `${name} · ${phrase}`);
+      });
+    });
+  }
+
+  it('no `where` in the answer: the receipt project line is just the project name', {timeout: 60000}, async () => {
+    const {w, name} = placed('main');
+    await run(w, async (p) => {
+      await edit(p, (j) => { for (const r of j.receipts) delete r.where; for (const s of j.ships) delete s.where; });
+      await wait(p, 'receipt');
+      assert.equal(await txt(p, 'receipt-project'), name);
+    });
+  });
+
+  it('the Ship card project tag shows "<project> · <where>" (main folder, and a live build)', {timeout: 60000}, async () => {
+    await run(world({repos: ['ship']}), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'SHIP');
+      assert.equal(await txt(p, 'project'), 'repo0 · the main folder');
+    });
+    const {w, name} = placed('live', {ship: true});
+    await run(w, async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'SHIP');
+      assert.equal(await txt(p, 'project'), `${name} · a build in progress`);
+    });
+  });
+
+  it('a hostile `where` is plain text: no element, no script, page does not blank', {timeout: 60000}, async () => {
+    const evil = '<img src=x id=pwn onerror="window.__pwn=1">‮RTL⁦' + 'x'.repeat(500);
+    await run(world({repos: ['ship', 'done']}), async (p) => {
+      await edit(p, (j) => { for (const r of j.receipts) r.where = evil; for (const s of j.ships) s.where = evil; });
+      await wait(p, 'receipt');
+      await p.waitForTimeout(500);
+      assert.equal(await p.locator('#pwn, [data-testid=receipt] img, [data-testid=decision] img').count(), 0);
+      assert.equal(await p.evaluate(() => (globalThis as any).__pwn), undefined);
+      assert.ok(await p.locator('h1').first().isVisible(), 'heading missing');
+      assert.ok(await count(p, 'receipt-title') > 0 && await count(p, 'project') > 0);
+      // it must also be shown (as text), not dropped: a page that ignores `where` would pass the checks above
+      assert.ok((await txt(p, 'receipt-project')).includes('<img src=x'), 'where is not shown as text');
+      assert.ok(!/[‪-‮⁦-⁩]/.test((await txt(p, 'receipt-project')) + (await txt(p, 'project'))), 'bidi controls rendered');
+      assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 1280);
+    });
+  });
+
+  // The R1c-style receipt: job record fields, builder-says text, and a long "no (script check)" reason.
+  function longReceipt(): World {
+    const w = world({repos: ['done']}), d = join(w.repos[0]!, '.claude'), long = 'a very long reason without any break opportunity ' + 'LongWordWithoutSpaces'.repeat(6) + ' 2/9/7 1234567890123456789';
+    put(d, 'job.json', {card: 'long-card-name-for-layout', tests_first: false, checked_by: 'script', tests_first_reason: long, starts: 2, started_at: '2026-03-04T05:06:07Z', finished_at: '2026-03-04T07:08:09Z', cost_usd: 1.5, tried: long});
+    put(d, 'builder-says.json', {summary: long + long, checked_by_hand: long});
+    put(d, 'critic.md', 'a.ts:1 | P2 | x\nb.ts:2 | P3 | y\n');
+    put(d, VERIFY, {verdict: 'PASS', card_sha256: SHA, changed_files: ['a.ts', 'b.ts', 'c.ts']});
+    return w;
+  }
+  const rowChecks = (p: Page) => p.getByTestId('receipt-row').evaluateAll((els) => els.map((e) => {
+    const [l, v] = [e.children[0] as HTMLElement, e.children[1] as HTMLElement];
+    return {label: (l.textContent ?? '').slice(0, 30), lw: l.getBoundingClientRect().width, vOver: v.scrollWidth > v.clientWidth};
+  }));
+
+  for (const [width, minLabel] of [[1280, 128], [390, 120]] as const) {
+    it(`layout at ${width} px: label column >= ${minLabel} px, no value overflows, no horizontal scroll`, {timeout: 60000}, async () => {
+      await run(longReceipt(), async (p) => {
+        await wait(p, 'receipt');
+        const rows = await rowChecks(p);
+        assert.equal(rows.length, 11);
+        for (const r of rows) assert.ok(r.lw >= minLabel, `label "${r.label}" is ${r.lw.toFixed(1)} px wide, need >= ${minLabel}`);
+        for (const r of rows) assert.ok(!r.vOver, `value of "${r.label}" overflows its span`);
+        assert.ok(await p.getByTestId('receipt').evaluate((e) => e.scrollWidth <= e.clientWidth), 'receipt panel scrolls sideways');
+        assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= width, 'page scrolls sideways');
+      }, {viewport: {width, height: width === 390 ? 800 : 900}});
+    });
+  }
+
+  it('axe: no serious or critical problem with the long receipt (with its where line) at 1280 and 390 px', {timeout: 120000}, async () => {
+    for (const width of [1280, 390]) {
+      await run(longReceipt(), async (p) => {
+        await wait(p, 'receipt');
+        assert.match(await txt(p, 'receipt-project'), / · the main folder$/);
+        await p.addScriptTag({path: AXE});
+        const res = await p.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
+        assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `long receipt at ${width}`);
+      }, {viewport: {width, height: width === 390 ? 800 : 900}});
     }
   });
 });
