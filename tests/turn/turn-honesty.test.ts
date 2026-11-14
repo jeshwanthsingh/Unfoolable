@@ -744,3 +744,103 @@ describe('where a receipt came from, and the receipt column layout', () => {
     }
   });
 });
+
+describe('one status source for the header and the banners', () => {
+  before(() => { execFileSync(process.execPath, ['node_modules/vite/bin/vite.js', 'build', '--config', 'apps/turn/vite.config.ts'], {cwd: ROOT, stdio: 'pipe'}); }); // own build: this block also runs alone
+  const header = (p: Page) => p.locator('header.top p.live').first(); // class "live" (Live) or "live off" (Not live)
+  const banners = (p: Page) => p.locator('p.notlive[role=status]'); // every "Not live: ..." banner, in either view
+  const OLDER = /older than the page.*type turn again/is;
+  const mapsWorld = (n: 1 | 2): World => {
+    const w = world({cards: []});
+    mkdirSync(join(w.vault, 'maps'));
+    const m = (name: string) => JSON.stringify({project: name, repo: '/x/none', parts: [{id: 'p1', name: `Part of ${name}`, plain: 'About it', pieces: [{id: 'a', name: 'Piece a', plain: 'plain a', status: 'idea', needs: [], model: 'claude'}]}]});
+    writeFileSync(join(w.vault, 'maps', 'proj.json'), m('proj'));
+    if (n === 2) writeFileSync(join(w.vault, 'maps', 'zeta.json'), m('zeta'));
+    return w;
+  };
+  const openMap = async (p: Page) => { await p.getByRole('tab', {name: /^Map$/}).or(p.getByRole('button', {name: /^Map$/})).first().click({timeout: 5000}); };
+  // Sets the route, then reloads so the page's first asks go through it.
+  const routed = async (p: Page, pat: string, how: 'notfound' | 'abort') => {
+    await p.route(pat, (route) => (how === 'abort' ? route.abort('connectionrefused') : route.fulfill({status: 404, contentType: 'text/plain', body: 'not found'})));
+    await p.reload();
+  };
+
+  it('Map open, /api/maps answers 404: header says "Not live" (never "Live"), banner says the server is older and to type turn again; they agree', {timeout: 60000}, async () => {
+    await run(mapsWorld(1), async (p) => {
+      await routed(p, '**/api/maps', 'notfound');
+      await openMap(p);
+      await banners(p).filter({hasText: OLDER}).first().waitFor({timeout: 15000});
+      assert.equal((await header(p).innerText()).trim(), 'Not live');
+      assert.match((await header(p).getAttribute('class')) ?? '', /\boff\b/);
+      assert.ok(!/Live/.test(await header(p).innerText()), 'header says Live');
+      assert.equal(await banners(p).count(), 1, 'exactly one banner');
+      assert.match(await banners(p).first().innerText(), /^Not live: /);
+      assert.doesNotMatch(await banners(p).first().innerText(), /can't reach/i);
+      assert.equal(await count(p, 'map-part'), 0);
+    });
+  });
+
+  it('Map open, /api/maps aborted (network failure): header says "Not live", banner says it cannot reach the server', {timeout: 60000}, async () => {
+    await run(mapsWorld(1), async (p) => {
+      await routed(p, '**/api/maps', 'abort');
+      await openMap(p);
+      await banners(p).filter({hasText: /can't reach this page's server/}).first().waitFor({timeout: 15000});
+      assert.equal((await header(p).innerText()).trim(), 'Not live');
+      assert.match((await header(p).getAttribute('class')) ?? '', /\boff\b/);
+      assert.equal(await banners(p).count(), 1, 'exactly one banner');
+      assert.doesNotMatch(await banners(p).first().innerText(), /older than the page/i);
+    });
+  });
+
+  for (const [label, w] of [['Turn view', () => mapsWorld(1)], ['Map view, one map', () => mapsWorld(1)], ['Map view, two maps', () => mapsWorld(2)]] as const) {
+    it(`everything working (${label}): header says "Live · checked HH:MM", no not-live banner`, {timeout: 60000}, async () => {
+      await run(w(), async (p) => {
+        await wait(p, 'empty');
+        if (label !== 'Turn view') { await openMap(p); await wait(p, 'map-part'); }
+        await p.waitForTimeout(1500); // a late failure would show by now
+        assert.match((await header(p).innerText()).trim(), /^Live · checked \d{1,2}:\d{2}/);
+        assert.doesNotMatch((await header(p).getAttribute('class')) ?? '', /\boff\b/);
+        assert.equal(await banners(p).count(), 0);
+        assert.equal(await count(p, 'not-live'), 0);
+      });
+    });
+  }
+
+  it('Turn view, unreadable rail (no cards folder): same header + banner pair as before', {timeout: 60000}, async () => {
+    await run(world({cards: null}), async (p) => {
+      await wait(p, 'not-live');
+      assert.equal((await header(p).innerText()).trim(), 'Not live');
+      assert.equal(await txt(p, 'not-live'), "Not live: can't read the cards folder. What you see may be old.");
+      assert.equal(await banners(p).count(), 1);
+    });
+  });
+
+  it('Turn view, /api/turn aborted: header "Not live" and the "can\'t reach" banner (unchanged)', {timeout: 60000}, async () => {
+    await run(mapsWorld(1), async (p) => {
+      await routed(p, '**/api/turn', 'abort');
+      await p.getByTestId('not-live').filter({hasText: /^Not live: can't reach this page's server, trying again \(\d+\)\.$/}).first().waitFor({timeout: 15000});
+      assert.equal((await header(p).innerText()).trim(), 'Not live');
+    });
+  });
+
+  // Guard: the Ship heading already uses the job record's card title (may pass before the change).
+  const shipWorld = (card: string | undefined): World => {
+    const w = world({repos: ['ship']});
+    writeFileSync(join(w.repos[0]!, '.claude', 'job.json'), JSON.stringify({ship_waiting: true, ...(card !== undefined ? {card} : {})}));
+    return w;
+  };
+  it('Ship card heading uses the card title from the job record, not the repo folder name', {timeout: 60000}, async () => {
+    await run(shipWorld('my-card-title'), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'SHIP');
+      assert.equal((await p.locator('[data-testid=decision] h1').innerText()).trim(), 'My card title passed its last check');
+      assert.ok(!(await p.locator('[data-testid=decision] h1').innerText()).includes('repo0'));
+    });
+  });
+  it('Ship card heading falls back to the repo folder name only when the job record has no card name', {timeout: 60000}, async () => {
+    await run(shipWorld(undefined), async (p) => {
+      await wait(p, 'decision');
+      assert.equal((await p.locator('[data-testid=decision] h1').innerText()).trim(), 'repo0 passed its last check');
+    });
+  });
+});

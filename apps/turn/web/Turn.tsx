@@ -1,7 +1,7 @@
 // "Your Turn", slice 1: shows what the rail is waiting for, read only. Nothing on this page changes anything:
 // no form, no POST. Everything it shows is text from rail files (written by agents), so it is only ever rendered as plain text.
-import {useEffect, useState, type ReactElement, type ReactNode} from 'react';
-import {MapView} from './Map.tsx';
+import {useCallback, useEffect, useState, type ReactElement, type ReactNode} from 'react';
+import {MapView, mapBanner, type MapProblem} from './Map.tsx';
 
 type Pending = {name: string; repo: string; scope: string; approveLine: string | null};
 type Ship = {repo: string; head: string; title?: string; where?: string};
@@ -139,7 +139,15 @@ function ReceiptView({r}: {r?: Receipt | undefined}) {
 export function Turn() {
   const {data, state, tries} = useFeed();
   const [view, setView] = useState<'turn' | 'map'>('turn'); // Turn is the default view; Map is a second, read-only view
-  const live = state === 'ok' && data !== null && data.notLive.length === 0;
+  const [mapProblem, setMapProblem] = useState<MapProblem>('');
+  const report = useCallback((p: MapProblem) => setMapProblem(p), []);
+  const railBanner = state === 'down'
+    ? `Not live: can't reach this page's server, trying again (${tries}).`
+    : data && data.notLive.length > 0 ? `Not live: can't read ${data.notLive.join(', ')}. What you see may be old.` : '';
+  // ONE status for the header and the banner: the rail feed, plus the map feed while the Map view is open. Whatever is wrong shows in both places.
+  const mapWhy = view === 'map' ? mapBanner(mapProblem) : '';
+  const banner = mapWhy || railBanner;
+  const live = state === 'ok' && data !== null && data.notLive.length === 0 && mapWhy === '';
   const clock = data ? new Date(data.at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) : '';
   const shell = (body: ReactNode): ReactElement => (
     <div className="page">
@@ -151,12 +159,9 @@ export function Turn() {
         </div>
         <p className={live ? 'live' : 'live off'}><b aria-hidden="true" />{live ? `Live · checked ${clock}` : 'Not live'}</p>
       </header>
-      {view === 'map' ? <MapView /> : body}
+      {view === 'map' ? <>{banner && <p className="notlive" role="status" data-testid="not-live">{banner}</p>}<MapView report={report} /></> : body}
     </div>
   );
-  const banner = state === 'down'
-    ? `Not live: can't reach this page's server, trying again (${tries}).`
-    : data && data.notLive.length > 0 ? `Not live: can't read ${data.notLive.join(', ')}. What you see may be old.` : '';
   if (state === 'old') {
     return shell(<main><div className="oldlink" data-testid="old-link"><h1>This link is old</h1><p>The page was restarted. Open a fresh link the same way you opened this one.</p></div></main>);
   }
