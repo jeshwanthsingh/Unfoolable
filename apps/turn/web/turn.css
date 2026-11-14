@@ -79,3 +79,6 @@ body { background: radial-gradient(circle at 50% 46%, #fff9ec 0, var(--paper) 55
 .wn.na { font-weight: 600; font-size: 14px; color: var(--muted); }
 .wb { font-size: 13px; color: var(--muted); }
 @media (max-width: 600px) { .wk { grid-template-columns: 1fr 1fr; } .wl { grid-column: 1 / -1; font-weight: 700; } }
+.opts { margin: 0; padding-left: 18px; }
+.opts li { margin: 2px 0; overflow-wrap: anywhere; }
+.card h1, .card .row dd { overflow-wrap: anywhere; }

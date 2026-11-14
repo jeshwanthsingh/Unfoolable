@@ -1,7 +1,7 @@
 import {before, describe, it} from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import {existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, statSync, utimesSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, renameSync, statSync, utimesSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {basename, dirname, join} from 'node:path';
 import {chromium, type Page} from 'playwright-core';
@@ -974,6 +974,230 @@ describe('rail strip and this week', () => {
         const res = await p.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
         assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `${view} at ${width}`);
         if (width === 390) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 390, `${view} scrolls sideways`);
+      }, {viewport: {width, height: width === 390 ? 800 : 900}});
+    }
+  });
+});
+
+describe('answer and try-it cards', () => {
+  before(() => { execFileSync(process.execPath, ['node_modules/vite/bin/vite.js', 'build', '--config', 'apps/turn/vite.config.ts'], {cwd: ROOT, stdio: 'pipe'}); }); // own build: this block also runs alone
+  const TO_ANSWER = 'Tell /plan your answer in Claude Code. This page cannot take answers yet.';
+  const WHEN_TRIED = 'Say so at /ship in Claude Code. This page cannot record it yet.';
+  const ANSWER = {kind: 'answer', title: 'Which login?', repo: '/x/proj', question: 'Email or passkey?', why: 'It changes the data we keep.', options: ['Email link', 'Passkey']};
+  const TRY = {kind: 'try', title: 'Try the export', repo: '/x/other', where: 'http://localhost:5173/export', checklist: ['Click Export', 'Open the file']};
+  const ask = (w: World, name: string, v: object | string) => { mkdirSync(join(w.vault, 'questions'), {recursive: true}); writeFileSync(join(w.vault, 'questions', name), typeof v === 'string' ? v : JSON.stringify(v)); };
+  // a world: cards waiting (names), ships waiting (n repos), and the question files (name -> object)
+  const mk = (o: {cards?: string[]; ships?: number; asks?: Record<string, object | string>} = {}): World => {
+    const w = world({cards: (o.cards ?? []).map((n): [string, string, string] => [n, '/x/proj', 'Build the thing']), repos: Array.from({length: o.ships ?? 0}, () => 'ship' as Repo)});
+    for (const [n, v] of Object.entries(o.asks ?? {})) ask(w, n, v);
+    return w;
+  };
+  const dd = (p: Page, label: string) => p.getByTestId('decision').locator('.row').filter({has: p.locator('dt', {hasText: label})}).locator('dd');
+  const dts = (p: Page) => p.getByTestId('decision').locator('dt').allInnerTexts();
+  const items = (p: Page, sel: string) => p.getByTestId('decision').locator(sel).allInnerTexts();
+  const nexts = (p: Page) => p.getByTestId('next-item').allInnerTexts().then((a) => a.map((t) => t.replace(/\s+/g, ' ').trim()));
+  const strip = async (p: Page) => (await txt(p, 'rail-strip')).replace(/\s+/g, ' ').trim();
+  const FULL = (): World => mk({cards: ['alpha-card'], ships: 1, asks: {'a-answer.json': ANSWER, 'b-try.json': TRY}});
+
+  it('the ANSWER card: kind, project, title as the heading, THE QUESTION, WHY IT MATTERS, the options as a plain list, TO ANSWER with the exact sentence, and the can\'t-vouch line', {timeout: 60000}, async () => {
+    await run(mk({asks: {'a-answer.json': ANSWER}}), async (p) => {
+      await wait(p, 'decision');
+      const d = p.locator('article[data-testid=decision]');
+      assert.equal(await d.getByTestId('kind').innerText(), 'ANSWER');
+      assert.equal(await d.getByTestId('project').innerText(), 'proj');
+      assert.equal(await d.locator('h1').innerText(), 'Which login?');
+      assert.deepEqual((await dts(p)).filter((t) => /QUESTION|WHY|ANSWER/.test(t)), ['THE QUESTION', 'WHY IT MATTERS', 'TO ANSWER']);
+      assert.equal((await dd(p, 'THE QUESTION').innerText()).trim(), 'Email or passkey?');
+      assert.equal((await dd(p, 'WHY IT MATTERS').innerText()).trim(), 'It changes the data we keep.');
+      assert.deepEqual((await items(p, 'ul > li')).map((t) => t.trim()), ['Email link', 'Passkey']);
+      assert.equal(await d.locator('ol, ul ul, input[type=checkbox]').count(), 0);
+      assert.equal((await dd(p, 'TO ANSWER').innerText()).trim(), TO_ANSWER);
+      assert.match(await d.getByTestId('cant-vouch').innerText(), /can't check/);
+      assert.equal(await count(p, 'approve-line'), 0);
+      assert.equal(await count(p, 'empty'), 0);
+    });
+  });
+
+  it('an ANSWER card without "why" has no WHY IT MATTERS row', {timeout: 60000}, async () => {
+    const {why: _why, ...bare} = ANSWER;
+    await run(mk({asks: {'a-answer.json': bare}}), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'ANSWER');
+      assert.ok(!(await dts(p)).some((t) => /WHY IT MATTERS/.test(t)));
+      assert.ok((await dts(p)).includes('THE QUESTION'));
+    });
+  });
+
+  it('the TRY IT card: kind, project, title, OPEN: where, the checklist as a plain list, WHEN YOU HAVE TRIED IT with the exact sentence, and the can\'t-vouch line', {timeout: 60000}, async () => {
+    await run(mk({asks: {'b-try.json': TRY}}), async (p) => {
+      await wait(p, 'decision');
+      const d = p.locator('article[data-testid=decision]');
+      assert.equal(await d.getByTestId('kind').innerText(), 'TRY IT');
+      assert.equal(await d.getByTestId('project').innerText(), 'other');
+      assert.equal(await d.locator('h1').innerText(), 'Try the export');
+      assert.deepEqual((await dts(p)).filter((t) => /OPEN|TRIED/.test(t)), ['OPEN', 'WHEN YOU HAVE TRIED IT']);
+      assert.equal((await dd(p, 'OPEN').innerText()).trim(), 'http://localhost:5173/export');
+      assert.deepEqual((await items(p, 'ul > li')).map((t) => t.trim()), ['Click Export', 'Open the file']);
+      assert.equal(await d.locator('ol, ul ul, input[type=checkbox]').count(), 0);
+      assert.equal((await dd(p, 'WHEN YOU HAVE TRIED IT').innerText()).trim(), WHEN_TRIED);
+      assert.match(await d.getByTestId('cant-vouch').innerText(), /can't check/);
+      assert.equal(await d.locator('a').count(), 0); // the place to open is text, never a link this page makes
+    });
+  });
+
+  it('read only: no form, input, textarea, select or editable text on the page; no button on an ANSWER or a TRY IT card; every request is a GET', {timeout: 60000}, async () => {
+    for (const files of [{'a-answer.json': ANSWER}, {'b-try.json': TRY}]) {
+      await run(mk({asks: files}), async (p, {reqs}) => {
+        await wait(p, 'decision');
+        await p.waitForTimeout(6000); // one poll
+        assert.equal(await p.locator('form, input, textarea, select, [role=textbox], [contenteditable]').count(), 0);
+        assert.equal(await p.getByTestId('decision').locator('button, [role=button], a').count(), 0);
+        assert.deepEqual(reqs.filter((q) => !q.startsWith('GET ')), []);
+      });
+    }
+  });
+
+  it('the center shows an ANSWER first, then an APPROVE, then a TRY IT, then a SHIP; the others wait in "Next in your hand" in that order with their kind', {timeout: 90000}, async () => {
+    await run(FULL(), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'ANSWER');
+      const n = await nexts(p);
+      assert.equal(n.length, 3, n.join(' | '));
+      assert.match(n[0]!, /^APPROVE\b.*Alpha card/);
+      assert.match(n[1]!, /^TRY IT\b.*Try the export/);
+      assert.match(n[2]!, /^SHIP\b/);
+    });
+    await run(mk({cards: ['alpha-card'], ships: 1, asks: {'b-try.json': TRY}}), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'APPROVE');
+      const n = await nexts(p);
+      assert.equal(n.length, 2);
+      assert.match(n[0]!, /^TRY IT\b.*Try the export/);
+      assert.match(n[1]!, /^SHIP\b/);
+    });
+    await run(mk({ships: 1, asks: {'b-try.json': TRY}}), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'TRY IT');
+      const n = await nexts(p);
+      assert.equal(n.length, 1);
+      assert.match(n[0]!, /^SHIP\b/);
+    });
+    await run(mk({ships: 1}), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'SHIP');
+    });
+  });
+
+  it('two answers: the first by file name is in the center, the second is a Next item labelled ANSWER; a try-it is labelled TRY IT', {timeout: 60000}, async () => {
+    await run(mk({asks: {'a1.json': {...ANSWER, title: 'First one'}, 'a2.json': {...ANSWER, title: 'Second one'}, 'b1.json': TRY}}), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await p.getByTestId('decision').locator('h1').innerText(), 'First one');
+      const n = await nexts(p);
+      assert.equal(n.length, 2);
+      assert.match(n[0]!, /^ANSWER\b.*Second one/);
+      assert.match(n[1]!, /^TRY IT\b.*Try the export/);
+    });
+  });
+
+  it('"need you" in the strip counts cards waiting + answers + try-its + ships waiting', {timeout: 60000}, async () => {
+    await run(FULL(), async (p) => {
+      await wait(p, 'rail-strip');
+      assert.match(await strip(p), /^\d+ building · 4 need you\b/); // 1 card + 1 answer + 1 try-it + 1 ship
+    });
+    await run(mk({asks: {'a1.json': ANSWER, 'a2.json': ANSWER, 'b1.json': TRY}}), async (p) => {
+      await wait(p, 'rail-strip');
+      assert.match(await strip(p), /^\d+ building · 3 need you\b/);
+    });
+  });
+
+  it('"Nothing needs you" shows only when none of the four exists', {timeout: 90000}, async () => {
+    await run(mk(), async (p) => {
+      await wait(p, 'empty');
+      assert.match(await txt(p, 'empty'), /Nothing needs you\./);
+      assert.match(await strip(p), /^0 building · 0 need you\b/);
+    });
+    for (const o of [{cards: ['alpha-card']}, {ships: 1}, {asks: {'a1.json': ANSWER}}, {asks: {'b1.json': TRY}}]) {
+      await run(mk(o), async (p) => {
+        await wait(p, 'decision');
+        assert.equal(await count(p, 'empty'), 0);
+        assert.ok(!(await p.locator('body').innerText()).includes('Nothing needs you.'));
+        assert.match(await strip(p), /^\d+ building · 1 need you\b/);
+      });
+    }
+  });
+
+  it('a bad question file: the one banner names it, the page does not say "Nothing needs you", the good file still shows', {timeout: 60000}, async () => {
+    await run(mk({asks: {'broken.json': '{nope'}}), async (p) => {
+      await wait(p, 'not-live');
+      assert.equal(await txt(p, 'not-live'), "Not live: can't read the question file broken.json. What you see may be old.");
+      assert.match(await txt(p, 'cant-tell'), /Can't tell what needs you/);
+      assert.equal(await count(p, 'empty'), 0);
+    });
+    await run(mk({asks: {'broken.json': '{nope', 'good.json': ANSWER}}), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await txt(p, 'kind'), 'ANSWER');
+      assert.match(await txt(p, 'not-live'), /question file broken\.json/);
+    });
+  });
+
+  it('moving a question file to 90-archive/questions/ makes it leave the page within one poll', {timeout: 60000}, async () => {
+    const w = mk({asks: {'a1.json': ANSWER}});
+    await run(w, async (p) => {
+      await wait(p, 'decision');
+      mkdirSync(join(w.vault, '90-archive', 'questions'), {recursive: true});
+      renameSync(join(w.vault, 'questions', 'a1.json'), join(w.vault, '90-archive', 'questions', 'a1.json'));
+      await wait(p, 'empty', 9000);
+      assert.equal(await count(p, 'decision'), 0);
+    });
+  });
+
+  it('hostile text (HTML, script tags, direction characters) is plain text on both cards and in the Next list; no script runs', {timeout: 90000}, async () => {
+    const evil = (s: string) => `${s}<img src=x onerror="window.__pwned=1"><script>window.__pwned=1</script><b>BOLD</b><a href="javascript:window.__pwned=1">x</a>`;
+    const bidi = 'ab‮cd⁦ef⁩gh';
+    const A = {kind: 'answer', title: evil('T1'), repo: '/x/<i>proj</i>', question: evil('Q'), why: evil('W'), options: [evil('O1'), bidi]};
+    const T = {kind: 'try', title: evil('T2'), repo: 'r', where: evil('H'), checklist: [evil('C1'), bidi]};
+    const check = async (p: Page, scope: string) => {
+      const loc = p.locator(scope);
+      assert.equal(await loc.locator('img, script, b, a, i, u, svg, iframe').count(), 0, scope);
+      const t = await loc.innerText();
+      assert.ok(t.includes('<img src=x onerror="window.__pwned=1">') && t.includes('<script>window.__pwned=1</script>') && t.includes('<b>BOLD</b>'), t);
+      assert.ok(!/[‪-‮⁦-⁩]/.test(t), 'direction characters are removed');
+      if (scope.startsWith('article')) assert.ok(t.includes('abcdefgh')); // the cleaned option and checklist lines are on the card; the Next list shows titles only
+    };
+    await run(mk({asks: {'a1.json': A, 'b1.json': T}}), async (p) => {
+      await wait(p, 'decision');
+      await check(p, 'article[data-testid=decision]'); // the ANSWER card
+      await check(p, 'aside[aria-label="Next in your hand"]'); // the TRY IT item in the list (title)
+      assert.equal(await p.locator('main img, main script, main b, main a').count(), 0);
+      await p.waitForTimeout(500);
+      assert.equal(await p.evaluate(() => (window as any).__pwned), undefined);
+    });
+    await run(mk({asks: {'b1.json': T}}), async (p) => {
+      await wait(p, 'decision');
+      assert.equal(await p.getByTestId('decision').locator('img, script, b, a').count(), 0);
+      const t = await p.getByTestId('decision').innerText();
+      assert.ok(t.includes('<script>window.__pwned=1</script>') && t.includes('abcdefgh') && !/[‪-‮⁦-⁩]/.test(t));
+      await p.waitForTimeout(500);
+      assert.equal(await p.evaluate(() => (window as any).__pwned), undefined);
+    });
+  });
+
+  it('axe: no serious or critical problem with an ANSWER card, a TRY IT card and the Next list, at 1280 and 390 px; no horizontal scroll at 390 even with long unbroken text', {timeout: 240000}, async () => {
+    assert.ok(existsSync(AXE), 'axe-core missing');
+    const long = 'x'.repeat(190);
+    const LONG = {...TRY, where: `http://localhost/${long}`.slice(0, 200), checklist: [long.slice(0, 120)]};
+    const worlds: [string, () => World][] = [
+      ['answer first', FULL],
+      ['try it first', () => mk({asks: {'b-try.json': LONG}})],
+      ['long answer', () => mk({asks: {'a-answer.json': {...ANSWER, title: 'y'.repeat(120), question: long, options: [long.slice(0, 120), long.slice(0, 120)]}}})],
+    ];
+    for (const width of [1280, 390]) for (const [name, make] of worlds) {
+      await run(make(), async (p) => {
+        await wait(p, 'decision');
+        await p.addScriptTag({path: AXE});
+        const res = await p.evaluate(() => (globalThis as any).axe.run()) as {violations: {id: string; impact: string; nodes: unknown[]}[]};
+        assert.deepEqual(res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.impact} ${v.id} x${v.nodes.length}`), [], `${name} at ${width}`);
+        if (width === 390) assert.ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 390, `${name} scrolls sideways`);
       }, {viewport: {width, height: width === 390 ? 800 : 900}});
     }
   });

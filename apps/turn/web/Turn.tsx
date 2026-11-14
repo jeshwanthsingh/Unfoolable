@@ -8,7 +8,9 @@ type Pending = {name: string; repo: string; scope: string; approveLine: string |
 type Ship = {repo: string; head: string; title?: string; where?: string};
 type Older = {name: string; repo: string};
 type Receipt = {repo: string; shipped: boolean; title?: string; titleSource?: string; where?: string; fields: Record<string, string>};
-type Data = {at: string; notLive: string[]; pending: Pending[]; older: Older[]; settled: string[]; ships: Ship[]; receipts: Receipt[]; strip?: StripData; week?: WeekData}; // strip and week are absent from an older server: then nothing is drawn
+type Ask = {id: string; kind: 'answer' | 'try'; title: string; repo: string; question?: string; why?: string; where?: string; options: string[]; checklist: string[]};
+type Item = {kind: 'ANSWER' | 'APPROVE' | 'TRY IT' | 'SHIP'; key: string; text: string; pending?: Pending; ship?: Ship; ask?: Ask};
+type Data = {at: string; notLive: string[]; pending: Pending[]; older: Older[]; settled: string[]; ships: Ship[]; receipts: Receipt[]; strip?: StripData; week?: WeekData; asks?: Ask[]}; // strip and week are absent from an older server: then nothing is drawn
 type Feed = {data: Data | null; state: 'loading' | 'ok' | 'down' | 'old'; tries: number};
 
 const base = (p: string): string => p.split('/').filter(Boolean).pop() ?? p;
@@ -27,6 +29,11 @@ const shape = (d: unknown): d is Data => {
     && x!.notLive.every(str) && x!.pending.every((p) => obj(p) && str(p.name) && str(p.repo) && str(p.scope) && (p.approveLine === null || str(p.approveLine)))
     && Array.isArray(x!.older) && x!.older.every((o) => obj(o) && str(o.name) && str(o.repo)) && Array.isArray(x!.settled) && x!.settled.every(str)
     && x!.ships.every((s) => obj(s) && str(s.repo) && (s.title === undefined || str(s.title))) && x!.receipts.every((r) => obj(r) && str(r.repo) && (r.title === undefined || str(r.title)) && obj(r.fields) && typeof r.shipped === 'boolean');
+};
+const validAsk = (a: unknown): a is Ask => { // an odd answer from the server must not blank the page: anything not shaped like an ask is left out
+  const x = a as Ask | null;
+  return obj(x) && (x!.kind === 'answer' || x!.kind === 'try') && str(x!.id) && str(x!.title) && str(x!.repo) && (x!.question === undefined || str(x!.question)) && (x!.why === undefined || str(x!.why)) && (x!.where === undefined || str(x!.where))
+    && Array.isArray(x!.options) && x!.options.every(str) && Array.isArray(x!.checklist) && x!.checklist.every(str);
 };
 const SAFE_LINE = /^~\/Projects\/proof-lab\/scripts\/approve-card [A-Za-z0-9][A-Za-z0-9._-]{0,99}$/;
 
@@ -77,7 +84,35 @@ function Seal({p}: {p: Pending}) {
   );
 }
 
-function Decision({pending, ship}: {pending?: Pending | undefined; ship?: Ship | undefined}) {
+function AskCard({a}: {a: Ask}) {
+  const list = (items: string[]) => <ul className="opts">{items.map((t, i) => <li key={i}>{t}</li>)}</ul>;
+  return (
+    <article className="card" data-testid="decision" aria-label="A decision for you">
+      <p><span className="tag" data-testid="kind">{a.kind === 'answer' ? 'ANSWER' : 'TRY IT'}</span><span className="proj" data-testid="project">{a.repo || 'unknown project'}</span></p>
+      <h1>{a.title}</h1>
+      <dl>
+        {a.kind === 'answer' ? (
+          <>
+            <div className="row"><dt>THE QUESTION</dt><dd>{a.question || '(the file has no question text)'}</dd></div>
+            {a.why && <div className="row"><dt>WHY IT MATTERS</dt><dd>{a.why}</dd></div>}
+            {a.options.length > 0 && <div className="row"><dt>OPTIONS</dt><dd>{list(a.options)}</dd></div>}
+            <div className="row"><dt>TO ANSWER</dt><dd>Tell /plan your answer in Claude Code. This page cannot take answers yet.</dd></div>
+          </>
+        ) : (
+          <>
+            {a.where && <div className="row"><dt>OPEN</dt><dd>{a.where}</dd></div>}
+            {a.checklist.length > 0 && <div className="row"><dt>CHECKLIST</dt><dd>{list(a.checklist)}</dd></div>}
+            <div className="row"><dt>WHEN YOU HAVE TRIED IT</dt><dd>Say so at /ship in Claude Code. This page cannot record it yet.</dd></div>
+          </>
+        )}
+      </dl>
+      <p className="ans" data-testid="cant-vouch">This is the question file's own text. This page can't check that it is true: read it before you act on it.</p>
+    </article>
+  );
+}
+
+function Decision({pending, ship, ask}: {pending?: Pending | undefined; ship?: Ship | undefined; ask?: Ask | undefined}) {
+  if (ask) return <AskCard a={ask} />;
   if (pending) {
     return (
       <article className="card" data-testid="decision" aria-label="A decision for you">
@@ -170,14 +205,17 @@ export function Turn() {
   if (!data) {
     return shell(<main>{banner ? <p className="notlive" role="status" data-testid="not-live">{banner}</p> : <p className="quiet">Looking at the rail…</p>}</main>);
   }
-  const first = data.pending[0];
-  const firstShip = first ? undefined : data.ships[0];
-  const rest = [
-    ...data.pending.slice(1).map((p) => ({kind: 'APPROVE', text: words(p.name), key: `a:${p.repo}:${p.name}`})),
-    ...data.ships.slice(first ? 0 : 1).map((s) => ({kind: 'SHIP', text: `${s.title ? words(s.title) : base(s.repo)} passed its last check`, key: `s:${s.repo}:${s.head}`})),
+  // One queue, in the order they are dealt: an ANSWER, then an APPROVE, then a TRY IT, then a SHIP. The first is the card; the rest are "next in your hand".
+  const asks = Array.isArray(data.asks) ? data.asks.filter(validAsk) : [];
+  const queue: Item[] = [
+    ...asks.filter((a) => a.kind === 'answer').map((a): Item => ({kind: 'ANSWER', text: a.title, key: `q:${a.id}`, ask: a})),
+    ...data.pending.map((p): Item => ({kind: 'APPROVE', text: words(p.name), key: `a:${p.repo}:${p.name}`, pending: p})),
+    ...asks.filter((a) => a.kind === 'try').map((a): Item => ({kind: 'TRY IT', text: a.title, key: `q:${a.id}`, ask: a})),
+    ...data.ships.map((s): Item => ({kind: 'SHIP', text: `${s.title ? words(s.title) : base(s.repo)} passed its last check`, key: `s:${s.repo}:${s.head}`, ship: s})),
   ];
+  const decided = queue[0];
+  const rest = queue.slice(1);
   const receipt = data.receipts.find((x) => x.shipped) ?? data.receipts[0];
-  const decided = first || firstShip;
   return shell(
     <>
       {banner && <p className="notlive" role="status" data-testid="not-live">{banner}</p>}
@@ -198,7 +236,7 @@ export function Turn() {
           {data.settled.length > 0 && <p className="quiet" data-testid="settled-note">{data.settled.length}{data.settled.length >= 200 ? '+' : ''} {data.settled.length === 1 ? 'card is' : 'cards are'} already approved and not shown here.</p>}
         </aside>
         <section className="center" aria-label="Your turn">
-          {decided ? <Decision pending={first} ship={firstShip} /> : live ? (
+          {decided ? <Decision pending={decided.pending} ship={decided.ship} ask={decided.ask} /> : live ? (
             <article className="card" data-testid="empty"><h1>Nothing needs you.</h1><p>No card is waiting for your approval and nothing is waiting to ship, in the projects this page watches.</p>{data.older.length > 0 && <p>Older drafts are listed under "Older (hidden)".</p>}</article>
           ) : (
             <article className="card" data-testid="cant-tell"><h1>Can't tell what needs you</h1><p>Some of the rail could not be read: see the note above.</p></article>
